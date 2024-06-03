@@ -46,11 +46,11 @@ bool test_contains_3() {
 
 int main() {
     return test("Interval", 
-        &(Test) { "test_size_1", test_size_1 },
-        &(Test) { "test_size_2", test_size_2 },
-        &(Test) { "test_contains_1", test_contains_1 },
-        &(Test) { "test_contains_2", test_contains_2 },
-        &(Test) { "test_contains_3", test_contains_3 },
+        &(Test) { "interval_size 1", test_size_1 },
+        &(Test) { "interval_size 2", test_size_2 },
+        &(Test) { "interval_contains 1", test_contains_1 },
+        &(Test) { "interval_contains 2", test_contains_2 },
+        &(Test) { "interval_contains 3", test_contains_3 },
         NULL
     ) ? 0 : 1;
 }
