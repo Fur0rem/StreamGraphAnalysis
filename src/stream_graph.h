@@ -4,12 +4,15 @@
 #include "interval.h"
 #include "utils.h"
 
+DefVector(Interval)
+
 // Node in a graph
 typedef struct {
     IntervalVector present_at;
     const char* label;
 } TemporalNode;
-DefVector(TemporalNode);
+DefVector(TemporalNode)
+
 
 // Undirected link
 typedef struct {

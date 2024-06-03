@@ -50,3 +50,19 @@ bool EXPECT_ALL(int expr, ...) {
     va_end(args);
     return success;
 }
+
+bool EXPECT_EQ_INT(int a, int b) {
+    bool result = EXPECT((a) == (b));
+    if (!result) {
+        printf("    " TEXT_RED "Expected %d to be equal to %d" TEXT_RESET "\n", a, b);
+    }
+    return result;
+}
+
+bool EXPECT_EQ_STRING(char* a, char* b) {
+    bool result = EXPECT(strcmp(a, b) == 0);
+    if (!result) {
+        printf("    " TEXT_RED "Expected %s to be equal to %s" TEXT_RESET "\n", a, b);
+    }
+    return result;
+}
