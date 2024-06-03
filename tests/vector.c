@@ -10,11 +10,11 @@ bool test_create() {
 
 bool test_push_1() {
     intVector v = intVector_with_capacity(5);
-    intVector_push(v, 1);
-    intVector_push(v, 2);
-    intVector_push(v, 3);
-    intVector_push(v, 4);
-    intVector_push(v, 5);
+    intVector_push(&v, 1);
+    intVector_push(&v, 2);
+    intVector_push(&v, 3);
+    intVector_push(&v, 4);
+    intVector_push(&v, 5);
     return EXPECT_ALL(
         EXPECT_EQ(v.size, 5),
         EXPECT_EQ(v.capacity, 5),
@@ -27,22 +27,22 @@ bool test_push_1() {
 
 bool test_push_2() {
     intVector v = intVector_with_capacity(5);
-    intVector_push(v, 1);
-    intVector_push(v, 2);
-    intVector_push(v, 3);
-    intVector_push(v, 4);
-    intVector_push(v, 5);
-    intVector_push(v, 6);
+    intVector_push(&v, 1);
+    intVector_push(&v, 2);
+    intVector_push(&v, 3);
+    intVector_push(&v, 4);
+    intVector_push(&v, 5);
+    intVector_push(&v, 6);
     return v.size == 6 && v.capacity == 10 && v.array[0] == 1 && v.array[1] == 2 && v.array[2] == 3 && v.array[3] == 4 && v.array[4] == 5 && v.array[5] == 6;
 }
 
 bool test_destroy() {
     intVector v = intVector_with_capacity(5);
-    intVector_push(v, 1);
-    intVector_push(v, 2);
-    intVector_push(v, 3);
-    intVector_push(v, 4);
-    intVector_push(v, 5);
+    intVector_push(&v, 1);
+    intVector_push(&v, 2);
+    intVector_push(&v, 3);
+    intVector_push(&v, 4);
+    intVector_push(&v, 5);
     intVector_destroy(v);
     return true;
 }

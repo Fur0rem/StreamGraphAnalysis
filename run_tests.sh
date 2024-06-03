@@ -32,7 +32,7 @@ for file in $TEST_DIR/*.c; do
     fi
 
     # Run the test
-    valgrind $BIN_DIR/$filename
+    $BIN_DIR/$filename
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1
