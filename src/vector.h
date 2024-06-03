@@ -34,5 +34,10 @@ static void type##Vector_push(type##Vector* s, type value) { \
     s->array[s->size] = value; \
     s->size++; \
 } \
+\
+static void type##Vector_remove_and_swap(type##Vector* s, int idx) { \
+    s->array[idx] = s->array[s->size - 1]; \
+    s->size--; \
+} \
 
 #endif // VECTOR_H
