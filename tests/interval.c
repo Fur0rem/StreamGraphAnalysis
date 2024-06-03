@@ -9,7 +9,7 @@ bool test_size_1() {
         .start = 5,
         .end = 10
     };
-    return F_EQUALS(interval_size(i), 5);
+    return EXPECT(F_EQUALS(interval_size(i), 5));
 }
 
 bool test_size_2() {
@@ -17,7 +17,7 @@ bool test_size_2() {
         .start = 0,
         .end = 0
     };
-    return F_EQUALS(interval_size(i), 0);
+    return EXPECT(F_EQUALS(interval_size(i), 0));
 }
 
 bool test_contains_1() {
@@ -25,7 +25,7 @@ bool test_contains_1() {
         .start = 5,
         .end = 10
     };
-    return interval_contains(i, 5);
+    return EXPECT(interval_contains(i, 5));
 }
 
 bool test_contains_2() {
@@ -33,7 +33,7 @@ bool test_contains_2() {
         .start = 5,
         .end = 10
     };
-    return interval_contains(i, 10);
+    return EXPECT(interval_contains(i, 10));
 }
 
 bool test_contains_3() {
@@ -41,7 +41,7 @@ bool test_contains_3() {
         .start = 5,
         .end = 10
     };
-    return !interval_contains(i, 0);
+    return EXPECT(!interval_contains(i, 0));
 }
 
 int main() {

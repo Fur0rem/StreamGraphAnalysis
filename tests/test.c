@@ -15,7 +15,8 @@ bool test(const char* suite_name, ...) {
     while ((test = va_arg(args, Test*))) {
         // Run the test
         printf("%s : ", test->name);
-        if (!test->fn()) {
+        bool result = test->fn();
+        if (!result) {
             printf(TEXT_RED"FAIL\n"TEXT_RESET);
             success = false;
         }
@@ -34,5 +35,17 @@ bool test(const char* suite_name, ...) {
         printf(TEXT_RED "FAIL");
     }
     printf(TEXT_RESET " --\n");
+    return success;
+}
+
+bool EXPECT_ALL(int expr, ...) {
+    va_list args;
+    va_start(args, expr);
+    int success = expr;
+    int arg;
+    while ((arg = va_arg(args, int))) {
+        success = success && arg;
+    }
+    va_end(args);
     return success;
 }
