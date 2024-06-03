@@ -14,14 +14,15 @@ bool test(const char* suite_name, ...) {
     bool success = true;
     while ((test = va_arg(args, Test*))) {
         // Run the test
-        printf("%s : ", test->name);
+        printf("Testing " TEXT_BOLD "%s\n" TEXT_RESET, test->name);
         bool result = test->fn();
+        printf("%s : ", test->name);
         if (!result) {
-            printf(TEXT_RED"FAIL\n"TEXT_RESET);
+            printf(TEXT_BOLD TEXT_RED"FAIL\n"TEXT_RESET);
             success = false;
         }
         else {
-            printf(TEXT_GREEN"SUCESS\n"TEXT_RESET);
+            printf(TEXT_BOLD TEXT_GREEN"SUCCESS\n"TEXT_RESET);
         }
         
     }

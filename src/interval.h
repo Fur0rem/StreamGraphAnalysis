@@ -34,6 +34,6 @@ typedef struct {
 Time interval_size(Interval interval);
 bool interval_contains(Interval interval, Time value);
 
-DefVector(Interval);
+DefVector(Interval)
 
 #endif
