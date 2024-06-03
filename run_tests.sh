@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS=-Wall
+CFLAGS="-Wall -Wextra -g"
 
 SRC_DIR=src
 TEST_DIR=tests
@@ -21,13 +21,18 @@ for file in $TEST_DIR/*.c; do
     # Get the filename without the extension
     filename=$(basename $file .c)
     echo "Found test file: $filename"
-    # Compile the src file
-    make $filename
-    # Compile the test file into an executable
-    $CC $CFLAGS -o $BIN_DIR/$filename $file $filename.o $BIN_DIR/test.o
+    # If the src file.c does not exist, compile the test file into an executable
+    if [ ! -f $SRC_DIR/$filename.c ]; then
+        $CC $CFLAGS -o $BIN_DIR/$filename $file $BIN_DIR/test.o
+    else
+        # Compile the src file
+        make $filename
+        # Compile the test file into an executable
+        $CC $CFLAGS -o $BIN_DIR/$filename $file $filename.o $BIN_DIR/test.o
+    fi
 
     # Run the test
-    $BIN_DIR/$filename
+    valgrind $BIN_DIR/$filename
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1

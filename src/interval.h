@@ -4,6 +4,8 @@
 #include "utils.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include "units.h"
+#include "vector.h"
 
 // typedef enum {
 //     DISCRETE,
@@ -17,20 +19,20 @@
 //             int end;
 //         } discrete;
 //         struct {
-//             double start;
-//             double end;
+//             time start;
+//             time end;
 //         } continuous;
 //     } value;
 //     TimeMeasurement measurement;
 // } Interval;
 
 typedef struct {
-    double start;
-    double end;
+    Time start;
+    Time end;
 } Interval;
 
-double interval_size(Interval interval);
-bool interval_contains(Interval interval, double value);
+Time interval_size(Interval interval);
+bool interval_contains(Interval interval, Time value);
 
 DefVector(Interval);
 
