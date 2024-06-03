@@ -3,20 +3,41 @@
 CC=gcc
 CFLAGS=-Wall
 
-# Change directory to the tests directory
-cd tests/
+SRC_DIR=src
+TEST_DIR=tests
+BIN_DIR=bin
 
-# Iterate over all files in the directory
-for file in *; do
-    # Check if the file is a regular file
-    if [[ -f $file ]]; then
-        # Compile the src file
-        make "$file"
+global_success=0
 
-        # Compile the test file using the .o file generated
-        #$CC $CFLAGS -o "$file" "$file".o ../src/*.o
+# Compile test.c into an object file
+$CC $CFLAGS -c $TEST_DIR/test.c -o $BIN_DIR/test.o
 
-        # Run the test
-        ./"$file"
+# Iterate over all files in the tests directory
+for file in $TEST_DIR/*.c; do
+    # If it is test.c or test.h, skip it
+    if [ $(basename $file) == "test.c" ] || [ $(basename $file) == "test.h" ]; then
+        continue
     fi
+    # Get the filename without the extension
+    filename=$(basename $file .c)
+    echo "Found test file: $filename"
+    # Compile the src file
+    make $filename
+    # Compile the test file into an executable
+    $CC $CFLAGS -o $BIN_DIR/$filename $file $filename.o $BIN_DIR/test.o
+
+    # Run the test
+    $BIN_DIR/$filename
+    # Check the return code
+    if [ $? -ne 0 ]; then
+        global_success=1
+    fi
+
+    echo ""
+
 done
+
+if [ $global_success -eq 0 ]; then
+    echo "All tests passed!"
+fi
+exit $global_success

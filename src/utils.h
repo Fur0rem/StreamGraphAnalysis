@@ -1,6 +1,11 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#define TEXT_BOLD "\033[1m"
+#define TEXT_RED "\033[31m"
+#define TEXT_GREEN "\033[32m"
+#define TEXT_RESET "\033[0m"
+
 #include <stdbool.h>
 #include <math.h>
 
