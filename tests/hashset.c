@@ -59,7 +59,6 @@ bool test_remove_present() {
     bool success = EXPECT(StringHashset_insert(&s, str));
     success &= EXPECT(StringHashset_contains(s, str));
     success &= EXPECT(StringHashset_remove(&s, str));
-    StringHashset_print(&s);
     success &= EXPECT(!StringHashset_contains(s, str));
     return success;
 }

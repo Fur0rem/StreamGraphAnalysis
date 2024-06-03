@@ -45,7 +45,6 @@ static bool type##Hashset_insert(type##Hashset* s, type value) { \
         } \
     } \
     type##Vector_push(&s->buckets[index], value); \
-    s->buckets[index].size++; \
     return true; \
 } \
 \
@@ -74,22 +73,31 @@ static bool type##Hashset_remove(type##Hashset* s, type value) { \
     for (int i = 0; i < s->buckets[index].size; i++) { \
         printf("Comparing " print_format " and " print_format "\n", value, s->buckets[index].array[i]); \
         if (eqfunc(s->buckets[index].array[i], value)) { \
-            type##Vector location = &s->buckets[index]; \
-            location->array[i] = location->array[location->size - 1]; \
-            location->size--; \
+            type##Vector_remove_and_swap(&s->buckets[index], i); \
             return true; \
         } \
     } \
     return false; \
 } \
 \
-static void type##Hashset_print(type##Hashset* s) { \
+static void type##Hashset_print_debug(type##Hashset* s) { \
     for (int i = 0; i < s->capacity; i++) { \
-        printf("%d: ", i); \
+        printf("%d: (capacity : %d, size : %d)", i, s->buckets[i].capacity, s->buckets[i].size); \
         for (int j = 0; j < s->buckets[i].size; j++) { \
             printf(print_format, s->buckets[i].array[j]); \
         } \
         printf("\n"); \
     } \
+} \
+\
+static void type##Hashset_print(type##Hashset* s) { \
+    for (int i = 0; i < s->capacity; i++) { \
+        if (s->buckets[i].size > 0) { \
+            for (int j = 0; j < s->buckets[i].size; j++) { \
+                printf(print_format, s->buckets[i].array[j]); \
+            } \
+        } \
+    } \
+    printf("\n"); \
 }
 #endif // HASHSET_H
