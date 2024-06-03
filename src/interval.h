@@ -1,7 +1,9 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
+#include "utils.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 // typedef enum {
 //     DISCRETE,
@@ -29,5 +31,7 @@ typedef struct {
 
 double interval_size(Interval interval);
 bool interval_contains(Interval interval, double value);
+
+DefVector(Interval);
 
 #endif
