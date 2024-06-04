@@ -8,6 +8,14 @@ bool interval_contains(Interval interval, Time value) {
     return interval.start <= value && value <= interval.end;
 }
 
+Interval interval_from(Time start, Time end) {
+    Interval interval = {
+        .start = start,
+        .end = end
+    };
+    return interval;
+}
+
 typedef struct {
     Time start;
     Time end;

@@ -1,7 +1,7 @@
 #include "test.h"
 #include "../src/vector.h"
 
-DefVector(int);
+DefVector(int, NO_FREE(int))
 
 bool test_create() {
     intVector v = intVector_with_capacity(5);
@@ -45,6 +45,24 @@ bool test_destroy() {
     intVector_push(&v, 5);
     intVector_destroy(v);
     return true;
+}
+
+bool test_remove_and_swap() {
+    intVector v = intVector_with_capacity(5);
+    intVector_push(&v, 1);
+    intVector_push(&v, 2);
+    intVector_push(&v, 3);
+    intVector_push(&v, 4);
+    intVector_push(&v, 5);
+    intVector_remove_and_swap(&v, 2);
+    return EXPECT_ALL(
+        EXPECT_EQ(v.size, 4),
+        EXPECT_EQ(v.capacity, 5),
+        EXPECT_EQ(v.array[0], 1),
+        EXPECT_EQ(v.array[1], 2),
+        EXPECT_EQ(v.array[2], 5),
+        EXPECT_EQ(v.array[3], 4));
+
 }
 
 int main() {

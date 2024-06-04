@@ -27,7 +27,7 @@ if [ $# -eq 1 ]; then
     fi
 
     # Run the test
-    $BIN_DIR/$filename
+    valgrind -s $BIN_DIR/$filename --track-origin
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1

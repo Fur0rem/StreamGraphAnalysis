@@ -34,4 +34,6 @@ typedef struct {
 Time interval_size(Interval interval);
 bool interval_contains(Interval interval, Time value);
 
+Interval interval_from(Time start, Time end);
+
 #endif

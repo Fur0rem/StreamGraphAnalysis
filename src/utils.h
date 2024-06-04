@@ -24,4 +24,6 @@
 // Floating point comparison
 #define F_EQUALS(a, b) (fabs((a) - (b)) < 0.0001)
 
+#define NO_FREE(type) ((void (*)(type))NULL)
+
 #endif

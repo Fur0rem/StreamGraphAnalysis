@@ -4,7 +4,7 @@
 
 int hash_string(const char* str) {
     int hash = 0;
-    for (int i = 0; str[i]; i++) {
+    for (int i = 0; str[i] != '\0'; i++) {
         hash = ((hash * 31) + str[i]) ^ (str[i/2] | str[i/4]);
     }
     return hash;
@@ -16,11 +16,15 @@ int eq_string(const char* str1, const char* str2) {
 
 typedef char* String;
 
-DefHashset(String, hash_string, eq_string, "%s")
+char* string_tostring(String str) {
+    return strdup(str);
+}
+
+DefHashset(String, hash_string, eq_string, string_tostring, free)
 
 bool test_insert() {
     StringHashset s = StringHashset_with_capacity(10);
-    String str = "hello";
+    String str = strdup("hello");
     bool success = StringHashset_insert(&s, str);
     EXPECT(success);
     success &= EXPECT(StringHashset_contains(s, "hello"));
@@ -30,7 +34,7 @@ bool test_insert() {
 
 bool test_insert_unique() {
     StringHashset s = StringHashset_with_capacity(10);
-    String str = "hello";
+    String str = strdup("hello");
     bool success = StringHashset_insert(&s, str);
     EXPECT(success);
     success &= !StringHashset_insert(&s, str);
@@ -40,7 +44,7 @@ bool test_insert_unique() {
 
 bool test_find_present() {
     StringHashset s = StringHashset_with_capacity(10);
-    String str = "hello";
+    String str = strdup("hello");
     StringHashset_insert(&s, str);
     String* found = StringHashset_find(s, str);
     return EXPECT_EQ(*found, str);
@@ -48,14 +52,14 @@ bool test_find_present() {
 
 bool test_find_not_present() {
     StringHashset s = StringHashset_with_capacity(10);
-    String str = "hello";
+    String str = strdup("hello");
     String* found = StringHashset_find(s, str);
     return EXPECT(found == NULL);
 }
 
 bool test_remove_present() {
     StringHashset s = StringHashset_with_capacity(10);
-    String str = "hello";
+    String str = strdup("hello");
     bool success = EXPECT(StringHashset_insert(&s, str));
     success &= EXPECT(StringHashset_contains(s, str));
     success &= EXPECT(StringHashset_remove(&s, str));
@@ -65,7 +69,7 @@ bool test_remove_present() {
 
 bool test_remove_not_present() {
     StringHashset s = StringHashset_with_capacity(10);
-    String str = "hello";
+    String str = strdup("hello");
     return EXPECT(!StringHashset_remove(&s, str));
 }
 

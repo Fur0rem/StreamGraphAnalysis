@@ -1,5 +1,9 @@
 #include "stream_graph.h"
 
+int test(int a) {
+    return a + 8;
+}
+
 bool is_node_present_at(TemporalNode node, Time time) {
     for (size_t i = 0; i < node.present_at.size; i++) {
         if (interval_contains(node.present_at.array[i], time)) {
