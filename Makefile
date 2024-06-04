@@ -9,3 +9,7 @@ LDFLAGS = -lm
 
 interval:
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/interval.o $(SRC_DIR)/interval.c $(LDFLAGS)
+
+stream_graph: interval
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/stream_graph.o $(SRC_DIR)/stream_graph.c $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/stream_graph $(BIN_DIR)/interval.o $(BIN_DIR)/stream_graph.o $(LDFLAGS)

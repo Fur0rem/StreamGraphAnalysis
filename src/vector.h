@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 // Dynamic array (vectors)
-#define DefVector(type) \
+#define DefVector(type, freefunc) \
 \
 typedef struct T_##type##Vector { \
     type *array; \
@@ -23,6 +23,11 @@ static type##Vector type##Vector_with_capacity(int capacity) { \
 } \
 \
 static void type##Vector_destroy(type##Vector s) { \
+    if (freefunc) { \
+        for (int i = 0; i < s.size; i++) { \
+            freefunc(s.array[i]); \
+        } \
+    } \
     free(s.array); \
 } \
 \
@@ -36,6 +41,9 @@ static void type##Vector_push(type##Vector* s, type value) { \
 } \
 \
 static void type##Vector_remove_and_swap(type##Vector* s, int idx) { \
+    if (freefunc) { \
+        freefunc(s->array[idx]); \
+    } \
     s->array[idx] = s->array[s->size - 1]; \
     s->size--; \
 } \

@@ -8,20 +8,18 @@
 
 // TODO : changer à nb cases
 // Hashset
-#define DefHashset(type, hashfunc, eqfunc, print_format) \
+#define DefHashset(type, hashfunc, eqfunc, tostringfunc, freefunc) \
 \
-DefVector(type) \
+DefVector(type, freefunc) \
 \
 typedef struct T_##type##Hashset { \
     type##Vector* buckets; \
-    int size; \
     int capacity; \
 } type##Hashset; \
 \
 static type##Hashset type##Hashset_with_capacity(int capacity) { \
     type##Hashset s = { \
         .buckets = (type##Vector*)malloc(sizeof(type##Vector) * capacity), \
-        .size = 0, \
         .capacity = capacity \
     }; \
     for (int i = 0; i < capacity; i++) { \
@@ -71,7 +69,6 @@ static type* type##Hashset_find(type##Hashset s, type value) { \
 static bool type##Hashset_remove(type##Hashset* s, type value) { \
     int index = hashfunc(value) % s->capacity; \
     for (int i = 0; i < s->buckets[index].size; i++) { \
-        printf("Comparing " print_format " and " print_format "\n", value, s->buckets[index].array[i]); \
         if (eqfunc(s->buckets[index].array[i], value)) { \
             type##Vector_remove_and_swap(&s->buckets[index], i); \
             return true; \
@@ -84,7 +81,9 @@ static void type##Hashset_print_debug(type##Hashset* s) { \
     for (int i = 0; i < s->capacity; i++) { \
         printf("%d: (capacity : %d, size : %d)", i, s->buckets[i].capacity, s->buckets[i].size); \
         for (int j = 0; j < s->buckets[i].size; j++) { \
-            printf(print_format, s->buckets[i].array[j]); \
+            char* str = tostringfunc(s->buckets[i].array[j]); \
+            printf(" %s", str); \
+            free(str); \
         } \
         printf("\n"); \
     } \
@@ -92,10 +91,13 @@ static void type##Hashset_print_debug(type##Hashset* s) { \
 \
 static void type##Hashset_print(type##Hashset* s) { \
     for (int i = 0; i < s->capacity; i++) { \
-        if (s->buckets[i].size > 0) { \
-            for (int j = 0; j < s->buckets[i].size; j++) { \
-                printf(print_format, s->buckets[i].array[j]); \
-            } \
+        if (s->buckets[i].size == 0) { \
+            continue; \
+        } \
+        for (int j = 0; j < s->buckets[i].size; j++) { \
+            const char* str = tostringfunc(s->buckets[i].array[j]); \
+            printf("%s ", str); \
+            free(str); \
         } \
     } \
     printf("\n"); \

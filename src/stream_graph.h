@@ -3,15 +3,16 @@
 
 #include "interval.h"
 #include "utils.h"
+#include "vector.h"
 
-DefVector(Interval)
+DefVector(Interval, NO_FREE(Interval))
 
 // Node in a graph
 typedef struct {
     IntervalVector present_at;
     const char* label;
 } TemporalNode;
-DefVector(TemporalNode)
+DefVector(TemporalNode, NO_FREE(TemporalNode))
 
 
 // Undirected link
@@ -20,7 +21,7 @@ typedef struct {
     size_t nodes[2];
     //Time weight;
 } Link;
-DefVector(Link);
+DefVector(Link, NO_FREE(Link))
 
 typedef struct {
     Interval time;
@@ -33,5 +34,7 @@ bool is_link_present_at(Link link, Time time);
 bool are_nodes_linked_at(StreamGraph* graph, size_t node1, size_t node2, Time time);
 
 StreamGraph* stream_graph_from(Interval time, TemporalNodeVector nodes, LinkVector links);
+
+int test(int a);
 
 #endif // STREAM_GRAPH_H
