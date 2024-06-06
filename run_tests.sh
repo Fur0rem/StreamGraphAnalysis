@@ -16,15 +16,14 @@ global_success=0
 # Compile test.c into an object file
 $CC $CFLAGS -c $TEST_DIR/test.c -o $BIN_DIR/test.o
 
-# If you have only one argument : run that test only
-# Check if the -valgrind flag is set
-if [ "$1" == "-valgrind" ]; then
-    shift
+# Check if the --valgrind flag is present
+valgrind=0
+if [ "$1" == "--valgrind" ]; then
     valgrind=1
-else 
-    valgrind=0
+    shift
 fi
 
+# If you have only one argument : run that test only
 if [ $# -eq 1 ]; then
     filename=$1
     echo "Found test file: $filename"
