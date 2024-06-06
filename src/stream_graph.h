@@ -54,4 +54,6 @@ LinkRefVector get_links_present_at(StreamGraph* graph, Time time);
 char* StreamGraph_to_string(StreamGraph* graph);
 TemporalNode TemporalNode_new(const char* label, IntervalVector present_at);
 
+Link link_from_labels(TemporalNodeVector* nodes_set, const char* label1, const char* label2);
+
 #endif // STREAM_GRAPH_H

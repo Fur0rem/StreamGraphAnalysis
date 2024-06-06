@@ -132,21 +132,6 @@ char* StreamGraph_to_string(StreamGraph* graph) {
 	strcat(str, "\n");
 	strcat(str, "  Nodes:\n");
 	for (size_t i = 0; i < graph->temporal_nodes.size; i++) {
-		/*TemporalNode node = graph->temporal_nodes.array[i];
-		strcat(str, "    ");
-		strcat(str, node.label);
-		strcat(str, " @ { ");
-		for (size_t j = 0; j < node.present_at.size; j++) {
-			Interval interval = node.present_at.array[j];
-			char* interval_str = interval_to_string(interval);
-			sprintf(time_str, "%s ", interval_str);
-			free(interval_str);
-			strcat(str, time_str);
-			if (j < node.present_at.size - 1) {
-				strcat(str, ", ");
-			}
-		}
-		strcat(str, "}\n");*/
 		char* node_str = TemporalNode_to_string(graph->temporal_nodes.array[i]);
 		strcat(str, "    ");
 		strcat(str, node_str);
@@ -231,6 +216,31 @@ char* TemporalNode_to_string(TemporalNode value) {
 	}
 	strcat(str, " }");
 	return str;
+}
+
+// TODO : better error handling
+Link link_from_labels(TemporalNodeVector* nodes_set, const char* label1, const char* label2) {
+	if (strcmp(label1, label2) == 0) {
+		fprintf(stderr, "Error: Cannot link a node to itself\n");
+		exit(1);
+	}
+	TemporalNode* node1 = NULL;
+	TemporalNode* node2 = NULL;
+	for (size_t i = 0; i < nodes_set->size; i++) {
+		TemporalNode* node = &nodes_set->array[i];
+		if (strcmp(node->label, label1) == 0) {
+			node1 = node;
+		}
+		if (strcmp(node->label, label2) == 0) {
+			node2 = node;
+		}
+	}
+	if (node1 == NULL || node2 == NULL) {
+		fprintf(stderr, "Error: Node not found\n");
+		exit(1);
+	}
+	Link link = {.nodes = {node1, node2}, .present_at = IntervalVector_new()};
+	return link;
 }
 
 DEFAULT_COMPARE(TemporalNodeRef)
