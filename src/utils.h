@@ -22,7 +22,8 @@
 })
 
 // Floating point comparison
-#define F_EQUALS(a, b) (fabs((a) - (b)) < 0.0001)
+#define EPS 1e-9
+#define F_EQUALS(a, b) (fabs((a) - (b)) < EPS)
 
 #define NO_FREE(type) ((void (*)(type))NULL)
 

@@ -14,30 +14,30 @@ DefVector(type, freefunc) \
 \
 typedef struct T_##type##Hashset { \
     type##Vector* buckets; \
-    int capacity; \
+    size_t capacity; \
 } type##Hashset; \
 \
-static type##Hashset type##Hashset_with_capacity(int capacity) { \
+static type##Hashset type##Hashset_with_capacity(size_t capacity) { \
     type##Hashset s = { \
         .buckets = (type##Vector*)malloc(sizeof(type##Vector) * capacity), \
         .capacity = capacity \
     }; \
-    for (int i = 0; i < capacity; i++) { \
+    for (size_t i = 0; i < capacity; i++) { \
         s.buckets[i] = type##Vector_with_capacity(1); \
     } \
     return s; \
 } \
 \
 static void type##Hashset_destroy(type##Hashset s) { \
-    for (int i = 0; i < s.capacity; i++) { \
+    for (size_t i = 0; i < s.capacity; i++) { \
         type##Vector_destroy(s.buckets[i]); \
     } \
     free(s.buckets); \
 } \
 \
 static bool type##Hashset_insert(type##Hashset* s, type value) { \
-    int index = hashfunc(value) % s->capacity; \
-    for (int i = 0; i < s->buckets[index].size; i++) { \
+    size_t index = hashfunc(value) % s->capacity; \
+    for (size_t i = 0; i < s->buckets[index].size; i++) { \
         if (eqfunc(s->buckets[index].array[i], value)) { \
             return false; \
         } \
@@ -47,8 +47,8 @@ static bool type##Hashset_insert(type##Hashset* s, type value) { \
 } \
 \
 static bool type##Hashset_contains(type##Hashset s, type value) { \
-    int index = hashfunc(value) % s.capacity; \
-    for (int i = 0; i < s.buckets[index].size; i++) { \
+    size_t index = hashfunc(value) % s.capacity; \
+    for (size_t i = 0; i < s.buckets[index].size; i++) { \
         if (eqfunc(s.buckets[index].array[i], value)) { \
             return true; \
         } \
@@ -57,8 +57,8 @@ static bool type##Hashset_contains(type##Hashset s, type value) { \
 } \
 \
 static type* type##Hashset_find(type##Hashset s, type value) { \
-    int index = hashfunc(value) % s.capacity; \
-    for (int i = 0; i < s.buckets[index].size; i++) { \
+    size_t index = hashfunc(value) % s.capacity; \
+    for (size_t i = 0; i < s.buckets[index].size; i++) { \
         if (eqfunc(s.buckets[index].array[i], value)) { \
             return &s.buckets[index].array[i]; \
         } \
@@ -67,8 +67,8 @@ static type* type##Hashset_find(type##Hashset s, type value) { \
 } \
 \
 static bool type##Hashset_remove(type##Hashset* s, type value) { \
-    int index = hashfunc(value) % s->capacity; \
-    for (int i = 0; i < s->buckets[index].size; i++) { \
+    size_t index = hashfunc(value) % s->capacity; \
+    for (size_t i = 0; i < s->buckets[index].size; i++) { \
         if (eqfunc(s->buckets[index].array[i], value)) { \
             type##Vector_remove_and_swap(&s->buckets[index], i); \
             return true; \
@@ -78,9 +78,9 @@ static bool type##Hashset_remove(type##Hashset* s, type value) { \
 } \
 \
 static void type##Hashset_print_debug(type##Hashset* s) { \
-    for (int i = 0; i < s->capacity; i++) { \
-        printf("%d: (capacity : %d, size : %d)", i, s->buckets[i].capacity, s->buckets[i].size); \
-        for (int j = 0; j < s->buckets[i].size; j++) { \
+    for (size_t i = 0; i < s->capacity; i++) { \
+        printf("%ld: (capacity : %ld, size : %ld)", i, s->buckets[i].capacity, s->buckets[i].size); \
+        for (size_t j = 0; j < s->buckets[i].size; j++) { \
             char* str = tostringfunc(s->buckets[i].array[j]); \
             printf(" %s", str); \
             free(str); \
@@ -90,12 +90,12 @@ static void type##Hashset_print_debug(type##Hashset* s) { \
 } \
 \
 static void type##Hashset_print(type##Hashset* s) { \
-    for (int i = 0; i < s->capacity; i++) { \
+    for (size_t i = 0; i < s->capacity; i++) { \
         if (s->buckets[i].size == 0) { \
             continue; \
         } \
-        for (int j = 0; j < s->buckets[i].size; j++) { \
-            const char* str = tostringfunc(s->buckets[i].array[j]); \
+        for (size_t j = 0; j < s->buckets[i].size; j++) { \
+            char* str = tostringfunc(s->buckets[i].array[j]); \
             printf("%s ", str); \
             free(str); \
         } \

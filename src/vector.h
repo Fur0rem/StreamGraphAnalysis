@@ -3,49 +3,58 @@
 
 #include "utils.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Dynamic array (vectors)
 #define DefVector(type, freefunc) \
 \
 typedef struct T_##type##Vector { \
     type *array; \
-    int size; \
-    int capacity; \
+    size_t size; \
+    size_t capacity; \
 } type##Vector; \
 \
-static type##Vector type##Vector_with_capacity(int capacity) { \
-    type##Vector s = { \
+static type##Vector type##Vector_with_capacity(size_t capacity) { \
+    type##Vector vec = { \
         .array = (type*)malloc(sizeof(type) * capacity), \
         .size = 0, \
         .capacity = capacity \
     }; \
-    return s; \
+    return vec; \
 } \
 \
-static void type##Vector_destroy(type##Vector s) { \
+static type##Vector type##Vector_new() { \
+    return type##Vector_with_capacity(2); \
+} \
+\
+static void type##Vector_destroy(type##Vector vec) { \
     if (freefunc) { \
-        for (int i = 0; i < s.size; i++) { \
-            freefunc(s.array[i]); \
+        for (size_t i = 0; i < vec.size; i++) { \
+            freefunc(vec.array[i]); \
         } \
     } \
-    free(s.array); \
+    free(vec.array); \
 } \
 \
-static void type##Vector_push(type##Vector* s, type value) { \
-    if (s->size == s->capacity) { \
-        s->capacity *= 2; \
-        s->array = (type*)realloc(s->array, sizeof(type) * s->capacity); \
+static void type##Vector_push(type##Vector* vec, type value) { \
+    if (vec->size == vec->capacity) { \
+        vec->capacity *= 2; \
+        type* new_array = (type*)malloc(sizeof(type) * vec->capacity); \
+        memcpy(new_array, vec->array, sizeof(type) * vec->size); \
+        free(vec->array); \
+        vec->array = new_array; \
     } \
-    s->array[s->size] = value; \
-    s->size++; \
+    vec->array[vec->size] = value; \
+    vec->size++; \
 } \
 \
-static void type##Vector_remove_and_swap(type##Vector* s, int idx) { \
+static void type##Vector_remove_and_swap(type##Vector* vec, size_t idx) { \
     if (freefunc) { \
-        freefunc(s->array[idx]); \
+        freefunc(vec->array[idx]); \
     } \
-    s->array[idx] = s->array[s->size - 1]; \
-    s->size--; \
+    vec->array[idx] = vec->array[vec->size - 1]; \
+    vec->size--; \
 } \
 
 #endif // VECTOR_H
