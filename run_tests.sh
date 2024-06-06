@@ -13,21 +13,34 @@ global_success=0
 $CC $CFLAGS -c $TEST_DIR/test.c -o $BIN_DIR/test.o
 
 # If you have only one argument : run that test only
+# Check if the -valgrind flag is set
+if [ "$1" == "-valgrind" ]; then
+    shift
+    valgrind=1
+else 
+    valgrind=0
+fi
+
 if [ $# -eq 1 ]; then
     filename=$1
     echo "Found test file: $filename"
-    # If the src file.c does not exist, compile the test file into an executable
+    # If the src file.c does not exist, compile the test file into an executable (header only library)
     if [ ! -f $SRC_DIR/$filename.c ]; then
-        $CC $CFLAGS -o $BIN_DIR/$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
+        $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
     else
-        # Compile the src file
         make $filename
-        # Compile the test file into an executable
-        $CC $CFLAGS -o $BIN_DIR/$filename $TEST_DIR/$filename.c $filename.o $BIN_DIR/test.o
+        if [ -f $BIN_DIR/$filename.a ]; then
+            $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.a $BIN_DIR/test.o
+        else
+            $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $filename.o $BIN_DIR/test.o
+        fi
     fi
 
-    # Run the test
-    valgrind -s $BIN_DIR/$filename --track-origin
+    if [ $valgrind -ne 1 ]; then
+        $BIN_DIR/test_$filename
+    else
+        valgrind -s $BIN_DIR/test_$filename --track-origin
+    fi
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1
@@ -51,16 +64,18 @@ for file in $TEST_DIR/*.c; do
     echo "Found test file: $filename"
     # If the src file.c does not exist, compile the test file into an executable
     if [ ! -f $SRC_DIR/$filename.c ]; then
-        $CC $CFLAGS -o $BIN_DIR/$filename $file $BIN_DIR/test.o
+        $CC $CFLAGS -o $BIN_DIR/test_$filename $file $BIN_DIR/test.o
     else
-        # Compile the src file
         make $filename
-        # Compile the test file into an executable
-        $CC $CFLAGS -o $BIN_DIR/$filename $file $filename.o $BIN_DIR/test.o
+        # If the compilation produced a .a file, use it instead of the .o file
+        if [ -f $BIN_DIR/$filename.a ]; then
+            $CC -Wno-unused-function -g -o $BIN_DIR/test_$filename $file $BIN_DIR/$filename.a $BIN_DIR/test.o
+        else
+            $CC -Wno-unused-function -g -o $BIN_DIR/test_$filename $file $BIN_DIR/$filename.o $BIN_DIR/test.o
+        fi
     fi
 
-    # Run the test
-    $BIN_DIR/$filename
+    $BIN_DIR/test_$filename
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1

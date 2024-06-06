@@ -1,5 +1,6 @@
 bin
 .venv
-src/build
-src/dist
+build
+dist
+src/*.so
 src/*.egg-info

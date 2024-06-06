@@ -21,13 +21,23 @@ bool test(const char* suite_name, ...);
     result; \
 })
 
-bool EXPECT_EQ_INT(int a, int b);
+#define EXPECT_EQ_DEFAULT(type, format) \
+bool EXPECT_EQ_##type(type a, type b) { \
+    bool result = EXPECT((a) == (b)); \
+    if (!result) { \
+        printf("    " TEXT_RED "Expected " format " to be equal to " format TEXT_RESET "\n", a, b); \
+    } \
+    return result; \
+}
 
-bool EXPECT_EQ_STRING(char* a, char* b);
+bool EXPECT_EQ_int(int a, int b);
+bool EXPECT_EQ_String(char* a, char* b);
+bool EXPECT_EQ_size_t(size_t a, size_t b);
 
 #define EXPECT_EQ(a, b) _Generic((a), \
-    int: EXPECT_EQ_INT, \
-    char*: EXPECT_EQ_STRING \
+    int: EXPECT_EQ_int, \
+    char*: EXPECT_EQ_String, \
+    size_t: EXPECT_EQ_size_t \
 )(a, b)
 
 bool EXPECT_ALL(int expr, ...);

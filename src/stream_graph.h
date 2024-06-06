@@ -24,7 +24,7 @@ typedef struct {
 DefVector(Link, NO_FREE(Link))
 
 typedef struct {
-    Interval time;
+    Interval lifespan;
     TemporalNodeVector temporal_nodes;
     LinkVector links;
 } StreamGraph;
@@ -35,6 +35,6 @@ bool are_nodes_linked_at(StreamGraph* graph, size_t node1, size_t node2, Time ti
 
 StreamGraph* stream_graph_from(Interval time, TemporalNodeVector nodes, LinkVector links);
 
-int test(int a);
+char* stream_graph_to_string(StreamGraph* graph);
 
 #endif // STREAM_GRAPH_H

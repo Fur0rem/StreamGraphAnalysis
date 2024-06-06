@@ -1,0 +1,16 @@
+UseTab: Always
+TabWidth: 4
+IndentWidth: 4
+BasedOnStyle: LLVM
+PointerAlignment: Left
+SpaceAfterCStyleCast: false
+BreakBeforeBraces: Custom
+BraceWrapping:
+  BeforeElse: true
+ColumnLimit: 100
+IndentCaseLabels: true
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: true

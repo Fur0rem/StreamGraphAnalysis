@@ -1,0 +1,9 @@
+Checks: "
+  -*,
+  readability-*,
+  performance-*,
+  portability-*,
+  misc-*,
+  bugprone-*,
+  clang-analyzer-*,
+  "

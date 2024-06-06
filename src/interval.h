@@ -36,4 +36,6 @@ bool interval_contains(Interval interval, Time value);
 
 Interval interval_from(Time start, Time end);
 
+char* interval_to_string(Interval interval);
+
 #endif
