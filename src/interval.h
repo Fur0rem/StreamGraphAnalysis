@@ -34,8 +34,10 @@ typedef struct {
 Time interval_size(Interval interval);
 bool interval_contains(Interval interval, Time value);
 
+bool Interval_equals(Interval a, Interval b);
+char* Interval_to_string(Interval interval);
+
 Interval interval_from(Time start, Time end);
 
-char* interval_to_string(Interval interval);
 
 #endif
