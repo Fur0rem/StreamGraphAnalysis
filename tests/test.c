@@ -53,6 +53,9 @@ bool EXPECT_ALL(int expr, ...) {
 EXPECT_EQ_DEFAULT(int, "%d")
 EXPECT_EQ_DEFAULT(size_t, "%zu")
 
+typedef void* ptr;
+EXPECT_EQ_DEFAULT(ptr, "%p")
+
 bool EXPECT_EQ_String(char* a, char* b) {
 	bool result = EXPECT(strcmp(a, b) == 0);
 	if (!result) {

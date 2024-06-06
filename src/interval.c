@@ -13,8 +13,12 @@ Interval interval_from(Time start, Time end) {
 	return interval;
 }
 
-char* interval_to_string(Interval interval) {
+char* Interval_to_string(Interval interval) {
 	char* str = malloc(100);
 	sprintf(str, "[%f, %f]", interval.start, interval.end);
 	return str;
+}
+
+bool Interval_equals(Interval a, Interval b) {
+	return F_EQUALS(a.start, b.start) && F_EQUALS(a.end, b.end);
 }

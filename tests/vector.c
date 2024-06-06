@@ -2,6 +2,8 @@
 
 #include "test.h"
 
+DEFAULT_COMPARE(int)
+DEFAULT_TO_STRING(int, "%d")
 DefVector(int, NO_FREE(int));
 
 bool test_create() {

@@ -1,11 +1,15 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS="-Wall -Wextra -g"
+CFLAGS="-Wall -Wextra -g -Wno-unused-function"
 
 SRC_DIR=src
 TEST_DIR=tests
 BIN_DIR=bin
+
+TEXT_BOLD=$(tput bold)
+TEXT_RESET=$(tput sgr0)
+TEXT_RED=$(tput setaf 1)
 
 global_success=0
 
@@ -73,6 +77,13 @@ for file in $TEST_DIR/*.c; do
         else
             $CC -Wno-unused-function -g -o $BIN_DIR/test_$filename $file $BIN_DIR/$filename.o $BIN_DIR/test.o
         fi
+    fi
+
+    # If the file is not present, the compilation failed
+    if [ ! -f $BIN_DIR/test_$filename ]; then
+        echo "${TEXT_BOLD}${TEXT_RED}COMPILATION FAILED FOR $filename !!!${TEXT_RESET}"
+        global_success=1
+        continue
     fi
 
     $BIN_DIR/test_$filename
