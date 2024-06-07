@@ -13,9 +13,16 @@ Interval interval_from(Time start, Time end) {
 	return interval;
 }
 
-char* Interval_to_string(Interval interval) {
+Interval* interval_ptr_from(Time start, Time end) {
+	Interval* interval = malloc(sizeof(Interval));
+	interval->start = start;
+	interval->end = end;
+	return interval;
+}
+
+char* Interval_to_string(Interval* interval) {
 	char* str = malloc(100);
-	sprintf(str, "[%f, %f]", interval.start, interval.end);
+	sprintf(str, "[%f, %f]", interval->start, interval->end);
 	return str;
 }
 

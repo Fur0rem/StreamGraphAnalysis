@@ -69,20 +69,20 @@ bool Link_equals(Link a, Link b) {
 		   (a.nodes[0] == b.nodes[1] && a.nodes[1] == b.nodes[0]);
 }
 
-char* Link_to_string(Link link) {
+char* Link_to_string(Link* link) {
 	char* str = malloc(1000);
 	str[0] = '\0';
 	strcat(str, "Link between ");
-	strcat(str, link.nodes[0]->label);
+	strcat(str, link->nodes[0]->label);
 	strcat(str, " and ");
-	strcat(str, link.nodes[1]->label);
+	strcat(str, link->nodes[1]->label);
 	strcat(str, " @ { ");
-	for (size_t j = 0; j < link.present_at.size; j++) {
-		Interval interval = link.present_at.array[j];
+	for (size_t j = 0; j < link->present_at.size; j++) {
+		Interval* interval = &link->present_at.array[j];
 		char* interval_str = Interval_to_string(interval);
 		strcat(str, interval_str);
 		free(interval_str);
-		if (j < link.present_at.size - 1) {
+		if (j < link->present_at.size - 1) {
 			strcat(str, ", ");
 		}
 	}
@@ -109,7 +109,7 @@ void init_neighbors(StreamGraph* graph) {
 	}
 }
 
-StreamGraph stream_graph_from(Interval lifespan, TemporalNodeVector nodes, LinkVector links) {
+StreamGraph stream_graph_from(Interval lifespan, TemporalNodePtrVector nodes, LinkVector links) {
 	StreamGraph graph;
 	graph.lifespan = lifespan;
 	graph.temporal_nodes = nodes;
@@ -125,7 +125,8 @@ char* StreamGraph_to_string(StreamGraph* graph) {
 	Time start = graph->lifespan.start;
 	Time end = graph->lifespan.end;
 	char* time_str = malloc(100);
-	char* interval_str = Interval_to_string(interval_from(start, end));
+	Interval lifespan = interval_from(start, end);
+	char* interval_str = Interval_to_string(&lifespan);
 	sprintf(time_str, "  Lifespan : %s", interval_str);
 	free(interval_str);
 	strcat(str, time_str);
@@ -149,7 +150,7 @@ char* StreamGraph_to_string(StreamGraph* graph) {
 		strcat(str, link.nodes[1]->label);
 		strcat(str, " @ { ");
 		for (size_t j = 0; j < link.present_at.size; j++) {
-			Interval interval = link.present_at.array[j];
+			Interval* interval = &link.present_at.array[j];
 			char* interval_str = Interval_to_string(interval);
 			sprintf(time_str, "%s ", interval_str);
 			free(interval_str);
@@ -169,7 +170,7 @@ char* StreamGraph_to_string(StreamGraph* graph) {
 TemporalNodeRefVector get_nodes_present_at(StreamGraph* graph, Time time) {
 	TemporalNodeRefVector nodes = TemporalNodeRefVector_new();
 	for (size_t i = 0; i < graph->temporal_nodes.size; i++) {
-		TemporalNode* node = &graph->temporal_nodes.array[i];
+		TemporalNode* node = graph->temporal_nodes.array[i];
 		if (is_node_present_at(*node, time)) {
 			TemporalNodeRefVector_push(&nodes, node);
 		}
@@ -188,29 +189,29 @@ LinkRefVector get_links_present_at(StreamGraph* graph, Time time) {
 	return links;
 }
 
-char* TemporalNode_to_string(TemporalNode value) {
+char* TemporalNode_to_string(TemporalNode* value) {
 	char* str = malloc(1000);
 	str[0] = '\0';
-	strcat(str, value.label);
+	strcat(str, value->label);
 	strcat(str, " @ { ");
-	for (size_t j = 0; j < value.present_at.size; j++) {
-		Interval interval = value.present_at.array[j];
+	for (size_t j = 0; j < value->present_at.size; j++) {
+		Interval* interval = &value->present_at.array[j];
 		char* interval_str = Interval_to_string(interval);
 		strcat(str, interval_str);
 		free(interval_str);
-		if (j < value.present_at.size - 1) {
+		if (j < value->present_at.size - 1) {
 			strcat(str, ", ");
 		}
 	}
 	strcat(str, " }");
 
 	strcat(str, " Neighbors: { ");
-	for (size_t j = 0; j < value.links.size; j++) {
-		Link* link = value.links.array[j];
+	for (size_t j = 0; j < value->links.size; j++) {
+		Link* link = value->links.array[j];
 		const char* link_str =
-			(link->nodes[0] == &value) ? link->nodes[1]->label : link->nodes[0]->label;
+			(link->nodes[0] == value) ? link->nodes[1]->label : link->nodes[0]->label;
 		strcat(str, link_str);
-		if (j < value.links.size - 1) {
+		if (j < value->links.size - 1) {
 			strcat(str, ", ");
 		}
 	}
@@ -243,7 +244,17 @@ Link link_from_labels(TemporalNodeVector* nodes_set, const char* label1, const c
 	return link;
 }
 
+TemporalNode* TemporalNodePtr_new(const char* label, IntervalVector present_at) {
+	TemporalNode* node = malloc(sizeof(TemporalNode));
+	node->label = label;
+	node->present_at = present_at;
+	node->links = LinkRefVector_new();
+	return node;
+}
+
 DEFAULT_COMPARE(TemporalNodeRef)
 DEFAULT_COMPARE(LinkRef)
+DEFAULT_COMPARE(TemporalNodePtr)
 DEFAULT_TO_STRING(TemporalNodeRef, "%p")
 DEFAULT_TO_STRING(LinkRef, "%p")
+DEFAULT_TO_STRING(TemporalNodePtr, "%p")

@@ -19,16 +19,16 @@ StreamGraph example_S() {
 	IntervalVector intervalsD = IntervalVector_new();
 	IntervalVector_push(&intervalsD, (Interval){.start = 1, .end = 3});
 
-	TemporalNodeVector nodes = TemporalNodeVector_new();
-	TemporalNodeVector_push(&nodes, TemporalNode_new(strdup("a"), intervalsA));
-	TemporalNodeVector_push(&nodes, TemporalNode_new(strdup("b"), intervalsB));
-	TemporalNodeVector_push(&nodes, TemporalNode_new(strdup("c"), intervalsC));
-	TemporalNodeVector_push(&nodes, TemporalNode_new(strdup("d"), intervalsD));
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
+	TemporalNodePtrVector_push(&nodes, TemporalNodePtr_new(strdup("a"), intervalsA));
+	TemporalNodePtrVector_push(&nodes, TemporalNodePtr_new(strdup("b"), intervalsB));
+	TemporalNodePtrVector_push(&nodes, TemporalNodePtr_new(strdup("c"), intervalsC));
+	TemporalNodePtrVector_push(&nodes, TemporalNodePtr_new(strdup("d"), intervalsD));
 
-	Link linkAB = link_from_labels(&nodes, strdup("a"), strdup("b"));
-	Link linkBC = link_from_labels(&nodes, strdup("b"), strdup("c"));
-	Link linkAC = link_from_labels(&nodes, strdup("a"), strdup("c"));
-	Link linkBD = link_from_labels(&nodes, strdup("b"), strdup("d"));
+	Link linkAB = link_from_labels(&nodes, "a", "b");
+	Link linkBC = link_from_labels(&nodes, "b", "c");
+	Link linkAC = link_from_labels(&nodes, "a", "c");
+	Link linkBD = link_from_labels(&nodes, "b", "d");
 
 	IntervalVector_push(&linkAB.present_at, (Interval){.start = 1, .end = 3});
 	IntervalVector_push(&linkAB.present_at, (Interval){.start = 7, .end = 8});

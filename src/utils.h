@@ -38,14 +38,14 @@
 	}
 
 #define DEFAULT_TO_STRING(type, format)                                                            \
-	char* type##_to_string(type value) {                                                           \
+	char* type##_to_string(type* value) {                                                          \
 		char* str = (char*)malloc(100);                                                            \
-		sprintf(str, format, value);                                                               \
+		sprintf(str, format, *value);                                                              \
 		return str;                                                                                \
 	}
 
 #define DeclareGenerics(type)                                                                      \
-	char* type##_to_string(type value);                                                            \
+	char* type##_to_string(type* value);                                                           \
 	bool type##_equals(type a, type b);
 
 #endif
