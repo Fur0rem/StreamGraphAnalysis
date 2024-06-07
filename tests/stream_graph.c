@@ -4,7 +4,7 @@
 #include "test.h"
 
 bool test_create_empty() {
-	TemporalNodeVector nodes = TemporalNodeVector_new();
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
 	LinkVector links = LinkVector_new();
 	StreamGraph graph = stream_graph_from(interval_from(0.0, 0.0), nodes, links);
 	char* str = StreamGraph_to_string(&graph);
@@ -16,21 +16,21 @@ bool test_create_empty() {
 }
 
 bool test_create_1() {
-	TemporalNodeVector nodes = TemporalNodeVector_new();
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
 	LinkVector links = LinkVector_new();
 
 	IntervalVector intervalsA = IntervalVector_new();
 	IntervalVector_push(&intervalsA, interval_from(0.0, 1.0));
-	TemporalNode nodeA = (TemporalNode){.label = "A", .present_at = intervalsA};
+	TemporalNodePtr nodeA = TemporalNodePtr_new("A", intervalsA);
 
 	IntervalVector intervalsB = IntervalVector_new();
 	IntervalVector_push(&intervalsB, interval_from(0.0, 2.0));
-	TemporalNode nodeB = (TemporalNode){.label = "B", .present_at = intervalsB};
+	TemporalNodePtr nodeB = TemporalNodePtr_new("B", intervalsB);
 
-	TemporalNodeVector_push(&nodes, nodeA);
-	TemporalNodeVector_push(&nodes, nodeB);
+	TemporalNodePtrVector_push(&nodes, nodeA);
+	TemporalNodePtrVector_push(&nodes, nodeB);
 
-	Link link = (Link){.nodes = {&nodeA, &nodeB}};
+	Link link = (Link){.nodes = {nodeA, nodeB}};
 	IntervalVector_push(&link.present_at, interval_from(0.0, 1.0));
 	LinkVector_push(&links, link);
 
@@ -45,23 +45,23 @@ bool test_create_1() {
 }
 
 bool test_create_multiple_intervals() {
-	TemporalNodeVector nodes = TemporalNodeVector_new();
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
 	LinkVector links = LinkVector_new();
 
 	IntervalVector intervalsA = IntervalVector_new();
 	IntervalVector_push(&intervalsA, interval_from(0.0, 1.0));
 	IntervalVector_push(&intervalsA, interval_from(2.0, 3.0));
-	TemporalNode nodeA = (TemporalNode){.label = "A", .present_at = intervalsA};
+	TemporalNodePtr nodeA = TemporalNodePtr_new("A", intervalsA);
 
 	IntervalVector intervalsB = IntervalVector_new();
 	IntervalVector_push(&intervalsB, interval_from(0.0, 2.0));
 	IntervalVector_push(&intervalsB, interval_from(3.0, 4.0));
-	TemporalNode nodeB = (TemporalNode){.label = "B", .present_at = intervalsB};
+	TemporalNodePtr nodeB = TemporalNodePtr_new("B", intervalsB);
 
-	TemporalNodeVector_push(&nodes, nodeA);
-	TemporalNodeVector_push(&nodes, nodeB);
+	TemporalNodePtrVector_push(&nodes, nodeA);
+	TemporalNodePtrVector_push(&nodes, nodeB);
 
-	Link link = (Link){.nodes = {&nodeA, &nodeB}};
+	Link link = (Link){.nodes = {nodeA, nodeB}};
 	IntervalVector_push(&link.present_at, interval_from(0.0, 1.0));
 	LinkVector_push(&links, link);
 
@@ -76,33 +76,33 @@ bool test_create_multiple_intervals() {
 }
 
 bool test_create_multiple_links() {
-	TemporalNodeVector nodes = TemporalNodeVector_new();
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
 	LinkVector links = LinkVector_new();
 
 	IntervalVector intervalsA = IntervalVector_new();
 	IntervalVector_push(&intervalsA, interval_from(0.0, 1.0));
 	IntervalVector_push(&intervalsA, interval_from(2.0, 3.0));
-	TemporalNode nodeA = (TemporalNode){.label = "A", .present_at = intervalsA};
+	TemporalNodePtr nodeA = TemporalNodePtr_new("A", intervalsA);
 
 	IntervalVector intervalsB = IntervalVector_new();
 	IntervalVector_push(&intervalsB, interval_from(0.0, 2.0));
 	IntervalVector_push(&intervalsB, interval_from(3.0, 4.0));
-	TemporalNode nodeB = (TemporalNode){.label = "B", .present_at = intervalsB};
+	TemporalNodePtr nodeB = TemporalNodePtr_new("B", intervalsB);
 
 	IntervalVector intervalsC = IntervalVector_new();
 	IntervalVector_push(&intervalsC, interval_from(0.0, 1.0));
 	IntervalVector_push(&intervalsC, interval_from(2.0, 3.0));
-	TemporalNode nodeC = (TemporalNode){.label = "C", .present_at = intervalsC};
+	TemporalNodePtr nodeC = TemporalNodePtr_new("C", intervalsC);
 
-	TemporalNodeVector_push(&nodes, nodeA);
-	TemporalNodeVector_push(&nodes, nodeB);
-	TemporalNodeVector_push(&nodes, nodeC);
+	TemporalNodePtrVector_push(&nodes, nodeA);
+	TemporalNodePtrVector_push(&nodes, nodeB);
+	TemporalNodePtrVector_push(&nodes, nodeC);
 
-	Link linkAB = (Link){.nodes = {&nodeA, &nodeB}};
+	Link linkAB = (Link){.nodes = {nodeA, nodeB}};
 	IntervalVector_push(&linkAB.present_at, interval_from(0.0, 1.0));
 	LinkVector_push(&links, linkAB);
 
-	Link linkBC = (Link){.nodes = {&nodeB, &nodeC}};
+	Link linkBC = (Link){.nodes = {nodeB, nodeC}};
 	IntervalVector_push(&linkBC.present_at, interval_from(0.0, 1.0));
 	LinkVector_push(&links, linkBC);
 
@@ -163,27 +163,27 @@ bool test_is_link_not_present_at() {
 }
 
 bool test_get_nodes_present_at() {
-	TemporalNodeVector nodes = TemporalNodeVector_new();
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
 	LinkVector links = LinkVector_new();
 
 	IntervalVector intervalsA = IntervalVector_new();
 	IntervalVector_push(&intervalsA, interval_from(0.0, 1.0));
 	IntervalVector_push(&intervalsA, interval_from(2.0, 3.0));
-	TemporalNode nodeA = TemporalNode_new("A", intervalsA);
+	TemporalNodePtr nodeA = TemporalNodePtr_new("A", intervalsA);
 
 	IntervalVector intervalsB = IntervalVector_new();
 	IntervalVector_push(&intervalsB, interval_from(0.0, 2.0));
 	IntervalVector_push(&intervalsB, interval_from(3.0, 4.0));
-	TemporalNode nodeB = TemporalNode_new("B", intervalsB);
+	TemporalNodePtr nodeB = TemporalNodePtr_new("B", intervalsB);
 
 	IntervalVector intervalsC = IntervalVector_new();
 	IntervalVector_push(&intervalsC, interval_from(0.0, 1.0));
 	IntervalVector_push(&intervalsC, interval_from(2.0, 3.0));
-	TemporalNode nodeC = TemporalNode_new("C", intervalsC);
+	TemporalNodePtr nodeC = TemporalNodePtr_new("C", intervalsC);
 
-	TemporalNodeVector_push(&nodes, nodeA);
-	TemporalNodeVector_push(&nodes, nodeB);
-	TemporalNodeVector_push(&nodes, nodeC);
+	TemporalNodePtrVector_push(&nodes, nodeA);
+	TemporalNodePtrVector_push(&nodes, nodeB);
+	TemporalNodePtrVector_push(&nodes, nodeC);
 
 	StreamGraph graph = stream_graph_from(interval_from(0.0, 4.0), nodes, links);
 
@@ -191,9 +191,9 @@ bool test_get_nodes_present_at() {
 	TemporalNodeRefVector nodes_present_at_2 = get_nodes_present_at(&graph, 2.0);
 	TemporalNodeRefVector nodes_present_at_2_5 = get_nodes_present_at(&graph, 2.5);
 
-	TemporalNodeRef nodeA_r = &nodes.array[0];
-	TemporalNodeRef nodeB_r = &nodes.array[1];
-	TemporalNodeRef nodeC_r = &nodes.array[2];
+	TemporalNodeRef nodeA_r = nodes.array[0];
+	TemporalNodeRef nodeB_r = nodes.array[1];
+	TemporalNodeRef nodeC_r = nodes.array[2];
 
 	return EXPECT_ALL(EXPECT(TemporalNodeRefVector_contains(nodes_present_at_0, nodeA_r)),
 					  EXPECT(TemporalNodeRefVector_contains(nodes_present_at_0, nodeB_r)),
@@ -207,28 +207,28 @@ bool test_get_nodes_present_at() {
 }
 
 bool test_init_neighbors() {
-	TemporalNodeVector nodes = TemporalNodeVector_new();
+	TemporalNodePtrVector nodes = TemporalNodePtrVector_new();
 	LinkVector links = LinkVector_new();
 
-	TemporalNode nodeA = TemporalNode_new("A", IntervalVector_new());
-	TemporalNode nodeB = TemporalNode_new("B", IntervalVector_new());
+	TemporalNode* nodeA = TemporalNodePtr_new("A", IntervalVector_new());
+	TemporalNode* nodeB = TemporalNodePtr_new("B", IntervalVector_new());
 
-	TemporalNodeVector_push(&nodes, nodeA);
-	TemporalNodeVector_push(&nodes, nodeB);
+	TemporalNodePtrVector_push(&nodes, nodeA);
+	TemporalNodePtrVector_push(&nodes, nodeB);
 
-	Link linkAB = (Link){.nodes = {&nodes.array[0], &nodes.array[1]}};
+	Link linkAB = (Link){.nodes = {nodes.array[0], nodes.array[1]}};
 	IntervalVector_push(&linkAB.present_at, interval_from(0.0, 1.0));
 	LinkVector_push(&links, linkAB);
 
 	StreamGraph graph = stream_graph_from(interval_from(0.0, 1.0), nodes, links);
 
-	printf("A links: %zu\n", graph.temporal_nodes.array[0].links.size);
-	printf("B links: %zu\n", graph.temporal_nodes.array[1].links.size);
+	printf("A links: %zu\n", graph.temporal_nodes.array[0]->links.size);
+	printf("B links: %zu\n", graph.temporal_nodes.array[1]->links.size);
 
-	return EXPECT(graph.temporal_nodes.array[0].links.size == 1) &&
-		   EXPECT(graph.temporal_nodes.array[1].links.size == 1) &&
-		   EXPECT(graph.temporal_nodes.array[0].links.array[0] == &graph.links.array[0]) &&
-		   EXPECT(graph.temporal_nodes.array[1].links.array[0] == &graph.links.array[0]);
+	return EXPECT(graph.temporal_nodes.array[0]->links.size == 1) &&
+		   EXPECT(graph.temporal_nodes.array[1]->links.size == 1) &&
+		   EXPECT(graph.temporal_nodes.array[0]->links.array[0] == &graph.links.array[0]) &&
+		   EXPECT(graph.temporal_nodes.array[1]->links.array[0] == &graph.links.array[0]);
 }
 
 int main() {

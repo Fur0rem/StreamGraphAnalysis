@@ -87,7 +87,7 @@
 		str[0] = '\0';                                                                             \
 		strcat(str, "{ ");                                                                         \
 		for (size_t i = 0; i < vec.size; i++) {                                                    \
-			char* elem_str = type##_to_string(vec.array[i]);                                       \
+			char* elem_str = type##_to_string(&vec.array[i]);                                      \
 			strcat(str, elem_str);                                                                 \
 			free(elem_str);                                                                        \
 			if (i < vec.size - 1) {                                                                \

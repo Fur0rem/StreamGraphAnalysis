@@ -1,11 +1,11 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
+#include "units.h"
 #include "utils.h"
+#include "vector.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include "units.h"
-#include "vector.h"
 
 // typedef enum {
 //     DISCRETE,
@@ -27,17 +27,16 @@
 // } Interval;
 
 typedef struct {
-    Time start;
-    Time end;
+	Time start;
+	Time end;
 } Interval;
 
 Time interval_size(Interval interval);
 bool interval_contains(Interval interval, Time value);
-
-bool Interval_equals(Interval a, Interval b);
-char* Interval_to_string(Interval interval);
+Interval* interval_ptr_from(Time start, Time end);
+DeclareGenerics(Interval);
+DefVector(Interval, NO_FREE(Interval));
 
 Interval interval_from(Time start, Time end);
-
 
 #endif
