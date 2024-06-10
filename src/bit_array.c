@@ -8,7 +8,6 @@
 SGA_BitArray SGA_BitArray_with_n_bits(size_t n_bits) {
 
 	size_t size = (n_bits / sizeof(size_t)) + 1;
-	printf("size alloced: %lu for %lu bits (sizeof size_t: %lu)\n", size, n_bits, sizeof(size_t));
 	SGA_BitArray bit_array =
 		(SGA_BitArray)MALLOC(size * sizeof(size_t)); // The first element contains the number of
 													 // elements in the array, then the elements

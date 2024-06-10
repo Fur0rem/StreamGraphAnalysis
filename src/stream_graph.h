@@ -23,8 +23,8 @@ typedef struct {
 typedef struct {
 	size_t nb_intervals;
 	Interval* present_at;
-	size_t nb_neighbors;
-	EdgeId* neighbors;
+	size_t nb_neighbours;
+	EdgeId* neighbours;
 } TemporalNode;
 
 typedef struct {

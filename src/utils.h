@@ -39,19 +39,19 @@
 	}
 
 #define DEFAULT_COMPARE(type)                                                                      \
-	bool type##_equals(type a, type b) {                                                           \
-		return a == b;                                                                             \
+	bool type##_equals(type val1, type val2) {                                                     \
+		return (val1) == (val2);                                                                   \
 	}
 
 #define DEFAULT_TO_STRING(type, format)                                                            \
-	char* type##_to_string(type* value) {                                                          \
+	char* type##_to_string(const type* value) {                                                    \
 		char* str = (char*)malloc(100);                                                            \
 		sprintf(str, format, *value);                                                              \
 		return str;                                                                                \
 	}
 
 #define DeclareGenerics(type)                                                                      \
-	char* type##_to_string(type* value);                                                           \
+	char* type##_to_string(const type* value);                                                     \
 	bool type##_equals(type a, type b);
 
 #endif
