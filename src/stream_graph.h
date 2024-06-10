@@ -1,3 +1,4 @@
+#include "bit_array.h"
 #include "units.h"
 #include <stddef.h>
 #include <stdint.h>
@@ -42,9 +43,6 @@ typedef struct {
 	Link* links;
 } LinksSet;
 
-typedef size_t*
-	BitArray; // The first element contains the number of elements in the array, then the elements
-
 /*typedef struct {
 	size_t* data; // The first element contains the number of nodes in the event, then the number of
 				  // edges, then the nodes, then the edges
@@ -54,7 +52,7 @@ typedef size_t* Event;
 
 typedef struct {
 	TimeId disappearance_index;
-	BitArray presence_mask;
+	SGA_BitArray presence_mask;
 	size_t nb_events;
 	Event* events; // The first element contains the number of nodes in the array, then the n
 } EventsTable;

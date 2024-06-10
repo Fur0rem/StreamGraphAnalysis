@@ -22,6 +22,12 @@
 		ptr;                                                                                       \
 	})
 
+#ifdef DEBUG
+#define MALLOC(size) MALLOC_CHECK(size)
+#else
+#define MALLOC(size) malloc(size)
+#endif
+
 // Floating point comparison
 #define EPS 1e-9
 #define F_EQUALS(a, b) (fabs((a) - (b)) < EPS)
