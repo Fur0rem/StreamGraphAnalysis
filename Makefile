@@ -4,7 +4,7 @@ BIN_DIR = bin
 DEBUG_FLAGS = -g -O0
 RELEASE_FLAGS = -O3
 FLAGS = $(DEBUG_FLAGS)
-CFLAGS = -Wall -Wextra -std=c99 -pedantic $(FLAGS) -Wno-unused-function
+CFLAGS = -Wall -Wextra -pedantic $(FLAGS) -Wno-unused-function
 LDFLAGS = -lm
 
 interval:
