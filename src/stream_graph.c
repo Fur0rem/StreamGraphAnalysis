@@ -9,7 +9,7 @@
 #include "stream_graph.h"
 #include "utils.h"
 
-/*
+/* Format :
 SGA Internal version 1.0.0
 
 
@@ -21,58 +21,61 @@ Named=true
 [Memory]
 NumberOfNodes=4
 NumberOfLinks=4
-RegularKeyMoments=8
+RegularKeyMoments=9
 RemovalOnlyMoments=3
+NumberOfSlices=1
 
 [[Nodes]]
 [[[NumberOfNeighbours]]]
-1=2
-2=2
-3=2
-4=1
+2
+2
+2
+1
 [[[NumberOfIntervals]]]
-1=1
-2=2
-3=1
-4=1
+1
+2
+1
+1
 
 [[Links]]
 [[[NumberOfIntervals]]]
-1=2
-2=1
-3=1
-4=1
+2
+1
+1
+1
 
 [[KeyMoments]]
 [[[NumberOfEvents]]]
-0=2
-10=2
-20=1
-30=3
-40=1
-45=1
-50=1
-60=1
-70=1
-75=1
-80=1
-90=1
-100=2
+2
+2
+1
+0
+3
+2
+1
+1
+1
+0
+1
+2
+2
 
+[[[NumberOfSlices]]]
+13
 
 [Data]
 
 [[Neighbours]]
 [[[NodesToLinks]]]
-0=(0 2)
-1=(1 3)
-2=(2 3)
-3=(1)
+(0 2)
+(1 3)
+(2 3)
+(1)
 [[[LinksToNodes]]]
-0=(0 1)
-1=(1 3)
-2=(0 2)
-3=(1 2)
+(0 1)
+(1 3)
+(0 2)
+(1 2)
 
 [[Events]]
 0=((N 0) (N 1))
@@ -87,15 +90,28 @@ RemovalOnlyMoments=3
 70=(+ (L 0))
 75=(+)
 [[[RemovalOnly]]]
-80=((N 0))
+80=((L 0))
 90=((N 2) (L 3))
 100=((N 0) (N 1))
 
+[[PresenceIntervals]]
+[[[Nodes]]]
+((0 100))
+((0 50) (60 100))
+((40 90))
+((10 30))
+[[[Links]]]
+((10 30) (70 80))
+((20 30))
+((45 75))
+((60 90))
+
+
 [Names]
-1=a
-2=b
-3=c
-4=d
+a
+b
+c
+d
 */
 
 size_t* access_nb_node_events(Event event) {
@@ -145,12 +161,35 @@ char* get_to_header(const char* str, const char* header) {
 #define GO_TO_NEXT_LINE(str) (str) = strchr(str, '\n') + 1;
 
 #define PRINT_LINE(str)                                                                            \
-	char* end = strchr(str, '\n');                                                                 \
-	char* line = (char*)malloc(end - (str) + 1);                                                   \
-	strncpy(line, str, end - (str));                                                               \
-	line[end - (str)] = '\0';                                                                      \
-	printf("line: %s\n", line);                                                                    \
-	free(line);
+	{                                                                                              \
+		char* end = strchr(str, '\n');                                                             \
+		char* line = (char*)malloc(end - (str) + 1);                                               \
+		strncpy(line, str, end - (str));                                                           \
+		line[end - (str)] = '\0';                                                                  \
+		printf("line: %s\n", line);                                                                \
+		free(line);                                                                                \
+	}
+
+#define NEXT_TUPLE(str)                                                                            \
+	{                                                                                              \
+		(str)++;                                                                                   \
+		while ((*(str) != '(') && (*(str) != '\n')) {                                              \
+			(str)++;                                                                               \
+		}                                                                                          \
+	}
+
+void push_key_moment(StreamGraph* sg, size_t key_moment) {
+	static size_t current_slice = 0;
+	static size_t current_moment = 0;
+	size_t slice = key_moment / (RelativeMoment)~0;
+	size_t relative_moment = key_moment % (RelativeMoment)~0;
+	if (slice != current_slice) {
+		current_slice = slice;
+		current_moment = 0;
+	}
+	sg->moments.slices[slice].moments[current_moment] = relative_moment;
+	current_moment++;
+}
 
 // TODO : Make the code better and less unreadable copy pasted code
 // TODO : Add parsing for the key moments table
@@ -230,80 +269,85 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	// Parse the memory needed for the nodes
 	NEXT_HEADER([[Nodes]]);
 	NEXT_HEADER([[[NumberOfNeighbours]]]);
-	for (size_t i = 0; i < nb_nodes; i++) {
+	for (size_t node = 0; node < nb_nodes; node++) {
 		// Parse the node
 		size_t nb_neighbors;
-		size_t node;
-		nb_scanned = sscanf(str, "%zu=%zu\n", &node, &nb_neighbors);
-		EXPECTED_NB_SCANNED(2);
+		nb_scanned = sscanf(str, "%zu\n", &nb_neighbors);
+		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		printf("node: %zu, nb_neighbors: %zu\n", node, nb_neighbors);
 		// Allocate the neighbors
-		sg.nodes.nodes[i].nb_neighbors = nb_neighbors;
-		sg.nodes.nodes[i].neighbors = (EdgeId*)malloc(nb_neighbors * sizeof(EdgeId));
+		sg.nodes.nodes[node].nb_neighbors = nb_neighbors;
+		sg.nodes.nodes[node].neighbors = (EdgeId*)malloc(nb_neighbors * sizeof(EdgeId));
 	}
 
 	NEXT_HEADER([[[NumberOfIntervals]]]);
-	for (size_t i = 0; i < nb_nodes; i++) {
+	for (size_t node = 0; node < nb_nodes; node++) {
 		// Parse the node
-		size_t node;
 		size_t nb_intervals;
-		nb_scanned = sscanf(str, "%zu=%zu\n", &node, &nb_intervals);
-		EXPECTED_NB_SCANNED(2);
+		nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
+		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		printf("node: %zu, nb_intervals: %zu\n", node, nb_intervals);
 		// Allocate the intervals
-		sg.nodes.nodes[i].nb_intervals = nb_intervals;
-		sg.nodes.nodes[i].present_at = (Interval*)malloc(nb_intervals * sizeof(Interval));
+		sg.nodes.nodes[node].nb_intervals = nb_intervals;
+		sg.nodes.nodes[node].present_at = (Interval*)malloc(nb_intervals * sizeof(Interval));
 	}
 
 	NEXT_HEADER([[Links]]);
 	NEXT_HEADER([[[NumberOfIntervals]]]);
-	for (size_t i = 0; i < nb_links; i++) {
+	for (size_t link = 0; link < nb_links; link++) {
 		// Parse the edge
-		size_t link;
 		size_t nb_intervals;
-		nb_scanned = sscanf(str, "%zu=%zu\n", &link, &nb_intervals);
-		EXPECTED_NB_SCANNED(2);
+		nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
+		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		printf("link: %zu, nb_intervals: %zu\n", link, nb_intervals);
 		// Allocate the intervals
-		sg.links.links[i].nb_intervals = nb_intervals;
-		sg.links.links[i].present_at = (Interval*)malloc(nb_intervals * sizeof(Interval));
+		sg.links.links[link].nb_intervals = nb_intervals;
+		sg.links.links[link].present_at = (Interval*)malloc(nb_intervals * sizeof(Interval));
 	}
 
 	NEXT_HEADER([[KeyMoments]]);
 	NEXT_HEADER([[[NumberOfEvents]]]);
 	size_t* nb_events_per_key_moment = (size_t*)malloc(nb_key_moments * sizeof(size_t));
 	SGA_BitArray presence_mask = SGA_BitArray_n_ones(nb_regular_key_moments);
-	for (size_t i = 0; i < nb_key_moments; i++) {
+	for (size_t key_moment = 0; key_moment < nb_key_moments; key_moment++) {
 		// Parse the key moment
-		size_t key_moment;
 		size_t nb_events;
-		nb_scanned = sscanf(str, "%zu=%zu\n", &key_moment, &nb_events);
-		EXPECTED_NB_SCANNED(2);
+		nb_scanned = sscanf(str, "%zu\n", &nb_events);
+		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
-		printf("key_moment: %zu, nb_events: %zu\n", key_moment, nb_events);
+		printf("key_moment n°: %zu, nb_events: %zu\n", key_moment, nb_events);
 		// Allocate the events
-		sg.events.events[i] = malloc((nb_events + 2) * sizeof(size_t));
-		nb_events_per_key_moment[i] = nb_events;
+		sg.events.events[key_moment] = malloc((nb_events + 2) * sizeof(size_t));
+		nb_events_per_key_moment[key_moment] = nb_events;
+	}
+
+	// Allocate the slices
+	sg.moments.nb_slices = nb_slices;
+	sg.moments.slices = (MomentsSlice*)malloc(nb_slices * sizeof(MomentsSlice));
+	NEXT_HEADER([[[NumberOfSlices]]]);
+	size_t nb_slices2;
+	for (size_t i = 0; i < nb_slices; i++) {
+		nb_scanned = sscanf(str, "%zu\n", &nb_slices2);
+		EXPECTED_NB_SCANNED(1);
+		sg.moments.slices[i].nb_moments = nb_slices2;
+		sg.moments.slices[i].moments = (RelativeMoment*)malloc(nb_slices2 * sizeof(RelativeMoment));
+		printf("slice n°: %zu, nb_slices: %zu\n", i, nb_slices2);
+		GO_TO_NEXT_LINE(str);
 	}
 
 	NEXT_HEADER([Data]);
 	NEXT_HEADER([[Neighbours]]);
 
 	NEXT_HEADER([[[NodesToLinks]]]);
-	for (size_t i = 0; i < nb_nodes; i++) {
-		// Parse the node
-		size_t node;
-		nb_scanned = sscanf(str, "%zu=", &node);
-		EXPECTED_NB_SCANNED(1);
-		str = strchr(str, '(') + 1;
+	for (size_t node = 0; node < nb_nodes; node++) {
 		printf("node: %zu -> ", node);
-		for (size_t j = 0; j < sg.nodes.nodes[i].nb_neighbors; j++) {
+		for (size_t j = 0; j < sg.nodes.nodes[node].nb_neighbors; j++) {
 			size_t link;
 			sscanf(str, "%zu", &link);
-			sg.nodes.nodes[i].neighbors[j] = link;
+			sg.nodes.nodes[node].neighbors[j] = link;
 			while ((*str != '(') && (*str != ' ') && (*str != '\n')) {
 				str++;
 			}
@@ -312,22 +356,14 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	}
 
 	NEXT_HEADER([[[LinksToNodes]]]);
-	for (size_t i = 0; i < nb_links; i++) {
-		// Parse the edge
-		size_t link;
-		nb_scanned = sscanf(str, "%zu=", &link);
-		EXPECTED_NB_SCANNED(1);
-		str = strchr(str, '(') + 1;
+	for (size_t link = 0; link < nb_links; link++) {
 		printf("link: %zu -> ", link);
-		for (size_t j = 0; j < 2; j++) {
-			size_t node;
-			sscanf(str, "%zu", &node);
-			sg.links.links[i].nodes[j] = node;
-			while ((*str != '(') && (*str != ' ') && (*str != '\n')) {
-				str++;
-			}
-			printf("%zu, ", node);
-		}
+		size_t node1, node2;
+		sscanf(str, "(%zu %zu)", &node1, &node2);
+		sg.links.links[link].nodes[0] = node1;
+		sg.links.links[link].nodes[1] = node2;
+		GO_TO_NEXT_LINE(str);
+		printf("(%zu %zu), ", node1, node2);
 		printf("\n");
 	}
 
@@ -338,6 +374,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	EXPECTED_NB_SCANNED(1);
 	str = strchr(str, '(') + 1;
 	printf("key_moment: %zu -> ", key_moment);
+	push_key_moment(&sg, key_moment);
 	// Parse all the node events
 	size_t j = 0;
 	for (; j < nb_events_per_key_moment[0]; j++) {
@@ -346,11 +383,8 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		nb_scanned = sscanf(str, "(%c %zu)", &type, &node);
 		printf("type: %c, node: %zu\n", type, node);
 		EXPECTED_NB_SCANNED(2);
-		while ((*str != ')') && (*str != '\n')) {
-			str++;
-		}
+		NEXT_TUPLE(str);
 		*access_nth_node(sg.events.events[0], j) = node;
-		str += 2;
 	}
 	*access_nb_node_events(sg.events.events[0]) = j;
 	size_t k;
@@ -358,11 +392,8 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		char type;
 		size_t link;
 		nb_scanned = sscanf(str, "(%c %zu)", &type, &link);
-		while ((*str != ')') && (*str != '\n')) {
-			str++;
-		}
 		EXPECTED_NB_SCANNED(2);
-		str += 2;
+		NEXT_TUPLE(str);
 		*access_nth_link(sg.events.events[0], k - j) = link;
 	}
 	*access_nb_link_events(sg.events.events[0]) = k - j;
@@ -379,6 +410,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		if (type == '-') {
 			SGA_BitArray_set_zero(presence_mask, i - 1);
 		}
+		push_key_moment(&sg, key_moment);
 		// Parse all the node events
 		size_t j = 0;
 		for (; j < nb_events_per_key_moment[i]; j++) {
@@ -389,10 +421,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 				goto parse_links;
 			}
 			EXPECTED_NB_SCANNED(2);
-			str++;
-			while ((*str != '(') && (*str != '\n')) {
-				str++;
-			}
+			NEXT_TUPLE(str);
 			*access_nth_node(sg.events.events[i], j) = id;
 		}
 	parse_links:
@@ -403,10 +432,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			size_t id;
 			nb_scanned = sscanf(str, "(%c %zu)", &link, &id);
 			EXPECTED_NB_SCANNED(2);
-			str++;
-			while ((*str != '(') && (*str != '\n')) {
-				str++;
-			}
+			NEXT_TUPLE(str);
 			*access_nth_link(sg.events.events[i], k - j) = id;
 		}
 		*access_nb_link_events(sg.events.events[i]) = k - j;
@@ -421,6 +447,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		nb_scanned = sscanf(str, "%zu=", &key_moment);
 		EXPECTED_NB_SCANNED(1);
 		str = strchr(str, '(') + 1;
+		push_key_moment(&sg, key_moment);
 		// Parse all the node events
 		size_t j = 0;
 		for (; j < nb_events_per_key_moment[i]; j++) {
@@ -431,10 +458,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			if (node_or_link == 'L') {
 				goto parse_links_removal;
 			}
-			str++;
-			while ((*str != '(') && (*str != '\n')) {
-				str++;
-			}
+			NEXT_TUPLE(str);
 			*access_nth_node(sg.events.events[i], j) = id;
 		}
 	parse_links_removal:
@@ -445,14 +469,29 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			size_t id;
 			nb_scanned = sscanf(str, "(%c %zu)", &link, &id);
 			EXPECTED_NB_SCANNED(2);
-			str++;
-			while ((*str != '(') && (*str != '\n')) {
-				str++;
-			}
+			NEXT_TUPLE(str);
 			*access_nth_link(sg.events.events[i], k - j) = id;
 		}
 		*access_nb_link_events(sg.events.events[i]) = k - j;
 		key_moments[i] = key_moment;
+		GO_TO_NEXT_LINE(str);
+	}
+
+	NEXT_HEADER([[PresenceIntervals]]);
+	NEXT_HEADER([[[Nodes]]]);
+	// Parse the presence intervals
+	for (size_t node = 0; node < nb_nodes; node++) {
+		str++;
+		for (size_t i = 0; i < sg.nodes.nodes[node].nb_intervals; i++) {
+			size_t start;
+			size_t end;
+			nb_scanned = sscanf(str, "(%zu %zu)", &start, &end);
+			EXPECTED_NB_SCANNED(2);
+			NEXT_TUPLE(str);
+			printf("node: %zu, interval: %zu, start: %zu, end: %zu\n", node, i, start, end);
+			sg.nodes.nodes[node].present_at[i].start = start;
+			sg.nodes.nodes[node].present_at[i].end = end;
+		}
 		GO_TO_NEXT_LINE(str);
 	}
 
@@ -498,6 +537,16 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		printf("\n");
 	}
 
+	printf("All key moments\n");
+	// print all the slices and relative moments
+	for (size_t i = 0; i < nb_slices; i++) {
+		printf("Slice %zu\n", i);
+		for (size_t j = 0; j < sg.moments.slices[i].nb_moments; j++) {
+			printf("%u, ", sg.moments.slices[i].moments[j]);
+		}
+		printf("\n");
+	}
+
 	char* presence_mask_str = SGA_BitArray_to_string(presence_mask);
 	printf("presence_mask: %s\n", presence_mask_str);
 	free(presence_mask_str);
@@ -505,13 +554,12 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	// Parse the names
 	if (named) {
 		NEXT_HEADER([Names]);
-		for (size_t i = 0; i < nb_nodes; i++) {
-			size_t node;
+		for (size_t node = 0; node < nb_nodes; node++) {
 			char name[256];
-			nb_scanned = sscanf(str, "%zu=%255s\n", &node, name);
-			EXPECTED_NB_SCANNED(2);
+			nb_scanned = sscanf(str, "%255s\n", name);
+			EXPECTED_NB_SCANNED(1);
 			printf("node: %zu, name: %s\n", node, name);
-			sg.node_names.names[i] = strdup(name);
+			sg.node_names.names[node] = strdup(name);
 			GO_TO_NEXT_LINE(str);
 		}
 	}
