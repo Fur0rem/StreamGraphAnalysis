@@ -262,6 +262,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	NEXT_HEADER([[KeyMoments]]);
 	NEXT_HEADER([[[NumberOfEvents]]]);
 	size_t* nb_events_per_key_moment = (size_t*)malloc(nb_key_moments * sizeof(size_t));
+	SGA_BitArray presence_mask = SGA_BitArray_n_ones(nb_key_moments);
 	for (size_t i = 0; i < nb_key_moments; i++) {
 		// Parse the key moment
 		size_t key_moment;
@@ -340,6 +341,10 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			while ((*str != ')') && (*str != '\n')) {
 				str++;
 			}
+			if (sign == '-') {
+				printf("Setting zero at %zu\n", j);
+				SGA_BitArray_set_zero(presence_mask, i);
+			}
 			printf("j = %zu, size = %zu\n", j, nb_events_per_key_moment[i]);
 			*access_nth_node(sg.events.events[i], j) = node;
 			str += 2;
@@ -357,7 +362,12 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			}
 			str += 2;
 			*access_nth_link(sg.events.events[i], k - j) = link;
+			if (sign == '-') {
+				SGA_BitArray_set_zero(presence_mask, i);
+			}
 		}
+
+		// If there was a suppression of the presence mask, we need to update the number of events
 
 		printf("j = %zu, k = %zu\n", j, k);
 		*access_nb_link_events(sg.events.events[i]) = k - j;
@@ -378,6 +388,10 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		GO_TO_NEXT_LINE(str);
 		printf("\n");
 	}
+
+	char* presence_mask_str = SGA_BitArray_to_string(presence_mask);
+	printf("presence_mask: %s\n", presence_mask_str);
+	free(presence_mask_str);
 
 	// Parse the names
 	if (named) {

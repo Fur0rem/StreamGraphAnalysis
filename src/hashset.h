@@ -5,7 +5,6 @@
 #include "vector.h"
 #include <stdio.h>
 
-// TODO : changer à nb cases
 // Hashset
 #define DefHashset(type, hashfunc, freefunc)                                                       \
                                                                                                    \
