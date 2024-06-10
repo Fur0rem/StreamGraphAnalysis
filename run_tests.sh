@@ -27,6 +27,10 @@ fi
 if [ $# -eq 1 ]; then
     filename=$1
     echo "Found test file: $filename"
+    # Remove old test file
+    rm -f $BIN_DIR/test_$filename
+    rm -f $BIN_DIR/$filename.a
+    rm -f $BIN_DIR/$filename.o
     # If the src file.c does not exist, compile the test file into an executable (header only library)
     if [ ! -f $SRC_DIR/$filename.c ]; then
         $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
@@ -42,7 +46,7 @@ if [ $# -eq 1 ]; then
     if [ $valgrind -ne 1 ]; then
         $BIN_DIR/test_$filename
     else
-        valgrind -s $BIN_DIR/test_$filename --track-origin
+        valgrind -s $BIN_DIR/test_$filename --track-origins=yes
     fi
     # Check the return code
     if [ $? -ne 0 ]; then
@@ -65,6 +69,8 @@ for file in $TEST_DIR/*.c; do
     # Get the filename without the extension
     filename=$(basename $file .c)
     echo "Found test file: $filename"
+    # Remove old test file
+    rm -f $BIN_DIR/test_$filename
     # If the src file.c does not exist, compile the test file into an executable
     if [ ! -f $SRC_DIR/$filename.c ]; then
         $CC $CFLAGS -o $BIN_DIR/test_$filename $file $BIN_DIR/test.o
