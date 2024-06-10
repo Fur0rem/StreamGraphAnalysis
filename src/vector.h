@@ -47,6 +47,18 @@
 		vec->size++;                                                                               \
 	}                                                                                              \
                                                                                                    \
+	static void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values) {     \
+		if (vec->size + nb_values > vec->capacity) {                                               \
+			vec->capacity = vec->size + nb_values;                                                 \
+			type* new_array = (type*)malloc(sizeof(type) * vec->capacity);                         \
+			memcpy(new_array, vec->array, sizeof(type) * vec->size);                               \
+			free(vec->array);                                                                      \
+			vec->array = new_array;                                                                \
+		}                                                                                          \
+		memcpy(vec->array + vec->size, values, sizeof(type) * nb_values);                          \
+		vec->size += nb_values;                                                                    \
+	}                                                                                              \
+                                                                                                   \
 	static void type##Vector_remove_and_swap(type##Vector* vec, size_t idx) {                      \
 		if (freefunc) {                                                                            \
 			freefunc(vec->array[idx]);                                                             \

@@ -17,7 +17,7 @@ bool test(const char* suite_name, ...);
 	({                                                                                             \
 		bool result = (expr);                                                                      \
 		if (!result) {                                                                             \
-			printf("  " TEXT_RED "FAIL" TEXT_RESET " : %s at %s:%d\n", #expr, __FILE__, __LINE__); \
+			printf("\t" TEXT_RED "FAIL" TEXT_RESET " : %s at %s:%d\n", #expr, __FILE__, __LINE__); \
 		}                                                                                          \
 		result;                                                                                    \
 	})
@@ -26,7 +26,7 @@ bool test(const char* suite_name, ...);
 	bool EXPECT_EQ_##type(type a, type b) {                                                        \
 		bool result = EXPECT((a) == (b));                                                          \
 		if (!result) {                                                                             \
-			printf("    " TEXT_RED "Expected " format " to be equal to " format TEXT_RESET "\n",   \
+			printf("\t\t" TEXT_RED "Expected " format " to be equal to " format TEXT_RESET "\n",   \
 				   a, b);                                                                          \
 		}                                                                                          \
 		return result;                                                                             \
