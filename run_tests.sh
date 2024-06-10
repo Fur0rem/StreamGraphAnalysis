@@ -35,7 +35,7 @@ if [ $# -eq 1 ]; then
         if [ -f $BIN_DIR/$filename.a ]; then
             $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.a $BIN_DIR/test.o
         else
-            $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $filename.o $BIN_DIR/test.o
+            $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/test.o
         fi
     fi
 
@@ -58,8 +58,8 @@ fi
 
 # Iterate over all files in the tests directory
 for file in $TEST_DIR/*.c; do
-    # If it is test.c or test.h, skip it
-    if [ $(basename $file) == "test.c" ] || [ $(basename $file) == "test.h" ]; then
+    # If it is test.c or a file that does not end in .c, skip it
+    if [ $(basename $file) == "test.c" ] || [ $(basename $file) != *.c ]; then 
         continue
     fi
     # Get the filename without the extension
