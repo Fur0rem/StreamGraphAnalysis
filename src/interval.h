@@ -1,42 +1,12 @@
-#ifndef INTERVAL_H
-#define INTERVAL_H
-
 #include "units.h"
-#include "utils.h"
-#include "vector.h"
 #include <stdbool.h>
-#include <stdio.h>
-
-// typedef enum {
-//     DISCRETE,
-//     CONTINUOUS
-// } TimeMeasurement;
-
-// typedef struct {
-//     union {
-//         struct {
-//             int start;
-//             int end;
-//         } discrete;
-//         struct {
-//             time start;
-//             time end;
-//         } continuous;
-//     } value;
-//     TimeMeasurement measurement;
-// } Interval;
 
 typedef struct {
-	Time start;
-	Time end;
+	TimeId start;
+	TimeId end;
 } Interval;
 
-Time interval_size(Interval interval);
-bool interval_contains(Interval interval, Time value);
-Interval* interval_ptr_from(Time start, Time end);
-DeclareGenerics(Interval);
-DefVector(Interval, NO_FREE(Interval));
-
-Interval interval_from(Time start, Time end);
-
-#endif
+bool Interval_contains(Interval interval, TimeId time);
+size_t Interval_size(Interval interval);
+Interval Interval_from(TimeId start, TimeId end);
+Interval Interval_intersection(Interval a, Interval b);
