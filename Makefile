@@ -13,9 +13,25 @@ bit_array:
 interval:
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/interval.o $(SRC_DIR)/interval.c $(LDFLAGS)
 
-stream_graph: interval bit_array
+events_table: interval bit_array
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/events_table.o $(SRC_DIR)/stream_graph/events_table.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/events_table.a $(BIN_DIR)/events_table.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
+
+key_moments_table: interval bit_array
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/key_moments_table.o $(SRC_DIR)/stream_graph/key_moments_table.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/key_moments_table.a $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
+
+links_set: interval
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/links_set.o $(SRC_DIR)/stream_graph/links_set.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/links_set.a $(BIN_DIR)/links_set.o $(BIN_DIR)/interval.o
+
+nodes_set: interval
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/nodes_set.o $(SRC_DIR)/stream_graph/nodes_set.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/nodes_set.a $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o
+
+stream_graph: interval bit_array events_table key_moments_table links_set nodes_set
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/stream_graph.o $(SRC_DIR)/stream_graph.c $(LDFLAGS)
-	ar rcs $(BIN_DIR)/stream_graph.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
+	ar rcs $(BIN_DIR)/stream_graph.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o
 
 induced_graph: stream_graph
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/induced_graph.o $(SRC_DIR)/induced_graph.c $(LDFLAGS)

@@ -1,3 +1,6 @@
+#ifndef SGA_INTERVAL_H
+#define SGA_INTERVAL_H
+
 #include "units.h"
 #include <stdbool.h>
 
@@ -10,3 +13,5 @@ bool Interval_contains(Interval interval, TimeId time);
 size_t Interval_size(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
 Interval Interval_intersection(Interval a, Interval b);
+
+#endif // SGA_INTERVAL_H
