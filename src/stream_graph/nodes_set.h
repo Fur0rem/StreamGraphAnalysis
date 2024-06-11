@@ -13,3 +13,5 @@ typedef struct {
 	size_t nb_nodes;
 	TemporalNode* nodes;
 } TemporalNodesSet;
+
+size_t SGA_TemporalNodesSet_size(TemporalNodesSet set);

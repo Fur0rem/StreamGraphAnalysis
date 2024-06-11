@@ -6,6 +6,7 @@ bool test_load() {
 	char* str = SGA_StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
+	printf("coverage: %f\n", SGA_StreamGraph_coverage(&sg));
 	SGA_StreamGraph_destroy(&sg);
 	return true;
 }

@@ -513,8 +513,6 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 	Event event = sg->events.events[event_idx];
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("\t"));
-	size_t disappearance_time =
-		SGA_KeyMomentsTable_nth_key_moment(&sg->key_moments, sg->events.disappearance_index);
 
 	char buffer[100];
 	buffer[0] = '\0';
@@ -652,4 +650,15 @@ void SGA_StreamGraph_destroy(StreamGraph* sg) {
 		free(sg->node_names.names);
 	}
 	SGA_BitArray_destroy(sg->events.presence_mask);
+}
+
+size_t SGA_StreamGraph_size_of_lifespan(StreamGraph* sg) {
+	return SGA_StreamGraph_lifespan_end(sg) - SGA_StreamGraph_lifespan_begin(sg) + 1;
+}
+
+double SGA_StreamGraph_coverage(StreamGraph* sg) {
+	size_t size_of_nodes = SGA_TemporalNodesSet_size(sg->nodes);
+	size_t max_possible = sg->nodes.nb_nodes * SGA_StreamGraph_size_of_lifespan(sg);
+	printf("size_of_nodes = %zu, max_possible = %zu\n", size_of_nodes, max_possible);
+	return (double)size_of_nodes / (double)max_possible;
 }
