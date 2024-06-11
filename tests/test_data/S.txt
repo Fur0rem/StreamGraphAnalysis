@@ -3,7 +3,7 @@ SGA Internal version 1.0.0
 
 [General]
 Lifespan=(0 100)
-Named=true
+Named=false
 
 
 [Memory]
@@ -93,9 +93,4 @@ RemovalOnlyMoments=4
 ((45 75))
 ((60 90))
 
-
-[Names]
-a
-b
-c
-d
+[EndOfFile]

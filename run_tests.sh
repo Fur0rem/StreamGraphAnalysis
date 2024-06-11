@@ -63,7 +63,7 @@ fi
 # Iterate over all files in the tests directory
 for file in $TEST_DIR/*.c; do
     # If it is test.c or a file that does not end in .c, skip it
-    if [ $(basename $file) == "test.c" ] || [ $(basename $file) != *.c ]; then 
+    if [ $(basename $file) == "test.c" ] || [ $(grep -q ".c" $file | wc -l) != 0 ]; then
         continue
     fi
     # Get the filename without the extension
