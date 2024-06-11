@@ -565,7 +565,7 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 
 char* SGA_EventsTable_to_string(StreamGraph* sg) {
 	charVector vec = charVector_new();
-	charVector_append(&vec, APPEND_CONST("PresenceTable {\n"));
+	charVector_append(&vec, APPEND_CONST("EventsTable {\n"));
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
 		char* event_str = SGA_Event_to_string(sg, i);
 		charVector_append(&vec, event_str, strlen(event_str));
@@ -651,6 +651,11 @@ void SGA_StreamGraph_destroy(StreamGraph* sg) {
 size_t SGA_StreamGraph_size_of_lifespan(StreamGraph* sg) {
 	return Interval_size(
 		Interval_from(SGA_StreamGraph_lifespan_begin(sg), SGA_StreamGraph_lifespan_end(sg)));
+}
+
+double SGA_StreamGraph_number_of_nodes(StreamGraph* sg) {
+	return (double)SGA_TemporalNodesSet_size(sg->nodes) /
+		   (double)SGA_StreamGraph_size_of_lifespan(sg);
 }
 
 double SGA_StreamGraph_coverage(StreamGraph* sg) {
