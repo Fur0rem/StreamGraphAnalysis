@@ -12,6 +12,18 @@
 #include "utils.h"
 
 char* get_to_header(const char* str, const char* header) {
+	if (str == NULL) {
+		fprintf(stderr, "Could not find header %s because the string is NULL\n", header);
+		exit(1);
+	}
+	// check if current char is EOF
+	if (*str == '\0') {
+		fprintf(stderr,
+				"Could not find header %s because" TEXT_RED TEXT_BOLD " the end of the file "
+				"was reached\n" TEXT_RESET,
+				header);
+		exit(1);
+	}
 	char* str2 = strstr(str, header);
 	if (str2 == NULL) {
 		fprintf(stderr, "Could not find header %s\n", header);
@@ -36,7 +48,20 @@ char* get_to_header(const char* str, const char* header) {
 		exit(1);                                                                                   \
 	}
 
-#define GO_TO_NEXT_LINE(str) (str) = strchr(str, '\n') + 1;
+#define GO_TO_NEXT_LINE(str)                                                                       \
+	if (*(str) != '\0') {                                                                          \
+		(str) = strchr((str), '\n');                                                               \
+		if ((str) == NULL) {                                                                       \
+			fprintf(stderr, TEXT_BOLD TEXT_RED "End of file was reached prematurely while trying " \
+											   "to find next line \n" TEXT_RESET);                 \
+			exit(1);                                                                               \
+		}                                                                                          \
+		(str)++;                                                                                   \
+	}                                                                                              \
+	else {                                                                                         \
+		fprintf(stderr, "End of file was reached prematurely while trying to find next line \n");  \
+		exit(1);                                                                                   \
+	}
 
 #define PRINT_LINE(str)                                                                            \
 	{                                                                                              \
@@ -50,8 +75,14 @@ char* get_to_header(const char* str, const char* header) {
 
 #define NEXT_TUPLE(str)                                                                            \
 	{                                                                                              \
+		if (*(str) == '\0') {                                                                      \
+			fprintf(stderr, TEXT_RED TEXT_BOLD "End of file was reached prematurely while trying " \
+											   "to find next tuple \n" TEXT_RESET);                \
+			exit(1);                                                                               \
+		}                                                                                          \
+                                                                                                   \
 		(str)++;                                                                                   \
-		while ((*(str) != '(') && (*(str) != '\n')) {                                              \
+		while ((*(str) != '(') && (*(str) != '\n') && (*(str) != '\0')) {                          \
 			(str)++;                                                                               \
 		}                                                                                          \
 	}
@@ -118,10 +149,10 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	sg.events = SGA_EventsTable_alloc(nb_regular_key_moments, nb_removal_only_moments);
 
 	if (named) {
-		sg.node_names.names = (const char**)malloc(nb_nodes * sizeof(const char*));
+		sg.node_names = (const char**)malloc(nb_nodes * sizeof(const char*));
 	}
 	else {
-		sg.node_names.names = NULL;
+		sg.node_names = NULL;
 	}
 
 	// Parse the memory needed for the nodes
@@ -360,10 +391,12 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			char name[256];
 			nb_scanned = sscanf(str, "%255s\n", name);
 			EXPECTED_NB_SCANNED(1);
-			sg.node_names.names[node] = strdup(name);
+			sg.node_names[node] = strdup(name);
 			GO_TO_NEXT_LINE(str);
 		}
 	}
+
+	NEXT_HEADER([EndOfFile]);
 
 	free(nb_events_per_key_moment);
 	free(key_moments);
@@ -383,13 +416,14 @@ StreamGraph SGA_StreamGraph_from_file(const char* filename) {
 	fseek(file, 0, SEEK_END);
 	size_t size = ftell(file);
 	rewind(file);
-	char* buffer = (char*)malloc(size + 1);
+	char* buffer = (char*)malloc(size + 2);
 	if (buffer == NULL) {
 		fprintf(stderr, "Memory allocation failed\n");
 		exit(1);
 	}
 	fread(buffer, 1, size, file);
 	buffer[size] = '\0';
+	buffer[size + 1] = '\0';
 	fclose(file);
 
 	// Parse the stream graph
@@ -404,6 +438,18 @@ DEFAULT_TO_STRING(char, "%c")
 #define APPEND_CONST(str) str, sizeof(str) - 1
 DefVector(char, NO_FREE(char));
 
+void append_node_name(charVector* vec, size_t node_idx, const char** node_names) {
+	if (node_names == NULL) {
+		char name[50];
+		sprintf(name, "%zu", node_idx);
+		charVector_append(vec, name, strlen(name));
+	}
+	else {
+		const char* name = node_names[node_idx];
+		charVector_append(vec, name, strlen(name));
+	}
+}
+
 size_t SGA_StreamGraph_lifespan_begin(StreamGraph* sg) {
 	return SGA_KeyMomentsTable_first_moment(&sg->key_moments);
 }
@@ -412,13 +458,11 @@ size_t SGA_StreamGraph_lifespan_end(StreamGraph* sg) {
 	return SGA_KeyMomentsTable_last_moment(&sg->key_moments);
 }
 
-char* SGA_TemporalNode_to_string_named(StreamGraph* sg, size_t node_idx) {
+char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector vec = charVector_new();
-	const char** node_names = sg->node_names.names;
-	const char* name = node_names[node_idx];
 	TemporalNode* node = &sg->nodes.nodes[node_idx];
 	charVector_append(&vec, APPEND_CONST("\tNode "));
-	charVector_append(&vec, name, strlen(name));
+	append_node_name(&vec, node_idx, sg->node_names);
 	charVector_append(&vec, APPEND_CONST(" {\n\t\tIntervals=[\n"));
 	// Append first interval
 	char interval[100];
@@ -438,10 +482,8 @@ char* SGA_TemporalNode_to_string_named(StreamGraph* sg, size_t node_idx) {
 		size_t link_idx = node->neighbours[i];
 		size_t node1 = sg->links.links[link_idx].nodes[0];
 		size_t node2 = sg->links.links[link_idx].nodes[1];
-		char neighbour[100];
 		size_t neighbour_idx = (node1 == node_idx) ? node2 : node1;
-		sprintf(neighbour, "%s ", node_names[neighbour_idx]);
-		charVector_append(&vec, neighbour, strlen(neighbour));
+		append_node_name(&vec, neighbour_idx, sg->node_names);
 	}
 	charVector_append(&vec, APPEND_CONST("\n\t\t}\n\n\t}\n"));
 
@@ -452,26 +494,14 @@ char* SGA_TemporalNode_to_string_named(StreamGraph* sg, size_t node_idx) {
 	return final_str;
 }
 
-// TODO: Implement this function
-char* SGA_TemporalNode_to_string_unnamed(StreamGraph* sg, size_t node_idx) {
-	return NULL;
-}
-
-char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
-	if (sg->node_names.names == NULL) {
-		return SGA_TemporalNode_to_string_unnamed(sg, node_idx);
-	}
-	return SGA_TemporalNode_to_string_named(sg, node_idx);
-}
-
-char* SGA_Link_to_string_named(StreamGraph* sg, size_t link_idx) {
+char* SGA_Link_to_string(StreamGraph* sg, size_t link_idx) {
 	charVector vec = charVector_new();
-	const char** node_names = sg->node_names.names;
+	const char** node_names = sg->node_names;
 	Link* link = &sg->links.links[link_idx];
 	charVector_append(&vec, APPEND_CONST("\tLink ("));
-	charVector_append(&vec, node_names[link->nodes[0]], strlen(node_names[link->nodes[0]]));
+	append_node_name(&vec, link->nodes[0], node_names);
 	charVector_append(&vec, APPEND_CONST(" "));
-	charVector_append(&vec, node_names[link->nodes[1]], strlen(node_names[link->nodes[1]]));
+	append_node_name(&vec, link->nodes[1], node_names);
 	charVector_append(&vec, APPEND_CONST(") {\n\t\tIntervals=[\n"));
 	// Append first interval
 	char interval[100];
@@ -491,18 +521,6 @@ char* SGA_Link_to_string_named(StreamGraph* sg, size_t link_idx) {
 	final_str[vec.size] = '\0';
 	free(vec.array);
 	return final_str;
-}
-
-// TODO: Implement this function
-char* SGA_Link_to_string_unnamed(StreamGraph* sg, size_t link_idx) {
-	return NULL;
-}
-
-char* SGA_Link_to_string(StreamGraph* sg, size_t link_idx) {
-	if (sg->node_names.names == NULL) {
-		return SGA_Link_to_string_unnamed(sg, link_idx);
-	}
-	return SGA_Link_to_string_named(sg, link_idx);
 }
 
 char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
@@ -534,20 +552,16 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 	charVector_append(&vec, buffer, strlen(buffer));
 	charVector_append(&vec, APPEND_CONST("( Nodes : "));
 	for (size_t i = 0; i < *SGA_Event_access_nb_nodes(event); i++) {
-		if (sg->node_names.names != NULL) {
-			sprintf(buffer, "%s ", sg->node_names.names[*SGA_Event_access_nth_node(event, i)]);
-		}
-		else {
-			sprintf(buffer, "%zu ", *SGA_Event_access_nth_node(event, i));
-		}
-		charVector_append(&vec, buffer, strlen(buffer));
+		append_node_name(&vec, *SGA_Event_access_nth_node(event, i), sg->node_names);
+		charVector_append(&vec, APPEND_CONST(" "));
 	}
 	charVector_append(&vec, APPEND_CONST("| Links : "));
 	for (size_t i = 0; i < *SGA_Event_access_nb_links(event); i++) {
-		if (sg->node_names.names != NULL) {
+		// TODO : modify this to use the node names
+		if (sg->node_names != NULL) {
 			Link* link = &sg->links.links[*SGA_Event_access_nth_link(event, i)];
-			sprintf(buffer, "%s-%s ", sg->node_names.names[link->nodes[0]],
-					sg->node_names.names[link->nodes[1]]);
+			sprintf(buffer, "%s-%s ", sg->node_names[link->nodes[0]],
+					sg->node_names[link->nodes[1]]);
 		}
 		else {
 			sprintf(buffer, "%zu ", *SGA_Event_access_nth_link(event, i));
@@ -613,10 +627,6 @@ char* SGA_StreamGraph_to_string(StreamGraph* sg) {
 	charVector_append(&vec, events_str, strlen(events_str));
 	free(events_str);
 
-	char* presence_mask_str = SGA_BitArray_to_string(sg->events.presence_mask);
-	charVector_append(&vec, presence_mask_str, strlen(presence_mask_str));
-	free(presence_mask_str);
-
 	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
 	memcpy(final_str, vec.array, vec.size);
 	final_str[vec.size] = '\0';
@@ -639,27 +649,11 @@ void SGA_StreamGraph_destroy(StreamGraph* sg) {
 		free(sg->events.events[i]);
 	}
 	free(sg->events.events);
-	if (sg->node_names.names != NULL) {
+	if (sg->node_names != NULL) {
 		for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-			free((char*)sg->node_names.names[i]);
+			free((char*)sg->node_names[i]);
 		}
-		free(sg->node_names.names);
+		free(sg->node_names);
 	}
 	SGA_BitArray_destroy(sg->events.presence_mask);
-}
-
-size_t SGA_StreamGraph_size_of_lifespan(StreamGraph* sg) {
-	return Interval_size(
-		Interval_from(SGA_StreamGraph_lifespan_begin(sg), SGA_StreamGraph_lifespan_end(sg)));
-}
-
-double SGA_StreamGraph_number_of_nodes(StreamGraph* sg) {
-	return (double)SGA_TemporalNodesSet_size(sg->nodes) /
-		   (double)SGA_StreamGraph_size_of_lifespan(sg);
-}
-
-double SGA_StreamGraph_coverage(StreamGraph* sg) {
-	size_t size_of_nodes = SGA_TemporalNodesSet_size(sg->nodes);
-	size_t max_possible = sg->nodes.nb_nodes * SGA_StreamGraph_size_of_lifespan(sg);
-	return (double)size_of_nodes / (double)max_possible;
 }

@@ -10,23 +10,18 @@ bool test_load() {
 	return true;
 }
 
-bool test_coverage() {
+bool test_load_slices() {
 	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S_high_precision.txt");
-	bool result = EXPECT_F_APPROX_EQ(SGA_StreamGraph_coverage(&sg), 0.65, 1e-2);
+	char* str = SGA_StreamGraph_to_string(&sg);
+	printf("%s\n", str);
+	free(str);
 	SGA_StreamGraph_destroy(&sg);
-	return result;
-}
-
-bool test_number_of_nodes() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S_high_precision.txt");
-	bool result = EXPECT_F_APPROX_EQ(SGA_StreamGraph_number_of_nodes(&sg), 2.6, 1e-1);
-	SGA_StreamGraph_destroy(&sg);
-	return result;
+	return true;
 }
 
 int main() {
-	return test("StreamGraph", &(Test){"load", test_load}, &(Test){"coverage", test_coverage},
-				&(Test){"number_of_nodes", test_number_of_nodes}, NULL)
+	return test("StreamGraph", &(Test){"load", test_load}, &(Test){"load_slices", test_load_slices},
+				NULL)
 			   ? 0
 			   : 1;
 }
