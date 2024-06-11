@@ -16,3 +16,6 @@ size_t* SGA_Event_access_nb_nodes(Event event);
 size_t* SGA_Event_access_nb_links(Event event);
 size_t* SGA_Event_access_nth_node(Event event, size_t n);
 size_t* SGA_Event_access_nth_link(Event event, size_t n);
+
+EventsTable SGA_EventsTable_alloc(size_t nb_regular_key_moments,
+								  size_t nb_removal_only_key_moments);

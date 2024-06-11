@@ -31,6 +31,7 @@
 // Floating point comparison
 #define EPS 1e-9
 #define F_EQUALS(a, b) (fabs((a) - (b)) < EPS)
+#define F_EQUALS_APPROX(a, b, eps) (fabs((a) - (b)) < eps)
 
 #define NO_FREE(type) ((void (*)(type))NULL)
 #define UNCOMPARABLE(type)                                                                         \

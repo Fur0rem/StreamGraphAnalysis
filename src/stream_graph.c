@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "interval.h"
 #include "stream_graph.h"
 #include "units.h"
 #include "utils.h"
@@ -112,20 +113,16 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	size_t* key_moments = (size_t*)malloc(nb_key_moments * sizeof(size_t));
 	// Allocate the stream graph
 	sg.key_moments = SGA_KeyMomentsTable_alloc(nb_slices);
-	sg.nodes.nb_nodes = nb_nodes;
-	sg.nodes.nodes = (TemporalNode*)malloc(nb_nodes * sizeof(TemporalNode));
-	sg.links.nb_links = nb_links;
-	sg.links.links = (Link*)malloc(nb_links * sizeof(Link));
-	sg.events.nb_events = nb_key_moments;
-	sg.events.events = (Event*)malloc(nb_key_moments * sizeof(Event));
-	sg.events.disappearance_index = nb_regular_key_moments + 1;
+	sg.nodes = SGA_TemporalNodesSet_alloc(nb_nodes);
+	sg.links = SGA_LinksSet_alloc(nb_links);
+	sg.events = SGA_EventsTable_alloc(nb_regular_key_moments, nb_removal_only_moments);
+
 	if (named) {
 		sg.node_names.names = (const char**)malloc(nb_nodes * sizeof(const char*));
 	}
 	else {
 		sg.node_names.names = NULL;
 	}
-	sg.events.presence_mask = SGA_BitArray_n_ones(nb_regular_key_moments);
 
 	// Parse the memory needed for the nodes
 	NEXT_HEADER([[Nodes]]);
@@ -258,7 +255,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			SGA_BitArray_set_zero(sg.events.presence_mask, i - 1);
 		}
 		SGA_KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		// Parse all the node events
+		//  Parse all the node events
 		size_t j = 0;
 		for (; j < nb_events_per_key_moment[i]; j++) {
 			char node_or_link;
@@ -296,7 +293,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		str = strchr(str, '(') + 1;
 		SGA_KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		// Parse all the node events
+		//  Parse all the node events
 		size_t j = 0;
 		for (; j < nb_events_per_key_moment[i]; j++) {
 			char node_or_link;
@@ -321,7 +318,6 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			*SGA_Event_access_nth_link(sg.events.events[i], k - j) = id;
 		}
 		*SGA_Event_access_nb_links(sg.events.events[i]) = k - j;
-		printf("key_moment[%zu] = %zu\n", i, key_moment);
 		key_moments[i] = key_moment;
 		GO_TO_NEXT_LINE(str);
 	}
@@ -653,12 +649,12 @@ void SGA_StreamGraph_destroy(StreamGraph* sg) {
 }
 
 size_t SGA_StreamGraph_size_of_lifespan(StreamGraph* sg) {
-	return SGA_StreamGraph_lifespan_end(sg) - SGA_StreamGraph_lifespan_begin(sg) + 1;
+	return Interval_size(
+		Interval_from(SGA_StreamGraph_lifespan_begin(sg), SGA_StreamGraph_lifespan_end(sg)));
 }
 
 double SGA_StreamGraph_coverage(StreamGraph* sg) {
 	size_t size_of_nodes = SGA_TemporalNodesSet_size(sg->nodes);
 	size_t max_possible = sg->nodes.nb_nodes * SGA_StreamGraph_size_of_lifespan(sg);
-	printf("size_of_nodes = %zu, max_possible = %zu\n", size_of_nodes, max_possible);
 	return (double)size_of_nodes / (double)max_possible;
 }

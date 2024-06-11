@@ -17,4 +17,6 @@ typedef struct {
 	Link* links;
 } LinksSet;
 
+LinksSet SGA_LinksSet_alloc(size_t nb_links);
+
 #endif // SGA_STREAM_GRAPH_LINKS_SET_H
