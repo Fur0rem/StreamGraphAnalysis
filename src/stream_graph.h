@@ -72,3 +72,4 @@ typedef struct {
 StreamGraph SGA_StreamGraph_from_string(const char* str);
 StreamGraph SGA_StreamGraph_from_file(const char* filename);
 char* SGA_StreamGraph_to_string(StreamGraph* sg);
+void SGA_StreamGraph_destroy(StreamGraph* sg);
