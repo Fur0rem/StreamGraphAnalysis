@@ -33,6 +33,7 @@ char* get_to_header(const char* str, const char* header) {
 	return str2;
 }
 
+// TODO : turn these into functions
 #define NEXT_HEADER(section)                                                                       \
 	current_header = "" #section "";                                                               \
 	(str) = get_to_header(str, current_header);
@@ -88,6 +89,7 @@ char* get_to_header(const char* str, const char* header) {
 	}
 
 // TODO : Make the code better and less unreadable copy pasted code
+// TODO : Add field for precision loss
 StreamGraph SGA_StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
