@@ -9,8 +9,8 @@ Named=true
 [Memory]
 NumberOfNodes=4
 NumberOfLinks=4
-RegularKeyMoments=9
-RemovalOnlyMoments=3
+RegularKeyMoments=8
+RemovalOnlyMoments=4
 
 [[Nodes]]
 [[[NumberOfNeighbours]]]
@@ -42,7 +42,7 @@ RemovalOnlyMoments=3
 1
 1
 1
-0
+1
 1
 2
 2
@@ -75,8 +75,8 @@ RemovalOnlyMoments=3
 50=(+ (N 1))
 60=(+ (L 3))
 70=(+ (L 0))
-75=(+)
 [[[RemovalOnly]]]
+75=((L 2))
 80=((L 0))
 90=((N 2) (L 3))
 100=((N 0) (N 1))
