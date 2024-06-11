@@ -11,8 +11,14 @@ typedef struct {
 } MomentsSlice;
 
 typedef struct {
+	size_t current_slice;
+	size_t current_moment;
+} KeyMomentsTableIterator;
+
+typedef struct {
 	size_t nb_slices;
 	MomentsSlice* slices;
+	KeyMomentsTableIterator fill_info;
 } KeyMomentsTable;
 
 size_t SGA_KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n);

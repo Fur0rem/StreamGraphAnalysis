@@ -11,7 +11,7 @@ size_t Interval_size(Interval interval) {
 	return interval.end - interval.start + 1;
 }
 
-Interval interval_from(TimeId start, TimeId end) {
+Interval Interval_from(TimeId start, TimeId end) {
 	Interval interval;
 	interval.start = start;
 	interval.end = end;

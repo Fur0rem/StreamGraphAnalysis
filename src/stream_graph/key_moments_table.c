@@ -13,22 +13,22 @@ size_t SGA_KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
 }
 
 void SGA_KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, RelativeMoment key_moment) {
-	static size_t current_slice = 0;
-	static size_t current_moment = 0;
 	size_t slice = key_moment / SLICE_SIZE;
 	size_t relative_moment = key_moment % SLICE_SIZE;
-	if (slice != current_slice) {
-		current_slice = slice;
-		current_moment = 0;
+	if (slice != kmt->fill_info.current_slice) {
+		kmt->fill_info.current_slice = slice;
+		kmt->fill_info.current_moment = 0;
 	}
-	kmt->slices[slice].moments[current_moment] = relative_moment;
-	current_moment++;
+	kmt->slices[slice].moments[kmt->fill_info.current_moment] = relative_moment;
+	kmt->fill_info.current_moment++;
 }
 
 KeyMomentsTable SGA_KeyMomentsTable_alloc(size_t nb_slices) {
 	KeyMomentsTable kmt;
 	kmt.nb_slices = nb_slices;
 	kmt.slices = (MomentsSlice*)MALLOC(nb_slices * sizeof(MomentsSlice));
+	kmt.fill_info.current_slice = 0;
+	kmt.fill_info.current_moment = 0;
 	return kmt;
 }
 
