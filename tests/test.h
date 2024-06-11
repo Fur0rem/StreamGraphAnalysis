@@ -32,6 +32,18 @@ bool test(const char* suite_name, ...);
 		return result;                                                                             \
 	}
 
+#define EXPECT_F_APPROX_EQ(a, b, eps)                                                              \
+	({                                                                                             \
+		bool result = EXPECT(F_EQUALS_APPROX(a, b, eps));                                          \
+		if (!result) {                                                                             \
+			printf("\t\t" TEXT_RED "Expected %f to be ~equal to %f" TEXT_RESET "\n", a, b);        \
+		}                                                                                          \
+		else {                                                                                     \
+			printf("\t\t" TEXT_GREEN "%f is ~equal to %f" TEXT_RESET "\n", a, b);                  \
+		}                                                                                          \
+		result;                                                                                    \
+	})
+
 bool EXPECT_EQ_int(int a, int b);
 bool EXPECT_EQ_String(char* a, char* b);
 bool EXPECT_EQ_size_t(size_t a, size_t b);

@@ -5,14 +5,14 @@
 size_t SGA_KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
 	for (size_t i = 0; i < kmt->nb_slices; i++) {
 		if (n < kmt->slices[i].nb_moments) {
-			return kmt->slices[i].moments[n] + i * SLICE_SIZE;
+			return kmt->slices[i].moments[n] + (i * SLICE_SIZE);
 		}
 		n -= kmt->slices[i].nb_moments;
 	}
 	return SIZE_MAX;
 }
 
-void SGA_KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, RelativeMoment key_moment) {
+void SGA_KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment) {
 	size_t slice = key_moment / SLICE_SIZE;
 	size_t relative_moment = key_moment % SLICE_SIZE;
 	if (slice != kmt->fill_info.current_slice) {

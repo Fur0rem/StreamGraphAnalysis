@@ -22,7 +22,7 @@ typedef struct {
 } KeyMomentsTable;
 
 size_t SGA_KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n);
-void SGA_KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, RelativeMoment key_moment);
+void SGA_KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment);
 KeyMomentsTable SGA_KeyMomentsTable_alloc(size_t nb_slices);
 void SGA_KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments);
 size_t SGA_KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
