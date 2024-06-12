@@ -85,7 +85,7 @@ RemovalOnlyMoments=4
 [[PresenceIntervals]]
 [[[Nodes]]]
 ((0 100))
-((0 50) (60 100))
+((0 40) (50 100))
 ((40 90))
 ((10 30))
 [[[Links]]]

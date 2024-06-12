@@ -8,9 +8,8 @@
 SGA_BitArray SGA_BitArray_with_n_bits(size_t n_bits) {
 
 	size_t size = (n_bits / sizeof(size_t)) + 1;
-	SGA_BitArray bit_array =
-		(SGA_BitArray)MALLOC(size * sizeof(size_t)); // The first element contains the number of
-													 // elements in the array, then the elements
+	SGA_BitArray bit_array = MALLOC(size * sizeof(size_t)); // The first element contains the number of
+															// elements in the array, then the elements
 	bit_array[0] = n_bits;
 	return bit_array;
 }
@@ -62,7 +61,7 @@ void SGA_BitArray_destroy(SGA_BitArray array) {
 
 char* SGA_BitArray_to_string(SGA_BitArray array) {
 	size_t n_bits = SGA_BitArray_size(array);
-	char* str = (char*)MALLOC((n_bits + 1) * sizeof(char));
+	char* str = MALLOC((n_bits + 1) * sizeof(char));
 	for (size_t i = 0; i < n_bits; i++) {
 		str[i] = SGA_BitArray_is_one(array, i) ? '1' : '0';
 	}

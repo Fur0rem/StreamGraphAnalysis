@@ -184,8 +184,8 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		sg.nodes.nodes[node].nb_intervals = nb_intervals;
-		sg.nodes.nodes[node].present_at = (Interval*)malloc(nb_intervals * sizeof(Interval));
+		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		sg.nodes.nodes[node].presence = presence;
 	}
 
 	NEXT_HEADER([[Links]]);
@@ -197,8 +197,8 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		sg.links.links[link].nb_intervals = nb_intervals;
-		sg.links.links[link].present_at = (Interval*)malloc(nb_intervals * sizeof(Interval));
+		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		sg.links.links[link].presence = presence;
 	}
 
 	NEXT_HEADER([[KeyMoments]]);
@@ -365,28 +365,28 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	// Parse the presence intervals
 	for (size_t node = 0; node < nb_nodes; node++) {
 		str++;
-		for (size_t i = 0; i < sg.nodes.nodes[node].nb_intervals; i++) {
+		for (size_t i = 0; i < sg.nodes.nodes[node].presence.nb_intervals; i++) {
 			size_t start;
 			size_t end;
 			nb_scanned = sscanf(str, "(%zu %zu)", &start, &end);
 			EXPECTED_NB_SCANNED(2);
 			NEXT_TUPLE(str);
-			sg.nodes.nodes[node].present_at[i].start = start;
-			sg.nodes.nodes[node].present_at[i].end = end;
+			sg.nodes.nodes[node].presence.intervals[i].start = start;
+			sg.nodes.nodes[node].presence.intervals[i].end = end;
 		}
 		GO_TO_NEXT_LINE(str);
 	}
 	NEXT_HEADER([[[Links]]]);
 	for (size_t link = 0; link < nb_links; link++) {
 		str++;
-		for (size_t i = 0; i < sg.links.links[link].nb_intervals; i++) {
+		for (size_t i = 0; i < sg.links.links[link].presence.nb_intervals; i++) {
 			size_t start;
 			size_t end;
 			nb_scanned = sscanf(str, "(%zu %zu)", &start, &end);
 			EXPECTED_NB_SCANNED(2);
 			NEXT_TUPLE(str);
-			sg.links.links[link].present_at[i].start = start;
-			sg.links.links[link].present_at[i].end = end;
+			sg.links.links[link].presence.intervals[i].start = start;
+			sg.links.links[link].presence.intervals[i].end = end;
 		}
 		GO_TO_NEXT_LINE(str);
 	}
@@ -473,12 +473,14 @@ char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector_append(&vec, APPEND_CONST(" {\n\t\tIntervals=[\n"));
 	// Append first interval
 	char interval[100];
-	sprintf(interval, "\t\t\t(%zu %zu)", node->present_at[0].start, node->present_at[0].end);
+	sprintf(interval, "\t\t\t(%zu %zu)", node->presence.intervals[0].start,
+			node->presence.intervals[0].end);
 	charVector_append(&vec, interval, strlen(interval));
 	// Append the other intervals
-	for (size_t i = 1; i < node->nb_intervals; i++) {
+	for (size_t i = 1; i < node->presence.nb_intervals; i++) {
 		char interval[100];
-		sprintf(interval, " U (%zu %zu)", node->present_at[i].start, node->present_at[i].end);
+		sprintf(interval, " U (%zu %zu)", node->presence.intervals[i].start,
+				node->presence.intervals[i].end);
 		charVector_append(&vec, interval, strlen(interval));
 	}
 	charVector_append(&vec, APPEND_CONST("\n"));
@@ -512,12 +514,14 @@ char* SGA_Link_to_string(StreamGraph* sg, size_t link_idx) {
 	charVector_append(&vec, APPEND_CONST(") {\n\t\tIntervals=[\n"));
 	// Append first interval
 	char interval[100];
-	sprintf(interval, "\t\t\t(%zu %zu)", link->present_at[0].start, link->present_at[0].end);
+	sprintf(interval, "\t\t\t(%zu %zu)", link->presence.intervals[0].start,
+			link->presence.intervals[0].end);
 	charVector_append(&vec, interval, strlen(interval));
 	// Append the other intervals
-	for (size_t i = 1; i < link->nb_intervals; i++) {
+	for (size_t i = 1; i < link->presence.nb_intervals; i++) {
 		char interval[100];
-		sprintf(interval, " U (%zu %zu)", link->present_at[i].start, link->present_at[i].end);
+		sprintf(interval, " U (%zu %zu)", link->presence.intervals[i].start,
+				link->presence.intervals[i].end);
 		charVector_append(&vec, interval, strlen(interval));
 	}
 	charVector_append(&vec, APPEND_CONST("\n"));
@@ -644,11 +648,11 @@ char* SGA_StreamGraph_to_string(StreamGraph* sg) {
 void SGA_StreamGraph_destroy(StreamGraph* sg) {
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
 		free(sg->nodes.nodes[i].neighbours);
-		free(sg->nodes.nodes[i].present_at);
+		free(sg->nodes.nodes[i].presence.intervals);
 	}
 	free(sg->nodes.nodes);
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		free(sg->links.links[i].present_at);
+		free(sg->links.links[i].presence.intervals);
 	}
 	free(sg->links.links);
 	SGA_KeyMomentsTable_destroy(&sg->key_moments);

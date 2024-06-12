@@ -3,8 +3,7 @@
 #include <stdint.h>
 
 typedef struct {
-	size_t nb_intervals;
-	Interval* present_at;
+	IntervalsSet presence;
 	size_t nb_neighbours;
 	EdgeId* neighbours;
 } TemporalNode;
