@@ -48,7 +48,7 @@ bool Interval_equals(Interval a, Interval b) {
 
 char* Interval_to_string(Interval* interval) {
 	char* str = MALLOC(32);
-	printf(str, "[%lu, %lu]", interval->start, interval->end);
+	snprintf(str, 32, "[%lu, %lu]", interval->start, interval->end);
 	return str;
 }
 

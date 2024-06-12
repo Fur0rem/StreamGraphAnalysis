@@ -5,18 +5,21 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool test(const char* suite_name, ...) {
+bool test(const char* suite_name, Test** tests) {
 	printf(" -- Running test suite : " TEXT_BOLD "%s" TEXT_RESET " --\n", suite_name);
 	// For each test in the suite
-	va_list args;
-	va_start(args, suite_name);
-	Test* test;
 	bool success = true;
-	while ((test = va_arg(args, Test*))) {
+	for (int i = 0; true; i++) {
+
+		// Last test is NULL
+		Test* tested = tests[i];
+		if (tested == NULL) {
+			break;
+		}
 		// Run the test
-		printf("Testing " TEXT_BOLD "%s\n" TEXT_RESET, test->name);
-		bool result = test->fn();
-		printf("%s : ", test->name);
+		printf("Testing " TEXT_BOLD "%s\n" TEXT_RESET, tested->name);
+		bool result = tested->fn();
+		printf("%s : ", tested->name);
 		if (!result) {
 			printf(TEXT_BOLD TEXT_RED "FAIL\n" TEXT_RESET);
 			success = false;
@@ -25,7 +28,6 @@ bool test(const char* suite_name, ...) {
 			printf(TEXT_BOLD TEXT_GREEN "SUCCESS\n" TEXT_RESET);
 		}
 	}
-	va_end(args);
 
 	printf("-- " TEXT_BOLD "%s : ", suite_name);
 	if (success) {
@@ -35,7 +37,7 @@ bool test(const char* suite_name, ...) {
 		printf(TEXT_RED "FAIL");
 	}
 	printf(TEXT_RESET " --\n");
-	return success;
+	return !success;
 }
 
 bool EXPECT_ALL(int expr, ...) {

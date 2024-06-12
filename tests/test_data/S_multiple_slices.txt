@@ -4,6 +4,7 @@ SGA Internal version 1.0.0
 [General]
 Lifespan=(0 1000)
 Named=true
+Scaling=100
 
 
 [Memory]

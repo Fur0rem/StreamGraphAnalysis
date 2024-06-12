@@ -31,8 +31,8 @@ bool test_push_2() {
 	intVector_push(&v, 4);
 	intVector_push(&v, 5);
 	intVector_push(&v, 6);
-	return v.size == 6 && v.capacity == 10 && v.array[0] == 1 && v.array[1] == 2 &&
-		   v.array[2] == 3 && v.array[3] == 4 && v.array[4] == 5 && v.array[5] == 6;
+	return v.size == 6 && v.capacity == 10 && v.array[0] == 1 && v.array[1] == 2 && v.array[2] == 3 &&
+		   v.array[3] == 4 && v.array[4] == 5 && v.array[5] == 6;
 }
 
 bool test_destroy() {
@@ -59,8 +59,14 @@ bool test_remove_and_swap() {
 }
 
 int main() {
-	return test("Vector", &(Test){"create", test_create}, &(Test){"push 1", test_push_1},
-				&(Test){"push 2", test_push_2}, &(Test){"destroy", test_destroy}, NULL)
-			   ? 0
-			   : 1;
+	Test* tests[] = {
+		&(Test){"create",		  test_create		 },
+		&(Test){"push_1",		  test_push_1		 },
+		&(Test){"push_2",		  test_push_2		 },
+		&(Test){"destroy",		   test_destroy		   },
+		&(Test){"remove_and_swap", test_remove_and_swap},
+		NULL
+	};
+
+	return test("Vector", tests);
 }

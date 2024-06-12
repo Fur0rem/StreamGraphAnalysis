@@ -36,9 +36,14 @@ bool test_is_zero() {
 }
 
 int main() {
-	return test("BitArray", &(Test){"create", test_create}, &(Test){"set_one", test_set_one},
-				&(Test){"set_zero", test_set_zero}, &(Test){"is_one", test_is_one},
-				&(Test){"is_zero", test_is_zero}, NULL)
-			   ? 0
-			   : 1;
+	Test* tests[] = {
+		&(Test){"create",	  test_create	 },
+		&(Test){"set_one",  test_set_one },
+		  &(Test){"set_zero", test_set_zero},
+		&(Test){"is_one",	  test_is_one	 },
+		&(Test){"is_zero",  test_is_zero },
+		  NULL
+	  };
+
+	return test("BitArray", tests);
 }

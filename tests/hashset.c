@@ -74,12 +74,14 @@ bool test_remove_not_present() {
 }
 
 int main() {
-	return test("Hashset", &(Test){"insert", test_insert},
-				&(Test){"insert unique", test_insert_unique},
-				&(Test){"find present", test_find_present},
-				&(Test){"find not present", test_find_not_present},
-				&(Test){"remove present", test_remove_present},
-				&(Test){"remove not present", test_remove_not_present}, NULL)
-			   ? 0
-			   : 1;
+	Test* tests[] = {
+		&(Test){"insert",			  test_insert			 },
+		&(Test){"insert_unique",		 test_insert_unique	   },
+		&(Test){"find_present",		test_find_present		 },
+		&(Test){"find_not_present",	test_find_not_present	 },
+		&(Test){"remove_present",	  test_remove_present	 },
+		&(Test){"remove_not_present", test_remove_not_present},
+		NULL,
+	};
+	return test("Hashset", tests);
 }

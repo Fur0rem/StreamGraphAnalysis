@@ -20,8 +20,11 @@ bool test_load_slices() {
 }
 
 int main() {
-	return test("StreamGraph", &(Test){"load", test_load}, &(Test){"load_slices", test_load_slices},
-				NULL)
-			   ? 0
-			   : 1;
+	Test* tests[] = {
+		&(Test){"load",		test_load		 },
+		&(Test){"load_slices", test_load_slices},
+		  NULL
+	  };
+
+	return test("StreamGraph", tests);
 }
