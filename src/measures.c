@@ -1,4 +1,5 @@
 #include "measures.h"
+#include "interval.h"
 #include "stream_graph.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -23,12 +24,12 @@ size_t SGA_LinksSet_size(StreamGraph* sg) {
 	return size;
 }
 
-double SGA_number_of_temporal_nodes(StreamGraph* sg) {
-	return (double)SGA_NodesSet_size(sg) / (double)SGA_size_of_lifespan(sg);
-}
-
 size_t SGA_number_of_nodes(StreamGraph* sg) {
 	return sg->nodes.nb_nodes;
+}
+
+double SGA_number_of_temporal_nodes(StreamGraph* sg) {
+	return (double)SGA_NodesSet_size(sg) / (double)SGA_size_of_lifespan(sg);
 }
 
 double SGA_coverage(StreamGraph* sg) {
@@ -84,7 +85,27 @@ double SGA_uniformity(StreamGraph* sg) {
 		}
 	}
 
-	printf("inter : %zu / union : %zu\n", sum_intersection, sum_union);
-
 	return (double)sum_intersection / (double)sum_union;
+}
+
+double SGA_density(StreamGraph* sg) {
+	size_t sum_link_durations = 0;
+	size_t sum_duration_inter_nodes = 0;
+	for (size_t i = 0; i < sg->links.nb_links; i++) {
+		sum_link_durations += IntervalsSet_size(sg->links.links[i].presence);
+	}
+
+	for (size_t u = 0; u < sg->nodes.nb_nodes; u++) {
+		for (size_t v = u + 1; v < sg->nodes.nb_nodes; v++) {
+			IntervalsSet intersection_uv =
+				IntervalsSet_intersection(sg->nodes.nodes[u].presence, sg->nodes.nodes[v].presence);
+			size_t size_intersection = IntervalsSet_size(intersection_uv);
+
+			sum_duration_inter_nodes += size_intersection;
+
+			IntervalsSet_destroy(intersection_uv);
+		}
+	}
+
+	return (double)sum_link_durations / (double)sum_duration_inter_nodes;
 }
