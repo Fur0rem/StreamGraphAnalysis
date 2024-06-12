@@ -7,7 +7,7 @@ SpaceAfterCStyleCast: false
 BreakBeforeBraces: Custom
 BraceWrapping:
   BeforeElse: true
-ColumnLimit: 100
+ColumnLimit: 120
 IndentCaseLabels: true
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None

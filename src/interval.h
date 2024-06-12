@@ -3,15 +3,27 @@
 
 #include "units.h"
 #include <stdbool.h>
+#include <stddef.h>
 
 typedef struct {
 	TimeId start;
 	TimeId end;
 } Interval;
 
+typedef struct {
+	size_t nb_intervals;
+	Interval* intervals;
+} IntervalsSet;
+
 bool Interval_contains(Interval interval, TimeId time);
 size_t Interval_size(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
 Interval Interval_intersection(Interval a, Interval b);
+size_t IntervalsSet_size(IntervalsSet intervals_set);
+IntervalsSet IntervalsSet_alloc(size_t nb_intervals);
+void IntervalsSet_merge(IntervalsSet* intervals_set);
+IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b);
+IntervalsSet IntervalsSet_union(IntervalsSet a, IntervalsSet b);
+void IntervalsSet_destroy(IntervalsSet intervals_set);
 
 #endif // SGA_INTERVAL_H

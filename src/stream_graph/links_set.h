@@ -7,8 +7,7 @@
 #include <stdint.h>
 
 typedef struct {
-	size_t nb_intervals;
-	Interval* present_at;
+	IntervalsSet presence;
 	NodeId nodes[2];
 } Link;
 
