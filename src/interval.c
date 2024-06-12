@@ -8,7 +8,7 @@ size_t Interval_size(Interval interval) {
 	if (interval.start > interval.end) {
 		return 0;
 	}
-	return interval.end - interval.start + 1;
+	return interval.end - interval.start;
 }
 
 Interval Interval_from(TimeId start, TimeId end) {

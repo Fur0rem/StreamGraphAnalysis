@@ -46,7 +46,7 @@ double SGA_number_of_links(StreamGraph* sg) {
 }
 
 double SGA_node_duration(StreamGraph* sg) {
-	return (double)SGA_NodesSet_size(sg) / (double)SGA_number_of_nodes(sg);
+	return ((double)SGA_NodesSet_size(sg) / (double)SGA_number_of_nodes(sg)) / (double)sg->scaling;
 }
 
 size_t SGA_size_unord_pairs_set_itself(size_t n) {
@@ -54,6 +54,7 @@ size_t SGA_size_unord_pairs_set_itself(size_t n) {
 }
 
 double SGA_link_duration(StreamGraph* sg) {
-	return (double)SGA_LinksSet_size(sg) /
-		   (double)SGA_size_unord_pairs_set_itself(SGA_number_of_nodes(sg));
+	return ((double)SGA_LinksSet_size(sg) /
+			(double)SGA_size_unord_pairs_set_itself(SGA_number_of_nodes(sg))) /
+		   (double)sg->scaling;
 }

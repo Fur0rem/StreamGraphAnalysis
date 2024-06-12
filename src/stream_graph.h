@@ -20,6 +20,7 @@ typedef struct {
 	LinksSet links;
 	EventsTable events;
 	NodeNameTable node_names;
+	size_t scaling;
 } StreamGraph;
 
 StreamGraph SGA_StreamGraph_from_string(const char* str);

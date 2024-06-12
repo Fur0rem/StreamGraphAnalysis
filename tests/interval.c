@@ -7,12 +7,12 @@
 
 bool test_size_1() {
 	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT_EQ(Interval_size(i), 6);
+	return EXPECT_EQ(Interval_size(i), 5);
 }
 
 bool test_size_2() {
 	Interval i = (Interval){.start = 0, .end = 0};
-	return EXPECT_EQ(Interval_size(i), 1);
+	return EXPECT_EQ(Interval_size(i), 0);
 }
 
 bool test_size_none() {
