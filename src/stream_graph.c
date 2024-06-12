@@ -118,6 +118,11 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		exit(1);
 	}
 	GO_TO_NEXT_LINE(str);
+	size_t scaling;
+	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	sg.scaling = scaling;
+	EXPECTED_NB_SCANNED(1);
+	GO_TO_NEXT_LINE(str);
 
 	// Parse the Memory section
 	NEXT_HEADER([Memory]);

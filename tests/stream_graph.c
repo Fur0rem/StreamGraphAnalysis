@@ -11,7 +11,7 @@ bool test_load() {
 }
 
 bool test_load_slices() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S_high_precision.txt");
+	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S_multiple_slices.txt");
 	char* str = SGA_StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
