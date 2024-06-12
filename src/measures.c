@@ -1,5 +1,6 @@
 #include "measures.h"
 #include "interval.h"
+#include "measures/node.h"
 #include "stream_graph.h"
 #include "utils.h"
 #include <stddef.h>
@@ -54,16 +55,6 @@ size_t SGA_size_unord_pairs_set_itself(size_t n) {
 double SGA_link_duration(StreamGraph* sg) {
 	return ((double)SGA_LinksSet_size(sg) / (double)SGA_size_unord_pairs_set_itself(SGA_number_of_nodes(sg))) /
 		   (double)sg->scaling;
-}
-
-double SGA_contribution_of_node(StreamGraph* sg, size_t node_id) {
-	size_t size = IntervalsSet_size(sg->nodes.nodes[node_id].presence);
-	return (double)size / (double)SGA_size_of_lifespan(sg);
-}
-
-double SGA_contribution_of_link(StreamGraph* sg, size_t link_id) {
-	size_t size = IntervalsSet_size(sg->links.links[link_id].presence);
-	return (double)size / (double)SGA_size_of_lifespan(sg);
 }
 
 double SGA_uniformity(StreamGraph* sg) {
@@ -138,15 +129,6 @@ double SGA_compactness(StreamGraph* sg) {
 
 	return (double)sum_node_duration /
 		   (double)((last_node_disappearance - first_node_appearance) * number_of_nodes_with_presence);
-}
-
-double SGA_degree_of_node(StreamGraph* sg, size_t node_id) {
-	size_t sum = 0;
-	TemporalNode node = sg->nodes.nodes[node_id];
-	for (size_t i = 0; i < node.nb_neighbours; i++) {
-		sum += IntervalsSet_size(sg->links.links[node.neighbours[i]].presence);
-	}
-	return (double)sum / (double)SGA_size_of_lifespan(sg);
 }
 
 double SGA_average_node_degree(StreamGraph* sg) {
