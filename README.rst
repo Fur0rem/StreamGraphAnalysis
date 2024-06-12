@@ -4,7 +4,7 @@ StreamGraphAnalysis : A C library for processing and analysing undirected unweig
 
 Purpose of the library
 ----------------------
-The library is designed to process and analyse undirected unweighted stream graphs for the team Complex Networks at the LIP6.
+The library is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6.
 It it based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at https://arxiv.org/abs/1710.04073.
 It is optimised for reading and analysing huge stream graphs, with a balance between memory usage and speed.
 
