@@ -17,5 +17,7 @@ double SGA_contribution_of_link(StreamGraph* sg, size_t link_id);
 double SGA_uniformity(StreamGraph* sg);
 double SGA_density(StreamGraph* sg);
 double SGA_compactness(StreamGraph* sg);
+double SGA_degree_of_node(StreamGraph* sg, size_t node_id);
+double SGA_average_node_degree(StreamGraph* sg);
 
 #endif // SGA_MEASURES_H
