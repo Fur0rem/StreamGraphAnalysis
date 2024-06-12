@@ -1,0 +1,32 @@
+- Add external format support for stream graphs
+- Add example L and use it for testing too
+- Set of links and temporal nodes at a time t
+- Choose between calling nodes temporal nodes or nodes
+- Is it better to say measures, measurements or metrics?
+- Rename test files (?)
+- Benchmarking framework
+- Change mallocs to the safe macro MALLOC defined in utils.h
+- Add a config file for changing the default values and types used (for example slices, to fine tune the memory usage)
+- Make sure every function and struct is prefixed with `SGA` to avoid name collisions
+- Make sure the .h files are well guarded
+- Make sure the .h files are included in the .c files
+- Document the code
+
+- Read all the TODOs in the code
+
+Metrics (V for implemeted, X for not implemented):
+- Coverage V
+- Contribution of a node V
+- Number of nodes V
+- Contribution of a link V
+- Number of links V
+- Node contribution at a time t X
+- Link contribution at a time t X
+- Node duration V
+- Link duration V
+- Uniformity V
+- Compactness V
+- Density V
+- Density of a link X
+- Density of a node X
+- Density of a time instant X
