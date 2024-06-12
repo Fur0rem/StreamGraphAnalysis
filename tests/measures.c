@@ -47,6 +47,7 @@ bool test_contributions_of_links() {
 }
 
 TEST_MEASURE_F(uniformity, 22.0 / 56.0, S)
+TEST_MEASURE_F(density, 10.0 / 22.0, S)
 
 int main() {
 	return test("StreamGraph", &(Test){"coverage", test_coverage}, &(Test){"number_of_nodes", test_number_of_nodes},
@@ -55,7 +56,7 @@ int main() {
 				&(Test){"number_of_links", test_number_of_links},
 				&(Test){"contribution_of_nodes", test_contribution_of_nodes},
 				&(Test){"contributions_of_links", test_contributions_of_links}, &(Test){"uniformity", test_uniformity},
-				NULL)
+				&(Test){"density", test_density}, NULL)
 			   ? 0
 			   : 1;
 }
