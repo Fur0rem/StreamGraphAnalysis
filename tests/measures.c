@@ -48,15 +48,23 @@ bool test_contributions_of_links() {
 
 TEST_MEASURE_F(uniformity, 22.0 / 56.0, S)
 TEST_MEASURE_F(density, 10.0 / 22.0, S)
+TEST_MEASURE_F(compactness, 26.0 / 40.0, S)
 
 int main() {
-	return test("StreamGraph", &(Test){"coverage", test_coverage}, &(Test){"number_of_nodes", test_number_of_nodes},
-				&(Test){"number_of_temporal_nodes", test_number_of_temporal_nodes},
-				&(Test){"node_duration", test_node_duration}, &(Test){"link_duration", test_link_duration},
-				&(Test){"number_of_links", test_number_of_links},
-				&(Test){"contribution_of_nodes", test_contribution_of_nodes},
-				&(Test){"contributions_of_links", test_contributions_of_links}, &(Test){"uniformity", test_uniformity},
-				&(Test){"density", test_density}, NULL)
-			   ? 0
-			   : 1;
+	Test* tests[] = {
+		&(Test){"coverage",					test_coverage				 },
+		&(Test){"number_of_nodes",		   test_number_of_nodes		   },
+		&(Test){"number_of_temporal_nodes", test_number_of_temporal_nodes},
+		&(Test){"node_duration",			 test_node_duration		   },
+		&(Test){"link_duration",			 test_link_duration		   },
+		&(Test){"number_of_links",		   test_number_of_links		   },
+		&(Test){"contribution_of_nodes",	 test_contribution_of_nodes   },
+		&(Test){"contributions_of_links",	  test_contributions_of_links	 },
+		&(Test){"uniformity",				  test_uniformity				 },
+		&(Test){"density",				   test_density				   },
+		&(Test){"compactness",			   test_compactness			   },
+		(Test*)NULL
+	   };
+
+	return test("Measures", tests);
 }

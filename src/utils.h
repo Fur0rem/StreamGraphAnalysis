@@ -55,4 +55,12 @@
 	char* type##_to_string(const type* value);                                                                         \
 	bool type##_equals(type a, type b);
 
+#define DEFAULT_MIN_MAX(type)                                                                                          \
+	type type##_min(type a, type b) {                                                                                  \
+		return a < b ? a : b;                                                                                          \
+	}                                                                                                                  \
+	type type##_max(type a, type b) {                                                                                  \
+		return a > b ? a : b;                                                                                          \
+	}
+
 #endif

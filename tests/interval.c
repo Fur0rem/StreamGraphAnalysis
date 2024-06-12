@@ -104,17 +104,23 @@ bool test_intervals_set_union_overlap() {
 }
 
 int main() {
-	return test("Interval", &(Test){"interval_size 1", test_size_1}, &(Test){"interval_size 2", test_size_2},
-				&(Test){"interval_size none", test_size_none}, &(Test){"interval_contains 1", test_contains_1},
-				&(Test){"interval_contains 2", test_contains_2}, &(Test){"interval_contains 3", test_contains_3},
-				&(Test){"interval_intersection 1", test_intersection_1},
-				&(Test){"interval_intersection 2", test_intersection_2},
-				&(Test){"interval_intersection none", test_intersection_none},
-				&(Test){"intervals_set_merge_contained", test_intervals_set_merge_contained},
-				&(Test){"intervals_set_merge_overlap", test_intervals_set_merge_overlap},
-				&(Test){"intervals_set_merge_contiguous", test_intervals_set_merge_contiguous},
-				&(Test){"intervals_set_merge_independent", test_intervals_set_merge_independent},
-				&(Test){"intervals_set_union_overlap", test_intervals_set_union_overlap}, NULL)
-			   ? 0
-			   : 1;
+	Test* tests[] = {
+		&(Test){"size_1",						  test_size_1						 },
+		&(Test){"size_2",						  test_size_2						 },
+		&(Test){"size_none",						 test_size_none					   },
+		&(Test){"contains_1",					  test_contains_1					 },
+		&(Test){"contains_2",					  test_contains_2					 },
+		&(Test){"contains_3",					  test_contains_3					 },
+		&(Test){"intersection_1",				  test_intersection_1				 },
+		&(Test){"intersection_2",				  test_intersection_2				 },
+		&(Test){"intersection_none",				 test_intersection_none			   },
+		&(Test){"intervals_set_merge_contained",	 test_intervals_set_merge_contained  },
+		&(Test){"intervals_set_merge_overlap",	   test_intervals_set_merge_overlap	   },
+		&(Test){"intervals_set_merge_contiguous",  test_intervals_set_merge_contiguous },
+		&(Test){"intervals_set_merge_independent", test_intervals_set_merge_independent},
+		&(Test){"intervals_set_union_overlap",	   test_intervals_set_union_overlap	   },
+		NULL
+	};
+
+	return test("Interval", tests);
 }

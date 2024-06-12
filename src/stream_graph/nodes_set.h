@@ -13,4 +13,6 @@ typedef struct {
 	TemporalNode* nodes;
 } TemporalNodesSet;
 
+size_t SGA_TemporalNode_first_appearance(TemporalNode* node);
+size_t SGA_TemporalNode_last_disappearance(TemporalNode* node);
 TemporalNodesSet SGA_TemporalNodesSet_alloc(size_t nb_nodes);

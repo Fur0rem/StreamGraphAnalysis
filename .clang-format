@@ -5,6 +5,7 @@ BasedOnStyle: LLVM
 PointerAlignment: Left
 SpaceAfterCStyleCast: false
 BreakBeforeBraces: Custom
+AlignArrayOfStructures: Left
 BraceWrapping:
   BeforeElse: true
 ColumnLimit: 120

@@ -1,6 +1,7 @@
 #include "measures.h"
 #include "interval.h"
 #include "stream_graph.h"
+#include "utils.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -108,4 +109,33 @@ double SGA_density(StreamGraph* sg) {
 	}
 
 	return (double)sum_link_durations / (double)sum_duration_inter_nodes;
+}
+
+DEFAULT_MIN_MAX(size_t)
+
+double SGA_compactness(StreamGraph* sg) {
+	size_t sum_node_duration = 0;
+	size_t first_node_appearance = SGA_StreamGraph_lifespan_end(sg);
+	size_t last_node_disappearance = SGA_StreamGraph_lifespan_begin(sg);
+	size_t number_of_nodes_with_presence = 0;
+	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
+		size_t size = IntervalsSet_size(sg->nodes.nodes[i].presence);
+		if (size > 0) {
+			number_of_nodes_with_presence++;
+			sum_node_duration += size;
+
+			first_node_appearance =
+				size_t_min(first_node_appearance, SGA_TemporalNode_first_appearance(&sg->nodes.nodes[i]));
+			last_node_disappearance =
+				size_t_max(last_node_disappearance, SGA_TemporalNode_last_disappearance(&sg->nodes.nodes[i]));
+		}
+	}
+
+	printf("sum_node_duration: %zu\n", sum_node_duration);
+	printf("first_node_appearance: %zu\n", first_node_appearance);
+	printf("last_node_disappearance: %zu\n", last_node_disappearance);
+	printf("number_of_nodes_with_presence: %zu\n", number_of_nodes_with_presence);
+
+	return (double)sum_node_duration /
+		   (double)((last_node_disappearance - first_node_appearance) * number_of_nodes_with_presence);
 }
