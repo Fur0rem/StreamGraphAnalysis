@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 typedef struct {
-	IntervalsSet presence;
+	SGA_IntervalsSet presence;
 	NodeId nodes[2];
 } Link;
 

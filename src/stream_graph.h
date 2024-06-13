@@ -12,8 +12,6 @@
 #include "stream_graph/links_set.h"
 #include "stream_graph/nodes_set.h"
 
-typedef const char** NodeNameTable;
-
 typedef struct {
 	KeyMomentsTable key_moments;
 	TemporalNodesSet nodes;
