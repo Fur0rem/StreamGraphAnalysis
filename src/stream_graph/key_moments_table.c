@@ -1,6 +1,8 @@
 #include "key_moments_table.h"
+#include "../units.h"
 #include "../utils.h"
 #include <stddef.h>
+#include <stdio.h>
 
 size_t SGA_KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
 	for (size_t i = 0; i < kmt->nb_slices; i++) {
@@ -45,16 +47,14 @@ size_t SGA_KeyMomentsTable_first_moment(KeyMomentsTable* kmt) {
 			break;
 		}
 	}
-	size_t first_moment =
-		kmt->slices[first_slice_idx].moments[0] + (first_slice_idx * (RelativeMoment)~0);
+	size_t first_moment = kmt->slices[first_slice_idx].moments[0] + (first_slice_idx * (RelativeMoment)~0);
 	return first_moment;
 }
 
 size_t SGA_KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
 	size_t last_slice_idx = kmt->nb_slices - 1;
 	size_t last_moment_idx = kmt->slices[last_slice_idx].nb_moments - 1;
-	size_t last_moment = kmt->slices[last_slice_idx].moments[last_moment_idx] +
-						 (last_slice_idx * (RelativeMoment)~0);
+	size_t last_moment = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * (RelativeMoment)~0);
 	return last_moment;
 }
 
@@ -63,4 +63,38 @@ void SGA_KeyMomentsTable_destroy(KeyMomentsTable* kmt) {
 		free(kmt->slices[i].moments);
 	}
 	free(kmt->slices);
+}
+
+// TODO : Change the slices to contain the number of total moments before rather than only the number of moments in the
+// slice for faster search.
+// Assumes the times are sorted, returns the index of a certain time if all of them were in a single array
+size_t SGA_KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
+	// First we find which slice the time is in
+	size_t slice = t / SLICE_SIZE;
+	// Add the number of moments in the previous slices
+	size_t index = 0;
+	for (size_t i = 0; i < slice; i++) {
+		index += kmt->slices[i].nb_moments;
+	}
+	// Then we find the index of the time in the slice
+	size_t relative_time = t % SLICE_SIZE;
+	// Recherche dichotomique
+	size_t left = 0;
+	size_t right = kmt->slices[slice].nb_moments;
+	while (left < right) {
+		size_t mid = (left + right) / 2;
+
+		if (kmt->slices[slice].moments[mid] == relative_time) {
+			return index + mid;
+		}
+
+		if (kmt->slices[slice].moments[mid] < relative_time) {
+			left = mid + 1;
+		}
+		else {
+			right = mid;
+		}
+	}
+
+	return SIZE_MAX;
 }

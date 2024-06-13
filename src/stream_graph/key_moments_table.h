@@ -1,3 +1,4 @@
+#include "../units.h"
 #include <stddef.h>
 #include <stdint.h>
 
@@ -28,3 +29,4 @@ void SGA_KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t 
 size_t SGA_KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
 size_t SGA_KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
 void SGA_KeyMomentsTable_destroy(KeyMomentsTable* kmt);
+size_t SGA_KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);
