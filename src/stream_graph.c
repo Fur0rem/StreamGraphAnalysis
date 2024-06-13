@@ -34,58 +34,56 @@ char* get_to_header(const char* str, const char* header) {
 }
 
 // TODO : turn these into functions
-#define NEXT_HEADER(section)                                                                       \
-	current_header = "" #section "";                                                               \
+#define NEXT_HEADER(section)                                                                                           \
+	current_header = "" #section "";                                                                                   \
 	(str) = get_to_header(str, current_header);
 
-#define EXPECTED_NB_SCANNED(expected)                                                              \
-	if (nb_scanned != (expected)) {                                                                \
-		fprintf(stderr,                                                                            \
-				TEXT_RED TEXT_BOLD "Could not parse the header " TEXT_RESET                        \
-								   "%s\nError at line %d\n",                                       \
-				current_header, __LINE__);                                                         \
-		fprintf(stderr, "Number of scanned elements: %d, expected: %d\n", nb_scanned, expected);   \
-		fprintf(stderr, "str: %s\n", str);                                                         \
-		exit(1);                                                                                   \
+#define EXPECTED_NB_SCANNED(expected)                                                                                  \
+	if (nb_scanned != (expected)) {                                                                                    \
+		fprintf(stderr, TEXT_RED TEXT_BOLD "Could not parse the header " TEXT_RESET "%s\nError at line %d\n",          \
+				current_header, __LINE__);                                                                             \
+		fprintf(stderr, "Number of scanned elements: %d, expected: %d\n", nb_scanned, expected);                       \
+		fprintf(stderr, "str: %s\n", str);                                                                             \
+		exit(1);                                                                                                       \
 	}
 
-#define GO_TO_NEXT_LINE(str)                                                                       \
-	if (*(str) != '\0') {                                                                          \
-		(str) = strchr((str), '\n');                                                               \
-		if ((str) == NULL) {                                                                       \
-			fprintf(stderr, TEXT_BOLD TEXT_RED "End of file was reached prematurely while trying " \
-											   "to find next line \n" TEXT_RESET);                 \
-			exit(1);                                                                               \
-		}                                                                                          \
-		(str)++;                                                                                   \
-	}                                                                                              \
-	else {                                                                                         \
-		fprintf(stderr, "End of file was reached prematurely while trying to find next line \n");  \
-		exit(1);                                                                                   \
+#define GO_TO_NEXT_LINE(str)                                                                                           \
+	if (*(str) != '\0') {                                                                                              \
+		(str) = strchr((str), '\n');                                                                                   \
+		if ((str) == NULL) {                                                                                           \
+			fprintf(stderr, TEXT_BOLD TEXT_RED "End of file was reached prematurely while trying "                     \
+											   "to find next line \n" TEXT_RESET);                                     \
+			exit(1);                                                                                                   \
+		}                                                                                                              \
+		(str)++;                                                                                                       \
+	}                                                                                                                  \
+	else {                                                                                                             \
+		fprintf(stderr, "End of file was reached prematurely while trying to find next line \n");                      \
+		exit(1);                                                                                                       \
 	}
 
-#define PRINT_LINE(str)                                                                            \
-	{                                                                                              \
-		char* end = strchr(str, '\n');                                                             \
-		char* line = (char*)malloc(end - (str) + 1);                                               \
-		strncpy(line, str, end - (str));                                                           \
-		line[end - (str)] = '\0';                                                                  \
-		printf("line: %s\n", line);                                                                \
-		free(line);                                                                                \
+#define PRINT_LINE(str)                                                                                                \
+	{                                                                                                                  \
+		char* end = strchr(str, '\n');                                                                                 \
+		char* line = (char*)malloc(end - (str) + 1);                                                                   \
+		strncpy(line, str, end - (str));                                                                               \
+		line[end - (str)] = '\0';                                                                                      \
+		printf("line: %s\n", line);                                                                                    \
+		free(line);                                                                                                    \
 	}
 
-#define NEXT_TUPLE(str)                                                                            \
-	{                                                                                              \
-		if (*(str) == '\0') {                                                                      \
-			fprintf(stderr, TEXT_RED TEXT_BOLD "End of file was reached prematurely while trying " \
-											   "to find next tuple \n" TEXT_RESET);                \
-			exit(1);                                                                               \
-		}                                                                                          \
-                                                                                                   \
-		(str)++;                                                                                   \
-		while ((*(str) != '(') && (*(str) != '\n') && (*(str) != '\0')) {                          \
-			(str)++;                                                                               \
-		}                                                                                          \
+#define NEXT_TUPLE(str)                                                                                                \
+	{                                                                                                                  \
+		if (*(str) == '\0') {                                                                                          \
+			fprintf(stderr, TEXT_RED TEXT_BOLD "End of file was reached prematurely while trying "                     \
+											   "to find next tuple \n" TEXT_RESET);                                    \
+			exit(1);                                                                                                   \
+		}                                                                                                              \
+                                                                                                                       \
+		(str)++;                                                                                                       \
+		while ((*(str) != '(') && (*(str) != '\n') && (*(str) != '\0')) {                                              \
+			(str)++;                                                                                                   \
+		}                                                                                                              \
 	}
 
 // TODO : Make the code better and less unreadable copy pasted code
@@ -103,20 +101,6 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	size_t lifespan_end;
 	nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
 	EXPECTED_NB_SCANNED(2);
-	GO_TO_NEXT_LINE(str);
-	// next line should be Named=true or Named=false
-
-	bool named;
-	if (strncmp(str, "Named=true\n", 10) == 0) {
-		named = true;
-	}
-	else if (strncmp(str, "Named=false\n", 11) == 0) {
-		named = false;
-	}
-	else {
-		fprintf(stderr, "Could not parse the header %s", current_header);
-		exit(1);
-	}
 	GO_TO_NEXT_LINE(str);
 	size_t scaling;
 	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
@@ -154,13 +138,6 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	sg.nodes = SGA_TemporalNodesSet_alloc(nb_nodes);
 	sg.links = SGA_LinksSet_alloc(nb_links);
 	sg.events = SGA_EventsTable_alloc(nb_regular_key_moments, nb_removal_only_moments);
-
-	if (named) {
-		sg.node_names = (const char**)malloc(nb_nodes * sizeof(const char*));
-	}
-	else {
-		sg.node_names = NULL;
-	}
 
 	// Parse the memory needed for the nodes
 	NEXT_HEADER([[Nodes]]);
@@ -391,18 +368,6 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		GO_TO_NEXT_LINE(str);
 	}
 
-	// Parse the names
-	if (named) {
-		NEXT_HEADER([Names]);
-		for (size_t node = 0; node < nb_nodes; node++) {
-			char name[256];
-			nb_scanned = sscanf(str, "%255s\n", name);
-			EXPECTED_NB_SCANNED(1);
-			sg.node_names[node] = strdup(name);
-			GO_TO_NEXT_LINE(str);
-		}
-	}
-
 	NEXT_HEADER([EndOfFile]);
 
 	free(nb_events_per_key_moment);
@@ -469,18 +434,18 @@ char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector vec = charVector_new();
 	TemporalNode* node = &sg->nodes.nodes[node_idx];
 	charVector_append(&vec, APPEND_CONST("\tNode "));
-	append_node_name(&vec, node_idx, sg->node_names);
+	char number[50];
+	sprintf(number, "%zu", node_idx);
+	charVector_append(&vec, number, strlen(number));
 	charVector_append(&vec, APPEND_CONST(" {\n\t\tIntervals=[\n"));
 	// Append first interval
 	char interval[100];
-	sprintf(interval, "\t\t\t(%zu %zu)", node->presence.intervals[0].start,
-			node->presence.intervals[0].end);
+	sprintf(interval, "\t\t\t(%zu %zu)", node->presence.intervals[0].start, node->presence.intervals[0].end);
 	charVector_append(&vec, interval, strlen(interval));
 	// Append the other intervals
 	for (size_t i = 1; i < node->presence.nb_intervals; i++) {
 		char interval[100];
-		sprintf(interval, " U (%zu %zu)", node->presence.intervals[i].start,
-				node->presence.intervals[i].end);
+		sprintf(interval, " U (%zu %zu)", node->presence.intervals[i].start, node->presence.intervals[i].end);
 		charVector_append(&vec, interval, strlen(interval));
 	}
 	charVector_append(&vec, APPEND_CONST("\n"));
@@ -492,7 +457,9 @@ char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 		size_t node1 = sg->links.links[link_idx].nodes[0];
 		size_t node2 = sg->links.links[link_idx].nodes[1];
 		size_t neighbour_idx = (node1 == node_idx) ? node2 : node1;
-		append_node_name(&vec, neighbour_idx, sg->node_names);
+		sprintf(number, "%zu", neighbour_idx);
+		charVector_append(&vec, number, strlen(number));
+		charVector_append(&vec, APPEND_CONST(" "));
 	}
 	charVector_append(&vec, APPEND_CONST("\n\t\t}\n\n\t}\n"));
 
@@ -505,23 +472,25 @@ char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 
 char* SGA_Link_to_string(StreamGraph* sg, size_t link_idx) {
 	charVector vec = charVector_new();
-	const char** node_names = sg->node_names;
+	char number[50];
 	Link* link = &sg->links.links[link_idx];
-	charVector_append(&vec, APPEND_CONST("\tLink ("));
-	append_node_name(&vec, link->nodes[0], node_names);
+	charVector_append(&vec, APPEND_CONST("\tLink"));
+	sprintf(number, " %zu (", link_idx);
+	charVector_append(&vec, number, strlen(number));
+	sprintf(number, "%zu", link->nodes[0]);
+	charVector_append(&vec, number, strlen(number));
 	charVector_append(&vec, APPEND_CONST(" "));
-	append_node_name(&vec, link->nodes[1], node_names);
+	sprintf(number, "%zu", link->nodes[1]);
+	charVector_append(&vec, number, strlen(number));
 	charVector_append(&vec, APPEND_CONST(") {\n\t\tIntervals=[\n"));
 	// Append first interval
 	char interval[100];
-	sprintf(interval, "\t\t\t(%zu %zu)", link->presence.intervals[0].start,
-			link->presence.intervals[0].end);
+	sprintf(interval, "\t\t\t(%zu %zu)", link->presence.intervals[0].start, link->presence.intervals[0].end);
 	charVector_append(&vec, interval, strlen(interval));
 	// Append the other intervals
 	for (size_t i = 1; i < link->presence.nb_intervals; i++) {
 		char interval[100];
-		sprintf(interval, " U (%zu %zu)", link->presence.intervals[i].start,
-				link->presence.intervals[i].end);
+		sprintf(interval, " U (%zu %zu)", link->presence.intervals[i].start, link->presence.intervals[i].end);
 		charVector_append(&vec, interval, strlen(interval));
 	}
 	charVector_append(&vec, APPEND_CONST("\n"));
@@ -558,25 +527,18 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 		letter_event = 'X';
 	}
 
-	sprintf(buffer, "%zu = %c ", SGA_KeyMomentsTable_nth_key_moment(&sg->key_moments, event_idx),
-			letter_event);
+	sprintf(buffer, "%zu = %c ", SGA_KeyMomentsTable_nth_key_moment(&sg->key_moments, event_idx), letter_event);
 	charVector_append(&vec, buffer, strlen(buffer));
 	charVector_append(&vec, APPEND_CONST("( Nodes : "));
 	for (size_t i = 0; i < *SGA_Event_access_nb_nodes(event); i++) {
-		append_node_name(&vec, *SGA_Event_access_nth_node(event, i), sg->node_names);
+		sprintf(buffer, "%zu ", *SGA_Event_access_nth_node(event, i));
+		charVector_append(&vec, buffer, strlen(buffer));
 		charVector_append(&vec, APPEND_CONST(" "));
 	}
 	charVector_append(&vec, APPEND_CONST("| Links : "));
 	for (size_t i = 0; i < *SGA_Event_access_nb_links(event); i++) {
 		// TODO : modify this to use the node names
-		if (sg->node_names != NULL) {
-			Link* link = &sg->links.links[*SGA_Event_access_nth_link(event, i)];
-			sprintf(buffer, "%s-%s ", sg->node_names[link->nodes[0]],
-					sg->node_names[link->nodes[1]]);
-		}
-		else {
-			sprintf(buffer, "%zu ", *SGA_Event_access_nth_link(event, i));
-		}
+		sprintf(buffer, "%zu ", *SGA_Event_access_nth_link(event, i));
 		charVector_append(&vec, buffer, strlen(buffer));
 	}
 	charVector_append(&vec, APPEND_CONST(")\n"));
@@ -611,8 +573,7 @@ char* SGA_StreamGraph_to_string(StreamGraph* sg) {
 	// Append the lifespan
 	charVector_append(&vec, APPEND_CONST("\tLifespan="));
 	char* lifespan = (char*)malloc(100);
-	sprintf(lifespan, "(%zu %zu)", SGA_StreamGraph_lifespan_begin(sg),
-			SGA_StreamGraph_lifespan_end(sg));
+	sprintf(lifespan, "(%zu %zu)", SGA_StreamGraph_lifespan_begin(sg), SGA_StreamGraph_lifespan_end(sg));
 	charVector_append(&vec, lifespan, strlen(lifespan));
 	free(lifespan);
 
@@ -660,11 +621,5 @@ void SGA_StreamGraph_destroy(StreamGraph* sg) {
 		free(sg->events.events[i]);
 	}
 	free(sg->events.events);
-	if (sg->node_names != NULL) {
-		for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-			free((char*)sg->node_names[i]);
-		}
-		free(sg->node_names);
-	}
 	SGA_BitArray_destroy(sg->events.presence_mask);
 }
