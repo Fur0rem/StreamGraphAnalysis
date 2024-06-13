@@ -1,8 +1,8 @@
-#ifndef SGA_MEASURES_H
-#define SGA_MEASURES_H
+#ifndef SGA_METRICS_H
+#define SGA_METRICS_H
 
-#include "measures/link.h"
-#include "measures/node.h"
+#include "metrics/link.h"
+#include "metrics/node.h"
 #include "stream_graph.h"
 #include <stddef.h>
 
@@ -19,4 +19,4 @@ double SGA_density(StreamGraph* sg);
 double SGA_compactness(StreamGraph* sg);
 double SGA_average_node_degree(StreamGraph* sg);
 
-#endif // SGA_MEASURES_H
+#endif // SGA_METRICS_H

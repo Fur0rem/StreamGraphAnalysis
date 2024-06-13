@@ -29,7 +29,7 @@ nodes_set: interval
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/nodes_set.o $(SRC_DIR)/stream_graph/nodes_set.c $(LDFLAGS)
 	ar rcs $(BIN_DIR)/nodes_set.a $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o
 
-# TODO: Make better dependencies, same for the measures target
+# TODO: Make better dependencies, same for the metrics target
 stream_graph: events_table key_moments_table links_set nodes_set interval bit_array
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/stream_graph.o $(SRC_DIR)/stream_graph.c $(LDFLAGS)
 	ar rcs $(BIN_DIR)/stream_graph.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
@@ -38,17 +38,17 @@ induced_graph: stream_graph
 	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/induced_graph.o $(SRC_DIR)/induced_graph.c $(LDFLAGS)
 	ar rcs $(BIN_DIR)/induced_graph.a $(BIN_DIR)/induced_graph.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
 	
-measures_node : stream_graph
-	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/measures_node.o $(SRC_DIR)/measures/node.c $(LDFLAGS)
-	ar rcs $(BIN_DIR)/measures_node.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/measures_node.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o
+metrics_node : stream_graph
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/metrics_node.o $(SRC_DIR)/metrics/node.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/metrics_node.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/metrics_node.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o
 
-measures_link :
-	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/measures_link.o $(SRC_DIR)/measures/link.c $(LDFLAGS)
-	ar rcs $(BIN_DIR)/measures_link.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/measures_link.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o
+metrics_link :
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/metrics_link.o $(SRC_DIR)/metrics/link.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/metrics_link.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/metrics_link.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o
 
-measures: stream_graph measures_node measures_link
-	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/measures.o $(SRC_DIR)/measures.c $(LDFLAGS)
-	ar rcs $(BIN_DIR)/measures.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/measures.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/measures_node.o $(BIN_DIR)/measures_link.o
+metrics: stream_graph metrics_node metrics_link
+	$(CC) $(CFLAGS) -c -o $(BIN_DIR)/metrics.o $(SRC_DIR)/metrics.c $(LDFLAGS)
+	ar rcs $(BIN_DIR)/metrics.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/metrics.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/metrics_node.o $(BIN_DIR)/metrics_link.o
 
 compile_lib:
 	python3 setup.py build_ext --inplace

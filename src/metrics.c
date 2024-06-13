@@ -1,6 +1,6 @@
-#include "measures.h"
+#include "metrics.h"
 #include "interval.h"
-#include "measures/node.h"
+#include "metrics/node.h"
 #include "stream_graph.h"
 #include "utils.h"
 #include <stddef.h>

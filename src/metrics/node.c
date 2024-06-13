@@ -1,5 +1,5 @@
 #include "node.h"
-#include "../measures.h"
+#include "../metrics.h"
 
 double SGA_degree_of_node(StreamGraph* sg, size_t node_id) {
 	size_t sum = 0;

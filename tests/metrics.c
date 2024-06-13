@@ -1,7 +1,7 @@
-#include "../src/measures.h"
+#include "../src/metrics.h"
 #include "test.h"
 
-#define TEST_MEASURE_F(name, value, graph)                                                                             \
+#define TEST_METRIC_F(name, value, graph)                                                                              \
 	bool test_##name() {                                                                                               \
 		StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/" #graph ".txt");                                  \
 		bool result = EXPECT_F_APPROX_EQ(SGA_##name(&sg), value, 1e-2);                                                \
@@ -9,7 +9,7 @@
 		return result;                                                                                                 \
 	}
 
-#define TEST_MEASURE_I(name, value, graph)                                                                             \
+#define TEST_METRIC_I(name, value, graph)                                                                              \
 	bool test_##name() {                                                                                               \
 		StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/" #graph ".txt");                                  \
 		bool result = EXPECT_EQ(SGA_##name(&sg), value);                                                               \
@@ -17,12 +17,12 @@
 		return result;                                                                                                 \
 	}
 
-TEST_MEASURE_F(coverage, 0.65, S)
-TEST_MEASURE_I(number_of_nodes, 4, S)
-TEST_MEASURE_F(number_of_temporal_nodes, 2.6, S)
-TEST_MEASURE_F(number_of_links, 1.0, S)
-TEST_MEASURE_F(node_duration, 6.5, S)
-TEST_MEASURE_F(link_duration, 1.66666666666, S)
+TEST_METRIC_F(coverage, 0.65, S)
+TEST_METRIC_I(number_of_nodes, 4, S)
+TEST_METRIC_F(number_of_temporal_nodes, 2.6, S)
+TEST_METRIC_F(number_of_links, 1.0, S)
+TEST_METRIC_F(node_duration, 6.5, S)
+TEST_METRIC_F(link_duration, 1.66666666666, S)
 
 bool test_contribution_of_nodes() {
 	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
@@ -46,9 +46,9 @@ bool test_contributions_of_links() {
 		   EXPECT_F_APPROX_EQ(contribution_ac, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bc, 0.3, 1e-2);
 }
 
-TEST_MEASURE_F(uniformity, 22.0 / 56.0, S)
-TEST_MEASURE_F(density, 10.0 / 22.0, S)
-TEST_MEASURE_F(compactness, 26.0 / 40.0, S)
+TEST_METRIC_F(uniformity, 22.0 / 56.0, S)
+TEST_METRIC_F(density, 10.0 / 22.0, S)
+TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
 	Test* tests[] = {
@@ -66,5 +66,5 @@ int main() {
 		(Test*)NULL
 	   };
 
-	return test("Measures", tests);
+	return test("Metrics", tests);
 }

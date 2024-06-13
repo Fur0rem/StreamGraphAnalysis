@@ -3,7 +3,6 @@
 - Automate tests and formatting using GitHub actions
 - Set of links and temporal nodes at a time t
 - Choose between calling nodes temporal nodes or nodes
-- Is it better to say measures, measurements or metrics? (metrics)
 - Rename test files (?)
 - Benchmarking framework
 - Change mallocs to the safe macro MALLOC defined in utils.h
