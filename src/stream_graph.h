@@ -19,7 +19,6 @@ typedef struct {
 	TemporalNodesSet nodes;
 	LinksSet links;
 	EventsTable events;
-	NodeNameTable node_names;
 	size_t scaling;
 } StreamGraph;
 

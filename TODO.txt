@@ -3,7 +3,7 @@
 - Automate tests and formatting using GitHub actions
 - Set of links and temporal nodes at a time t
 - Choose between calling nodes temporal nodes or nodes
-- Is it better to say measures, measurements or metrics?
+- Is it better to say measures, measurements or metrics? (metrics)
 - Rename test files (?)
 - Benchmarking framework
 - Change mallocs to the safe macro MALLOC defined in utils.h
@@ -12,6 +12,8 @@
 - Make sure the .h files are well guarded
 - Make sure the .h files are included in the .c files
 - Document the code
+- Verify key moments between actual others (3.5 ect) and intervals [] or [[ or ]] (best one side open and the other closed [[)
+- Find a name for |V|
 
 - Read all the TODOs in the code
 
