@@ -57,45 +57,45 @@ bool test_intersection_none() {
 }
 
 bool test_intervals_set_merge_contained() {
-	IntervalsSet a = IntervalsSet_alloc(2);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
 	a.intervals[0] = (Interval){.start = 0, .end = 10};
 	a.intervals[1] = (Interval){.start = 5, .end = 7};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet_merge(&a);
 	return EXPECT_EQ(a.nb_intervals, 1) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 10);
 }
 
 bool test_intervals_set_merge_overlap() {
-	IntervalsSet a = IntervalsSet_alloc(2);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
 	a.intervals[0] = (Interval){.start = 0, .end = 10};
 	a.intervals[1] = (Interval){.start = 5, .end = 15};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet_merge(&a);
 	return EXPECT_EQ(a.nb_intervals, 1) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 15);
 }
 
 bool test_intervals_set_merge_contiguous() {
-	IntervalsSet a = IntervalsSet_alloc(2);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
 	a.intervals[0] = (Interval){.start = 0, .end = 10};
 	a.intervals[1] = (Interval){.start = 10, .end = 15};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet_merge(&a);
 	return EXPECT_EQ(a.nb_intervals, 1) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 15);
 }
 
 bool test_intervals_set_merge_independent() {
-	IntervalsSet a = IntervalsSet_alloc(2);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
 	a.intervals[0] = (Interval){.start = 0, .end = 10};
 	a.intervals[1] = (Interval){.start = 15, .end = 20};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet_merge(&a);
 	return EXPECT_EQ(a.nb_intervals, 2) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 10) &&
 		   EXPECT_EQ(a.intervals[1].start, 15) && EXPECT_EQ(a.intervals[1].end, 20);
 }
 
 bool test_intervals_set_union_overlap() {
-	IntervalsSet a = IntervalsSet_alloc(1);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(1);
 	a.intervals[0] = (Interval){.start = 0, .end = 10};
-	IntervalsSet b = IntervalsSet_alloc(2);
+	SGA_IntervalsSet b = SGA_IntervalsSet_alloc(2);
 	b.intervals[0] = (Interval){.start = 0, .end = 4};
 	b.intervals[1] = (Interval){.start = 5, .end = 10};
-	IntervalsSet union_ab = IntervalsSet_union(a, b);
+	SGA_IntervalsSet union_ab = SGA_IntervalsSet_union(a, b);
 	for (size_t i = 0; i < union_ab.nb_intervals; i++) {
 		printf("[%lu, %lu]\n", union_ab.intervals[i].start, union_ab.intervals[i].end);
 	}

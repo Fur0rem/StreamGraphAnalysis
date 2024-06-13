@@ -161,7 +161,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		SGA_IntervalsSet presence = SGA_IntervalsSet_alloc(nb_intervals);
 		sg.nodes.nodes[node].presence = presence;
 	}
 
@@ -174,7 +174,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		SGA_IntervalsSet presence = SGA_IntervalsSet_alloc(nb_intervals);
 		sg.links.links[link].presence = presence;
 	}
 
