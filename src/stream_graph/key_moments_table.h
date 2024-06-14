@@ -22,11 +22,11 @@ typedef struct {
 	KeyMomentsTableIterator fill_info;
 } KeyMomentsTable;
 
-size_t SGA_KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n);
-void SGA_KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment);
-KeyMomentsTable SGA_KeyMomentsTable_alloc(size_t nb_slices);
-void SGA_KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments);
-size_t SGA_KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
-size_t SGA_KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
-void SGA_KeyMomentsTable_destroy(KeyMomentsTable* kmt);
-size_t SGA_KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);
+size_t KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n);
+void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment);
+KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices);
+void KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments);
+size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
+size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
+void KeyMomentsTable_destroy(KeyMomentsTable* kmt);
+size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);

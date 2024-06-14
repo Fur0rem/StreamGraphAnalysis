@@ -1,5 +1,5 @@
-#ifndef SGA_INDUCED_GRAPH_H
-#define SGA_INDUCED_GRAPH_H
+#ifndef INDUCED_GRAPH_H
+#define INDUCED_GRAPH_H
 
 #include "stream_graph.h"
 #include <stddef.h>
@@ -11,12 +11,12 @@ typedef struct {
 	// Function that takes itself and returns the next node (size_t*)
 	// Obliged to put void* because of the circular dependency
 	size_t* (*next)(void*);
-} SGA_NodesPresentAtT;
+} NodesPresentAtT;
 
-SGA_NodesPresentAtT SGA_get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t);
+NodesPresentAtT get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t);
 
 #define FOR_EACH_NODE_AT_TIME(stream_graph, iterated, t)                                                               \
-	SGA_NodesPresentAtT nodes_present_at_t = SGA_get_nodes_present_at_t(stream_graph, t);                              \
+	NodesPresentAtT nodes_present_at_t = get_nodes_present_at_t(stream_graph, t);                                      \
 	for (size_t * (iterated) = nodes_present_at_t.next(&nodes_present_at_t); (iterated) != NULL;                       \
 		 (iterated) = nodes_present_at_t.next(&nodes_present_at_t))
 
@@ -27,13 +27,13 @@ typedef struct {
 	// Function that takes itself and returns the next node (size_t*)
 	// Obliged to put void* because of the circular dependency
 	size_t* (*next)(void*);
-} SGA_LinksPresentAtT;
+} LinksPresentAtT;
 
-SGA_LinksPresentAtT SGA_get_links_present_at_t(StreamGraph* stream_graph, TimeId t);
+LinksPresentAtT get_links_present_at_t(StreamGraph* stream_graph, TimeId t);
 
 #define FOR_EACH_LINK_AT_TIME(stream_graph, iterated, t)                                                               \
-	SGA_LinksPresentAtT links_present_at_t = SGA_get_links_present_at_t(stream_graph, t);                              \
+	LinksPresentAtT links_present_at_t = get_links_present_at_t(stream_graph, t);                                      \
 	for (size_t * (iterated) = links_present_at_t.next(&links_present_at_t); (iterated) != NULL;                       \
 		 (iterated) = links_present_at_t.next(&links_present_at_t))
 
-#endif // SGA_INDUCED_GRAPH_H
+#endif // INDUCED_GRAPH_H
