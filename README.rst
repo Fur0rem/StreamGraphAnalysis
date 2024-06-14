@@ -2,11 +2,22 @@
 StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs
 ===================================================================================
 
+Current state of the Project
+----------------------------
+This is only a prototype, so the library is not usable at all for now. I'm still experimenting with how I approach the problem for now.
+
 Purpose of the library
 ----------------------
 The library is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6.
 It it based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at https://arxiv.org/abs/1710.04073.
 It is optimised for reading and analysing huge stream graphs, with a balance between memory usage and speed.
+The library also supports the computation of metrics on subgraphs of the stream graph without copying much data, but at some cost I will explain in the code architecture section.
+
+Code architecture
+-----------------
+- The library was made for only reading stream graphs, and therefore the data structure doesn't allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.
+- The data structure was made to have 3 very efficient primitives : Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.
+- There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-computed base elements, and double-layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a LinkStream can hijack the computation of the coverage which is always 1.
 
 What it can do
 --------------
@@ -23,19 +34,16 @@ Specifications of the stream graph data
 - The stream graph is continuous, undirected and unweighted
 - The stream graph cannot have instantaneous links, i.e. a link must last at least one time unit
 - The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[
-- If a node is specified in the stream graph, it must be present at least once in the lifespan of the stream graph, same for links
 - If a link is present at time t, the nodes u and v must be present at time t
 
-Data structure
---------------
-The data structure used was designed to allow fast reading by node, by link, or by time.
-
-Project guidelines and architecture
+Project guidelines and organisation
 --------------------
 - Guidelines :
-All functions, structures and types are prefixed with "SGA" to avoid conflicts with other libraries, since C does not have namespaces, so you can use other graph libraries in the same project.
+None for now, I'm focusing on having something that works first, rather than something that is perfect but with no results.
+Things I'm considering for guidelines are namespacing to work with other libraries.
+Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro magic for the genericity specified above, so I'm not sure how to do that.
 
-- Architecture :
+- Organisation :
 
 The src/ directory contains the entire source code of the library.
 The source code is divided into 3 parts :

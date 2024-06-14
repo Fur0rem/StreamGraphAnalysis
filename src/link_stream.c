@@ -1,5 +1,6 @@
 #include "link_stream.h"
 #include "metrics_generic.h"
+#include <stddef.h>
 #include <stdio.h>
 
 LinkStream LinkStream_from(StreamGraph* stream_graph) {
@@ -27,10 +28,15 @@ double LS_coverage(LinkStream* ls) {
 	return 1.0;
 }
 
+size_t LS_scaling(LinkStream* ls) {
+	return ls->underlying_stream_graph->scaling;
+}
+
 BaseGenericFunctions link_stream_base_functions = {
 	.cardinalOfT = (size_t(*)(void*))LS_cardinal_of_T,
 	.cardinalOfV = (size_t(*)(void*))LS_cardinal_of_V,
 	.cardinalOfW = (size_t(*)(void*))LS_cardinal_of_W,
+	.scaling = (size_t(*)(void*))LS_scaling,
 };
 
 HijackedGenericFunctions link_stream_hijacked_functions = {
