@@ -31,10 +31,15 @@ size_t FSG_cardinal_of_T(FullStreamGraph* fsg) {
 									   StreamGraph_lifespan_end(fsg->underlying_stream_graph)));
 }
 
+size_t FSG_scaling(FullStreamGraph* fsg) {
+	return fsg->underlying_stream_graph->scaling;
+}
+
 BaseGenericFunctions full_stream_graph_base_functions = {
 	.cardinalOfW = (size_t(*)(void*))FSG_cardinal_of_W,
 	.cardinalOfV = (size_t(*)(void*))FSG_cardinal_of_V,
 	.cardinalOfT = (size_t(*)(void*))FSG_cardinal_of_T,
+	.scaling = (size_t(*)(void*))FSG_scaling,
 };
 
 HijackedGenericFunctions full_stream_graph_hijacked_functions = {
