@@ -1,5 +1,5 @@
-#ifndef SGA_STREAM_GRAPH_LINKS_SET_H
-#define SGA_STREAM_GRAPH_LINKS_SET_H
+#ifndef STREAM_GRAPH_LINKS_SET_H
+#define STREAM_GRAPH_LINKS_SET_H
 
 #include "../interval.h"
 #include "../units.h"
@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 typedef struct {
-	SGA_IntervalsSet presence;
+	IntervalsSet presence;
 	NodeId nodes[2];
 } Link;
 
@@ -16,6 +16,6 @@ typedef struct {
 	Link* links;
 } LinksSet;
 
-LinksSet SGA_LinksSet_alloc(size_t nb_links);
+LinksSet LinksSet_alloc(size_t nb_links);
 
-#endif // SGA_STREAM_GRAPH_LINKS_SET_H
+#endif // STREAM_GRAPH_LINKS_SET_H

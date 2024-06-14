@@ -3,65 +3,65 @@
 #include <unistd.h>
 
 bool test_nodes_at_time() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_NODE_AT_TIME(&sg, node, 40) {
 		printf("Node : %zu\n", *node);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 
 bool test_nodes_at_time_2() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_NODE_AT_TIME(&sg, node, 60) {
 		printf("Node : %zu\n", *node);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 
 bool test_nodes_at_time_3() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_NODE_AT_TIME(&sg, node, 100) {
 		printf("Node : %zu\n", *node);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 
 bool test_links_at_time() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_LINK_AT_TIME(&sg, link, 40) {
 		printf("Link : %zu (%zu - %zu)\n", *link, sg.links.links[*link].nodes[0], sg.links.links[*link].nodes[1]);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 
 bool test_links_at_time_2() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_LINK_AT_TIME(&sg, link, 60) {
 		printf("Link : %zu (%zu - %zu)\n", *link, sg.links.links[*link].nodes[0], sg.links.links[*link].nodes[1]);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 
 bool test_links_at_time_3() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_LINK_AT_TIME(&sg, link, 100) {
 		printf("Link : %zu (%zu - %zu)\n", *link, sg.links.links[*link].nodes[0], sg.links.links[*link].nodes[1]);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 
 bool test_links_at_time_4() {
-	StreamGraph sg = SGA_StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	FOR_EACH_LINK_AT_TIME(&sg, link, 40) {
 		printf("Link : %zu (%zu - %zu)\n", *link, sg.links.links[*link].nodes[0], sg.links.links[*link].nodes[1]);
 	}
-	SGA_StreamGraph_destroy(&sg);
+	StreamGraph_destroy(&sg);
 	return true;
 }
 

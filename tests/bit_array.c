@@ -6,33 +6,33 @@
 #include <stdlib.h>
 
 bool test_create() {
-	SGA_BitArray bit_array = SGA_BitArray_with_n_bits(10);
-	return EXPECT_EQ(SGA_BitArray_size(bit_array), 10);
+	BitArray bit_array = BitArray_with_n_bits(10);
+	return EXPECT_EQ(BitArray_size(bit_array), 10);
 }
 
 bool test_set_one() {
-	SGA_BitArray bit_array = SGA_BitArray_with_n_bits(10);
-	SGA_BitArray_set_one(bit_array, 5);
-	char* str = SGA_BitArray_to_string(bit_array);
+	BitArray bit_array = BitArray_with_n_bits(10);
+	BitArray_set_one(bit_array, 5);
+	char* str = BitArray_to_string(bit_array);
 	return EXPECT(bit_array[1] == (1 << 5));
 }
 
 bool test_set_zero() {
-	SGA_BitArray bit_array = SGA_BitArray_with_n_bits(10);
-	SGA_BitArray_set_one(bit_array, 5);
-	SGA_BitArray_set_zero(bit_array, 5);
+	BitArray bit_array = BitArray_with_n_bits(10);
+	BitArray_set_one(bit_array, 5);
+	BitArray_set_zero(bit_array, 5);
 	return EXPECT(bit_array[1] == 0);
 }
 
 bool test_is_one() {
-	SGA_BitArray bit_array = SGA_BitArray_with_n_bits(10);
-	SGA_BitArray_set_one(bit_array, 5);
-	return EXPECT(SGA_BitArray_is_one(bit_array, 5));
+	BitArray bit_array = BitArray_with_n_bits(10);
+	BitArray_set_one(bit_array, 5);
+	return EXPECT(BitArray_is_one(bit_array, 5));
 }
 
 bool test_is_zero() {
-	SGA_BitArray bit_array = SGA_BitArray_with_n_bits(10);
-	return EXPECT(!SGA_BitArray_is_one(bit_array, 5));
+	BitArray bit_array = BitArray_with_n_bits(10);
+	return EXPECT(!BitArray_is_one(bit_array, 5));
 }
 
 int main() {

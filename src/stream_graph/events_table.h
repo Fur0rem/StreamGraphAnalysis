@@ -3,19 +3,20 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef size_t* Event;
+typedef struct {
+	size_t nb_nodes;
+	size_t nb_links;
+	size_t* events;
+} Event;
 
 typedef struct {
 	TimeId disappearance_index;
-	SGA_BitArray presence_mask;
+	BitArray presence_mask;
 	size_t nb_events;
 	Event* events; // The first element contains the number of nodes in the array, then the n
 } EventsTable;
 
-size_t* SGA_Event_access_nb_nodes(Event event);
-size_t* SGA_Event_access_nb_links(Event event);
-size_t* SGA_Event_access_nth_node(Event event, size_t n);
-size_t* SGA_Event_access_nth_link(Event event, size_t n);
+size_t* Event_access_nth_node(Event event, size_t n);
+size_t* Event_access_nth_link(Event event, size_t n);
 
-EventsTable SGA_EventsTable_alloc(size_t nb_regular_key_moments,
-								  size_t nb_removal_only_key_moments);
+EventsTable EventsTable_alloc(size_t nb_regular_key_moments, size_t nb_removal_only_key_moments);

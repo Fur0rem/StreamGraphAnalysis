@@ -1,5 +1,5 @@
-#ifndef SGA_STREAM_GRAPH_H
-#define SGA_STREAM_GRAPH_H
+#ifndef STREAM_GRAPH_H
+#define STREAM_GRAPH_H
 
 #include "bit_array.h"
 #include "interval.h"
@@ -20,11 +20,11 @@ typedef struct {
 	size_t scaling;
 } StreamGraph;
 
-StreamGraph SGA_StreamGraph_from_string(const char* str);
-StreamGraph SGA_StreamGraph_from_file(const char* filename);
-char* SGA_StreamGraph_to_string(StreamGraph* sg);
-void SGA_StreamGraph_destroy(StreamGraph* sg);
-size_t SGA_StreamGraph_lifespan_begin(StreamGraph* sg);
-size_t SGA_StreamGraph_lifespan_end(StreamGraph* sg);
+StreamGraph StreamGraph_from_string(const char* str);
+StreamGraph StreamGraph_from_file(const char* filename);
+char* StreamGraph_to_string(StreamGraph* sg);
+void StreamGraph_destroy(StreamGraph* sg);
+size_t StreamGraph_lifespan_begin(StreamGraph* sg);
+size_t StreamGraph_lifespan_end(StreamGraph* sg);
 
-#endif // SGA_STREAM_GRAPH_H
+#endif // STREAM_GRAPH_H

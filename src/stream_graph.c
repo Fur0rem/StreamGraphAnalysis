@@ -88,7 +88,7 @@ char* get_to_header(const char* str, const char* header) {
 
 // TODO : Make the code better and less unreadable copy pasted code
 // TODO : Add field for precision loss
-StreamGraph SGA_StreamGraph_from_string(const char* str) {
+StreamGraph StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
 	int nb_scanned;
@@ -134,10 +134,10 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	size_t nb_key_moments = nb_regular_key_moments + nb_removal_only_moments + 1;
 	size_t* key_moments = (size_t*)malloc(nb_key_moments * sizeof(size_t));
 	// Allocate the stream graph
-	sg.key_moments = SGA_KeyMomentsTable_alloc(nb_slices);
-	sg.nodes = SGA_TemporalNodesSet_alloc(nb_nodes);
-	sg.links = SGA_LinksSet_alloc(nb_links);
-	sg.events = SGA_EventsTable_alloc(nb_regular_key_moments, nb_removal_only_moments);
+	sg.key_moments = KeyMomentsTable_alloc(nb_slices);
+	sg.nodes = TemporalNodesSet_alloc(nb_nodes);
+	sg.links = LinksSet_alloc(nb_links);
+	sg.events = EventsTable_alloc(nb_regular_key_moments, nb_removal_only_moments);
 
 	// Parse the memory needed for the nodes
 	NEXT_HEADER([[Nodes]]);
@@ -161,7 +161,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		SGA_IntervalsSet presence = SGA_IntervalsSet_alloc(nb_intervals);
+		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
 		sg.nodes.nodes[node].presence = presence;
 	}
 
@@ -174,7 +174,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		SGA_IntervalsSet presence = SGA_IntervalsSet_alloc(nb_intervals);
+		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
 		sg.links.links[link].presence = presence;
 	}
 
@@ -188,7 +188,11 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the events
-		sg.events.events[key_moment] = malloc((nb_events + 2) * sizeof(size_t));
+		sg.events.events[key_moment] = (Event){
+			.nb_nodes = 0,
+			.nb_links = 0,
+			.events = (size_t*)malloc(nb_events * sizeof(size_t)),
+		};
 		nb_events_per_key_moment[key_moment] = nb_events;
 	}
 
@@ -197,7 +201,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	for (size_t i = 0; i < nb_slices; i++) {
 		nb_scanned = sscanf(str, "%zu\n", &moments_in_slice);
 		EXPECTED_NB_SCANNED(1);
-		SGA_KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
+		KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
 		GO_TO_NEXT_LINE(str);
 	}
 
@@ -233,7 +237,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	nb_scanned = sscanf(str, "%zu=", &key_moment);
 	EXPECTED_NB_SCANNED(1);
 	str = strchr(str, '(') + 1;
-	SGA_KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
+	KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
 	// Parse all the node events
 	size_t j = 0;
 	for (; j < nb_events_per_key_moment[0]; j++) {
@@ -242,9 +246,9 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		nb_scanned = sscanf(str, "(%c %zu)", &type, &node);
 		EXPECTED_NB_SCANNED(2);
 		NEXT_TUPLE(str);
-		*SGA_Event_access_nth_node(sg.events.events[0], j) = node;
+		*Event_access_nth_node(sg.events.events[0], j) = node;
 	}
-	*SGA_Event_access_nb_nodes(sg.events.events[0]) = j;
+	sg.events.events[0].nb_nodes = j;
 
 	size_t k;
 	for (k = j; k < nb_events_per_key_moment[0]; k++) {
@@ -253,9 +257,9 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		nb_scanned = sscanf(str, "(%c %zu)", &type, &link);
 		EXPECTED_NB_SCANNED(2);
 		NEXT_TUPLE(str);
-		*SGA_Event_access_nth_link(sg.events.events[0], k - j) = link;
+		*Event_access_nth_link(sg.events.events[0], k - j) = link;
 	}
-	*SGA_Event_access_nb_links(sg.events.events[0]) = k - j;
+	sg.events.events[0].nb_links = k - j;
 	key_moments[0] = key_moment;
 
 	NEXT_HEADER([[[Regular]]]);
@@ -267,9 +271,9 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(2);
 		str = strchr(str, '=') + sizeof("(x ");
 		if (type == '-') {
-			SGA_BitArray_set_zero(sg.events.presence_mask, i - 1);
+			BitArray_set_zero(sg.events.presence_mask, i - 1);
 		}
-		SGA_KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
+		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
 		//  Parse all the node events
 		size_t j = 0;
 		for (; j < nb_events_per_key_moment[i]; j++) {
@@ -281,10 +285,10 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			}
 			EXPECTED_NB_SCANNED(2);
 			NEXT_TUPLE(str);
-			*SGA_Event_access_nth_node(sg.events.events[i], j) = id;
+			*Event_access_nth_node(sg.events.events[i], j) = id;
 		}
 	parse_links:
-		*SGA_Event_access_nb_nodes(sg.events.events[i]) = j;
+		sg.events.events[i].nb_nodes = j;
 		size_t k;
 		for (k = j; k < nb_events_per_key_moment[i]; k++) {
 			char link;
@@ -293,9 +297,9 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 
 			EXPECTED_NB_SCANNED(2);
 			NEXT_TUPLE(str);
-			*SGA_Event_access_nth_link(sg.events.events[i], k - j) = id;
+			*Event_access_nth_link(sg.events.events[i], k - j) = id;
 		}
-		*SGA_Event_access_nb_links(sg.events.events[i]) = k - j;
+		sg.events.events[i].nb_links = k - j;
 		key_moments[i] = key_moment;
 		GO_TO_NEXT_LINE(str);
 	}
@@ -307,7 +311,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		nb_scanned = sscanf(str, "%zu=", &key_moment);
 		EXPECTED_NB_SCANNED(1);
 		str = strchr(str, '(') + 1;
-		SGA_KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
+		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
 		//  Parse all the node events
 		size_t j = 0;
 		for (; j < nb_events_per_key_moment[i]; j++) {
@@ -319,10 +323,10 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 				goto parse_links_removal;
 			}
 			NEXT_TUPLE(str);
-			*SGA_Event_access_nth_node(sg.events.events[i], j) = id;
+			*Event_access_nth_node(sg.events.events[i], j) = id;
 		}
 	parse_links_removal:
-		*SGA_Event_access_nb_nodes(sg.events.events[i]) = j;
+		sg.events.events[i].nb_nodes = j;
 		size_t k;
 		for (k = j; k < nb_events_per_key_moment[i]; k++) {
 			char link;
@@ -330,9 +334,9 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			nb_scanned = sscanf(str, "(%c %zu)", &link, &id);
 			EXPECTED_NB_SCANNED(2);
 			NEXT_TUPLE(str);
-			*SGA_Event_access_nth_link(sg.events.events[i], k - j) = id;
+			*Event_access_nth_link(sg.events.events[i], k - j) = id;
 		}
-		*SGA_Event_access_nb_links(sg.events.events[i]) = k - j;
+		sg.events.events[i].nb_links = k - j;
 		key_moments[i] = key_moment;
 		GO_TO_NEXT_LINE(str);
 	}
@@ -376,7 +380,7 @@ StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	return sg;
 }
 
-StreamGraph SGA_StreamGraph_from_file(const char* filename) {
+StreamGraph StreamGraph_from_file(const char* filename) {
 	// Load the file
 	FILE* file = fopen(filename, "r");
 	if (file == NULL) {
@@ -399,7 +403,7 @@ StreamGraph SGA_StreamGraph_from_file(const char* filename) {
 	fclose(file);
 
 	// Parse the stream graph
-	StreamGraph sg = SGA_StreamGraph_from_string(buffer);
+	StreamGraph sg = StreamGraph_from_string(buffer);
 	free(buffer);
 	return sg;
 }
@@ -422,15 +426,15 @@ void append_node_name(charVector* vec, size_t node_idx, const char** node_names)
 	}
 }
 
-size_t SGA_StreamGraph_lifespan_begin(StreamGraph* sg) {
-	return SGA_KeyMomentsTable_first_moment(&sg->key_moments);
+size_t StreamGraph_lifespan_begin(StreamGraph* sg) {
+	return KeyMomentsTable_first_moment(&sg->key_moments);
 }
 
-size_t SGA_StreamGraph_lifespan_end(StreamGraph* sg) {
-	return SGA_KeyMomentsTable_last_moment(&sg->key_moments);
+size_t StreamGraph_lifespan_end(StreamGraph* sg) {
+	return KeyMomentsTable_last_moment(&sg->key_moments);
 }
 
-char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
+char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector vec = charVector_new();
 	TemporalNode* node = &sg->nodes.nodes[node_idx];
 	charVector_append(&vec, APPEND_CONST("\tNode "));
@@ -470,7 +474,7 @@ char* SGA_TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	return final_str;
 }
 
-char* SGA_Link_to_string(StreamGraph* sg, size_t link_idx) {
+char* Link_to_string(StreamGraph* sg, size_t link_idx) {
 	charVector vec = charVector_new();
 	char number[50];
 	Link* link = &sg->links.links[link_idx];
@@ -503,7 +507,7 @@ char* SGA_Link_to_string(StreamGraph* sg, size_t link_idx) {
 	return final_str;
 }
 
-char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
+char* Event_to_string(StreamGraph* sg, size_t event_idx) {
 	Event event = sg->events.events[event_idx];
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("\t"));
@@ -516,7 +520,7 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 	}
 	// if less than the deletion index
 	else if (event_idx < sg->events.disappearance_index) {
-		if (SGA_BitArray_is_one(sg->events.presence_mask, event_idx - 1)) {
+		if (BitArray_is_one(sg->events.presence_mask, event_idx - 1)) {
 			letter_event = '+';
 		}
 		else {
@@ -527,18 +531,18 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 		letter_event = 'X';
 	}
 
-	sprintf(buffer, "%zu = %c ", SGA_KeyMomentsTable_nth_key_moment(&sg->key_moments, event_idx), letter_event);
+	sprintf(buffer, "%zu = %c ", KeyMomentsTable_nth_key_moment(&sg->key_moments, event_idx), letter_event);
 	charVector_append(&vec, buffer, strlen(buffer));
 	charVector_append(&vec, APPEND_CONST("( Nodes : "));
-	for (size_t i = 0; i < *SGA_Event_access_nb_nodes(event); i++) {
-		sprintf(buffer, "%zu ", *SGA_Event_access_nth_node(event, i));
+	for (size_t i = 0; i < event.nb_links; i++) {
+		sprintf(buffer, "%zu ", *Event_access_nth_node(event, i));
 		charVector_append(&vec, buffer, strlen(buffer));
 		charVector_append(&vec, APPEND_CONST(" "));
 	}
 	charVector_append(&vec, APPEND_CONST("| Links : "));
-	for (size_t i = 0; i < *SGA_Event_access_nb_links(event); i++) {
+	for (size_t i = 0; i < event.nb_links; i++) {
 		// TODO : modify this to use the node names
-		sprintf(buffer, "%zu ", *SGA_Event_access_nth_link(event, i));
+		sprintf(buffer, "%zu ", *Event_access_nth_link(event, i));
 		charVector_append(&vec, buffer, strlen(buffer));
 	}
 	charVector_append(&vec, APPEND_CONST(")\n"));
@@ -550,11 +554,11 @@ char* SGA_Event_to_string(StreamGraph* sg, size_t event_idx) {
 	return final_str;
 }
 
-char* SGA_EventsTable_to_string(StreamGraph* sg) {
+char* EventsTable_to_string(StreamGraph* sg) {
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("EventsTable {\n"));
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		char* event_str = SGA_Event_to_string(sg, i);
+		char* event_str = Event_to_string(sg, i);
 		charVector_append(&vec, event_str, strlen(event_str));
 		free(event_str);
 	}
@@ -567,20 +571,20 @@ char* SGA_EventsTable_to_string(StreamGraph* sg) {
 	return final_str;
 }
 
-char* SGA_StreamGraph_to_string(StreamGraph* sg) {
+char* StreamGraph_to_string(StreamGraph* sg) {
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("StreamGraph {\n"));
 	// Append the lifespan
 	charVector_append(&vec, APPEND_CONST("\tLifespan="));
 	char* lifespan = (char*)malloc(100);
-	sprintf(lifespan, "(%zu %zu)", SGA_StreamGraph_lifespan_begin(sg), SGA_StreamGraph_lifespan_end(sg));
+	sprintf(lifespan, "(%zu %zu)", StreamGraph_lifespan_begin(sg), StreamGraph_lifespan_end(sg));
 	charVector_append(&vec, lifespan, strlen(lifespan));
 	free(lifespan);
 
 	// tostring the nodes
 	charVector_append(&vec, APPEND_CONST("\n\tNodes=[\n"));
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-		char* node_str = SGA_TemporalNode_to_string(sg, i);
+		char* node_str = TemporalNode_to_string(sg, i);
 		charVector_append(&vec, node_str, strlen(node_str));
 		free(node_str);
 	}
@@ -588,14 +592,14 @@ char* SGA_StreamGraph_to_string(StreamGraph* sg) {
 	// tostring the links
 	charVector_append(&vec, APPEND_CONST("\n\tLinks=[\n"));
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		char* link_str = SGA_Link_to_string(sg, i);
+		char* link_str = Link_to_string(sg, i);
 		charVector_append(&vec, link_str, strlen(link_str));
 		free(link_str);
 	}
 
 	// tostring the events
 	charVector_append(&vec, APPEND_CONST("\n\tEvents=[\n"));
-	char* events_str = SGA_EventsTable_to_string(sg);
+	char* events_str = EventsTable_to_string(sg);
 	charVector_append(&vec, events_str, strlen(events_str));
 	free(events_str);
 
@@ -606,7 +610,7 @@ char* SGA_StreamGraph_to_string(StreamGraph* sg) {
 	return final_str;
 }
 
-void SGA_StreamGraph_destroy(StreamGraph* sg) {
+void StreamGraph_destroy(StreamGraph* sg) {
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
 		free(sg->nodes.nodes[i].neighbours);
 		free(sg->nodes.nodes[i].presence.intervals);
@@ -616,10 +620,10 @@ void SGA_StreamGraph_destroy(StreamGraph* sg) {
 		free(sg->links.links[i].presence.intervals);
 	}
 	free(sg->links.links);
-	SGA_KeyMomentsTable_destroy(&sg->key_moments);
+	KeyMomentsTable_destroy(&sg->key_moments);
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		free(sg->events.events[i]);
+		free(sg->events.events[i].events);
 	}
 	free(sg->events.events);
-	SGA_BitArray_destroy(sg->events.presence_mask);
+	BitArray_destroy(sg->events.presence_mask);
 }
