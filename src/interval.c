@@ -3,7 +3,7 @@
 #include "vector.h"
 
 bool Interval_contains(Interval interval, TimeId time) {
-	return interval.start <= time && time <= interval.end;
+	return interval.start <= time && time < interval.end;
 }
 
 size_t Interval_size(Interval interval) {
