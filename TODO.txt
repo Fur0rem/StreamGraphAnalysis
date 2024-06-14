@@ -27,6 +27,7 @@ Metrics (V for implemeted, X for not implemented):
 - Node duration V
 - Link duration V
 - Uniformity V
+- Uniformity of a pair of nodes X
 - Compactness V
 - Density V
 - Density of a link X

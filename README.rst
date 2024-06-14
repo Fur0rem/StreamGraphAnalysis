@@ -23,6 +23,8 @@ Specifications of the stream graph data
 - The stream graph is continuous, undirected and unweighted
 - The stream graph cannot have instantaneous links, i.e. a link must last at least one time unit
 - The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[
+- If a node is specified in the stream graph, it must be present at least once in the lifespan of the stream graph, same for links
+- If a link is present at time t, the nodes u and v must be present at time t
 
 Data structure
 --------------
