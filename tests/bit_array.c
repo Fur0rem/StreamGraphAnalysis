@@ -7,21 +7,21 @@
 
 bool test_create() {
 	BitArray bit_array = BitArray_with_n_bits(10);
-	return EXPECT_EQ(BitArray_size(bit_array), 10);
+	return EXPECT_EQ(bit_array.nb_bits, 10);
 }
 
 bool test_set_one() {
 	BitArray bit_array = BitArray_with_n_bits(10);
 	BitArray_set_one(bit_array, 5);
 	char* str = BitArray_to_string(bit_array);
-	return EXPECT(bit_array[1] == (1 << 5));
+	return EXPECT(bit_array.bits[0] == (1 << 5));
 }
 
 bool test_set_zero() {
 	BitArray bit_array = BitArray_with_n_bits(10);
 	BitArray_set_one(bit_array, 5);
 	BitArray_set_zero(bit_array, 5);
-	return EXPECT(bit_array[1] == 0);
+	return EXPECT(bit_array.bits[0] == 0);
 }
 
 bool test_is_one() {

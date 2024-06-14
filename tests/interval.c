@@ -20,17 +20,22 @@ bool test_size_none() {
 	return EXPECT_EQ(Interval_size(i), 0);
 }
 
-bool test_contains_1() {
+bool test_contains() {
+	Interval i = (Interval){.start = 5, .end = 10};
+	return EXPECT(Interval_contains(i, 7));
+}
+
+bool test_contains_start() {
 	Interval i = (Interval){.start = 5, .end = 10};
 	return EXPECT(Interval_contains(i, 5));
 }
 
-bool test_contains_2() {
+bool test_doesnt_contains_end() {
 	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT(Interval_contains(i, 10));
+	return EXPECT(!Interval_contains(i, 10));
 }
 
-bool test_contains_3() {
+bool test_doesnt_contain() {
 	Interval i = (Interval){.start = 5, .end = 10};
 	return EXPECT(!Interval_contains(i, 0));
 }
@@ -108,9 +113,10 @@ int main() {
 		&(Test){"size_1",						  test_size_1						 },
 		&(Test){"size_2",						  test_size_2						 },
 		&(Test){"size_none",						 test_size_none					   },
-		&(Test){"contains_1",					  test_contains_1					 },
-		&(Test){"contains_2",					  test_contains_2					 },
-		&(Test){"contains_3",					  test_contains_3					 },
+		&(Test){"contains",						test_contains						 },
+		&(Test){"contains_start",				  test_contains_start				 },
+		&(Test){"doesnt_contains_end",			   test_doesnt_contains_end			   },
+		&(Test){"doesnt_contain",				  test_doesnt_contain				 },
 		&(Test){"intersection_1",				  test_intersection_1				 },
 		&(Test){"intersection_2",				  test_intersection_2				 },
 		&(Test){"intersection_none",				 test_intersection_none			   },

@@ -18,6 +18,12 @@ What it cannot do
 -----------------
 - Modify the stream graph : the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.
 
+Specifications of the stream graph data
+---------------------------------------
+- The stream graph is continuous, undirected and unweighted
+- The stream graph cannot have instantaneous links, i.e. a link must last at least one time unit
+- The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[
+
 Data structure
 --------------
 The data structure used was designed to allow fast reading by node, by link, or by time.

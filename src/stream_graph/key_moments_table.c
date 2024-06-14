@@ -96,5 +96,6 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
 		}
 	}
 
-	return SIZE_MAX;
+	// return the index where the time should be inserted
+	return index + left;
 }
