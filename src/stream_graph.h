@@ -27,5 +27,6 @@ void StreamGraph_destroy(StreamGraph* sg);
 size_t StreamGraph_lifespan_begin(StreamGraph* sg);
 size_t StreamGraph_lifespan_end(StreamGraph* sg);
 void init_events_table(StreamGraph* sg);
+void events_destroy(StreamGraph* sg);
 
 #endif // STREAM_GRAPH_H

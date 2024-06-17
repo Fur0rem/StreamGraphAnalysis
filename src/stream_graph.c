@@ -602,11 +602,8 @@ void StreamGraph_destroy(StreamGraph* sg) {
 	}
 	free(sg->links.links);
 	KeyMomentsTable_destroy(&sg->key_moments);
-	/*for (size_t i = 0; i < sg->events.nb_events; i++) {
-		free(sg->events.events[i].events);
-	}
-	free(sg->events.events);*/
-	// BitArray_destroy(sg->events.presence_mask);
+
+	// Free the events if they were initialized
 }
 
 #include "vector.h"
@@ -819,4 +816,21 @@ void init_events_table(StreamGraph* sg) {
 
 	// Write the events
 	events_table_write(sg, node_events, link_events);
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		size_tVector_destroy(node_events[i]);
+		size_tVector_destroy(link_events[i]);
+	}
+	free(node_events);
+	free(link_events);
+}
+
+void events_destroy(StreamGraph* sg) {
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		free(sg->events.node_events.events[i].events);
+		free(sg->events.link_events.events[i].events);
+	}
+	free(sg->events.node_events.events);
+	free(sg->events.link_events.events);
+	BitArray_destroy(sg->events.node_events.presence_mask);
+	BitArray_destroy(sg->events.link_events.presence_mask);
 }

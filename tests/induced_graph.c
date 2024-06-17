@@ -9,6 +9,8 @@ bool test_nodes_at_time_40() {
 	FOR_EACH_NODE_AT_TIME(&sg, node, 40) {
 		printf("Node : %zu\n", node);
 	}
+	events_destroy(&sg);
+
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -19,6 +21,8 @@ bool test_nodes_at_time_60() {
 	FOR_EACH_NODE_AT_TIME(&sg, node, 60) {
 		printf("Node : %zu\n", node);
 	}
+	events_destroy(&sg);
+
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -29,6 +33,8 @@ bool test_nodes_at_time_100() {
 	FOR_EACH_NODE_AT_TIME(&sg, node, 100) {
 		printf("Node : %zu\n", node);
 	}
+	events_destroy(&sg);
+
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -39,6 +45,8 @@ bool test_links_at_time_30() {
 	FOR_EACH_LINK_AT_TIME(&sg, link, 30) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
+	events_destroy(&sg);
+
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -49,6 +57,8 @@ bool test_links_at_time_60() {
 	FOR_EACH_LINK_AT_TIME(&sg, link, 60) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
+	events_destroy(&sg);
+
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -59,6 +69,7 @@ bool test_links_at_time_100() {
 	FOR_EACH_LINK_AT_TIME(&sg, link, 100) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
+	events_destroy(&sg);
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -69,6 +80,7 @@ bool test_links_at_time_40() {
 	FOR_EACH_LINK_AT_TIME(&sg, link, 40) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
+	events_destroy(&sg);
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -79,6 +91,7 @@ bool test_links_at_time_25() {
 	FOR_EACH_LINK_AT_TIME(&sg, link, 25) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
+	events_destroy(&sg);
 	StreamGraph_destroy(&sg);
 	return true;
 }
