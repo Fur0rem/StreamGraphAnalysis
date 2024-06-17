@@ -9,8 +9,7 @@ Scaling=100
 [Memory]
 NumberOfNodes=4
 NumberOfLinks=4
-RegularKeyMoments=8
-RemovalOnlyMoments=4
+NumberOfKeyMoments=13
 
 [[Nodes]]
 [[[NumberOfNeighbours]]]
@@ -68,32 +67,18 @@ RemovalOnlyMoments=4
 (1 2)
 
 [[Events]]
-0=((N 0) (N 1))
-[[[Regular]]]
-100=(+ (N 3) (L 0))
-200=(+ (L 1))
-300=(+)
-400=(- (N 0) (N 1) (N 2))
-450=(- (N 0) (N 2))
-500=(+ (N 1))
-600=(+ (L 3))
-700=(+ (L 0))
-[[[RemovalOnly]]]
-750=((L 2))
-800=((L 0))
-900=((N 2) (L 3))
-1000=((N 0) (N 1))
-
-[[PresenceIntervals]]
-[[[Nodes]]]
-((0 1000))
-((0 500) (600 1000))
-((400 900))
-((100 300))
-[[[Links]]]
-((100 300) (700 800))
-((200 300))
-((450 750))
-((600 900))
+0=((+ N 0) (+ N 1))
+100=((+ N 3) (+ L 0))
+200=((+ L 1))
+300=((- N 3) (- L 0) (- L 1))
+400=((- N 1) (+ N 2))
+450=((+ L 2))
+500=((+ N 1))
+600=((+ L 3))
+700=((+ L 0))
+750=((- L 2))
+800=((- L 0))
+900=((- N 2) (- L 3))
+1000=((- N 0) (- N 1))
 
 [EndOfFile]

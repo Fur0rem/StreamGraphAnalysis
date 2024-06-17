@@ -3,9 +3,11 @@
 
 bool test_load() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	printf("Loaded graph\n");
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
+	init_events_table(&sg);
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -15,6 +17,7 @@ bool test_load_slices() {
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
+	init_events_table(&sg);
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -31,13 +34,15 @@ bool test_find_index_of_time_in_slices() {
 	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 750);
 	StreamGraph_destroy(&sg);
 	return EXPECT_EQ(index, 9);
+	return true;
 }
 
 bool test_find_index_of_time_not_found() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 999999);
 	StreamGraph_destroy(&sg);
-	return EXPECT_EQ(index, SIZE_MAX);
+	return EXPECT_EQ(index, sg.events.nb_events);
+	return true;
 }
 
 int main() {

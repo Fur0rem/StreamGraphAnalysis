@@ -75,6 +75,9 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
 	size_t index = 0;
 	for (size_t i = 0; i < slice; i++) {
 		index += kmt->slices[i].nb_moments;
+		if (i >= kmt->nb_slices) {
+			return index;
+		}
 	}
 	// Then we find the index of the time in the slice
 	size_t relative_time = t % SLICE_SIZE;

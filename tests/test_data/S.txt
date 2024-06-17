@@ -9,8 +9,7 @@ Scaling=10
 [Memory]
 NumberOfNodes=4
 NumberOfLinks=4
-RegularKeyMoments=8
-RemovalOnlyMoments=4
+NumberOfKeyMoments=13
 
 [[Nodes]]
 [[[NumberOfNeighbours]]]
@@ -31,24 +30,9 @@ RemovalOnlyMoments=4
 1
 1
 
-[[KeyMoments]]
-[[[NumberOfEvents]]]
-2
-2
-1
-0
-3
-3
-1
-1
-1
-1
-1
-2
-2
-
 [[[NumberOfSlices]]]
 13
+
 
 [Data]
 
@@ -65,32 +49,18 @@ RemovalOnlyMoments=4
 (1 2)
 
 [[Events]]
-0=((N 0) (N 1))
-[[[Regular]]]
-10=(+ (N 3) (L 0))
-20=(+ (L 1))
-30=(+)
-40=(- (N 0) (N 1) (N 2))
-45=(- (N 0) (N 2) (L 2))
-50=(+ (N 1))
-60=(+ (L 3))
-70=(+ (L 0))
-[[[RemovalOnly]]]
-75=((L 2))
-80=((L 0))
-90=((N 2) (L 3))
-100=((N 0) (N 1))
-
-[[PresenceIntervals]]
-[[[Nodes]]]
-((0 100))
-((0 40) (50 100))
-((40 90))
-((10 30))
-[[[Links]]]
-((10 30) (70 80))
-((20 30))
-((45 75))
-((60 90))
+0=((+ N 0) (+ N 1))
+10=((+ N 3) (+ L 0))
+20=((+ L 1))
+30=((- N 3) (- L 0) (- L 1))
+40=((- N 1) (+ N 2))
+45=((+ L 2))
+50=((+ N 1))
+60=((+ L 3))
+70=((+ L 0))
+75=((- L 2))
+80=((- L 0))
+90=((- N 2) (- L 3))
+100=((- N 0) (- N 1))
 
 [EndOfFile]
