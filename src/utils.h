@@ -15,6 +15,9 @@
 // Malloc with error handling
 #define MALLOC_CHECK(size)                                                                                             \
 	({                                                                                                                 \
+		if (size == 0) {                                                                                               \
+			fprintf(stderr, "Memory allocation with size 0\n");                                                        \
+		}                                                                                                              \
 		void* ptr = malloc(size);                                                                                      \
 		if (ptr == NULL) {                                                                                             \
 			fprintf(stderr, "Memory allocation failed\n");                                                             \
