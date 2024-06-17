@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <assert.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -62,5 +63,15 @@
 	type type##_max(type a, type b) {                                                                                  \
 		return a > b ? a : b;                                                                                          \
 	}
+
+#ifdef DEBUG
+#define DEBUG_ASSERT(expr)                                                                                             \
+	if (!(expr)) {                                                                                                     \
+		fprintf(stderr, "Assertion failed: %s\n", #expr);                                                              \
+		assert(expr);                                                                                                  \
+	}
+#else
+#define DEBUG_ASSERT(expr)
+#endif
 
 #endif

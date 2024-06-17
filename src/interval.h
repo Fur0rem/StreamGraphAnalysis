@@ -25,5 +25,6 @@ void IntervalsSet_merge(IntervalsSet* intervals_set);
 IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b);
 IntervalsSet IntervalsSet_union(IntervalsSet a, IntervalsSet b);
 void IntervalsSet_destroy(IntervalsSet intervals_set);
-
+Interval IntervalsSet_last(IntervalsSet* intervals_set);
+bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time);
 #endif // INTERVAL_H

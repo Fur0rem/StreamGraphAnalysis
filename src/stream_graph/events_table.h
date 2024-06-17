@@ -1,22 +1,29 @@
+#ifndef EVENTS_TABLE_H
+#define EVENTS_TABLE_H
+
 #include "../bit_array.h"
 #include "../units.h"
 #include <stddef.h>
 #include <stdint.h>
 
 typedef struct {
-	size_t nb_nodes;
-	size_t nb_links;
+	size_t nb_info;
 	size_t* events;
 } Event;
 
 typedef struct {
+	Event* events;
 	TimeId disappearance_index;
 	BitArray presence_mask;
+} Events;
+
+typedef struct {
 	size_t nb_events;
-	Event* events; // The first element contains the number of nodes in the array, then the n
+	Events node_events;
+	Events link_events;
 } EventsTable;
 
-size_t* Event_access_nth_node(Event event, size_t n);
-size_t* Event_access_nth_link(Event event, size_t n);
+EventsTable EventsTable_alloc(size_t nb_node_regular_key_moments, size_t nb_node_removal_only_key_moments,
+							  size_t nb_link_regular_key_moments, size_t nb_link_removal_only_key_moments);
 
-EventsTable EventsTable_alloc(size_t nb_regular_key_moments, size_t nb_removal_only_key_moments);
+#endif

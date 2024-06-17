@@ -8,6 +8,7 @@
 
 #include "interval.h"
 #include "stream_graph.h"
+#include "stream_graph/events_table.h"
 #include "units.h"
 #include "utils.h"
 
@@ -87,7 +88,77 @@ char* get_to_header(const char* str, const char* header) {
 	}
 
 // TODO : Make the code better and less unreadable copy pasted code
-// TODO : Add field for precision loss
+/* Format :
+SGA Internal version 1.0.0
+
+
+[General]
+Lifespan=(0 100)
+Scaling=10
+
+
+[Memory]
+NumberOfNodes=4
+NumberOfLinks=4
+RegularKeyMoments=8
+RemovalOnlyMoments=4
+
+[[Nodes]]
+[[[NumberOfNeighbours]]]
+2
+2
+2
+1
+[[[NumberOfIntervals]]]
+1
+2
+1
+1
+
+[[Links]]
+[[[NumberOfIntervals]]]
+2
+1
+1
+1
+
+[[[NumberOfSlices]]]
+13
+
+
+[Data]
+
+[[Neighbours]]
+[[[NodesToLinks]]]
+(0 2)
+(1 3)
+(2 3)
+(1)
+[[[LinksToNodes]]]
+(0 1)
+(1 3)
+(0 2)
+(1 2)
+
+[[Events]]
+0=((+ N 0) (+ N 1))
+10=((+ N 3) (+ L 0))
+20=((+ L 1))
+30=((- L 0) (- L 1))
+40=((- N 1) (+ N 2))
+45=((+ L 2))
+50=((+ N 1))
+60=((+ L 3))
+70=((+ L 0))
+75=((- L 2))
+80=((- L 0))
+90=((- N 2) (- L 3))
+100=((- N 0) (- N 1))
+
+[EndOfFile]
+
+[EndOfFile]
+*/
 StreamGraph StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
@@ -123,21 +194,16 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	nb_scanned = sscanf(str, "NumberOfLinks=%zu\n", &nb_links);
 	EXPECTED_NB_SCANNED(1);
 	GO_TO_NEXT_LINE(str);
-	size_t nb_regular_key_moments;
-	nb_scanned = sscanf(str, "RegularKeyMoments=%zu\n", &nb_regular_key_moments);
+	size_t nb_key_moments;
+	nb_scanned = sscanf(str, "NumberOfKeyMoments=%zu\n", &nb_key_moments);
 	EXPECTED_NB_SCANNED(1);
 	GO_TO_NEXT_LINE(str);
-	size_t nb_removal_only_moments;
-	nb_scanned = sscanf(str, "RemovalOnlyMoments=%zu\n", &nb_removal_only_moments);
-	EXPECTED_NB_SCANNED(1);
-	GO_TO_NEXT_LINE(str);
-	size_t nb_key_moments = nb_regular_key_moments + nb_removal_only_moments + 1;
+
 	size_t* key_moments = (size_t*)malloc(nb_key_moments * sizeof(size_t));
 	// Allocate the stream graph
 	sg.key_moments = KeyMomentsTable_alloc(nb_slices);
 	sg.nodes = TemporalNodesSet_alloc(nb_nodes);
 	sg.links = LinksSet_alloc(nb_links);
-	sg.events = EventsTable_alloc(nb_regular_key_moments, nb_removal_only_moments);
 
 	// Parse the memory needed for the nodes
 	NEXT_HEADER([[Nodes]]);
@@ -178,24 +244,6 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		sg.links.links[link].presence = presence;
 	}
 
-	NEXT_HEADER([[KeyMoments]]);
-	NEXT_HEADER([[[NumberOfEvents]]]);
-	size_t* nb_events_per_key_moment = (size_t*)malloc(nb_key_moments * sizeof(size_t));
-	for (size_t key_moment = 0; key_moment < nb_key_moments; key_moment++) {
-		// Parse the key moment
-		size_t nb_events;
-		nb_scanned = sscanf(str, "%zu\n", &nb_events);
-		EXPECTED_NB_SCANNED(1);
-		GO_TO_NEXT_LINE(str);
-		// Allocate the events
-		sg.events.events[key_moment] = (Event){
-			.nb_nodes = 0,
-			.nb_links = 0,
-			.events = (size_t*)malloc(nb_events * sizeof(size_t)),
-		};
-		nb_events_per_key_moment[key_moment] = nb_events;
-	}
-
 	NEXT_HEADER([[[NumberOfSlices]]]);
 	size_t moments_in_slice;
 	for (size_t i = 0; i < nb_slices; i++) {
@@ -232,150 +280,83 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	}
 
 	NEXT_HEADER([[Events]]);
-	// Parse the first one
-	size_t key_moment;
-	nb_scanned = sscanf(str, "%zu=", &key_moment);
-	EXPECTED_NB_SCANNED(1);
-	str = strchr(str, '(') + 1;
-	KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-	// Parse all the node events
-	size_t j = 0;
-	for (; j < nb_events_per_key_moment[0]; j++) {
-		char type;
-		size_t node;
-		nb_scanned = sscanf(str, "(%c %zu)", &type, &node);
-		EXPECTED_NB_SCANNED(2);
-		NEXT_TUPLE(str);
-		*Event_access_nth_node(sg.events.events[0], j) = node;
+	// Parse all the tuples afterwards
+	int* nb_pushed_for_nodes = malloc(nb_nodes * sizeof(int));
+	int* nb_pushed_for_links = malloc(nb_links * sizeof(int));
+	for (size_t i = 0; i < nb_nodes; i++) {
+		nb_pushed_for_nodes[i] = 0;
 	}
-	sg.events.events[0].nb_nodes = j;
-
-	size_t k;
-	for (k = j; k < nb_events_per_key_moment[0]; k++) {
-		char type;
-		size_t link;
-		nb_scanned = sscanf(str, "(%c %zu)", &type, &link);
-		EXPECTED_NB_SCANNED(2);
-		NEXT_TUPLE(str);
-		*Event_access_nth_link(sg.events.events[0], k - j) = link;
-	}
-	sg.events.events[0].nb_links = k - j;
-	key_moments[0] = key_moment;
-
-	NEXT_HEADER([[[Regular]]]);
-	for (size_t i = 1; i < nb_regular_key_moments + 1; i++) {
-		// Parse the key moment
-		size_t key_moment;
-		char type;
-		nb_scanned = sscanf(str, "%zu=(%c", &key_moment, &type);
-		EXPECTED_NB_SCANNED(2);
-		str = strchr(str, '=') + sizeof("(x ");
-		if (type == '-') {
-			BitArray_set_zero(sg.events.presence_mask, i - 1);
-		}
-		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		//  Parse all the node events
-		size_t j = 0;
-		for (; j < nb_events_per_key_moment[i]; j++) {
-			char node_or_link;
-			size_t id;
-			nb_scanned = sscanf(str, "(%c %zu)", &node_or_link, &id);
-			if (node_or_link == 'L') {
-				goto parse_links;
-			}
-			EXPECTED_NB_SCANNED(2);
-			NEXT_TUPLE(str);
-			*Event_access_nth_node(sg.events.events[i], j) = id;
-		}
-	parse_links:
-		sg.events.events[i].nb_nodes = j;
-		size_t k;
-		for (k = j; k < nb_events_per_key_moment[i]; k++) {
-			char link;
-			size_t id;
-			nb_scanned = sscanf(str, "(%c %zu)", &link, &id);
-
-			EXPECTED_NB_SCANNED(2);
-			NEXT_TUPLE(str);
-			*Event_access_nth_link(sg.events.events[i], k - j) = id;
-		}
-		sg.events.events[i].nb_links = k - j;
-		key_moments[i] = key_moment;
-		GO_TO_NEXT_LINE(str);
+	for (size_t i = 0; i < nb_links; i++) {
+		nb_pushed_for_links[i] = 0;
 	}
 
-	NEXT_HEADER([[[RemovalOnly]]]);
-	for (size_t i = nb_regular_key_moments + 1; i < nb_key_moments; i++) {
-		// Parse the key moment
+	for (size_t i = 0; i < nb_key_moments; i++) {
 		size_t key_moment;
 		nb_scanned = sscanf(str, "%zu=", &key_moment);
 		EXPECTED_NB_SCANNED(1);
 		str = strchr(str, '(') + 1;
 		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		//  Parse all the node events
-		size_t j = 0;
-		for (; j < nb_events_per_key_moment[i]; j++) {
-			char node_or_link;
+		while (*str != '\n') {
+			char letter, sign;
 			size_t id;
-			nb_scanned = sscanf(str, "(%c %zu)", &node_or_link, &id);
-			EXPECTED_NB_SCANNED(2);
-			if (node_or_link == 'L') {
-				goto parse_links_removal;
+			nb_scanned = sscanf(str, "(%c %c %zu)", &sign, &letter, &id);
+			EXPECTED_NB_SCANNED(3);
+			// TODO : refactor this
+			if (letter == 'N') {
+				if (nb_pushed_for_nodes[id] % 2 == 0) {
+					if (sign != '+') {
+						fprintf(stderr, "Node %zu added twice without being removed\n", id);
+						exit(1);
+					}
+					nb_pushed_for_nodes[id]++;
+					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].start = key_moment;
+				}
+				else {
+					if (sign != '-') {
+						fprintf(stderr, "Node %zu removed twice without being added\n", id);
+						exit(1);
+					}
+					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].end = key_moment;
+					nb_pushed_for_nodes[id]++;
+				}
+			}
+			else if (letter == 'L') {
+				if (nb_pushed_for_links[id] % 2 == 0) {
+					if (sign != '+') {
+						fprintf(stderr, "Link %zu added twice without being removed\n", id);
+						exit(1);
+					}
+					nb_pushed_for_links[id]++;
+					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start = key_moment;
+				}
+				else {
+					if (sign != '-') {
+						fprintf(stderr, "Link %zu removed twice without being added\n", id);
+						exit(1);
+					}
+					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].end = key_moment;
+					nb_pushed_for_links[id]++;
+				}
+			}
+			else {
+				fprintf(stderr, "Could not parse the letter %c\n", letter);
+				exit(1);
 			}
 			NEXT_TUPLE(str);
-			*Event_access_nth_node(sg.events.events[i], j) = id;
 		}
-	parse_links_removal:
-		sg.events.events[i].nb_nodes = j;
-		size_t k;
-		for (k = j; k < nb_events_per_key_moment[i]; k++) {
-			char link;
-			size_t id;
-			nb_scanned = sscanf(str, "(%c %zu)", &link, &id);
-			EXPECTED_NB_SCANNED(2);
-			NEXT_TUPLE(str);
-			*Event_access_nth_link(sg.events.events[i], k - j) = id;
-		}
-		sg.events.events[i].nb_links = k - j;
-		key_moments[i] = key_moment;
 		GO_TO_NEXT_LINE(str);
 	}
 
-	NEXT_HEADER([[PresenceIntervals]]);
-	NEXT_HEADER([[[Nodes]]]);
-	// Parse the presence intervals
-	for (size_t node = 0; node < nb_nodes; node++) {
-		str++;
-		for (size_t i = 0; i < sg.nodes.nodes[node].presence.nb_intervals; i++) {
-			size_t start;
-			size_t end;
-			nb_scanned = sscanf(str, "(%zu %zu)", &start, &end);
-			EXPECTED_NB_SCANNED(2);
-			NEXT_TUPLE(str);
-			sg.nodes.nodes[node].presence.intervals[i].start = start;
-			sg.nodes.nodes[node].presence.intervals[i].end = end;
-		}
-		GO_TO_NEXT_LINE(str);
-	}
-	NEXT_HEADER([[[Links]]]);
-	for (size_t link = 0; link < nb_links; link++) {
-		str++;
-		for (size_t i = 0; i < sg.links.links[link].presence.nb_intervals; i++) {
-			size_t start;
-			size_t end;
-			nb_scanned = sscanf(str, "(%zu %zu)", &start, &end);
-			EXPECTED_NB_SCANNED(2);
-			NEXT_TUPLE(str);
-			sg.links.links[link].presence.intervals[i].start = start;
-			sg.links.links[link].presence.intervals[i].end = end;
-		}
-		GO_TO_NEXT_LINE(str);
-	}
+	sg.events.nb_events = nb_key_moments;
+
+	printf("nb_key_moments: %zu\n", nb_key_moments);
+	printf("nb_events: %zu\n", sg.events.nb_events);
 
 	NEXT_HEADER([EndOfFile]);
 
-	free(nb_events_per_key_moment);
 	free(key_moments);
+	free(nb_pushed_for_nodes);
+	free(nb_pushed_for_links);
 
 	return sg;
 }
@@ -507,7 +488,7 @@ char* Link_to_string(StreamGraph* sg, size_t link_idx) {
 	return final_str;
 }
 
-char* Event_to_string(StreamGraph* sg, size_t event_idx) {
+/*char* Event_to_string(StreamGraph* sg, size_t event_idx) {
 	Event event = sg->events.events[event_idx];
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("\t"));
@@ -569,7 +550,7 @@ char* EventsTable_to_string(StreamGraph* sg) {
 	final_str[vec.size] = '\0';
 	free(vec.array);
 	return final_str;
-}
+}*/
 
 char* StreamGraph_to_string(StreamGraph* sg) {
 	charVector vec = charVector_new();
@@ -598,10 +579,10 @@ char* StreamGraph_to_string(StreamGraph* sg) {
 	}
 
 	// tostring the events
-	charVector_append(&vec, APPEND_CONST("\n\tEvents=[\n"));
+	/*charVector_append(&vec, APPEND_CONST("\n\tEvents=[\n"));
 	char* events_str = EventsTable_to_string(sg);
 	charVector_append(&vec, events_str, strlen(events_str));
-	free(events_str);
+	free(events_str);*/
 
 	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
 	memcpy(final_str, vec.array, vec.size);
@@ -621,9 +602,193 @@ void StreamGraph_destroy(StreamGraph* sg) {
 	}
 	free(sg->links.links);
 	KeyMomentsTable_destroy(&sg->key_moments);
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
+	/*for (size_t i = 0; i < sg->events.nb_events; i++) {
 		free(sg->events.events[i].events);
 	}
-	free(sg->events.events);
-	BitArray_destroy(sg->events.presence_mask);
+	free(sg->events.events);*/
+	// BitArray_destroy(sg->events.presence_mask);
+}
+
+#include "vector.h"
+DEFAULT_COMPARE(size_t)
+DEFAULT_MIN_MAX(size_t)
+DEFAULT_TO_STRING(size_t, "%zu")
+DefVector(size_t, NO_FREE(size_t));
+
+// TODO : refactor this because the code for nodes and links is the same
+// TODO : probably not very efficient either (presence mask propagation lookup is slow)
+void init_events_table(StreamGraph* sg) {
+	// only the number of events is known and node and link presence intervals are known
+
+	// Find the index of the last time a node appears
+	size_t last_node_addition = 0;
+	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
+		size_t last_node_time = IntervalsSet_last(&sg->nodes.nodes[i].presence).start;
+		if (last_node_time > last_node_addition) {
+			last_node_addition = last_node_time;
+		}
+	}
+
+	size_t last_link_addition = 0;
+	for (size_t i = 0; i < sg->links.nb_links; i++) {
+		size_t last_link_time = IntervalsSet_last(&sg->links.links[i].presence).start;
+		if (last_link_time > last_link_addition) {
+			last_link_addition = last_link_time;
+		}
+	}
+
+	size_t index_of_last_node_addition = KeyMomentsTable_find_time_index(&sg->key_moments, last_node_addition);
+	size_t index_of_last_link_addition = KeyMomentsTable_find_time_index(&sg->key_moments, last_link_addition);
+
+	printf("last_node_addition: %zu\n", last_node_addition);
+	printf("last_link_addition: %zu\n", last_link_addition);
+	printf("index_of_last_node_addition: %zu\n", index_of_last_node_addition);
+	printf("index_of_last_link_addition: %zu\n", index_of_last_link_addition);
+
+	sg->events.node_events.disappearance_index = index_of_last_node_addition;
+	sg->events.link_events.disappearance_index = index_of_last_link_addition;
+
+	// Allocate the accumulator for the events
+	printf("nb_events: %zu\n", sg->events.nb_events);
+	size_tVector* node_events = MALLOC(sizeof(size_tVector) * sg->events.nb_events);
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		node_events[i] = size_tVector_new();
+	}
+
+	// Fill the events
+	sg->events.node_events.presence_mask = BitArray_n_ones(sg->events.node_events.disappearance_index + 1);
+
+	// For each node
+	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
+		TemporalNode* node = &sg->nodes.nodes[i];
+		// For each interval
+		for (size_t j = 0; j < node->presence.nb_intervals; j++) {
+			Interval interval = node->presence.intervals[j];
+			size_t start = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
+			size_t end = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			// Invalidate the bit of the presence mask
+			if (end < sg->events.node_events.disappearance_index) {
+				printf("invalidating %zu\n", end);
+				BitArray_set_zero(sg->events.node_events.presence_mask, end - 1);
+			}
+			// Push the creation
+			size_tVector_push(&node_events[start], i);
+
+			// Push the deletion if
+			if (end >= sg->events.node_events.disappearance_index) {
+				size_tVector_push(&node_events[end], i);
+			}
+		}
+	}
+
+	printf("node presence mask: ");
+	char* str = BitArray_to_string(sg->events.node_events.presence_mask);
+	printf("%s\n", str);
+	free(str);
+
+	// print all the node events
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
+		str = size_tVector_to_string(node_events[i]);
+		printf("%s\n", str);
+		free(str);
+	}
+
+	// Do the same for links
+	sg->events.link_events.presence_mask = BitArray_n_ones(sg->events.link_events.disappearance_index + 1);
+
+	size_tVector* link_events = MALLOC(sizeof(size_tVector) * sg->events.nb_events);
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		link_events[i] = size_tVector_new();
+	}
+
+	for (size_t i = 0; i < sg->links.nb_links; i++) {
+		Link* link = &sg->links.links[i];
+		for (size_t j = 0; j < link->presence.nb_intervals; j++) {
+			Interval interval = link->presence.intervals[j];
+			size_t start = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
+			size_t end = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			if (end < sg->events.link_events.disappearance_index) {
+				BitArray_set_zero(sg->events.link_events.presence_mask, end);
+			}
+			size_tVector_push(&link_events[start], i);
+			if (end >= sg->events.link_events.disappearance_index) {
+				size_tVector_push(&link_events[end], i);
+			}
+		}
+	}
+
+	// print all the link events
+	/*for (size_t i = 0; i < sg->events.nb_events; i++) {
+		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
+		str = size_tVector_to_string(link_events[i]);
+		printf("%s\n", str);
+		free(str);
+	}*/
+
+	// Propagate the events
+	// For each event before the disappearence index, if it has deletions, you recopy from the left until you find
+	// another deletion
+
+	for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
+		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {
+			for (int j = i - 2; j >= 0; j--) {
+				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
+					for (size_t k = 0; k < node_events[j].size; k++) {
+						if (IntervalsSet_contains(sg->nodes.nodes[node_events[j].array[k]].presence,
+												  KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+							size_tVector_push(&node_events[i], node_events[j].array[k]);
+						}
+					}
+				}
+				else {
+					break;
+				}
+			}
+		}
+	}
+
+	// print all the node events
+	printf("After propagation (nodes)\n");
+	char* mask_str_nodes = BitArray_to_string(sg->events.node_events.presence_mask);
+	printf("node presence mask: %s\n", mask_str_nodes);
+	free(mask_str_nodes);
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
+		str = size_tVector_to_string(node_events[i]);
+		printf("%s\n", str);
+		free(str);
+	}
+
+	// Do the same for links
+	for (size_t i = 1; i < sg->events.link_events.disappearance_index; i++) {
+		if (BitArray_is_zero(sg->events.link_events.presence_mask, i - 1)) {
+			for (int j = i - 2; j >= 0; j--) {
+				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
+					for (size_t k = 0; k < link_events[j].size; k++) {
+						if (IntervalsSet_contains(sg->links.links[link_events[j].array[k]].presence,
+												  KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+							size_tVector_push(&link_events[i], link_events[j].array[k]);
+						}
+					}
+				}
+				else {
+					break;
+				}
+			}
+			printf("done\n");
+		}
+	}
+
+	// print all the link events
+	printf("After propagation (links)\n");
+	char* mask_str = BitArray_to_string(sg->events.link_events.presence_mask);
+	printf("link presence mask: %s\n", mask_str);
+	free(mask_str);
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
+		str = size_tVector_to_string(link_events[i]);
+		printf("%s\n", str);
+		free(str);
+	}
 }

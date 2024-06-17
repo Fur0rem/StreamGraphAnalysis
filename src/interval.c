@@ -143,3 +143,16 @@ IntervalsSet IntervalsSet_union(IntervalsSet a, IntervalsSet b) {
 	IntervalVector_destroy(union_intervals);
 	return result;
 }
+
+Interval IntervalsSet_last(IntervalsSet* intervals_set) {
+	return intervals_set->intervals[intervals_set->nb_intervals - 1];
+}
+
+bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time) {
+	for (size_t i = 0; i < intervals_set.nb_intervals; i++) {
+		if (Interval_contains(intervals_set.intervals[i], time)) {
+			return true;
+		}
+	}
+	return false;
+}

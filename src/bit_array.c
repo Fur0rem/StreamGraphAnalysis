@@ -5,16 +5,19 @@
 
 // First byte is used to store the number of bits in the array
 
+size_t nb_bytes(size_t nb_bits) {
+	return (nb_bits / sizeof(size_t)) + 1;
+}
+
 BitArray BitArray_with_n_bits(size_t nb_bits) {
 
-	size_t size = (nb_bits / sizeof(size_t)) + 1;
-	BitArray bit_array = (BitArray){.nb_bits = nb_bits, .bits = MALLOC(size * sizeof(size_t))};
+	BitArray bit_array = (BitArray){.nb_bits = nb_bits, .bits = MALLOC(nb_bytes(nb_bits) * sizeof(size_t))};
 	return bit_array;
 }
 
 BitArray BitArray_n_zeros(size_t nb_bits) {
 	BitArray bit_array = BitArray_with_n_bits(nb_bits);
-	for (size_t i = 0; i < (nb_bits / sizeof(size_t)); i++) {
+	for (size_t i = 0; i < nb_bytes(nb_bits); i++) {
 		bit_array.bits[i] = 0;
 	}
 	return bit_array;
@@ -22,7 +25,7 @@ BitArray BitArray_n_zeros(size_t nb_bits) {
 
 BitArray BitArray_n_ones(size_t nb_bits) {
 	BitArray bit_array = BitArray_with_n_bits(nb_bits);
-	for (size_t i = 0; i < (nb_bits / sizeof(size_t)); i++) {
+	for (size_t i = 0; i < nb_bytes(nb_bits); i++) {
 		bit_array.bits[i] = ~0;
 	}
 	return bit_array;
@@ -39,6 +42,10 @@ size_t bit_index(size_t index) {
 
 bool BitArray_is_one(BitArray array, size_t index) {
 	return (array.bits[byte_index(index)] & (1 << bit_index(index))) != 0;
+}
+
+bool BitArray_is_zero(BitArray array, size_t index) {
+	return !BitArray_is_one(array, index);
 }
 
 void BitArray_set_one(BitArray array, size_t index) {
