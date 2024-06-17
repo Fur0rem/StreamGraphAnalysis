@@ -41,6 +41,14 @@ bool test_find_index_of_time_not_found() {
 	return EXPECT_EQ(index, sg.events.nb_events);
 }
 
+bool test_init_events_table() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	init_events_table(&sg);
+	events_destroy(&sg);
+	StreamGraph_destroy(&sg);
+	return true;
+}
+
 int main() {
 	Test* tests[] = {
 		&(Test){"load",						 test_load						 },
@@ -48,6 +56,7 @@ int main() {
 		&(Test){"find_index_of_time",			  test_find_index_of_time			 },
 		&(Test){"find_index_of_time_in_slices", test_find_index_of_time_in_slices},
 		&(Test){"find_index_of_time_not_found", test_find_index_of_time_not_found},
+		&(Test){"init_events_table",			 test_init_events_table		   },
 		NULL
 	};
 

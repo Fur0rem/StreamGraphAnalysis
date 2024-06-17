@@ -621,17 +621,29 @@ void events_table_write(StreamGraph* sg, size_tVector* node_events, size_tVector
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
 		Event node_event;
 		node_event.nb_info = node_events[i].size;
-		node_event.events = MALLOC(sizeof(size_t) * node_event.nb_info);
-		for (size_t j = 0; j < node_event.nb_info; j++) {
-			node_event.events[j] = node_events[i].array[j];
+		if (node_event.nb_info == 0) {
+			printf("No events for node %zu\n", i);
+			node_event.events = NULL;
+		}
+		else {
+			node_event.events = MALLOC(sizeof(size_t) * node_event.nb_info);
+			for (size_t j = 0; j < node_event.nb_info; j++) {
+				node_event.events[j] = node_events[i].array[j];
+			}
 		}
 		sg->events.node_events.events[i] = node_event;
 
 		Event link_event;
 		link_event.nb_info = link_events[i].size;
-		link_event.events = MALLOC(sizeof(size_t) * link_event.nb_info);
-		for (size_t j = 0; j < link_event.nb_info; j++) {
-			link_event.events[j] = link_events[i].array[j];
+		if (link_event.nb_info == 0) {
+			printf("No events for link %zu\n", i);
+			link_event.events = NULL;
+		}
+		else {
+			link_event.events = MALLOC(sizeof(size_t) * link_event.nb_info);
+			for (size_t j = 0; j < link_event.nb_info; j++) {
+				link_event.events[j] = link_events[i].array[j];
+			}
 		}
 		sg->events.link_events.events[i] = link_event;
 	}
@@ -771,7 +783,8 @@ void init_events_table(StreamGraph* sg) {
 	}
 
 	// print all the node events
-	/*printf("After propagation (nodes)\n");
+	char* str;
+	printf("After propagation (nodes)\n");
 	char* mask_str_nodes = BitArray_to_string(sg->events.node_events.presence_mask);
 	printf("node presence mask: %s\n", mask_str_nodes);
 	free(mask_str_nodes);
@@ -780,7 +793,7 @@ void init_events_table(StreamGraph* sg) {
 		str = size_tVector_to_string(node_events[i]);
 		printf("%s\n", str);
 		free(str);
-	}*/
+	}
 
 	// Do the same for links
 	for (size_t i = 1; i < sg->events.link_events.disappearance_index; i++) {
@@ -803,7 +816,7 @@ void init_events_table(StreamGraph* sg) {
 	}
 
 	// print all the link events
-	/*printf("After propagation (links)\n");
+	printf("After propagation (links)\n");
 	char* mask_str = BitArray_to_string(sg->events.link_events.presence_mask);
 	printf("link presence mask: %s\n", mask_str);
 	free(mask_str);
@@ -812,7 +825,7 @@ void init_events_table(StreamGraph* sg) {
 		str = size_tVector_to_string(link_events[i]);
 		printf("%s\n", str);
 		free(str);
-	}*/
+	}
 
 	// Write the events
 	events_table_write(sg, node_events, link_events);
@@ -826,8 +839,12 @@ void init_events_table(StreamGraph* sg) {
 
 void events_destroy(StreamGraph* sg) {
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		free(sg->events.node_events.events[i].events);
-		free(sg->events.link_events.events[i].events);
+		if (sg->events.node_events.events[i].events != NULL) {
+			free(sg->events.node_events.events[i].events);
+		}
+		if (sg->events.link_events.events[i].events != NULL) {
+			free(sg->events.link_events.events[i].events);
+		}
 	}
 	free(sg->events.node_events.events);
 	free(sg->events.link_events.events);
