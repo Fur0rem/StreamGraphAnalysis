@@ -6,7 +6,8 @@
 bool test_nodes_at_time_40() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_NODE_AT_TIME(&sg, node, 40) {
+	NodesIterator nodes_present_at_40 = get_nodes_present_at_t(&sg, 40);
+	FOR_EACH_NODE(nodes_present_at_40, node) {
 		printf("Node : %zu\n", node);
 	}
 	events_destroy(&sg);
@@ -18,7 +19,8 @@ bool test_nodes_at_time_40() {
 bool test_nodes_at_time_60() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_NODE_AT_TIME(&sg, node, 60) {
+	NodesIterator nodes_present_at_60 = get_nodes_present_at_t(&sg, 60);
+	FOR_EACH_NODE(nodes_present_at_60, node) {
 		printf("Node : %zu\n", node);
 	}
 	events_destroy(&sg);
@@ -30,7 +32,8 @@ bool test_nodes_at_time_60() {
 bool test_nodes_at_time_100() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_NODE_AT_TIME(&sg, node, 100) {
+	NodesIterator nodes_present_at_100 = get_nodes_present_at_t(&sg, 100);
+	FOR_EACH_NODE(nodes_present_at_100, node) {
 		printf("Node : %zu\n", node);
 	}
 	events_destroy(&sg);
@@ -42,7 +45,8 @@ bool test_nodes_at_time_100() {
 bool test_links_at_time_30() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 30) {
+	LinksIterator links_present_at_30 = get_links_present_at_t(&sg, 30);
+	FOR_EACH_LINK(links_present_at_30, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -54,11 +58,11 @@ bool test_links_at_time_30() {
 bool test_links_at_time_60() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 60) {
+	LinksIterator links_present_at_60 = get_links_present_at_t(&sg, 60);
+	FOR_EACH_LINK(links_present_at_60, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
-
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -66,7 +70,8 @@ bool test_links_at_time_60() {
 bool test_links_at_time_100() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 100) {
+	LinksIterator links_present_at_100 = get_links_present_at_t(&sg, 100);
+	FOR_EACH_LINK(links_present_at_100, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -77,7 +82,8 @@ bool test_links_at_time_100() {
 bool test_links_at_time_40() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 40) {
+	LinksIterator links_present_at_40 = get_links_present_at_t(&sg, 40);
+	FOR_EACH_LINK(links_present_at_40, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -88,7 +94,8 @@ bool test_links_at_time_40() {
 bool test_links_at_time_25() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 25) {
+	LinksIterator links_present_at_25 = get_links_present_at_t(&sg, 25);
+	FOR_EACH_LINK(links_present_at_25, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -99,7 +106,8 @@ bool test_links_at_time_25() {
 bool test_links_at_time_74() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 74) {
+	LinksIterator links_present_at_74 = get_links_present_at_t(&sg, 74);
+	FOR_EACH_LINK(links_present_at_74, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -110,7 +118,8 @@ bool test_links_at_time_74() {
 bool test_links_at_time_75() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 75) {
+	LinksIterator links_present_at_75 = get_links_present_at_t(&sg, 75);
+	FOR_EACH_LINK(links_present_at_75, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -121,7 +130,8 @@ bool test_links_at_time_75() {
 bool test_links_at_time_76() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 76) {
+	LinksIterator links_present_at_76 = get_links_present_at_t(&sg, 76);
+	FOR_EACH_LINK(links_present_at_76, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -132,7 +142,8 @@ bool test_links_at_time_76() {
 bool test_links_at_time_80() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 80) {
+	LinksIterator links_present_at_80 = get_links_present_at_t(&sg, 80);
+	FOR_EACH_LINK(links_present_at_80, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
@@ -143,7 +154,8 @@ bool test_links_at_time_80() {
 bool test_links_at_time_90() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	FOR_EACH_LINK_AT_TIME(&sg, link, 90) {
+	LinksIterator links_present_at_90 = get_links_present_at_t(&sg, 90);
+	FOR_EACH_LINK(links_present_at_90, link) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);

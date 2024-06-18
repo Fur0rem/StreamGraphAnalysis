@@ -4,36 +4,32 @@
 #include "stream_graph.h"
 #include <stddef.h>
 
+NodesIterator get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t);
+
 typedef struct {
-	StreamGraph* stream_graph;
 	size_t current_event;
 	size_t current_node;
-	// Function that takes itself and returns the next node (size_t*)
-	// Obliged to put void* because of the circular dependency
-	size_t (*next)(void*);
-} NodesPresentAtT;
+} NodesPresentAtTIterator;
 
-NodesPresentAtT get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t);
+#define FOR_EACH_NODE(iterator, iterated)                                                                              \
+	for (size_t iterated = (iterator).next(&(iterator)); (iterated) != SIZE_MAX || ({                                  \
+															 (iterator).destroy(&(iterator));                          \
+															 0;                                                        \
+														 });                                                           \
+		 (iterated) = (iterator).next(&(iterator)))
 
-#define FOR_EACH_NODE_AT_TIME(stream_graph, iterated, t)                                                               \
-	NodesPresentAtT nodes_present_at_t = get_nodes_present_at_t(stream_graph, t);                                      \
-	for (size_t iterated = nodes_present_at_t.next(&nodes_present_at_t); (iterated) != SIZE_MAX;                       \
-		 (iterated) = nodes_present_at_t.next(&nodes_present_at_t))
+LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t);
 
 typedef struct {
-	StreamGraph* stream_graph;
 	size_t current_event;
 	size_t current_link;
-	// Function that takes itself and returns the next node (size_t*)
-	// Obliged to put void* because of the circular dependency
-	size_t (*next)(void*);
-} LinksPresentAtT;
+} LinksPresentAtTIterator;
 
-LinksPresentAtT get_links_present_at_t(StreamGraph* stream_graph, TimeId t);
-
-#define FOR_EACH_LINK_AT_TIME(stream_graph, iterated, t)                                                               \
-	LinksPresentAtT links_present_at_t = get_links_present_at_t(stream_graph, t);                                      \
-	for (size_t iterated = links_present_at_t.next(&links_present_at_t); (iterated) != SIZE_MAX;                       \
-		 (iterated) = links_present_at_t.next(&links_present_at_t))
+#define FOR_EACH_LINK(iterator, iterated)                                                                              \
+	for (size_t iterated = (iterator).next(&(iterator)); (iterated) != SIZE_MAX || ({                                  \
+															 (iterator).destroy(&(iterator));                          \
+															 0;                                                        \
+														 });                                                           \
+		 (iterated) = (iterator).next(&(iterator)))
 
 #endif // INDUCED_GRAPH_H
