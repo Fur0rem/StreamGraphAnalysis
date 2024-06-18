@@ -216,7 +216,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		GO_TO_NEXT_LINE(str);
 		// Allocate the neighbours
 		sg.nodes.nodes[node].nb_neighbours = nb_neighbours;
-		sg.nodes.nodes[node].neighbours = (EdgeId*)malloc(nb_neighbours * sizeof(EdgeId));
+		sg.nodes.nodes[node].neighbours = (LinkId*)malloc(nb_neighbours * sizeof(LinkId));
 	}
 
 	NEXT_HEADER([[[NumberOfIntervals]]]);
