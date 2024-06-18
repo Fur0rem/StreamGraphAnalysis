@@ -29,4 +29,25 @@ size_t StreamGraph_lifespan_end(StreamGraph* sg);
 void init_events_table(StreamGraph* sg);
 void events_destroy(StreamGraph* sg);
 
+typedef struct {
+	StreamGraph* stream_graph;
+	void* iterator_data;
+	size_t (*next)(void*);
+	void (*destroy)(void*);
+} NodesIterator;
+
+typedef struct {
+	StreamGraph* stream_graph;
+	void* iterator_data;
+	size_t (*next)(void*);
+	void (*destroy)(void*);
+} LinksIterator;
+
+typedef struct {
+	StreamGraph* stream_graph;
+	void* iterator_data;
+	Interval (*next)(void*);
+	void (*destroy)(void*);
+} TimesIterator;
+
 #endif // STREAM_GRAPH_H
