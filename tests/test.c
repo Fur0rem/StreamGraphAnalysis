@@ -17,7 +17,7 @@ bool test(const char* suite_name, Test** tests) {
 			break;
 		}
 		// Run the test
-		printf("Testing " TEXT_BOLD "%s\n" TEXT_RESET, tested->name);
+		printf("Testing " TEXT_BOLD "%s" TEXT_RESET "\n", tested->name);
 		bool result = tested->fn();
 		printf("%s : ", tested->name);
 		if (!result) {

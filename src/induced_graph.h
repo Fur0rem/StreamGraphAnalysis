@@ -28,7 +28,16 @@ typedef struct {
 																});                                                    \
 		 (iterated) = (iterator).next(&(iterator)))
 
+// TODO : Change the order of iterated and iterator in the FOR_EACH macro
 #define FOR_EACH_NODE(iterator, iterated) FOR_EACH(size_t, iterated, iterator, (iterated) != SIZE_MAX)
 #define FOR_EACH_LINK(iterator, iterated) FOR_EACH(size_t, iterated, iterator, (iterated) != SIZE_MAX)
+#define FOR_EACH_TIME(iterator, iterated) FOR_EACH(Interval, iterated, iterator, (iterated).start != SIZE_MAX)
+
+#define ITERATOR_IS_EMPTY(iterator)                                                                                    \
+	({                                                                                                                 \
+		size_t __tmp = (iterator).next(&(iterator));                                                                   \
+		(iterator).destroy(&(iterator));                                                                               \
+		__tmp == SIZE_MAX;                                                                                             \
+	})
 
 #endif // INDUCED_GRAPH_H
