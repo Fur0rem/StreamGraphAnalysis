@@ -43,9 +43,6 @@ typedef struct {
 size_t NodesSet_next(NodesIterator* iter) {
 	NodesSetIteratorData* nodes_iter_data = (NodesSetIteratorData*)iter->iterator_data;
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
-	printf("NodesSet_next, current_node %lu\n", nodes_iter_data->current_node);
-	printf("full_stream_graph->underlying_stream_graph->nodes.nb_nodes %lu\n",
-		   full_stream_graph->underlying_stream_graph->nodes.nb_nodes);
 	if (nodes_iter_data->current_node >= full_stream_graph->underlying_stream_graph->nodes.nb_nodes) {
 		return SIZE_MAX;
 	}
@@ -71,12 +68,6 @@ NodesIterator FullStreamGraph_nodes_set(FullStreamGraph* full_stream_graph) {
 	nodes_iterator.stream_graph.stream = full_stream_graph;
 	nodes_iterator.stream_graph.type = FULL_STREAM_GRAPH;
 	return nodes_iterator;
-	/*NodesIterator nodes_iterator = MALLOC(sizeof(NodesIterator));
-	nodes_iterator->stream_graph = stream;
-	nodes_iterator->iterator_data = iterator_data;
-	nodes_iterator->next = (size_t(*)(void*))NodesSet_next;
-	nodes_iterator->destroy = (void (*)(void*))NodesSetIterator_destroy;
-	return nodes_iterator;*/
 }
 
 typedef struct {
@@ -136,17 +127,12 @@ typedef struct {
 } TimesNodePresentIteratorData;
 
 Interval FSG_TimesNodePresent_next(TimesIterator* iter) {
-	printf("FSG_TimesNodePresent_next, current_interval %lu\n",
-		   ((TimesNodePresentIteratorData*)iter->iterator_data)->current_interval);
-
 	TimesNodePresentIteratorData* times_iter_data = (TimesNodePresentIteratorData*)iter->iterator_data;
 	TemporalNode* node = times_iter_data->node;
 	if (times_iter_data->current_interval >= node->presence.nb_intervals) {
-		printf("returning SIZE_MAX\n");
 		return (Interval){.start = SIZE_MAX, .end = SIZE_MAX};
 	}
 	Interval return_val = node->presence.intervals[times_iter_data->current_interval];
-	printf("return_val %lu %lu\n", return_val.start, return_val.end);
 	times_iter_data->current_interval++;
 	return return_val;
 }
@@ -204,7 +190,7 @@ TimesIterator FullStreamGraph_times_link_present(FullStreamGraph* full_stream_gr
 	return times_iterator;
 }
 
-BaseGenericFunctions full_stream_graph_base_functions = {
+const BaseGenericFunctions full_stream_graph_base_functions = {
 	.nodes_set = (NodesIterator(*)(void*))FullStreamGraph_nodes_set,
 	.links_set = (LinksIterator(*)(void*))FullStreamGraph_links_set,
 	.lifespan = (Interval(*)(void*))FullStreamGraph_lifespan,
@@ -215,7 +201,7 @@ BaseGenericFunctions full_stream_graph_base_functions = {
 	.times_link_present = (TimesIterator(*)(void*, LinkId))FullStreamGraph_times_link_present,
 };
 
-HijackedGenericFunctions full_stream_graph_hijacked_functions = {
+const HijackedGenericFunctions full_stream_graph_hijacked_functions = {
 	.cardinalOfW = NULL,
 	.cardinalOfT = NULL,
 	.cardinalOfV = NULL,

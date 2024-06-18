@@ -71,25 +71,31 @@
 		variable;                                                                                                      \
 	})
 
-/*size_t cardinalOfT(TimesIterator times) {
+#define GET_BASE_FUNCS(variable, stream_var)                                                                           \
+	({                                                                                                                 \
+		printf("GET_BASE_FUNCS\n");                                                                                    \
+		switch (stream_var.type) {                                                                                     \
+			case FULL_STREAM_GRAPH: {                                                                                  \
+				printf("FULL_STREAM_GRAPH\n");                                                                         \
+				variable = full_stream_graph_base_functions;                                                           \
+				break;                                                                                                 \
+			}                                                                                                          \
+			case LINK_STREAM: {                                                                                        \
+				printf("LINK_STREAM\n");                                                                               \
+				variable = link_stream_base_functions;                                                                 \
+				break;                                                                                                 \
+			}                                                                                                          \
+			default: {                                                                                                 \
+				printf("EIZHUEEZIIEZHEHE");                                                                            \
+				assert(0);                                                                                             \
+			}                                                                                                          \
+		}                                                                                                              \
+		variable;                                                                                                      \
+	})
+
+size_t cardinalOfT(TimesIterator times) {
 	size_t count = 0;
 	FOR_EACH(Interval, interval, times, interval.start != SIZE_MAX) {
-		count += Interval_size(interval);
-	}
-	return count;
-}*/
-
-size_t cardinalOfT(TimesIterator times_but_long_for_clang) {
-	size_t count = 0;
-	printf("cardinalOfT\n");
-	printf("times_but_long_for_clang %p\n", &times_but_long_for_clang);
-	printf("times_but_long_for_clang next %p\n", times_but_long_for_clang.next);
-	for (Interval interval = (times_but_long_for_clang).next(&(times_but_long_for_clang));
-		 (interval.start != (18446744073709551615UL)) || ({
-			 (times_but_long_for_clang).destroy(&(times_but_long_for_clang));
-			 0;
-		 });
-		 (interval) = (times_but_long_for_clang).next(&(times_but_long_for_clang))) {
 		printf("Interval : [%lu, %lu]\n", interval.start, interval.end);
 		count += Interval_size(interval);
 	}
@@ -104,16 +110,12 @@ size_t cardinalOfV(NodesIterator nodes) {
 	return count;
 }
 
-// TODO : why doesnt get base func work here
 size_t cardinalOfW(NodesIterator nodes) {
 	printf("cardinalOfW\n");
 	size_t count = 0;
+	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, nodes.stream_graph);
 	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
-		printf("Node %lu\n", node_id);
-		/*printf("func %p\n", full_stream_graph_base_functions.times_node_present);
-		TimesIterator times =
-			GET_BASE_FUNC(times, times_node_present, nodes.stream_graph, (&nodes.stream_graph, node_id));*/
-		TimesIterator times = full_stream_graph_base_functions.times_node_present(nodes.stream_graph.stream, node_id);
+		TimesIterator times = base_functions.times_node_present(nodes.stream_graph.stream, node_id);
 		count += cardinalOfT(times);
 	}
 	return count;

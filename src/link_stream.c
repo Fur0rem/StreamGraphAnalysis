@@ -59,14 +59,17 @@ LinksIterator (*links_present_at_t)(void*, TimeId);
 TimesIterator (*times_node_present)(void*, NodeId);
 TimesIterator (*times_link_present)(void*, LinkId);*/
 
+void LinkStream_iter_destroy(NodesIterator* iterator) {
+	free(iterator->iterator_data);
+}
+
 NodesIterator LinkStream_nodes_set(LinkStream* link_stream) {
-	/*printf("called LinkStream_nodes_set, nb nodes %lu\n", link_stream->underlying_stream_graph->nodes.nb_nodes);
-	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	printf("EEEE full_stream_graph.underlying_stream_graph->nodes.nb_nodes %lu\n",
-		   full_stream_graph.underlying_stream_graph->nodes.nb_nodes);*/
-	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph)); // TODO : this was the issue
+	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph)); // TODO : this leaks
 	full_stream_graph->underlying_stream_graph = link_stream->underlying_stream_graph;
-	return full_stream_graph_base_functions.nodes_set(full_stream_graph);
+	NodesIterator n = full_stream_graph_base_functions.nodes_set(full_stream_graph);
+	n.stream_graph.type = LINK_STREAM;
+	n.destroy = (void (*)(void*))LinkStream_iter_destroy;
+	return n;
 }
 
 LinksIterator LinkStream_links_set(LinkStream* link_stream) {
