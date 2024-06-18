@@ -11,13 +11,6 @@ typedef struct {
 	size_t current_node;
 } NodesPresentAtTIterator;
 
-#define FOR_EACH_NODE(iterator, iterated)                                                                              \
-	for (size_t iterated = (iterator).next(&(iterator)); (iterated) != SIZE_MAX || ({                                  \
-															 (iterator).destroy(&(iterator));                          \
-															 0;                                                        \
-														 });                                                           \
-		 (iterated) = (iterator).next(&(iterator)))
-
 LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t);
 
 typedef struct {
@@ -25,11 +18,15 @@ typedef struct {
 	size_t current_link;
 } LinksPresentAtTIterator;
 
-#define FOR_EACH_LINK(iterator, iterated)                                                                              \
-	for (size_t iterated = (iterator).next(&(iterator)); (iterated) != SIZE_MAX || ({                                  \
-															 (iterator).destroy(&(iterator));                          \
-															 0;                                                        \
-														 });                                                           \
+// The || ({ x.destroy(&x); 0; }) is a trick to execute the destroy function of the iterator when it ends
+#define FOR_EACH(type_iterated, iterated, iterator, end_cond)                                                          \
+	for (type_iterated iterated = (iterator).next(&(iterator)); (end_cond) || ({                                       \
+																	(iterator).destroy(&(iterator));                   \
+																	0;                                                 \
+																});                                                    \
 		 (iterated) = (iterator).next(&(iterator)))
+
+#define FOR_EACH_NODE(iterator, iterated) FOR_EACH(size_t, iterated, iterator, (iterated) != SIZE_MAX)
+#define FOR_EACH_LINK(iterator, iterated) FOR_EACH(size_t, iterated, iterator, (iterated) != SIZE_MAX)
 
 #endif // INDUCED_GRAPH_H
