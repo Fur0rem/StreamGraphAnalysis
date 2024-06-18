@@ -19,6 +19,8 @@ typedef struct {
 } LinksPresentAtTIterator;
 
 // The || ({ x.destroy(&x); 0; }) is a trick to execute the destroy function of the iterator when it ends
+// The destroy function is only called when the previous condition is false, and then evaluates to 0 (false)
+// This uses the GNU extension of "Statement Expressions"
 #define FOR_EACH(type_iterated, iterated, iterator, end_cond)                                                          \
 	for (type_iterated iterated = (iterator).next(&(iterator)); (end_cond) || ({                                       \
 																	(iterator).destroy(&(iterator));                   \
