@@ -61,12 +61,24 @@
 		variable;                                                                                                      \
 	})
 
-size_t cardinalOfT(TimesIterator times) {
+size_t cardinalOfTimes(TimesIterator times) {
 	size_t count = 0;
 	FOR_EACH(Interval, interval, times, interval.start != SIZE_MAX) {
 		count += Interval_size(interval);
 	}
 	return count;
+}
+
+size_t cardinalOfT(stream_t stream) {
+	TRY_HIJACK(cardinalOfT, stream);
+	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, stream);
+	Interval lifespan = base_functions.lifespan(stream.stream);
+	return Interval_size(lifespan);
+	/*size_t count = 0;
+	FOR_EACH(Interval, interval, times, interval.start != SIZE_MAX) {
+		count += Interval_size(interval);
+	}
+	return count;*/
 }
 
 size_t cardinalOfV(NodesIterator nodes) {
@@ -83,7 +95,7 @@ size_t cardinalOfW(NodesIterator nodes) {
 	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, nodes.stream_graph);
 	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
 		TimesIterator times = base_functions.times_node_present(nodes.stream_graph.stream, node_id);
-		count += cardinalOfT(times);
+		count += cardinalOfTimes(times);
 	}
 	return count;
 }
@@ -102,7 +114,7 @@ double coverage_stream(stream_t stream) {
 	NodesIterator nodes = base_functions.nodes_set(stream.stream);
 	size_t w = cardinalOfW(nodes);
 	nodes = base_functions.nodes_set(stream.stream);
-	size_t t = cardinalOfT(base_functions.times_node_present(stream.stream, 0));
+	size_t t = cardinalOfT(stream);
 	size_t v = cardinalOfV(nodes);
 
 	return (double)w / (double)(t * v);
@@ -110,9 +122,10 @@ double coverage_stream(stream_t stream) {
 
 double node_duration_stream(stream_t stream) {
 	// TRY_HIJACK(node_duration, stream);
-	NodesIterator nodes = GET_BASE_FUNC(nodes, nodes_set, stream, (&stream));
+	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, stream);
+	NodesIterator nodes = base_functions.nodes_set(stream.stream);
 	size_t w = cardinalOfW(nodes);
 	size_t v = cardinalOfV(nodes);
-	size_t scaling = GET_BASE_FUNC(scaling, scaling, stream, (&stream));
+	size_t scaling = base_functions.scaling(stream.stream);
 	return (double)w / (double)(v * scaling);
 }
