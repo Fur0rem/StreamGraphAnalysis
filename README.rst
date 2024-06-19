@@ -65,6 +65,8 @@ Supported metrics (In order of first mention in the paper)
 - Number of links : Section 4
 - Node duration : Section 4
 - Link duration : Section 4
+
+(These were implemented in previous commits but have not been ported for generic streams yet)
 - Uniformity : Section 4
 - Compactness : Section 4
 - Density : Section 5
