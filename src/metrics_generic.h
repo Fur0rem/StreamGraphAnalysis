@@ -2,7 +2,8 @@
 #define METRICS_GENERIC_H
 
 #include "interval.h"
-#include "stream_graph.h"
+#include "iterators.h"
+#include "stream.h"
 #include <stddef.h>
 
 typedef struct {
@@ -42,10 +43,9 @@ typedef struct {
 	double (*node_duration)(void*);
 } HijackedGenericFunctions;
 
-double coverage_stream(stream_t stream);
-double node_duration_stream(stream_t stream);
+double coverage_stream(Stream stream);
+double node_duration_stream(Stream stream);
 size_t cardinalOfW(NodesIterator nodes);
-size_t cardinalOfT(stream_t stream);
-size_t cardinalOfTimes(TimesIterator times);
+size_t cardinalOfT(Stream stream);
 
 #endif // METRICS_GENERIC_H

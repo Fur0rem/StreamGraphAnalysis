@@ -7,6 +7,9 @@ FLAGS = $(DEBUG_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
 LDFLAGS = -lm
 
+iterators:
+	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/iterators.o $(SRC_DIR)/iterators.c $(LDFLAGS)
+
 bit_array:
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/bit_array.o $(SRC_DIR)/bit_array.c $(LDFLAGS)
 
@@ -58,6 +61,6 @@ link_stream: stream_graph
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/link_stream.o $(SRC_DIR)/link_stream.c $(LDFLAGS)
 	@ ar rc $(BIN_DIR)/link_stream.a $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
 
-metrics_generic: full_stream_graph link_stream induced_graph
+metrics_generic: full_stream_graph link_stream induced_graph iterators
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/metrics_generic.o $(SRC_DIR)/metrics_generic.c $(LDFLAGS)
-	@ ar rc $(BIN_DIR)/metrics_generic.a $(BIN_DIR)/metrics_generic.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/induced_graph.o
+	@ ar rc $(BIN_DIR)/metrics_generic.a $(BIN_DIR)/metrics_generic.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/iterators.o

@@ -2,6 +2,7 @@
 #include "full_stream_graph.h"
 #include "induced_graph.h"
 #include "interval.h"
+#include "iterators.h"
 #include "link_stream.h"
 #include "stream_graph.h"
 #include <assert.h>
@@ -44,7 +45,8 @@
 			}                                                                                                          \
 			break;                                                                                                     \
 		}                                                                                                              \
-	}
+	}                                                                                                                  \
+	printf("COULD NOT hijack " #function "\n");
 
 #define GET_BASE_FUNCS(variable, stream_var)                                                                           \
 	({                                                                                                                 \
@@ -61,15 +63,7 @@
 		variable;                                                                                                      \
 	})
 
-size_t cardinalOfTimes(TimesIterator times) {
-	size_t count = 0;
-	FOR_EACH(Interval, interval, times, interval.start != SIZE_MAX) {
-		count += Interval_size(interval);
-	}
-	return count;
-}
-
-size_t cardinalOfT(stream_t stream) {
+size_t cardinalOfT(Stream stream) {
 	TRY_HIJACK(cardinalOfT, stream);
 	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, stream);
 	Interval lifespan = base_functions.lifespan(stream.stream);
@@ -95,7 +89,7 @@ size_t cardinalOfW(NodesIterator nodes) {
 	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, nodes.stream_graph);
 	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
 		TimesIterator times = base_functions.times_node_present(nodes.stream_graph.stream, node_id);
-		count += cardinalOfTimes(times);
+		count += total_time_of(times);
 	}
 	return count;
 }
@@ -108,7 +102,7 @@ size_t cardinalOfW(NodesIterator nodes) {
 	return count;
 }*/
 
-double coverage_stream(stream_t stream) {
+double coverage_stream(Stream stream) {
 	TRY_HIJACK(coverage, stream);
 	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, stream);
 	NodesIterator nodes = base_functions.nodes_set(stream.stream);
@@ -120,8 +114,8 @@ double coverage_stream(stream_t stream) {
 	return (double)w / (double)(t * v);
 }
 
-double node_duration_stream(stream_t stream) {
-	// TRY_HIJACK(node_duration, stream);
+double node_duration_stream(Stream stream) {
+	TRY_HIJACK(node_duration, stream);
 	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, stream);
 	NodesIterator nodes = base_functions.nodes_set(stream.stream);
 	size_t w = cardinalOfW(nodes);
