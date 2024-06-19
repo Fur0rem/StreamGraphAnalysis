@@ -18,27 +18,16 @@ FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph) {
 	return full_stream_graph;
 }
 
-stream_t FSG_from(StreamGraph* stream_graph) {
+Stream FSG_from(StreamGraph* stream_graph) {
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = stream_graph;
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	return stream;
 }
 
-void FSG_destroy(stream_t* stream) {
+void FSG_destroy(Stream* stream) {
 	free(stream->stream);
 }
-
-/*NodesIterator (*nodes_set)(void*);
-LinksIterator (*links_set)(void*);
-Interval (*lifespan)(void*);
-size_t (*scaling)(void*);
-
-NodesIterator (*nodes_present_at_t)(void*, TimeId);
-LinksIterator (*links_present_at_t)(void*, TimeId);
-
-TimesIterator (*times_node_present)(void*, NodeId);
-TimesIterator (*times_link_present)(void*, LinkId);*/
 
 typedef struct {
 	NodeId current_node;
@@ -62,7 +51,7 @@ void NodesSetIterator_destroy(NodesIterator* iterator) {
 NodesIterator FullStreamGraph_nodes_set(FullStreamGraph* full_stream_graph) {
 	NodesSetIteratorData* iterator_data = MALLOC(sizeof(NodesSetIteratorData));
 	iterator_data->current_node = 0;
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	NodesIterator nodes_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -96,7 +85,7 @@ void LinksSetIterator_destroy(LinksIterator* iterator) {
 LinksIterator FullStreamGraph_links_set(FullStreamGraph* full_stream_graph) {
 	LinksSetIteratorData* iterator_data = MALLOC(sizeof(LinksSetIteratorData));
 	iterator_data->current_link = 0;
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -149,7 +138,7 @@ TimesIterator FullStreamGraph_times_node_present(FullStreamGraph* full_stream_gr
 	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	iterator_data->current_interval = 0;
 	iterator_data->node = &full_stream_graph->underlying_stream_graph->nodes.nodes[node_id];
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -184,7 +173,7 @@ TimesIterator FullStreamGraph_times_link_present(FullStreamGraph* full_stream_gr
 	TimesLinkPresentIteratorData* iterator_data = malloc(sizeof(TimesLinkPresentIteratorData));
 	iterator_data->current_interval = 0;
 	iterator_data->link_id = link_id;
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,

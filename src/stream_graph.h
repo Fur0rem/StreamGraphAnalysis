@@ -20,14 +20,6 @@ typedef struct {
 	size_t scaling;
 } StreamGraph;
 
-typedef struct {
-	enum {
-		FULL_STREAM_GRAPH,
-		LINK_STREAM,
-	} type;
-	void* stream;
-} stream_t;
-
 StreamGraph StreamGraph_from_string(const char* str);
 StreamGraph StreamGraph_from_file(const char* filename);
 char* StreamGraph_to_string(StreamGraph* sg);
@@ -36,26 +28,5 @@ size_t StreamGraph_lifespan_begin(StreamGraph* sg);
 size_t StreamGraph_lifespan_end(StreamGraph* sg);
 void init_events_table(StreamGraph* sg);
 void events_destroy(StreamGraph* sg);
-
-typedef struct {
-	stream_t stream_graph;
-	void* iterator_data;
-	size_t (*next)(void*);
-	void (*destroy)(void*);
-} NodesIterator;
-
-typedef struct {
-	stream_t stream_graph;
-	void* iterator_data;
-	size_t (*next)(void*);
-	void (*destroy)(void*);
-} LinksIterator;
-
-typedef struct {
-	stream_t stream_graph;
-	void* iterator_data;
-	Interval (*next)(void*);
-	void (*destroy)(void*);
-} TimesIterator;
 
 #endif // STREAM_GRAPH_H

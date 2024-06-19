@@ -13,7 +13,7 @@ extern const BaseGenericFunctions full_stream_graph_base_functions;
 extern const HijackedGenericFunctions full_stream_graph_hijacked_functions;
 
 FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph);
-stream_t FSG_from(StreamGraph* stream_graph);
-void FSG_destroy(stream_t* stream);
+Stream FSG_from(StreamGraph* stream_graph);
+void FSG_destroy(Stream* stream);
 
 #endif // FULL_STREAM_GRAPH_H
