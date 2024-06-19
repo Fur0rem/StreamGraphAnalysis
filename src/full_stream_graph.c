@@ -14,14 +14,14 @@ FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph) {
 	FullStreamGraph full_stream_graph = (FullStreamGraph){
 		.underlying_stream_graph = stream_graph,
 	};
+	printf("full_stream_graph.underlying_stream_graph : %p\n", full_stream_graph.underlying_stream_graph);
 	return full_stream_graph;
 }
 
 stream_t FSG_from(StreamGraph* stream_graph) {
-	FullStreamGraph full_stream_graph = (FullStreamGraph){
-		.underlying_stream_graph = stream_graph,
-	};
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = &full_stream_graph};
+	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
+	full_stream_graph->underlying_stream_graph = stream_graph;
+	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	return stream;
 }
 
@@ -43,7 +43,11 @@ typedef struct {
 size_t NodesSet_next(NodesIterator* iter) {
 	NodesSetIteratorData* nodes_iter_data = (NodesSetIteratorData*)iter->iterator_data;
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
-	if (nodes_iter_data->current_node >= full_stream_graph->underlying_stream_graph->nodes.nb_nodes) {
+	NodeId cur_node = nodes_iter_data->current_node;
+	StreamGraph* underlying_stream_graph = full_stream_graph->underlying_stream_graph;
+	printf("underlying_stream_graph : %p\n", underlying_stream_graph);
+	NodeId nb_nodes = underlying_stream_graph->nodes.nb_nodes;
+	if (cur_node >= nb_nodes) {
 		return SIZE_MAX;
 	}
 	size_t return_val = nodes_iter_data->current_node;
@@ -90,7 +94,7 @@ void LinksSetIterator_destroy(LinksIterator* iterator) {
 }
 
 LinksIterator FullStreamGraph_links_set(FullStreamGraph* full_stream_graph) {
-	LinksSetIteratorData* iterator_data = malloc(sizeof(LinksSetIteratorData));
+	LinksSetIteratorData* iterator_data = MALLOC(sizeof(LinksSetIteratorData));
 	iterator_data->current_link = 0;
 	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
 	LinksIterator links_iterator = {
