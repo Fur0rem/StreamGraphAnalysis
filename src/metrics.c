@@ -49,6 +49,8 @@
 	}                                                                                                                  \
 	printf("COULD NOT CATCH " #function "\n");
 
+// TODO : rename the functions to be more explicit
+// TODO : rewrite them to be cleaner
 size_t cardinalOfT(Stream stream) {
 	CATCH_METRICS_IMPLEM(cardinalOfT, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
@@ -56,7 +58,10 @@ size_t cardinalOfT(Stream stream) {
 	return Interval_size(lifespan);
 }
 
-size_t cardinalOfV(NodesIterator nodes) {
+size_t cardinalOfV(Stream stream) {
+	CATCH_METRICS_IMPLEM(cardinalOfV, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
 	size_t count = 0;
 	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
 		count++;
@@ -64,9 +69,23 @@ size_t cardinalOfV(NodesIterator nodes) {
 	return count;
 }
 
-size_t cardinalOfW(NodesIterator nodes) {
+size_t cardinalOfE(Stream stream) {
+	// CATCH_METRICS_IMPLEM(cardinalOfE, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	LinksIterator links = stream_functions.links_set(stream.stream);
 	size_t count = 0;
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, nodes.stream_graph);
+	FOR_EACH(LinkId, link_id, links, link_id != SIZE_MAX) {
+		TimesIterator times = stream_functions.times_link_present(stream.stream, link_id);
+		count += total_time_of(times);
+	}
+	return count;
+}
+
+size_t cardinalOfW(Stream stream) {
+	CATCH_METRICS_IMPLEM(cardinalOfW, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
+	size_t count = 0;
 	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
 		TimesIterator times = stream_functions.times_node_present(nodes.stream_graph.stream, node_id);
 		count += total_time_of(times);
@@ -74,24 +93,87 @@ size_t cardinalOfW(NodesIterator nodes) {
 	return count;
 }
 
-double coverage_stream(Stream stream) {
+double Stream_coverage(Stream stream) {
 	CATCH_METRICS_IMPLEM(coverage, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
-	size_t w = cardinalOfW(nodes);
-	nodes = stream_functions.nodes_set(stream.stream);
+	size_t w = cardinalOfW(stream);
 	size_t t = cardinalOfT(stream);
-	size_t v = cardinalOfV(nodes);
+	size_t v = cardinalOfV(stream);
 
 	return (double)w / (double)(t * v);
 }
 
-double node_duration_stream(Stream stream) {
+double Stream_node_duration(Stream stream) {
 	CATCH_METRICS_IMPLEM(node_duration, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
-	size_t w = cardinalOfW(nodes);
-	size_t v = cardinalOfV(nodes);
+	size_t w = cardinalOfW(stream);
+	size_t v = cardinalOfV(stream);
 	size_t scaling = stream_functions.scaling(stream.stream);
 	return (double)w / (double)(v * scaling);
+}
+
+double Stream_contribution_of_node(Stream stream, NodeId node_id) {
+	// CATCH_METRICS_IMPLEM(contribution_of_node, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	TimesIterator times = stream_functions.times_node_present(stream.stream, node_id);
+	size_t t_v = total_time_of(times);
+	size_t t = cardinalOfT(stream);
+	return (double)t_v / (double)t;
+}
+
+double Stream_contribution_of_link(Stream stream, LinkId link_id) {
+	// CATCH_METRICS_IMPLEM(contribution_of_link, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	TimesIterator times = stream_functions.times_link_present(stream.stream, link_id);
+	size_t t_v = total_time_of(times);
+	size_t t = cardinalOfT(stream);
+	return (double)t_v / (double)(t);
+}
+
+double Stream_number_of_nodes(Stream stream) {
+	// CATCH_METRICS_IMPLEM(number_of_nodes, stream);
+	size_t w = cardinalOfW(stream);
+	size_t t = cardinalOfT(stream);
+	return (double)w / (double)t;
+}
+
+double Stream_number_of_links(Stream stream) {
+	// CATCH_METRICS_IMPLEM(number_of_links, stream);
+	size_t e = cardinalOfE(stream);
+	size_t t = cardinalOfT(stream);
+	return (double)e / (double)t;
+}
+
+double Stream_node_contribution_at_time(Stream stream, TimeId time_id) {
+	// CATCH_METRICS_IMPLEM(node_contribution_at_time, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	NodesIterator nodes = stream_functions.nodes_present_at_t(stream.stream, time_id);
+	size_t v_t = COUNT_ITERATOR(nodes);
+	size_t scaling = stream_functions.scaling(stream.stream);
+	size_t v = cardinalOfV(stream);
+	return (double)v_t / (double)(v * scaling);
+}
+
+size_t size_set_unordered_pairs_itself(size_t n) {
+	return n * (n - 1) / 2;
+}
+
+double Stream_link_contribution_at_time(Stream stream, TimeId time_id) {
+	// CATCH_METRICS_IMPLEM(link_contribution_at_time, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	LinksIterator links = stream_functions.links_present_at_t(stream.stream, time_id);
+	size_t e_t = COUNT_ITERATOR(links);
+	size_t scaling = stream_functions.scaling(stream.stream);
+	size_t v = cardinalOfV(stream);
+	size_t vxv = size_set_unordered_pairs_itself(v);
+	return (double)e_t / (double)(vxv * scaling);
+}
+
+double Stream_link_duration(Stream stream) {
+	// CATCH_METRICS_IMPLEM(link_duration, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	size_t e = cardinalOfE(stream);
+	size_t v = cardinalOfV(stream);
+	size_t scaling = stream_functions.scaling(stream.stream);
+	size_t vxv = size_set_unordered_pairs_itself(v);
+	return (double)e / (double)(vxv * scaling);
 }
