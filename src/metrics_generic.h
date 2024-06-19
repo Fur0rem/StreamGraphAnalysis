@@ -45,6 +45,7 @@ typedef struct {
 double coverage_stream(stream_t stream);
 double node_duration_stream(stream_t stream);
 size_t cardinalOfW(NodesIterator nodes);
-size_t cardinalOfT(TimesIterator times);
+size_t cardinalOfT(stream_t stream);
+size_t cardinalOfTimes(TimesIterator times);
 
 #endif // METRICS_GENERIC_H

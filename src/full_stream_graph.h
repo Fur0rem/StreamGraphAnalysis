@@ -9,10 +9,11 @@ typedef struct {
 	StreamGraph* underlying_stream_graph;
 } FullStreamGraph;
 
-const extern BaseGenericFunctions full_stream_graph_base_functions;
-const extern HijackedGenericFunctions full_stream_graph_hijacked_functions;
+extern const BaseGenericFunctions full_stream_graph_base_functions;
+extern const HijackedGenericFunctions full_stream_graph_hijacked_functions;
 
 FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph);
 stream_t FSG_from(StreamGraph* stream_graph);
+void FSG_destroy(stream_t* stream);
 
 #endif // FULL_STREAM_GRAPH_H

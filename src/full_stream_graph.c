@@ -25,6 +25,10 @@ stream_t FSG_from(StreamGraph* stream_graph) {
 	return stream;
 }
 
+void FSG_destroy(stream_t* stream) {
+	free(stream->stream);
+}
+
 /*NodesIterator (*nodes_set)(void*);
 LinksIterator (*links_set)(void*);
 Interval (*lifespan)(void*);
@@ -43,11 +47,7 @@ typedef struct {
 size_t NodesSet_next(NodesIterator* iter) {
 	NodesSetIteratorData* nodes_iter_data = (NodesSetIteratorData*)iter->iterator_data;
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
-	NodeId cur_node = nodes_iter_data->current_node;
-	StreamGraph* underlying_stream_graph = full_stream_graph->underlying_stream_graph;
-	printf("underlying_stream_graph : %p\n", underlying_stream_graph);
-	NodeId nb_nodes = underlying_stream_graph->nodes.nb_nodes;
-	if (cur_node >= nb_nodes) {
+	if (nodes_iter_data->current_node >= full_stream_graph->underlying_stream_graph->nodes.nb_nodes) {
 		return SIZE_MAX;
 	}
 	size_t return_val = nodes_iter_data->current_node;

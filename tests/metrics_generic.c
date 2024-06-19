@@ -13,7 +13,7 @@ bool test_cardinal_of_T_S_0() {
 	FullStreamGraph fsg = FullStreamGraph_from(&sg);
 	stream_t st = (stream_t){.type = FULL_STREAM_GRAPH, .stream = &fsg};
 	TimesIterator times_iter = full_stream_graph_base_functions.times_node_present(st.stream, 0);
-	size_t cardinal = cardinalOfT(times_iter);
+	size_t cardinal = cardinalOfTimes(times_iter);
 	printf("cardinal = %zu\n", cardinal);
 	StreamGraph_destroy(&sg);
 	return EXPECT_EQ(cardinal, 100);
@@ -24,7 +24,7 @@ bool test_cardinal_of_T_S_1() {
 	FullStreamGraph fsg = FullStreamGraph_from(&sg);
 	stream_t st = (stream_t){.type = FULL_STREAM_GRAPH, .stream = &fsg};
 	TimesIterator times_iter = full_stream_graph_base_functions.times_node_present(st.stream, 1);
-	size_t cardinal = cardinalOfT(times_iter);
+	size_t cardinal = cardinalOfTimes(times_iter);
 	printf("cardinal = %zu\n", cardinal);
 	StreamGraph_destroy(&sg);
 	return EXPECT_EQ(cardinal, 90);
@@ -35,7 +35,7 @@ bool test_cardinal_of_T_S_2() {
 	FullStreamGraph fsg = FullStreamGraph_from(&sg);
 	stream_t st = (stream_t){.type = FULL_STREAM_GRAPH, .stream = &fsg};
 	TimesIterator times_iter = full_stream_graph_base_functions.times_node_present(st.stream, 2);
-	size_t cardinal = cardinalOfT(times_iter);
+	size_t cardinal = cardinalOfTimes(times_iter);
 	printf("cardinal = %zu\n", cardinal);
 	StreamGraph_destroy(&sg);
 	return EXPECT_EQ(cardinal, 50);
@@ -46,7 +46,7 @@ bool test_cardinal_of_T_S_3() {
 	FullStreamGraph fsg = FullStreamGraph_from(&sg);
 	stream_t st = (stream_t){.type = FULL_STREAM_GRAPH, .stream = &fsg};
 	TimesIterator times_iter = full_stream_graph_base_functions.times_node_present(st.stream, 3);
-	size_t cardinal = cardinalOfT(times_iter);
+	size_t cardinal = cardinalOfTimes(times_iter);
 	printf("cardinal = %zu\n", cardinal);
 	StreamGraph_destroy(&sg);
 	return EXPECT_EQ(cardinal, 20);
@@ -67,9 +67,8 @@ bool test_times_node_present() {
 
 bool test_cardinal_of_W_S() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	FullStreamGraph fsg = FullStreamGraph_from(&sg);
-	stream_t st = (stream_t){.type = FULL_STREAM_GRAPH, .stream = &fsg};
-	NodesIterator nodes_iter = full_stream_graph_base_functions.nodes_set(st.stream);
+	stream_t fsg = FSG_from(&sg);
+	NodesIterator nodes_iter = full_stream_graph_base_functions.nodes_set(fsg.stream);
 	/*size_t cardinal_1 = 0;
 	FOR_EACH_NODE(nodes_iter, node_id) {
 		printf("Node %lu\n", node_id);
@@ -78,6 +77,7 @@ bool test_cardinal_of_W_S() {
 	nodes_iter = full_stream_graph_base_functions.nodes_set(st.stream);*/
 	size_t cardinal = cardinalOfW(nodes_iter);
 	// printf("cardinal = %zu, cardinal_1 = %zu\n", cardinal, cardinal_1);
+	FSG_destroy(&fsg);
 	StreamGraph_destroy(&sg);
 	return EXPECT_EQ(cardinal, 260);
 }
@@ -110,6 +110,15 @@ bool test_coverage_L() {
 	double coverage = coverage_stream(st);
 	StreamGraph_destroy(&sg);
 	return EXPECT_F_APPROX_EQ(coverage, 1.0, 1e-6);
+}
+
+bool test_node_duration_S() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	stream_t fsg = FSG_from(&sg);
+	double duration = node_duration_stream(fsg);
+	FSG_destroy(&fsg);
+	StreamGraph_destroy(&sg);
+	return EXPECT_F_APPROX_EQ(duration, 6.5, 1e-6);
 }
 
 int main() {
