@@ -1,9 +1,9 @@
 #include "link_stream.h"
+#include "../interval.h"
+#include "../metrics.h"
+#include "../stream_graph.h"
+#include "../utils.h"
 #include "full_stream_graph.h"
-#include "interval.h"
-#include "metrics_generic.h"
-#include "stream_graph.h"
-#include "utils.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,14 +59,27 @@ LinksIterator (*links_present_at_t)(void*, TimeId);
 TimesIterator (*times_node_present)(void*, NodeId);
 TimesIterator (*times_link_present)(void*, LinkId);*/
 
+typedef struct {
+	NodeId current_node;
+	FullStreamGraph* fsg;
+} LinkStreamNodesSetIteratorData;
+
 void LinkStream_iter_destroy(NodesIterator* iterator) {
+	LinkStreamNodesSetIteratorData* iterator_data = (LinkStreamNodesSetIteratorData*)iterator->iterator_data;
+	free(iterator_data->fsg);
 	free(iterator->iterator_data);
 }
 
+// FIXME : kind of weird hack but it works ig?
 NodesIterator LinkStream_nodes_set(LinkStream* link_stream) {
-	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph)); // TODO : this leaks
+	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = link_stream->underlying_stream_graph;
-	NodesIterator n = full_stream_graph_base_functions.nodes_set(full_stream_graph);
+	NodesIterator n = FullStreamGraph_stream_functions.nodes_set(full_stream_graph);
+	free(n.iterator_data);
+	n.iterator_data = MALLOC(sizeof(LinkStreamNodesSetIteratorData));
+	LinkStreamNodesSetIteratorData* iterator_data = (LinkStreamNodesSetIteratorData*)n.iterator_data;
+	iterator_data->fsg = full_stream_graph;
+	iterator_data->current_node = 0;
 	n.stream_graph.type = LINK_STREAM;
 	n.destroy = (void (*)(void*))LinkStream_iter_destroy;
 	return n;
@@ -74,7 +87,7 @@ NodesIterator LinkStream_nodes_set(LinkStream* link_stream) {
 
 LinksIterator LinkStream_links_set(LinkStream* link_stream) {
 	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return full_stream_graph_base_functions.links_set(&full_stream_graph);
+	return FullStreamGraph_stream_functions.links_set(&full_stream_graph);
 }
 
 Interval LinkStream_lifespan(LinkStream* link_stream) {
@@ -88,12 +101,12 @@ size_t LinkStream_scaling(LinkStream* link_stream) {
 
 NodesIterator LinkStream_nodes_present_at_t(LinkStream* link_stream, TimeId t) {
 	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return full_stream_graph_base_functions.nodes_set(&full_stream_graph);
+	return FullStreamGraph_stream_functions.nodes_set(&full_stream_graph);
 }
 
 LinksIterator LinkStream_links_present_at_t(LinkStream* link_stream, TimeId t) {
 	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return full_stream_graph_base_functions.links_present_at_t(&full_stream_graph, t);
+	return FullStreamGraph_stream_functions.links_present_at_t(&full_stream_graph, t);
 }
 
 // time of nodes iterator
@@ -117,7 +130,7 @@ void LinkStream_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
 
 TimesIterator LinkStream_times_node_present(LinkStream* link_stream, NodeId node_id) {
 	TimesNodePresentIteratorData* iterator_data = malloc(sizeof(TimesNodePresentIteratorData));
-	stream_t stream = {.type = FULL_STREAM_GRAPH, .stream = link_stream->underlying_stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = link_stream->underlying_stream_graph};
 	iterator_data->has_been_called = false;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
@@ -130,10 +143,21 @@ TimesIterator LinkStream_times_node_present(LinkStream* link_stream, NodeId node
 
 // time of links iterator
 TimesIterator LinkStream_times_link_present(LinkStream* link_stream, LinkId link_id) {
-	return full_stream_graph_base_functions.times_link_present(link_stream->underlying_stream_graph, link_id);
+	return FullStreamGraph_stream_functions.times_link_present(link_stream->underlying_stream_graph, link_id);
 }
 
-BaseGenericFunctions link_stream_base_functions = {
+Stream LS_from(StreamGraph* stream_graph) {
+	LinkStream* link_stream = MALLOC(sizeof(LinkStream));
+	link_stream->underlying_stream_graph = stream_graph;
+	Stream stream = {.type = LINK_STREAM, .stream = link_stream};
+	return stream;
+}
+
+void LS_destroy(Stream* stream) {
+	free(stream->stream);
+}
+
+const StreamFunctions LinkStream_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))LinkStream_nodes_set,
 	.links_set = (LinksIterator(*)(void*))LinkStream_links_set,
 	.lifespan = (Interval(*)(void*))LinkStream_lifespan,
@@ -149,7 +173,7 @@ double LS_coverage(LinkStream* ls) {
 	return 1.0;
 }
 
-HijackedGenericFunctions link_stream_hijacked_functions = {
+const MetricsFunctions LinkStream_metrics_functions = {
 	.coverage = (double (*)(void*))LS_coverage,
 	.cardinalOfT = NULL,
 	.cardinalOfV = NULL,
