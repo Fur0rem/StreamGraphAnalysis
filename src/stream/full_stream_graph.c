@@ -1,10 +1,10 @@
 #include "full_stream_graph.h"
-#include "induced_graph.h"
-#include "metrics_generic.h"
-#include "stream_graph.h"
-#include "stream_graph/nodes_set.h"
-#include "units.h"
-#include "utils.h"
+#include "../induced_graph.h"
+#include "../metrics.h"
+#include "../stream_graph.h"
+#include "../stream_graph/nodes_set.h"
+#include "../units.h"
+#include "../utils.h"
 
 #include <stddef.h>
 #include <stdio.h>
@@ -183,7 +183,7 @@ TimesIterator FullStreamGraph_times_link_present(FullStreamGraph* full_stream_gr
 	return times_iterator;
 }
 
-const BaseGenericFunctions full_stream_graph_base_functions = {
+const StreamFunctions FullStreamGraph_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))FullStreamGraph_nodes_set,
 	.links_set = (LinksIterator(*)(void*))FullStreamGraph_links_set,
 	.lifespan = (Interval(*)(void*))FullStreamGraph_lifespan,
@@ -194,7 +194,7 @@ const BaseGenericFunctions full_stream_graph_base_functions = {
 	.times_link_present = (TimesIterator(*)(void*, LinkId))FullStreamGraph_times_link_present,
 };
 
-const HijackedGenericFunctions full_stream_graph_hijacked_functions = {
+const MetricsFunctions FullStreamGraph_metrics_functions = {
 	.cardinalOfW = NULL,
 	.cardinalOfT = NULL,
 	.cardinalOfV = NULL,
