@@ -46,48 +46,16 @@
 		}                                                                                                              \
 	}
 
-#define GET_BASE_FUNC(variable, function, stream_var, args)                                                            \
-	({                                                                                                                 \
-		printf("GET_BASE_FUNC\n");                                                                                     \
-		switch (stream_var.type) {                                                                                     \
-			case FULL_STREAM_GRAPH: {                                                                                  \
-				printf("FULL_STREAM_GRAPH\n");                                                                         \
-				assert(full_stream_graph_base_functions.function != NULL);                                             \
-				printf("assert passed : %p\n", full_stream_graph_base_functions.function);                             \
-				variable = full_stream_graph_base_functions.function args;                                             \
-				printf("got variable\n");                                                                              \
-				break;                                                                                                 \
-			}                                                                                                          \
-			case LINK_STREAM: {                                                                                        \
-				printf("LINK_STREAM\n");                                                                               \
-				variable = link_stream_base_functions.function args;                                                   \
-				break;                                                                                                 \
-			}                                                                                                          \
-			default: {                                                                                                 \
-				printf("EIZHUEEZIIEZHEHE");                                                                            \
-				assert(0);                                                                                             \
-			}                                                                                                          \
-		}                                                                                                              \
-		variable;                                                                                                      \
-	})
-
 #define GET_BASE_FUNCS(variable, stream_var)                                                                           \
 	({                                                                                                                 \
-		printf("GET_BASE_FUNCS\n");                                                                                    \
 		switch (stream_var.type) {                                                                                     \
 			case FULL_STREAM_GRAPH: {                                                                                  \
-				printf("FULL_STREAM_GRAPH\n");                                                                         \
 				variable = full_stream_graph_base_functions;                                                           \
 				break;                                                                                                 \
 			}                                                                                                          \
 			case LINK_STREAM: {                                                                                        \
-				printf("LINK_STREAM\n");                                                                               \
 				variable = link_stream_base_functions;                                                                 \
 				break;                                                                                                 \
-			}                                                                                                          \
-			default: {                                                                                                 \
-				printf("EIZHUEEZIIEZHEHE");                                                                            \
-				assert(0);                                                                                             \
 			}                                                                                                          \
 		}                                                                                                              \
 		variable;                                                                                                      \
@@ -96,7 +64,6 @@
 size_t cardinalOfT(TimesIterator times) {
 	size_t count = 0;
 	FOR_EACH(Interval, interval, times, interval.start != SIZE_MAX) {
-		printf("Interval : [%lu, %lu]\n", interval.start, interval.end);
 		count += Interval_size(interval);
 	}
 	return count;
@@ -130,10 +97,12 @@ size_t cardinalOfW(NodesIterator nodes) {
 }*/
 
 double coverage_stream(stream_t stream) {
-	// TRY_HIJACK(coverage, stream);
-	NodesIterator nodes = GET_BASE_FUNC(nodes, nodes_set, stream, (&stream));
+	TRY_HIJACK(coverage, stream);
+	BaseGenericFunctions base_functions = GET_BASE_FUNCS(base_functions, stream);
+	NodesIterator nodes = base_functions.nodes_set(stream.stream);
 	size_t w = cardinalOfW(nodes);
-	size_t t = cardinalOfT(full_stream_graph_base_functions.times_node_present(stream.stream, 0));
+	nodes = base_functions.nodes_set(stream.stream);
+	size_t t = cardinalOfT(base_functions.times_node_present(stream.stream, 0));
 	size_t v = cardinalOfV(nodes);
 
 	return (double)w / (double)(t * v);

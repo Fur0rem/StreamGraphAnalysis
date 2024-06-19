@@ -92,6 +92,26 @@ bool test_cardinal_of_W_L() {
 	return EXPECT_EQ(cardinal, 400);
 }
 
+bool test_coverage_S() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	FullStreamGraph fsg = FullStreamGraph_from(&sg);
+	printf("udsg = %p\n", fsg.underlying_stream_graph);
+	stream_t st = (stream_t){.type = FULL_STREAM_GRAPH, .stream = &fsg};
+	printf("st udsg = %p\n", ((FullStreamGraph*)st.stream)->underlying_stream_graph);
+	double coverage = coverage_stream(st);
+	StreamGraph_destroy(&sg);
+	return EXPECT_F_APPROX_EQ(coverage, 0.65, 1e-6);
+}
+
+bool test_coverage_L() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	LinkStream ls = LinkStream_from(&sg);
+	stream_t st = (stream_t){.type = LINK_STREAM, .stream = &ls};
+	double coverage = coverage_stream(st);
+	StreamGraph_destroy(&sg);
+	return EXPECT_F_APPROX_EQ(coverage, 1.0, 1e-6);
+}
+
 int main() {
 	/*Test* tests[] = {
 		&(Test){"cardinal_of_W_S", test_cardinal_of_W_S},
@@ -110,6 +130,8 @@ int main() {
 		&(Test){"cardinal_of_W_S",   test_cardinal_of_W_S  },
  //&(Test){"times_node_present", test_times_node_present},
 		&(Test){"cardinal_of_W_L",   test_cardinal_of_W_L  },
+		&(Test){"coverage_S",		  test_coverage_S		 },
+		&(Test){"coverage_L",		  test_coverage_L		 },
 
 		NULL,
 	};
