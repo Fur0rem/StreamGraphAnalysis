@@ -60,4 +60,7 @@ size_t total_time_of(TimesIterator times);
 		count;                                                                                                         \
 	})
 
+TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b);
+TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b);
+
 #endif // ITERATORS_H

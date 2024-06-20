@@ -52,8 +52,6 @@ char* Interval_to_string(Interval* interval) {
 	return str;
 }
 
-DefVector(Interval, NO_FREE(Interval));
-
 void IntervalsSet_destroy(IntervalsSet intervals_set) {
 	free(intervals_set.intervals);
 }

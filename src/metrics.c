@@ -177,3 +177,32 @@ double Stream_link_duration(Stream stream) {
 	size_t vxv = size_set_unordered_pairs_itself(v);
 	return (double)e / (double)(vxv * scaling);
 }
+
+double Stream_uniformity(Stream stream) {
+	// CATCH_METRICS_IMPLEM(uniformity, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	size_t sum_num = 0;
+	size_t sum_den = 0;
+	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
+	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
+		NodesIterator other_pair = stream_functions.nodes_set(stream.stream);
+		FOR_EACH(NodeId, other_node_id, other_pair, other_node_id != SIZE_MAX) {
+			if (node_id >= other_node_id) {
+				continue;
+			}
+			TimesIterator times_node = stream_functions.times_node_present(stream.stream, node_id);
+			TimesIterator times_other_node = stream_functions.times_node_present(stream.stream, other_node_id);
+			TimesIterator times_union = TimesIterator_union(times_node, times_other_node);
+
+			size_t t_u = total_time_of(times_union);
+			times_node = stream_functions.times_node_present(stream.stream, node_id);
+			times_other_node = stream_functions.times_node_present(stream.stream, other_node_id);
+			TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
+			size_t t_i = total_time_of(times_intersection);
+
+			sum_num += t_i;
+			sum_den += t_u;
+		}
+	}
+	return (double)sum_num / (double)sum_den;
+}

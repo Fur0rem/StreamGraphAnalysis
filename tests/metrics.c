@@ -172,11 +172,12 @@ bool test_contributions_of_links() {
 	double contribution_ac = Stream_contribution_of_link(st, 2);
 	double contribution_bc = Stream_contribution_of_link(st, 3);
 	StreamGraph_destroy(&sg);
+	FSG_destroy(&st);
 	return EXPECT_F_APPROX_EQ(contribution_ab, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bd, 0.1, 1e-2) &&
 		   EXPECT_F_APPROX_EQ(contribution_ac, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bc, 0.3, 1e-2);
 }
 
-// TEST_METRIC_F(uniformity, 22.0 / 56.0, S)
+TEST_METRIC_F(uniformity, 22.0 / 56.0, S, FSG)
 // TEST_METRIC_F(density, 10.0 / 22.0, S)
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
@@ -207,6 +208,7 @@ int main() {
 		&(Test){"link_duration",			 test_link_duration		   },
 		&(Test){"contribution_of_nodes",	 test_contribution_of_nodes },
 		&(Test){"contributions_of_links", test_contributions_of_links},
+		&(Test){"uniformity",			  test_uniformity			 },
 
 		NULL,
 	};

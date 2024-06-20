@@ -27,5 +27,6 @@ double Stream_node_contribution_at_time(Stream stream, TimeId time_id);
 // size_t size_set_unordered_pairs_itself(size_t n);
 double Stream_link_contribution_at_time(Stream stream, TimeId time_id);
 double Stream_link_duration(Stream stream);
+double Stream_uniformity(Stream stream);
 
 #endif // METRICS_H
