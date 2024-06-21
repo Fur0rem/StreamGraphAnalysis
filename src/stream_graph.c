@@ -10,6 +10,7 @@
 #include "interval.h"
 #include "stream_graph.h"
 #include "stream_graph/events_table.h"
+#include "stream_graph/links_set.h"
 #include "units.h"
 #include "utils.h"
 
@@ -490,6 +491,28 @@ DefVector(size_tHashset, NO_FREE(size_tHashset));
 
 DefVector(EventTupleVector, NO_FREE(EventTupleVector));
 
+size_t link_hash(Link key) {
+	return key.nodes[0] + key.nodes[1];
+}
+
+typedef struct {
+	size_t nodes[2];
+	size_t nb_intervals;
+} LinkInfo;
+
+char* LinkInfo_to_string(LinkInfo* info) {
+	char* str = (char*)malloc(50);
+	sprintf(str, "(%zu %zu) %zu", info->nodes[0], info->nodes[1], info->nb_intervals);
+	return str;
+}
+
+bool LinkInfo_equals(LinkInfo info1, LinkInfo info2) {
+	return info1.nodes[0] == info2.nodes[0] && info1.nodes[1] == info2.nodes[1];
+}
+
+// DefHashset(Link, link_hash, NO_FREE(Link));
+
+DefVector(LinkInfo, NO_FREE(LinkInfo));
 // Transforms an external format to an internal format
 char* InternalFormat_from_External_str(const char* str) {
 	char* current_header;
@@ -507,10 +530,12 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	// Skip to events section
 	str = get_to_header(str, "[Events]");
-	str = strchr(str, '\n') + 1;
 
 	// EventTupleVector events = EventTupleVector_with_capacity(10);
 	EventTupleVectorVector events = EventTupleVectorVector_with_capacity(10);
+	// LinkHashset links = LinkHashset_with_capacity(10);
+	LinkInfoVector links = LinkInfoVector_with_capacity(10);
+	LinkInfoVector nodes = LinkInfoVector_with_capacity(10);
 	size_t biggest_node_id = 0;
 
 	// Parse the events
@@ -532,6 +557,49 @@ char* InternalFormat_from_External_str(const char* str) {
 			nb_scanned = sscanf(str, "%zu %c %c %zu", &key_moment, &sign, &letter, &one);
 			EXPECTED_NB_SCANNED(4);
 			tuple = (EventTuple){key_moment, sign, letter, .id.node = one};
+
+			// push the neighbours
+			if (one > biggest_node_id) {
+				biggest_node_id = one;
+			}
+			if (biggest_node_id >= node_neighbours.size) {
+				for (size_t i = node_neighbours.size; i <= biggest_node_id; i++) {
+					size_tHashsetVector_push(&node_neighbours, size_tHashset_with_capacity(10));
+				}
+			}
+
+			// push the link
+			/*Link link = {
+				.nodes = {one, two}
+			   };*/
+			// LinkHashset_insert(&links, link);
+			LinkInfo info = {
+				.nodes = {one, one},
+					 .nb_intervals = 1
+			  };
+
+			bool found = false;
+			size_t found_idx = 0;
+			for (size_t i = 0; i < nodes.size; i++) {
+				if (nodes.array[i].nodes[0] == info.nodes[0] && nodes.array[i].nodes[1] == info.nodes[1]) {
+					nodes.array[i].nb_intervals++;
+					found = true;
+					found_idx = i;
+					break;
+				}
+			}
+			if (!found) {
+				printf("pushing node %zu\n", one);
+				LinkInfoVector_push(&nodes, info);
+			}
+			else {
+				printf("found_idx: %zu\n", found_idx);
+				printf("nodes.array[found_idx].nb_intervals: %zu\n", nodes.array[found_idx].nb_intervals);
+				// printf("line : %s\n");
+				PRINT_LINE(str);
+			}
+
+			// size_tHashset_insert(&node_neighbours.array[one], one);
 		}
 		else {
 			nb_scanned = sscanf(str, "%zu %c %c %zu %zu", &key_moment, &sign, &letter, &one, &two);
@@ -556,6 +624,31 @@ char* InternalFormat_from_External_str(const char* str) {
 			}
 			size_tHashset_insert(&node_neighbours.array[one], two);
 			size_tHashset_insert(&node_neighbours.array[two], one);
+
+			// push the link
+			/*Link link = {
+				.nodes = {one, two}
+			   };*/
+			// LinkHashset_insert(&links, link);
+			LinkInfo info = {
+				.nodes = {one, two},
+					 .nb_intervals = 1
+			  };
+
+			bool found = false;
+			size_t found_idx = 0;
+			for (size_t i = 0; i < links.size; i++) {
+				if ((links.array[i].nodes[0] == info.nodes[0] && links.array[i].nodes[1] == info.nodes[1]) ||
+					(links.array[i].nodes[0] == info.nodes[1] && links.array[i].nodes[1] == info.nodes[0])) {
+					links.array[i].nb_intervals++;
+					found = true;
+					found_idx = i;
+					break;
+				}
+			}
+			if (!found) {
+				LinkInfoVector_push(&links, info);
+			}
 		}
 		if (nb_events == 0) {
 			EventTupleVector events_vec = EventTupleVector_with_capacity(10);
@@ -585,7 +678,72 @@ char* InternalFormat_from_External_str(const char* str) {
 	char* node_neighbours_str = size_tHashsetVector_to_string(&node_neighbours);
 	printf("node_neighbours: %s\n", node_neighbours_str);
 
-	return events_tuple;
+	char* links_str = LinkInfoVector_to_string(&links);
+	// printf("links: %s\n", links_str);
+
+	charVector vec = charVector_new();
+	charVector_append(&vec, APPEND_CONST("SGA Internal version 1.0.0\n\n"));
+	charVector_append(&vec, APPEND_CONST("[General]\n"));
+	char scaling_str[50];
+	sprintf(scaling_str, "Scaling=%zu\n\n", scaling);
+	charVector_append(&vec, scaling_str, strlen(scaling_str));
+	charVector_append(&vec, APPEND_CONST("[Memory]\n"));
+	charVector_append(&vec, APPEND_CONST("NumberOfNodes="));
+	char nb_nodes_str[50];
+	sprintf(nb_nodes_str, "%zu\n", biggest_node_id + 1);
+	charVector_append(&vec, nb_nodes_str, strlen(nb_nodes_str));
+	charVector_append(&vec, APPEND_CONST("NumberOfLinks="));
+	char nb_links_str[50];
+	sprintf(nb_links_str, "%zu\n", LinkInfoVector_size(&links));
+	charVector_append(&vec, nb_links_str, strlen(nb_links_str));
+	charVector_append(&vec, APPEND_CONST("NumberOfKeyMoments="));
+	char nb_key_moments_str[50];
+	sprintf(nb_key_moments_str, "%zu\n\n", EventTupleVectorVector_size(&events));
+	charVector_append(&vec, nb_key_moments_str, strlen(nb_key_moments_str));
+	charVector_append(&vec, APPEND_CONST("[[Nodes]]\n"));
+	charVector_append(&vec, APPEND_CONST("[[[NumberOfNeighbours]]]\n"));
+	for (size_t i = 0; i <= biggest_node_id; i++) {
+		char nb_neighbours_str[50];
+		sprintf(nb_neighbours_str, "%zu\n", size_tHashset_size(&node_neighbours.array[i]));
+		charVector_append(&vec, nb_neighbours_str, strlen(nb_neighbours_str));
+	}
+	charVector_append(&vec, APPEND_CONST("[[[NumberOfIntervals]]]\n"));
+	for (size_t i = 0; i <= biggest_node_id; i++) {
+		char nb_intervals_str[50];
+		sprintf(nb_intervals_str, "%zu\n", nodes.array[i].nb_intervals / 2);
+		charVector_append(&vec, nb_intervals_str, strlen(nb_intervals_str));
+	}
+	charVector_append(&vec, APPEND_CONST("[[Links]]\n"));
+	charVector_append(&vec, APPEND_CONST("[[[NumberOfIntervals]]]\n"));
+	for (size_t i = 0; i < LinkInfoVector_size(&links); i++) {
+		char nb_intervals_str[50];
+		sprintf(nb_intervals_str, "%zu\n", links.array[i].nb_intervals / 2);
+		charVector_append(&vec, nb_intervals_str, strlen(nb_intervals_str));
+	}
+	charVector_append(&vec, APPEND_CONST("[[[NumberOfSlices]]]\n")); // TODO : slices don't work right now
+	char nb_slices_str[50];
+	sprintf(nb_slices_str, "%zu\n\n", EventTupleVectorVector_size(&events));
+	charVector_append(&vec, nb_slices_str, strlen(nb_slices_str));
+	charVector_append(&vec, APPEND_CONST("[Data]\n"));
+	charVector_append(&vec, APPEND_CONST("[[Neighbours]]\n"));
+	charVector_append(&vec, APPEND_CONST("[[[NodesToLinks]]]\n"));
+	charVector_append(&vec, node_neighbours_str, strlen(node_neighbours_str));
+	charVector_append(&vec, APPEND_CONST("[[[LinksToNodes]]]\n"));
+	charVector_append(&vec, links_str, strlen(links_str));
+	charVector_append(&vec, APPEND_CONST("[[Events]]\n"));
+	charVector_append(&vec, events_tuple, strlen(events_tuple));
+	charVector_append(&vec, APPEND_CONST("[EndOfFile]\n"));
+
+	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
+	memcpy(final_str, vec.array, vec.size);
+	final_str[vec.size] = '\0';
+	free(vec.array);
+	free(events_tuple);
+	free(node_neighbours_str);
+	free(links_str);
+
+	printf("final_str: %s\n", final_str);
+	return final_str;
 }
 
 char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
@@ -628,7 +786,7 @@ char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	return final_str;
 }
 
-char* Link_to_string(StreamGraph* sg, size_t link_idx) {
+/*char* Link_to_string(StreamGraph* sg, size_t link_idx) {
 	charVector vec = charVector_new();
 	char number[50];
 	Link* link = &sg->links.links[link_idx];
@@ -659,7 +817,7 @@ char* Link_to_string(StreamGraph* sg, size_t link_idx) {
 	final_str[vec.size] = '\0';
 	free(vec.array);
 	return final_str;
-}
+}*/
 
 /*char* Event_to_string(StreamGraph* sg, size_t event_idx) {
 	Event event = sg->events.events[event_idx];
@@ -746,7 +904,7 @@ char* StreamGraph_to_string(StreamGraph* sg) {
 	// tostring the links
 	charVector_append(&vec, APPEND_CONST("\n\tLinks=[\n"));
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		char* link_str = Link_to_string(sg, i);
+		char* link_str = Link_to_string(&sg->links.links[i]);
 		charVector_append(&vec, link_str, strlen(link_str));
 		free(link_str);
 	}

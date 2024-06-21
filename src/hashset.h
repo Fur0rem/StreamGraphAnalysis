@@ -114,5 +114,13 @@
 			}                                                                                                          \
 		}                                                                                                              \
 		return str;                                                                                                    \
+	}                                                                                                                  \
+                                                                                                                       \
+	static size_t type##Hashset_size(type##Hashset* s) {                                                               \
+		size_t size = 0;                                                                                               \
+		for (size_t i = 0; i < s->capacity; i++) {                                                                     \
+			size += s->buckets[i].size;                                                                                \
+		}                                                                                                              \
+		return size;                                                                                                   \
 	}
 #endif // HASHSET_H

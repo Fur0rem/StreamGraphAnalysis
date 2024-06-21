@@ -17,5 +17,7 @@ typedef struct {
 } LinksSet;
 
 LinksSet LinksSet_alloc(size_t nb_links);
+char* Link_to_string(Link* link);
+bool Link_equals(Link a, Link b);
 
 #endif // STREAM_GRAPH_LINKS_SET_H
