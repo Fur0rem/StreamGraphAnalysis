@@ -93,8 +93,8 @@ char* get_to_header(const char* str, const char* header) {
 StreamGraph StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
-	int nb_scanned;
-	char* current_header;
+	int nb_scanned = -1;
+	char* current_header = NULL;
 
 	// Skip first line (version control)
 
@@ -515,13 +515,21 @@ bool LinkInfo_equals(LinkInfo info1, LinkInfo info2) {
 DefVector(LinkInfo, NO_FREE(LinkInfo));
 // Transforms an external format to an internal format
 char* InternalFormat_from_External_str(const char* str) {
-	char* current_header;
+	char* current_header = "None";
 	int nb_scanned;
 
 	// Skip to general section
 	str = get_to_header(str, "[General]");
 
 	size_tHashsetVector node_neighbours = size_tHashsetVector_with_capacity(10);
+
+	size_t lifespan_start;
+	size_t lifespan_end;
+	nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
+	printf("lifespan_start: %zu\n", lifespan_start);
+	printf("lifespan_end: %zu\n", lifespan_end);
+	EXPECTED_NB_SCANNED(2);
+	GO_TO_NEXT_LINE(str);
 
 	// Parse the general section
 	size_t scaling;
@@ -530,6 +538,8 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	// Skip to events section
 	str = get_to_header(str, "[Events]");
+
+	const char* events_backup = str;
 
 	// EventTupleVector events = EventTupleVector_with_capacity(10);
 	EventTupleVectorVector events = EventTupleVectorVector_with_capacity(10);
@@ -541,6 +551,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	// Parse the events
 	size_t nb_events = 0;
 	size_t current_vec = 0;
+	size_tVector number_of_slices = size_tVector_with_capacity(10);
 	while (strncmp(str, "[EndOfFile]", 11) != 0) {
 		// if the line is empty, skip it
 		if (*str == '\n') {
@@ -678,15 +689,33 @@ char* InternalFormat_from_External_str(const char* str) {
 	char* node_neighbours_str = size_tHashsetVector_to_string(&node_neighbours);
 	printf("node_neighbours: %s\n", node_neighbours_str);
 
-	char* links_str = LinkInfoVector_to_string(&links);
+	// char* links_str = LinkInfoVector_to_string(&links);
+
 	// printf("links: %s\n", links_str);
+
+	for (size_t i = 0; i < events.size; i++) {
+		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
+		if (slice_id >= number_of_slices.size) {
+			for (size_t j = number_of_slices.size; j <= slice_id; j++) {
+				size_tVector_push(&number_of_slices, 0);
+			}
+		}
+		number_of_slices.array[slice_id]++;
+	}
+
+	char* slices_str = size_tVector_to_string(&number_of_slices);
+	printf("slices: %s\n", slices_str);
 
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("SGA Internal version 1.0.0\n\n"));
 	charVector_append(&vec, APPEND_CONST("[General]\n"));
+	char lifespan_str[50];
+	sprintf(lifespan_str, "Lifespan=(%zu %zu)\n", lifespan_start, lifespan_end);
+	charVector_append(&vec, lifespan_str, strlen(lifespan_str));
 	char scaling_str[50];
 	sprintf(scaling_str, "Scaling=%zu\n\n", scaling);
 	charVector_append(&vec, scaling_str, strlen(scaling_str));
+	sprintf(scaling_str, "Lifespan=(%zu %zu)\n\n", lifespan_start, lifespan_end);
 	charVector_append(&vec, APPEND_CONST("[Memory]\n"));
 	charVector_append(&vec, APPEND_CONST("NumberOfNodes="));
 	char nb_nodes_str[50];
@@ -721,17 +750,73 @@ char* InternalFormat_from_External_str(const char* str) {
 		charVector_append(&vec, nb_intervals_str, strlen(nb_intervals_str));
 	}
 	charVector_append(&vec, APPEND_CONST("[[[NumberOfSlices]]]\n")); // TODO : slices don't work right now
-	char nb_slices_str[50];
-	sprintf(nb_slices_str, "%zu\n\n", EventTupleVectorVector_size(&events));
-	charVector_append(&vec, nb_slices_str, strlen(nb_slices_str));
+	for (size_t i = 0; i < number_of_slices.size; i++) {
+		char nb_slices_str[50];
+		sprintf(nb_slices_str, "%zu\n", number_of_slices.array[i]);
+		charVector_append(&vec, nb_slices_str, strlen(nb_slices_str));
+	}
 	charVector_append(&vec, APPEND_CONST("[Data]\n"));
 	charVector_append(&vec, APPEND_CONST("[[Neighbours]]\n"));
 	charVector_append(&vec, APPEND_CONST("[[[NodesToLinks]]]\n"));
-	charVector_append(&vec, node_neighbours_str, strlen(node_neighbours_str));
+	for (size_t i = 0; i < nodes.size; i++) {
+		charVector_append(&vec, APPEND_CONST("("));
+		size_tHashset neighs = node_neighbours.array[i];
+		for (size_t j = 0; j < neighs.capacity; j++) {
+			// printf("neighs.buckets[%zu].size: %zu\n", j, neighs.buckets[j].size);
+			for (size_t k = 0; k < neighs.buckets[j].size; k++) {
+				size_t neighbour = neighs.buckets[j].array[k];
+				printf("neighbour: %zu\n", neighbour);
+				char neighbour_str[50];
+				sprintf(neighbour_str, "%zu", neighbour);
+				charVector_append(&vec, neighbour_str, strlen(neighbour_str));
+				charVector_append(&vec, APPEND_CONST(" "));
+			}
+		}
+		charVector_pop(&vec);
+		charVector_append(&vec, APPEND_CONST(")\n"));
+	}
 	charVector_append(&vec, APPEND_CONST("[[[LinksToNodes]]]\n"));
-	charVector_append(&vec, links_str, strlen(links_str));
+	// charVector_append(&vec, links_str, strlen(links_str));
+	for (size_t i = 0; i < links.size; i++) {
+		charVector_append(&vec, APPEND_CONST("("));
+		char node1_str[50];
+		sprintf(node1_str, "%zu", links.array[i].nodes[0]);
+		charVector_append(&vec, node1_str, strlen(node1_str));
+		charVector_append(&vec, APPEND_CONST(" "));
+		char node2_str[50];
+		sprintf(node2_str, "%zu", links.array[i].nodes[1]);
+		charVector_append(&vec, node2_str, strlen(node2_str));
+		charVector_append(&vec, APPEND_CONST(")\n"));
+	}
 	charVector_append(&vec, APPEND_CONST("[[Events]]\n"));
-	charVector_append(&vec, events_tuple, strlen(events_tuple));
+	// charVector_append(&vec, events_tuple, strlen(events_tuple));
+	for (size_t i = 0; i < events.size; i++) {
+		char buffer[50];
+		sprintf(buffer, "%zu=(", events.array[i].array[0].moment);
+		for (size_t j = 0; j < events.array[i].size; j++) {
+			char tuple_str[50];
+			if (events.array[i].array[j].letter == 'L') {
+				size_t link_id = 0;
+				for (size_t k = 0; k < links.size; k++) {
+					if (links.array[k].nodes[0] == events.array[i].array[j].id.node1 &&
+						links.array[k].nodes[1] == events.array[i].array[j].id.node2) {
+						link_id = k;
+						break;
+					}
+				}
+				sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter,
+						link_id);
+			}
+			else {
+				sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter,
+						events.array[i].array[j].id.node);
+			}
+			strcat(buffer, tuple_str);
+		}
+		charVector_append(&vec, buffer, strlen(buffer));
+		charVector_pop(&vec);
+		charVector_append(&vec, APPEND_CONST(")\n"));
+	}
 	charVector_append(&vec, APPEND_CONST("[EndOfFile]\n"));
 
 	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
@@ -740,7 +825,20 @@ char* InternalFormat_from_External_str(const char* str) {
 	free(vec.array);
 	free(events_tuple);
 	free(node_neighbours_str);
-	free(links_str);
+	free(slices_str);
+
+	// Destroy the vectors
+	for (size_t i = 0; i < node_neighbours.size; i++) {
+		size_tHashset_destroy(node_neighbours.array[i]);
+	}
+	for (size_t i = 0; i < events.size; i++) {
+		EventTupleVector_destroy(events.array[i]);
+	}
+	size_tHashsetVector_destroy(node_neighbours);
+	EventTupleVectorVector_destroy(events);
+	LinkInfoVector_destroy(links);
+	LinkInfoVector_destroy(nodes);
+	size_tVector_destroy(number_of_slices);
 
 	printf("final_str: %s\n", final_str);
 	return final_str;

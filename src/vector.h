@@ -46,6 +46,13 @@
 		vec->size++;                                                                                                   \
 	}                                                                                                                  \
                                                                                                                        \
+	static void type##Vector_pop(type##Vector* vec) {                                                                  \
+		if (freefunc) {                                                                                                \
+			freefunc(vec->array[vec->size - 1]);                                                                       \
+		}                                                                                                              \
+		vec->size--;                                                                                                   \
+	}                                                                                                                  \
+                                                                                                                       \
 	static void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values) {                         \
 		if (vec->size + nb_values > vec->capacity) {                                                                   \
 			vec->capacity = vec->size + nb_values;                                                                     \
@@ -96,7 +103,7 @@
 	static char* type##Vector_to_string(type##Vector* vec) {                                                           \
 		char* str = (char*)malloc(1000);                                                                               \
 		str[0] = '\0';                                                                                                 \
-		strcat(str, "{ ");                                                                                             \
+		strcat(str, "[ ");                                                                                             \
 		for (size_t i = 0; i < vec->size; i++) {                                                                       \
 			char* elem_str = type##_to_string(&vec->array[i]);                                                         \
 			strcat(str, elem_str);                                                                                     \
@@ -105,7 +112,7 @@
 				strcat(str, ", ");                                                                                     \
 			}                                                                                                          \
 		}                                                                                                              \
-		strcat(str, " }");                                                                                             \
+		strcat(str, " ]");                                                                                             \
 		return str;                                                                                                    \
 	}                                                                                                                  \
                                                                                                                        \
