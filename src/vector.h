@@ -119,6 +119,9 @@
 			}                                                                                                          \
 		}                                                                                                              \
 		return true;                                                                                                   \
+	}                                                                                                                  \
+	static size_t type##Vector_size(type##Vector* vec) {                                                               \
+		return vec->size;                                                                                              \
 	}
 
 #endif // VECTOR_H
