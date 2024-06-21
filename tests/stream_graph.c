@@ -16,6 +16,8 @@ bool test_load_slices() {
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
+	EXPECT(StreamGraph_lifespan_begin(&sg) == 0);
+	EXPECT(StreamGraph_lifespan_end(&sg) == 1000);
 	StreamGraph_destroy(&sg);
 	return true;
 }
@@ -49,6 +51,34 @@ bool test_init_events_table() {
 	return true;
 }
 
+bool test_external_format() {
+	// Read the file
+	char* filename = "tests/test_data/S_external.txt";
+	// Open the file
+	FILE* file = fopen(filename, "r");
+	if (file == NULL) {
+		fprintf(stderr, "Error: could not open file %s\n", filename);
+		return false;
+	}
+	// Read everything into a buffer
+	fseek(file, 0, SEEK_END);
+	long length = ftell(file);
+	fseek(file, 0, SEEK_SET);
+	char* buffer = (char*)malloc(length + 1);
+	if (buffer == NULL) {
+		fprintf(stderr, "Error: could not allocate memory for file %s\n", filename);
+		fclose(file);
+		return false;
+	}
+	fread(buffer, 1, length, file);
+	fclose(file);
+	buffer[length] = '\0';
+
+	// Parse the buffer
+	InternalFormat_from_External_str(buffer);
+	return true;
+}
+
 int main() {
 	Test* tests[] = {
 		&(Test){"load",						 test_load						 },
@@ -57,6 +87,7 @@ int main() {
 		&(Test){"find_index_of_time_in_slices", test_find_index_of_time_in_slices},
 		&(Test){"find_index_of_time_not_found", test_find_index_of_time_not_found},
 		&(Test){"init_events_table",			 test_init_events_table		   },
+		&(Test){"external_format",			   test_external_format			   },
 		NULL
 	};
 
