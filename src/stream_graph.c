@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "hashset.h"
 #include "interval.h"
 #include "stream_graph.h"
 #include "stream_graph/events_table.h"
@@ -344,6 +345,249 @@ size_t StreamGraph_lifespan_end(StreamGraph* sg) {
 	return KeyMomentsTable_last_moment(&sg->key_moments);
 }
 
+/* Format external :
+SGA External version 1.0.0
+
+[General]
+Scaling=10
+
+[Events]
+0 + N 0
+0 + N 1
+10 + N 3
+10 + L 0 1
+20 + L 1 3
+30 - N 3
+30 - L 0 1
+30 - L 1 3
+40 - N 1
+40 + N 2
+45 + L 0 2
+50 + N 1
+60 + L 2 3
+70 + L 0 1
+75 - L 0 2
+80 - L 0 1
+90 - N 2
+90 - L 1 2
+100 - N 0
+100 - N 1
+
+[EndOfFile]
+*/
+/* Format internal :
+SGA Internal version 1.0.0
+
+
+[General]
+Lifespan=(0 100)
+Scaling=10
+
+
+[Memory]
+NumberOfNodes=4
+NumberOfLinks=4
+NumberOfKeyMoments=13
+
+[[Nodes]]
+[[[NumberOfNeighbours]]]
+2
+2
+2
+1
+[[[NumberOfIntervals]]]
+1
+2
+1
+1
+
+[[Links]]
+[[[NumberOfIntervals]]]
+2
+1
+1
+1
+
+[[[NumberOfSlices]]]
+13
+
+
+[Data]
+
+[[Neighbours]]
+[[[NodesToLinks]]]
+(0 2)
+(1 3)
+(2 3)
+(1)
+[[[LinksToNodes]]]
+(0 1)
+(1 3)
+(0 2)
+(1 2)
+
+[[Events]]
+0=((+ N 0) (+ N 1))
+10=((+ N 3) (+ L 0))
+20=((+ L 1))
+30=((- N 3) (- L 0) (- L 1))
+40=((- N 1) (+ N 2))
+45=((+ L 2))
+50=((+ N 1))
+60=((+ L 3))
+70=((+ L 0))
+75=((- L 2))
+80=((- L 0))
+90=((- N 2) (- L 3))
+100=((- N 0) (- N 1))
+
+[EndOfFile]
+*/
+
+typedef struct {
+	size_t moment;
+	char sign;
+	char letter;
+	union {
+		size_t node;
+		struct {
+			size_t node1;
+			size_t node2;
+		};
+	} id;
+} EventTuple;
+
+char* EventTuple_to_string(EventTuple* tuple) {
+	char* str = (char*)malloc(50);
+	if (tuple->letter == 'N') {
+		sprintf(str, "%zu %c %c %zu", tuple->moment, tuple->sign, tuple->letter, tuple->id.node);
+	}
+	else {
+		sprintf(str, "%zu %c %c %zu %zu", tuple->moment, tuple->sign, tuple->letter, tuple->id.node1, tuple->id.node2);
+	}
+	return str;
+}
+
+bool EventTuple_equals(EventTuple tuple1, EventTuple tuple2) {
+	return true;
+}
+
+DefVector(EventTuple, NO_FREE(EventTuple));
+DEFAULT_COMPARE(size_t);
+DEFAULT_TO_STRING(size_t, "%zu");
+
+size_t size_t_hash(size_t key) {
+	return key;
+}
+
+DefHashset(size_t, size_t_hash, NO_FREE(size_t));
+
+bool size_tHashset_equals(size_tHashset set1, size_tHashset set2) {
+	return true;
+}
+
+DefVector(size_tHashset, NO_FREE(size_tHashset));
+
+DefVector(EventTupleVector, NO_FREE(EventTupleVector));
+
+// Transforms an external format to an internal format
+char* InternalFormat_from_External_str(const char* str) {
+	char* current_header;
+	int nb_scanned;
+
+	// Skip to general section
+	str = get_to_header(str, "[General]");
+
+	size_tHashsetVector node_neighbours = size_tHashsetVector_with_capacity(10);
+
+	// Parse the general section
+	size_t scaling;
+	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	EXPECTED_NB_SCANNED(1);
+
+	// Skip to events section
+	str = get_to_header(str, "[Events]");
+	str = strchr(str, '\n') + 1;
+
+	// EventTupleVector events = EventTupleVector_with_capacity(10);
+	EventTupleVectorVector events = EventTupleVectorVector_with_capacity(10);
+	size_t biggest_node_id = 0;
+
+	// Parse the events
+	size_t nb_events = 0;
+	size_t current_vec = 0;
+	while (strncmp(str, "[EndOfFile]", 11) != 0) {
+		// if the line is empty, skip it
+		if (*str == '\n') {
+			break;
+		}
+		size_t key_moment;
+		char sign;
+		char letter;
+		size_t one, two;
+		EventTuple tuple;
+		nb_scanned = sscanf(str, "%zu %c %c", &key_moment, &sign, &letter);
+		EXPECTED_NB_SCANNED(3);
+		if (letter == 'N') {
+			nb_scanned = sscanf(str, "%zu %c %c %zu", &key_moment, &sign, &letter, &one);
+			EXPECTED_NB_SCANNED(4);
+			tuple = (EventTuple){key_moment, sign, letter, .id.node = one};
+		}
+		else {
+			nb_scanned = sscanf(str, "%zu %c %c %zu %zu", &key_moment, &sign, &letter, &one, &two);
+			EXPECTED_NB_SCANNED(5);
+			tuple = (EventTuple){
+				key_moment,
+				sign,
+				letter,
+				.id = {.node1 = one, .node2 = two},
+			};
+			// push the neighbours
+			if (one > biggest_node_id) {
+				biggest_node_id = one;
+			}
+			if (two > biggest_node_id) {
+				biggest_node_id = two;
+			}
+			if (biggest_node_id >= node_neighbours.size) {
+				for (size_t i = node_neighbours.size; i <= biggest_node_id; i++) {
+					size_tHashsetVector_push(&node_neighbours, size_tHashset_with_capacity(10));
+				}
+			}
+			size_tHashset_insert(&node_neighbours.array[one], two);
+			size_tHashset_insert(&node_neighbours.array[two], one);
+		}
+		if (nb_events == 0) {
+			EventTupleVector events_vec = EventTupleVector_with_capacity(10);
+			EventTupleVector_push(&events_vec, tuple);
+			EventTupleVectorVector_push(&events, events_vec);
+		}
+		else {
+			if (key_moment == events.array[current_vec].array[0].moment) {
+				EventTupleVector_push(&events.array[current_vec], tuple);
+			}
+			else {
+				EventTupleVector events_vec = EventTupleVector_with_capacity(10);
+				EventTupleVector_push(&events_vec, tuple);
+				EventTupleVectorVector_push(&events, events_vec);
+				current_vec++;
+			}
+		}
+		nb_events++;
+
+		GO_TO_NEXT_LINE(str);
+	}
+	printf("nb_events: %zu\n", nb_events);
+
+	char* events_tuple = EventTupleVectorVector_to_string(&events);
+	printf("events_tuple: %s\n", events_tuple);
+
+	char* node_neighbours_str = size_tHashsetVector_to_string(&node_neighbours);
+	printf("node_neighbours: %s\n", node_neighbours_str);
+
+	return events_tuple;
+}
+
 char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector vec = charVector_new();
 	TemporalNode* node = &sg->nodes.nodes[node_idx];
@@ -534,12 +778,6 @@ void StreamGraph_destroy(StreamGraph* sg) {
 
 	// Free the events if they were initialized
 }
-
-#include "vector.h"
-DEFAULT_COMPARE(size_t)
-DEFAULT_MIN_MAX(size_t)
-DEFAULT_TO_STRING(size_t, "%zu")
-DefVector(size_t, NO_FREE(size_t));
 
 void events_table_write(StreamGraph* sg, size_tVector* node_events, size_tVector* link_events) {
 	// Realloc the vectors into the events
