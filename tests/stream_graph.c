@@ -75,7 +75,15 @@ bool test_external_format() {
 	buffer[length] = '\0';
 
 	// Parse the buffer
-	InternalFormat_from_External_str(buffer);
+	char* internal_format = InternalFormat_from_External_str(buffer);
+	printf("%s\n", internal_format);
+	StreamGraph sg = StreamGraph_from_string(internal_format);
+	free(internal_format);
+	char* external_format = StreamGraph_to_string(&sg);
+	printf("%s\n", external_format);
+	StreamGraph_destroy(&sg);
+	free(external_format);
+	free(buffer);
 	return true;
 }
 

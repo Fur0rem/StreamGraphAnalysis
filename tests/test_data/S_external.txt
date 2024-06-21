@@ -1,6 +1,7 @@
 SGA External version 1.0.0
 
 [General]
+Lifespan=(0 100)
 Scaling=10
 
 [Events]
