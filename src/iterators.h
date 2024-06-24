@@ -54,6 +54,7 @@ typedef struct {
 
 size_t total_time_of(TimesIterator times);
 
+// TODO : Not very generic for links with other conditions of stop
 #define COUNT_ITERATOR(iterator)                                                                                       \
 	({                                                                                                                 \
 		size_t count = 0;                                                                                              \

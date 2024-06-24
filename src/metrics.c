@@ -209,6 +209,22 @@ double Stream_uniformity(Stream stream) {
 	return (double)sum_num / (double)sum_den;
 }
 
+double Stream_uniformity_pair_nodes(Stream stream, NodeId node1, NodeId node2) {
+	// CATCH_METRICS_IMPLEM(uniformity_pair_nodes, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	TimesIterator times_node1 = stream_functions.times_node_present(stream.stream, node1);
+	TimesIterator times_node2 = stream_functions.times_node_present(stream.stream, node2);
+	TimesIterator times_union = TimesIterator_union(times_node1, times_node2);
+
+	size_t t_u = total_time_of(times_union);
+	times_node1 = stream_functions.times_node_present(stream.stream, node1);
+	times_node2 = stream_functions.times_node_present(stream.stream, node2);
+	TimesIterator times_intersection = TimesIterator_intersection(times_node1, times_node2);
+	size_t t_i = total_time_of(times_intersection);
+
+	return (double)t_i / (double)t_u;
+}
+
 double Stream_density(Stream stream) {
 	CATCH_METRICS_IMPLEM(density, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
@@ -248,4 +264,41 @@ double Stream_density_of_link(Stream stream, LinkId link_id) {
 	size_t sum_den = total_time_of(t_i);
 
 	return (double)sum_num / (double)sum_den;
+}
+
+double Stream_density_of_node(Stream stream, NodeId node_id) {
+	// CATCH_METRICS_IMPLEM(density_of_node, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	LinksIterator neighbours = stream_functions.neighbours_of_node(stream.stream, node_id);
+	size_t sum_num = 0;
+	size_t sum_den = 0;
+	FOR_EACH_LINK(neighbours, link_id) {
+		TimesIterator times_link = stream_functions.times_link_present(stream.stream, link_id);
+		sum_num += total_time_of(times_link);
+	}
+
+	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
+	FOR_EACH_NODE(nodes, other_node_id) {
+		if (node_id == other_node_id) {
+			continue;
+		}
+		TimesIterator times_node = stream_functions.times_node_present(stream.stream, node_id);
+		TimesIterator times_other_node = stream_functions.times_node_present(stream.stream, other_node_id);
+		TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
+		sum_den += total_time_of(times_intersection);
+	}
+	printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
+	return (double)sum_num / (double)sum_den;
+}
+
+double Stream_density_of_time(Stream stream, TimeId time_id) {
+	// CATCH_METRICS_IMPLEM(density_of_time, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	NodesIterator nodes_at_t = stream_functions.nodes_present_at_t(stream.stream, time_id);
+	LinksIterator links_at_t = stream_functions.links_present_at_t(stream.stream, time_id);
+	// size_t et = COUNT_ITERATOR(links_at_t);
+	size_t et = COUNT_ITERATOR(links_at_t);
+	size_t vt = COUNT_ITERATOR(nodes_at_t);
+	printf("et = %zu, vt = %zu\n", et, vt);
+	return (double)et / (double)(size_set_unordered_pairs_itself(vt));
 }

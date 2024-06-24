@@ -1,7 +1,7 @@
-- Add external format support for stream graphs
+- Skip n for iterators
+- Automatic translation for scaling by the number of digits after the comma you see in the input file at max
 - Add example L and use it for testing too
 - Automate tests and formatting using GitHub actions
-- Set of links and temporal nodes at a time t
 - Choose between calling nodes temporal nodes or nodes
 - Rename test files (?)
 - Benchmarking framework
@@ -11,8 +11,10 @@
 - Make sure the .h files are well guarded
 - Make sure the .h files are included in the .c files
 - Document the code
-- Verify key moments between actual others (3.5 ect) and intervals [] or [[ or ]] (best one side open and the other closed [[)
 - Find a name for |V|
+- Debug for use of uninitialised table of events
+- Separate the metrics into different files
+- Verify catch implementations for all functions
 
 - Read all the TODOs in the code
 
@@ -22,14 +24,14 @@ Metrics (V for implemeted, X for not implemented):
 - Number of nodes V
 - Contribution of a link V
 - Number of links V
-- Node contribution at a time t X
-- Link contribution at a time t X
+- Node contribution at a time t V
+- Link contribution at a time t V
 - Node duration V
 - Link duration V
 - Uniformity V
-- Uniformity of a pair of nodes X
-- Compactness V
+- Uniformity of a pair of nodes V
+- Compactness X
 - Density V
-- Density of a link X
-- Density of a node X
-- Density of a time instant X
+- Density of a link V
+- Density of a node V
+- Density of a time instant V

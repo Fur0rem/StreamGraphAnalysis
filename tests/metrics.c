@@ -189,8 +189,29 @@ bool test_density_of_link() {
 	double density_bc = Stream_density_of_link(st, 3);
 	StreamGraph_destroy(&sg);
 	FSG_destroy(&st);
-	return EXPECT_F_APPROX_EQ(density_ab, 1.0 / 3.0, 1e-2);
+	return EXPECT_F_APPROX_EQ(density_ab, 1.0 / 3.0, 1e-2) && EXPECT_F_APPROX_EQ(density_bd, 1.0 / 2.0, 1e-2);
 }
+
+bool test_density_of_node() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	Stream st = FSG_from(&sg);
+	double density_d = Stream_density_of_node(st, 3);
+	StreamGraph_destroy(&sg);
+	FSG_destroy(&st);
+	return EXPECT_F_APPROX_EQ(density_d, 1.0 / 4.0, 1e-2);
+}
+
+bool test_density_of_time() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	init_events_table(&sg);
+	Stream st = FSG_from(&sg);
+	double density_2 = Stream_density_of_time(st, 20); // TODO : add automatic traduction with scaling
+	events_destroy(&sg);
+	StreamGraph_destroy(&sg);
+	FSG_destroy(&st);
+	return EXPECT_F_APPROX_EQ(density_2, 2.0 / 3.0, 1e-2);
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -221,8 +242,11 @@ int main() {
 		&(Test){"contribution_of_nodes",	 test_contribution_of_nodes },
 		&(Test){"contributions_of_links", test_contributions_of_links},
 		&(Test){"uniformity",			  test_uniformity			 },
+
 		&(Test){"density",				   test_density			   },
 		&(Test){"density_of_link",		   test_density_of_link	   },
+		&(Test){"density_of_node",		   test_density_of_node	   },
+		&(Test){"density_of_time",		   test_density_of_time	   },
 
 		NULL,
 	};

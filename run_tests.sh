@@ -56,7 +56,10 @@ if [ $# -eq 1 ]; then
     echo ""
     if [ $global_success -eq 0 ]; then
         echo "All tests passed!"
+    else
+        echo "${TEXT_BOLD}${TEXT_RED}TEST FAILED FOR $filename !!!${TEXT_RESET}"
     fi
+
     exit $global_success
 fi
 
