@@ -2,6 +2,7 @@
 #include "induced_graph.h"
 #include "interval.h"
 #include "iterators.h"
+#include "stream.h"
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
 #include "stream_functions.h"
@@ -204,5 +205,33 @@ double Stream_uniformity(Stream stream) {
 			sum_den += t_u;
 		}
 	}
+	return (double)sum_num / (double)sum_den;
+}
+
+double Stream_density(Stream stream) {
+	CATCH_METRICS_IMPLEM(density, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	size_t sum_den = 0;
+	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
+	FOR_EACH_NODE(nodes, node_id) {
+		NodesIterator other_nodes = stream_functions.nodes_set(stream.stream);
+		FOR_EACH_NODE(other_nodes, other_node_id) {
+			if (node_id >= other_node_id) {
+				continue;
+			}
+			TimesIterator times_node = stream_functions.times_node_present(stream.stream, node_id);
+			TimesIterator times_other_node = stream_functions.times_node_present(stream.stream, other_node_id);
+			TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
+			sum_den += total_time_of(times_intersection);
+		}
+	}
+
+	size_t sum_num = 0;
+	LinksIterator links = stream_functions.links_set(stream.stream);
+	FOR_EACH_LINK(links, link_id) {
+		TimesIterator times_link = stream_functions.times_link_present(stream.stream, link_id);
+		sum_num += total_time_of(times_link);
+	}
+
 	return (double)sum_num / (double)sum_den;
 }

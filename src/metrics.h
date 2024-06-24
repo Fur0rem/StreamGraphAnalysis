@@ -12,6 +12,7 @@ typedef struct {
 	size_t (*cardinalOfV)(void*);
 	double (*coverage)(void*);
 	double (*node_duration)(void*);
+	double (*density)(void*);
 } MetricsFunctions;
 
 double Stream_coverage(Stream stream);
@@ -28,5 +29,6 @@ double Stream_node_contribution_at_time(Stream stream, TimeId time_id);
 double Stream_link_contribution_at_time(Stream stream, TimeId time_id);
 double Stream_link_duration(Stream stream);
 double Stream_uniformity(Stream stream);
+double Stream_density(Stream stream);
 
 #endif // METRICS_H

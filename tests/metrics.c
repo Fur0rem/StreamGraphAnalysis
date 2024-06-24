@@ -178,7 +178,7 @@ bool test_contributions_of_links() {
 }
 
 TEST_METRIC_F(uniformity, 22.0 / 56.0, S, FSG)
-// TEST_METRIC_F(density, 10.0 / 22.0, S)
+TEST_METRIC_F(density, 10.0 / 22.0, S, FSG)
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -209,6 +209,7 @@ int main() {
 		&(Test){"contribution_of_nodes",	 test_contribution_of_nodes },
 		&(Test){"contributions_of_links", test_contributions_of_links},
 		&(Test){"uniformity",			  test_uniformity			 },
+		&(Test){"density",				   test_density			   },
 
 		NULL,
 	};
