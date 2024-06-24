@@ -526,8 +526,8 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t lifespan_start;
 	size_t lifespan_end;
 	nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
-	printf("lifespan_start: %zu\n", lifespan_start);
-	printf("lifespan_end: %zu\n", lifespan_end);
+	// printf("lifespan_start: %zu\n", lifespan_start);
+	// printf("lifespan_end: %zu\n", lifespan_end);
 	EXPECTED_NB_SCANNED(2);
 	GO_TO_NEXT_LINE(str);
 
@@ -538,8 +538,6 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	// Skip to events section
 	str = get_to_header(str, "[Events]");
-
-	const char* events_backup = str;
 
 	// EventTupleVector events = EventTupleVector_with_capacity(10);
 	EventTupleVectorVector events = EventTupleVectorVector_with_capacity(10);
@@ -600,16 +598,8 @@ char* InternalFormat_from_External_str(const char* str) {
 				}
 			}
 			if (!found) {
-				printf("pushing node %zu\n", one);
 				LinkInfoVector_push(&nodes, info);
 			}
-			else {
-				printf("found_idx: %zu\n", found_idx);
-				printf("nodes.array[found_idx].nb_intervals: %zu\n", nodes.array[found_idx].nb_intervals);
-				// printf("line : %s\n");
-				PRINT_LINE(str);
-			}
-
 			// size_tHashset_insert(&node_neighbours.array[one], one);
 		}
 		else {
@@ -681,13 +671,13 @@ char* InternalFormat_from_External_str(const char* str) {
 
 		GO_TO_NEXT_LINE(str);
 	}
-	printf("nb_events: %zu\n", nb_events);
+	// printf("nb_events: %zu\n", nb_events);
 
 	char* events_tuple = EventTupleVectorVector_to_string(&events);
-	printf("events_tuple: %s\n", events_tuple);
+	// printf("events_tuple: %s\n", events_tuple);
 
 	char* node_neighbours_str = size_tHashsetVector_to_string(&node_neighbours);
-	printf("node_neighbours: %s\n", node_neighbours_str);
+	// printf("node_neighbours: %s\n", node_neighbours_str);
 
 	// char* links_str = LinkInfoVector_to_string(&links);
 
@@ -704,7 +694,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	}
 
 	char* slices_str = size_tVector_to_string(&number_of_slices);
-	printf("slices: %s\n", slices_str);
+	// printf("slices: %s\n", slices_str);
 
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("SGA Internal version 1.0.0\n\n"));
@@ -765,7 +755,7 @@ char* InternalFormat_from_External_str(const char* str) {
 			// printf("neighs.buckets[%zu].size: %zu\n", j, neighs.buckets[j].size);
 			for (size_t k = 0; k < neighs.buckets[j].size; k++) {
 				size_t neighbour = neighs.buckets[j].array[k];
-				printf("neighbour: %zu\n", neighbour);
+				// printf("neighbour: %zu\n", neighbour);
 				char neighbour_str[50];
 				sprintf(neighbour_str, "%zu", neighbour);
 				charVector_append(&vec, neighbour_str, strlen(neighbour_str));
@@ -840,7 +830,6 @@ char* InternalFormat_from_External_str(const char* str) {
 	LinkInfoVector_destroy(nodes);
 	size_tVector_destroy(number_of_slices);
 
-	printf("final_str: %s\n", final_str);
 	return final_str;
 }
 

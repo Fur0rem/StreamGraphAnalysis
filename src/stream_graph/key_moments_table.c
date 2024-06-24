@@ -47,14 +47,14 @@ size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt) {
 			break;
 		}
 	}
-	size_t first_moment = kmt->slices[first_slice_idx].moments[0] + (first_slice_idx * (RelativeMoment)~0);
+	size_t first_moment = kmt->slices[first_slice_idx].moments[0] + (first_slice_idx * SLICE_SIZE);
 	return first_moment;
 }
 
 size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
 	size_t last_slice_idx = kmt->nb_slices - 1;
 	size_t last_moment_idx = kmt->slices[last_slice_idx].nb_moments - 1;
-	size_t last_moment = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * (RelativeMoment)~0);
+	size_t last_moment = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * SLICE_SIZE);
 	return last_moment;
 }
 
