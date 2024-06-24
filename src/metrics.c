@@ -7,6 +7,7 @@
 #include "stream/link_stream.h"
 #include "stream_functions.h"
 #include "stream_graph.h"
+#include "units.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -232,6 +233,19 @@ double Stream_density(Stream stream) {
 		TimesIterator times_link = stream_functions.times_link_present(stream.stream, link_id);
 		sum_num += total_time_of(times_link);
 	}
+
+	return (double)sum_num / (double)sum_den;
+}
+
+double Stream_density_of_link(Stream stream, LinkId link_id) {
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	TimesIterator times_link = stream_functions.times_link_present(stream.stream, link_id);
+	size_t sum_num = total_time_of(times_link);
+	Link l = stream_functions.nth_link(stream.stream, link_id);
+	TimesIterator t_u = stream_functions.times_node_present(stream.stream, l.nodes[0]);
+	TimesIterator t_v = stream_functions.times_node_present(stream.stream, l.nodes[1]);
+	TimesIterator t_i = TimesIterator_intersection(t_u, t_v);
+	size_t sum_den = total_time_of(t_i);
 
 	return (double)sum_num / (double)sum_den;
 }

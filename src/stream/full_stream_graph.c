@@ -183,6 +183,47 @@ TimesIterator FullStreamGraph_times_link_present(FullStreamGraph* full_stream_gr
 	return times_iterator;
 }
 
+Link FullStreamGraph_nth_link(FullStreamGraph* full_stream_graph, size_t n) {
+	return full_stream_graph->underlying_stream_graph->links.links[n];
+}
+
+typedef struct {
+	NodeId node_to_get_neighbours;
+	NodeId current_neighbour;
+} NeighboursOfNodeIteratorData;
+
+size_t NeighboursOfNode_next(LinksIterator* iter) {
+	NeighboursOfNodeIteratorData* neighbours_iter_data = (NeighboursOfNodeIteratorData*)iter->iterator_data;
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
+	NodeId node_id = neighbours_iter_data->node_to_get_neighbours;
+	if (neighbours_iter_data->current_neighbour >=
+		full_stream_graph->underlying_stream_graph->nodes.nodes[node_id].nb_neighbours) {
+		return SIZE_MAX;
+	}
+	size_t return_val = full_stream_graph->underlying_stream_graph->nodes.nodes[node_id]
+							.neighbours[neighbours_iter_data->current_neighbour];
+	neighbours_iter_data->current_neighbour++;
+	return return_val;
+}
+
+void NeighboursOfNodeIterator_destroy(LinksIterator* iterator) {
+	free(iterator->iterator_data);
+}
+
+LinksIterator FullStreamGraph_neighbours_of_node(FullStreamGraph* full_stream_graph, NodeId node_id) {
+	NeighboursOfNodeIteratorData* iterator_data = malloc(sizeof(NeighboursOfNodeIteratorData));
+	iterator_data->node_to_get_neighbours = node_id;
+	iterator_data->current_neighbour = 0;
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	LinksIterator neighbours_iterator = {
+		.stream_graph = stream,
+		.iterator_data = iterator_data,
+		.next = (size_t(*)(void*))NeighboursOfNode_next,
+		.destroy = (void (*)(void*))NeighboursOfNodeIterator_destroy,
+	};
+	return neighbours_iterator;
+}
+
 const StreamFunctions FullStreamGraph_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))FullStreamGraph_nodes_set,
 	.links_set = (LinksIterator(*)(void*))FullStreamGraph_links_set,
@@ -192,6 +233,8 @@ const StreamFunctions FullStreamGraph_stream_functions = {
 	.links_present_at_t = (LinksIterator(*)(void*, TimeId))FullStreamGraph_links_present_at_t,
 	.times_node_present = (TimesIterator(*)(void*, NodeId))FullStreamGraph_times_node_present,
 	.times_link_present = (TimesIterator(*)(void*, LinkId))FullStreamGraph_times_link_present,
+	.nth_link = (Link(*)(void*, size_t))FullStreamGraph_nth_link,
+	.neighbours_of_node = (LinksIterator(*)(void*, NodeId))FullStreamGraph_neighbours_of_node,
 };
 
 const MetricsFunctions FullStreamGraph_metrics_functions = {

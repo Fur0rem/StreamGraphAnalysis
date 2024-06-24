@@ -179,6 +179,18 @@ bool test_contributions_of_links() {
 
 TEST_METRIC_F(uniformity, 22.0 / 56.0, S, FSG)
 TEST_METRIC_F(density, 10.0 / 22.0, S, FSG)
+
+bool test_density_of_link() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	Stream st = FSG_from(&sg);
+	double density_ab = Stream_density_of_link(st, 0);
+	double density_bd = Stream_density_of_link(st, 1);
+	double density_ac = Stream_density_of_link(st, 2);
+	double density_bc = Stream_density_of_link(st, 3);
+	StreamGraph_destroy(&sg);
+	FSG_destroy(&st);
+	return EXPECT_F_APPROX_EQ(density_ab, 1.0 / 3.0, 1e-2);
+}
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -210,6 +222,7 @@ int main() {
 		&(Test){"contributions_of_links", test_contributions_of_links},
 		&(Test){"uniformity",			  test_uniformity			 },
 		&(Test){"density",				   test_density			   },
+		&(Test){"density_of_link",		   test_density_of_link	   },
 
 		NULL,
 	};
