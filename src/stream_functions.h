@@ -2,6 +2,7 @@
 #define STREAM_FUNCTIONS_H
 
 #include "iterators.h"
+#include "stream_graph/links_set.h"
 
 typedef struct {
 	NodesIterator (*nodes_set)(void*);
@@ -14,6 +15,10 @@ typedef struct {
 
 	TimesIterator (*times_node_present)(void*, NodeId);
 	TimesIterator (*times_link_present)(void*, LinkId);
+
+	Link (*nth_link)(void*, size_t);
+	LinksIterator (*neighbours_of_node)(void*, NodeId);
+
 } StreamFunctions;
 
 #define STREAM_FUNCS(variable, stream_var)                                                                             \

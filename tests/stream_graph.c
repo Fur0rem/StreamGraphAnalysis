@@ -96,6 +96,7 @@ int main() {
 		&(Test){"find_index_of_time_not_found", test_find_index_of_time_not_found},
 		&(Test){"init_events_table",			 test_init_events_table		   },
 		&(Test){"external_format",			   test_external_format			   },
+
 		NULL
 	};
 

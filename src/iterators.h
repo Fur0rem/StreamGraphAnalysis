@@ -11,6 +11,7 @@ typedef struct {
 	void* iterator_data;
 	size_t (*next)(void*);
 	void (*destroy)(void*);
+	void (*skip_n)(void*, size_t);
 } NodesIterator;
 
 typedef struct {
@@ -18,6 +19,7 @@ typedef struct {
 	void* iterator_data;
 	size_t (*next)(void*);
 	void (*destroy)(void*);
+	void (*skip_n)(void*, size_t);
 } LinksIterator;
 
 typedef struct {
@@ -25,6 +27,7 @@ typedef struct {
 	void* iterator_data;
 	Interval (*next)(void*);
 	void (*destroy)(void*);
+	void (*skip_n)(void*, size_t);
 } TimesIterator;
 
 // The || ({ x.destroy(&x); 0; }) is a trick to execute the destroy function of the iterator when it ends

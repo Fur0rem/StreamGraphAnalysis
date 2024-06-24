@@ -166,6 +166,8 @@ const StreamFunctions LinkStream_stream_functions = {
 	.links_present_at_t = (LinksIterator(*)(void*, TimeId))LinkStream_links_present_at_t,
 	.times_node_present = (TimesIterator(*)(void*, NodeId))LinkStream_times_node_present,
 	.times_link_present = (TimesIterator(*)(void*, LinkId))LinkStream_times_link_present,
+	.nth_link = NULL,
+	.neighbours_of_node = NULL,
 };
 
 double LS_coverage(LinkStream* ls) {
