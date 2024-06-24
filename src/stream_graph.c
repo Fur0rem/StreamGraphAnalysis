@@ -588,12 +588,10 @@ char* InternalFormat_from_External_str(const char* str) {
 			  };
 
 			bool found = false;
-			size_t found_idx = 0;
 			for (size_t i = 0; i < nodes.size; i++) {
 				if (nodes.array[i].nodes[0] == info.nodes[0] && nodes.array[i].nodes[1] == info.nodes[1]) {
 					nodes.array[i].nb_intervals++;
 					found = true;
-					found_idx = i;
 					break;
 				}
 			}
@@ -637,13 +635,11 @@ char* InternalFormat_from_External_str(const char* str) {
 			  };
 
 			bool found = false;
-			size_t found_idx = 0;
 			for (size_t i = 0; i < links.size; i++) {
 				if ((links.array[i].nodes[0] == info.nodes[0] && links.array[i].nodes[1] == info.nodes[1]) ||
 					(links.array[i].nodes[0] == info.nodes[1] && links.array[i].nodes[1] == info.nodes[0])) {
 					links.array[i].nb_intervals++;
 					found = true;
-					found_idx = i;
 					break;
 				}
 			}

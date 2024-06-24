@@ -173,10 +173,19 @@ double LS_coverage(LinkStream* ls) {
 	return 1.0;
 }
 
+double density(Stream* st) {
+	LinkStream* ls = (LinkStream*)st->stream;
+	StreamGraph* sg = ls->underlying_stream_graph;
+	size_t n = sg->nodes.nb_nodes;
+	double m = Stream_number_of_links(*st);
+	return m / (double)(n * (n - 1));
+}
+
 const MetricsFunctions LinkStream_metrics_functions = {
 	.coverage = (double (*)(void*))LS_coverage,
 	.cardinalOfT = NULL,
 	.cardinalOfV = NULL,
 	.cardinalOfW = NULL,
 	.node_duration = NULL,
+	.density = (double (*)(void*))density,
 };
