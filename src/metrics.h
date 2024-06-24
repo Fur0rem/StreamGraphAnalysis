@@ -32,6 +32,6 @@ double Stream_uniformity(Stream stream);
 double Stream_density(Stream stream);
 double Stream_density_of_node(Stream stream, NodeId node_id); // TODO
 double Stream_density_of_link(Stream stream, LinkId link_id);
-double Stream_density_at_time(Stream stream, TimeId time_id); // TODO
+double Stream_density_of_time(Stream stream, TimeId time_id); // TODO
 
 #endif // METRICS_H

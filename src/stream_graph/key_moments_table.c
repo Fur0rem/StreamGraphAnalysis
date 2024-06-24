@@ -5,7 +5,10 @@
 #include <stdio.h>
 
 size_t KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
+	// TODO : add debug for if use in not initliased table
 	for (size_t i = 0; i < kmt->nb_slices; i++) {
+		// printf("slice %zu, nb_moments %zu\n", i, kmt->slices[i].nb_moments);
+		// printf("n %zu\n", n);
 		if (n < kmt->slices[i].nb_moments) {
 			return kmt->slices[i].moments[n] + (i * SLICE_SIZE);
 		}
