@@ -263,6 +263,10 @@ TimesIterator ChunkStream_times_link_present(ChunkStream* chunk_stream, LinkId l
 	return times_iterator;
 }
 
+Link ChunkStream_nth_link(ChunkStream* chunk_stream, size_t link_id) {
+	return chunk_stream->underlying_stream_graph->links.links[link_id];
+}
+
 const StreamFunctions ChunkStream_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))ChunkStream_nodes_set,
 	.links_set = (LinksIterator(*)(void*))ChunkStream_links_set,
@@ -272,7 +276,7 @@ const StreamFunctions ChunkStream_stream_functions = {
 	.links_present_at_t = (LinksIterator(*)(void*, TimeId))ChunkStream_links_present_at_t,*/
 	.times_node_present = (TimesIterator(*)(void*, NodeId))ChunkStream_times_node_present,
 	.times_link_present = (TimesIterator(*)(void*, LinkId))ChunkStream_times_link_present,
-	/*.nth_link = (Link(*)(void*, size_t))ChunkStream_nth_link,*/
+	.nth_link = (Link(*)(void*, size_t))ChunkStream_nth_link,
 	.neighbours_of_node = (LinksIterator(*)(void*, NodeId))ChunkStream_neighbours_of_node,
 };
 
