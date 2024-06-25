@@ -14,7 +14,7 @@ extern const MetricsFunctions FullStreamGraph_metrics_functions;
 
 FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph);
 Stream FSG_from(StreamGraph* stream_graph);
-void FSG_destroy(Stream* stream);
+void FSG_destroy(Stream stream);
 Link FullStreamGraph_nth_link(FullStreamGraph* full_stream_graph, LinkId link_id);
 
 #endif // FULL_STREAM_GRAPH_H

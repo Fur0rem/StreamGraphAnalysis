@@ -28,5 +28,5 @@ KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices);
 void KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments);
 size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
 size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
-void KeyMomentsTable_destroy(KeyMomentsTable* kmt);
+void KeyMomentsTable_destroy(KeyMomentsTable kmt);
 size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);

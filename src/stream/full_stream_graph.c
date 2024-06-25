@@ -25,8 +25,8 @@ Stream FSG_from(StreamGraph* stream_graph) {
 	return stream;
 }
 
-void FSG_destroy(Stream* stream) {
-	free(stream->stream);
+void FSG_destroy(Stream stream) {
+	free(stream.stream);
 }
 
 typedef struct {

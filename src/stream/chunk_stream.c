@@ -33,8 +33,8 @@ Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* lin
 	return stream;
 }
 
-void CS_destroy(Stream* stream) {
-	ChunkStream* chunk_stream = (ChunkStream*)stream->stream;
+void CS_destroy(Stream stream) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream.stream;
 	BitArray_destroy(chunk_stream->nodes_present);
 	BitArray_destroy(chunk_stream->links_present);
 	free(chunk_stream);
@@ -167,15 +167,78 @@ LinksIterator ChunkStream_neighbours_of_node(ChunkStream* chunk_stream, NodeId n
 	return neighbours_iterator;
 }
 
+typedef struct {
+	size_t current_time;
+	size_t current_id;
+} CS_TimesIdPresentAtIteratorData;
+
+Interval CS_TimesNodePresentAt_next(TimesIterator* iter) {
+	CS_TimesIdPresentAtIteratorData* times_iter_data = (CS_TimesIdPresentAtIteratorData*)iter->iterator_data;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
+	NodeId node = times_iter_data->current_id;
+	Interval return_val;
+	if (times_iter_data->current_time >= stream_graph->nodes.nodes[node].presence.nb_intervals) {
+		return Interval_from(SIZE_MAX, SIZE_MAX);
+	}
+	Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
+	if (nth_time.start >= chunk_stream->snapshot.end) {
+		return Interval_from(SIZE_MAX, SIZE_MAX);
+	}
+	if (nth_time.start <= chunk_stream->snapshot.start) {
+		if (nth_time.end >= chunk_stream->snapshot.end) {
+			times_iter_data->current_time++;
+			return Interval_from(chunk_stream->snapshot.start, chunk_stream->snapshot.end);
+		}
+		if (nth_time.end <= chunk_stream->snapshot.start) {
+			return Interval_from(SIZE_MAX, SIZE_MAX);
+		}
+		times_iter_data->current_time++;
+		return Interval_from(chunk_stream->snapshot.start, nth_time.end);
+	}
+	if (nth_time.end >= chunk_stream->snapshot.end) {
+		times_iter_data->current_time++;
+		return Interval_from(nth_time.start, chunk_stream->snapshot.end);
+	}
+	times_iter_data->current_time++;
+	return nth_time;
+}
+
+void CS_TimesNodePresentAtIterator_destroy(TimesIterator* iterator) {
+	free(iterator->iterator_data);
+}
+
+TimesIterator ChunkStream_times_node_present(ChunkStream* chunk_stream, NodeId node) {
+	CS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CS_TimesIdPresentAtIteratorData));
+	size_t nb_skips = 0;
+	while (nb_skips < chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.nb_intervals &&
+		   chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end <
+			   chunk_stream->snapshot.start) {
+		nb_skips++;
+	}
+	*iterator_data = (CS_TimesIdPresentAtIteratorData){
+		.current_time = nb_skips,
+		.current_id = node,
+	};
+	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	TimesIterator times_iterator = {
+		.stream_graph = stream,
+		.iterator_data = iterator_data,
+		.next = (Interval(*)(void*))CS_TimesNodePresentAt_next,
+		.destroy = (void (*)(void*))CS_TimesNodePresentAtIterator_destroy,
+	};
+	return times_iterator;
+}
+
 const StreamFunctions ChunkStream_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))ChunkStream_nodes_set,
 	.links_set = (LinksIterator(*)(void*))ChunkStream_links_set,
 	.lifespan = (Interval(*)(void*))ChunkStream_lifespan,
 	.scaling = (size_t(*)(void*))ChunkStream_scaling,
 	/*.nodes_present_at_t = (NodesIterator(*)(void*, TimeId))ChunkStream_nodes_present_at_t,
-	.links_present_at_t = (LinksIterator(*)(void*, TimeId))ChunkStream_links_present_at_t,
+	.links_present_at_t = (LinksIterator(*)(void*, TimeId))ChunkStream_links_present_at_t,*/
 	.times_node_present = (TimesIterator(*)(void*, NodeId))ChunkStream_times_node_present,
-	.times_link_present = (TimesIterator(*)(void*, LinkId))ChunkStream_times_link_present,
+	/*.times_link_present = (TimesIterator(*)(void*, LinkId))ChunkStream_times_link_present,
 	.nth_link = (Link(*)(void*, size_t))ChunkStream_nth_link,*/
 	.neighbours_of_node = (LinksIterator(*)(void*, NodeId))ChunkStream_neighbours_of_node,
 };

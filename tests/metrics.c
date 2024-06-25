@@ -18,8 +18,8 @@ bool test_cardinal_of_T_S_0() {
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 0);
 	size_t cardinal = total_time_of(times_iter);
 
-	FSG_destroy(&st);
-	StreamGraph_destroy(&sg);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 100);
 }
 bool test_cardinal_of_T_S_1() {
@@ -28,8 +28,8 @@ bool test_cardinal_of_T_S_1() {
 	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 1);
 	size_t cardinal = total_time_of(times_iter);
-	FSG_destroy(&st);
-	StreamGraph_destroy(&sg);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 90);
 }
 
@@ -39,8 +39,8 @@ bool test_cardinal_of_T_S_2() {
 	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 2);
 	size_t cardinal = total_time_of(times_iter);
-	FSG_destroy(&st);
-	StreamGraph_destroy(&sg);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 50);
 }
 
@@ -50,8 +50,8 @@ bool test_cardinal_of_T_S_3() {
 	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 3);
 	size_t cardinal = total_time_of(times_iter);
-	FSG_destroy(&st);
-	StreamGraph_destroy(&sg);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 20);
 }
 
@@ -64,8 +64,8 @@ bool test_times_node_present() {
 	FOR_EACH_TIME(times_iter, interval) {
 		printf("[%lu, %lu] U ", interval.start, interval.end);
 	}
-	FSG_destroy(&st);
-	StreamGraph_destroy(&sg);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return true;
 }
 
@@ -78,8 +78,8 @@ bool test_cardinal_of_W_S() {
 	FOR_EACH_NODE(nodes_iter, node_id) {
 		cardinal += total_time_of(funcs.times_node_present(st.stream, node_id));
 	}
-	FSG_destroy(&st);
-	StreamGraph_destroy(&sg);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 260);
 }
 
@@ -92,8 +92,8 @@ bool test_cardinal_of_W_L() {
 	FOR_EACH_NODE(nodes_iter, node_id) {
 		cardinal += total_time_of(funcs.times_node_present(st.stream, node_id));
 	}
-	LS_destroy(&st);
-	StreamGraph_destroy(&sg);
+	LS_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 400);
 }
 
@@ -104,7 +104,7 @@ bool test_coverage_S() {
 	Stream st = (Stream){.type = FULL_STREAM_GRAPH, .stream = &fsg};
 	printf("st udsg = %p\n", ((FullStreamGraph*)st.stream)->underlying_stream_graph);
 	double coverage = Stream_coverage(st);
-	StreamGraph_destroy(&sg);
+	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(coverage, 0.65, 1e-6);
 }
 
@@ -113,16 +113,16 @@ bool test_coverage_L() {
 	LinkStream ls = LinkStream_from(&sg);
 	Stream st = (Stream){.type = LINK_STREAM, .stream = &ls};
 	double coverage = Stream_coverage(st);
-	StreamGraph_destroy(&sg);
+	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(coverage, 1.0, 1e-6);
 }
 
 bool test_node_duration_S() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream fsg = FSG_from(&sg);
-	double duration = Stream_node_duration(fsg);
-	FSG_destroy(&fsg);
-	StreamGraph_destroy(&sg);
+	Stream st = FSG_from(&sg);
+	double duration = Stream_node_duration(st);
+	FSG_destroy(st);
+	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(duration, 6.5, 1e-6);
 }
 
@@ -131,8 +131,8 @@ bool test_node_duration_S() {
 		StreamGraph sg = StreamGraph_from_file("tests/test_data/" #graph ".txt");                                      \
 		Stream st = type##_from(&sg);                                                                                  \
 		bool result = EXPECT_F_APPROX_EQ(Stream_##name(st), value, 1e-2);                                              \
-		StreamGraph_destroy(&sg);                                                                                      \
-		type##_destroy(&st);                                                                                           \
+		StreamGraph_destroy(sg);                                                                                       \
+		type##_destroy(st);                                                                                            \
 		return result;                                                                                                 \
 	}
 
@@ -141,8 +141,8 @@ bool test_node_duration_S() {
 		StreamGraph sg = StreamGraph_from_file("tests/test_data/" #graph ".txt");                                      \
 		Stream st = type##_from(&sg);                                                                                  \
 		bool result = EXPECT_EQ(Stream_##name(st), value);                                                             \
-		StreamGraph_destroy(&sg);                                                                                      \
-		type##_destroy(&st);                                                                                           \
+		StreamGraph_destroy(sg);                                                                                       \
+		type##_destroy(st);                                                                                            \
 		return result;                                                                                                 \
 	}
 
@@ -159,8 +159,8 @@ bool test_contribution_of_nodes() {
 	double contribution_b = Stream_contribution_of_node(st, 1);
 	double contribution_c = Stream_contribution_of_node(st, 2);
 	double contribution_d = Stream_contribution_of_node(st, 3);
-	StreamGraph_destroy(&sg);
-	FSG_destroy(&st);
+	StreamGraph_destroy(sg);
+	FSG_destroy(st);
 	return EXPECT_F_APPROX_EQ(contribution_a, 1.0, 1e-2) && EXPECT_F_APPROX_EQ(contribution_b, 0.9, 1e-2) &&
 		   EXPECT_F_APPROX_EQ(contribution_c, 0.5, 1e-2) && EXPECT_F_APPROX_EQ(contribution_d, 0.2, 1e-2);
 }
@@ -172,8 +172,8 @@ bool test_contributions_of_links() {
 	double contribution_bd = Stream_contribution_of_link(st, 1);
 	double contribution_ac = Stream_contribution_of_link(st, 2);
 	double contribution_bc = Stream_contribution_of_link(st, 3);
-	StreamGraph_destroy(&sg);
-	FSG_destroy(&st);
+	StreamGraph_destroy(sg);
+	FSG_destroy(st);
 	return EXPECT_F_APPROX_EQ(contribution_ab, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bd, 0.1, 1e-2) &&
 		   EXPECT_F_APPROX_EQ(contribution_ac, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bc, 0.3, 1e-2);
 }
@@ -188,8 +188,8 @@ bool test_density_of_link() {
 	double density_bd = Stream_density_of_link(st, 1);
 	double density_ac = Stream_density_of_link(st, 2);
 	double density_bc = Stream_density_of_link(st, 3);
-	StreamGraph_destroy(&sg);
-	FSG_destroy(&st);
+	StreamGraph_destroy(sg);
+	FSG_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_ab, 1.0 / 3.0, 1e-2) && EXPECT_F_APPROX_EQ(density_bd, 1.0 / 2.0, 1e-2);
 }
 
@@ -197,8 +197,8 @@ bool test_density_of_node() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = FSG_from(&sg);
 	double density_d = Stream_density_of_node(st, 3);
-	StreamGraph_destroy(&sg);
-	FSG_destroy(&st);
+	StreamGraph_destroy(sg);
+	FSG_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_d, 1.0 / 4.0, 1e-2);
 }
 
@@ -208,8 +208,8 @@ bool test_density_of_time() {
 	Stream st = FSG_from(&sg);
 	double density_2 = Stream_density_of_time(st, 20); // TODO : add automatic traduction with scaling
 	events_destroy(&sg);
-	StreamGraph_destroy(&sg);
-	FSG_destroy(&st);
+	StreamGraph_destroy(sg);
+	FSG_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_2, 2.0 / 3.0, 1e-2);
 }
 
@@ -237,8 +237,10 @@ bool test_chunk_stream_nodes_set() {
 		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
 	}
 
-	CS_destroy(&st);
-	StreamGraph_destroy(&sg);
+	CS_destroy(st);
+	StreamGraph_destroy(sg);
+	NodeIdVector_destroy(nodes);
+	LinkIdVector_destroy(links);
 	return true;
 }
 
@@ -267,8 +269,74 @@ bool test_neighbours_of_node_chunk_stream() {
 		}
 	}
 
-	CS_destroy(&st);
-	StreamGraph_destroy(&sg);
+	CS_destroy(st);
+	StreamGraph_destroy(sg);
+	NodeIdVector_destroy(nodes);
+	LinkIdVector_destroy(links);
+	return true;
+}
+
+bool test_times_node_present_chunk_stream() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	NodeIdVector nodes = NodeIdVector_with_capacity(3);
+	NodeIdVector_push(&nodes, 0);
+	NodeIdVector_push(&nodes, 1);
+	NodeIdVector_push(&nodes, 3);
+
+	LinkIdVector links = LinkIdVector_with_capacity(4);
+	LinkIdVector_push(&links, 0);
+	LinkIdVector_push(&links, 1);
+	LinkIdVector_push(&links, 2);
+	LinkIdVector_push(&links, 3);
+
+	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
+	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	FOR_EACH_NODE(nodes_iter, node_id) {
+		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		printf("NODE %zu : ", node_id);
+		FOR_EACH_TIME(times_iter, interval) {
+			printf("[%lu, %lu] U ", interval.start, interval.end);
+		}
+		printf("\n");
+	}
+
+	CS_destroy(st);
+	StreamGraph_destroy(sg);
+	NodeIdVector_destroy(nodes);
+	LinkIdVector_destroy(links);
+	return true;
+}
+
+bool test_times_node_present_chunk_stream_2() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	NodeIdVector nodes = NodeIdVector_with_capacity(3);
+	NodeIdVector_push(&nodes, 0);
+	NodeIdVector_push(&nodes, 1);
+	NodeIdVector_push(&nodes, 3);
+
+	LinkIdVector links = LinkIdVector_with_capacity(4);
+	LinkIdVector_push(&links, 0);
+	LinkIdVector_push(&links, 1);
+	LinkIdVector_push(&links, 2);
+	LinkIdVector_push(&links, 3);
+
+	Stream st = CS_from(&sg, &nodes, &links, 40, 45);
+	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	FOR_EACH_NODE(nodes_iter, node_id) {
+		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		printf("NODE %zu : ", node_id);
+		FOR_EACH_TIME(times_iter, interval) {
+			printf("[%lu, %lu] U ", interval.start, interval.end);
+		}
+		printf("\n");
+	}
+
+	CS_destroy(st);
+	StreamGraph_destroy(sg);
+	NodeIdVector_destroy(nodes);
+	LinkIdVector_destroy(links);
 	return true;
 }
 
@@ -285,31 +353,33 @@ int main() {
 	};*/
 
 	Test* tests[] = {
-		&(Test){"cardinal_of_T_S_0",				 test_cardinal_of_T_S_0			   },
-		&(Test){"cardinal_of_T_S_1",				 test_cardinal_of_T_S_1			   },
-		&(Test){"cardinal_of_T_S_2",				 test_cardinal_of_T_S_2			   },
-		&(Test){"cardinal_of_T_S_3",				 test_cardinal_of_T_S_3			   },
+		&(Test){"cardinal_of_T_S_0",				 test_cardinal_of_T_S_0				   },
+		&(Test){"cardinal_of_T_S_1",				 test_cardinal_of_T_S_1				   },
+		&(Test){"cardinal_of_T_S_2",				 test_cardinal_of_T_S_2				   },
+		&(Test){"cardinal_of_T_S_3",				 test_cardinal_of_T_S_3				   },
 		&(Test){"cardinal_of_W_S",				   test_cardinal_of_W_S				   },
  //&(Test){"times_node_present", test_times_node_present},
 		&(Test){"cardinal_of_W_L",				   test_cardinal_of_W_L				   },
-		&(Test){"coverage_S",					  test_coverage_S					 },
-		&(Test){"coverage_L",					  test_coverage_L					 },
+		&(Test){"coverage_S",						  test_coverage_S						 },
+		&(Test){"coverage_L",						  test_coverage_L						 },
 
 		&(Test){"number_of_nodes",				   test_number_of_nodes				   },
 		&(Test){"number_of_links",				   test_number_of_links				   },
-		&(Test){"node_duration",					 test_node_duration				   },
-		&(Test){"link_duration",					 test_link_duration				   },
-		&(Test){"contribution_of_nodes",			 test_contribution_of_nodes		   },
-		&(Test){"contributions_of_links",		  test_contributions_of_links		 },
-		&(Test){"uniformity",					  test_uniformity					 },
+		&(Test){"node_duration",					 test_node_duration					   },
+		&(Test){"link_duration",					 test_link_duration					   },
+		&(Test){"contribution_of_nodes",			 test_contribution_of_nodes			   },
+		&(Test){"contributions_of_links",			  test_contributions_of_links			 },
+		&(Test){"uniformity",						  test_uniformity						 },
 
 		&(Test){"density",						   test_density						   },
 		&(Test){"density_of_link",				   test_density_of_link				   },
 		&(Test){"density_of_node",				   test_density_of_node				   },
 		&(Test){"density_of_time",				   test_density_of_time				   },
 
-		&(Test){"chunk_stream_nodes_set",		  test_chunk_stream_nodes_set		 },
-		&(Test){"neighbours_of_node_chunk_stream", test_neighbours_of_node_chunk_stream},
+		&(Test){"chunk_stream_nodes_set",			  test_chunk_stream_nodes_set			 },
+		&(Test){"neighbours_of_node_chunk_stream",   test_neighbours_of_node_chunk_stream  },
+		&(Test){"times_node_present_chunk_stream",   test_times_node_present_chunk_stream  },
+		&(Test){"times_node_present_chunk_stream_2", test_times_node_present_chunk_stream_2},
 
 		NULL,
 	};
