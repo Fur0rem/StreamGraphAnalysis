@@ -18,6 +18,7 @@ typedef struct {
 	enum {
 		FULL_STREAM_GRAPH,
 		LINK_STREAM,
+		CHUNK_STREAM,
 	} type;
 	void* stream;
 	InformationCache cache;

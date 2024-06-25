@@ -70,7 +70,7 @@ void LinkStream_iter_destroy(NodesIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-// FIXME : kind of weird hack but it works ig?
+// TRICK : kind of weird hack but it works ig?
 NodesIterator LinkStream_nodes_set(LinkStream* link_stream) {
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = link_stream->underlying_stream_graph;
@@ -157,6 +157,13 @@ void LS_destroy(Stream* stream) {
 	free(stream->stream);
 }
 
+// TRICK
+Link LinkStream_nth_link(LinkStream* link_stream, LinkId link_id) {
+	FullStreamGraph fsg = FullStreamGraph_from(link_stream->underlying_stream_graph);
+	Link link = FullStreamGraph_nth_link(&fsg, link_id);
+	return link;
+}
+
 const StreamFunctions LinkStream_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))LinkStream_nodes_set,
 	.links_set = (LinksIterator(*)(void*))LinkStream_links_set,
@@ -166,7 +173,7 @@ const StreamFunctions LinkStream_stream_functions = {
 	.links_present_at_t = (LinksIterator(*)(void*, TimeId))LinkStream_links_present_at_t,
 	.times_node_present = (TimesIterator(*)(void*, NodeId))LinkStream_times_node_present,
 	.times_link_present = (TimesIterator(*)(void*, LinkId))LinkStream_times_link_present,
-	.nth_link = NULL,
+	.nth_link = (Link(*)(void*, LinkId))LinkStream_nth_link,
 	.neighbours_of_node = NULL,
 };
 

@@ -6,7 +6,7 @@
 
 typedef struct {
 	size_t nb_bits;
-	size_t* bits;
+	int* bits;
 } BitArray;
 
 BitArray BitArray_with_n_bits(size_t nb_bits);
@@ -18,5 +18,6 @@ void BitArray_set_one(BitArray array, size_t index);
 void BitArray_set_zero(BitArray array, size_t index);
 void BitArray_destroy(BitArray array);
 char* BitArray_to_string(BitArray array);
+size_t BitArray_leading_zeros_from(BitArray array, size_t index);
 
 #endif

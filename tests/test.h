@@ -31,22 +31,22 @@ bool test(const char* suite_name, Test** tests);
 		return result;                                                                                                 \
 	}
 
-#define EXPECT_F_APPROX_EQ(a, b, eps)                                                                                  \
+#define EXPECT_F_APPROX_EQ(got, expected, eps)                                                                         \
 	({                                                                                                                 \
-		bool result = EXPECT(F_EQUALS_APPROX(a, b, eps));                                                              \
+		bool result = EXPECT(F_EQUALS_APPROX(got, expected, eps));                                                     \
 		if (!result) {                                                                                                 \
-			printf("\t\t" TEXT_RED "Expected %f to be ~equal to %f" TEXT_RESET "\n", a, b);                            \
+			printf("\t\t" TEXT_RED "Expected %f to be ~equal to %f" TEXT_RESET "\n", got, expected);                   \
 		}                                                                                                              \
 		else {                                                                                                         \
-			printf("\t\t" TEXT_GREEN "%f is ~equal to %f" TEXT_RESET "\n", a, b);                                      \
+			printf("\t\t" TEXT_GREEN "%f is ~equal to %f" TEXT_RESET "\n", got, expected);                             \
 		}                                                                                                              \
 		result;                                                                                                        \
 	})
 
-bool EXPECT_EQ_int(int a, int b);
-bool EXPECT_EQ_String(char* a, char* b);
-bool EXPECT_EQ_size_t(size_t a, size_t b);
-bool EXPECT_EQ_ptr(void* a, void* b);
+bool EXPECT_EQ_int(int got, int expected);
+bool EXPECT_EQ_String(char* got, char* expected);
+bool EXPECT_EQ_size_t(size_t got, size_t expected);
+bool EXPECT_EQ_ptr(void* got, void* expected);
 
 #define EXPECT_EQ(a, b)                                                                                                \
 	_Generic((a), int: EXPECT_EQ_int, char*: EXPECT_EQ_String, size_t: EXPECT_EQ_size_t, void*: EXPECT_EQ_ptr)(a, b)

@@ -183,8 +183,8 @@ TimesIterator FullStreamGraph_times_link_present(FullStreamGraph* full_stream_gr
 	return times_iterator;
 }
 
-Link FullStreamGraph_nth_link(FullStreamGraph* full_stream_graph, size_t n) {
-	return full_stream_graph->underlying_stream_graph->links.links[n];
+Link FullStreamGraph_nth_link(FullStreamGraph* full_stream_graph, size_t link_id) {
+	return full_stream_graph->underlying_stream_graph->links.links[link_id];
 }
 
 typedef struct {

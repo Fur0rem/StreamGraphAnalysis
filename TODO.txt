@@ -1,4 +1,6 @@
 - Skip n for iterators
+- Name guard for different iterators of the different stream types
+- Check for data coherence in the input file
 - Automatic translation for scaling by the number of digits after the comma you see in the input file at max
 - Add example L and use it for testing too
 - Automate tests and formatting using GitHub actions

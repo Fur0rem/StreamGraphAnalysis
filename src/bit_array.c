@@ -3,15 +3,15 @@
 #include <stddef.h>
 #include <stdio.h>
 
-// First byte is used to store the number of bits in the array
+// Using an int because it is the biggest type that can be used with bitwise shifting operations that doesn't fuck up
+const size_t MASK_SIZE = sizeof(int);
 
 size_t nb_bytes(size_t nb_bits) {
-	return (nb_bits / sizeof(size_t)) + 1;
+	return (nb_bits / MASK_SIZE) + 1;
 }
 
 BitArray BitArray_with_n_bits(size_t nb_bits) {
-
-	BitArray bit_array = (BitArray){.nb_bits = nb_bits, .bits = MALLOC(nb_bytes(nb_bits) * sizeof(size_t))};
+	BitArray bit_array = (BitArray){.nb_bits = nb_bits, .bits = MALLOC(nb_bytes(nb_bits) * MASK_SIZE)};
 	return bit_array;
 }
 
@@ -33,11 +33,11 @@ BitArray BitArray_n_ones(size_t nb_bits) {
 
 const size_t BYTE_SIZE = 8;
 size_t byte_index(size_t index) {
-	return (index / (sizeof(size_t) * BYTE_SIZE));
+	return (index / (MASK_SIZE * BYTE_SIZE));
 }
 
 size_t bit_index(size_t index) {
-	return index % (sizeof(size_t) * BYTE_SIZE);
+	return index % (MASK_SIZE * BYTE_SIZE);
 }
 
 bool BitArray_is_one(BitArray array, size_t index) {
@@ -68,4 +68,28 @@ char* BitArray_to_string(BitArray array) {
 	}
 	str[n_bits] = '\0';
 	return str;
+}
+
+// Returns the number of leading zeros in the bit array starting from the given index
+// TODO : optimise this function with clz (count leading zeros) instruction
+size_t BitArray_leading_zeros_from(BitArray array, size_t index) {
+	/*while (index < array.nb_bits) {
+		size_t byte = byte_index(index);
+		size_t bit = bit_index(index);
+		size_t leading_zeros = __builtin_clz(array.bits[byte] << bit);
+		if (leading_zeros < BYTE_SIZE - bit) {
+			return leading_zeros;
+		}
+		index += BYTE_SIZE - bit;
+	}
+	return 0;*/
+	size_t leading_zeros = 0;
+	while (index < array.nb_bits) {
+		if (BitArray_is_one(array, index)) {
+			return leading_zeros;
+		}
+		leading_zeros++;
+		index++;
+	}
+	return leading_zeros;
 }
