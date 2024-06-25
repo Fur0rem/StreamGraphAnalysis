@@ -405,6 +405,7 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 	}
 
 	CS_destroy(st);
+	events_destroy(&sg);
 	StreamGraph_destroy(sg);
 	NodeIdVector_destroy(nodes);
 	LinkIdVector_destroy(links);

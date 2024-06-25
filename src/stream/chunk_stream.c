@@ -270,6 +270,7 @@ Link ChunkStream_nth_link(ChunkStream* chunk_stream, size_t link_id) {
 
 typedef struct {
 	NodesIterator nodes_iterator_fsg;
+	FullStreamGraph* underlying_stream_graph;
 } ChunkStreamNPATIterData;
 
 NodeId ChunkStreamNPAT_next(NodesIterator* iter) {
@@ -287,6 +288,7 @@ NodeId ChunkStreamNPAT_next(NodesIterator* iter) {
 void ChunkStreamNPAT_destroy(NodesIterator* iterator) {
 	ChunkStreamNPATIterData* iterator_data = (ChunkStreamNPATIterData*)iterator->iterator_data;
 	iterator_data->nodes_iterator_fsg.destroy(&iterator_data->nodes_iterator_fsg);
+	free(iterator_data->underlying_stream_graph);
 	free(iterator->iterator_data);
 }
 
@@ -296,6 +298,7 @@ NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId t
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	*full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
 	iterator_data->nodes_iterator_fsg = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, t);
+	iterator_data->underlying_stream_graph = full_stream_graph;
 
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
 	NodesIterator nodes_iterator = {
@@ -309,6 +312,7 @@ NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId t
 
 typedef struct {
 	LinksIterator links_iterator_fsg;
+	FullStreamGraph* underlying_stream_graph;
 } ChunkStreamLPATIterData;
 
 LinkId ChunkStreamLPAT_next(LinksIterator* iter) {
@@ -326,6 +330,7 @@ LinkId ChunkStreamLPAT_next(LinksIterator* iter) {
 void ChunkStreamLPAT_destroy(LinksIterator* iterator) {
 	ChunkStreamLPATIterData* iterator_data = (ChunkStreamLPATIterData*)iterator->iterator_data;
 	iterator_data->links_iterator_fsg.destroy(&iterator_data->links_iterator_fsg);
+	free(iterator_data->underlying_stream_graph);
 	free(iterator->iterator_data);
 }
 
@@ -334,7 +339,7 @@ LinksIterator ChunkStream_links_present_at_t(ChunkStream* chunk_stream, TimeId t
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	*full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
 	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, t);
-
+	iterator_data->underlying_stream_graph = full_stream_graph;
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
