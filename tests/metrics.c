@@ -219,15 +219,24 @@ bool test_chunk_stream_nodes_set() {
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 2);
 
-	LinkIdVector links = LinkIdVector_with_capacity(1);
+	LinkIdVector links = LinkIdVector_with_capacity(4);
 	LinkIdVector_push(&links, 0);
+	LinkIdVector_push(&links, 1);
+	LinkIdVector_push(&links, 2);
+	LinkIdVector_push(&links, 3);
 
 	Stream st = CS_from(&sg, &nodes, &links, 0, 100);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
 	FOR_EACH_NODE(nodes_iter, node_id) {
-		printf("%zu\n", node_id);
+		printf("NODE %zu\n", node_id);
 	}
+
+	LinksIterator links_iter = funcs.links_set(st.stream);
+	FOR_EACH_LINK(links_iter, link_id) {
+		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
+	}
+
 	CS_destroy(&st);
 	StreamGraph_destroy(&sg);
 	return true;
