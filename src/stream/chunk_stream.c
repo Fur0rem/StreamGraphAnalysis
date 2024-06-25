@@ -114,6 +114,10 @@ Interval ChunkStream_lifespan(ChunkStream* chunk_stream) {
 	return chunk_stream->snapshot;
 }
 
+size_t ChunkStream_scaling(ChunkStream* chunk_stream) {
+	return chunk_stream->underlying_stream_graph->scaling;
+}
+
 DEFAULT_TO_STRING(NodeId, "%zu");
 DEFAULT_COMPARE(NodeId);
 
@@ -124,8 +128,8 @@ const StreamFunctions ChunkStream_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))ChunkStream_nodes_set,
 	.links_set = (LinksIterator(*)(void*))ChunkStream_links_set,
 	.lifespan = (Interval(*)(void*))ChunkStream_lifespan,
-	/*.scaling = (size_t(*)(void*))ChunkStream_scaling,
-	.nodes_present_at_t = (NodesIterator(*)(void*, TimeId))ChunkStream_nodes_present_at_t,
+	.scaling = (size_t(*)(void*))ChunkStream_scaling,
+	/*.nodes_present_at_t = (NodesIterator(*)(void*, TimeId))ChunkStream_nodes_present_at_t,
 	.links_present_at_t = (LinksIterator(*)(void*, TimeId))ChunkStream_links_present_at_t,
 	.times_node_present = (TimesIterator(*)(void*, NodeId))ChunkStream_times_node_present,
 	.times_link_present = (TimesIterator(*)(void*, LinkId))ChunkStream_times_link_present,
