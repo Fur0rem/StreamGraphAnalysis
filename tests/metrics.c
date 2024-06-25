@@ -340,6 +340,38 @@ bool test_times_node_present_chunk_stream_2() {
 	return true;
 }
 
+bool test_link_presence_chunk_stream() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	NodeIdVector nodes = NodeIdVector_with_capacity(3);
+	NodeIdVector_push(&nodes, 0);
+	NodeIdVector_push(&nodes, 1);
+	NodeIdVector_push(&nodes, 3);
+
+	LinkIdVector links = LinkIdVector_with_capacity(4);
+	LinkIdVector_push(&links, 0);
+	LinkIdVector_push(&links, 1);
+	LinkIdVector_push(&links, 2);
+	LinkIdVector_push(&links, 3);
+
+	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
+	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	LinksIterator links_iter = funcs.links_set(st.stream);
+	FOR_EACH_LINK(links_iter, link_id) {
+		TimesIterator times_iter = funcs.times_link_present(st.stream, link_id);
+		printf("LINK %zu : ", link_id);
+		FOR_EACH_TIME(times_iter, interval) {
+			printf("[%lu, %lu] U ", interval.start, interval.end);
+		}
+		printf("\n");
+	}
+
+	CS_destroy(st);
+	StreamGraph_destroy(sg);
+	NodeIdVector_destroy(nodes);
+	LinkIdVector_destroy(links);
+	return true;
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -380,6 +412,7 @@ int main() {
 		&(Test){"neighbours_of_node_chunk_stream",   test_neighbours_of_node_chunk_stream  },
 		&(Test){"times_node_present_chunk_stream",   test_times_node_present_chunk_stream  },
 		&(Test){"times_node_present_chunk_stream_2", test_times_node_present_chunk_stream_2},
+		&(Test){"link_presence_chunk_stream",		  test_link_presence_chunk_stream		 },
 
 		NULL,
 	};
