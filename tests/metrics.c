@@ -1,4 +1,5 @@
 #include "../src/metrics.h"
+#include "../src/stream/chunk_stream.h"
 #include "../src/stream/full_stream_graph.h"
 #include "../src/stream/link_stream.h"
 #include "../src/stream_graph.h"
@@ -212,6 +213,26 @@ bool test_density_of_time() {
 	return EXPECT_F_APPROX_EQ(density_2, 2.0 / 3.0, 1e-2);
 }
 
+bool test_chunk_stream_nodes_set() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	NodeIdVector nodes = NodeIdVector_with_capacity(2);
+	NodeIdVector_push(&nodes, 0);
+	NodeIdVector_push(&nodes, 2);
+
+	LinkIdVector links = LinkIdVector_with_capacity(1);
+	LinkIdVector_push(&links, 0);
+
+	Stream st = CS_from(&sg, &nodes, &links, 0, 100);
+	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	FOR_EACH_NODE(nodes_iter, node_id) {
+		printf("%zu\n", node_id);
+	}
+	CS_destroy(&st);
+	StreamGraph_destroy(&sg);
+	return true;
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -247,6 +268,8 @@ int main() {
 		&(Test){"density_of_link",		   test_density_of_link	   },
 		&(Test){"density_of_node",		   test_density_of_node	   },
 		&(Test){"density_of_time",		   test_density_of_time	   },
+
+		&(Test){"chunk_stream_nodes_set", test_chunk_stream_nodes_set},
 
 		NULL,
 	};
