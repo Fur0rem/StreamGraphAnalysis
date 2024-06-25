@@ -372,6 +372,45 @@ bool test_link_presence_chunk_stream() {
 	return true;
 }
 
+bool test_nodes_and_links_present_at_t_chunk_stream() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	init_events_table(&sg);
+	NodeIdVector nodes = NodeIdVector_with_capacity(3);
+	NodeIdVector_push(&nodes, 0);
+	NodeIdVector_push(&nodes, 1);
+	NodeIdVector_push(&nodes, 3);
+
+	LinkIdVector links = LinkIdVector_with_capacity(4);
+	LinkIdVector_push(&links, 0);
+	LinkIdVector_push(&links, 1);
+	LinkIdVector_push(&links, 2);
+	LinkIdVector_push(&links, 3);
+
+	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
+	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	NodesIterator nodes_iter = funcs.nodes_present_at_t(st.stream, 40);
+	printf("STUFF PRESENT AT 40\n");
+	FOR_EACH_NODE(nodes_iter, node_id) {
+		printf("NODE %zu : ", node_id);
+		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		FOR_EACH_TIME(times_iter, interval) {
+			printf("[%lu, %lu] U ", interval.start, interval.end);
+		}
+		printf("\n");
+	}
+
+	LinksIterator links_iter = funcs.links_present_at_t(st.stream, 40);
+	FOR_EACH_LINK(links_iter, link_id) {
+		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
+	}
+
+	CS_destroy(st);
+	StreamGraph_destroy(sg);
+	NodeIdVector_destroy(nodes);
+	LinkIdVector_destroy(links);
+	return true;
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -385,34 +424,35 @@ int main() {
 	};*/
 
 	Test* tests[] = {
-		&(Test){"cardinal_of_T_S_0",				 test_cardinal_of_T_S_0				   },
-		&(Test){"cardinal_of_T_S_1",				 test_cardinal_of_T_S_1				   },
-		&(Test){"cardinal_of_T_S_2",				 test_cardinal_of_T_S_2				   },
-		&(Test){"cardinal_of_T_S_3",				 test_cardinal_of_T_S_3				   },
-		&(Test){"cardinal_of_W_S",				   test_cardinal_of_W_S				   },
+		&(Test){"cardinal_of_T_S_0",						 test_cardinal_of_T_S_0						   },
+		&(Test){"cardinal_of_T_S_1",						 test_cardinal_of_T_S_1						   },
+		&(Test){"cardinal_of_T_S_2",						 test_cardinal_of_T_S_2						   },
+		&(Test){"cardinal_of_T_S_3",						 test_cardinal_of_T_S_3						   },
+		&(Test){"cardinal_of_W_S",						   test_cardinal_of_W_S						   },
  //&(Test){"times_node_present", test_times_node_present},
-		&(Test){"cardinal_of_W_L",				   test_cardinal_of_W_L				   },
-		&(Test){"coverage_S",						  test_coverage_S						 },
-		&(Test){"coverage_L",						  test_coverage_L						 },
+		&(Test){"cardinal_of_W_L",						   test_cardinal_of_W_L						   },
+		&(Test){"coverage_S",								test_coverage_S								 },
+		&(Test){"coverage_L",								test_coverage_L								 },
 
-		&(Test){"number_of_nodes",				   test_number_of_nodes				   },
-		&(Test){"number_of_links",				   test_number_of_links				   },
-		&(Test){"node_duration",					 test_node_duration					   },
-		&(Test){"link_duration",					 test_link_duration					   },
-		&(Test){"contribution_of_nodes",			 test_contribution_of_nodes			   },
-		&(Test){"contributions_of_links",			  test_contributions_of_links			 },
-		&(Test){"uniformity",						  test_uniformity						 },
+		&(Test){"number_of_nodes",						   test_number_of_nodes						   },
+		&(Test){"number_of_links",						   test_number_of_links						   },
+		&(Test){"node_duration",							 test_node_duration							   },
+		&(Test){"link_duration",							 test_link_duration							   },
+		&(Test){"contribution_of_nodes",					 test_contribution_of_nodes					   },
+		&(Test){"contributions_of_links",					  test_contributions_of_links					 },
+		&(Test){"uniformity",								test_uniformity								 },
 
-		&(Test){"density",						   test_density						   },
-		&(Test){"density_of_link",				   test_density_of_link				   },
-		&(Test){"density_of_node",				   test_density_of_node				   },
-		&(Test){"density_of_time",				   test_density_of_time				   },
+		&(Test){"density",								   test_density								   },
+		&(Test){"density_of_link",						   test_density_of_link						   },
+		&(Test){"density_of_node",						   test_density_of_node						   },
+		&(Test){"density_of_time",						   test_density_of_time						   },
 
-		&(Test){"chunk_stream_nodes_set",			  test_chunk_stream_nodes_set			 },
-		&(Test){"neighbours_of_node_chunk_stream",   test_neighbours_of_node_chunk_stream  },
-		&(Test){"times_node_present_chunk_stream",   test_times_node_present_chunk_stream  },
-		&(Test){"times_node_present_chunk_stream_2", test_times_node_present_chunk_stream_2},
-		&(Test){"link_presence_chunk_stream",		  test_link_presence_chunk_stream		 },
+		&(Test){"chunk_stream_nodes_set",					  test_chunk_stream_nodes_set					 },
+		&(Test){"neighbours_of_node_chunk_stream",		   test_neighbours_of_node_chunk_stream		   },
+		&(Test){"times_node_present_chunk_stream",		   test_times_node_present_chunk_stream		   },
+		&(Test){"times_node_present_chunk_stream_2",		 test_times_node_present_chunk_stream_2		   },
+		&(Test){"link_presence_chunk_stream",				  test_link_presence_chunk_stream				 },
+		&(Test){"nodes_and_links_present_at_t_chunk_stream", test_nodes_and_links_present_at_t_chunk_stream},
 
 		NULL,
 	};
