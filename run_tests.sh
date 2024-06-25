@@ -64,6 +64,7 @@ if [ $# -eq 1 ]; then
 fi
 
 # Iterate over all files in the tests directory
+every_test_that_failed=""
 for file in $TEST_DIR/*.c; do
     # If it is test.c or a file that does not end in .c, skip it
     if [ $(basename $file) == "test.c" ] || [ $(grep -q ".c" $file | wc -l) != 0 ]; then
@@ -90,6 +91,7 @@ for file in $TEST_DIR/*.c; do
     # If the file is not present, the compilation failed
     if [ ! -f $BIN_DIR/test_$filename ]; then
         echo "${TEXT_BOLD}${TEXT_RED}COMPILATION FAILED FOR $filename !!!${TEXT_RESET}"
+        every_test_that_failed="$every_test_that_failed $filename"
         global_success=1
         continue
     fi
@@ -97,6 +99,7 @@ for file in $TEST_DIR/*.c; do
     $BIN_DIR/test_$filename
     # Check the return code
     if [ $? -ne 0 ]; then
+        every_test_that_failed="$every_test_that_failed $filename"
         global_success=1
     fi
 
@@ -106,5 +109,7 @@ done
 
 if [ $global_success -eq 0 ]; then
     echo "All tests passed!"
+else 
+    echo "${TEXT_BOLD} ${TEXT_RED} Tests that failed: $every_test_that_failed ${TEXT_RESET}"
 fi
 exit $global_success

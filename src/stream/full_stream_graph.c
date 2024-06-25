@@ -14,7 +14,6 @@ FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph) {
 	FullStreamGraph full_stream_graph = (FullStreamGraph){
 		.underlying_stream_graph = stream_graph,
 	};
-	printf("full_stream_graph.underlying_stream_graph : %p\n", full_stream_graph.underlying_stream_graph);
 	return full_stream_graph;
 }
 
