@@ -153,8 +153,8 @@ Stream LS_from(StreamGraph* stream_graph) {
 	return stream;
 }
 
-void LS_destroy(Stream* stream) {
-	free(stream->stream);
+void LS_destroy(Stream stream) {
+	free(stream.stream);
 }
 
 // TRICK

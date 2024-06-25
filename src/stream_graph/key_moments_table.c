@@ -61,11 +61,11 @@ size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
 	return last_moment;
 }
 
-void KeyMomentsTable_destroy(KeyMomentsTable* kmt) {
-	for (size_t i = 0; i < kmt->nb_slices; i++) {
-		free(kmt->slices[i].moments);
+void KeyMomentsTable_destroy(KeyMomentsTable kmt) {
+	for (size_t i = 0; i < kmt.nb_slices; i++) {
+		free(kmt.slices[i].moments);
 	}
-	free(kmt->slices);
+	free(kmt.slices);
 }
 
 // TODO : Change the slices to contain the number of total moments before rather than only the number of moments in the

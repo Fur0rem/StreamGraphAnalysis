@@ -1005,17 +1005,17 @@ char* StreamGraph_to_string(StreamGraph* sg) {
 	return final_str;
 }
 
-void StreamGraph_destroy(StreamGraph* sg) {
-	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-		free(sg->nodes.nodes[i].neighbours);
-		free(sg->nodes.nodes[i].presence.intervals);
+void StreamGraph_destroy(StreamGraph sg) {
+	for (size_t i = 0; i < sg.nodes.nb_nodes; i++) {
+		free(sg.nodes.nodes[i].neighbours);
+		free(sg.nodes.nodes[i].presence.intervals);
 	}
-	free(sg->nodes.nodes);
-	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		free(sg->links.links[i].presence.intervals);
+	free(sg.nodes.nodes);
+	for (size_t i = 0; i < sg.links.nb_links; i++) {
+		free(sg.links.links[i].presence.intervals);
 	}
-	free(sg->links.links);
-	KeyMomentsTable_destroy(&sg->key_moments);
+	free(sg.links.links);
+	KeyMomentsTable_destroy(sg.key_moments);
 
 	// Free the events if they were initialized
 }
