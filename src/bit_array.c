@@ -56,6 +56,30 @@ void BitArray_set_zero(BitArray array, size_t index) {
 	array.bits[byte_index(index)] &= ~(1 << bit_index(index));
 }
 
+void BitArray_and_bit(BitArray array, size_t index, int value) {
+	array.bits[byte_index(index)] &= value ? (1 << bit_index(index)) : ~(1 << bit_index(index));
+}
+
+void BitArray_or_bit(BitArray array, size_t index, int value) {
+	array.bits[byte_index(index)] |= value ? (1 << bit_index(index)) : ~(1 << bit_index(index));
+}
+
+BitArray BitArray_and_array(BitArray array1, BitArray array2) {
+	BitArray result = BitArray_with_n_bits(array1.nb_bits);
+	for (size_t i = 0; i < nb_bytes(array1.nb_bits); i++) {
+		result.bits[i] = array1.bits[i] & array2.bits[i];
+	}
+	return result;
+}
+
+BitArray BitArray_or_array(BitArray array1, BitArray array2) {
+	BitArray result = BitArray_with_n_bits(array1.nb_bits);
+	for (size_t i = 0; i < nb_bytes(array1.nb_bits); i++) {
+		result.bits[i] = array1.bits[i] | array2.bits[i];
+	}
+	return result;
+}
+
 void BitArray_destroy(BitArray array) {
 	free(array.bits);
 }
