@@ -211,7 +211,7 @@ void NeighboursOfNodeIterator_destroy(LinksIterator* iterator) {
 }
 
 LinksIterator FullStreamGraph_neighbours_of_node(FullStreamGraph* full_stream_graph, NodeId node_id) {
-	NeighboursOfNodeIteratorData* iterator_data = malloc(sizeof(NeighboursOfNodeIteratorData));
+	NeighboursOfNodeIteratorData* iterator_data = MALLOC(sizeof(NeighboursOfNodeIteratorData));
 	iterator_data->node_to_get_neighbours = node_id;
 	iterator_data->current_neighbour = 0;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};

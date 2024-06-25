@@ -52,7 +52,7 @@ size_t CS_NodesSet_next(NodesIterator* iter) {
 	}
 	size_t return_val = BitArray_leading_zeros_from(chunk_stream->nodes_present, nodes_iter_data->current_node);
 	nodes_iter_data->current_node += return_val + 1;
-	if (nodes_iter_data->current_node >= chunk_stream->underlying_stream_graph->nodes.nb_nodes) {
+	if (nodes_iter_data->current_node > chunk_stream->underlying_stream_graph->nodes.nb_nodes) {
 		return SIZE_MAX;
 	}
 	return nodes_iter_data->current_node - 1;
@@ -124,6 +124,49 @@ DEFAULT_COMPARE(NodeId);
 DEFAULT_TO_STRING(LinkId, "%zu");
 DEFAULT_COMPARE(LinkId);
 
+typedef struct {
+	NodeId node_to_get_neighbours;
+	NodeId current_neighbour;
+} CS_NeighboursOfNodeIteratorData;
+
+size_t ChunkStream_NeighboursOfNode_next(LinksIterator* iter) {
+	CS_NeighboursOfNodeIteratorData* neighbours_iter_data = (CS_NeighboursOfNodeIteratorData*)iter->iterator_data;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
+	NodeId node = neighbours_iter_data->node_to_get_neighbours;
+	// Print all the neighbours of the node
+	if (neighbours_iter_data->current_neighbour >= stream_graph->nodes.nodes[node].nb_neighbours) {
+		return SIZE_MAX;
+	}
+	size_t return_val =
+		chunk_stream->underlying_stream_graph->nodes.nodes[node].neighbours[neighbours_iter_data->current_neighbour];
+	neighbours_iter_data->current_neighbour++;
+	if (BitArray_is_zero(chunk_stream->links_present, return_val)) {
+		return ChunkStream_NeighboursOfNode_next(iter);
+	}
+	return return_val;
+}
+
+void ChunkStream_NeighboursOfNodeIterator_destroy(LinksIterator* iterator) {
+	free(iterator->iterator_data);
+}
+
+LinksIterator ChunkStream_neighbours_of_node(ChunkStream* chunk_stream, NodeId node) {
+	CS_NeighboursOfNodeIteratorData* iterator_data = MALLOC(sizeof(CS_NeighboursOfNodeIteratorData));
+	*iterator_data = (CS_NeighboursOfNodeIteratorData){
+		.node_to_get_neighbours = node,
+		.current_neighbour = 0,
+	};
+	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	LinksIterator neighbours_iterator = {
+		.stream_graph = stream,
+		.iterator_data = iterator_data,
+		.next = (size_t(*)(void*))ChunkStream_NeighboursOfNode_next,
+		.destroy = (void (*)(void*))ChunkStream_NeighboursOfNodeIterator_destroy,
+	};
+	return neighbours_iterator;
+}
+
 const StreamFunctions ChunkStream_stream_functions = {
 	.nodes_set = (NodesIterator(*)(void*))ChunkStream_nodes_set,
 	.links_set = (LinksIterator(*)(void*))ChunkStream_links_set,
@@ -133,9 +176,8 @@ const StreamFunctions ChunkStream_stream_functions = {
 	.links_present_at_t = (LinksIterator(*)(void*, TimeId))ChunkStream_links_present_at_t,
 	.times_node_present = (TimesIterator(*)(void*, NodeId))ChunkStream_times_node_present,
 	.times_link_present = (TimesIterator(*)(void*, LinkId))ChunkStream_times_link_present,
-	.nth_link = (Link(*)(void*, size_t))ChunkStream_nth_link,
+	.nth_link = (Link(*)(void*, size_t))ChunkStream_nth_link,*/
 	.neighbours_of_node = (LinksIterator(*)(void*, NodeId))ChunkStream_neighbours_of_node,
-	*/
 };
 
 const MetricsFunctions ChunkStream_metrics_functions = {
