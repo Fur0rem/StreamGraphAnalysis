@@ -10,7 +10,7 @@
 #include <stddef.h>
 
 /**
- * @brief A structure representing a bit array.
+ * @brief An variable-sized array of bits.
  *
  * It contains the number of bits present in the array and the array of bits.
  * The bits are stored in an array of int's.

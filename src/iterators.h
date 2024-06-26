@@ -3,10 +3,12 @@
 
 /**
  * @file iterators.h
- * @brief An iterator is a structure that allows to iterate over a set of data.
+ * @brief Iterators over nodes, links and time intervals.
+ *
+ * An iterator is a structure that allows to iterate over a set of data.
  * <br>
- * Lazy means it does not load all the data at once, but only when needed.
- * We say an iterator is consumed when it has been iterated over its elements and destroyed.
+ * The iterators are lazy, meaning it does not load all the data at once, but only when needed.
+ * We say an iterator is consumed when it has been iterated over all its elements and been destroyed.
  * <br>
  * There exists 3 types of iterators: for nodes, links and times.
  * However, they are very similar in their implementation.

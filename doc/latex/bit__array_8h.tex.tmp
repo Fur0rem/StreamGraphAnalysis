@@ -15,7 +15,7 @@ This graph shows which files directly or indirectly include this file\+:
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structBitArray}{Bit\+Array}}
-\begin{DoxyCompactList}\small\item\em A structure representing a bit array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em An variable-\/sized array of bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{Indent}\textbf{ Creation and destruction functions}\par
 {\em Functions to create and destroy a \mbox{\hyperlink{structBitArray}{Bit\+Array}}. }\begin{DoxyCompactItemize}
