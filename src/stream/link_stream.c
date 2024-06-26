@@ -150,6 +150,7 @@ Stream LS_from(StreamGraph* stream_graph) {
 	LinkStream* link_stream = MALLOC(sizeof(LinkStream));
 	link_stream->underlying_stream_graph = stream_graph;
 	Stream stream = {.type = LINK_STREAM, .stream = link_stream};
+	init_cache(&stream);
 	return stream;
 }
 
@@ -186,7 +187,7 @@ double density(Stream* st) {
 	LinkStream* ls = (LinkStream*)st->stream;
 	StreamGraph* sg = ls->underlying_stream_graph;
 	size_t n = sg->nodes.nb_nodes;
-	double m = Stream_number_of_links(*st);
+	double m = Stream_number_of_links(st);
 	return m / (double)(n * (n - 1));
 }
 
