@@ -99,14 +99,14 @@ size_t LinkStream_scaling(LinkStream* link_stream) {
 	return link_stream->underlying_stream_graph->scaling;
 }
 
-NodesIterator LinkStream_nodes_present_at_t(LinkStream* link_stream, TimeId t) {
+NodesIterator LinkStream_nodes_present_at_t(LinkStream* link_stream, TimeId instant) {
 	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
 	return FullStreamGraph_stream_functions.nodes_set(&full_stream_graph);
 }
 
-LinksIterator LinkStream_links_present_at_t(LinkStream* link_stream, TimeId t) {
+LinksIterator LinkStream_links_present_at_t(LinkStream* link_stream, TimeId instant) {
 	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return FullStreamGraph_stream_functions.links_present_at_t(&full_stream_graph, t);
+	return FullStreamGraph_stream_functions.links_present_at_t(&full_stream_graph, instant);
 }
 
 // time of nodes iterator
@@ -178,7 +178,7 @@ const StreamFunctions LinkStream_stream_functions = {
 	.neighbours_of_node = NULL,
 };
 
-double LS_coverage(LinkStream* ls) {
+double LS_coverage(LinkStream* link_stream) {
 	printf("called LS_coverage\n");
 	return 1.0;
 }

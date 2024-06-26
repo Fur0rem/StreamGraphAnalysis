@@ -12,8 +12,8 @@ int hash_string(const char* str) {
 
 typedef char* String;
 
-char* String_to_string(String str) {
-	return strdup(str);
+char* String_to_string(String* str) {
+	return strdup(*str);
 }
 
 bool String_equals(String str1, String str2) {
