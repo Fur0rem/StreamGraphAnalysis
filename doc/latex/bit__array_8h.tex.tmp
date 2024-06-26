@@ -2,7 +2,7 @@
 \label{bit__array_8h}\index{src/bit\_array.h@{src/bit\_array.h}}
 
 
-A header that contains the \mbox{\hyperlink{structBitArray}{Bit\+Array}} structure and its functions.  
+A variable length array of bits and functions to manipulate it.  
 
 
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
@@ -15,7 +15,7 @@ This graph shows which files directly or indirectly include this file\+:
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structBitArray}{Bit\+Array}}
-\begin{DoxyCompactList}\small\item\em An variable-\/sized array of bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The structure of a variable length array of bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{Indent}\textbf{ Creation and destruction functions}\par
 {\em Functions to create and destroy a \mbox{\hyperlink{structBitArray}{Bit\+Array}}. }\begin{DoxyCompactItemize}
@@ -68,7 +68,7 @@ char $\ast$ \mbox{\hyperlink{bit__array_8h_a0db413990df11cb80b2893c42142f3f4}{Bi
 
 
 \doxysubsection{Detailed Description}
-A header that contains the \mbox{\hyperlink{structBitArray}{Bit\+Array}} structure and its functions. 
+A variable length array of bits and functions to manipulate it. 
 
 
 

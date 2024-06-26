@@ -1,5 +1,5 @@
 <map id="src/bit_array.h" name="src/bit_array.h">
-<area shape="rect" id="node1" title="A header that contains the BitArray structure and its functions." alt="" coords="41,5,154,32"/>
+<area shape="rect" id="node1" title="A variable length array of bits and functions to manipulate it." alt="" coords="41,5,154,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,88,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="112,80,187,107"/>
 </map>
