@@ -336,3 +336,18 @@ double Stream_average_node_degree(Stream stream) {
 	}
 	return sum;
 }
+
+double Stream_degree(Stream stream) {
+	// CATCH_METRICS_IMPLEM(degree, stream);
+	size_t number_of_links = cardinalOfE(stream);
+	size_t t = cardinalOfT(stream);
+	size_t v = cardinalOfV(stream);
+	return (double)(2 * number_of_links) / (double)(t * v);
+}
+
+double Stream_average_expected_degree(Stream stream) {
+	// CATCH_METRICS_IMPLEM(degree, stream);
+	size_t number_of_links = cardinalOfE(stream);
+	size_t number_of_nodes = cardinalOfW(stream);
+	return (double)(2 * number_of_links) / (double)number_of_nodes;
+}
