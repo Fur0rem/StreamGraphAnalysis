@@ -1,0 +1,76 @@
+\hypertarget{iterators_8h_source}{}\doxysection{iterators.\+h}
+\label{iterators_8h_source}\index{src/iterators.h@{src/iterators.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef ITERATORS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define ITERATORS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}interval.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}stream.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{10     \mbox{\hyperlink{structStream}{Stream}} stream\_graph;}
+\DoxyCodeLine{11     \textcolor{keywordtype}{void}* iterator\_data;}
+\DoxyCodeLine{12     size\_t (*next)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{13     void (*destroy)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{14     void (*skip\_n)(\textcolor{keywordtype}{void}*, size\_t);}
+\DoxyCodeLine{15 \} \mbox{\hyperlink{structNodesIterator}{NodesIterator}};}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{18     \mbox{\hyperlink{structStream}{Stream}} stream\_graph;}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void}* iterator\_data;}
+\DoxyCodeLine{20     size\_t (*next)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{21     void (*destroy)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{22     void (*skip\_n)(\textcolor{keywordtype}{void}*, size\_t);}
+\DoxyCodeLine{23 \} \mbox{\hyperlink{structLinksIterator}{LinksIterator}};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{26     \mbox{\hyperlink{structStream}{Stream}} stream\_graph;}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void}* iterator\_data;}
+\DoxyCodeLine{28     \mbox{\hyperlink{structInterval}{Interval}} (*next)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{29     void (*destroy)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{30     void (*skip\_n)(\textcolor{keywordtype}{void}*, size\_t);}
+\DoxyCodeLine{31 \} \mbox{\hyperlink{structTimesIterator}{TimesIterator}};}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{comment}{// The || (\{ x.destroy(\&x); 0; \}) is a trick to execute the destroy function of the iterator when it ends}}
+\DoxyCodeLine{34 \textcolor{comment}{// The destroy function is only called when the previous condition is false, and then evaluates to 0 (false)}}
+\DoxyCodeLine{35 \textcolor{comment}{// This uses the GNU extension of "{}Statement Expressions"{}}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define FOR\_EACH(type\_iterated, iterated, iterator, end\_cond)                                                          \(\backslash\)}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{    for (type\_iterated iterated = (iterator).next(\&(iterator)); (end\_cond) || (\{                                       \(\backslash\)}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{                                                                    (iterator).destroy(\&(iterator));                   \(\backslash\)}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{                                                                    0;                                                 \(\backslash\)}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{                                                                \});                                                    \(\backslash\)}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{         (iterated) = (iterator).next(\&(iterator)))}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{// TODO : Change the order of iterated and iterator in the FOR\_EACH macro}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define FOR\_EACH\_NODE(iterator, iterated) FOR\_EACH(size\_t, iterated, iterator, (iterated) != SIZE\_MAX)}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define FOR\_EACH\_LINK(iterator, iterated) FOR\_EACH(size\_t, iterated, iterator, (iterated) != SIZE\_MAX)}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define FOR\_EACH\_TIME(iterator, iterated) FOR\_EACH(Interval, iterated, iterator, (iterated).start != SIZE\_MAX)}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define ITERATOR\_IS\_EMPTY(iterator)                                                                                    \(\backslash\)}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{    (\{                                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{        size\_t \_\_tmp = (iterator).next(\&(iterator));                                                                   \(\backslash\)}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{        (iterator).destroy(\&(iterator));                                                                               \(\backslash\)}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{        \_\_tmp == SIZE\_MAX;                                                                                             \(\backslash\)}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{    \})}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keywordtype}{size\_t} total\_time\_of(\mbox{\hyperlink{structTimesIterator}{TimesIterator}} times);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{comment}{// TODO : Not very generic for links with other conditions of stop}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#define COUNT\_ITERATOR(iterator)                                                                                       \(\backslash\)}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{    (\{                                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{        size\_t count = 0;                                                                                              \(\backslash\)}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{        FOR\_EACH(size\_t, iterated, iterator, (iterated) != SIZE\_MAX) \{                                                 \(\backslash\)}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{            count++;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{        count;                                                                                                         \(\backslash\)}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{    \})}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \mbox{\hyperlink{structTimesIterator}{TimesIterator}} TimesIterator\_union(\mbox{\hyperlink{structTimesIterator}{TimesIterator}} a, \mbox{\hyperlink{structTimesIterator}{TimesIterator}} b);}
+\DoxyCodeLine{68 \mbox{\hyperlink{structTimesIterator}{TimesIterator}} TimesIterator\_intersection(\mbox{\hyperlink{structTimesIterator}{TimesIterator}} a, \mbox{\hyperlink{structTimesIterator}{TimesIterator}} b);}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// ITERATORS\_H}}
+
+\end{DoxyCode}

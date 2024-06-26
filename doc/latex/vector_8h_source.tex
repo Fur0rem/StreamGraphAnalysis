@@ -1,0 +1,140 @@
+\hypertarget{vector_8h_source}{}\doxysection{vector.\+h}
+\label{vector_8h_source}\index{src/vector.h@{src/vector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef VECTOR\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define VECTOR\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{comment}{// Dynamic array (vectors)}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define DefVector(type, freefunc)                                                                                      \(\backslash\)}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{    typedef struct T\_\#\#type\#\#Vector \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{        type* array;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{        size\_t size;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{        size\_t capacity;                                                                                               \(\backslash\)}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{    \} type\#\#Vector;                                                                                                    \(\backslash\)}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{    static type\#\#Vector type\#\#Vector\_with\_capacity(size\_t capacity) \{                                                  \(\backslash\)}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{        type\#\#Vector vec = \{.array = (type*)malloc(sizeof(type) * capacity), .size = 0, .capacity = capacity\};         \(\backslash\)}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{        return vec;                                                                                                    \(\backslash\)}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{    static type\#\#Vector type\#\#Vector\_new() \{                                                                           \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{        return type\#\#Vector\_with\_capacity(2);                                                                          \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{    static void type\#\#Vector\_destroy(type\#\#Vector vec) \{                                                               \(\backslash\)}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{        if (freefunc) \{                                                                                                \(\backslash\)}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{            for (size\_t i = 0; i < vec.size; i++) \{                                                                    \(\backslash\)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{                freefunc(vec.array[i]);                                                                                \(\backslash\)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{            \}                                                                                                          \(\backslash\)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{        free(vec.array);                                                                                               \(\backslash\)}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{    static void type\#\#Vector\_push(type\#\#Vector* vec, type value) \{                                                     \(\backslash\)}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{        if (vec-\/>size == vec-\/>capacity) \{                                                                              \(\backslash\)}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{            vec-\/>capacity *= 2;                                                                                        \(\backslash\)}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{            type* new\_array = (type*)malloc(sizeof(type) * vec-\/>capacity);                                             \(\backslash\)}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{            memcpy(new\_array, vec-\/>array, sizeof(type) * vec-\/>size);                                                   \(\backslash\)}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{            free(vec-\/>array);                                                                                          \(\backslash\)}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{            vec-\/>array = new\_array;                                                                                    \(\backslash\)}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{        vec-\/>array[vec-\/>size] = value;                                                                                 \(\backslash\)}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{        vec-\/>size++;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{    static void type\#\#Vector\_pop(type\#\#Vector* vec) \{                                                                  \(\backslash\)}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{        if (freefunc) \{                                                                                                \(\backslash\)}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{            freefunc(vec-\/>array[vec-\/>size -\/ 1]);                                                                       \(\backslash\)}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{        vec-\/>size-\/-\/;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{    static void type\#\#Vector\_append(type\#\#Vector* vec, const type* values, size\_t nb\_values) \{                         \(\backslash\)}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{        if (vec-\/>size + nb\_values > vec-\/>capacity) \{                                                                   \(\backslash\)}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{            vec-\/>capacity = vec-\/>size + nb\_values;                                                                     \(\backslash\)}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{            type* new\_array = (type*)malloc(sizeof(type) * vec-\/>capacity);                                             \(\backslash\)}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{            memcpy(new\_array, vec-\/>array, sizeof(type) * vec-\/>size);                                                   \(\backslash\)}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{            free(vec-\/>array);                                                                                          \(\backslash\)}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{            vec-\/>array = new\_array;                                                                                    \(\backslash\)}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{        memcpy(vec-\/>array + vec-\/>size, values, sizeof(type) * nb\_values);                                              \(\backslash\)}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{        vec-\/>size += nb\_values;                                                                                        \(\backslash\)}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{    static void type\#\#Vector\_remove\_and\_swap(type\#\#Vector* vec, size\_t idx) \{                                          \(\backslash\)}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{        if (freefunc) \{                                                                                                \(\backslash\)}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{            freefunc(vec-\/>array[idx]);                                                                                 \(\backslash\)}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{        vec-\/>array[idx] = vec-\/>array[vec-\/>size -\/ 1];                                                                   \(\backslash\)}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{        vec-\/>size-\/-\/;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{    static void type\#\#Vector\_remove(type\#\#Vector* vec, size\_t idx) \{                                                   \(\backslash\)}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{        if (freefunc) \{                                                                                                \(\backslash\)}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{            freefunc(vec-\/>array[idx]);                                                                                 \(\backslash\)}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{        for (size\_t i = idx; i < vec-\/>size -\/ 1; i++) \{                                                                 \(\backslash\)}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{            vec-\/>array[i] = vec-\/>array[i + 1];                                                                         \(\backslash\)}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{        vec-\/>size-\/-\/;                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{85 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{86 \textcolor{preprocessor}{    static bool type\#\#Vector\_is\_empty(type\#\#Vector vec) \{                                                              \(\backslash\)}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{        return vec.size == 0;                                                                                          \(\backslash\)}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{    static size\_t type\#\#Vector\_find(type\#\#Vector vec, type value) \{                                                    \(\backslash\)}}
+\DoxyCodeLine{91 \textcolor{preprocessor}{        for (size\_t i = 0; i < vec.size; i++) \{                                                                        \(\backslash\)}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{            if (type\#\#\_equals(vec.array[i], value)) \{                                                                  \(\backslash\)}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{                return i;                                                                                              \(\backslash\)}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{            \}                                                                                                          \(\backslash\)}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{96 \textcolor{preprocessor}{        return vec.size;                                                                                               \(\backslash\)}}
+\DoxyCodeLine{97 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{    static bool type\#\#Vector\_contains(type\#\#Vector vec, type value) \{                                                  \(\backslash\)}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{        return type\#\#Vector\_find(vec, value) < vec.size;                                                               \(\backslash\)}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{    static char* type\#\#Vector\_to\_string(type\#\#Vector* vec) \{                                                           \(\backslash\)}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{        char* str = (char*)malloc(1000);                                                                               \(\backslash\)}}
+\DoxyCodeLine{105 \textcolor{preprocessor}{        str[0] = '\(\backslash\)0';                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{106 \textcolor{preprocessor}{        strcat(str, "{}[ "{}});                                                                                             \(\backslash\)}
+\DoxyCodeLine{107         for (size\_t i = 0; i < vec-\/>size; i++) \{                                                                       \(\backslash\)}
+\DoxyCodeLine{108             char* elem\_str = type\#\#\_to\_string(\&vec-\/>array[i]);                                                         \(\backslash\)}
+\DoxyCodeLine{109             strcat(str, elem\_str);                                                                                     \(\backslash\)}
+\DoxyCodeLine{110             free(elem\_str);                                                                                            \(\backslash\)}
+\DoxyCodeLine{111             if (i < vec-\/>size -\/ 1) \{                                                                                   \(\backslash\)}
+\DoxyCodeLine{112                 strcat(str, "{}, "{});                                                                                     \(\backslash\)}
+\DoxyCodeLine{113             \}                                                                                                          \(\backslash\)}
+\DoxyCodeLine{114         \}                                                                                                              \(\backslash\)}
+\DoxyCodeLine{115         strcat(str, "{} ]"{});                                                                                             \(\backslash\)}
+\DoxyCodeLine{116         return str;                                                                                                    \(\backslash\)}
+\DoxyCodeLine{117     \}                                                                                                                  \(\backslash\)}
+\DoxyCodeLine{118                                                                                                                        \(\backslash\)}
+\DoxyCodeLine{119     static bool type\#\#Vector\_equals(type\#\#Vector vec1, type\#\#Vector vec2) \{                                            \(\backslash\)}
+\DoxyCodeLine{120         if (vec1.size != vec2.size) \{                                                                                  \(\backslash\)}
+\DoxyCodeLine{121             return false;                                                                                              \(\backslash\)}
+\DoxyCodeLine{122         \}                                                                                                              \(\backslash\)}
+\DoxyCodeLine{123         for (size\_t i = 0; i < vec1.size; i++) \{                                                                       \(\backslash\)}
+\DoxyCodeLine{124             if (!type\#\#\_equals(vec1.array[i], vec2.array[i])) \{                                                        \(\backslash\)}
+\DoxyCodeLine{125                 return false;                                                                                          \(\backslash\)}
+\DoxyCodeLine{126             \}                                                                                                          \(\backslash\)}
+\DoxyCodeLine{127         \}                                                                                                              \(\backslash\)}
+\DoxyCodeLine{128         return true;                                                                                                   \(\backslash\)}
+\DoxyCodeLine{129     \}                                                                                                                  \(\backslash\)}
+\DoxyCodeLine{130     static size\_t type\#\#Vector\_size(type\#\#Vector* vec) \{                                                               \(\backslash\)}
+\DoxyCodeLine{131         return vec-\/>size;                                                                                              \(\backslash\)}
+\DoxyCodeLine{132     \}}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// VECTOR\_H}}
+
+\end{DoxyCode}

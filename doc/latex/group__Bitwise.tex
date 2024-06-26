@@ -1,0 +1,62 @@
+\hypertarget{group__Bitwise}{}\doxysection{operations on the whole array}
+\label{group__Bitwise}\index{operations on the whole array@{operations on the whole array}}
+
+
+Performs a bitwise and between two Bit\+Arrays.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__Bitwise_gaba8bf5561d8be0acfe2e9dce86575c7e}\label{group__Bitwise_gaba8bf5561d8be0acfe2e9dce86575c7e}} 
+\mbox{\hyperlink{structBitArray}{Bit\+Array}} {\bfseries Bit\+Array\+\_\+and\+\_\+array} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array1, \mbox{\hyperlink{structBitArray}{Bit\+Array}} array2)
+\item 
+\mbox{\hyperlink{structBitArray}{Bit\+Array}} \mbox{\hyperlink{group__Bitwise_ga3496c7206b2733791428180a23381201}{Bit\+Array\+\_\+or\+\_\+array}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array1, \mbox{\hyperlink{structBitArray}{Bit\+Array}} array2)
+\item 
+size\+\_\+t \mbox{\hyperlink{group__Bitwise_gae336bb24993e5ba5cd864eaf5acec4db}{Bit\+Array\+\_\+leading\+\_\+zeros\+\_\+from}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array, size\+\_\+t index)
+\begin{DoxyCompactList}\small\item\em Returns the number of leading zeros in the \mbox{\hyperlink{structBitArray}{Bit\+Array}} starting from the given index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Performs a bitwise and between two Bit\+Arrays. 
+
+The two Bit\+Arrays must have the same number of bits. It creates a new \mbox{\hyperlink{structBitArray}{Bit\+Array}}, and therefore must be freed with Bit\+Array\+\_\+destroy afterwards. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em array1} & The first \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em array2} & The second \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The \mbox{\hyperlink{structBitArray}{Bit\+Array}} resulting from the bitwise and. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__Bitwise_gae336bb24993e5ba5cd864eaf5acec4db}\label{group__Bitwise_gae336bb24993e5ba5cd864eaf5acec4db}} 
+\index{operations on the whole array@{operations on the whole array}!BitArray\_leading\_zeros\_from@{BitArray\_leading\_zeros\_from}}
+\index{BitArray\_leading\_zeros\_from@{BitArray\_leading\_zeros\_from}!operations on the whole array@{operations on the whole array}}
+\doxysubsubsection{\texorpdfstring{BitArray\_leading\_zeros\_from()}{BitArray\_leading\_zeros\_from()}}
+{\footnotesize\ttfamily size\+\_\+t Bit\+Array\+\_\+leading\+\_\+zeros\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+
+
+Returns the number of leading zeros in the \mbox{\hyperlink{structBitArray}{Bit\+Array}} starting from the given index. 
+
+Leading zeros means the number of zeros before the next 1. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em array} & The \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em index} & The index to start from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of leading zeros. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Bitwise_ga3496c7206b2733791428180a23381201}\label{group__Bitwise_ga3496c7206b2733791428180a23381201}} 
+\index{operations on the whole array@{operations on the whole array}!BitArray\_or\_array@{BitArray\_or\_array}}
+\index{BitArray\_or\_array@{BitArray\_or\_array}!operations on the whole array@{operations on the whole array}}
+\doxysubsubsection{\texorpdfstring{BitArray\_or\_array()}{BitArray\_or\_array()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBitArray}{Bit\+Array}} Bit\+Array\+\_\+or\+\_\+array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array1,  }\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array2 }\end{DoxyParamCaption})}
+
+Like Bit\+Array\+\_\+and\+\_\+array but performs a bitwise or. 
