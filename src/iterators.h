@@ -100,6 +100,9 @@ size_t total_time_of(TimesIterator times);
 		}                                                                                                              \
 		count;                                                                                                         \
 	})
+size_t count_nodes(NodesIterator nodes);
+size_t count_links(LinksIterator links);
+size_t count_times(TimesIterator times);
 /** @endcond */
 
 /**
@@ -110,10 +113,7 @@ size_t total_time_of(TimesIterator times);
  * @return The number of elements in the iterator.
  */
 #define COUNT_ITERATOR(iterator)                                                                                       \
-	__Generic((iterator), NodesIterator                                                                                \
-			  : _COUNT_ITERATOR(size_t, iterated, iterator, (iterated) != SIZE_MAX), LinksIterator                     \
-			  : _COUNT_ITERATOR(size_t, iterated, iterator, (iterated) != SIZE_MAX), TimesIterator                     \
-			  : _COUNT_ITERATOR(Interval, iterated, iterator, (iterated).start != SIZE_MAX))
+	_Generic((iterator), NodesIterator: count_nodes, LinksIterator: count_links, TimesIterator: count_times)(iterator)
 
 /**
  * @brief Creates an iterator over the union of two sets of time intervals.

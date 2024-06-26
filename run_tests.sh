@@ -88,13 +88,20 @@ for file in $TEST_DIR/*.c; do
         fi
     fi
 
-    # If the file is not present, the compilation failed
-    if [ ! -f $BIN_DIR/test_$filename ]; then
+    # If the file is present but not the test, the compilation of the test failed
+    # If neither are present, the compilation of the file failed
+    if [ ! -f $BIN_DIR/test_$filename ] && [ -f $BIN_DIR/$filename.o ]; then
+        echo "${TEXT_BOLD}${TEXT_RED}COMPILATION FAILED FOR TEST OF $filename !!!${TEXT_RESET}"
+        every_test_that_failed="$every_test_that_failed compilation_test_$filename"
+        global_success=1
+        continue
+    elif [ ! -f $BIN_DIR/test_$filename ]; then
         echo "${TEXT_BOLD}${TEXT_RED}COMPILATION FAILED FOR $filename !!!${TEXT_RESET}"
-        every_test_that_failed="$every_test_that_failed $filename"
+        every_test_that_failed="$every_test_that_failed compilation_$filename"
         global_success=1
         continue
     fi
+
 
     $BIN_DIR/test_$filename
     # Check the return code

@@ -1,5 +1,6 @@
 #include "iterators.h"
 #include "interval.h"
+#include "units.h"
 
 size_t total_time_of(TimesIterator times) {
 	size_t total_time = 0;
@@ -109,4 +110,16 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	IntervalsSet_destroy(intervals_set_b);
 
 	return times;
+}
+
+size_t count_nodes(NodesIterator nodes) {
+	return _COUNT_ITERATOR(NodeId, node, nodes, node != SIZE_MAX);
+}
+
+size_t count_links(LinksIterator links) {
+	return _COUNT_ITERATOR(LinkId, link, links, link != SIZE_MAX);
+}
+
+size_t count_times(TimesIterator times) {
+	return _COUNT_ITERATOR(Interval, interval, times, interval.start != SIZE_MAX);
 }

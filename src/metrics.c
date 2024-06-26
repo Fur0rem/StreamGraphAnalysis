@@ -74,10 +74,7 @@ size_t cardinalOfV(Stream* stream) {
 	CATCH_METRICS_IMPLEM(cardinalOfV, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
-	size_t count = 0;
-	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
-		count++;
-	}
+	size_t count = COUNT_ITERATOR(nodes);
 	UPDATE_CACHE(stream, cardinalOfV, count);
 	return count;
 }
@@ -88,7 +85,7 @@ size_t cardinalOfE(Stream* stream) {
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	LinksIterator links = stream_functions.links_set(stream->stream);
 	size_t count = 0;
-	FOR_EACH(LinkId, link_id, links, link_id != SIZE_MAX) {
+	FOR_EACH_LINK(link_id, links) {
 		TimesIterator times = stream_functions.times_link_present(stream->stream, link_id);
 		count += total_time_of(times);
 	}
@@ -102,7 +99,7 @@ size_t cardinalOfW(Stream* stream) {
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
 	size_t count = 0;
-	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
+	FOR_EACH_NODE(node_id, nodes) {
 		TimesIterator times = stream_functions.times_node_present(nodes.stream_graph.stream, node_id);
 		count += total_time_of(times);
 	}
@@ -201,9 +198,9 @@ double Stream_uniformity(Stream* stream) {
 	size_t sum_num = 0;
 	size_t sum_den = 0;
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
-	FOR_EACH(NodeId, node_id, nodes, node_id != SIZE_MAX) {
+	FOR_EACH_NODE(node_id, nodes) {
 		NodesIterator other_pair = stream_functions.nodes_set(stream->stream);
-		FOR_EACH(NodeId, other_node_id, other_pair, other_node_id != SIZE_MAX) {
+		FOR_EACH_NODE(other_node_id, other_pair) {
 			if (node_id >= other_node_id) {
 				continue;
 			}
@@ -245,9 +242,9 @@ double Stream_density(Stream* stream) {
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	size_t sum_den = 0;
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
-	FOR_EACH_NODE(nodes, node_id) {
+	FOR_EACH_NODE(node_id, nodes) {
 		NodesIterator other_nodes = stream_functions.nodes_set(stream->stream);
-		FOR_EACH_NODE(other_nodes, other_node_id) {
+		FOR_EACH_NODE(other_node_id, other_nodes) {
 			if (node_id >= other_node_id) {
 				continue;
 			}
@@ -260,7 +257,7 @@ double Stream_density(Stream* stream) {
 
 	size_t sum_num = 0;
 	LinksIterator links = stream_functions.links_set(stream->stream);
-	FOR_EACH_LINK(links, link_id) {
+	FOR_EACH_LINK(link_id, links) {
 		TimesIterator times_link = stream_functions.times_link_present(stream->stream, link_id);
 		sum_num += total_time_of(times_link);
 	}
@@ -287,13 +284,13 @@ double Stream_density_of_node(Stream* stream, NodeId node_id) {
 	LinksIterator neighbours = stream_functions.neighbours_of_node(stream->stream, node_id);
 	size_t sum_num = 0;
 	size_t sum_den = 0;
-	FOR_EACH_LINK(neighbours, link_id) {
+	FOR_EACH_LINK(link_id, neighbours) {
 		TimesIterator times_link = stream_functions.times_link_present(stream->stream, link_id);
 		sum_num += total_time_of(times_link);
 	}
 
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
-	FOR_EACH_NODE(nodes, other_node_id) {
+	FOR_EACH_NODE(other_node_id, nodes) {
 		if (node_id == other_node_id) {
 			continue;
 		}
@@ -323,7 +320,7 @@ double Stream_degree_of_node(Stream* stream, NodeId node_id) {
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	LinksIterator neighbours = stream_functions.neighbours_of_node(stream->stream, node_id);
 	size_t sum_num = 0;
-	FOR_EACH_LINK(neighbours, link_id) {
+	FOR_EACH_LINK(link_id, neighbours) {
 		TimesIterator times_link = stream_functions.times_link_present(stream->stream, link_id);
 		sum_num += total_time_of(times_link);
 	}
@@ -337,7 +334,7 @@ double Stream_average_node_degree(Stream* stream) {
 	double sum = 0;
 	double w = (double)cardinalOfW(stream);
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
-	FOR_EACH_NODE(nodes, node_id) {
+	FOR_EACH_NODE(node_id, nodes) {
 		double degree = Stream_degree_of_node(stream, node_id);
 		size_t t_v = total_time_of(stream_functions.times_node_present(stream->stream, node_id));
 		sum += degree * ((double)t_v / w);
