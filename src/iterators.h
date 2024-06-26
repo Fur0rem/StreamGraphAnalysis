@@ -1,6 +1,10 @@
 #ifndef ITERATORS_H
 #define ITERATORS_H
 
+/**
+ * \file iterators.h
+ */
+
 #include "interval.h"
 #include "stream.h"
 #include <stddef.h>

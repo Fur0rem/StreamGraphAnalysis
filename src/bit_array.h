@@ -2,15 +2,15 @@
 #define BIT_ARRAY_H
 
 /**
- * \file bit_array.h
- * \brief A header that contains the BitArray structure and its functions.
+ * @file bit_array.h
+ * @brief A header that contains the BitArray structure and its functions.
  */
 
 #include <stdbool.h>
 #include <stddef.h>
 
 /**
- * \brief A structure representing a bit array.
+ * @brief A structure representing a bit array.
  *
  * It contains the number of bits present in the array and the array of bits.
  * The bits are stored in an array of int's.
@@ -29,7 +29,7 @@ typedef struct {
  */
 
 /**
- * \brief Creates a BitArray with the given number of bits.
+ * @brief Creates a BitArray with the given number of bits.
  *
  * The bits are not initialized.
  * Any call to this function should be paired with a call to BitArray_destroy, to free the memory.
@@ -42,7 +42,7 @@ BitArray BitArray_n_zeros(size_t nb_bits); /**< Like BitArray_with_n_bits but in
 BitArray BitArray_n_ones(size_t nb_bits);  /**< Like BitArray_with_n_bits but initializes the bits to 1. */
 
 /**
- * \brief Destroys the given BitArray.
+ * @brief Destroys the given BitArray.
  * @param[in] array The BitArray to destroy.
  */
 void BitArray_destroy(BitArray array);
@@ -56,7 +56,7 @@ void BitArray_destroy(BitArray array);
  */
 
 /**
- * \brief Returns whether the bit at the given index is 1.
+ * @brief Returns whether the bit at the given index is 1.
  * @param[in] array The BitArray.
  * @param[in] index The index of the bit.
  * @return Whether the bit at the given index is 1.
@@ -74,7 +74,7 @@ bool BitArray_is_zero(BitArray array, size_t index); /**< Like BitArray_is_one b
  */
 
 /**
- * \brief Sets the bit at the given index to 1.
+ * @brief Sets the bit at the given index to 1.
  * @param[in, out] array The BitArray.
  * @param[in] index The index of the bit.
  */
@@ -82,7 +82,7 @@ void BitArray_set_one(BitArray array, size_t index);
 void BitArray_set_zero(BitArray array, size_t index); /**< Like BitArray_set_one but sets the bit to 0. */
 
 /**
- * \brief Performs a bitwise and with the bit at the given index.
+ * @brief Performs a bitwise and with the bit at the given index.
  * @param[in, out] array The BitArray.
  * @param[in] index The index of the bit.
  * @param[in] value The value to and with the bit.
@@ -99,7 +99,7 @@ void BitArray_or_bit(BitArray array, size_t index, int value); /**< Like BitArra
  */
 
 /**
- * \brief Performs a bitwise and between two BitArrays.
+ * @brief Performs a bitwise and between two BitArrays.
  *
  * The two BitArrays must have the same number of bits.
  * It creates a new BitArray, and therefore must be freed with BitArray_destroy afterwards.
@@ -110,7 +110,7 @@ void BitArray_or_bit(BitArray array, size_t index, int value); /**< Like BitArra
 BitArray BitArray_and_array(BitArray array1, BitArray array2);
 BitArray BitArray_or_array(BitArray array1, BitArray array2); /**< Like BitArray_and_array but performs a bitwise or. */
 /**
- * \brief Returns the number of leading zeros in the BitArray starting from the given index.
+ * @brief Returns the number of leading zeros in the BitArray starting from the given index.
  *
  * Leading zeros means the number of zeros before the next 1.
  * @param[in] array The BitArray.
@@ -127,7 +127,7 @@ size_t BitArray_leading_zeros_from(BitArray array, size_t index);
  */
 
 /**
- * \brief Converts the BitArray to a string.
+ * @brief Converts the BitArray to a string.
  *
  * The string is allocated with malloc and must be freed with free.
  * @param[in] array The BitArray.
@@ -137,4 +137,4 @@ char* BitArray_to_string(BitArray array);
 
 /** @} */
 
-#endif
+#endif // BIT_ARRAY_H
