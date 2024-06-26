@@ -1,0 +1,154 @@
+\hypertarget{iterators_8h}{}\doxysection{src/iterators.h File Reference}
+\label{iterators_8h}\index{src/iterators.h@{src/iterators.h}}
+
+
+An iterator is a structure that allows to iterate over a set of data. ~\newline
+ Lazy means it does not load all the data at once, but only when needed. We say an iterator is consumed when it has been iterated over its elements and destroyed. ~\newline
+ There exists 3 types of iterators\+: for nodes, links and times. However, they are very similar in their implementation. Each iterator contains a reference to the stream, extra data it needs to iterate, a function to get the next element, a function to destroy the iterator and a function to skip n elements. Each type of stream can they define how to create an iterator for it, and each function can use them interchangeably. ~\newline
+ A consumed iterator should not be used anymore.  
+
+
+{\ttfamily \#include \char`\"{}interval.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stream.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for iterators.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}
+\begin{DoxyCompactList}\small\item\em An iterator over nodes. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}
+\begin{DoxyCompactList}\small\item\em An iterator over links. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}
+\begin{DoxyCompactList}\small\item\em An iterator over a set of time intervals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}{COUNT\+\_\+\+ITERATOR}}(iterator)
+\begin{DoxyCompactList}\small\item\em Counts the number of elements in the given iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Iteration macros}\par
+{\em Macros to iterate over nodes, links and times.
+
+The iterated variable becomes before the iterator in the macro call to mimic a for elem in list syntax. Consumes the iterator. }\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63}\label{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63}} 
+\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+NODE}(iterated,  iterator)~FOR\+\_\+\+EACH(size\+\_\+t, iterated, iterator, (iterated) != SIZE\+\_\+\+MAX)
+\item 
+\mbox{\Hypertarget{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21}\label{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21}} 
+\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+LINK}(iterated,  iterator)~FOR\+\_\+\+EACH(size\+\_\+t, iterated, iterator, (iterated) != SIZE\+\_\+\+MAX)
+\item 
+\mbox{\Hypertarget{iterators_8h_ad486d9e1b33cf495255724764aa03e7c}\label{iterators_8h_ad486d9e1b33cf495255724764aa03e7c}} 
+\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+TIME}(iterated,  iterator)~FOR\+\_\+\+EACH(\mbox{\hyperlink{structInterval}{Interval}}, iterated, iterator, (iterated).start != SIZE\+\_\+\+MAX)
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}{total\+\_\+time\+\_\+of}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} times)
+\begin{DoxyCompactList}\small\item\em Returns the total time of the given set of time intervals. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} \mbox{\hyperlink{iterators_8h_af1c011e4d83aece24cb4d3096a051264}{Times\+Iterator\+\_\+union}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} a, \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} b)
+\begin{DoxyCompactList}\small\item\em Creates an iterator over the union of two sets of time intervals. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} \mbox{\hyperlink{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}{Times\+Iterator\+\_\+intersection}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} a, \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} b)
+\begin{DoxyCompactList}\small\item\em Creates an iterator over the intersection of two sets of time intervals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An iterator is a structure that allows to iterate over a set of data. ~\newline
+ Lazy means it does not load all the data at once, but only when needed. We say an iterator is consumed when it has been iterated over its elements and destroyed. ~\newline
+ There exists 3 types of iterators\+: for nodes, links and times. However, they are very similar in their implementation. Each iterator contains a reference to the stream, extra data it needs to iterate, a function to get the next element, a function to destroy the iterator and a function to skip n elements. Each type of stream can they define how to create an iterator for it, and each function can use them interchangeably. ~\newline
+ A consumed iterator should not be used anymore. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}\label{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}} 
+\index{iterators.h@{iterators.h}!COUNT\_ITERATOR@{COUNT\_ITERATOR}}
+\index{COUNT\_ITERATOR@{COUNT\_ITERATOR}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{COUNT\_ITERATOR}{COUNT\_ITERATOR}}
+{\footnotesize\ttfamily \#define COUNT\+\_\+\+ITERATOR(\begin{DoxyParamCaption}\item[{}]{iterator }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \_\_Generic((iterator), \mbox{\hyperlink{structNodesIterator}{NodesIterator}}                                                                                \(\backslash\)}
+\DoxyCodeLine{              : \_COUNT\_ITERATOR(\textcolor{keywordtype}{size\_t}, iterated, iterator, (iterated) != SIZE\_MAX), \mbox{\hyperlink{structLinksIterator}{LinksIterator}}                     \(\backslash\)}
+\DoxyCodeLine{              : \_COUNT\_ITERATOR(\textcolor{keywordtype}{size\_t}, iterated, iterator, (iterated) != SIZE\_MAX), \mbox{\hyperlink{structTimesIterator}{TimesIterator}}                     \(\backslash\)}
+\DoxyCodeLine{              : \_COUNT\_ITERATOR(\mbox{\hyperlink{structInterval}{Interval}}, iterated, iterator, (iterated).start != SIZE\_MAX))}
+
+\end{DoxyCode}
+
+
+Counts the number of elements in the given iterator. 
+
+Consumes the iterator. 
+\begin{DoxyParams}{Parameters}
+{\em iterator} & The iterator to count. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of elements in the iterator. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}\label{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}} 
+\index{iterators.h@{iterators.h}!TimesIterator\_intersection@{TimesIterator\_intersection}}
+\index{TimesIterator\_intersection@{TimesIterator\_intersection}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{TimesIterator\_intersection()}{TimesIterator\_intersection()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} Times\+Iterator\+\_\+intersection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{a,  }\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{b }\end{DoxyParamCaption})}
+
+
+
+Creates an iterator over the intersection of two sets of time intervals. 
+
+Consumes both iterators. 
+\begin{DoxyParams}{Parameters}
+{\em a} & The first set of time intervals. \\
+\hline
+{\em b} & The second set of time intervals. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The iterator over the intersection of the two sets of time intervals. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{iterators_8h_af1c011e4d83aece24cb4d3096a051264}\label{iterators_8h_af1c011e4d83aece24cb4d3096a051264}} 
+\index{iterators.h@{iterators.h}!TimesIterator\_union@{TimesIterator\_union}}
+\index{TimesIterator\_union@{TimesIterator\_union}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{TimesIterator\_union()}{TimesIterator\_union()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} Times\+Iterator\+\_\+union (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{a,  }\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{b }\end{DoxyParamCaption})}
+
+
+
+Creates an iterator over the union of two sets of time intervals. 
+
+Consumes both iterators. 
+\begin{DoxyParams}{Parameters}
+{\em a} & The first set of time intervals. \\
+\hline
+{\em b} & The second set of time intervals. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The iterator over the union of the two sets of time intervals. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}\label{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}} 
+\index{iterators.h@{iterators.h}!total\_time\_of@{total\_time\_of}}
+\index{total\_time\_of@{total\_time\_of}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{total\_time\_of()}{total\_time\_of()}}
+{\footnotesize\ttfamily size\+\_\+t total\+\_\+time\+\_\+of (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{times }\end{DoxyParamCaption})}
+
+
+
+Returns the total time of the given set of time intervals. 
+
+Consumes the iterator. 
+\begin{DoxyParams}{Parameters}
+{\em times} & The set of time intervals. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total time of the set of time intervals. 
+\end{DoxyReturn}

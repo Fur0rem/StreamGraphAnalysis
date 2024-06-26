@@ -3,7 +3,7 @@
 
 size_t total_time_of(TimesIterator times) {
 	size_t total_time = 0;
-	FOR_EACH_TIME(times, interval) {
+	FOR_EACH_TIME(interval, times) {
 		total_time += Interval_size(interval);
 	}
 	return total_time;
@@ -32,7 +32,7 @@ void IntervalsIterator_destroy(TimesIterator* iter) {
 TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	// Build an array of intervals
 	IntervalVector intervals = IntervalVector_new();
-	FOR_EACH_TIME(a, interval) {
+	FOR_EACH_TIME(interval, a) {
 		IntervalVector_push(&intervals, interval);
 	}
 	IntervalsSet intervals_set_a = IntervalsSet_alloc(intervals.size);
@@ -42,7 +42,7 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	IntervalVector_destroy(intervals);
 
 	intervals = IntervalVector_new();
-	FOR_EACH_TIME(b, interval) {
+	FOR_EACH_TIME(interval, b) {
 		IntervalVector_push(&intervals, interval);
 	}
 	IntervalsSet intervals_set_b = IntervalsSet_alloc(intervals.size);
@@ -73,7 +73,7 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	// Build an array of intervals
 	IntervalVector intervals = IntervalVector_new();
-	FOR_EACH_TIME(a, interval) {
+	FOR_EACH_TIME(interval, a) {
 		IntervalVector_push(&intervals, interval);
 	}
 	IntervalsSet intervals_set_a = IntervalsSet_alloc(intervals.size);
@@ -83,7 +83,7 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	IntervalVector_destroy(intervals);
 
 	intervals = IntervalVector_new();
-	FOR_EACH_TIME(b, interval) {
+	FOR_EACH_TIME(interval, b) {
 		IntervalVector_push(&intervals, interval);
 	}
 	IntervalsSet intervals_set_b = IntervalsSet_alloc(intervals.size);

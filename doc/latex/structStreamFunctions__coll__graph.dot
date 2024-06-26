@@ -5,7 +5,7 @@ digraph "StreamFunctions"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="StreamFunctions",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" nodes_present_at_t\nnodes_set" ];
-  Node2 [label="NodesIterator",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structNodesIterator.html",tooltip=" "];
+  Node2 [label="NodesIterator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structNodesIterator.html",tooltip="An iterator over nodes."];
   Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_graph" ];
   Node3 [label="Stream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStream.html",tooltip=" "];
   Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cache" ];
@@ -13,12 +13,12 @@ digraph "StreamFunctions"
   Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cardinalOfE\ncardinalOfT\ncardinalOfV\ncardinalOfW" ];
   Node5 [label="OptionalSizeT",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structOptionalSizeT.html",tooltip=" "];
   Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" links_present_at_t\nlinks_set\nneighbours_of_node" ];
-  Node6 [label="LinksIterator",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structLinksIterator.html",tooltip=" "];
+  Node6 [label="LinksIterator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structLinksIterator.html",tooltip="An iterator over links."];
   Node3 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_graph" ];
   Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lifespan" ];
   Node7 [label="Interval",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInterval.html",tooltip=" "];
   Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" times_link_present\ntimes_node_present" ];
-  Node8 [label="TimesIterator",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structTimesIterator.html",tooltip=" "];
+  Node8 [label="TimesIterator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structTimesIterator.html",tooltip="An iterator over a set of time intervals."];
   Node3 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_graph" ];
   Node7 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ];
 }

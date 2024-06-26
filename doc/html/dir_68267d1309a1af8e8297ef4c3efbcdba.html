@@ -82,7 +82,11 @@ Files</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>interval.h</b> <a href="interval_8h_source.html">[code]</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>iterators.h</b> <a href="iterators_8h_source.html">[code]</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html">iterators.h</a> <a href="iterators_8h_source.html">[code]</a></td></tr>
+<tr class="memdesc:iterators_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator is a structure that allows to iterate over a set of data. <br  />
+ Lazy means it does not load all the data at once, but only when needed. We say an iterator is consumed when it has been iterated over its elements and destroyed. <br  />
+ There exists 3 types of iterators: for nodes, links and times. However, they are very similar in their implementation. Each iterator contains a reference to the stream, extra data it needs to iterate, a function to get the next element, a function to destroy the iterator and a function to skip n elements. Each type of stream can they define how to create an iterator for it, and each function can use them interchangeably. <br  />
+ A consumed iterator should not be used anymore. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>metrics.h</b> <a href="metrics_8h_source.html">[code]</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>

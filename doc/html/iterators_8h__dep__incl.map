@@ -1,0 +1,6 @@
+<map id="src/iterators.h" name="src/iterators.h">
+<area shape="rect" id="node1" title="An iterator is a structure that allows to iterate over a set of data. &#160;&#160;Lazy means it does not load a..." alt="" coords="179,5,291,32"/>
+<area shape="rect" id="node2" href="$induced__graph_8h_source.html" title=" " alt="" coords="5,80,157,107"/>
+<area shape="rect" id="node3" href="$metrics_8h_source.html" title=" " alt="" coords="181,80,288,107"/>
+<area shape="rect" id="node4" href="$stream__functions_8h_source.html" title=" " alt="" coords="312,80,483,107"/>
+</map>
