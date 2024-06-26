@@ -1,0 +1,48 @@
+\hypertarget{stream_8h_source}{}\doxysection{stream.\+h}
+\label{stream_8h_source}\index{src/stream.h@{src/stream.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{8     \textcolor{keywordtype}{bool} present;}
+\DoxyCodeLine{9     \textcolor{keywordtype}{size\_t} data;}
+\DoxyCodeLine{10 \} \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}};}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{13     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfW;}
+\DoxyCodeLine{14     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfT;}
+\DoxyCodeLine{15     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfE;}
+\DoxyCodeLine{16     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfV;}
+\DoxyCodeLine{17 \} \mbox{\hyperlink{structInformationCache}{InformationCache}};}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{20     \textcolor{keyword}{enum} \{}
+\DoxyCodeLine{21         FULL\_STREAM\_GRAPH,}
+\DoxyCodeLine{22         LINK\_STREAM,}
+\DoxyCodeLine{23         CHUNK\_STREAM,}
+\DoxyCodeLine{24     \} type;}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void}* stream;}
+\DoxyCodeLine{26     \mbox{\hyperlink{structInformationCache}{InformationCache}} cache;}
+\DoxyCodeLine{27 \} \mbox{\hyperlink{structStream}{Stream}};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{keywordtype}{void} init\_cache(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define FETCH\_CACHE(stream, field)                                                                                     \(\backslash\)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{    if ((stream)-\/>cache.field.present) \{                                                                               \(\backslash\)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{        printf("{}Cache hit for \%s\(\backslash\)n"{}}, \#field);                                                                          \(\backslash\)}
+\DoxyCodeLine{34         return (stream)-\/>cache.field.data;                                                                             \(\backslash\)}
+\DoxyCodeLine{35     \}                                                                                                                  \(\backslash\)}
+\DoxyCodeLine{36     printf("{}Cache miss for \%s\(\backslash\)n"{}, \#field);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define UPDATE\_CACHE(stream, field, value)                                                                             \(\backslash\)}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{    (stream)-\/>cache.field.present = true;                                                                              \(\backslash\)}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{    (stream)-\/>cache.field.data = value;}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_H}}
+
+\end{DoxyCode}

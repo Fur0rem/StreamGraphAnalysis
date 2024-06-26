@@ -1,0 +1,49 @@
+\hypertarget{stream__functions_8h_source}{}\doxysection{stream\+\_\+functions.\+h}
+\label{stream__functions_8h_source}\index{src/stream\_functions.h@{src/stream\_functions.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_FUNCTIONS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_FUNCTIONS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}iterators.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{8     \mbox{\hyperlink{structNodesIterator}{NodesIterator}} (*nodes\_set)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{9     \mbox{\hyperlink{structLinksIterator}{LinksIterator}} (*links\_set)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{10     \mbox{\hyperlink{structInterval}{Interval}} (*lifespan)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{11     size\_t (*scaling)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13     \mbox{\hyperlink{structNodesIterator}{NodesIterator}} (*nodes\_present\_at\_t)(\textcolor{keywordtype}{void}*, TimeId);}
+\DoxyCodeLine{14     \mbox{\hyperlink{structLinksIterator}{LinksIterator}} (*links\_present\_at\_t)(\textcolor{keywordtype}{void}*, TimeId);}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16     \mbox{\hyperlink{structTimesIterator}{TimesIterator}} (*times\_node\_present)(\textcolor{keywordtype}{void}*, NodeId);}
+\DoxyCodeLine{17     \mbox{\hyperlink{structTimesIterator}{TimesIterator}} (*times\_link\_present)(\textcolor{keywordtype}{void}*, LinkId);}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19     Link (*nth\_link)(\textcolor{keywordtype}{void}*, size\_t);}
+\DoxyCodeLine{20     \mbox{\hyperlink{structLinksIterator}{LinksIterator}} (*neighbours\_of\_node)(\textcolor{keywordtype}{void}*, NodeId);}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \} \mbox{\hyperlink{structStreamFunctions}{StreamFunctions}};}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define STREAM\_FUNCS(variable, stream\_var)                                                                             \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{    (\{                                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{        switch ((stream\_var)-\/>type) \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{            case FULL\_STREAM\_GRAPH: \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{                (variable) = FullStreamGraph\_stream\_functions;                                                         \(\backslash\)}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{                break;                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{            \}                                                                                                          \(\backslash\)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{            case LINK\_STREAM: \{                                                                                        \(\backslash\)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{                (variable) = LinkStream\_stream\_functions;                                                              \(\backslash\)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{                break;                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{            \}                                                                                                          \(\backslash\)}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{            case CHUNK\_STREAM: \{                                                                                       \(\backslash\)}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{                (variable) = ChunkStream\_stream\_functions;                                                             \(\backslash\)}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{                break;                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{            \}                                                                                                          \(\backslash\)}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{        (variable);                                                                                                    \(\backslash\)}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{    \})}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_FUNCTIONS\_H}}
+
+\end{DoxyCode}

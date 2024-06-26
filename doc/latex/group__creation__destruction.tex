@@ -1,0 +1,64 @@
+\hypertarget{group__creation__destruction}{}\doxysection{Creation and destruction functions}
+\label{group__creation__destruction}\index{Creation and destruction functions@{Creation and destruction functions}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structBitArray}{Bit\+Array}} \mbox{\hyperlink{group__creation__destruction_ga6c47f74244006ff431a64e98daf3652e}{Bit\+Array\+\_\+with\+\_\+n\+\_\+bits}} (size\+\_\+t nb\+\_\+bits)
+\begin{DoxyCompactList}\small\item\em Creates a \mbox{\hyperlink{structBitArray}{Bit\+Array}} with the given number of bits. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structBitArray}{Bit\+Array}} \mbox{\hyperlink{group__creation__destruction_ga7fdee2546d1251aea06cd5b07f0ffb1d}{Bit\+Array\+\_\+n\+\_\+zeros}} (size\+\_\+t nb\+\_\+bits)
+\item 
+\mbox{\hyperlink{structBitArray}{Bit\+Array}} \mbox{\hyperlink{group__creation__destruction_gaba66285d6c98067bbaa9585cbdde4683}{Bit\+Array\+\_\+n\+\_\+ones}} (size\+\_\+t nb\+\_\+bits)
+\item 
+void \mbox{\hyperlink{group__creation__destruction_ga786300f4984391a7139863cd38b09b3b}{Bit\+Array\+\_\+destroy}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array)
+\begin{DoxyCompactList}\small\item\em Destroys the given \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__creation__destruction_ga786300f4984391a7139863cd38b09b3b}\label{group__creation__destruction_ga786300f4984391a7139863cd38b09b3b}} 
+\index{Creation and destruction functions@{Creation and destruction functions}!BitArray\_destroy@{BitArray\_destroy}}
+\index{BitArray\_destroy@{BitArray\_destroy}!Creation and destruction functions@{Creation and destruction functions}}
+\doxysubsubsection{\texorpdfstring{BitArray\_destroy()}{BitArray\_destroy()}}
+{\footnotesize\ttfamily void Bit\+Array\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array }\end{DoxyParamCaption})}
+
+
+
+Destroys the given \mbox{\hyperlink{structBitArray}{Bit\+Array}}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em array} & The \mbox{\hyperlink{structBitArray}{Bit\+Array}} to destroy. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__creation__destruction_gaba66285d6c98067bbaa9585cbdde4683}\label{group__creation__destruction_gaba66285d6c98067bbaa9585cbdde4683}} 
+\index{Creation and destruction functions@{Creation and destruction functions}!BitArray\_n\_ones@{BitArray\_n\_ones}}
+\index{BitArray\_n\_ones@{BitArray\_n\_ones}!Creation and destruction functions@{Creation and destruction functions}}
+\doxysubsubsection{\texorpdfstring{BitArray\_n\_ones()}{BitArray\_n\_ones()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBitArray}{Bit\+Array}} Bit\+Array\+\_\+n\+\_\+ones (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{nb\+\_\+bits }\end{DoxyParamCaption})}
+
+Like Bit\+Array\+\_\+with\+\_\+n\+\_\+bits but initializes the bits to 1. \mbox{\Hypertarget{group__creation__destruction_ga7fdee2546d1251aea06cd5b07f0ffb1d}\label{group__creation__destruction_ga7fdee2546d1251aea06cd5b07f0ffb1d}} 
+\index{Creation and destruction functions@{Creation and destruction functions}!BitArray\_n\_zeros@{BitArray\_n\_zeros}}
+\index{BitArray\_n\_zeros@{BitArray\_n\_zeros}!Creation and destruction functions@{Creation and destruction functions}}
+\doxysubsubsection{\texorpdfstring{BitArray\_n\_zeros()}{BitArray\_n\_zeros()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBitArray}{Bit\+Array}} Bit\+Array\+\_\+n\+\_\+zeros (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{nb\+\_\+bits }\end{DoxyParamCaption})}
+
+Like Bit\+Array\+\_\+with\+\_\+n\+\_\+bits but initializes the bits to 0. \mbox{\Hypertarget{group__creation__destruction_ga6c47f74244006ff431a64e98daf3652e}\label{group__creation__destruction_ga6c47f74244006ff431a64e98daf3652e}} 
+\index{Creation and destruction functions@{Creation and destruction functions}!BitArray\_with\_n\_bits@{BitArray\_with\_n\_bits}}
+\index{BitArray\_with\_n\_bits@{BitArray\_with\_n\_bits}!Creation and destruction functions@{Creation and destruction functions}}
+\doxysubsubsection{\texorpdfstring{BitArray\_with\_n\_bits()}{BitArray\_with\_n\_bits()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBitArray}{Bit\+Array}} Bit\+Array\+\_\+with\+\_\+n\+\_\+bits (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{nb\+\_\+bits }\end{DoxyParamCaption})}
+
+
+
+Creates a \mbox{\hyperlink{structBitArray}{Bit\+Array}} with the given number of bits. 
+
+The bits are not initialized. Any call to this function should be paired with a call to Bit\+Array\+\_\+destroy, to free the memory. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nb\+\_\+bits} & The number of bits in the array. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \mbox{\hyperlink{structBitArray}{Bit\+Array}} with the given number of bits. 
+\end{DoxyReturn}

@@ -1,0 +1,39 @@
+\hypertarget{stream__graph_8h_source}{}\doxysection{stream\+\_\+graph.\+h}
+\label{stream__graph_8h_source}\index{src/stream\_graph.h@{src/stream\_graph.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_GRAPH\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_GRAPH\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{bit__array_8h}{bit\_array.h}}"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}interval.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}units.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}stream\_graph/events\_table.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}stream\_graph/key\_moments\_table.h"{}}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}stream\_graph/nodes\_set.h"{}}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{16     KeyMomentsTable key\_moments;}
+\DoxyCodeLine{17     TemporalNodesSet nodes;}
+\DoxyCodeLine{18     LinksSet links;}
+\DoxyCodeLine{19     EventsTable events;}
+\DoxyCodeLine{20     \textcolor{keywordtype}{size\_t} scaling;}
+\DoxyCodeLine{21 \} \mbox{\hyperlink{structStreamGraph}{StreamGraph}};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_string(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{24 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_file(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
+\DoxyCodeLine{25 \textcolor{keywordtype}{char}* StreamGraph\_to\_string(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{26 \textcolor{keywordtype}{void} StreamGraph\_destroy(\mbox{\hyperlink{structStreamGraph}{StreamGraph}} sg);}
+\DoxyCodeLine{27 \textcolor{keywordtype}{size\_t} StreamGraph\_lifespan\_begin(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{28 \textcolor{keywordtype}{size\_t} StreamGraph\_lifespan\_end(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{29 \textcolor{keywordtype}{void} init\_events\_table(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{30 \textcolor{keywordtype}{void} events\_destroy(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{31 \textcolor{keywordtype}{char}* InternalFormat\_from\_External\_str(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_GRAPH\_H}}
+
+\end{DoxyCode}

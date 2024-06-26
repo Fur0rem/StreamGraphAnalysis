@@ -1,0 +1,65 @@
+\hypertarget{index_autotoc_md0}{}\doxysection{@anchor md\+\_\+\+README}\label{index_autotoc_md0}
+\hypertarget{index_autotoc_md1}{}\doxysection{Stream\+Graph\+Analysis \+: A C library for processing and analysing undirected unweighted stream graphs}\label{index_autotoc_md1}
+\hypertarget{index_autotoc_md2}{}\doxysubsection{Current state of the Project}\label{index_autotoc_md2}
+This is only a prototype, so the library is not usable at all for now. I\textquotesingle{}m still experimenting with how I approach the problem for now.\hypertarget{index_autotoc_md3}{}\doxysubsection{Purpose of the library}\label{index_autotoc_md3}
+The library is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6. It it based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at \href{https://arxiv.org/abs/1710.04073}{\texttt{ https\+://arxiv.\+org/abs/1710.\+04073}}. It is optimised for reading and analysing huge stream graphs, with a balance between memory usage and speed. The library also supports the computation of metrics on subgraphs of the stream graph without copying much data, but at some cost I will explain in the code architecture section.\hypertarget{index_autotoc_md4}{}\doxysubsection{Code architecture}\label{index_autotoc_md4}
+
+\begin{DoxyItemize}
+\item The library was made for only reading stream graphs, and therefore the data structure doesn\textquotesingle{}t allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.
+\item The data structure was made to have 3 very efficient primitives \+: Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.
+\item There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-\/computed base elements, and double-\/layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a Link\+Stream can hijack the computation of the coverage which is always 1.
+\end{DoxyItemize}\hypertarget{index_autotoc_md5}{}\doxysubsection{What it can do}\label{index_autotoc_md5}
+
+\begin{DoxyItemize}
+\item Read a stream graph from a file
+\item Compute different metrics on the stream graph, the list of which is available below
+\item Support concurrent access to the stream graph, since it is read-\/only
+\end{DoxyItemize}\hypertarget{index_autotoc_md6}{}\doxysubsection{What it cannot do}\label{index_autotoc_md6}
+
+\begin{DoxyItemize}
+\item Modify the stream graph \+: the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.
+\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysubsection{Specifications of the stream graph data}\label{index_autotoc_md7}
+
+\begin{DoxyItemize}
+\item The stream graph is continuous, undirected and unweighted
+\item The stream graph cannot have instantaneous links, i.\+e. a link must last at least one time unit
+\item The stream graph uses closed on the left intervals, i.\+e. a link (u, v) is active at time t if and only if t is in \mbox{[}t\+\_\+start, t\+\_\+end\mbox{[}
+\item If a link is present at time t, the nodes u and v must be present at time t
+\end{DoxyItemize}\hypertarget{index_autotoc_md8}{}\doxysubsection{Project guidelines and organisation}\label{index_autotoc_md8}
+
+\begin{DoxyItemize}
+\item Guidelines \+: None for now, I\textquotesingle{}m focusing on having something that works first, rather than something that is perfect but with no results. Things I\textquotesingle{}m considering for guidelines are namespacing to work with other libraries. Maybe I could make it standardised like ISO C, or C99, but I\textquotesingle{}m doing weird macro magic for the genericity specified above, so I\textquotesingle{}m not sure how to do that.
+\item Organisation \+:
+\end{DoxyItemize}
+
+The src/ directory contains the entire source code of the library. The source code is divided into 3 parts \+:
+\begin{DoxyItemize}
+\item stream\+\_\+graph, which contains the base data structure and functions to read a stream graph from a file
+\item metrics, which contains the functions to compute the metrics
+\item utils, which contains utility functions used by the other parts, such as generic dynamic arrays and hash tables
+\end{DoxyItemize}
+
+The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. You can run them using the run\+\_\+tests.\+sh script in the main directory.\hypertarget{index_autotoc_md9}{}\doxysubsection{Supported metrics (\+In order of first mention in the paper)}\label{index_autotoc_md9}
+
+\begin{DoxyItemize}
+\item Coverage \+: Section 3
+\item Contribution of a node \+: Section 4
+\item Number of nodes \+: Section 4
+\item Contribution of a link \+: Section 4
+\item Number of links \+: Section 4
+\item Node duration \+: Section 4
+\item Link duration \+: Section 4
+\item Uniformity \+: Section 4
+\item Uniformity of a pair of nodes \+: Section 4
+\item Density \+: Section 5
+\item Density of link \+: Section 5
+\item Density of node \+: Section 5
+\item Density of time \+: Section 5
+\end{DoxyItemize}
+
+(These were implemented in previous commits but have not been ported for generic streams yet)
+\begin{DoxyItemize}
+\item Compactness \+: Section 4
+\item Degree of a node \+: Section 8
+\item Average node degree \+: Section 8 
+\end{DoxyItemize}

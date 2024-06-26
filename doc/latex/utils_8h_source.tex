@@ -1,0 +1,86 @@
+\hypertarget{utils_8h_source}{}\doxysection{utils.\+h}
+\label{utils_8h_source}\index{src/utils.h@{src/utils.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef UTILS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define UTILS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{comment}{// Text formatting}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define TEXT\_BOLD "{}\(\backslash\)033[1m"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define TEXT\_RED "{}\(\backslash\)033[31m"{}}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define TEXT\_GREEN "{}\(\backslash\)033[32m"{}}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define TEXT\_RESET "{}\(\backslash\)033[0m"{}}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{comment}{// Malloc with error handling}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define MALLOC\_CHECK(size)                                                                                             \(\backslash\)}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{    (\{                                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{        if (size == 0) \{                                                                                               \(\backslash\)}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{            fprintf(stderr, "{}Memory allocation with size 0\(\backslash\)n"{}});                                                        \(\backslash\)}
+\DoxyCodeLine{20         \}                                                                                                              \(\backslash\)}
+\DoxyCodeLine{21         void* ptr = malloc(size);                                                                                      \(\backslash\)}
+\DoxyCodeLine{22         if (ptr == NULL) \{                                                                                             \(\backslash\)}
+\DoxyCodeLine{23             fprintf(stderr, "{}Memory allocation failed\(\backslash\)n"{});                                                             \(\backslash\)}
+\DoxyCodeLine{24             exit(1);                                                                                                   \(\backslash\)}
+\DoxyCodeLine{25         \}                                                                                                              \(\backslash\)}
+\DoxyCodeLine{26         ptr;                                                                                                           \(\backslash\)}
+\DoxyCodeLine{27     \})}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#ifdef DEBUG}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define MALLOC(size) MALLOC\_CHECK(size)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define MALLOC(size) malloc(size)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{// Floating point comparison}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define EPS 1e-\/9}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define F\_EQUALS(a, b) (fabs((a) -\/ (b)) < EPS)}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define F\_EQUALS\_APPROX(a, b, eps) (fabs((a) -\/ (b)) < eps)}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define NO\_FREE(type) ((void (*)(type))NULL)}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define UNCOMPARABLE(type)                                                                                             \(\backslash\)}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{    bool type\#\#\_equals(type a, type b) \{                                                                               \(\backslash\)}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{        return false;                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define DEFAULT\_COMPARE(type)                                                                                          \(\backslash\)}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{    bool type\#\#\_equals(type val1, type val2) \{                                                                         \(\backslash\)}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{        return (val1) == (val2);                                                                                       \(\backslash\)}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define DEFAULT\_TO\_STRING(type, format)                                                                                \(\backslash\)}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{    char* type\#\#\_to\_string(const type* value) \{                                                                        \(\backslash\)}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{        char* str = (char*)malloc(100);                                                                                \(\backslash\)}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{        sprintf(str, format, *value);                                                                                  \(\backslash\)}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{        return str;                                                                                                    \(\backslash\)}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#define DeclareGenerics(type)                                                                                          \(\backslash\)}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{    char* type\#\#\_to\_string(const type* value);                                                                         \(\backslash\)}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{    bool type\#\#\_equals(type a, type b);}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define DEFAULT\_MIN\_MAX(type)                                                                                          \(\backslash\)}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{    type type\#\#\_min(type a, type b) \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{        return a < b ? a : b;                                                                                          \(\backslash\)}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{    type type\#\#\_max(type a, type b) \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{        return a > b ? a : b;                                                                                          \(\backslash\)}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#ifdef DEBUG}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define DEBUG\_ASSERT(expr)                                                                                             \(\backslash\)}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{    if (!(expr)) \{                                                                                                     \(\backslash\)}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{        fprintf(stderr, "{}Assertion failed: \%s\(\backslash\)n"{}}, \#expr);                                                              \(\backslash\)}
+\DoxyCodeLine{74         assert(expr);                                                                                                  \(\backslash\)}
+\DoxyCodeLine{75     \}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define DEBUG\_ASSERT(expr)}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
