@@ -1,6 +1,5 @@
 Checks: "
   -*,
-  readability-*,
   performance-*,
   portability-*,
   misc-*,

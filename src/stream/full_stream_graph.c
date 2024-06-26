@@ -106,12 +106,12 @@ size_t FullStreamGraph_scaling(FullStreamGraph* full_stream_graph) {
 	return full_stream_graph->underlying_stream_graph->scaling;
 }
 
-NodesIterator FullStreamGraph_nodes_present_at_t(FullStreamGraph* full_stream_graph, TimeId t) {
-	return get_nodes_present_at_t(full_stream_graph->underlying_stream_graph, t);
+NodesIterator FullStreamGraph_nodes_present_at_t(FullStreamGraph* full_stream_graph, TimeId instant) {
+	return get_nodes_present_at_t(full_stream_graph->underlying_stream_graph, instant);
 }
 
-LinksIterator FullStreamGraph_links_present_at_t(FullStreamGraph* full_stream_graph, TimeId t) {
-	return get_links_present_at_t(full_stream_graph->underlying_stream_graph, t);
+LinksIterator FullStreamGraph_links_present_at_t(FullStreamGraph* full_stream_graph, TimeId instant) {
+	return get_links_present_at_t(full_stream_graph->underlying_stream_graph, instant);
 }
 
 typedef struct {

@@ -191,7 +191,6 @@ Interval CS_TimesNodePresentAt_next(TimesIterator* iter) {
 	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
 	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
 	NodeId node = times_iter_data->current_id;
-	Interval return_val;
 	if (times_iter_data->current_time >= stream_graph->nodes.nodes[node].presence.nb_intervals) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
@@ -233,7 +232,6 @@ Interval CS_TimesLinkPresentAt_next(TimesIterator* iter) {
 	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
 	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
 	LinkId link = times_iter_data->current_id;
-	Interval return_val;
 	if (times_iter_data->current_time >= stream_graph->links.links[link].presence.nb_intervals) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
@@ -294,11 +292,11 @@ void ChunkStreamNPAT_destroy(NodesIterator* iterator) {
 }
 
 // TRICK : kind of weird hack but it works ig?
-NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId t) {
+NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId instant) {
 	ChunkStreamNPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamNPATIterData));
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	*full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
-	iterator_data->nodes_iterator_fsg = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, t);
+	iterator_data->nodes_iterator_fsg = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
@@ -335,11 +333,11 @@ void ChunkStreamLPAT_destroy(LinksIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-LinksIterator ChunkStream_links_present_at_t(ChunkStream* chunk_stream, TimeId t) {
+LinksIterator ChunkStream_links_present_at_t(ChunkStream* chunk_stream, TimeId instant) {
 	ChunkStreamLPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamLPATIterData));
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	*full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
-	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, t);
+	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
 	LinksIterator links_iterator = {

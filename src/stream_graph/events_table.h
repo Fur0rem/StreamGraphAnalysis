@@ -23,7 +23,6 @@ typedef struct {
 	Events link_events;
 } EventsTable;
 
-EventsTable EventsTable_alloc(size_t nb_node_regular_key_moments, size_t nb_node_removal_only_key_moments,
-							  size_t nb_link_regular_key_moments, size_t nb_link_removal_only_key_moments);
+EventsTable EventsTable_alloc(size_t nb_node_regular_key_moments, size_t nb_node_removal_only_key_moments);
 
 #endif
