@@ -309,3 +309,30 @@ double Stream_density_of_time(Stream stream, TimeId time_id) {
 	printf("et = %zu, vt = %zu\n", et, vt);
 	return (double)et / (double)(size_set_unordered_pairs_itself(vt));
 }
+
+double Stream_degree_of_node(Stream stream, NodeId node_id) {
+	// CATCH_METRICS_IMPLEM(degree_of_node, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	LinksIterator neighbours = stream_functions.neighbours_of_node(stream.stream, node_id);
+	size_t sum_num = 0;
+	FOR_EACH_LINK(neighbours, link_id) {
+		TimesIterator times_link = stream_functions.times_link_present(stream.stream, link_id);
+		sum_num += total_time_of(times_link);
+	}
+	size_t sum_den = Interval_size(stream_functions.lifespan(stream.stream));
+	return (double)sum_num / (double)sum_den;
+}
+
+double Stream_average_node_degree(Stream stream) {
+	// CATCH_METRICS_IMPLEM(average_node_degree, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	double sum = 0;
+	double w = (double)cardinalOfW(stream);
+	NodesIterator nodes = stream_functions.nodes_set(stream.stream);
+	FOR_EACH_NODE(nodes, node_id) {
+		double degree = Stream_degree_of_node(stream, node_id);
+		size_t t_v = total_time_of(stream_functions.times_node_present(stream.stream, node_id));
+		sum += degree * ((double)t_v / w);
+	}
+	return sum;
+}
