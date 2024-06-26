@@ -37,22 +37,25 @@ stream_graph: events_table key_moments_table links_set nodes_set interval bit_ar
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/stream_graph.o $(SRC_DIR)/stream_graph.c $(LDFLAGS)
 	@ ar rc $(BIN_DIR)/stream_graph.a $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
 
+stream:
+	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/stream.o $(SRC_DIR)/stream.c $(LDFLAGS)
+	
 induced_graph: stream_graph
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/induced_graph.o $(SRC_DIR)/induced_graph.c $(LDFLAGS)
 	@ ar rc $(BIN_DIR)/induced_graph.a $(BIN_DIR)/induced_graph.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
 	
-full_stream_graph: stream_graph induced_graph
+full_stream_graph: stream_graph induced_graph stream
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/full_stream_graph.o $(SRC_DIR)/stream/full_stream_graph.c $(LDFLAGS)
-	@ ar rc $(BIN_DIR)/full_stream_graph.a $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
+	@ ar rc $(BIN_DIR)/full_stream_graph.a $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/stream.o
 
-link_stream: stream_graph
+link_stream: stream_graph stream
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/link_stream.o $(SRC_DIR)/stream/link_stream.c $(LDFLAGS)
-	@ ar rc $(BIN_DIR)/link_stream.a $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
+	@ ar rc $(BIN_DIR)/link_stream.a $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/stream.o
 
-chunk_stream: stream_graph
+chunk_stream: stream_graph stream
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/chunk_stream.o $(SRC_DIR)/stream/chunk_stream.c $(LDFLAGS)
-	@ ar rc $(BIN_DIR)/chunk_stream.a $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o
+	@ ar rc $(BIN_DIR)/chunk_stream.a $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/stream.o
 
-metrics: full_stream_graph link_stream induced_graph iterators chunk_stream
+metrics: full_stream_graph link_stream induced_graph iterators chunk_stream bit_array interval events_table key_moments_table links_set nodes_set stream_graph stream
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/metrics.o $(SRC_DIR)/metrics.c $(LDFLAGS)
-	@ ar rc $(BIN_DIR)/metrics.a $(BIN_DIR)/metrics.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/iterators.o $(BIN_DIR)/chunk_stream.o
+	@ ar rc $(BIN_DIR)/metrics.a $(BIN_DIR)/metrics.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/iterators.o $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/stream.o

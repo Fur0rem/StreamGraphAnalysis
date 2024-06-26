@@ -23,7 +23,7 @@ typedef struct {
 
 #define STREAM_FUNCS(variable, stream_var)                                                                             \
 	({                                                                                                                 \
-		switch ((stream_var).type) {                                                                                   \
+		switch ((stream_var)->type) {                                                                                  \
 			case FULL_STREAM_GRAPH: {                                                                                  \
 				(variable) = FullStreamGraph_stream_functions;                                                         \
 				break;                                                                                                 \

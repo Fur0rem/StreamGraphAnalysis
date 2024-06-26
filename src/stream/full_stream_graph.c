@@ -21,6 +21,7 @@ Stream FSG_from(StreamGraph* stream_graph) {
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = stream_graph;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	init_cache(&stream);
 	return stream;
 }
 
@@ -236,10 +237,14 @@ const StreamFunctions FullStreamGraph_stream_functions = {
 	.neighbours_of_node = (LinksIterator(*)(void*, NodeId))FullStreamGraph_neighbours_of_node,
 };
 
+size_t FullStreamGraph_cardinalOfV(FullStreamGraph* full_stream_graph) {
+	return full_stream_graph->underlying_stream_graph->nodes.nb_nodes;
+}
+
 const MetricsFunctions FullStreamGraph_metrics_functions = {
 	.cardinalOfW = NULL,
 	.cardinalOfT = NULL,
-	.cardinalOfV = NULL,
+	.cardinalOfV = (size_t(*)(void*))FullStreamGraph_cardinalOfV,
 	.coverage = NULL,
 	.node_duration = NULL,
 };

@@ -31,6 +31,7 @@ Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* lin
 	ChunkStream* chunk_stream = MALLOC(sizeof(ChunkStream));
 	*chunk_stream = ChunkStream_from(stream_graph, nodes, links, time_start, time_end);
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	init_cache(&stream);
 	return stream;
 }
 
