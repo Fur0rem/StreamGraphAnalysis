@@ -412,6 +412,15 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 	return true;
 }
 
+bool test_degree_of_node() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	Stream st = FSG_from(&sg);
+	double degree_a = Stream_degree_of_node(st, 0);
+	StreamGraph_destroy(sg);
+	FSG_destroy(st);
+	return EXPECT_F_APPROX_EQ(degree_a, 0.6, 1e-2);
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
