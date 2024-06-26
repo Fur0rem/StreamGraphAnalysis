@@ -3,14 +3,14 @@
 
 /**
  * @file bit_array.h
- * @brief A header that contains the BitArray structure and its functions.
+ * @brief A variable length array of bits and functions to manipulate it.
  */
 
 #include <stdbool.h>
 #include <stddef.h>
 
 /**
- * @brief An variable-sized array of bits.
+ * @brief The structure of a variable length array of bits.
  *
  * It contains the number of bits present in the array and the array of bits.
  * The bits are stored in an array of int's.
