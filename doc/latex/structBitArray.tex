@@ -2,10 +2,10 @@
 \label{structBitArray}\index{BitArray@{BitArray}}
 
 
-The structure of a variable length array of bits.  
+\doxysubsection{Detailed Description}
+The structure of a variable length array of bits. 
 
-
-
+It contains the number of bits present in the array and the array of bits. The bits are stored in an array of int\textquotesingle{}s. I used an array of int to have less computations to do when oring or anding two arrays. It is not possible to go higher than an int otherwise some functions will not work. 
 
 {\ttfamily \#include $<$bit\+\_\+array.\+h$>$}
 
@@ -17,11 +17,6 @@ size\+\_\+t \mbox{\hyperlink{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}{n
 int $\ast$ \mbox{\hyperlink{structBitArray_a50692c1f811cad3f92574afbec3ef273}{bits}}
 \end{DoxyCompactItemize}
 
-
-\doxysubsection{Detailed Description}
-The structure of a variable length array of bits. 
-
-It contains the number of bits present in the array and the array of bits. The bits are stored in an array of int\textquotesingle{}s. I used an array of int to have less computations to do when oring or anding two arrays. It is not possible to go higher than an int otherwise some functions will not work. 
 
 \doxysubsection{Member Data Documentation}
 \mbox{\Hypertarget{structBitArray_a50692c1f811cad3f92574afbec3ef273}\label{structBitArray_a50692c1f811cad3f92574afbec3ef273}} 
