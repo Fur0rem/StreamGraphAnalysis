@@ -1,5 +1,6 @@
 #include "../src/metrics.h"
 #include "../src/stream/chunk_stream.h"
+#include "../src/stream/chunk_stream_small.h"
 #include "../src/stream/full_stream_graph.h"
 #include "../src/stream/link_stream.h"
 #include "../src/stream_graph.h"
@@ -432,6 +433,35 @@ bool test_cache() {
 	return true;
 }
 
+bool test_chunk_stream_small_nodes_set() {
+	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	NodeIdVector nodes = NodeIdVector_with_capacity(2);
+	NodeIdVector_push(&nodes, 0);
+	NodeIdVector_push(&nodes, 2);
+
+	LinkIdVector links = LinkIdVector_with_capacity(4);
+	LinkIdVector_push(&links, 0);
+	LinkIdVector_push(&links, 1);
+	LinkIdVector_push(&links, 2);
+	LinkIdVector_push(&links, 3);
+
+	Stream st = CSS_from(&sg, nodes.array, links.array, Interval_from(0, 100), nodes.size, links.size);
+	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	FOR_EACH_NODE(node_id, nodes_iter) {
+		printf("NODE %zu\n", node_id);
+	}
+
+	LinksIterator links_iter = funcs.links_set(st.stream);
+	FOR_EACH_LINK(link_id, links_iter) {
+		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
+	}
+
+	ChunkStreamSmall_destroy(st);
+	StreamGraph_destroy(sg);
+	return true;
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -476,6 +506,8 @@ int main() {
 		&(Test){"nodes_and_links_present_at_t_chunk_stream", test_nodes_and_links_present_at_t_chunk_stream},
 		&(Test){"degree_of_node",							  test_degree_of_node							 },
 		&(Test){"cache",									 test_cache									},
+
+		&(Test){"chunk_stream_small_nodes_set",				test_chunk_stream_small_nodes_set			 },
 
 		NULL,
 	};

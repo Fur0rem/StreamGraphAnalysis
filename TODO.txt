@@ -1,4 +1,5 @@
 - Skip n for iterators
+- Name coherency between FSG/FullStreamGraph ect...
 - Name guard for different iterators of the different stream types
 - Check for data coherence in the input file
 - Automatic translation for scaling by the number of digits after the comma you see in the input file at max
