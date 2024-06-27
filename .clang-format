@@ -15,3 +15,5 @@ AllowShortFunctionsOnASingleLine: None
 AllowShortLoopsOnASingleLine: false
 AllowShortBlocksOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: true
+AlignConsecutiveMacros: true
+IndentPPDirectives: AfterHash
