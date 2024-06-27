@@ -1,28 +1,28 @@
 \hypertarget{induced__graph_8h_source}{}\doxysection{induced\+\_\+graph.\+h}
 \label{induced__graph_8h_source}\index{src/induced\_graph.h@{src/induced\_graph.h}}
-
+\mbox{\hyperlink{induced__graph_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef INDUCED\_GRAPH\_H}}
 \DoxyCodeLine{2 \textcolor{preprocessor}{\#define INDUCED\_GRAPH\_H}}
 \DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{iterators_8h}{iterators.h}}"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}stream\_graph.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{7 }
-\DoxyCodeLine{8 \mbox{\hyperlink{structNodesIterator}{NodesIterator}} get\_nodes\_present\_at\_t(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, TimeId t);}
-\DoxyCodeLine{9 }
-\DoxyCodeLine{10 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{11     \textcolor{keywordtype}{size\_t} current\_event;}
-\DoxyCodeLine{12     \textcolor{keywordtype}{size\_t} current\_node;}
-\DoxyCodeLine{13 \} \mbox{\hyperlink{structNodesPresentAtTIterator}{NodesPresentAtTIterator}};}
-\DoxyCodeLine{14 }
-\DoxyCodeLine{15 \mbox{\hyperlink{structLinksIterator}{LinksIterator}} get\_links\_present\_at\_t(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, TimeId t);}
-\DoxyCodeLine{16 }
-\DoxyCodeLine{17 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{18     \textcolor{keywordtype}{size\_t} current\_event;}
-\DoxyCodeLine{19     \textcolor{keywordtype}{size\_t} current\_link;}
-\DoxyCodeLine{20 \} \mbox{\hyperlink{structLinksPresentAtTIterator}{LinksPresentAtTIterator}};}
-\DoxyCodeLine{21 }
-\DoxyCodeLine{22 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// INDUCED\_GRAPH\_H}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{iterators_8h}{iterators.h}}"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}stream\_graph.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{19 \mbox{\hyperlink{structNodesIterator}{NodesIterator}} \mbox{\hyperlink{induced__graph_8h_a04871219907d813f646d24a7f49d811a}{get\_nodes\_present\_at\_t}}(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, TimeId t);}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{24 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{25     \textcolor{keywordtype}{size\_t} current\_event;}
+\DoxyCodeLine{26     \textcolor{keywordtype}{size\_t} current\_node;}
+\DoxyCodeLine{27 \} \mbox{\hyperlink{structNodesPresentAtTIterator}{NodesPresentAtTIterator}};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{35 \mbox{\hyperlink{structLinksIterator}{LinksIterator}} \mbox{\hyperlink{induced__graph_8h_ad410e24ad786fca6ceee4dd5d5bfb707}{get\_links\_present\_at\_t}}(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, TimeId t);}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{40 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{41     \textcolor{keywordtype}{size\_t} current\_event;}
+\DoxyCodeLine{42     \textcolor{keywordtype}{size\_t} current\_link;}
+\DoxyCodeLine{43 \} \mbox{\hyperlink{structLinksPresentAtTIterator}{LinksPresentAtTIterator}};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// INDUCED\_GRAPH\_H}}
 
 \end{DoxyCode}

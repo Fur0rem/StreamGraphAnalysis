@@ -108,7 +108,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="iterators_8h__dep__incl.png" border="0" usemap="#asrc_2iterators_8hdep" alt=""/></div>
 <map name="asrc_2iterators_8hdep" id="asrc_2iterators_8hdep">
 <area shape="rect" title="Iterators over nodes, links and time intervals." alt="" coords="179,5,291,32"/>
-<area shape="rect" href="induced__graph_8h_source.html" title=" " alt="" coords="5,80,157,107"/>
+<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="5,80,157,107"/>
 <area shape="rect" href="metrics_8h_source.html" title=" " alt="" coords="181,80,288,107"/>
 <area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="312,80,483,107"/>
 </map>
@@ -130,7 +130,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:aa8ec356ff1234cc9217cd023635fb4a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#aa8ec356ff1234cc9217cd023635fb4a3">COUNT_ITERATOR</a>(iterator)</td></tr>
+<tr class="memitem:aa8ec356ff1234cc9217cd023635fb4a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#aa8ec356ff1234cc9217cd023635fb4a3">COUNT_ITERATOR</a>(iterator)&#160;&#160;&#160;	_Generic((iterator), NodesIterator: count_nodes, LinksIterator: count_links, TimesIterator: count_times)(iterator)</td></tr>
 <tr class="memdesc:aa8ec356ff1234cc9217cd023635fb4a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts the number of elements in the given iterator.  <a href="iterators_8h.html#aa8ec356ff1234cc9217cd023635fb4a3">More...</a><br /></td></tr>
 <tr class="separator:aa8ec356ff1234cc9217cd023635fb4a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Iteration macros</div></td></tr>
@@ -177,19 +177,11 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">iterator</td><td>)</td>
-          <td></td>
+          <td>&#160;&#160;&#160;	_Generic((iterator), NodesIterator: count_nodes, LinksIterator: count_links, TimesIterator: count_times)(iterator)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    __Generic((iterator), <a class="code hl_struct" href="structNodesIterator.html">NodesIterator</a>                                                                                \</div>
-<div class="line">              : _COUNT_ITERATOR(<span class="keywordtype">size_t</span>, iterated, iterator, (iterated) != SIZE_MAX), <a class="code hl_struct" href="structLinksIterator.html">LinksIterator</a>                     \</div>
-<div class="line">              : _COUNT_ITERATOR(<span class="keywordtype">size_t</span>, iterated, iterator, (iterated) != SIZE_MAX), <a class="code hl_struct" href="structTimesIterator.html">TimesIterator</a>                     \</div>
-<div class="line">              : _COUNT_ITERATOR(<a class="code hl_struct" href="structInterval.html">Interval</a>, iterated, iterator, (iterated).start != SIZE_MAX))</div>
-<div class="ttc" id="astructInterval_html"><div class="ttname"><a href="structInterval.html">Interval</a></div><div class="ttdef"><b>Definition:</b> interval.h:10</div></div>
-<div class="ttc" id="astructLinksIterator_html"><div class="ttname"><a href="structLinksIterator.html">LinksIterator</a></div><div class="ttdoc">An iterator over links.</div><div class="ttdef"><b>Definition:</b> iterators.h:41</div></div>
-<div class="ttc" id="astructNodesIterator_html"><div class="ttname"><a href="structNodesIterator.html">NodesIterator</a></div><div class="ttdoc">An iterator over nodes.</div><div class="ttdef"><b>Definition:</b> iterators.h:30</div></div>
-<div class="ttc" id="astructTimesIterator_html"><div class="ttname"><a href="structTimesIterator.html">TimesIterator</a></div><div class="ttdoc">An iterator over a set of time intervals.</div><div class="ttdef"><b>Definition:</b> iterators.h:52</div></div>
-</div><!-- fragment -->
+
 <p>Counts the number of elements in the given iterator. </p>
 <p >Consumes the iterator. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
