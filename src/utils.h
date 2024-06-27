@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 // Text formatting
-#define TEXT_BOLD "\033[1m"
-#define TEXT_RED "\033[31m"
+#define TEXT_BOLD  "\033[1m"
+#define TEXT_RED   "\033[31m"
 #define TEXT_GREEN "\033[32m"
 #define TEXT_RESET "\033[0m"
 
@@ -27,14 +27,14 @@
 	})
 
 #ifdef DEBUG
-#define MALLOC(size) MALLOC_CHECK(size)
+#	define MALLOC(size) MALLOC_CHECK(size)
 #else
-#define MALLOC(size) malloc(size)
+#	define MALLOC(size) malloc(size)
 #endif
 
 // Floating point comparison
-#define EPS 1e-9
-#define F_EQUALS(a, b) (fabs((a) - (b)) < EPS)
+#define EPS						   1e-9
+#define F_EQUALS(a, b)			   (fabs((a) - (b)) < EPS)
 #define F_EQUALS_APPROX(a, b, eps) (fabs((a) - (b)) < eps)
 
 #define NO_FREE(type) ((void (*)(type))NULL)
@@ -68,13 +68,13 @@
 	}
 
 #ifdef DEBUG
-#define DEBUG_ASSERT(expr)                                                                                             \
-	if (!(expr)) {                                                                                                     \
-		fprintf(stderr, "Assertion failed: %s\n", #expr);                                                              \
-		assert(expr);                                                                                                  \
-	}
+#	define DEBUG_ASSERT(expr)                                                                                         \
+		if (!(expr)) {                                                                                                 \
+			fprintf(stderr, "Assertion failed: %s\n", #expr);                                                          \
+			assert(expr);                                                                                              \
+		}
 #else
-#define DEBUG_ASSERT(expr)
+#	define DEBUG_ASSERT(expr)
 #endif
 
 #endif
