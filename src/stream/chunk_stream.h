@@ -34,6 +34,8 @@ ChunkStream ChunkStream_from(StreamGraph* stream_graph, NodeIdVector* nodes, Lin
 Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start, size_t time_end);
 void CS_destroy(Stream stream);
 
+void filter_interval(Interval* interval, Interval snapshot);
+
 extern const StreamFunctions ChunkStream_stream_functions;
 extern const MetricsFunctions ChunkStream_metrics_functions;
 

@@ -4,6 +4,7 @@
 #include "iterators.h"
 #include "stream.h"
 #include "stream/chunk_stream.h"
+#include "stream/chunk_stream_small.h"
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
 #include "stream_functions.h"
@@ -52,6 +53,12 @@
 		case CHUNK_STREAM: {                                                                                           \
 			if (ChunkStream_metrics_functions.function != NULL) {                                                      \
 				return ChunkStream_metrics_functions.function(stream->stream);                                         \
+			}                                                                                                          \
+			break;                                                                                                     \
+		}                                                                                                              \
+		case CHUNK_STREAM_SMALL: {                                                                                     \
+			if (ChunkStreamSmall_metrics_functions.function != NULL) {                                                 \
+				return ChunkStreamSmall_metrics_functions.function(stream->stream);                                    \
 			}                                                                                                          \
 			break;                                                                                                     \
 		}                                                                                                              \
