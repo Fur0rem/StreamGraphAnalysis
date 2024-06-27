@@ -220,7 +220,7 @@ size_t ChunkStreamSmall_NeighboursOfNode_next(LinksIterator* iter) {
 	/*if (BitArray_is_zero(chunk_stream->links_present, return_val)) {
 		return ChunkStreamSmall_NeighboursOfNode_next(iter);
 	}*/
-	if (is_link_present(return_val, chunk_stream)) {
+	if (!is_link_present(return_val, chunk_stream)) {
 		return ChunkStreamSmall_NeighboursOfNode_next(iter);
 	}
 	return return_val;
