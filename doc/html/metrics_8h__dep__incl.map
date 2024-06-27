@@ -1,0 +1,7 @@
+<map id="src/metrics.h" name="src/metrics.h">
+<area shape="rect" id="node1" title="Functions to compute metrics on a Stream." alt="" coords="249,5,355,32"/>
+<area shape="rect" id="node2" href="$chunk__stream_8h_source.html" title=" " alt="" coords="5,87,204,114"/>
+<area shape="rect" id="node3" href="$substream_8h_source.html" title=" " alt="" coords="85,169,261,196"/>
+<area shape="rect" id="node4" href="$full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="279,80,448,121"/>
+<area shape="rect" id="node5" href="$link__stream_8h_source.html" title=" " alt="" coords="473,87,657,114"/>
+</map>

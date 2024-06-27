@@ -200,11 +200,11 @@ bool test_density_of_node() {
 	return EXPECT_F_APPROX_EQ(density_d, 1.0 / 4.0, 1e-2);
 }
 
-bool test_density_of_time() {
+bool test_density_at_instant() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
 	Stream st = FullStreamGraph_from(&sg);
-	double density_2 = Stream_density_of_time(&st, 20); // TODO : add automatic traduction with scaling
+	double density_2 = Stream_density_at_instant(&st, 20); // TODO : add automatic traduction with scaling
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(st);
@@ -466,7 +466,7 @@ int main() {
 		&(Test){"density",								   test_density								   },
 		&(Test){"density_of_link",						   test_density_of_link						   },
 		&(Test){"density_of_node",						   test_density_of_node						   },
-		&(Test){"density_of_time",						   test_density_of_time						   },
+		&(Test){"density_at_instant",						  test_density_at_instant						 },
 
 		&(Test){"chunk_stream_nodes_set",					  test_chunk_stream_nodes_set					 },
 		&(Test){"neighbours_of_node_chunk_stream",		   test_neighbours_of_node_chunk_stream		   },

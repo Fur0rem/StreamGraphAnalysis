@@ -157,7 +157,7 @@ double Stream_number_of_links(Stream* stream) {
 	return (double)e / (double)t;
 }
 
-double Stream_node_contribution_at_time(Stream* stream, TimeId time_id) {
+double Stream_node_contribution_at_instant(Stream* stream, TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(node_contribution_at_time, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	NodesIterator nodes = stream_functions.nodes_present_at_t(stream->stream, time_id);
@@ -171,7 +171,7 @@ size_t size_set_unordered_pairs_itself(size_t n) {
 	return n * (n - 1) / 2;
 }
 
-double Stream_link_contribution_at_time(Stream* stream, TimeId time_id) {
+double Stream_link_contribution_at_instant(Stream* stream, TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(link_contribution_at_time, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	LinksIterator links = stream_functions.links_present_at_t(stream->stream, time_id);
@@ -303,8 +303,8 @@ double Stream_density_of_node(Stream* stream, NodeId node_id) {
 	return (double)sum_num / (double)sum_den;
 }
 
-double Stream_density_of_time(Stream* stream, TimeId time_id) {
-	// CATCH_METRICS_IMPLEM(density_of_time, stream);
+double Stream_density_at_instant(Stream* stream, TimeId time_id) {
+	// CATCH_METRICS_IMPLEM(density_at_instant, stream);
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	NodesIterator nodes_at_t = stream_functions.nodes_present_at_t(stream->stream, time_id);
 	LinksIterator links_at_t = stream_functions.links_present_at_t(stream->stream, time_id);

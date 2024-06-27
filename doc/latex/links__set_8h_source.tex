@@ -1,0 +1,29 @@
+\hypertarget{links__set_8h_source}{}\doxysection{links\+\_\+set.\+h}
+\label{links__set_8h_source}\index{src/stream\_graph/links\_set.h@{src/stream\_graph/links\_set.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../interval.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../units.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{10     \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} presence;}
+\DoxyCodeLine{11     NodeId nodes[2];}
+\DoxyCodeLine{12 \} \mbox{\hyperlink{structLink}{Link}};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{15     \textcolor{keywordtype}{size\_t} nb\_links;}
+\DoxyCodeLine{16     \mbox{\hyperlink{structLink}{Link}}* links;}
+\DoxyCodeLine{17 \} \mbox{\hyperlink{structLinksSet}{LinksSet}};}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \mbox{\hyperlink{structLinksSet}{LinksSet}} LinksSet\_alloc(\textcolor{keywordtype}{size\_t} nb\_links);}
+\DoxyCodeLine{20 \textcolor{keywordtype}{char}* Link\_to\_string(\mbox{\hyperlink{structLink}{Link}}* link);}
+\DoxyCodeLine{21 \textcolor{keywordtype}{bool} Link\_equals(\mbox{\hyperlink{structLink}{Link}} a, \mbox{\hyperlink{structLink}{Link}} b);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_GRAPH\_LINKS\_SET\_H}}
+
+\end{DoxyCode}

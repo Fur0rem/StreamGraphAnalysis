@@ -1,0 +1,24 @@
+\hypertarget{link__stream_8h_source}{}\doxysection{link\+\_\+stream.\+h}
+\label{link__stream_8h_source}\index{src/stream/link\_stream.h@{src/stream/link\_stream.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LINK\_STREAM\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LINK\_STREAM\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../metrics.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}../stream\_graph.h"{}}}
+\DoxyCodeLine{7 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{8     \mbox{\hyperlink{structStreamGraph}{StreamGraph}}* underlying\_stream\_graph;}
+\DoxyCodeLine{9 \} \mbox{\hyperlink{structLinkStream}{LinkStream}};}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \mbox{\hyperlink{structLinkStream}{LinkStream}} LinkStream\_from(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph);}
+\DoxyCodeLine{12 \mbox{\hyperlink{structStream}{Stream}} LS\_from(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph);}
+\DoxyCodeLine{13 \textcolor{keywordtype}{void} LS\_destroy(\mbox{\hyperlink{structStream}{Stream}} stream);}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structStreamFunctions}{StreamFunctions}} LinkStream\_stream\_functions;}
+\DoxyCodeLine{16 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structMetricsFunctions}{MetricsFunctions}} LinkStream\_metrics\_functions;}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LINK\_STREAM\_H}}
+
+\end{DoxyCode}

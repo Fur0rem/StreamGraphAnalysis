@@ -1,10 +1,12 @@
 <map id="StreamFunctions" name="StreamFunctions">
-<area shape="rect" id="node1" title=" " alt="" coords="124,436,255,463"/>
-<area shape="rect" id="node2" href="$structNodesIterator.html" title="An iterator over nodes." alt="" coords="225,317,335,344"/>
-<area shape="rect" id="node3" href="$structStream.html" title=" " alt="" coords="245,228,315,255"/>
-<area shape="rect" id="node6" href="$structLinksIterator.html" title="An iterator over links." alt="" coords="375,317,479,344"/>
-<area shape="rect" id="node8" href="$structTimesIterator.html" title="An iterator over a set of time intervals." alt="" coords="90,317,201,344"/>
-<area shape="rect" id="node4" href="$structInformationCache.html" title=" " alt="" coords="211,139,349,165"/>
-<area shape="rect" id="node5" href="$structOptionalSizeT.html" title=" " alt="" coords="224,5,336,32"/>
-<area shape="rect" id="node7" href="$structInterval.html" title=" " alt="" coords="5,228,77,255"/>
+<area shape="rect" id="node1" title=" " alt="" coords="303,436,433,463"/>
+<area shape="rect" id="node2" href="$structNodesIterator.html" title="An iterator over nodes." alt="" coords="150,317,261,344"/>
+<area shape="rect" id="node3" href="$structStream.html" title=" " alt="" coords="171,228,240,255"/>
+<area shape="rect" id="node6" href="$structLinksIterator.html" title="An iterator over links." alt="" coords="5,317,109,344"/>
+<area shape="rect" id="node8" href="$structTimesIterator.html" title="An iterator over a set of time intervals." alt="" coords="313,317,423,344"/>
+<area shape="rect" id="node4" href="$structInformationCache.html" title=" " alt="" coords="136,139,275,165"/>
+<area shape="rect" id="node5" href="$structOptionalSizeT.html" title=" " alt="" coords="149,5,261,32"/>
+<area shape="rect" id="node7" href="$structInterval.html" title=" " alt="" coords="485,139,557,165"/>
+<area shape="rect" id="node10" href="$structIntervalsSet.html" title=" " alt="" coords="559,228,659,255"/>
+<area shape="rect" id="node9" href="$structLink.html" title=" " alt="" coords="571,317,621,344"/>
 </map>

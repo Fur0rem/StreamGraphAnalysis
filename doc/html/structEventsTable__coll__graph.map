@@ -1,0 +1,6 @@
+<map id="EventsTable" name="EventsTable">
+<area shape="rect" id="node1" title=" " alt="" coords="30,199,130,225"/>
+<area shape="rect" id="node2" href="$structEvents.html" title=" " alt="" coords="47,95,113,121"/>
+<area shape="rect" id="node3" href="$structEvent.html" title=" " alt="" coords="5,5,64,32"/>
+<area shape="rect" id="node4" href="$structBitArray.html" title="The structure of a variable length array of bits." alt="" coords="88,5,163,32"/>
+</map>

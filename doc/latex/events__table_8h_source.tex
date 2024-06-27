@@ -1,0 +1,34 @@
+\hypertarget{events__table_8h_source}{}\doxysection{events\+\_\+table.\+h}
+\label{events__table_8h_source}\index{src/stream\_graph/events\_table.h@{src/stream\_graph/events\_table.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef EVENTS\_TABLE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define EVENTS\_TABLE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../bit\_array.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../units.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{10     \textcolor{keywordtype}{size\_t} nb\_info;}
+\DoxyCodeLine{11     \textcolor{keywordtype}{size\_t}* events;}
+\DoxyCodeLine{12 \} \mbox{\hyperlink{structEvent}{Event}};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{15     \mbox{\hyperlink{structEvent}{Event}}* events;}
+\DoxyCodeLine{16     TimeId disappearance\_index;}
+\DoxyCodeLine{17     \mbox{\hyperlink{structBitArray}{BitArray}} presence\_mask;}
+\DoxyCodeLine{18 \} \mbox{\hyperlink{structEvents}{Events}};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{21     \textcolor{keywordtype}{size\_t} nb\_events;}
+\DoxyCodeLine{22     \mbox{\hyperlink{structEvents}{Events}} node\_events;}
+\DoxyCodeLine{23     \mbox{\hyperlink{structEvents}{Events}} link\_events;}
+\DoxyCodeLine{24 \} \mbox{\hyperlink{structEventsTable}{EventsTable}};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \mbox{\hyperlink{structEventsTable}{EventsTable}} EventsTable\_alloc(\textcolor{keywordtype}{size\_t} nb\_node\_regular\_key\_moments, \textcolor{keywordtype}{size\_t} nb\_node\_removal\_only\_key\_moments);}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

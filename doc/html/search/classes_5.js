@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['nodesiterator_0',['NodesIterator',['../structNodesIterator.html',1,'']]],
-  ['nodespresentattiterator_1',['NodesPresentAtTIterator',['../structNodesPresentAtTIterator.html',1,'']]]
+  ['keymomentstable_0',['KeyMomentsTable',['../structKeyMomentsTable.html',1,'']]],
+  ['keymomentstableiterator_1',['KeyMomentsTableIterator',['../structKeyMomentsTableIterator.html',1,'']]]
 ];

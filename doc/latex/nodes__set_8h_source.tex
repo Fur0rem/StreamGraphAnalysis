@@ -1,0 +1,29 @@
+\hypertarget{nodes__set_8h_source}{}\doxysection{nodes\+\_\+set.\+h}
+\label{nodes__set_8h_source}\index{src/stream\_graph/nodes\_set.h@{src/stream\_graph/nodes\_set.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_GRAPH\_NODES\_SET\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_GRAPH\_NODES\_SET\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../interval.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{9     \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} presence;}
+\DoxyCodeLine{10     \textcolor{keywordtype}{size\_t} nb\_neighbours;}
+\DoxyCodeLine{11     LinkId* neighbours;}
+\DoxyCodeLine{12 \} \mbox{\hyperlink{structTemporalNode}{TemporalNode}};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{15     \textcolor{keywordtype}{size\_t} nb\_nodes;}
+\DoxyCodeLine{16     \mbox{\hyperlink{structTemporalNode}{TemporalNode}}* nodes;}
+\DoxyCodeLine{17 \} \mbox{\hyperlink{structTemporalNodesSet}{TemporalNodesSet}};}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keywordtype}{size\_t} TemporalNode\_first\_appearance(\mbox{\hyperlink{structTemporalNode}{TemporalNode}}* node);}
+\DoxyCodeLine{20 \textcolor{keywordtype}{size\_t} TemporalNode\_last\_disappearance(\mbox{\hyperlink{structTemporalNode}{TemporalNode}}* node);}
+\DoxyCodeLine{21 \mbox{\hyperlink{structTemporalNodesSet}{TemporalNodesSet}} TemporalNodesSet\_alloc(\textcolor{keywordtype}{size\_t} nb\_nodes);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_GRAPH\_NODES\_SET\_H}}
+
+\end{DoxyCode}
