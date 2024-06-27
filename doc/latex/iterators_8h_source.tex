@@ -56,11 +56,11 @@
 \DoxyCodeLine{100 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
 \DoxyCodeLine{101 \textcolor{preprocessor}{        count;                                                                                                         \(\backslash\)}}
 \DoxyCodeLine{102 \textcolor{preprocessor}{    \})}}
-\DoxyCodeLine{112 \textcolor{preprocessor}{\#define COUNT\_ITERATOR(iterator)                                                                                       \(\backslash\)}}
-\DoxyCodeLine{113 \textcolor{preprocessor}{    \_\_Generic((iterator), NodesIterator                                                                                \(\backslash\)}}
-\DoxyCodeLine{114 \textcolor{preprocessor}{              : \_COUNT\_ITERATOR(size\_t, iterated, iterator, (iterated) != SIZE\_MAX), LinksIterator                     \(\backslash\)}}
-\DoxyCodeLine{115 \textcolor{preprocessor}{              : \_COUNT\_ITERATOR(size\_t, iterated, iterator, (iterated) != SIZE\_MAX), TimesIterator                     \(\backslash\)}}
-\DoxyCodeLine{116 \textcolor{preprocessor}{              : \_COUNT\_ITERATOR(Interval, iterated, iterator, (iterated).start != SIZE\_MAX))}}
+\DoxyCodeLine{103 \textcolor{keywordtype}{size\_t} count\_nodes(\mbox{\hyperlink{structNodesIterator}{NodesIterator}} nodes);}
+\DoxyCodeLine{104 \textcolor{keywordtype}{size\_t} count\_links(\mbox{\hyperlink{structLinksIterator}{LinksIterator}} links);}
+\DoxyCodeLine{105 \textcolor{keywordtype}{size\_t} count\_times(\mbox{\hyperlink{structTimesIterator}{TimesIterator}} times);}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#define COUNT\_ITERATOR(iterator)                                                                                       \(\backslash\)}}
+\DoxyCodeLine{116 \textcolor{preprocessor}{    \_Generic((iterator), NodesIterator: count\_nodes, LinksIterator: count\_links, TimesIterator: count\_times)(iterator)}}
 \DoxyCodeLine{117 }
 \DoxyCodeLine{126 \mbox{\hyperlink{structTimesIterator}{TimesIterator}} \mbox{\hyperlink{iterators_8h_af1c011e4d83aece24cb4d3096a051264}{TimesIterator\_union}}(\mbox{\hyperlink{structTimesIterator}{TimesIterator}} a, \mbox{\hyperlink{structTimesIterator}{TimesIterator}} b);}
 \DoxyCodeLine{127 }

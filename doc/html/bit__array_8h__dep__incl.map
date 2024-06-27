@@ -1,5 +1,5 @@
 <map id="src/bit_array.h" name="src/bit_array.h">
 <area shape="rect" id="node1" title="A variable length array of bits and functions to manipulate it." alt="" coords="25,5,138,32"/>
 <area shape="rect" id="node2" href="$stream__graph_8h_source.html" title=" " alt="" coords="8,80,155,107"/>
-<area shape="rect" id="node3" href="$induced__graph_8h_source.html" title=" " alt="" coords="5,155,157,181"/>
+<area shape="rect" id="node3" href="$induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="5,155,157,181"/>
 </map>

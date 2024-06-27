@@ -25,7 +25,7 @@ struct \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \mbox{\hyperlink{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}{COUNT\+\_\+\+ITERATOR}}(iterator)
+\#define \mbox{\hyperlink{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}{COUNT\+\_\+\+ITERATOR}}(iterator)~ \+\_\+\+Generic((iterator), Nodes\+Iterator\+: count\+\_\+nodes, Links\+Iterator\+: count\+\_\+links, Times\+Iterator\+: count\+\_\+times)(iterator)
 \begin{DoxyCompactList}\small\item\em Counts the number of elements in the given iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \begin{Indent}\textbf{ Iteration macros}\par
 {\em Macros to iterate over nodes, links and times.
@@ -66,16 +66,8 @@ An iterator is a structure that allows to iterate over a set of data. ~\newline
 \index{iterators.h@{iterators.h}!COUNT\_ITERATOR@{COUNT\_ITERATOR}}
 \index{COUNT\_ITERATOR@{COUNT\_ITERATOR}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{COUNT\_ITERATOR}{COUNT\_ITERATOR}}
-{\footnotesize\ttfamily \#define COUNT\+\_\+\+ITERATOR(\begin{DoxyParamCaption}\item[{}]{iterator }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \#define COUNT\+\_\+\+ITERATOR(\begin{DoxyParamCaption}\item[{}]{iterator }\end{DoxyParamCaption})~ \+\_\+\+Generic((iterator), Nodes\+Iterator\+: count\+\_\+nodes, Links\+Iterator\+: count\+\_\+links, Times\+Iterator\+: count\+\_\+times)(iterator)}
 
-{\bfseries Value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{    \_\_Generic((iterator), \mbox{\hyperlink{structNodesIterator}{NodesIterator}}                                                                                \(\backslash\)}
-\DoxyCodeLine{              : \_COUNT\_ITERATOR(\textcolor{keywordtype}{size\_t}, iterated, iterator, (iterated) != SIZE\_MAX), \mbox{\hyperlink{structLinksIterator}{LinksIterator}}                     \(\backslash\)}
-\DoxyCodeLine{              : \_COUNT\_ITERATOR(\textcolor{keywordtype}{size\_t}, iterated, iterator, (iterated) != SIZE\_MAX), \mbox{\hyperlink{structTimesIterator}{TimesIterator}}                     \(\backslash\)}
-\DoxyCodeLine{              : \_COUNT\_ITERATOR(\mbox{\hyperlink{structInterval}{Interval}}, iterated, iterator, (iterated).start != SIZE\_MAX))}
-
-\end{DoxyCode}
 
 
 Counts the number of elements in the given iterator. 
