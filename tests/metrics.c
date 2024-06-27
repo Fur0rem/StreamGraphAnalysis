@@ -12,73 +12,73 @@
 bool test_cardinal_of_T_S_0() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 0);
 	size_t cardinal = total_time_of(times_iter);
 
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 100);
 }
 bool test_cardinal_of_T_S_1() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 1);
 	size_t cardinal = total_time_of(times_iter);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 90);
 }
 
 bool test_cardinal_of_T_S_2() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 2);
 	size_t cardinal = total_time_of(times_iter);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 50);
 }
 
 bool test_cardinal_of_T_S_3() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 3);
 	size_t cardinal = total_time_of(times_iter);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 20);
 }
 
 bool test_times_node_present() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream, 3);
 	printf("Present from : \n");
 	FOR_EACH_TIME(interval, times_iter) {
 		printf("[%lu, %lu] U ", interval.start, interval.end);
 	}
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return true;
 }
 
 bool test_cardinal_of_W_S() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
 	size_t cardinal = 0;
 	FOR_EACH_NODE(node_id, nodes_iter) {
 		cardinal += total_time_of(funcs.times_node_present(st.stream, node_id));
 	}
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 260);
 }
@@ -99,11 +99,9 @@ bool test_cardinal_of_W_L() {
 
 bool test_coverage_S() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	FullStreamGraph fsg = FullStreamGraph_from(&sg);
-	printf("udsg = %p\n", fsg.underlying_stream_graph);
-	Stream st = (Stream){.type = FULL_STREAM_GRAPH, .stream = &fsg};
-	printf("st udsg = %p\n", ((FullStreamGraph*)st.stream)->underlying_stream_graph);
+	Stream st = FullStreamGraph_from(&sg);
 	double coverage = Stream_coverage(&st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(coverage, 0.65, 1e-6);
 }
@@ -119,9 +117,9 @@ bool test_coverage_L() {
 
 bool test_node_duration_S() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double duration = Stream_node_duration(&st);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(duration, 6.5, 1e-6);
 }
@@ -146,70 +144,70 @@ bool test_node_duration_S() {
 		return result;                                                                                                 \
 	}
 
-TEST_METRIC_F(coverage, 0.65, S, FSG)
-TEST_METRIC_F(number_of_nodes, 2.6, S, FSG)
-TEST_METRIC_F(number_of_links, 1.0, S, FSG)
-TEST_METRIC_F(node_duration, 6.5, S, FSG)
-TEST_METRIC_F(link_duration, 1.66666666666, S, FSG)
+TEST_METRIC_F(coverage, 0.65, S, FullStreamGraph)
+TEST_METRIC_F(number_of_nodes, 2.6, S, FullStreamGraph)
+TEST_METRIC_F(number_of_links, 1.0, S, FullStreamGraph)
+TEST_METRIC_F(node_duration, 6.5, S, FullStreamGraph)
+TEST_METRIC_F(link_duration, 1.66666666666, S, FullStreamGraph)
 
 bool test_contribution_of_nodes() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double contribution_a = Stream_contribution_of_node(&st, 0);
 	double contribution_b = Stream_contribution_of_node(&st, 1);
 	double contribution_c = Stream_contribution_of_node(&st, 2);
 	double contribution_d = Stream_contribution_of_node(&st, 3);
 	StreamGraph_destroy(sg);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(contribution_a, 1.0, 1e-2) && EXPECT_F_APPROX_EQ(contribution_b, 0.9, 1e-2) &&
 		   EXPECT_F_APPROX_EQ(contribution_c, 0.5, 1e-2) && EXPECT_F_APPROX_EQ(contribution_d, 0.2, 1e-2);
 }
 
 bool test_contributions_of_links() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double contribution_ab = Stream_contribution_of_link(&st, 0);
 	double contribution_bd = Stream_contribution_of_link(&st, 1);
 	double contribution_ac = Stream_contribution_of_link(&st, 2);
 	double contribution_bc = Stream_contribution_of_link(&st, 3);
 	StreamGraph_destroy(sg);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(contribution_ab, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bd, 0.1, 1e-2) &&
 		   EXPECT_F_APPROX_EQ(contribution_ac, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bc, 0.3, 1e-2);
 }
 
-TEST_METRIC_F(uniformity, 22.0 / 56.0, S, FSG)
-TEST_METRIC_F(density, 10.0 / 22.0, S, FSG)
+TEST_METRIC_F(uniformity, 22.0 / 56.0, S, FullStreamGraph)
+TEST_METRIC_F(density, 10.0 / 22.0, S, FullStreamGraph)
 
 bool test_density_of_link() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double density_ab = Stream_density_of_link(&st, 0);
 	double density_bd = Stream_density_of_link(&st, 1);
 	double density_ac = Stream_density_of_link(&st, 2);
 	double density_bc = Stream_density_of_link(&st, 3);
 	StreamGraph_destroy(sg);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_ab, 1.0 / 3.0, 1e-2) && EXPECT_F_APPROX_EQ(density_bd, 1.0 / 2.0, 1e-2);
 }
 
 bool test_density_of_node() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double density_d = Stream_density_of_node(&st, 3);
 	StreamGraph_destroy(sg);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_d, 1.0 / 4.0, 1e-2);
 }
 
 bool test_density_of_time() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	init_events_table(&sg);
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double density_2 = Stream_density_of_time(&st, 20); // TODO : add automatic traduction with scaling
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_2, 2.0 / 3.0, 1e-2);
 }
 
@@ -414,19 +412,21 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 
 bool test_degree_of_node() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	double degree_a = Stream_degree_of_node(&st, 0);
 	StreamGraph_destroy(sg);
-	FSG_destroy(st);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(degree_a, 0.6, 1e-2);
 }
 
 bool test_cache() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FSG_from(&sg);
+	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	double cov = Stream_coverage(&st);
 	double num_nodes = Stream_number_of_nodes(&st);
+	FullStreamGraph_destroy(st);
+	StreamGraph_destroy(sg);
 	printf("Coverage : %f\n", cov);
 	printf("Number of nodes : %f\n", num_nodes);
 	return true;

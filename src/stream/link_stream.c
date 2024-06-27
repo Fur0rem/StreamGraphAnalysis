@@ -86,8 +86,9 @@ NodesIterator LinkStream_nodes_set(LinkStream* link_stream) {
 }
 
 LinksIterator LinkStream_links_set(LinkStream* link_stream) {
-	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return FullStreamGraph_stream_functions.links_set(&full_stream_graph);
+	Stream full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
+	FullStreamGraph* fsg = (FullStreamGraph*)full_stream_graph.stream;
+	return FullStreamGraph_stream_functions.links_set(fsg);
 }
 
 Interval LinkStream_lifespan(LinkStream* link_stream) {
@@ -100,13 +101,15 @@ size_t LinkStream_scaling(LinkStream* link_stream) {
 }
 
 NodesIterator LinkStream_nodes_present_at_t(LinkStream* link_stream, TimeId instant) {
-	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return FullStreamGraph_stream_functions.nodes_set(&full_stream_graph);
+	Stream full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
+	FullStreamGraph* fsg = (FullStreamGraph*)full_stream_graph.stream;
+	return FullStreamGraph_stream_functions.nodes_set(fsg);
 }
 
 LinksIterator LinkStream_links_present_at_t(LinkStream* link_stream, TimeId instant) {
-	FullStreamGraph full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	return FullStreamGraph_stream_functions.links_present_at_t(&full_stream_graph, instant);
+	Stream full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
+	FullStreamGraph* fsg = (FullStreamGraph*)full_stream_graph.stream;
+	return FullStreamGraph_stream_functions.links_present_at_t(fsg, instant);
 }
 
 // time of nodes iterator
@@ -129,7 +132,7 @@ void LinkStream_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
 }
 
 TimesIterator LinkStream_times_node_present(LinkStream* link_stream, NodeId node_id) {
-	TimesNodePresentIteratorData* iterator_data = malloc(sizeof(TimesNodePresentIteratorData));
+	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = link_stream->underlying_stream_graph};
 	iterator_data->has_been_called = false;
 	TimesIterator times_iterator = {
@@ -160,8 +163,9 @@ void LS_destroy(Stream stream) {
 
 // TRICK
 Link LinkStream_nth_link(LinkStream* link_stream, LinkId link_id) {
-	FullStreamGraph fsg = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	Link link = FullStreamGraph_nth_link(&fsg, link_id);
+	Stream st = FullStreamGraph_from(link_stream->underlying_stream_graph);
+	FullStreamGraph* fsg = (FullStreamGraph*)st.stream;
+	Link link = FullStreamGraph_nth_link(fsg, link_id);
 	return link;
 }
 
