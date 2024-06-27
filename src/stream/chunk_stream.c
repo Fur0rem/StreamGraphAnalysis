@@ -294,8 +294,10 @@ void ChunkStreamNPAT_destroy(NodesIterator* iterator) {
 // TRICK : kind of weird hack but it works ig?
 NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId instant) {
 	ChunkStreamNPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamNPATIterData));
-	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
-	*full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
+	/*FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
+	 *full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);*/
+	Stream fsg = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream;
 	iterator_data->nodes_iterator_fsg = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 
@@ -335,8 +337,8 @@ void ChunkStreamLPAT_destroy(LinksIterator* iterator) {
 
 LinksIterator ChunkStream_links_present_at_t(ChunkStream* chunk_stream, TimeId instant) {
 	ChunkStreamLPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamLPATIterData));
-	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
-	*full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
+	Stream fsg = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream;
 	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};

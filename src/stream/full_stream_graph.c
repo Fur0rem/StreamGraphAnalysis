@@ -10,14 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-FullStreamGraph FullStreamGraph_from(StreamGraph* stream_graph) {
-	FullStreamGraph full_stream_graph = (FullStreamGraph){
-		.underlying_stream_graph = stream_graph,
-	};
-	return full_stream_graph;
-}
-
-Stream FSG_from(StreamGraph* stream_graph) {
+Stream FullStreamGraph_from(StreamGraph* stream_graph) {
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = stream_graph;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
@@ -25,7 +18,7 @@ Stream FSG_from(StreamGraph* stream_graph) {
 	return stream;
 }
 
-void FSG_destroy(Stream stream) {
+void FullStreamGraph_destroy(Stream stream) {
 	free(stream.stream);
 }
 
