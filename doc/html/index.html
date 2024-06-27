@@ -81,7 +81,7 @@ Code architecture</h2>
 <ul>
 <li>The library was made for only reading stream graphs, and therefore the data structure doesn't allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.</li>
 <li>The data structure was made to have 3 very efficient primitives : Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.</li>
-<li>There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-computed base elements, and double-layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a LinkStream can hijack the computation of the coverage which is always 1.</li>
+<li>There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-computed base elements, and double-layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a <a class="el" href="structLinkStream.html">LinkStream</a> can hijack the computation of the coverage which is always 1.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md5"></a>
 What it can do</h2>
@@ -124,7 +124,7 @@ Supported metrics (In order of first mention in the paper)</h2>
 <li>Contribution of a link : Section 4</li>
 <li>Number of links : Section 4</li>
 <li>Node duration : Section 4</li>
-<li>Link duration : Section 4</li>
+<li><a class="el" href="structLink.html">Link</a> duration : Section 4</li>
 <li>Uniformity : Section 4</li>
 <li>Uniformity of a pair of nodes : Section 4</li>
 <li>Density : Section 5</li>

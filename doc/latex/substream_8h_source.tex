@@ -1,0 +1,32 @@
+\hypertarget{substream_8h_source}{}\doxysection{substream.\+h}
+\label{substream_8h_source}\index{src/stream/substream.h@{src/stream/substream.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SUB\_STREAM\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SUB\_STREAM\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../metrics.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}../stream\_graph.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}chunk\_stream.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{11     \mbox{\hyperlink{structStreamGraph}{StreamGraph}}* underlying\_stream\_graph;}
+\DoxyCodeLine{12     \textcolor{keywordtype}{size\_t} nb\_chunks;}
+\DoxyCodeLine{13     \mbox{\hyperlink{structChunkStream}{ChunkStream}}* chunks;}
+\DoxyCodeLine{14 \} \mbox{\hyperlink{structSubStream}{SubStream}};}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{17     \textcolor{keywordtype}{size\_t} id;}
+\DoxyCodeLine{18     \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} presence;}
+\DoxyCodeLine{19 \} \mbox{\hyperlink{structClusterNode}{ClusterNode}};}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{22     \textcolor{keywordtype}{size\_t} nb\_nodes;}
+\DoxyCodeLine{23     \mbox{\hyperlink{structClusterNode}{ClusterNode}}* nodes;}
+\DoxyCodeLine{24 \} \mbox{\hyperlink{structCluster}{Cluster}};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SUB\_STREAM\_H}}
+
+\end{DoxyCode}

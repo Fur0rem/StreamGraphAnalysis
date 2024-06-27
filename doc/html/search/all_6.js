@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['metricsfunctions_0',['MetricsFunctions',['../structMetricsFunctions.html',1,'']]]
+  ['keymomentstable_0',['KeyMomentsTable',['../structKeyMomentsTable.html',1,'']]],
+  ['keymomentstableiterator_1',['KeyMomentsTableIterator',['../structKeyMomentsTableIterator.html',1,'']]]
 ];

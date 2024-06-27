@@ -7,7 +7,7 @@ The library is designed to process and analyse continuous undirected unweighted 
 \begin{DoxyItemize}
 \item The library was made for only reading stream graphs, and therefore the data structure doesn\textquotesingle{}t allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.
 \item The data structure was made to have 3 very efficient primitives \+: Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.
-\item There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-\/computed base elements, and double-\/layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a Link\+Stream can hijack the computation of the coverage which is always 1.
+\item There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-\/computed base elements, and double-\/layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a \mbox{\hyperlink{structLinkStream}{Link\+Stream}} can hijack the computation of the coverage which is always 1.
 \end{DoxyItemize}\hypertarget{index_autotoc_md5}{}\doxysubsection{What it can do}\label{index_autotoc_md5}
 
 \begin{DoxyItemize}
@@ -48,7 +48,7 @@ The tests/ directory contains the tests for the library, which are written using
 \item Contribution of a link \+: Section 4
 \item Number of links \+: Section 4
 \item Node duration \+: Section 4
-\item Link duration \+: Section 4
+\item \mbox{\hyperlink{structLink}{Link}} duration \+: Section 4
 \item Uniformity \+: Section 4
 \item Uniformity of a pair of nodes \+: Section 4
 \item Density \+: Section 5

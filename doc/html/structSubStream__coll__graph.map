@@ -1,0 +1,18 @@
+<map id="SubStream" name="SubStream">
+<area shape="rect" id="node1" title=" " alt="" coords="343,559,436,585"/>
+<area shape="rect" id="node2" href="$structStreamGraph.html" title=" " alt="" coords="306,380,414,407"/>
+<area shape="rect" id="node16" href="$structChunkStream.html" title=" " alt="" coords="619,469,730,496"/>
+<area shape="rect" id="node3" href="$structKeyMomentsTable.html" title=" " alt="" coords="399,289,540,316"/>
+<area shape="rect" id="node4" href="$structMomentsSlice.html" title=" " alt="" coords="537,184,652,211"/>
+<area shape="rect" id="node5" href="$structKeyMomentsTableIterator.html" title=" " alt="" coords="324,184,513,211"/>
+<area shape="rect" id="node6" href="$structTemporalNodesSet.html" title=" " alt="" coords="5,289,149,316"/>
+<area shape="rect" id="node7" href="$structTemporalNode.html" title=" " alt="" coords="19,184,135,211"/>
+<area shape="rect" id="node8" href="$structIntervalsSet.html" title=" " alt="" coords="127,95,227,121"/>
+<area shape="rect" id="node11" href="$structLink.html" title=" " alt="" coords="159,184,209,211"/>
+<area shape="rect" id="node9" href="$structInterval.html" title=" " alt="" coords="467,5,539,32"/>
+<area shape="rect" id="node10" href="$structLinksSet.html" title=" " alt="" coords="173,289,251,316"/>
+<area shape="rect" id="node12" href="$structEventsTable.html" title=" " alt="" coords="275,289,375,316"/>
+<area shape="rect" id="node13" href="$structEvents.html" title=" " alt="" coords="233,184,300,211"/>
+<area shape="rect" id="node14" href="$structEvent.html" title=" " alt="" coords="251,95,309,121"/>
+<area shape="rect" id="node15" href="$structBitArray.html" title="The structure of a variable length array of bits." alt="" coords="541,95,616,121"/>
+</map>

@@ -1,0 +1,22 @@
+<map id="ChunkStreamLPATIterData" name="ChunkStreamLPATIterData">
+<area shape="rect" id="node1" title=" " alt="" coords="270,585,463,612"/>
+<area shape="rect" id="node2" href="$structLinksIterator.html" title="An iterator over links." alt="" coords="237,496,341,523"/>
+<area shape="rect" id="node3" href="$structStream.html" title=" " alt="" coords="187,407,256,433"/>
+<area shape="rect" id="node4" href="$structInformationCache.html" title=" " alt="" coords="59,317,197,344"/>
+<area shape="rect" id="node5" href="$structOptionalSizeT.html" title=" " alt="" coords="5,184,117,211"/>
+<area shape="rect" id="node6" href="$structFullStreamGraph.html" title="The FullStreamGraph structure." alt="" coords="443,496,573,523"/>
+<area shape="rect" id="node7" href="$structStreamGraph.html" title=" " alt="" coords="470,407,578,433"/>
+<area shape="rect" id="node8" href="$structKeyMomentsTable.html" title=" " alt="" coords="287,317,428,344"/>
+<area shape="rect" id="node9" href="$structMomentsSlice.html" title=" " alt="" coords="141,184,256,211"/>
+<area shape="rect" id="node10" href="$structKeyMomentsTableIterator.html" title=" " alt="" coords="280,184,469,211"/>
+<area shape="rect" id="node11" href="$structTemporalNodesSet.html" title=" " alt="" coords="452,317,596,344"/>
+<area shape="rect" id="node12" href="$structTemporalNode.html" title=" " alt="" coords="494,184,610,211"/>
+<area shape="rect" id="node13" href="$structIntervalsSet.html" title=" " alt="" coords="554,95,654,121"/>
+<area shape="rect" id="node16" href="$structLink.html" title=" " alt="" coords="634,184,683,211"/>
+<area shape="rect" id="node14" href="$structInterval.html" title=" " alt="" coords="568,5,640,32"/>
+<area shape="rect" id="node15" href="$structLinksSet.html" title=" " alt="" coords="620,317,697,344"/>
+<area shape="rect" id="node17" href="$structEventsTable.html" title=" " alt="" coords="722,317,822,344"/>
+<area shape="rect" id="node18" href="$structEvents.html" title=" " alt="" coords="739,184,805,211"/>
+<area shape="rect" id="node19" href="$structEvent.html" title=" " alt="" coords="724,95,783,121"/>
+<area shape="rect" id="node20" href="$structBitArray.html" title="The structure of a variable length array of bits." alt="" coords="807,95,881,121"/>
+</map>

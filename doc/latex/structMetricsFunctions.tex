@@ -1,5 +1,14 @@
 \hypertarget{structMetricsFunctions}{}\doxysection{Metrics\+Functions Struct Reference}
 \label{structMetricsFunctions}\index{MetricsFunctions@{MetricsFunctions}}
+
+
+Table of functions to compute metrics on a \mbox{\hyperlink{structStream}{Stream}}.  
+
+
+
+
+{\ttfamily \#include $<$metrics.\+h$>$}
+
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -23,6 +32,11 @@ double($\ast$ {\bfseries density} )(void $\ast$)
 \end{DoxyCompactItemize}
 
 
+\doxysubsection{Detailed Description}
+Table of functions to compute metrics on a \mbox{\hyperlink{structStream}{Stream}}. 
+
+Different types of \mbox{\hyperlink{structStream}{Stream}}\textquotesingle{}s can define a specialisation of some of these functions to compute metrics in a more efficient way. If set to NULL, the default implementation will be used. 
+
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/metrics.\+h\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{metrics_8h}{metrics.\+h}}\end{DoxyCompactItemize}

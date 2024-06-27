@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['timesiterator_5fintersection_0',['TimesIterator_intersection',['../iterators_8h.html#a9907f8eeea980f6996d18bbdfd01424e',1,'iterators.c']]],
-  ['timesiterator_5funion_1',['TimesIterator_union',['../iterators_8h.html#af1c011e4d83aece24cb4d3096a051264',1,'iterators.c']]],
-  ['total_5ftime_5fof_2',['total_time_of',['../iterators_8h.html#aba80f0a57ae795e7f431bfba2d162a08',1,'iterators.c']]]
+  ['get_5flinks_5fpresent_5fat_5ft_0',['get_links_present_at_t',['../induced__graph_8h.html#ad410e24ad786fca6ceee4dd5d5bfb707',1,'induced_graph.c']]],
+  ['get_5fnodes_5fpresent_5fat_5ft_1',['get_nodes_present_at_t',['../induced__graph_8h.html#a04871219907d813f646d24a7f49d811a',1,'induced_graph.c']]]
 ];
