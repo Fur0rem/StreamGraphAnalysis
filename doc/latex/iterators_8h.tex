@@ -2,10 +2,13 @@
 \label{iterators_8h}\index{src/iterators.h@{src/iterators.h}}
 
 
-Iterators over nodes, links and time intervals.  
+\doxysubsection{Detailed Description}
+Iterators over nodes, links and time intervals. 
 
-
-{\ttfamily \#include \char`\"{}interval.\+h\char`\"{}}\newline
+An iterator is a structure that allows to iterate over a set of data. ~\newline
+ The iterators are lazy, meaning it does not load all the data at once, but only when needed. We say an iterator is consumed when it has been iterated over all its elements and been destroyed. ~\newline
+ There exists 3 types of iterators\+: for nodes, links and times. However, they are very similar in their implementation. Each iterator contains a reference to the stream, extra data it needs to iterate, a function to get the next element, a function to destroy the iterator and a function to skip n elements. Each type of stream can they define how to create an iterator for it, and each function can use them interchangeably. ~\newline
+ A consumed iterator should not be used anymore. {\ttfamily \#include \char`\"{}interval.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}stream.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
@@ -52,14 +55,6 @@ size\+\_\+t \mbox{\hyperlink{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}{tot
 \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} \mbox{\hyperlink{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}{Times\+Iterator\+\_\+intersection}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} a, \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} b)
 \begin{DoxyCompactList}\small\item\em Creates an iterator over the intersection of two sets of time intervals. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
-
-\doxysubsection{Detailed Description}
-Iterators over nodes, links and time intervals. 
-
-An iterator is a structure that allows to iterate over a set of data. ~\newline
- The iterators are lazy, meaning it does not load all the data at once, but only when needed. We say an iterator is consumed when it has been iterated over all its elements and been destroyed. ~\newline
- There exists 3 types of iterators\+: for nodes, links and times. However, they are very similar in their implementation. Each iterator contains a reference to the stream, extra data it needs to iterate, a function to get the next element, a function to destroy the iterator and a function to skip n elements. Each type of stream can they define how to create an iterator for it, and each function can use them interchangeably. ~\newline
- A consumed iterator should not be used anymore. 
 
 \doxysubsection{Macro Definition Documentation}
 \mbox{\Hypertarget{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}\label{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}} 

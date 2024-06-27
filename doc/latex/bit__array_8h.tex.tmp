@@ -2,8 +2,8 @@
 \label{bit__array_8h}\index{src/bit\_array.h@{src/bit\_array.h}}
 
 
-A variable length array of bits and functions to manipulate it.  
-
+\doxysubsection{Detailed Description}
+A variable length array of bits and functions to manipulate it. 
 
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
@@ -65,11 +65,6 @@ size\+\_\+t \mbox{\hyperlink{bit__array_8h_ae336bb24993e5ba5cd864eaf5acec4db}{Bi
 char $\ast$ \mbox{\hyperlink{bit__array_8h_a0db413990df11cb80b2893c42142f3f4}{Bit\+Array\+\_\+to\+\_\+string}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array)
 \begin{DoxyCompactList}\small\item\em Converts the \mbox{\hyperlink{structBitArray}{Bit\+Array}} to a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \end{Indent}
-
-
-\doxysubsection{Detailed Description}
-A variable length array of bits and functions to manipulate it. 
-
 
 
 \doxysubsection{Function Documentation}
