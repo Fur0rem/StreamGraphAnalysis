@@ -31,7 +31,13 @@ int main() {
 	fclose(file2);
 	free(internal_format);
 
-	StreamGraph sg = StreamGraph_from_external("benchmarks/data/LS_90.ls");
+	StreamGraph sg = StreamGraph_from_external("benchmarks/data/LS.txt");
 	stream = FullStreamGraph_from(&sg);
-	benchmark(number_of_links, "number_of_links", 10000);
+	benchmark(number_of_links, "number_of_links small", 10000);
+	StreamGraph_destroy(sg);
+	sg = StreamGraph_from_external("benchmarks/data/LS_90.ls");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(number_of_links, "number_of_links big", 10000);
+
+	return 0;
 }
