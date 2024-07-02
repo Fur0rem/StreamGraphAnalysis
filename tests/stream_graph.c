@@ -87,6 +87,15 @@ bool test_external_format() {
 	return true;
 }
 
+bool test_from_external_format() {
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/S_external.txt");
+	char* str = StreamGraph_to_string(&sg);
+	printf("%s\n", str);
+	free(str);
+	StreamGraph_destroy(sg);
+	return true;
+}
+
 int main() {
 	Test* tests[] = {
 		&(Test){"load",						 test_load						 },
@@ -96,6 +105,7 @@ int main() {
 		&(Test){"find_index_of_time_not_found", test_find_index_of_time_not_found},
 		&(Test){"init_events_table",			 test_init_events_table		   },
 		&(Test){"external_format",			   test_external_format			   },
+		&(Test){"from_external_format",			test_from_external_format		 },
 
 		NULL
 	};

@@ -40,4 +40,6 @@ void init_cache(Stream* stream);
 	(stream)->cache.field.present = true;                                                                              \
 	(stream)->cache.field.data = value;
 
+void reset_cache(Stream* stream);
+
 #endif // STREAM_H
