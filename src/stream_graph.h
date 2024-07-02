@@ -29,5 +29,6 @@ size_t StreamGraph_lifespan_end(StreamGraph* sg);
 void init_events_table(StreamGraph* sg);
 void events_destroy(StreamGraph* sg);
 char* InternalFormat_from_External_str(const char* str);
+StreamGraph StreamGraph_from_external(const char* filename);
 
 #endif // STREAM_GRAPH_H

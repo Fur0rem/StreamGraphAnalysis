@@ -9,3 +9,10 @@ void init_cache(Stream* stream) {
 	stream->cache.cardinalOfE.present = false;
 	stream->cache.cardinalOfV.present = false;
 }
+
+void reset_cache(Stream* stream) {
+	stream->cache.cardinalOfW.present = false;
+	stream->cache.cardinalOfT.present = false;
+	stream->cache.cardinalOfE.present = false;
+	stream->cache.cardinalOfV.present = false;
+}

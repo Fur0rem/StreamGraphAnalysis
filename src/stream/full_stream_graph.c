@@ -6,6 +6,7 @@
 #include "../units.h"
 #include "../utils.h"
 
+#include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -149,6 +150,11 @@ typedef struct {
 Interval TimesLinkPresent_next(TimesIterator* iter) {
 	TimesLinkPresentIteratorData* times_iter_data = (TimesLinkPresentIteratorData*)iter->iterator_data;
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
+	// printf("full_stream_graph : %p\n", full_stream_graph);
+	// printf("full_stream_graph->underlying_stream_graph : %p\n", full_stream_graph->underlying_stream_graph);
+	// printf("full_stream_graph->underlying_stream_graph->links : %p\n",
+	// 	   &full_stream_graph->underlying_stream_graph->links);
+	assert((size_t)full_stream_graph->underlying_stream_graph > 0x1000UL);
 	Link* link = &full_stream_graph->underlying_stream_graph->links.links[times_iter_data->link_id];
 	if (times_iter_data->current_interval >= link->presence.nb_intervals) {
 		return (Interval){.start = SIZE_MAX, .end = SIZE_MAX};

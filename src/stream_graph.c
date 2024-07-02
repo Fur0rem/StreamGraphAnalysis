@@ -46,7 +46,8 @@ char* get_to_header(const char* str, const char* header) {
 		fprintf(stderr, TEXT_RED TEXT_BOLD "Could not parse the header " TEXT_RESET "%s\nError at line %d\n",          \
 				current_header, __LINE__);                                                                             \
 		fprintf(stderr, "Number of scanned elements: %d, expected: %d\n", nb_scanned, expected);                       \
-		fprintf(stderr, "str: %s\n", str);                                                                             \
+		fprintf(stderr, "Current line:");                                                                              \
+		PRINT_LINE(str);                                                                                               \
 		exit(1);                                                                                                       \
 	}
 
@@ -669,10 +670,10 @@ char* InternalFormat_from_External_str(const char* str) {
 	}
 	// printf("nb_events: %zu\n", nb_events);
 
-	char* events_tuple = EventTupleVectorVector_to_string(&events);
+	// char* events_tuple = EventTupleVectorVector_to_string(&events);
 	// printf("events_tuple: %s\n", events_tuple);
 
-	char* node_neighbours_str = size_tHashsetVector_to_string(&node_neighbours);
+	// char* node_neighbours_str = size_tHashsetVector_to_string(&node_neighbours);
 	// printf("node_neighbours: %s\n", node_neighbours_str);
 
 	// char* links_str = LinkInfoVector_to_string(&links);
@@ -777,7 +778,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	charVector_append(&vec, APPEND_CONST("[[Events]]\n"));
 	// charVector_append(&vec, events_tuple, strlen(events_tuple));
 	for (size_t i = 0; i < events.size; i++) {
-		char buffer[50];
+		char buffer[50000]; // FIXME : make this dynamic or this shit can overflow
 		sprintf(buffer, "%zu=(", events.array[i].array[0].moment);
 		for (size_t j = 0; j < events.array[i].size; j++) {
 			char tuple_str[50];
@@ -809,8 +810,8 @@ char* InternalFormat_from_External_str(const char* str) {
 	memcpy(final_str, vec.array, vec.size);
 	final_str[vec.size] = '\0';
 	free(vec.array);
-	free(events_tuple);
-	free(node_neighbours_str);
+	// free(events_tuple);
+	// free(node_neighbours_str);
 	free(slices_str);
 
 	// Destroy the vectors
@@ -1256,4 +1257,40 @@ void events_destroy(StreamGraph* sg) {
 	free(sg->events.link_events.events);
 	BitArray_destroy(sg->events.node_events.presence_mask);
 	BitArray_destroy(sg->events.link_events.presence_mask);
+}
+
+StreamGraph StreamGraph_from_external(const char* filename) {
+	// read the file
+	FILE* file = fopen(filename, "r");
+	if (file == NULL) {
+		fprintf(stderr, "Error: could not open file %s\n", filename);
+		exit(1);
+	}
+
+	// Read the file by seeking the end
+	fseek(file, 0, SEEK_END);
+	size_t file_size = ftell(file);
+	rewind(file);
+
+	// Read the file into a buffer
+	char* buffer = (char*)malloc(file_size * sizeof(char) + 1);
+	size_t read = fread(buffer, sizeof(char), file_size, file);
+	if (read != file_size) {
+		fprintf(stderr, "Error: could not read the file %s\n", filename);
+		exit(1);
+	}
+	buffer[file_size] = '\0';
+
+	printf("buffer: %s\n", buffer);
+
+	// Close the file
+	fclose(file);
+
+	// turn the external format into a stream graph
+	char* internal_format = InternalFormat_from_External_str(buffer);
+	StreamGraph sg = StreamGraph_from_string(internal_format);
+	free(internal_format);
+	free(buffer);
+
+	return sg;
 }
