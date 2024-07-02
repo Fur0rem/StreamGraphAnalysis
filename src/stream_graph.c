@@ -114,8 +114,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	// Parse the Memory section
 	NEXT_HEADER([Memory]);
 	// Count how many slices are needed
-	size_t relative_max = (RelativeMoment)~0;
-	size_t nb_slices = (lifespan_end / relative_max) + 1;
+	size_t nb_slices = (lifespan_end / SLICE_SIZE) + 1;
 
 	// Parse the memory header
 	size_t nb_nodes;

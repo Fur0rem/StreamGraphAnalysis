@@ -12,9 +12,10 @@ DONT_OPTIMISE void number_of_links() {
 }
 
 int main() {
+
 	// read the file benchmarks/data/LS.txt with seek
 	size_t file_size = 0;
-	FILE* file = fopen("benchmarks/data/LS.txt", "r");
+	FILE* file = fopen("benchmarks/data/LS_90.ls", "r");
 	fseek(file, 0, SEEK_END);
 	file_size = ftell(file);
 	fseek(file, 0, SEEK_SET);
@@ -25,12 +26,12 @@ int main() {
 	// write it to a file
 
 	char* internal_format = InternalFormat_from_External_str(buffer);
-	FILE* file2 = fopen("benchmarks/data/LS_internal.txt", "w");
+	FILE* file2 = fopen("benchmarks/data/LS_90_internal.txt", "w");
 	fwrite(internal_format, 1, strlen(internal_format), file2);
 	fclose(file2);
 	free(internal_format);
 
-	StreamGraph sg = StreamGraph_from_external("benchmarks/data/LS.txt");
+	StreamGraph sg = StreamGraph_from_external("benchmarks/data/LS_90.ls");
 	stream = FullStreamGraph_from(&sg);
-	benchmark(number_of_links, "number_of_links", 1000);
+	benchmark(number_of_links, "number_of_links", 10000);
 }
