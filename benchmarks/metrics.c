@@ -6,7 +6,7 @@
 
 Stream stream;
 
-void number_of_links() {
+DONT_OPTIMISE void number_of_links() {
 	Stream_number_of_links(&stream);
 	reset_cache(&stream);
 }

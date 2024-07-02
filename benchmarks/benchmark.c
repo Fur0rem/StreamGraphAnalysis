@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 
-void benchmark(void (*function)(), const char* name, int iterations) {
+DONT_OPTIMISE void benchmark(void (*function)(), const char* name, int iterations) {
 	clock_t start, end;
 	double cpu_time_used;
 	start = clock();
