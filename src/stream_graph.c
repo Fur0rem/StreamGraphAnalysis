@@ -552,7 +552,9 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t nb_events = 0;
 	size_t current_vec = 0;
 	size_tVector number_of_slices = size_tVector_with_capacity(10);
+	int nb_lines = 0;
 	while (strncmp(str, "[EndOfFile]", 11) != 0) {
+		printf("nb_lines: %d\n", nb_lines++);
 		// if the line is empty, skip it
 		if (*str == '\n') {
 			break;
