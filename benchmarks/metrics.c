@@ -12,32 +12,24 @@ DONT_OPTIMISE void number_of_links() {
 }
 
 int main() {
-
-	// read the file benchmarks/data/LS.txt with seek
-	size_t file_size = 0;
-	FILE* file = fopen("benchmarks/data/LS_90.ls", "r");
-	fseek(file, 0, SEEK_END);
-	file_size = ftell(file);
-	fseek(file, 0, SEEK_SET);
-	char* buffer = (char*)malloc(file_size + 1);
-	fread(buffer, 1, file_size, file);
-	fclose(file);
-	buffer[file_size] = '\0';
-	// write it to a file
-
-	char* internal_format = InternalFormat_from_External_str(buffer);
-	FILE* file2 = fopen("benchmarks/data/LS_90_internal.txt", "w");
-	fwrite(internal_format, 1, strlen(internal_format), file2);
-	fclose(file2);
-	free(internal_format);
-
-	StreamGraph sg = StreamGraph_from_external("benchmarks/data/LS.txt");
+	StreamGraph sg;
+	/*sg = StreamGraph_from_external("benchmarks/data/LS_90.ls");
 	stream = FullStreamGraph_from(&sg);
-	benchmark(number_of_links, "number_of_links small", 10000);
+	benchmark(number_of_links, "number_of_links big", 100);
 	StreamGraph_destroy(sg);
-	sg = StreamGraph_from_external("benchmarks/data/LS_90.ls");
+	FullStreamGraph_destroy(stream);*/
+
+	/*sg = StreamGraph_from_external("benchmarks/data/primaryschool_3125_transformed.ls");
 	stream = FullStreamGraph_from(&sg);
-	benchmark(number_of_links, "number_of_links big", 10000);
+	benchmark(number_of_links, "number_of_links primaryschool", 100);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);*/
+
+	sg = StreamGraph_from_external("benchmarks/data/facebooklike_0_transformed.ls");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(number_of_links, "number_of_links facebooklike", 100);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
 
 	return 0;
 }

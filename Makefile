@@ -3,7 +3,7 @@ SRC_DIR = src
 BIN_DIR = bin
 DEBUG_FLAGS = -g -O0
 RELEASE_FLAGS = -O3
-FLAGS = $(RELEASE_FLAGS)
+FLAGS = $(DEBUG_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
 LDFLAGS = -lm
 

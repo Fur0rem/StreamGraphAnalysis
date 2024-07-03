@@ -536,6 +536,8 @@ char* InternalFormat_from_External_str(const char* str) {
 	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
 	EXPECTED_NB_SCANNED(1);
 
+	printf("parsed general\n");
+
 	// Skip to events section
 	str = get_to_header(str, "[Events]");
 
@@ -1259,6 +1261,7 @@ void events_destroy(StreamGraph* sg) {
 }
 
 StreamGraph StreamGraph_from_external(const char* filename) {
+	printf("calling from_external\n");
 	// read the file
 	FILE* file = fopen(filename, "r");
 	if (file == NULL) {
@@ -1280,14 +1283,15 @@ StreamGraph StreamGraph_from_external(const char* filename) {
 	}
 	buffer[file_size] = '\0';
 
-	printf("buffer: %s\n", buffer);
-
 	// Close the file
 	fclose(file);
+	printf("file read\n");
 
 	// turn the external format into a stream graph
 	char* internal_format = InternalFormat_from_External_str(buffer);
+	printf("internal_format done\n");
 	StreamGraph sg = StreamGraph_from_string(internal_format);
+	printf("streamgraph done\n");
 	free(internal_format);
 	free(buffer);
 
