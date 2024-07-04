@@ -93,6 +93,15 @@ char* get_to_header(const char* str, const char* header) {
 // TODO : Make the code better and less unreadable copy pasted code
 StreamGraph StreamGraph_from_string(const char* str) {
 
+	// save the str to a file
+	FILE* file = fopen("temp.txt", "w");
+	if (file == NULL) {
+		fprintf(stderr, "Could not open file temp.txt\n");
+		exit(1);
+	}
+	fprintf(file, "%s", str);
+	fclose(file);
+
 	StreamGraph sg;
 	int nb_scanned = -1;
 	char* current_header = NULL;
@@ -262,7 +271,10 @@ StreamGraph StreamGraph_from_string(const char* str) {
 				}
 				else {
 					if (sign != '-') {
-						fprintf(stderr, "Link %zu removed twice without being added\n", id);
+						fprintf(stderr, "Link %zu (from %zu to %zu) removed twice without being added\n", id,
+								sg.links.links[id].nodes[0], sg.links.links[id].nodes[1]);
+						PRINT_LINE(str);
+						printf("line: %zu\n", i);
 						exit(1);
 					}
 					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].end = key_moment;
@@ -671,6 +683,8 @@ char* InternalFormat_from_External_str(const char* str) {
 
 		GO_TO_NEXT_LINE(str);
 	}
+
+	printf("parsed events\n");
 	// printf("nb_events: %zu\n", nb_events);
 
 	// char* events_tuple = EventTupleVectorVector_to_string(&events);
@@ -693,7 +707,9 @@ char* InternalFormat_from_External_str(const char* str) {
 		number_of_slices.array[slice_id]++;
 	}
 
-	char* slices_str = size_tVector_to_string(&number_of_slices);
+	printf("parsed slices\n");
+
+	// char* slices_str = size_tVector_to_string(&number_of_slices); // TODO : this causes a stack overflow
 	// printf("slices: %s\n", slices_str);
 
 	charVector vec = charVector_new();
@@ -764,6 +780,7 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		charVector_pop(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
+		printf("node %zu\n", i);
 	}
 	charVector_append(&vec, APPEND_CONST("[[[LinksToNodes]]]\n"));
 	// charVector_append(&vec, links_str, strlen(links_str));
@@ -806,8 +823,11 @@ char* InternalFormat_from_External_str(const char* str) {
 		charVector_append(&vec, buffer, strlen(buffer));
 		charVector_pop(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
+		printf("event %zu\n", i);
 	}
 	charVector_append(&vec, APPEND_CONST("[EndOfFile]\n"));
+
+	printf("finished\n");
 
 	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
 	memcpy(final_str, vec.array, vec.size);
@@ -815,7 +835,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	free(vec.array);
 	// free(events_tuple);
 	// free(node_neighbours_str);
-	free(slices_str);
+	// free(slices_str);
 
 	// Destroy the vectors
 	for (size_t i = 0; i < node_neighbours.size; i++) {
