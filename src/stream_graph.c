@@ -93,15 +93,6 @@ char* get_to_header(const char* str, const char* header) {
 // TODO : Make the code better and less unreadable copy pasted code
 StreamGraph StreamGraph_from_string(const char* str) {
 
-	// save the str to a file
-	FILE* file = fopen("temp.txt", "w");
-	if (file == NULL) {
-		fprintf(stderr, "Could not open file temp.txt\n");
-		exit(1);
-	}
-	fprintf(file, "%s", str);
-	fclose(file);
-
 	StreamGraph sg;
 	int nb_scanned = -1;
 	char* current_header = NULL;
@@ -525,6 +516,28 @@ bool LinkInfo_equals(LinkInfo info1, LinkInfo info2) {
 // DefHashset(Link, link_hash, NO_FREE(Link));
 
 DefVector(LinkInfo, NO_FREE(LinkInfo));
+
+typedef struct {
+	size_t nodes[2];
+	size_t id;
+} LinkIdMap;
+
+size_t LinkIdMap_hash(LinkIdMap key) {
+	return key.nodes[0] + key.nodes[1];
+}
+
+bool LinkIdMap_equals(LinkIdMap map1, LinkIdMap map2) {
+	return map1.nodes[0] == map2.nodes[0] && map1.nodes[1] == map2.nodes[1];
+}
+
+char* LinkIdMap_to_string(LinkIdMap* map) {
+	char* str = (char*)malloc(50);
+	sprintf(str, "(%zu %zu) %zu", map->nodes[0], map->nodes[1], map->id);
+	return str;
+}
+
+DefHashset(LinkIdMap, LinkIdMap_hash, NO_FREE(LinkIdMap));
+
 // Transforms an external format to an internal format
 char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
@@ -548,8 +561,6 @@ char* InternalFormat_from_External_str(const char* str) {
 	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
 	EXPECTED_NB_SCANNED(1);
 
-	printf("parsed general\n");
-
 	// Skip to events section
 	str = get_to_header(str, "[Events]");
 
@@ -564,9 +575,8 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t nb_events = 0;
 	size_t current_vec = 0;
 	size_tVector number_of_slices = size_tVector_with_capacity(10);
-	int nb_lines = 0;
+	printf("parsing events\n");
 	while (strncmp(str, "[EndOfFile]", 11) != 0) {
-		printf("nb_lines: %d\n", nb_lines++);
 		// if the line is empty, skip it
 		if (*str == '\n') {
 			break;
@@ -683,8 +693,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 		GO_TO_NEXT_LINE(str);
 	}
-
-	printf("parsed events\n");
+	printf("parsed %zu events\n", nb_events);
 	// printf("nb_events: %zu\n", nb_events);
 
 	// char* events_tuple = EventTupleVectorVector_to_string(&events);
@@ -697,6 +706,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	// printf("links: %s\n", links_str);
 
+	printf("parsing slices\n");
 	for (size_t i = 0; i < events.size; i++) {
 		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
 		if (slice_id >= number_of_slices.size) {
@@ -706,7 +716,6 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		number_of_slices.array[slice_id]++;
 	}
-
 	printf("parsed slices\n");
 
 	// char* slices_str = size_tVector_to_string(&number_of_slices); // TODO : this causes a stack overflow
@@ -764,6 +773,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	charVector_append(&vec, APPEND_CONST("[Data]\n"));
 	charVector_append(&vec, APPEND_CONST("[[Neighbours]]\n"));
 	charVector_append(&vec, APPEND_CONST("[[[NodesToLinks]]]\n"));
+	printf("parsing nodes\n");
 	for (size_t i = 0; i < nodes.size; i++) {
 		charVector_append(&vec, APPEND_CONST("("));
 		size_tHashset neighs = node_neighbours.array[i];
@@ -780,8 +790,8 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		charVector_pop(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
-		printf("node %zu\n", i);
 	}
+	printf("parsed %zu nodes\n", nodes.size);
 	charVector_append(&vec, APPEND_CONST("[[[LinksToNodes]]]\n"));
 	// charVector_append(&vec, links_str, strlen(links_str));
 	for (size_t i = 0; i < links.size; i++) {
@@ -797,20 +807,59 @@ char* InternalFormat_from_External_str(const char* str) {
 	}
 	charVector_append(&vec, APPEND_CONST("[[Events]]\n"));
 	// charVector_append(&vec, events_tuple, strlen(events_tuple));
+	/*LinkIdMapHashset link_id_map = LinkIdMapHashset_with_capacity(5);
+	for (size_t i = 0; i < links.size; i++) {
+		LinkIdMap map = {
+			.nodes = {links.array[i].nodes[0], links.array[i].nodes[1]},
+				 .id = i
+		};
+		LinkIdMapHashset_insert(&link_id_map, map);
+	}*/
+
+	// OPTIMISE : only half of the matrix is used, turn it into a triangular matrix
+	/*size_t** link_id_map = (size_t**)malloc((biggest_node_id + 1) * sizeof(size_t*));
+	for (size_t i = 0; i <= biggest_node_id; i++) {
+		link_id_map[i] = (size_t*)malloc((biggest_node_id + 1) * sizeof(size_t));
+		for (size_t j = 0; j < i; j++) {
+			link_id_map[i][j] = 0;
+		}
+	}
+	for (size_t i = 0; i < links.size; i++) {
+		link_id_map[links.array[i].nodes[0]][links.array[i].nodes[1]] = i;
+		link_id_map[links.array[i].nodes[1]][links.array[i].nodes[0]] = i;
+	}*/
+	size_t* link_id_map = (size_t*)malloc((biggest_node_id + 1) * (biggest_node_id + 1) * sizeof(size_t));
+	for (size_t i = 0; i < links.size; i++) {
+		link_id_map[links.array[i].nodes[0] * (biggest_node_id + 1) + links.array[i].nodes[1]] = i;
+		link_id_map[links.array[i].nodes[1] * (biggest_node_id + 1) + links.array[i].nodes[0]] = i;
+	}
+
+	printf("parsing events 2\n");
 	for (size_t i = 0; i < events.size; i++) {
 		char buffer[50000]; // FIXME : make this dynamic or this shit can overflow
 		sprintf(buffer, "%zu=(", events.array[i].array[0].moment);
 		for (size_t j = 0; j < events.array[i].size; j++) {
 			char tuple_str[50];
 			if (events.array[i].array[j].letter == 'L') {
-				size_t link_id = 0;
+				/*size_t link_id = 0;
 				for (size_t k = 0; k < links.size; k++) {
 					if (links.array[k].nodes[0] == events.array[i].array[j].id.node1 &&
 						links.array[k].nodes[1] == events.array[i].array[j].id.node2) {
 						link_id = k;
 						break;
 					}
-				}
+				}*/
+				/*LinkIdMap id = (LinkIdMap){
+					.nodes = {events.array[i].array[j].id.node1, events.array[i].array[j].id.node2}
+				   };
+				LinkIdMap* og = LinkIdMapHashset_find(link_id_map, id);
+				size_t link_id = og->id;*/
+				EventTuple e = events.array[i].array[j];
+				size_t idx1 = e.id.node1;
+				size_t idx2 = e.id.node2;
+				// printf("idx1 : %zu, idx2 : %zu, idx2 - idx1 : %zu\n", idx1, idx2, idx2 - idx1);
+				size_t link_id = link_id_map[idx1 * (biggest_node_id + 1) + idx2];
+				// printf("link_id: %zu\n", link_id);
 				sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter,
 						link_id);
 			}
@@ -823,11 +872,17 @@ char* InternalFormat_from_External_str(const char* str) {
 		charVector_append(&vec, buffer, strlen(buffer));
 		charVector_pop(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
-		printf("event %zu\n", i);
 	}
+	size_t sum_events = 0;
+	for (size_t i = 0; i < events.size; i++) {
+		sum_events += events.array[i].size;
+	}
+	printf("parsed %zu events 2\n", sum_events);
+	/*for (size_t i = 0; i <= biggest_node_id; i++) {
+		free(link_id_map[i]);
+	}*/
+	free(link_id_map);
 	charVector_append(&vec, APPEND_CONST("[EndOfFile]\n"));
-
-	printf("finished\n");
 
 	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
 	memcpy(final_str, vec.array, vec.size);

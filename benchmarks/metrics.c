@@ -11,8 +11,15 @@ DONT_OPTIMISE void number_of_links() {
 	reset_cache(&stream);
 }
 
+char* file_name;
+
+DONT_OPTIMISE void load() {
+	StreamGraph s = StreamGraph_from_external(file_name);
+	StreamGraph_destroy(s);
+}
+
 int main() {
-	StreamGraph sg;
+	/*StreamGraph sg;
 	sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links big", 100);
@@ -29,7 +36,16 @@ int main() {
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links facebooklike", 100);
 	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);
+	FullStreamGraph_destroy(stream);*/
+
+	file_name = "benchmarks/data/LS_90.txt";
+	benchmark(load, "load big", 10);
+
+	file_name = "benchmarks/data/primaryschool_3125_transformed.txt";
+	benchmark(load, "load primaryschool", 10);
+
+	file_name = "benchmarks/data/facebooklike_0_transformed.txt";
+	benchmark(load, "load facebooklike", 10);
 
 	return 0;
 }

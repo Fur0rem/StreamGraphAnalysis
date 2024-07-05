@@ -18,7 +18,7 @@
 	static type##Hashset type##Hashset_with_capacity(size_t capacity) {                                                \
 		type##Hashset s = {.buckets = (type##Vector*)malloc(sizeof(type##Vector) * capacity), .capacity = capacity};   \
 		for (size_t i = 0; i < capacity; i++) {                                                                        \
-			s.buckets[i] = type##Vector_with_capacity(1);                                                              \
+			s.buckets[i] = type##Vector_with_capacity(10);                                                             \
 		}                                                                                                              \
 		return s;                                                                                                      \
 	}                                                                                                                  \
