@@ -32,7 +32,7 @@ int main() {
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("benchmarks/data/facebooklike_0_transformed.txt");
+	sg = StreamGraph_from_external("benchmarks/data/facebooklike_1_transformed.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links facebooklike", 100);
 	StreamGraph_destroy(sg);
@@ -44,7 +44,7 @@ int main() {
 	file_name = "benchmarks/data/primaryschool_3125_transformed.txt";
 	benchmark(load, "load primaryschool", 10);
 
-	file_name = "benchmarks/data/facebooklike_0_transformed.txt";
+	file_name = "benchmarks/data/facebooklike_1_transformed.txt";
 	benchmark(load, "load facebooklike", 10);
 
 	return 0;
