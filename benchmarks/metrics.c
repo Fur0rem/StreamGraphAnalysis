@@ -13,17 +13,17 @@ DONT_OPTIMISE void number_of_links() {
 
 int main() {
 	StreamGraph sg;
-	/*sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
+	sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links big", 100);
 	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);*/
+	FullStreamGraph_destroy(stream);
 
-	/*sg = StreamGraph_from_external("benchmarks/data/primaryschool_3125_transformed.txt");
+	sg = StreamGraph_from_external("benchmarks/data/primaryschool_3125_transformed.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links primaryschool", 100);
 	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);*/
+	FullStreamGraph_destroy(stream);
 
 	sg = StreamGraph_from_external("benchmarks/data/facebooklike_0_transformed.txt");
 	stream = FullStreamGraph_from(&sg);
