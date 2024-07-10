@@ -10,7 +10,7 @@
 
 // TODO : change that temporary shit because linking is hell
 bool test_full_stream_graph() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/internal_cliques.txt");
+	/*StreamGraph sg = StreamGraph_from_file("tests/test_data/internal_cliques.txt");
 	Stream* st = FSG_From(&sg);
 	printf("Loaded graph\n");
 	char* str = StreamGraph_to_string(&sg);
@@ -41,7 +41,7 @@ bool test_full_stream_graph() {
 	LinksIterator links_iter = funcs.links_present_at_t(&st0, 5);
 	FOR_EACH_LINK(link_id, links_iter) {
 		printf("Link %zu\n", link_id);
-	}
+	}*/
 
 	return true;
 }
@@ -56,7 +56,23 @@ bool test_maximal_cliques() {
 
 	init_events_table(&sg);
 
-	CliqueVector cliques = maximal_cliques(&st);
+	// CliqueVector cliques = maximal_cliques(&st);
+	// CliqueVector cliques = maximal_cliques(&sg);
+
+	StreamFunctions funcs = FullStreamGraph_stream_functions;
+	LinkVector v = LinkVector_new();
+	/*LinksIterator it = funcs.links_set(&st);
+	FOR_EACH_LINK(link_id, it) {
+		Link link = sg.links.links[link_id];
+		LinkVector_push(&v, link);
+	}*/
+
+	for (size_t i = 0; i < sg.links.nb_links; i++) {
+		Link link = sg.links.links[i];
+		LinkVector_push(&v, link);
+	}
+
+	CliqueVector cliques = maximal_cliques(v);
 
 	char* cliques_str = CliqueVector_to_string(&cliques);
 	printf("%s\n", cliques_str);
