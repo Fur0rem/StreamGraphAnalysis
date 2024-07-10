@@ -198,6 +198,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 			while ((*str != '(') && (*str != ' ') && (*str != '\n')) {
 				str++;
 			}
+			str++;
 		}
 	}
 
@@ -539,6 +540,7 @@ char* LinkIdMap_to_string(LinkIdMap* map) {
 DefHashset(LinkIdMap, LinkIdMap_hash, NO_FREE(LinkIdMap));
 
 // Transforms an external format to an internal format
+// TODO : fix issues with link neighbours
 char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
 	int nb_scanned;
@@ -1137,6 +1139,7 @@ void events_table_write(StreamGraph* sg, size_tVector* node_events, size_tVector
 // TODO : refactor this because the code for nodes and links is the same
 // TODO : probably not very efficient either (presence mask propagation lookup is slow)
 void init_events_table(StreamGraph* sg) {
+	printf("initializing events table\n");
 	// only the number of events is known and node and link presence intervals are known
 
 	// Find the index of the last time a node appears
@@ -1320,6 +1323,9 @@ void init_events_table(StreamGraph* sg) {
 	}
 	free(node_events);
 	free(link_events);
+
+	printf("done initializing events table\n");
+	printf("kmt size: %p\n", &sg->key_moments);
 }
 
 void events_destroy(StreamGraph* sg) {

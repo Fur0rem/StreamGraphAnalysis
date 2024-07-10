@@ -1,7 +1,8 @@
 #include "../src/stream_graph.h"
 #include "test.h"
 
-bool test_load() {
+// TODO : more tests for neighbours and such
+bool load() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	printf("Loaded graph\n");
 	char* str = StreamGraph_to_string(&sg);
@@ -98,7 +99,7 @@ bool test_from_external_format() {
 
 int main() {
 	Test* tests[] = {
-		&(Test){"load",						 test_load						 },
+		&(Test){"load",						 load							 },
 		&(Test){"load_slices",				   test_load_slices				   },
 		&(Test){"find_index_of_time",			  test_find_index_of_time			 },
 		&(Test){"find_index_of_time_in_slices", test_find_index_of_time_in_slices},

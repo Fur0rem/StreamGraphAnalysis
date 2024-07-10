@@ -1,0 +1,1305 @@
+Found benchmark file: metrics
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+number_of_links big : 0.008711s for 100 iterations (0.000087 per iteration)
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+number_of_links primaryschool : 0.030070s for 100 iterations (0.000301 per iteration)
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+Cache miss for cardinalOfE
+Cache miss for cardinalOfT
+COULD NOT CATCH cardinalOfT
+number_of_links facebooklike : 0.061319s for 100 iterations (0.000613 per iteration)
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 14082 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 113 nodes
+parsing events 2
+parsed 14082 events 2
+internal_format done
+streamgraph done
+load big : 1.162871s for 10 iterations (0.116287 per iteration)
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 39510 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 242 nodes
+parsing events 2
+parsed 39510 events 2
+internal_format done
+streamgraph done
+load primaryschool : 8.294956s for 10 iterations (0.829496 per iteration)
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+calling from_external
+file read
+parsing events
+parsed 123296 events
+parsing slices
+parsed slices
+parsing nodes
+parsed 1899 nodes
+parsing events 2
+parsed 123296 events 2
+internal_format done
+streamgraph done
+load facebooklike : 840.674271s for 10 iterations (84.067427 per iteration)
+
+All benchmarks passed!
