@@ -62,7 +62,7 @@ bool is_space(char c) {
 void link_from_line(int* link, char* str) {
 	char* tail;
 	int next;
-	// assert(*i == 0);
+	// ASSERT(*i == 0);
 	int i = 0;
 
 	while (1) {
@@ -84,7 +84,7 @@ void link_from_line(int* link, char* str) {
 		str = tail;
 	}
 
-	assert(i == 4);
+	ASSERT(i == 4);
 }
 
 /*__attribute__((always_inline))*/
@@ -303,7 +303,7 @@ void add_to_P(XPR* xpr, int w, int depth) {
 
 /*__attribute__((always_inline))*/
 void swap_from_P_to_X(XPR* xpr, int w, int depth) {
-	// assert(is_in_P(xpr, w, depth));
+	// ASSERT(is_in_P(xpr, w, depth));
 	int iw = xpr->XPindex[w];
 	int iu = xpr->beginP[depth];
 	int u = xpr->XPnode[iu];
@@ -314,7 +314,7 @@ void swap_from_P_to_X(XPR* xpr, int w, int depth) {
 
 /*__attribute__((always_inline))*/
 void swap_from_X_to_P(XPR* xpr, int w, int depth) {
-	// assert(is_in_X(xpr, w, depth));
+	// ASSERT(is_in_X(xpr, w, depth));
 	xpr->beginP[depth]--;
 	int iw = xpr->XPindex[w];
 	int iu = xpr->beginP[depth];
@@ -443,7 +443,7 @@ void add_NeighborList(NeighborList* Nl, int u) {
 
 /*__attribute__((always_inline))*/
 void remove_ind_NeighborList(NeighborList* Nl, int i, int depth) {
-	// assert(i < Nl->n[depth]);
+	// ASSERT(i < Nl->n[depth]);
 	swap(Nl->node, i, --Nl->n[depth]);
 }
 
@@ -466,7 +466,7 @@ bool is_in_NeighborList(int u, NeighborList* Nl, int depth) {
 
 /*__attribute__((always_inline))*/
 void keep_in_NeighborList(int i, NeighborList* Nl, int depth) {
-	// assert(i >= Nl->n[depth]);
+	// ASSERT(i >= Nl->n[depth]);
 	swap(Nl->node, i, Nl->n[depth]);
 	Nl->n[depth]++;
 }
@@ -484,7 +484,7 @@ void reorderS_P(XPR* xpr, NeighborList** S, int depth) {
 
 	for (i = xpr->beginP[depth]; i < xpr->endP[depth]; i++) {
 		u = xpr->XPnode[i];
-		// assert(xpr->XPnode[xpr->XPindex[u]] == u);
+		// ASSERT(xpr->XPnode[xpr->XPindex[u]] == u);
 
 		S[u]->n[depth] = 0;
 
@@ -516,7 +516,6 @@ typedef struct {
 } NeighborListEnd;
 
 NeighborListEnd* alloc_NeighborListEnd(int degreeMax, int depthMax) {
-	int i;
 	NeighborListEnd* Nle = (NeighborListEnd*)malloc(sizeof(NeighborListEnd));
 	if (Nle == NULL) {
 		exit(EXIT_FAILURE);
@@ -569,7 +568,7 @@ void remove_node_NeighborListEnd(NeighborListEnd* Nle, int u) {
 
 /*__attribute__((always_inline))*/
 void remove_ind_NeighborListEnd(NeighborListEnd* Nle, int i, int depth) {
-	// assert(i < Nle->n[depth]);
+	// ASSERT(i < Nle->n[depth]);
 	swap(Nle->node, i, --Nle->n[depth]);
 	swap(Nle->end, i, Nle->n[depth]);
 }
@@ -594,7 +593,7 @@ void keep_in_NeighborListEnd(int i, NeighborListEnd* Nle, int depth) {
 	//     cout << "j = " << j << " ; Nle->node[j] = " << Nle->node[j] << endl;
 	// }
 
-	// assert(i >= Nle->n[depth]);
+	// ASSERT(i >= Nle->n[depth]);
 	swap(Nle->node, i, Nle->n[depth]);
 	swap(Nle->end, i, Nle->n[depth]);
 	Nle->n[depth]++;
@@ -624,7 +623,7 @@ void reorderN_XUP(XPR* xpr, NeighborListEnd** N, int depth) {
 
 		// cout << "i = " << i << endl;
 		u = xpr->XPnode[i];
-		// assert(xpr->XPnode[xpr->XPindex[u]] == u);
+		// ASSERT(xpr->XPnode[xpr->XPindex[u]] == u);
 
 		// cout << "u = " << u << endl;
 		// cout << "xpr->XPindex[u] = " << xpr->XPindex[u] << endl;
@@ -793,7 +792,7 @@ MyLinkStream* allocLinkStream_end(char* lsFile, int m, int ntimestep) {
 	}
 	fclose(fp);
 
-	assert(im == m);
+	ASSERT(im == m);
 
 	// Sort end link
 	// sort(del_link, del_link + m, &endlink_sorter);
@@ -867,7 +866,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 		exit(EXIT_FAILURE);
 	}
 
-	int b, e, u, v, i;
+	int b, u, v, i;
 	int n = 0, m = 0, ntimestep = 0;
 	int nmin = -1;
 	int nreal = 0;
@@ -886,7 +885,6 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	char* line = NULL;
 	size_t len = 0;
 	while ((getline(&line, &len, fp)) != -1) {
-		int i = 0;
 		link_from_line(link, line);
 		m++;
 		b = link[0];
@@ -897,7 +895,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 			first = false;
 		}
 
-		assert(b >= old_b);
+		ASSERT(b >= old_b);
 
 		if (b > old_b) {
 			ntimestep++;
@@ -914,7 +912,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 
 		u = link[2];
 		v = link[3];
-		assert(u < v);
+		ASSERT(u < v);
 
 		// node max / min
 		if (nmin == -1) {
@@ -935,7 +933,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	}
 	fclose(fp);
 
-	assert(b == old_b);
+	ASSERT(b == old_b);
 	mt++;
 
 	if (mt > mtmax) {
@@ -952,14 +950,14 @@ Datastructure* allocDatastrucure(char* lsFile) {
 
 	MyLinkStream* ls_end = allocLinkStream_end(lsFile, m, ntimestep);
 
-	assert(ls_end->m >= m);
+	ASSERT(ls_end->m >= m);
 
 	// cerr << ls_end->timesteps->n << endl;
 	// cerr << ntimestep << endl;
 	// printf("%d\n", ls_end->timesteps->n);
 	// printf("%d\n", ntimestep);
 
-	assert(ls_end->timesteps->n == ntimestep);
+	ASSERT(ls_end->timesteps->n == ntimestep);
 
 	// Fill degree
 	for (i = 0; i < ls_end->m; i++) {
@@ -1221,7 +1219,7 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 			// Enlever de X les éléments de S[u]
 			for (j = 0; j < S[u]->n[depth]; j++) {
 				v = S[u]->node[j];
-				// assert(is_in_X(xpr, v, next_depth));
+				// ASSERT(is_in_X(xpr, v, next_depth));
 				swap_from_X_to_P(xpr, v, next_depth);
 			}
 
@@ -1325,7 +1323,7 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 	// }
 	// cout << endl;
 
-	int i, j, u, v, w, e, iw, w1, iu, iv;
+	int i, j, u, v, w, e, w1, iu, iv;
 	const int depth = 0;
 	const int next_depth = depth + 1;
 
@@ -1338,8 +1336,8 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 		// cout << xpr->XPindex[u] << endl;
 		// cout << xpr->XPnode[xpr->XPindex[u]] << endl;
 
-		// assert(xpr->XPnode[xpr->XPindex[u]] == u);
-		// assert(xpr->XPnode[xpr->XPindex[v]] == v);
+		// ASSERT(xpr->XPnode[xpr->XPindex[u]] == u);
+		// ASSERT(xpr->XPnode[xpr->XPindex[v]] == v);
 
 		// cerr << "u = " << u << endl;
 		// cerr << "v = " << v << endl;
@@ -1368,7 +1366,7 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 			// cout << "u = " << u << endl;
 			// cout << "w = " << w << endl;
 
-			// assert(xpr->XPnode[xpr->XPindex[w]] == w);
+			// ASSERT(xpr->XPnode[xpr->XPindex[w]] == w);
 
 			iv = ind_in_NeighborListEnd(w, N[v], depth);
 			if (iv != -1) // w in N[u] INTER N[v]
@@ -1449,14 +1447,6 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 	XPR* xpr = d->xpr;
 	CliqueVector result = CliqueVector_with_capacity(100);
 
-	const int depth0 = 0;
-
-	// TIME PER STEP
-	// struct timeval t1
-	// {
-	// }, t2{};
-	// gettimeofday(&t1, NULL);
-
 	for (i = 0; i < ls_end->m; i++) {
 
 		b = ls_end->link[i].b;
@@ -1464,8 +1454,7 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 		u = ls_end->link[i].u;
 		v = ls_end->link[i].v;
 
-		if (b == -1) // end link
-		{
+		if (b == -1) { // end link
 
 			if (e >= old_b && NewEdges->n > 0) {
 				// MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, cpt, PIVOT);
@@ -1484,15 +1473,14 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 			remove_node_NeighborListEnd(N[u], v);
 			remove_node_NeighborListEnd(N[v], u);
 		}
-		else // New link
-		{
+		else { // New link
 			// cout << "u = " << u << endl;
 			// cout << "v = " << v << endl;
 			// cout << xpr->XPindex[u] << endl;
 			// cout << xpr->XPnode[xpr->XPindex[u]] << endl;
 
-			// assert(xpr->XPnode[xpr->XPindex[u]] == u);
-			// assert(xpr->XPnode[xpr->XPindex[v]] == v);
+			ASSERT(xpr->XPnode[xpr->XPindex[u]] == u);
+			ASSERT(xpr->XPnode[xpr->XPindex[v]] == v);
 
 			if (old_b == -1) {
 				old_b = b;
@@ -1513,7 +1501,7 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 			// normalement (u,v) n'est pas une arête de N
 			// for (w = 0; w < N[u]->n[depth0]; w++)
 			// {
-			//     assert(N[u]->node[w] != v);
+			//     ASSERT(N[u]->node[w] != v);
 			// }
 			add_NeighborListEnd(N[u], v, e);
 
@@ -1525,7 +1513,7 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 			//     // {
 			//     //     cout << b << " " << e << " " << u << " " << v << endl;
 			//     // }
-			//     assert(N[v]->node[w] != u);
+			//     ASSERT(N[v]->node[w] != u);
 			// }
 			add_NeighborListEnd(N[v], u, e);
 

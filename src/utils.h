@@ -68,13 +68,17 @@
 	}
 
 #ifdef DEBUG
-#	define DEBUG_ASSERT(expr)                                                                                         \
+#	define ASSERT(expr)                                                                                               \
 		if (!(expr)) {                                                                                                 \
 			fprintf(stderr, "Assertion failed: %s\n", #expr);                                                          \
 			assert(expr);                                                                                              \
 		}
 #else
-#	define DEBUG_ASSERT(expr)
+#	ifdef __clang__
+#		define ASSERT(expr) __builtin_expect((expr), 1)
+#	elif defined(__GNUC__)
+#		define ASSERT(expr) __attribute__(assume(expr))
+#	endif
 #endif
 
 #endif

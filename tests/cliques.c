@@ -80,7 +80,33 @@ bool test_maximal_cliques() {
 	free(cliques_str);
 
 	StreamGraph_destroy(sg);
-	return true;
+	/*1 5 1 2
+	2 4 0 1
+	2 4 0 2
+	3 11 2 3
+	6 10 1 2
+	6 10 1 3*/
+	bool result = EXPECT_EQ(cliques.size, 6) && EXPECT(cliques.array[0].time_start == 1) &&
+				  EXPECT(cliques.array[0].time_end == 5) && EXPECT(cliques.array[0].nb_nodes == 2) &&
+				  EXPECT(cliques.array[0].nodes[0] == 1) && EXPECT(cliques.array[0].nodes[1] == 2) &&
+				  EXPECT(cliques.array[1].time_start == 2) && EXPECT(cliques.array[1].time_end == 4) &&
+				  EXPECT(cliques.array[1].nb_nodes == 2) && EXPECT(cliques.array[1].nodes[0] == 0) &&
+				  EXPECT(cliques.array[1].nodes[1] == 1) && EXPECT(cliques.array[2].time_start == 2) &&
+				  EXPECT(cliques.array[2].time_end == 4) && EXPECT(cliques.array[2].nb_nodes == 2) &&
+				  EXPECT(cliques.array[2].nodes[0] == 0) && EXPECT(cliques.array[2].nodes[1] == 2) &&
+				  EXPECT(cliques.array[3].time_start == 3) && EXPECT(cliques.array[3].time_end == 11) &&
+				  EXPECT(cliques.array[3].nb_nodes == 2) && EXPECT(cliques.array[3].nodes[0] == 2) &&
+				  EXPECT(cliques.array[3].nodes[1] == 3) && EXPECT(cliques.array[4].time_start == 6) &&
+				  EXPECT(cliques.array[4].time_end == 10) && EXPECT(cliques.array[4].nb_nodes == 2) &&
+				  EXPECT(cliques.array[4].nodes[0] == 1) && EXPECT(cliques.array[4].nodes[1] == 2) &&
+				  EXPECT(cliques.array[5].time_start == 6) && EXPECT(cliques.array[5].time_end == 10) &&
+				  EXPECT(cliques.array[5].nb_nodes == 2) && EXPECT(cliques.array[5].nodes[0] == 1) &&
+				  EXPECT(cliques.array[5].nodes[1] == 3);
+
+	CliqueVector_destroy(cliques);
+	LinkVector_destroy(v);
+
+	return result;
 }
 
 int main() {

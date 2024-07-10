@@ -126,7 +126,6 @@ typedef struct {
 
 NodeId ChunkStreamSmallNodesPresentAtTIterator_next(NodesIterator* it) {
 	ChunkStreamSmallNPATIterData* iterator_data = it->iterator_data;
-	FullStreamGraph* fsg = iterator_data->underlying_stream_graph;
 	NodeId node_id = iterator_data->nodes_iterator_fsg.next(&iterator_data->nodes_iterator_fsg);
 	if (node_id == SIZE_MAX) {
 		return SIZE_MAX;
