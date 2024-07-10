@@ -19,6 +19,16 @@ Stream FullStreamGraph_from(StreamGraph* stream_graph) {
 	return stream;
 }
 
+Stream* FSG_From(StreamGraph* stream_graph) {
+	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
+	full_stream_graph->underlying_stream_graph = stream_graph;
+	Stream* stream = MALLOC(sizeof(Stream));
+	stream->type = FULL_STREAM_GRAPH;
+	stream->stream = full_stream_graph;
+	init_cache(stream);
+	return stream;
+}
+
 void FullStreamGraph_destroy(Stream stream) {
 	free(stream.stream);
 }

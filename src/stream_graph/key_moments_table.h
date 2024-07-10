@@ -4,7 +4,7 @@
 
 typedef uint8_t RelativeMoment;
 #define RELATIVE_MOMENT_MAX ((RelativeMoment)~0)
-#define SLICE_SIZE (((size_t)RELATIVE_MOMENT_MAX) + 1)
+#define SLICE_SIZE			(((size_t)RELATIVE_MOMENT_MAX) + 1)
 
 typedef struct {
 	size_t nb_moments;

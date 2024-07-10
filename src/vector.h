@@ -127,8 +127,13 @@
 		}                                                                                                              \
 		return true;                                                                                                   \
 	}                                                                                                                  \
+                                                                                                                       \
 	static size_t type##Vector_size(type##Vector* vec) {                                                               \
 		return vec->size;                                                                                              \
+	}                                                                                                                  \
+                                                                                                                       \
+	static void type##Vector_sort(type##Vector* vec, int (*cmp)(const void*, const void*)) {                           \
+		qsort(vec->array, vec->size, sizeof(type), cmp);                                                               \
 	}
 
 #endif // VECTOR_H

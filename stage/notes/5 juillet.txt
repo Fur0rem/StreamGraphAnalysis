@@ -1,0 +1,6 @@
+Plus simple : nombre de sauts minimal
+Intégrale -> on part du noeud d, regarder partout ou on peut arriver à partir de d indépendamment du temps de départ
+d -> c1 (1 saut), b2 (2), a3 (3), b4 (2), a5 (3), c6 (1), a7 (2)
++ garder en mem prédecesseurs + BFS
+-> valeur du plus court chemin reste le meme tant que l'arrete ne change pas
+Un BFS par apparition d'arrete voisine du noeud

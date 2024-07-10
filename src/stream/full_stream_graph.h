@@ -34,6 +34,9 @@ extern const MetricsFunctions FullStreamGraph_metrics_functions;
  */
 Stream FullStreamGraph_from(StreamGraph* stream_graph);
 
+// TODO
+Stream* FSG_From(StreamGraph* stream_graph);
+
 /**
  * @brief Destroys a Stream of a FullStreamGraph.
  * @param[in] stream The Stream.

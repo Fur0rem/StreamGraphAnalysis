@@ -19,7 +19,7 @@ DONT_OPTIMISE void load() {
 }
 
 int main() {
-	/*StreamGraph sg;
+	StreamGraph sg;
 	sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links big", 100);
@@ -36,7 +36,7 @@ int main() {
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links facebooklike", 100);
 	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);*/
+	FullStreamGraph_destroy(stream);
 
 	file_name = "benchmarks/data/LS_90.txt";
 	benchmark(load, "load big", 10);
