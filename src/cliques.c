@@ -9,6 +9,7 @@
 #include "stream/link_stream.h"
 #include "stream_functions.h"
 #include "stream_graph.h"
+#include "stream_graph/links_set.h"
 #include "units.h"
 #include "utils.h"
 #include "vector.h"
@@ -20,17 +21,19 @@ DefVector(char, NO_FREE(char));
 // TODO : merge this in one file
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
+#define APPEND_STR(str) str, strlen(str)
+
 char* Clique_to_string(Clique* c) {
 	charVector str = charVector_new();
 	charVector_append(&str, APPEND_CONST("Clique ["));
 	char time_str[20];
 	sprintf(time_str, "%zu -> %zu] ", c->time_start, c->time_end);
-	charVector_append(&str, APPEND_CONST(time_str));
+	charVector_append(&str, APPEND_STR(time_str));
 	charVector_append(&str, APPEND_CONST("Nodes : ["));
 	for (size_t i = 0; i < c->nb_nodes; i++) {
 		char node_str[20];
 		sprintf(node_str, "%zu", c->nodes[i]);
-		charVector_append(&str, APPEND_CONST(node_str));
+		charVector_append(&str, APPEND_STR(node_str));
 		if (i < c->nb_nodes - 1) {
 			charVector_append(&str, APPEND_CONST(", "));
 		}
@@ -732,13 +735,6 @@ void clearMySet(MySet* s) {
 }
 
 typedef struct {
-	int b;
-	int e;
-	int u;
-	int v;
-} MyLink;
-
-typedef struct {
 	int m;
 	MyLink* link;
 	MyList* timesteps;
@@ -1111,7 +1107,7 @@ MyCounter* alloc_MyCounter() {
 
 void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 				// int *cpt,
-				MyCounter* mc, int depth, bool PIVOT) {
+				MyCounter* mc, int depth, bool PIVOT, CliqueVector* cliques) {
 	// if (debug)
 	// {
 	//     cerr << "----------" << endl;
@@ -1219,7 +1215,7 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 
 			// Appel Récursif
 			// BKtemporal(xpr, b, e_new, N, S, cpt, next_depth, PIVOT);
-			BKtemporal(xpr, b, e_new, N, S, mc, next_depth, PIVOT);
+			BKtemporal(xpr, b, e_new, N, S, mc, next_depth, PIVOT, cliques);
 			BK_not_called = false;
 
 			// Enlever de X les éléments de S[u]
@@ -1279,11 +1275,21 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 		// 	cout << xpr->R->tab[i] << " ";
 		// }
 		// cout << endl;
-		printf("%d %d ", b, e);
+		/*printf("%d %d ", b, e);
 		for (i = 0; i < xpr->R->n; i++) {
 			printf("%d ", xpr->R->tab[i]);
 		}
-		printf("\n");
+		printf("\n");*/
+		Clique c = {
+			.time_start = b,
+			.time_end = e,
+			.nb_nodes = xpr->R->n,
+			.nodes = malloc(xpr->R->n * sizeof(NodeId)),
+		};
+		for (i = 0; i < xpr->R->n; i++) {
+			c.nodes[i] = xpr->R->tab[i];
+		}
+		CliqueVector_push(cliques, c);
 
 		// ostringstream stringStream;
 		// stringStream << b << " " << e << " ";
@@ -1308,7 +1314,7 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 
 void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int b, NeighborListEnd** N, XPR* xpr,
 						 // int *cpt,
-						 MyCounter* mc, bool PIVOT) {
+						 MyCounter* mc, bool PIVOT, CliqueVector* cliques) {
 	// int a = 1583;
 	// cout << "a = " << a << endl;
 	// cout << "N[a]->n = " << N[a]->n << endl;
@@ -1409,7 +1415,7 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 
 		// Appel du calcul des cliques max
 		// BKtemporal(xpr, b, e, N, S, cpt, next_depth, PIVOT);
-		BKtemporal(xpr, b, e, N, S, mc, next_depth, PIVOT);
+		BKtemporal(xpr, b, e, N, S, mc, next_depth, PIVOT, cliques);
 
 		// ********** COUNT **********
 		// Max degré sommet arête
@@ -1433,7 +1439,7 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 	clearMySet(Snodes);
 }
 
-void cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounter* mc, bool PIVOT) {
+CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounter* mc, bool PIVOT) {
 	int i, b, e, u, v;
 	int old_b = -1;
 	NeighborListEnd** N = d->N;
@@ -1441,6 +1447,7 @@ void cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounter* mc, b
 	MySet* Snodes = d->Snodes;
 	MyList* NewEdges = d->NewEdges;
 	XPR* xpr = d->xpr;
+	CliqueVector result = CliqueVector_with_capacity(100);
 
 	const int depth0 = 0;
 
@@ -1462,7 +1469,7 @@ void cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounter* mc, b
 
 			if (e >= old_b && NewEdges->n > 0) {
 				// MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, cpt, PIVOT);
-				MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT);
+				MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT, &result);
 
 				// TIME FOR THIS STEP
 				// gettimeofday(&t2, NULL);
@@ -1492,7 +1499,7 @@ void cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounter* mc, b
 			}
 			if (b > old_b) {
 				// MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, cpt, PIVOT);
-				MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT);
+				MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT, &result);
 
 				// TIME FOR THIS STEP
 				// gettimeofday(&t2, NULL);
@@ -1528,12 +1535,14 @@ void cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounter* mc, b
 		}
 	}
 	if (NewEdges->n > 0) {
-		MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT);
+		MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT, &result);
 		// TIME FOR THIS STEP
 		// gettimeofday(&t2, NULL);
 		// cout << old_b << " " << (t2.tv_sec * 1000000 + t2.tv_usec) - (t1.tv_sec * 1000000 + t1.tv_usec) << endl;
 		// gettimeofday(&t1, NULL);
 	}
+
+	return result;
 }
 
 bool MyLink_equals(MyLink l1, MyLink l2) {
@@ -1546,31 +1555,41 @@ char* MyLink_to_string(MyLink* l) {
 	return str;
 }
 
-DefVector(MyLink, NO_FREE(MyLink));
-
 int cmp_by_b(const void* a, const void* b) {
 	MyLink* l1 = (MyLink*)a;
 	MyLink* l2 = (MyLink*)b;
 	return l1->b - l2->b;
 }
 
-CliqueVector maximal_cliques(Stream* st) {
+CliqueVector maximal_cliques(LinkVector ls) {
 
 	bool PIVOT = true;
 
-	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	// StreamFunctions funcs = STREAM_FUNCS(funcs, st);
 	MyLinkVector links = MyLinkVector_new();
-	LinksIterator it = funcs.links_set(st);
-	printf("st : %p\n", st);
-	FullStreamGraph* fsg = st->stream;
-	printf("fsg : %p\n", fsg);
-	printf("underlying : %p\n", fsg->underlying_stream_graph);
-	printf("funcs : %p\n", funcs.links_present_at_t);
-	FOR_EACH_LINK(link_id, it) {
-		Link link = funcs.nth_link(st, link_id);
-		TimesIterator times_it = funcs.times_link_present(st, link_id);
-		FOR_EACH_TIME(time, times_it) {
-			MyLink l = (MyLink){.b = time.start, .e = time.end, .u = link.nodes[0], .v = link.nodes[1]};
+	// LinksIterator it = funcs.links_set(st);
+	// StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	// printf("st : %p\n", st);
+	// FullStreamGraph* fsg = st->stream;
+	// printf("fsg : %p\n", fsg);
+	// printf("underlying : %p\n", fsg->underlying_stream_graph);
+	// printf("funcs : %p\n", funcs.links_present_at_t);
+	// FOR_EACH_LINK(link_id, it) {
+	// 	Link link = funcs.nth_link(st, link_id);
+	// 	TimesIterator times_it = funcs.times_link_present(st, link_id);
+	// 	FOR_EACH_TIME(time, times_it) {
+	// 		MyLink l = (MyLink){.b = time.start, .e = time.end, .u = link.nodes[0], .v = link.nodes[1]};
+	// 		MyLinkVector_push(&links, l);
+	// 	}
+	// }
+	printf("ls.size = %d\n", ls.size);
+	for (size_t i = 0; i < ls.size; i++) {
+		Link link = ls.array[i];
+		for (size_t j = 0; j < link.presence.nb_intervals; j++) {
+			MyLink l = (MyLink){.b = link.presence.intervals[j].start,
+								.e = link.presence.intervals[j].end,
+								.u = link.nodes[0],
+								.v = link.nodes[1]};
 			MyLinkVector_push(&links, l);
 		}
 	}
@@ -1580,6 +1599,7 @@ CliqueVector maximal_cliques(Stream* st) {
 	MyLinkVector_sort(&links, cmp_by_b);
 	// write them all to a file
 	FILE* f = fopen(lsFile, "w");
+	printf("Writing %d links to %s\n", links.size, lsFile);
 	for (size_t i = 0; i < links.size; i++) {
 		MyLink l = links.array[i];
 		fprintf(f, "%d %d %d %d\n", l.b, l.e, l.u, l.v);
@@ -1602,7 +1622,8 @@ CliqueVector maximal_cliques(Stream* st) {
 	// cpt = 0;
 	MyCounter* mc = alloc_MyCounter();
 	// cliques_from_stream(lsFile, d->N, d->S, d->Snodes, d->NewEdges, d->xpr, &cpt, PIVOT);
-	cliques_sequential(d->ls_end, d, mc, PIVOT);
+	CliqueVector v = cliques_sequential(d->ls_end, d, mc, PIVOT);
+	return v;
 
 	// cerr << "Number of maximal cliques = " << cpt << endl;
 	/*cerr << "============================================" << endl;
@@ -1619,5 +1640,5 @@ CliqueVector maximal_cliques(Stream* st) {
 	cerr << "- Time computing cliques = " << (t2 - t1) << "s" << endl;
 	t1 = t2;*/
 
-	return CliqueVector_new();
+	// return CliqueVector_new();
 }
