@@ -956,8 +956,8 @@ Datastructure* allocDatastrucure(char* lsFile) {
 
 	// cerr << ls_end->timesteps->n << endl;
 	// cerr << ntimestep << endl;
-	printf("%d\n", ls_end->timesteps->n);
-	printf("%d\n", ntimestep);
+	// printf("%d\n", ls_end->timesteps->n);
+	// printf("%d\n", ntimestep);
 
 	assert(ls_end->timesteps->n == ntimestep);
 
@@ -1582,7 +1582,7 @@ CliqueVector maximal_cliques(LinkVector ls) {
 	// 		MyLinkVector_push(&links, l);
 	// 	}
 	// }
-	printf("ls.size = %d\n", ls.size);
+	// printf("ls.size = %d\n", ls.size);
 	for (size_t i = 0; i < ls.size; i++) {
 		Link link = ls.array[i];
 		for (size_t j = 0; j < link.presence.nb_intervals; j++) {
@@ -1599,7 +1599,7 @@ CliqueVector maximal_cliques(LinkVector ls) {
 	MyLinkVector_sort(&links, cmp_by_b);
 	// write them all to a file
 	FILE* f = fopen(lsFile, "w");
-	printf("Writing %d links to %s\n", links.size, lsFile);
+	// printf("Writing %d links to %s\n", links.size, lsFile);
 	for (size_t i = 0; i < links.size; i++) {
 		MyLink l = links.array[i];
 		fprintf(f, "%d %d %d %d\n", l.b, l.e, l.u, l.v);

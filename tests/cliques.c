@@ -46,6 +46,7 @@ bool test_full_stream_graph() {
 	return true;
 }
 
+// TODO : fix issues with streams so that we dont have to build the vector of links
 bool test_maximal_cliques() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/internal_cliques.txt");
 	Stream st = FullStreamGraph_from(&sg);
