@@ -546,6 +546,8 @@ bool test_clustering_coeff_of_node() {
 
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
+TEST_METRIC_F(transitivity_ratio, 9.0 / 17.0, Figure_8, FullStreamGraph)
+
 int main() {
 	/*Test* tests[] = {
 		&(Test){"cardinal_of_W_S", test_cardinal_of_W_S},
@@ -594,6 +596,7 @@ int main() {
 		&(Test){"chunk_stream_small_times_node_present",	 test_chunk_stream_small_times_node_present	   },
 
 		&(Test){"clustering_coeff_of_node",					test_clustering_coeff_of_node				 },
+		&(Test){"transitivity_ratio",						  test_transitivity_ratio						 },
 
 		NULL,
 	};
