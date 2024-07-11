@@ -532,6 +532,16 @@ bool test_chunk_stream_small_times_node_present() {
 	return true;
 }
 
+bool test_clustering_coeff_of_node() {
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/Figure_8.txt");
+	char* str = StreamGraph_to_string(&sg);
+	printf("%s\n", str);
+	free(str);
+	Stream st = FullStreamGraph_from(&sg);
+	double clustering_coeff_c = Stream_clustering_coeff_of_node(&st, 2);
+	return EXPECT_F_APPROX_EQ(clustering_coeff_c, 3.0 / 5.0, 1e-6);
+}
+
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
 int main() {
@@ -580,6 +590,8 @@ int main() {
 		&(Test){"chunk_stream_small_nodes_set",				test_chunk_stream_small_nodes_set			 },
 		&(Test){"chunk_stream_small_neighbours_of_node",	 test_chunk_stream_small_neighbours_of_node	   },
 		&(Test){"chunk_stream_small_times_node_present",	 test_chunk_stream_small_times_node_present	   },
+
+		&(Test){"clustering_coeff_of_node",					test_clustering_coeff_of_node				 },
 
 		NULL,
 	};
