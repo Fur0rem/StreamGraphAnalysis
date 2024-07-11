@@ -696,6 +696,17 @@ char* InternalFormat_from_External_str(const char* str) {
 		GO_TO_NEXT_LINE(str);
 	}
 	printf("parsed %zu events\n", nb_events);
+
+	// print the neighbours
+	for (size_t i = 0; i < node_neighbours.size; i++) {
+		printf("node %zu neighbours: ", i);
+		for (size_t j = 0; j < node_neighbours.array[i].capacity; j++) {
+			for (size_t k = 0; k < node_neighbours.array[i].buckets[j].size; k++) {
+				printf("%zu ", node_neighbours.array[i].buckets[j].array[k]);
+			}
+		}
+		printf("\n");
+	}
 	// printf("nb_events: %zu\n", nb_events);
 
 	// char* events_tuple = EventTupleVectorVector_to_string(&events);
@@ -785,7 +796,23 @@ char* InternalFormat_from_External_str(const char* str) {
 				size_t neighbour = neighs.buckets[j].array[k];
 				// printf("neighbour: %zu\n", neighbour);
 				char neighbour_str[50];
-				sprintf(neighbour_str, "%zu", neighbour);
+				/*sprintf(neighbour_str, "%zu", neighbour);
+				charVector_append(&vec, neighbour_str, strlen(neighbour_str));
+				charVector_append(&vec, APPEND_CONST(" "));*/
+				// Find the id of the link with the neighbour
+				size_t link_id = SIZE_MAX;
+				for (size_t l = 0; l < links.size; l++) {
+					if ((links.array[l].nodes[0] == i && links.array[l].nodes[1] == neighbour) ||
+						(links.array[l].nodes[0] == neighbour && links.array[l].nodes[1] == i)) {
+						link_id = l;
+						break;
+					}
+				}
+				if (link_id == SIZE_MAX) {
+					fprintf(stderr, "Could not find link with nodes %zu and %zu\n", i, neighbour);
+					exit(1);
+				}
+				sprintf(neighbour_str, "%zu", link_id);
 				charVector_append(&vec, neighbour_str, strlen(neighbour_str));
 				charVector_append(&vec, APPEND_CONST(" "));
 			}
@@ -937,7 +964,7 @@ char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 		size_t node1 = sg->links.links[link_idx].nodes[0];
 		size_t node2 = sg->links.links[link_idx].nodes[1];
 		size_t neighbour_idx = (node1 == node_idx) ? node2 : node1;
-		sprintf(number, "%zu", neighbour_idx);
+		sprintf(number, "N %zu", neighbour_idx);
 		charVector_append(&vec, number, strlen(number));
 		charVector_append(&vec, APPEND_CONST(" "));
 	}

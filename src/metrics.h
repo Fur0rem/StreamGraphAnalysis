@@ -149,4 +149,17 @@ double Stream_degree_of_node(Stream* stream, NodeId node_id);
 double Stream_average_node_degree(Stream* stream);
 /** @} */
 
+/**
+ *@name Section 9 : Clustering coefficient and transitivity ratio
+ *@{
+ */
+
+/**
+ * @param[in] stream The Stream.
+ * @param[in] node_id The id of the node to get the clustering coefficient of.
+ */
+double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id);
+
+/** @} */
+
 #endif // METRICS_H
