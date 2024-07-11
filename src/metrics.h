@@ -160,6 +160,11 @@ double Stream_average_node_degree(Stream* stream);
  */
 double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id);
 
+/**
+ * @param[in] stream The Stream.
+ */
+double Stream_node_clustering_coeff(Stream* stream);
+
 /** @} */
 
 #endif // METRICS_H

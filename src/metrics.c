@@ -364,69 +364,7 @@ double Stream_average_expected_degree(Stream* stream) {
 	return (double)(2 * number_of_links) / (double)number_of_nodes;
 }
 
-double Stream_clustering_coeff_of_node(Stream* stream, NodeId node) {
-	// CATCH_METRICS_IMPLEM(clustering_coeff_of_node, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	LinksIterator neighbours1 = stream_functions.neighbours_of_node(stream->stream, node);
-	size_t sum_num = 0;
-	size_t sum_den = 0;
-	FOR_EACH_LINK(uv, neighbours1) {
-		// Find vw and uw
-		LinksIterator neighbours2 = stream_functions.neighbours_of_node(stream->stream, node);
-		FOR_EACH_LINK(vw, neighbours2) {
-			if (uv >= vw) {
-				continue;
-			}
-			// Find uw
-			Link uv_link = stream_functions.nth_link(stream->stream, uv);
-			NodeId u;
-			if (uv_link.nodes[0] == node) {
-				u = uv_link.nodes[1];
-			}
-			else {
-				u = uv_link.nodes[0];
-			}
-
-			LinksIterator neighbours_of_u = stream_functions.neighbours_of_node(stream->stream, u);
-			LinkId uw = SIZE_MAX;
-			FOR_EACH_LINK(link_id, neighbours_of_u) {
-				Link link = stream_functions.nth_link(stream->stream, link_id);
-				if (link.nodes[0] == node || link.nodes[1] == node) {
-					uw = link_id;
-					break;
-				}
-			}
-			if (uw == SIZE_MAX) {
-				continue;
-			}
-			else {
-				neighbours_of_u.destroy(&neighbours_of_u);
-			}
-
-			// OPTIMISE : Reuse the first intersections
-			TimesIterator times_uv = stream_functions.times_link_present(stream->stream, uv);
-			TimesIterator times_vw = stream_functions.times_link_present(stream->stream, vw);
-			TimesIterator times_uv_vw = TimesIterator_intersection(times_uv, times_vw);
-			size_t t_uv_vw = total_time_of(times_uv_vw);
-
-			TimesIterator times_uw = stream_functions.times_link_present(stream->stream, uw);
-			times_uv = stream_functions.times_link_present(stream->stream, uv);
-			times_vw = stream_functions.times_link_present(stream->stream, vw);
-			times_uv_vw = TimesIterator_intersection(times_uv, times_vw);
-			TimesIterator times_uw_uv_vw = TimesIterator_intersection(times_uw, times_uv_vw);
-			size_t t_uw_uv_wv = total_time_of(times_uw_uv_vw);
-
-			printf("u = %zu | v = %zu | w = %zu\n", u, node, stream_functions.nth_link(stream->stream, vw).nodes[0]);
-			printf("t_uv_vw = %zu | t_uw_uv_wv = %zu\n", t_uv_vw, t_uw_uv_wv);
-			sum_num += t_uw_uv_wv;
-			sum_den += t_uv_vw;
-		}
-	}
-	printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
-	return (double)sum_num / (double)sum_den;
-}
-
-/*double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
+double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 	NodeId v = node_id;
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 
@@ -467,10 +405,51 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node) {
 			TimesIterator times_uv_vw = TimesIterator_intersection(times_uv, times_vw);
 			size_t t_uv_vw = total_time_of(times_uv_vw);
 			sum_den += t_uv_vw;
+
+			// Find link uw
+			// OPTIMISE : Reuse the first intersections
+			LinksIterator neighbours_of_u = stream_functions.neighbours_of_node(stream->stream, u);
+			LinkId uw = SIZE_MAX;
+			FOR_EACH_LINK(link_id, neighbours_of_u) {
+				Link link = stream_functions.nth_link(stream->stream, link_id);
+				if (link.nodes[0] == w || link.nodes[1] == w) {
+					uw = link_id;
+					break;
+				}
+			}
+			if (uw == SIZE_MAX) {
+				continue;
+			}
+			else {
+				neighbours_of_u.destroy(&neighbours_of_u);
+			}
+
+			TimesIterator times_uw = stream_functions.times_link_present(stream->stream, uw);
+
+			// reconstruct times_uv_vw
+			times_uv = stream_functions.times_link_present(stream->stream, uv);
+			times_vw = stream_functions.times_link_present(stream->stream, vw);
+			times_uv_vw = TimesIterator_intersection(times_uv, times_vw);
+			TimesIterator times_uw_uv_vw = TimesIterator_intersection(times_uw, times_uv_vw);
+			size_t t_uw_uv_vw = total_time_of(times_uw_uv_vw);
+			sum_num += t_uw_uv_vw;
 		}
 	}
 
 	printf("sum_den = %zu, sum_num = %zu\n", sum_den, sum_num);
 
 	return (double)sum_num / (double)sum_den;
-}*/
+}
+
+double Stream_node_clustering_coeff(Stream* stream) {
+	// CATCH_METRICS_IMPLEM(node_clustering_coeff, stream);
+	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	double sum = 0;
+	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
+	FOR_EACH_NODE(node_id, nodes) {
+		double clustering_coeff = Stream_clustering_coeff_of_node(stream, node_id);
+		size_t t_v = total_time_of(stream_functions.times_node_present(stream->stream, node_id));
+		sum += clustering_coeff * ((double)t_v / (double)cardinalOfW(stream));
+	}
+	return sum;
+}
