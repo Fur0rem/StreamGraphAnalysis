@@ -165,6 +165,8 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id);
  */
 double Stream_node_clustering_coeff(Stream* stream);
 
+double Stream_transitivity_ratio(Stream* stream);
+
 /** @} */
 
 #endif // METRICS_H
