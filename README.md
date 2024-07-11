@@ -71,8 +71,10 @@ Supported metrics (In order of first mention in the paper)
 - Density of link : Section 5
 - Density of node : Section 5
 - Density of time : Section 5
+- Degree of a node : Section 8
+- Average node degree : Section 8
+- Clustering coefficient of a node : Section 9
+- Node clustering coefficient : Section 9
 
 (These were implemented in previous commits but have not been ported for generic streams yet)
 - Compactness : Section 4
-- Degree of a node : Section 8
-- Average node degree : Section 8

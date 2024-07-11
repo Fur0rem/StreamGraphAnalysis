@@ -127,7 +127,7 @@ bool test_node_duration_S() {
 
 #define TEST_METRIC_F(name, value, graph, type)                                                                        \
 	bool test_##name() {                                                                                               \
-		StreamGraph sg = StreamGraph_from_file("tests/test_data/" #graph ".txt");                                      \
+		StreamGraph sg = StreamGraph_from_external("tests/test_data/" #graph ".txt");                                  \
 		Stream st = type##_from(&sg);                                                                                  \
 		bool result = EXPECT_F_APPROX_EQ(Stream_##name(&st), value, 1e-2);                                             \
 		StreamGraph_destroy(sg);                                                                                       \
@@ -137,7 +137,7 @@ bool test_node_duration_S() {
 
 #define TEST_METRIC_I(name, value, graph, type)                                                                        \
 	bool test_##name() {                                                                                               \
-		StreamGraph sg = StreamGraph_from_file("tests/test_data/" #graph ".txt");                                      \
+		StreamGraph sg = StreamGraph_from_external("tests/test_data/" #graph ".txt");                                  \
 		Stream st = type##_from(&sg);                                                                                  \
 		bool result = EXPECT_EQ(Stream_##name(st), value);                                                             \
 		StreamGraph_destroy(sg);                                                                                       \
@@ -145,11 +145,11 @@ bool test_node_duration_S() {
 		return result;                                                                                                 \
 	}
 
-TEST_METRIC_F(coverage, 0.65, S, FullStreamGraph)
-TEST_METRIC_F(number_of_nodes, 2.6, S, FullStreamGraph)
-TEST_METRIC_F(number_of_links, 1.0, S, FullStreamGraph)
-TEST_METRIC_F(node_duration, 6.5, S, FullStreamGraph)
-TEST_METRIC_F(link_duration, 1.66666666666, S, FullStreamGraph)
+TEST_METRIC_F(coverage, 0.65, S_external, FullStreamGraph)
+TEST_METRIC_F(number_of_nodes, 2.6, S_external, FullStreamGraph)
+TEST_METRIC_F(number_of_links, 1.0, S_external, FullStreamGraph)
+TEST_METRIC_F(node_duration, 6.5, S_external, FullStreamGraph)
+TEST_METRIC_F(link_duration, 1.66666666666, S_external, FullStreamGraph)
 
 bool test_contribution_of_nodes() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
@@ -177,8 +177,8 @@ bool test_contributions_of_links() {
 		   EXPECT_F_APPROX_EQ(contribution_ac, 0.3, 1e-2) && EXPECT_F_APPROX_EQ(contribution_bc, 0.3, 1e-2);
 }
 
-TEST_METRIC_F(uniformity, 22.0 / 56.0, S, FullStreamGraph)
-TEST_METRIC_F(density, 10.0 / 22.0, S, FullStreamGraph)
+TEST_METRIC_F(uniformity, 22.0 / 56.0, S_external, FullStreamGraph)
+TEST_METRIC_F(density, 10.0 / 22.0, S_external, FullStreamGraph)
 
 bool test_density_of_link() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
@@ -541,6 +541,8 @@ bool test_clustering_coeff_of_node() {
 	double clustering_coeff_c = Stream_clustering_coeff_of_node(&st, 2);
 	return EXPECT_F_APPROX_EQ(clustering_coeff_c, 3.0 / 5.0, 1e-6);
 }
+
+// TEST_METRIC_F(node_clustering_coeff, ?? / ??, Figure_8, FullStreamGraph)
 
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
