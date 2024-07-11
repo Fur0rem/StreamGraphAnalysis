@@ -77,7 +77,7 @@
 #	ifdef __clang__
 #		define ASSERT(expr) __builtin_expect((expr), 1)
 #	elif defined(__GNUC__)
-#		define ASSERT(expr) __attribute__(assume(expr))
+#		define ASSERT(expr) __attribute__((assume(expr)))
 #	endif
 #endif
 
