@@ -307,7 +307,7 @@ double Stream_density_of_node(Stream* stream, NodeId node_id) {
 		TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
 		sum_den += total_time_of(times_intersection);
 	}
-	printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
+	// printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
 	return (double)sum_num / (double)sum_den;
 }
 
@@ -437,7 +437,7 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 		}
 	}
 
-	printf("sum_den = %zu, sum_num = %zu\n", sum_den, sum_num);
+	// printf("sum_den = %zu, sum_num = %zu\n", sum_den, sum_num);
 
 	return (double)sum_num / (double)sum_den;
 }
