@@ -10,6 +10,7 @@
 #include "stream_functions.h"
 #include "stream_graph.h"
 #include "units.h"
+#include "utils.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -523,34 +524,40 @@ double Stream_transitivity_ratio(Stream* stream) {
 		FOR_EACH_NODE(v, nodes2) {
 			NodesIterator nodes3 = stream_functions.nodes_set(stream->stream);
 			FOR_EACH_NODE(w, nodes3) {
+				const int SPECIAL_U = 2;
+				const int SPECIAL_V = 0;
+				const int SPECIAL_W = 1;
 				if (u == v || u == w || v == w) {
 					continue;
+				}
+				if (u == SPECIAL_U && v == SPECIAL_V && w == SPECIAL_W) {
+					printf(TEXT_BOLD "SPECIAL CASE\n");
 				}
 				LinkId uv, uw, vw;
 				LinksIterator links = stream_functions.links_set(stream->stream);
 				FOR_EACH_LINK(link_id, links) {
 					Link link = stream_functions.nth_link(stream->stream, link_id);
-					if (link.nodes[0] == u && link.nodes[1] == v) {
+					if ((link.nodes[0] == u && link.nodes[1] == v) || (link.nodes[0] == v && link.nodes[1] == u)) {
 						uv = link_id;
 					}
-					else if (link.nodes[0] == u && link.nodes[1] == w) {
+					if ((link.nodes[0] == u && link.nodes[1] == w) || (link.nodes[0] == w && link.nodes[1] == u)) {
 						uw = link_id;
 					}
-					else if (link.nodes[0] == v && link.nodes[1] == w) {
+					if ((link.nodes[0] == v && link.nodes[1] == w) || (link.nodes[0] == w && link.nodes[1] == v)) {
 						vw = link_id;
 					}
 				}
 				TimesIterator times_uv = stream_functions.times_link_present(stream->stream, uv);
-				TimesIterator times_uw = stream_functions.times_link_present(stream->stream, uw);
-				TimesIterator times_uv_N_uw = TimesIterator_intersection(times_uv, times_uw);
+				TimesIterator times_vw = stream_functions.times_link_present(stream->stream, vw);
+				TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
 
-				size_t time_of_triplet = total_time_of(times_uv_N_uw);
+				size_t time_of_triplet = total_time_of(times_uv_N_vw);
 				sum_den += time_of_triplet;
 
 				times_uv = stream_functions.times_link_present(stream->stream, uv);
-				times_uw = stream_functions.times_link_present(stream->stream, uw);
-				TimesIterator times_vw = stream_functions.times_link_present(stream->stream, vw);
-				times_uv_N_uw = TimesIterator_intersection(times_uv, times_uw);
+				TimesIterator times_uw = stream_functions.times_link_present(stream->stream, uw);
+				times_vw = stream_functions.times_link_present(stream->stream, vw);
+				TimesIterator times_uv_N_uw = TimesIterator_intersection(times_uv, times_uw);
 				TimesIterator times_uv_N_uw_N_vw = TimesIterator_intersection(times_uv_N_uw, times_vw);
 
 				size_t time_of_triangle = total_time_of(times_uv_N_uw_N_vw);
@@ -558,6 +565,10 @@ double Stream_transitivity_ratio(Stream* stream) {
 
 				printf("u: %zu, v: %zu, w: %zu, time of triplet: %zu, time of triangle: %zu\n", u, v, w,
 					   time_of_triplet, time_of_triangle);
+
+				if (u == SPECIAL_U && v == SPECIAL_V && w == SPECIAL_W) {
+					printf("END SPECIAL CASE\n" TEXT_RESET);
+				}
 			}
 		}
 	}
