@@ -57,5 +57,11 @@ int main() {
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
+	sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(transitivity_ratio, "transitivity_ratio LS_90", 1);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
+
 	return 0;
 }

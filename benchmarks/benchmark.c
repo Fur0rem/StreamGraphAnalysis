@@ -3,6 +3,7 @@
 #include <time.h>
 
 DONT_OPTIMISE void benchmark(void (*function)(), const char* name, int iterations) {
+	printf("Benchmarking %s\n", name);
 	clock_t start, end;
 	double cpu_time_used;
 	start = clock();
