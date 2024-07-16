@@ -5,8 +5,10 @@
 size_t total_time_of(TimesIterator times) {
 	size_t total_time = 0;
 	FOR_EACH_TIME(interval, times) {
+		printf("[Interval: %zu %zu]", interval.start, interval.end);
 		total_time += Interval_size(interval);
 	}
+	printf(">\n");
 	return total_time;
 }
 
@@ -106,6 +108,21 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	data->current_interval = 0;
 
 	IntervalVector_destroy(intervals);
+
+	printf("TIMES INTERSECTION set a: ");
+	for (size_t i = 0; i < intervals_set_a.nb_intervals; i++) {
+		printf("[%zu %zu]", intervals_set_a.intervals[i].start, intervals_set_a.intervals[i].end);
+	}
+	printf(" set b: ");
+	for (size_t i = 0; i < intervals_set_b.nb_intervals; i++) {
+		printf("[%zu %zu]", intervals_set_b.intervals[i].start, intervals_set_b.intervals[i].end);
+	}
+	printf(" intersected: ");
+	for (size_t i = 0; i < intersected.nb_intervals; i++) {
+		printf("[%zu %zu]", intersected.intervals[i].start, intersected.intervals[i].end);
+	}
+	printf("\n");
+
 	IntervalsSet_destroy(intervals_set_a);
 	IntervalsSet_destroy(intervals_set_b);
 
