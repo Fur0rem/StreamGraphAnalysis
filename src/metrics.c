@@ -456,7 +456,7 @@ double Stream_node_clustering_coeff(Stream* stream) {
 }
 
 typedef struct {
-	int u, v, w, t
+	int u, v, w, t;
 } ExpectedTriplets;
 
 double Stream_transitivity_ratio(Stream* stream) {
@@ -530,7 +530,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 	∪ [2, 5] × {(a, c, b), (b, c, a)}
 	∪ [6, 8] × {(b, c, d), (d, c, b)}
 	∪ [7, 9] × {(b, d, c), (c, d, b)}*/
-	const ExpectedTriplets expected[18] = {
+	/*const ExpectedTriplets expected[18] = {
 	// In the line [x, y] × {(a, b, c), (c, b, a)}
 	// It turns into one triplet with .t = (y - x), .u = a, .v = b, .w = c
 	// And one triplet with .t = (y - x), .u = c, .v = b, .w = a
@@ -549,16 +549,16 @@ double Stream_transitivity_ratio(Stream* stream) {
 		(ExpectedTriplets){.t = (8 - 6),			 .u = 3, .v = 2, .w = 1},
 		(ExpectedTriplets){.t = (9 - 7),			 .u = 1, .v = 3, .w = 2},
 		(ExpectedTriplets){.t = (9 - 7),			 .u = 2, .v = 3, .w = 1},
-	};
+	};*/
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
 	FOR_EACH_NODE(u, nodes) {
 		NodesIterator nodes2 = stream_functions.nodes_set(stream->stream);
 		FOR_EACH_NODE(v, nodes2) {
 			NodesIterator nodes3 = stream_functions.nodes_set(stream->stream);
 			FOR_EACH_NODE(w, nodes3) {
-				const int SPECIAL_U = 0;
+				/*const int SPECIAL_U = 0;
 				const int SPECIAL_V = 2;
-				const int SPECIAL_W = 1;
+				const int SPECIAL_W = 1;*/
 				if (u == v || u == w || v == w) {
 					continue;
 				}
@@ -646,7 +646,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 		}
 	}
 
-	printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
+	// printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
 
 	return (double)sum_num / (double)sum_den;
 }
