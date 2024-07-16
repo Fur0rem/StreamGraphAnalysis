@@ -553,7 +553,11 @@ double Stream_transitivity_ratio(Stream* stream) {
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
 	FOR_EACH_NODE(u, nodes) {
 		NodesIterator nodes2 = stream_functions.nodes_set(stream->stream);
+		// LinksIterator n_u = stream_functions.neighbours_of_node(stream->stream, u);
 		FOR_EACH_NODE(v, nodes2) {
+			// FOR_EACH_LINK(uv, n_u) {
+			// Link link_uv = stream_functions.nth_link(stream->stream, uv);
+			// NodeId v = link_uv.nodes[0] == u ? link_uv.nodes[1] : link_uv.nodes[0];
 			NodesIterator nodes3 = stream_functions.nodes_set(stream->stream);
 			FOR_EACH_NODE(w, nodes3) {
 				/*const int SPECIAL_U = 0;
