@@ -570,7 +570,8 @@ double Stream_transitivity_ratio(Stream* stream) {
 				/*if (u == v || u == w || v == w) {
 					continue;
 				}*/
-				if (w == u) {
+				// If (u,v,w) is present, so is (w,v,u), and therefore half can be skipped.
+				if (w >= u) {
 					continue;
 				}
 				/*if (u == SPECIAL_U && v == SPECIAL_V && w == SPECIAL_W) {
