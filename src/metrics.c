@@ -553,23 +553,30 @@ double Stream_transitivity_ratio(Stream* stream) {
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream);
 	FOR_EACH_NODE(u, nodes) {
 		NodesIterator nodes2 = stream_functions.nodes_set(stream->stream);
-		// LinksIterator n_u = stream_functions.neighbours_of_node(stream->stream, u);
-		FOR_EACH_NODE(v, nodes2) {
-			// FOR_EACH_LINK(uv, n_u) {
-			// Link link_uv = stream_functions.nth_link(stream->stream, uv);
-			// NodeId v = link_uv.nodes[0] == u ? link_uv.nodes[1] : link_uv.nodes[0];
-			NodesIterator nodes3 = stream_functions.nodes_set(stream->stream);
-			FOR_EACH_NODE(w, nodes3) {
+		LinksIterator n_u = stream_functions.neighbours_of_node(stream->stream, u);
+		// FOR_EACH_NODE(v, nodes2) {
+		FOR_EACH_LINK(uv, n_u) {
+			Link link_uv = stream_functions.nth_link(stream->stream, uv);
+			NodeId v = link_uv.nodes[0] == u ? link_uv.nodes[1] : link_uv.nodes[0];
+			// NodesIterator nodes3 = stream_functions.nodes_set(stream->stream);
+			// FOR_EACH_NODE(w, nodes3) {
+			LinksIterator n_v = stream_functions.neighbours_of_node(stream->stream, v);
+			FOR_EACH_LINK(vw, n_v) {
+				Link link_vw = stream_functions.nth_link(stream->stream, vw);
+				NodeId w = link_vw.nodes[0] == v ? link_vw.nodes[1] : link_vw.nodes[0];
 				/*const int SPECIAL_U = 0;
 				const int SPECIAL_V = 2;
 				const int SPECIAL_W = 1;*/
-				if (u == v || u == w || v == w) {
+				/*if (u == v || u == w || v == w) {
+					continue;
+				}*/
+				if (w == u) {
 					continue;
 				}
 				/*if (u == SPECIAL_U && v == SPECIAL_V && w == SPECIAL_W) {
 					printf(TEXT_BOLD "SPECIAL CASE\n");
 				}*/
-				LinkId uv, uw, vw;
+				/*LinkId uv, uw, vw;
 				LinksIterator links = stream_functions.links_set(stream->stream);
 				bool found_uv, found_uw, found_vw;
 				found_uv = found_uw = found_vw = false;
@@ -587,19 +594,38 @@ double Stream_transitivity_ratio(Stream* stream) {
 						vw = link_id;
 						found_vw = true;
 					}
+				}*/
+				LinkId uw = SIZE_MAX;
+				LinksIterator n_w = stream_functions.neighbours_of_node(stream->stream, w);
+				FOR_EACH_LINK(link_id, n_w) {
+					Link link = stream_functions.nth_link(stream->stream, link_id);
+					if (link.nodes[0] == u || link.nodes[1] == u) {
+						uw = link_id;
+						break;
+					}
 				}
 
 				// printf("uv: %zu, uw: %zu, vw: %zu\n", uv, uw, vw);
-				if (found_uv && found_vw) {
+				// if (found_uv && found_vw) {
+				TimesIterator times_uv = stream_functions.times_link_present(stream->stream, uv);
+				TimesIterator times_vw = stream_functions.times_link_present(stream->stream, vw);
+				TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
+
+				size_t time_of_triplet = total_time_of(times_uv_N_vw);
+				sum_den += time_of_triplet;
+				//}
+
+				/*if (found_uv && found_vw && found_uw) {
 					TimesIterator times_uv = stream_functions.times_link_present(stream->stream, uv);
+					TimesIterator times_uw = stream_functions.times_link_present(stream->stream, uw);
 					TimesIterator times_vw = stream_functions.times_link_present(stream->stream, vw);
-					TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
+					TimesIterator times_uv_N_uw = TimesIterator_intersection(times_uv, times_uw);
+					TimesIterator times_uv_N_uw_N_vw = TimesIterator_intersection(times_uv_N_uw, times_vw);
 
-					size_t time_of_triplet = total_time_of(times_uv_N_vw);
-					sum_den += time_of_triplet;
-				}
-
-				if (found_uv && found_vw && found_uw) {
+					size_t time_of_triangle = total_time_of(times_uv_N_uw_N_vw);
+					sum_num += time_of_triangle;
+				}*/
+				if (uw != SIZE_MAX) { // Triangle
 					TimesIterator times_uv = stream_functions.times_link_present(stream->stream, uv);
 					TimesIterator times_uw = stream_functions.times_link_present(stream->stream, uw);
 					TimesIterator times_vw = stream_functions.times_link_present(stream->stream, vw);
