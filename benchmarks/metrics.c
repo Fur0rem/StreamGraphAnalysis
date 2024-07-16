@@ -18,9 +18,13 @@ DONT_OPTIMISE void load() {
 	StreamGraph_destroy(s);
 }
 
+DONT_OPTIMISE void transitivity_ratio() {
+	Stream_transitivity_ratio(&stream);
+}
+
 int main() {
 	StreamGraph sg;
-	sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
+	/*sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links big", 100);
 	StreamGraph_destroy(sg);
@@ -45,7 +49,13 @@ int main() {
 	benchmark(load, "load primaryschool", 10);
 
 	file_name = "benchmarks/data/facebooklike_1_transformed.txt";
-	benchmark(load, "load facebooklike", 10);
+	benchmark(load, "load facebooklike", 10);*/
+
+	sg = StreamGraph_from_external("benchmarks/data/Figure_8.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(transitivity_ratio, "transitivity_ratio Figure_8", 10000);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
 
 	return 0;
 }
