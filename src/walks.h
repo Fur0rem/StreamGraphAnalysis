@@ -34,5 +34,6 @@ void TreeNode_push_child(TreeNode* node, TreeEdge child);
 TreeNode exploration_tree_from_stream(Stream* stream);
 
 void Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
+void Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId at);
 
 #endif // WALK_H
