@@ -12,7 +12,7 @@
 
 bool test_walk_a_c() {
 	// StreamGraph sg = StreamGraph_from_file("tests/test_data/internal_cliques.txt");
-	StreamGraph sg = StreamGraph_from_external("tests/test_data/cliques.txt");
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
 	/*FullStreamGraph fsg = (FullStreamGraph){
 		.underlying_stream_graph = &sg,
 	};
@@ -33,7 +33,8 @@ bool test_walk_a_c() {
 	// printf("%s\n", str);
 	// free(str);
 
-	Stream_shortest_path_from_to_at(st, 0, 2, 0);
+	Stream_shortest_path_from_to_at(st, 0, 3, 0);
+	Stream_fastest_shortest_path(st, 0, 3, 0);
 	return true;
 }
 
