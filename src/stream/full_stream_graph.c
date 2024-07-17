@@ -203,8 +203,13 @@ typedef struct {
 
 size_t NeighboursOfNode_next(LinksIterator* iter) {
 	NeighboursOfNodeIteratorData* neighbours_iter_data = (NeighboursOfNodeIteratorData*)iter->iterator_data;
+	printf("neighbours_iter_data->node_to_get_neighbours : %zu\n", neighbours_iter_data->node_to_get_neighbours);
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
+	printf("full_stream_graph : %p\n", full_stream_graph);
 	NodeId node_id = neighbours_iter_data->node_to_get_neighbours;
+	printf("full_stream_graph->underlying_stream_graph : %p\n", full_stream_graph->underlying_stream_graph);
+	printf("full_stream_graph->underlying_stream_graph->nodes : %p\n",
+		   &full_stream_graph->underlying_stream_graph->nodes);
 	if (neighbours_iter_data->current_neighbour >=
 		full_stream_graph->underlying_stream_graph->nodes.nodes[node_id].nb_neighbours) {
 		return SIZE_MAX;

@@ -53,6 +53,15 @@
 		vec->size--;                                                                                                   \
 	}                                                                                                                  \
                                                                                                                        \
+	static type type##Vector_pop_front(type##Vector* vec) {                                                            \
+		type value = vec->array[0];                                                                                    \
+		for (size_t i = 0; i < vec->size - 1; i++) {                                                                   \
+			vec->array[i] = vec->array[i + 1];                                                                         \
+		}                                                                                                              \
+		vec->size--;                                                                                                   \
+		return value;                                                                                                  \
+	}                                                                                                                  \
+                                                                                                                       \
 	static void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values) {                         \
 		if (vec->size + nb_values > vec->capacity) {                                                                   \
 			vec->capacity = vec->size + nb_values;                                                                     \
@@ -134,6 +143,10 @@
                                                                                                                        \
 	static void type##Vector_sort(type##Vector* vec, int (*cmp)(const void*, const void*)) {                           \
 		qsort(vec->array, vec->size, sizeof(type), cmp);                                                               \
+	}                                                                                                                  \
+                                                                                                                       \
+	static type* type##Vector_get(type##Vector* vec, size_t idx) {                                                     \
+		return &vec->array[idx];                                                                                       \
 	}
 
 #endif // VECTOR_H

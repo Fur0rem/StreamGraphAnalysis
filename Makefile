@@ -68,3 +68,7 @@ metrics: full_stream_graph link_stream induced_graph iterators chunk_stream bit_
 cliques: metrics full_stream_graph link_stream induced_graph iterators chunk_stream bit_array interval events_table key_moments_table links_set nodes_set stream_graph stream chunk_stream_small
 	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/cliques.o $(SRC_DIR)/cliques.c $(LDFLAGS)
 	@ ar rc $(BIN_DIR)/cliques.a $(BIN_DIR)/cliques.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/iterators.o $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/stream.o $(BIN_DIR)/chunk_stream_small.o $(BIN_DIR)/metrics.o
+
+walks: full_stream_graph link_stream induced_graph iterators chunk_stream bit_array interval events_table key_moments_table links_set nodes_set stream_graph stream chunk_stream_small
+	@ $(CC) $(CFLAGS) -c -o $(BIN_DIR)/walks.o $(SRC_DIR)/walks.c $(LDFLAGS)
+	@ ar rc $(BIN_DIR)/walks.a $(BIN_DIR)/walks.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream_graph.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/interval.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/iterators.o $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/stream.o $(BIN_DIR)/chunk_stream_small.o $(BIN_DIR)/metrics.o
