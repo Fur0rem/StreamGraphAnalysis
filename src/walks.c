@@ -179,10 +179,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		};
 		WalkInfo result = {
 			.type = NO_WALK,
-			.walk_or_reason =
-				{
-								 .no_walk_reason = reason,
-								 },
+			.walk_or_reason.no_walk_reason = reason,
 		};
 		return result;
 	}
@@ -204,8 +201,9 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 
 	// Build the walk
 	Walk walk = {
-		//.start = from,
-		//.end = to,
+		.start = from,
+		.end = to,
+		.optimality = Interval_from(at, max_lifespan),
 		.stream = stream,
 		.steps = WalkStepVector_with_capacity(1),
 	};
@@ -243,20 +241,12 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	if (walk.steps.size == 0) {
 		// No walk found
 		NoWalkReason reason = {
-			.type = NODE_DOESNT_EXIST,
-			.reason =
-				{
-						 .node_doesnt_exist =
-						{
-							.interval = Interval_from(at, max_lifespan),
-						}, },
+			.type = IMPOSSIBLE_TO_REACH,
+			.reason.impossible_to_reach.impossible_after = current_time,
 		};
 		WalkInfo result = {
 			.type = NO_WALK,
-			.walk_or_reason =
-				{
-								 .no_walk_reason = reason,
-								 },
+			.walk_or_reason.no_walk_reason = reason,
 		};
 		return result;
 	}
@@ -266,20 +256,16 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		step->needs_to_arrive_before =
 			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
 	}
-
-	WalkWithInfo wi = {
-		.walk = walk,
-		.optimality = Interval_from(at, walk.steps.array[0].needs_to_arrive_before),
-	};
-	WalkInfo result = {
-		.type = WALK,
-		.walk_or_reason = wi,
-	};
+	walk.optimality.end = walk.steps.array[walk.steps.size - 1].needs_to_arrive_before;
 
 	char* str = WalkStepVector_to_string(&walk.steps);
 	printf("Walk: %s\n", str);
 	free(str);
 
+	WalkInfo result = {
+		.type = WALK,
+		.walk_or_reason.walk = walk,
+	};
 	return result;
 }
 
@@ -293,11 +279,21 @@ DefVector(char2, NO_FREE(char2));
 char* Walk_to_string(Walk* walk) {
 	if (walk->steps.size == 0) {
 		char* str = malloc(100);
-		sprintf(str, "No walk exists\n");
+		sprintf(str, "No walk from %zu to %zu at %zu\n", walk->start, walk->end, walk->optimality.start);
 		return str;
 	}
 	char2Vector str = char2Vector_with_capacity(100);
+	char2Vector_append(&str, APPEND_CONST("Walk from "));
 	char buf[100];
+	sprintf(buf, "%zu", walk->start);
+	char2Vector_append(&str, buf, strlen(buf));
+	char2Vector_append(&str, APPEND_CONST(" to "));
+	sprintf(buf, "%zu", walk->end);
+	char2Vector_append(&str, buf, strlen(buf));
+	char2Vector_append(&str, APPEND_CONST(" at "));
+	sprintf(buf, "Optimal at %s\n", Interval_to_string(&walk->optimality));
+	char2Vector_append(&str, buf, strlen(buf));
+	char2Vector_append(&str, APPEND_CONST("\n"));
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
@@ -328,22 +324,9 @@ bool Walk_equals(Walk a, Walk b) {
 	return true;
 }
 
-char* WalkWithInfo_to_string(WalkWithInfo* wi) {
-	char* str = Walk_to_string(&wi->walk);
-	char* str2 = Interval_to_string(&wi->optimality);
-	char* result = malloc(strlen(str) + strlen(str2) + 2);
-	strcpy(result, str2);
-	strcat(result, "\n");
-	strcat(result, str);
-
-	free(str);
-	free(str2);
-	return result;
-}
-
 char* WalkInfo_to_string(WalkInfo* wi) {
 	if (wi->type == WALK) {
-		char* str = WalkWithInfo_to_string(&wi->walk_or_reason.walk_with_info);
+		char* str = Walk_to_string(&wi->walk_or_reason.walk);
 		char* result = malloc(strlen(str) + 100);
 		sprintf(result, "WalkInfo(WALK, %s)", str);
 		free(str);
@@ -361,7 +344,7 @@ bool WalkInfo_equals(WalkInfo a, WalkInfo b) {
 		return false;
 	}
 	if (a.type == WALK) {
-		return Walk_equals(a.walk_or_reason.walk_with_info.walk, b.walk_or_reason.walk_with_info.walk);
+		return Walk_equals(a.walk_or_reason.walk, b.walk_or_reason.walk);
 	}
 	else {
 		return a.walk_or_reason.no_walk_reason.type == b.walk_or_reason.no_walk_reason.type;
@@ -394,7 +377,7 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 			}
 		}
 		else if (optimal.type == WALK) {
-			Interval optimality = optimal.walk_or_reason.walk_with_info.optimality;
+			Interval optimality = optimal.walk_or_reason.walk.optimality;
 			current_time = optimality.end;
 		}
 	}

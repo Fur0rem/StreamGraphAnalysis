@@ -47,9 +47,9 @@ bool WalkStep_equals(WalkStep a, WalkStep b);
 DefVector(WalkStep, NO_FREE(WalkStep));
 
 typedef struct {
-	// NodeId start;
-	// NodeId end;
-	// Interval optimal_between;
+	NodeId start;
+	NodeId end;
+	Interval optimality;
 	Stream* stream;
 	WalkStepVector steps;
 } Walk;
@@ -59,7 +59,7 @@ typedef struct {
 } NodeDoesntExistInfo;
 
 typedef struct {
-	TimeId time;
+	TimeId impossible_after;
 } ImpossibleToReachInfo;
 
 typedef struct {
@@ -74,14 +74,8 @@ typedef struct {
 } NoWalkReason;
 
 typedef struct {
-	NodeId start, end;
-	Walk walk;
-	Interval optimality;
-} WalkWithInfo;
-
-typedef struct {
 	union {
-		WalkWithInfo walk_with_info;
+		Walk walk;
 		NoWalkReason no_walk_reason;
 	} walk_or_reason;
 	enum {
