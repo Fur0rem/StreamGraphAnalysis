@@ -3,6 +3,7 @@
 #include "hashset.h"
 #include "interval.h"
 #include "iterators.h"
+#include "stream.h"
 #include "stream_functions.h"
 
 // For STREAM_FUNCS
@@ -39,19 +40,19 @@ typedef struct {
 	NodeId node;
 	size_t time;
 	size_t depth;
-	Interval optimal_at;
+	Interval interval_taken;
 	void* previous; // (QueueInfo*)
 } QueueInfo;
 
 bool QueueInfo_equals(QueueInfo a, QueueInfo b) {
 	return a.node == b.node && a.time == b.time && a.previous == b.previous &&
-		   Interval_equals(a.optimal_at, b.optimal_at) && a.depth == b.depth;
+		   Interval_equals(a.interval_taken, b.interval_taken) && a.depth == b.depth;
 }
 
 char* QueueInfo_to_string(QueueInfo* info) {
 	char* str = malloc(100);
-	sprintf(str, "QueueInfo(node:%zu, time:%zu, optimal_at:%s, depth:%zu)", info->node, info->time,
-			Interval_to_string(&info->optimal_at), info->depth);
+	sprintf(str, "QueueInfo(node:%zu, time:%zu, interval taken:%s, depth:%zu)", info->node, info->time,
+			Interval_to_string(&info->interval_taken), info->depth);
 	return str;
 }
 
@@ -193,11 +194,6 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 		printf("Finding optimal walk from %zu to %zu at %zu\n", from, to, current_time);
 		WalkInfo optimal = fn(stream, from, to, current_time);
 		WalkInfoVector_push(&walks, optimal);
-		/*current_time = optimal.optimal_between.end;
-		if (current_time == previous_time) {
-			current_time++;
-		}
-		previous_time = current_time;*/
 		if (optimal.type == NO_WALK) {
 			NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
 			if (error.type == NODE_DOESNT_EXIST) {
@@ -213,6 +209,62 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 		}
 	}
 	return walks;
+}
+
+// TODO : this doesn't work (why i copy pasted the other one ???)
+WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candidates, NodeId from, NodeId to) {
+	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
+	StreamGraph sg = *fsg->underlying_stream_graph;
+	WalkStepVector steps = WalkStepVector_with_capacity(1);
+	QueueInfo* current_walk = candidates;
+	while (current_walk != NULL) {
+		NodeId current_node = current_walk->node;
+		QueueInfo* previous = current_walk->previous;
+		NodeId previous_node = previous == NULL ? from : previous->node;
+		// Find the link between the current node and the previous node
+		// TODO : make a function that does finds the link between two nodes for a given stream cause i use that a lot
+		for (size_t i = 0; i < sg.links.nb_links; i++) {
+			Link link = sg.links.links[i];
+			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
+				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
+				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
+				WalkStepVector_push(&steps, step);
+				break;
+			}
+		}
+		current_walk = previous;
+	}
+	WalkStepVector_reverse(&steps);
+	return steps;
+}
+
+WalkInfo unreachable_after(TimeId after) {
+	NoWalkReason reason = {
+		.type = IMPOSSIBLE_TO_REACH,
+		.reason.impossible_to_reach.impossible_after = after, // TODO : rename impossible to reach to unreachable
+	};
+	return (WalkInfo){
+		.type = NO_WALK,
+		.walk_or_reason.no_walk_reason = reason,
+	};
+}
+
+WalkInfo node_doesnt_exist_in_interval(Interval interval) {
+	NoWalkReason reason = {
+		.type = NODE_DOESNT_EXIST,
+		.reason.node_doesnt_exist.interval = interval,
+	};
+	return (WalkInfo){
+		.type = NO_WALK,
+		.walk_or_reason.no_walk_reason = reason,
+	};
+}
+
+WalkInfo walk(Walk walk) {
+	return (WalkInfo){
+		.type = WALK,
+		.walk_or_reason.walk = walk,
+	};
 }
 
 // Minimal number of hops between two nodes
@@ -232,7 +284,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	// Initialize the queue with the starting node
 	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
 	size_t max_lifespan = StreamGraph_lifespan_end(&sg);
-	QueueInfo start = {from, current_time, .optimal_at = Interval_from(at, max_lifespan), .previous = NULL};
+	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
 	QueueInfoVector_push(&queue, start);
 
 	NodeId current_candidate = from;
@@ -267,22 +319,18 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
-					QueueInfo neighbor_info = {neighbor_id, time_crossed, .optimal_at = interval, .previous = previous};
+					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
+											   .previous = previous};
 					QueueInfoVector_push(&queue, neighbor_info);
 				}
 			}
 		}
 	}
 
+	printf("Queue is empty: %d\n", QueueInfoVector_is_empty(queue));
+
 	if (QueueInfoVector_is_empty(queue)) { // No walk found
-		NoWalkReason reason = {
-			.type = IMPOSSIBLE_TO_REACH,
-			.reason.impossible_to_reach.impossible_after = at,
-		};
-		result = (WalkInfo){
-			.type = NO_WALK,
-			.walk_or_reason.no_walk_reason = reason,
-		};
+		result = unreachable_after(at);
 		goto cleanup_and_return;
 	}
 
@@ -290,10 +338,12 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	Walk walk = {
 		.start = from,
 		.end = to,
-		.optimality = Interval_from(at, max_lifespan),
+		.optimality = Interval_from(at, StreamGraph_lifespan_end(&sg)),
 		.stream = stream,
 		.steps = WalkStepVector_with_capacity(1),
 	};
+
+	// Build the walk steps
 	QueueInfo* current_walk = &current_info;
 	while (current_walk != NULL) {
 		NodeId current_node = current_walk->node;
@@ -305,30 +355,23 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 			Link link = sg.links.links[i];
 			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
-				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->optimal_at.end};
+				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
 				WalkStepVector_push(&walk.steps, step);
 				break;
 			}
 		}
-
 		current_walk = previous;
 	}
 
 	WalkStepVector_reverse(&walk.steps);
 
-	// propagate the optimal intervals
-	if (walk.steps.size == 0) {
-		// No walk found
-		NoWalkReason reason = {
-			.type = IMPOSSIBLE_TO_REACH,
-			.reason.impossible_to_reach.impossible_after = current_time,
-		};
-		result = (WalkInfo){
-			.type = NO_WALK,
-			.walk_or_reason.no_walk_reason = reason,
-		};
-		goto cleanup_and_return;
+	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
+	for (size_t i = 0; i < walk.steps.size - 1; i++) {
+		WalkStep* step = &walk.steps.array[i];
+		step->needs_to_arrive_before =
+			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
 	}
+	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
 
 	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
 	for (size_t i = 0; i < walk.steps.size - 1; i++) {
@@ -362,7 +405,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 
 	// Initialize the queue with the starting node
 	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
-	QueueInfo start = {from, current_time, 0, .optimal_at = Interval_from(at, StreamGraph_lifespan_end(&sg)),
+	QueueInfo start = {from, current_time, 0, .interval_taken = Interval_from(at, StreamGraph_lifespan_end(&sg)),
 					   .previous = NULL};
 	QueueInfoVector_push(&queue, start);
 
@@ -401,7 +444,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 					*previous = current_info;
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id, time_crossed, current_info.depth + 1,
-											   .optimal_at = interval, .previous = previous};
+											   .interval_taken = interval, .previous = previous};
 					QueueInfoVector_push(&queue, neighbor_info);
 				}
 			}
@@ -435,26 +478,8 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		.end = to,
 		.optimality = Interval_from(at, StreamGraph_lifespan_end(&sg)),
 		.stream = stream,
-		.steps = WalkStepVector_with_capacity(1),
+		.steps = WalkStepVector_from_candidates(stream, best_yet.previous, from, to),
 	};
-	QueueInfo* current_walk = &best_yet;
-	while (current_walk != NULL) {
-		NodeId current_node = current_walk->node;
-		QueueInfo* previous = current_walk->previous;
-		NodeId previous_node = previous == NULL ? from : previous->node;
-		// Find the link between the current node and the previous node
-		// TODO : make a function that does finds the link between two nodes for a given stream cause i use that a lot
-		for (size_t i = 0; i < sg.links.nb_links; i++) {
-			Link link = sg.links.links[i];
-			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
-				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
-				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->optimal_at.end};
-				WalkStepVector_push(&walk.steps, step);
-				break;
-			}
-		}
-		current_walk = previous;
-	}
 
 	WalkStepVector_reverse(&walk.steps);
 
