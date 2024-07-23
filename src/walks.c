@@ -1,4 +1,5 @@
 #include "walks.h"
+#include "arena.h"
 #include "hashset.h"
 #include "interval.h"
 #include "iterators.h"
@@ -95,9 +96,13 @@ DefHashset(ExploredState, ExploredState_hash, NO_FREE(ExploredState));
 // Minimal number of hops between two nodes
 WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
+	WalkInfo result;
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
+
+	ArenaVector arena = ArenaVector_init();
+	printf("Arena initialized\n");
 
 	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
@@ -154,7 +159,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 					// Link link = fns.nth_link(stream, neighbor);
 					Link link = l;
 					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					QueueInfo* previous = malloc(sizeof(QueueInfo));
+					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					// TODO : do with the .optimal_at notation for every field
 					QueueInfo neighbor_info = {neighbor_id, current_time, .optimal_at = interval, .previous = previous};
@@ -166,7 +171,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 					Link link = l;
 					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					// QueueInfo neighbor_info = {neighbor_id, interval.start, current_candidate};
-					QueueInfo* previous = malloc(sizeof(QueueInfo));
+					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					QueueInfo neighbor_info = {neighbor_id, interval.start, .optimal_at = interval,
 											   .previous = previous};
@@ -181,11 +186,11 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		NoWalkReason reason = {
 			.type = IMPOSSIBLE_TO_REACH,
 		};
-		WalkInfo result = {
+		result = (WalkInfo){
 			.type = NO_WALK,
 			.walk_or_reason.no_walk_reason = reason,
 		};
-		return result;
+		goto cleanup_and_return;
 	}
 	/*printf("Shortest walk found\n");
 	char* str = QueueInfoVector_to_string(&queue);
@@ -248,11 +253,11 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 			.type = IMPOSSIBLE_TO_REACH,
 			.reason.impossible_to_reach.impossible_after = current_time,
 		};
-		WalkInfo result = {
+		result = (WalkInfo){
 			.type = NO_WALK,
 			.walk_or_reason.no_walk_reason = reason,
 		};
-		return result;
+		goto cleanup_and_return;
 	}
 
 	for (size_t i = 0; i < walk.steps.size - 1; i++) {
@@ -266,10 +271,15 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	printf("Walk: %s\n", str);
 	free(str);*/
 
-	WalkInfo result = {
+	result = (WalkInfo){
 		.type = WALK,
 		.walk_or_reason.walk = walk,
 	};
+
+cleanup_and_return:
+	QueueInfoVector_destroy(queue);
+	ExploredStateHashset_destroy(explored);
+	ArenaVector_destroy(arena);
 	return result;
 }
 
@@ -295,7 +305,9 @@ char* Walk_to_string(Walk* walk) {
 	sprintf(buf, "%zu", walk->end);
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST(" at "));
-	sprintf(buf, "Optimal at %s\n", Interval_to_string(&walk->optimality));
+	char* time_str = Interval_to_string(&walk->optimality);
+	sprintf(buf, "Optimal at %s\n", time_str);
+	free(time_str);
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST("\n"));
 
@@ -388,31 +400,13 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 	return walks;
 }
 
-// Breadth-first search for shortest walk
-// typedef struct {
-// 	NodeId node;
-// 	size_t time;
-// 	size_t depth;
-// 	void* previous; // (QueueInfoDepth*)
-// } QueueInfoDepth;
-
-// bool QueueInfoDepth_equals(QueueInfoDepth a, QueueInfoDepth b) {
-// 	return a.node == b.node && a.time == b.time && a.previous == b.previous;
-// }
-
-// char* QueueInfoDepth_to_string(QueueInfoDepth* info) {
-// 	char* str = malloc(100);
-// 	sprintf(str, "QueueInfoDepth(node:%zu, time:%zu)", info->node, info->time);
-// 	return str;
-// }
-
-// DefVector(QueueInfoDepth, NO_FREE(QueueInfoDepth));
-
 WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
-
+	WalkInfo result;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
+
+	ArenaVector arena = ArenaVector_init();
 
 	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
@@ -470,7 +464,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 					// Link link = fns.nth_link(stream, neighbor);
 					Link link = l;
 					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					QueueInfo* previous = malloc(sizeof(QueueInfo));
+					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					QueueInfo neighbor_info = {neighbor_id, current_time, current_info.depth + 1,
 											   .optimal_at = interval, .previous = previous};
@@ -482,7 +476,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 					Link link = l;
 					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					// QueueInfo neighbor_info = {neighbor_id, interval.start, current_candidate};
-					QueueInfo* previous = malloc(sizeof(QueueInfo));
+					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					QueueInfo neighbor_info = {neighbor_id, interval.start, current_info.depth + 1,
 											   .optimal_at = interval, .previous = previous};
@@ -505,11 +499,11 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		NoWalkReason reason = {
 			.type = IMPOSSIBLE_TO_REACH,
 		};
-		WalkInfo result = {
+		result = (WalkInfo){
 			.type = NO_WALK,
 			.walk_or_reason.no_walk_reason = reason,
 		};
-		return result;
+		goto cleanup_and_return;
 	}
 	/*printf(" fastest shortest walk found\n");
 	char* str = QueueInfoVector_to_string(&queue);
@@ -553,7 +547,6 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 				break;
 			}
 		}
-
 		current_walk = previous;
 	}
 
@@ -571,11 +564,11 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 			.type = IMPOSSIBLE_TO_REACH,
 			.reason.impossible_to_reach.impossible_after = current_time,
 		};
-		WalkInfo result = {
+		result = (WalkInfo){
 			.type = NO_WALK,
 			.walk_or_reason.no_walk_reason = reason,
 		};
-		return result;
+		goto cleanup_and_return;
 	}
 
 	for (size_t i = 0; i < walk.steps.size - 1; i++) {
@@ -590,99 +583,24 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 	printf("Walk: %s\n", str);
 	free(str);*/
 
-	return (WalkInfo){
+	result = (WalkInfo){
 		.type = WALK,
 		.walk_or_reason.walk = walk,
 	};
+
+cleanup_and_return:
+	QueueInfoVector_destroy(queue);
+	ExploredStateHashset_destroy(explored);
+	ArenaVector_destroy(arena);
+	return result;
 }
 
-// Interval Walk_is_still_optimal_between(Walk* walk) {
-// 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream;
-// 	StreamGraph sg = *fsg->underlying_stream_graph;
+void Walk_destroy(Walk walk) {
+	WalkStepVector_destroy(walk.steps);
+}
 
-// 	Interval still_optimal = {walk->start_time, walk->start_time};
-// 	// Loop through all the events of the stream
-// 	size_t2Vector moments = KeyMomentsTable_all_moments(&sg.key_moments);
-// 	for (size_t i = 0; i < moments.size; i++) {
-// 		size_t moment = moments.array[i];
-// 		size_t next_moment = i == moments.size - 1 ? SIZE_MAX : moments.array[i + 1];
-// 		printf("Moment: %zu\n", moment);
-// 		if ((moment < walk->start_time) && (next_moment > walk->start_time)) {
-// 			still_optimal.start = moment;
-// 			still_optimal.end = next_moment;
-// 			break;
-// 		}
-// 	}
-// 	if (still_optimal.end == still_optimal.start) {
-// 		still_optimal.end++;
-// 	}
-
-// 	return still_optimal;
-// }
-
-// char* WalkOptimal_to_string(WalkOptimal* wo) {
-// 	char* str = Walk_to_string(&wo->walk);
-// 	char* str2 = Interval_to_string(&wo->optimality);
-// 	char* result = malloc(strlen(str) + strlen(str2) + 2);
-// 	strcpy(result, str2);
-// 	strcat(result, "\n");
-// 	strcat(result, str);
-
-// 	free(str);
-// 	free(str2);
-// 	return result;
-// }
-
-// bool Walk_equals(Walk a, Walk b) {
-// 	if (a.start != b.start || a.end != b.end || a.start_time != b.start_time || a.steps.size != b.steps.size) {
-// 		return false;
-// 	}
-// 	for (size_t i = 0; i < a.steps.size; i++) {
-// 		if (a.steps.array[i].link != b.steps.array[i].link || a.steps.array[i].time != b.steps.array[i].time) {
-// 			return false;
-// 		}
-// 	}
-// 	return true;
-// }
-
-// bool WalkOptimal_equals(WalkOptimal a, WalkOptimal b) {
-// 	return Walk_equals(a.walk, b.walk) && Interval_equals(a.optimality, b.optimality);
-// }
-
-// WalkOptimalVector optimals_between_two_nodes(Stream* stream, NodeId from, NodeId to) {
-// 	// start by the last event of the from node
-// 	TimeId current_time = 0;
-// 	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
-// 	StreamGraph sg = *fsg->underlying_stream_graph;
-// 	TemporalNode from_node = sg.nodes.nodes[from];
-// 	TemporalNode to_node = sg.nodes.nodes[to];
-// 	WalkOptimalVector optimals = WalkOptimalVector_with_capacity(from_node.nb_neighbours);
-// 	for (size_t i = 0; i < from_node.nb_neighbours; i++) {
-// 		LinkId link = from_node.neighbours[i];
-// 		Link l = sg.links.links[link];
-// 		for (size_t j = 0; j < l.presence.nb_intervals; j++) {
-// 			Interval interval = l.presence.intervals[j];
-// 			if (interval.end > current_time) {
-// 				current_time = interval.end;
-// 			}
-// 		}
-// 	}
-// 	current_time--;
-// 	printf("Last event of from node: %zu\n", current_time);
-
-// 	// size_t previous_time = current_time;
-// 	while (current_time != SIZE_MAX) {
-// 		// Find the shortest walk from from to to at current_time
-// 		Walk shortest = Stream_shortest_walk_from_to_at(stream, from, to, current_time);
-// 		Interval shortest_optimality = Walk_is_still_optimal_between(&shortest);
-// 		WalkOptimal wo = {shortest, shortest_optimality};
-// 		WalkOptimalVector_push(&optimals, wo);
-// 		current_time = shortest_optimality.start;
-// 		// if (current_time == previous_time) {
-// 		current_time--;
-// 		//}
-// 		// previous_time = current_time;
-// 	}
-
-// 	return optimals;
-// }
+void WalkInfo_destroy(WalkInfo wi) {
+	if (wi.type == WALK) {
+		Walk_destroy(wi.walk_or_reason.walk);
+	}
+}

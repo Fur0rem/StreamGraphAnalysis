@@ -63,10 +63,21 @@ bool test_walk_a_c() {
 	str = WalkInfo_to_string(&w3);
 	printf("w3 %s\n", str);
 	free(str);
-	w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
-	str = WalkInfo_to_string(&w3);
-	printf("w3 %s\n", str);
+	WalkInfo w4 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
+	str = WalkInfo_to_string(&w4);
+	printf("w4 %s\n", str);
 	free(str);
+
+	StreamGraph_destroy(sg);
+	StreamGraph_destroy(sg2);
+
+	WalkInfo_destroy(w);
+	WalkInfo_destroy(w2);
+	WalkInfo_destroy(w3);
+	WalkInfo_destroy(w4);
+
+	free(fsg);
+	free(st);
 
 	return true;
 }
@@ -89,6 +100,9 @@ bool test_walk_optimal() {
 		printf("%s\n", str);
 		free(str);
 	}
+
+	StreamGraph_destroy(sg);
+	WalkInfoVector_destroy(walks);
 
 	return true;
 }
@@ -128,49 +142,11 @@ bool test_fastest_shortest() {
 	printf("w3 %s\n", str);
 	free(str);
 
-	return true;
-}
-
-bool test_optimals() {
-	/*StreamGraph sg = StreamGraph_from_external("tests/test_data/L_10.txt");
-	FullStreamGraph fsg = (FullStreamGraph){
-		.underlying_stream_graph = &sg,
-	};
-	Stream st = (Stream){
-		.type = FULL_STREAM_GRAPH,
-		.stream = &fsg,
-	};
-	printf("Loaded graph\n");
-
-	for (size_t n = 1; n <= 3; n++) {
-		WalkOptimalVector optimals = optimals_between_two_nodes(&st, 0, n);
-		printf("Optimals between 0 and %zu\n", n);
-		for (size_t i = 0; i < optimals.size; i++) {
-			char* str = WalkOptimal_to_string(&optimals.array[i]);
-			printf("%s\n", str);
-			free(str);
-		}
-	}
-
-	StreamGraph s2 = StreamGraph_from_external("tests/test_data/L.txt");
-	FullStreamGraph fsg2 = (FullStreamGraph){
-		.underlying_stream_graph = &s2,
-	};
-	Stream st2 = (Stream){
-		.type = FULL_STREAM_GRAPH,
-		.stream = &fsg2,
-	};
-	printf("Loaded graph\n");
-
-	for (size_t n = 1; n <= 3; n++) {
-		WalkOptimalVector optimals = optimals_between_two_nodes(&st2, 0, n);
-		printf("Optimals between 0 and %zu\n", n);
-		for (size_t i = 0; i < optimals.size; i++) {
-			char* str = WalkOptimal_to_string(&optimals.array[i]);
-			printf("%s\n", str);
-			free(str);
-		}
-	}*/
+	StreamGraph_destroy(sg);
+	StreamGraph_destroy(sg2);
+	WalkInfo_destroy(w);
+	WalkInfo_destroy(w2);
+	WalkInfo_destroy(w3);
 
 	return true;
 }
@@ -179,7 +155,6 @@ int main() {
 	Test* tests[] = {
 		&(Test){"walk_a_c",			test_walk_a_c		 },
 		&(Test){"walk_optimal",		test_walk_optimal	 },
-		&(Test){"optimals",			test_optimals		 },
 		&(Test){"fastest_shortest", test_fastest_shortest},
 
 		NULL
