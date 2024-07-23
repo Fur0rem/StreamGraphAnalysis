@@ -33,7 +33,25 @@ TreeNode TreeNode_with_id(size_t id);
 void TreeNode_push_child(TreeNode* node, TreeEdge child);
 TreeNode exploration_tree_from_stream(Stream* stream);
 
-void Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
-void Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId at);
+typedef struct {
+	LinkId link;
+	size_t time;
+} PathStep;
 
+char* PathStep_to_string(PathStep* step);
+bool PathStep_equals(PathStep a, PathStep b);
+
+DefVector(PathStep, NO_FREE(PathStep));
+
+typedef struct {
+	NodeId start;
+	NodeId end;
+	TimeId start_time;
+	Stream* stream;
+	PathStepVector steps;
+} Path;
+
+Path Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
+Path Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId at);
+char* Path_to_string(Path* path);
 #endif // WALK_H
