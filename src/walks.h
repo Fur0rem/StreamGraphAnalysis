@@ -57,6 +57,9 @@ typedef struct {
 Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
 // Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 char* Walk_to_string(Walk* walk);
+bool Walk_equals(Walk a, Walk b);
+
+DefVector(Walk, NO_FREE(Walk));
 // Interval Walk_is_still_optimal_between(Walk* walk);
 
 // typedef struct {
@@ -74,4 +77,6 @@ char* Walk_to_string(Walk* walk);
 
 // WalkOptimalVector optimals_between_two_nodes(Stream* stream, NodeId from, NodeId to);
 
+WalkVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
+										   Walk (*fn)(Stream*, NodeId, NodeId, TimeId));
 #endif // WALK_H

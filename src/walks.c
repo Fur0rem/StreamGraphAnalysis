@@ -117,7 +117,7 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 			Link l = sg.links.links[neighbor];
 			for (size_t j = 0; j < l.presence.nb_intervals; j++) {
 				Interval interval = l.presence.intervals[j];
-				if (interval.start <= current_time && interval.end >= current_time) {
+				if (interval.start <= current_time && interval.end > current_time) {
 					// Link link = fns.nth_link(stream, neighbor);
 					Link link = l;
 					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
@@ -146,7 +146,7 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 	free(str);*/
 
 	// Print the walk
-	printf("Shortest walk found\n");
+	/*printf("Shortest walk found\n");
 	QueueInfo* current = &current_info;
 	while (current != NULL) {
 		char* info_str = QueueInfo_to_string(current);
@@ -154,7 +154,7 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 		free(info_str);
 		current = current->previous;
 	}
-	printf("End of walk\n");
+	printf("End of walk\n");*/
 
 	// Build the walk
 	Walk walk = {
@@ -194,6 +194,11 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 	}
 
 	// propagate the optimal intervals
+	if (walk.steps.size == 0) {
+		walk.optimal_between = Interval_from(at, at);
+		return walk;
+	}
+
 	for (size_t i = 0; i < walk.steps.size - 1; i++) {
 		WalkStep* step = &walk.steps.array[i];
 		step->needs_to_arrive_before =
@@ -217,6 +222,11 @@ DefVector(char2, NO_FREE(char2));
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
 char* Walk_to_string(Walk* walk) {
+	if (walk->steps.size == 0) {
+		char* str = malloc(100);
+		sprintf(str, "No walk from %zu to %zu at %zu\n", walk->start, walk->end, walk->optimal_between.start);
+		return str;
+	}
 	char2Vector str = char2Vector_with_capacity(100);
 	char2Vector_append(&str, APPEND_CONST("Walk from "));
 	char buf[100];
@@ -248,6 +258,39 @@ char* Walk_to_string(Walk* walk) {
 	}
 	char2Vector_push(&str, '\0');
 	return str.array;
+}
+
+bool Walk_equals(Walk a, Walk b) {
+	if (a.start != b.start || a.end != b.end || a.stream != b.stream || a.steps.size != b.steps.size) {
+		return false;
+	}
+	for (size_t i = 0; i < a.steps.size; i++) {
+		if (!WalkStep_equals(a.steps.array[i], b.steps.array[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+
+WalkVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
+										   Walk (*fn)(Stream*, NodeId, NodeId, TimeId)) {
+	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
+	StreamGraph sg = *fsg->underlying_stream_graph;
+	WalkVector walks = WalkVector_with_capacity(1);
+	TimeId current_time = 0;
+	TimeId previous_time = 0;
+	while (current_time != StreamGraph_lifespan_end(&sg)) {
+		printf("Finding optimal walk from %zu to %zu at %zu\n", from, to, current_time);
+		Walk optimal = fn(stream, from, to, current_time);
+		WalkVector_push(&walks, optimal);
+		current_time = optimal.optimal_between.end;
+		if (current_time == previous_time) {
+			current_time++;
+		}
+		previous_time = current_time;
+	}
+	printf("found %zu optimal walks\n", walks.size);
+	return walks;
 }
 
 // Breadth-first search for shortest walk
