@@ -72,7 +72,7 @@ bool test_walk_a_c() {
 }
 
 bool test_walk_optimal() {
-	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/test.txt");
 	FullStreamGraph fsg = (FullStreamGraph){
 		.underlying_stream_graph = &sg,
 	};
