@@ -145,6 +145,14 @@
                                                                                                                        \
 	static type* type##Vector_get(type##Vector* vec, size_t idx) {                                                     \
 		return &vec->array[idx];                                                                                       \
+	}                                                                                                                  \
+                                                                                                                       \
+	static void type##Vector_reverse(type##Vector* vec) {                                                              \
+		for (size_t i = 0; i < vec->size / 2; i++) {                                                                   \
+			type tmp = vec->array[i];                                                                                  \
+			vec->array[i] = vec->array[vec->size - i - 1];                                                             \
+			vec->array[vec->size - i - 1] = tmp;                                                                       \
+		}                                                                                                              \
 	}
 
 #endif // VECTOR_H
