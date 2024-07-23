@@ -72,7 +72,7 @@ bool test_walk_a_c() {
 }
 
 bool test_walk_optimal() {
-	/*StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
 	FullStreamGraph fsg = (FullStreamGraph){
 		.underlying_stream_graph = &sg,
 	};
@@ -82,32 +82,13 @@ bool test_walk_optimal() {
 	};
 	printf("Loaded graph\n");
 
-	Walk w = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
-	Interval i = Walk_is_still_optimal_between(&w);
-	char* str = Walk_to_string(&w);
-	printf("w %s", str);
-	free(str);
-	str = Interval_to_string(&i);
-	printf("optimal between %s\n\n", str);
-	free(str);
-
-	Walk wa = Stream_shortest_walk_from_to_at(&st, 0, 3, 1);
-	Interval ia = Walk_is_still_optimal_between(&wa);
-	str = Walk_to_string(&wa);
-	printf("wa %s", str);
-	free(str);
-	str = Interval_to_string(&ia);
-	printf("optimal between %s\n\n", str);
-	free(str);
-
-	Walk w2 = Stream_fastest_shortest_walk(&st, 0, 3, 0);
-	Interval i2 = Walk_is_still_optimal_between(&w2);
-	str = Walk_to_string(&w2);
-	printf("w2 %s", str);
-	free(str);
-	str = Interval_to_string(&i2);
-	printf("optimal between %s\n\n", str);
-	free(str);*/
+	WalkVector walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
+	printf("Optimal walks between 0 and 3\n");
+	for (size_t i = 0; i < walks.size; i++) {
+		char* str = Walk_to_string(&walks.array[i]);
+		printf("%s\n", str);
+		free(str);
+	}
 
 	return true;
 }
