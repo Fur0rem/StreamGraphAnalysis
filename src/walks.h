@@ -85,7 +85,7 @@ typedef struct {
 } WalkInfo;
 
 WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
-// Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
+WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 char* Walk_to_string(Walk* walk);
 bool Walk_equals(Walk a, Walk b);
 char* WalkInfo_to_string(WalkInfo* wi);
