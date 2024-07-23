@@ -1,4 +1,5 @@
 #include "walks.h"
+#include "interval.h"
 #include "iterators.h"
 #include "stream_functions.h"
 
@@ -7,6 +8,7 @@
 #include "stream/chunk_stream_small.h"
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
+#include "stream_graph.h"
 #include "stream_graph/links_set.h"
 #include "stream_graph/nodes_set.h"
 #include "units.h"
@@ -391,49 +393,89 @@ Interval Walk_is_still_optimal_between(Walk* walk) {
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
 
-	Interval still_optimal = {walk->start_time, walk->steps.array[0].time};
-	// Look at the start node and go back until you find a link that appeared before the one taken in the walk
-	NodeId current_node = walk->start;
-	size_t current_time = walk->start_time;
-	TemporalNode node = sg.nodes.nodes[current_node];
+	Interval still_optimal = {walk->start_time, walk->start_time};
+	// Loop through all the events of the stream
+	size_t2Vector moments = KeyMomentsTable_all_moments(&sg.key_moments);
+	for (size_t i = 0; i < moments.size; i++) {
+		size_t moment = moments.array[i];
+		size_t next_moment = i == moments.size - 1 ? SIZE_MAX : moments.array[i + 1];
+		printf("Moment: %zu\n", moment);
+		if ((moment < walk->start_time) && (next_moment > walk->start_time)) {
+			still_optimal.start = moment;
+			still_optimal.end = next_moment;
+			break;
+		}
+	}
+	if (still_optimal.end == still_optimal.start) {
+		still_optimal.end++;
+	}
 
-	size_t last_apparition_before = SIZE_MAX;
-	for (size_t i = 0; i < node.nb_neighbours; i++) {
-		LinkId link = node.neighbours[i];
+	return still_optimal;
+}
+
+char* WalkOptimal_to_string(WalkOptimal* wo) {
+	char* str = Walk_to_string(&wo->walk);
+	char* str2 = Interval_to_string(&wo->optimality);
+	char* result = malloc(strlen(str) + strlen(str2) + 2);
+	strcpy(result, str2);
+	strcat(result, "\n");
+	strcat(result, str);
+
+	free(str);
+	free(str2);
+	return result;
+}
+
+bool Walk_equals(Walk a, Walk b) {
+	if (a.start != b.start || a.end != b.end || a.start_time != b.start_time || a.steps.size != b.steps.size) {
+		return false;
+	}
+	for (size_t i = 0; i < a.steps.size; i++) {
+		if (a.steps.array[i].link != b.steps.array[i].link || a.steps.array[i].time != b.steps.array[i].time) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool WalkOptimal_equals(WalkOptimal a, WalkOptimal b) {
+	return Walk_equals(a.walk, b.walk) && Interval_equals(a.optimality, b.optimality);
+}
+
+WalkOptimalVector optimals_between_two_nodes(Stream* stream, NodeId from, NodeId to) {
+	// start by the last event of the from node
+	TimeId current_time = 0;
+	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
+	StreamGraph sg = *fsg->underlying_stream_graph;
+	TemporalNode from_node = sg.nodes.nodes[from];
+	TemporalNode to_node = sg.nodes.nodes[to];
+	WalkOptimalVector optimals = WalkOptimalVector_with_capacity(from_node.nb_neighbours);
+	for (size_t i = 0; i < from_node.nb_neighbours; i++) {
+		LinkId link = from_node.neighbours[i];
 		Link l = sg.links.links[link];
 		for (size_t j = 0; j < l.presence.nb_intervals; j++) {
 			Interval interval = l.presence.intervals[j];
-			if (interval.end < current_time && interval.end > last_apparition_before) {
-				last_apparition_before = interval.end;
-			}
-			if (interval.start > current_time) {
-				break;
+			if (interval.end > current_time) {
+				current_time = interval.end;
 			}
 		}
 	}
-	if (last_apparition_before != SIZE_MAX) {
-		still_optimal.start = last_apparition_before;
-	}
-	else { // If no links appeared before the first step, then the walk is still optimal from the start
-		still_optimal.start = 0;
+	current_time--;
+	printf("Last event of from node: %zu\n", current_time);
+
+	// size_t previous_time = current_time;
+	while (current_time != SIZE_MAX) {
+		// Find the shortest walk from from to to at current_time
+		Walk shortest = Stream_shortest_walk_from_to_at(stream, from, to, current_time);
+		Interval shortest_optimality = Walk_is_still_optimal_between(&shortest);
+		WalkOptimal wo = {shortest, shortest_optimality};
+		WalkOptimalVector_push(&optimals, wo);
+		current_time = shortest_optimality.start;
+		// if (current_time == previous_time) {
+		current_time--;
+		//}
+		// previous_time = current_time;
 	}
 
-	/*size_t first_apparition_after = SIZE_MAX;
-	for (size_t i = 0; i < walk->steps.size; i++) {
-		WalkStep step = walk->steps.array[i];
-		Link l = sg.links.links[step.link];
-		for (size_t j = 0; j < l.presence.nb_intervals; j++) {
-			Interval interval = l.presence.intervals[j];
-			if (interval.start > current_time && interval.start < first_apparition_after) {
-				first_apparition_after = l.presence.intervals[j - 1].end;
-			}
-		}
-		current_time = step.time;
-		current_node = l.nodes[0] == current_node ? l.nodes[1] : l.nodes[0];
-	}
-	if (first_apparition_after != SIZE_MAX) {
-		still_optimal.end = first_apparition_after;
-	}*/
-
-	return still_optimal;
+	return optimals;
 }

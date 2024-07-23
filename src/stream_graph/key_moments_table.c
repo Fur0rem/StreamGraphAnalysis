@@ -61,6 +61,19 @@ size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
 	return last_moment;
 }
 
+DEFAULT_COMPARE(size_t2)
+DEFAULT_TO_STRING(size_t2, "%zu")
+
+size_t2Vector KeyMomentsTable_all_moments(KeyMomentsTable* kmt) {
+	size_t2Vector moments = size_t2Vector_with_capacity(100);
+	for (size_t i = 0; i < kmt->nb_slices; i++) {
+		for (size_t j = 0; j < kmt->slices[i].nb_moments; j++) {
+			size_t2Vector_push(&moments, kmt->slices[i].moments[j] + (i * SLICE_SIZE));
+		}
+	}
+	return moments;
+}
+
 void KeyMomentsTable_destroy(KeyMomentsTable kmt) {
 	for (size_t i = 0; i < kmt.nb_slices; i++) {
 		free(kmt.slices[i].moments);

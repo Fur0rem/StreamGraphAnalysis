@@ -88,10 +88,55 @@ bool test_walk_optimal() {
 	return true;
 }
 
+bool test_optimals() {
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/L_10.txt");
+	FullStreamGraph fsg = (FullStreamGraph){
+		.underlying_stream_graph = &sg,
+	};
+	Stream st = (Stream){
+		.type = FULL_STREAM_GRAPH,
+		.stream = &fsg,
+	};
+	printf("Loaded graph\n");
+
+	for (size_t n = 1; n <= 3; n++) {
+		WalkOptimalVector optimals = optimals_between_two_nodes(&st, 0, n);
+		printf("Optimals between 0 and %zu\n", n);
+		for (size_t i = 0; i < optimals.size; i++) {
+			char* str = WalkOptimal_to_string(&optimals.array[i]);
+			printf("%s\n", str);
+			free(str);
+		}
+	}
+
+	StreamGraph s2 = StreamGraph_from_external("tests/test_data/L.txt");
+	FullStreamGraph fsg2 = (FullStreamGraph){
+		.underlying_stream_graph = &s2,
+	};
+	Stream st2 = (Stream){
+		.type = FULL_STREAM_GRAPH,
+		.stream = &fsg2,
+	};
+	printf("Loaded graph\n");
+
+	for (size_t n = 1; n <= 3; n++) {
+		WalkOptimalVector optimals = optimals_between_two_nodes(&st2, 0, n);
+		printf("Optimals between 0 and %zu\n", n);
+		for (size_t i = 0; i < optimals.size; i++) {
+			char* str = WalkOptimal_to_string(&optimals.array[i]);
+			printf("%s\n", str);
+			free(str);
+		}
+	}
+
+	return true;
+}
+
 int main() {
 	Test* tests[] = {
 		&(Test){"walk_a_c",		test_walk_a_c	 },
 		&(Test){"walk_optimal", test_walk_optimal},
+		&(Test){"optimals",		test_optimals	 },
 
 		NULL
 	};
