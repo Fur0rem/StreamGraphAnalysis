@@ -397,29 +397,43 @@ Interval Walk_is_still_optimal_between(Walk* walk) {
 	size_t current_time = walk->start_time;
 	TemporalNode node = sg.nodes.nodes[current_node];
 
-	size_t min_app = SIZE_MAX;
-	for (size_t n = 0; n < node.nb_neighbours; n++) {
-		LinkId link_id = node.neighbours[n];
-		Link link = sg.links.links[link_id];
-		for (size_t i = 0; i < link.presence.nb_intervals; i++) {
-			Interval interval = link.presence.intervals[i];
-
-			// Skip intervals that are not relevant
-			if (interval.start >= current_time) {
-				goto end_inner;
+	size_t last_apparition_before = SIZE_MAX;
+	for (size_t i = 0; i < node.nb_neighbours; i++) {
+		LinkId link = node.neighbours[i];
+		Link l = sg.links.links[link];
+		for (size_t j = 0; j < l.presence.nb_intervals; j++) {
+			Interval interval = l.presence.intervals[j];
+			if (interval.end < current_time && interval.end > last_apparition_before) {
+				last_apparition_before = interval.end;
 			}
-			if (interval.end <= current_time) {
-				continue;
-			}
-			if (interval.start < min_app) {
-				min_app = interval.start;
+			if (interval.start > current_time) {
+				break;
 			}
 		}
-	end_inner:;
 	}
-	if (min_app < still_optimal.start) {
-		still_optimal.start = min_app;
+	if (last_apparition_before != SIZE_MAX) {
+		still_optimal.start = last_apparition_before;
 	}
+	else { // If no links appeared before the first step, then the walk is still optimal from the start
+		still_optimal.start = 0;
+	}
+
+	/*size_t first_apparition_after = SIZE_MAX;
+	for (size_t i = 0; i < walk->steps.size; i++) {
+		WalkStep step = walk->steps.array[i];
+		Link l = sg.links.links[step.link];
+		for (size_t j = 0; j < l.presence.nb_intervals; j++) {
+			Interval interval = l.presence.intervals[j];
+			if (interval.start > current_time && interval.start < first_apparition_after) {
+				first_apparition_after = l.presence.intervals[j - 1].end;
+			}
+		}
+		current_time = step.time;
+		current_node = l.nodes[0] == current_node ? l.nodes[1] : l.nodes[0];
+	}
+	if (first_apparition_after != SIZE_MAX) {
+		still_optimal.end = first_apparition_after;
+	}*/
 
 	return still_optimal;
 }
