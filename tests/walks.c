@@ -93,6 +93,44 @@ bool test_walk_optimal() {
 	return true;
 }
 
+bool test_fastest_shortest() {
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
+	FullStreamGraph fsg = (FullStreamGraph){
+		.underlying_stream_graph = &sg,
+	};
+	Stream st = (Stream){
+		.type = FULL_STREAM_GRAPH,
+		.stream = &fsg,
+	};
+	printf("Loaded graph\n");
+
+	WalkInfo w = Stream_fastest_shortest_walk(&st, 0, 3, 0);
+	char* str = WalkInfo_to_string(&w);
+	printf("w %s\n", str);
+	free(str);
+
+	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
+	FullStreamGraph fsg2 = (FullStreamGraph){
+		.underlying_stream_graph = &sg2,
+	};
+	Stream st2 = (Stream){
+		.type = FULL_STREAM_GRAPH,
+		.stream = &fsg2,
+	};
+
+	WalkInfo w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
+	str = WalkInfo_to_string(&w2);
+	printf("w2 %s\n", str);
+	free(str);
+
+	WalkInfo w3 = Stream_fastest_shortest_walk(&st2, 0, 3, 9);
+	str = WalkInfo_to_string(&w3);
+	printf("w3 %s\n", str);
+	free(str);
+
+	return true;
+}
+
 bool test_optimals() {
 	/*StreamGraph sg = StreamGraph_from_external("tests/test_data/L_10.txt");
 	FullStreamGraph fsg = (FullStreamGraph){
@@ -139,9 +177,10 @@ bool test_optimals() {
 
 int main() {
 	Test* tests[] = {
-		&(Test){"walk_a_c",		test_walk_a_c	 },
-		&(Test){"walk_optimal", test_walk_optimal},
-		&(Test){"optimals",		test_optimals	 },
+		&(Test){"walk_a_c",			test_walk_a_c		 },
+		&(Test){"walk_optimal",		test_walk_optimal	 },
+		&(Test){"optimals",			test_optimals		 },
+		&(Test){"fastest_shortest", test_fastest_shortest},
 
 		NULL
 	};

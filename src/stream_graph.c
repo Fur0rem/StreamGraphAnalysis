@@ -158,7 +158,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		IntervalsSet presence = IntervalsSet_alloc(nb_intervals + 1);
 		sg.nodes.nodes[node].presence = presence;
 	}
 
