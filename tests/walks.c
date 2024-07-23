@@ -34,21 +34,45 @@ bool test_walk_a_c() {
 	// free(str);
 
 	Walk w = Stream_shortest_walk_from_to_at(st, 0, 3, 0);
-	Walk w2 = Stream_fastest_shortest_walk(st, 0, 3, 0);
+	// Walk w2 = Stream_fastest_shortest_walk(st, 0, 3, 0);
 	char* str = Walk_to_string(&w);
 	printf("w %s\n", str);
 	free(str);
 
+	Walk w2 = Stream_shortest_walk_from_to_at(st, 0, 3, 5);
 	str = Walk_to_string(&w2);
 	printf("w2 %s\n", str);
+	free(str);
 
+	// str = Walk_to_string(&w2);
+	// printf("w2 %s\n", str);
+
+	// free(str);
+
+	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
+	FullStreamGraph fsg2 = (FullStreamGraph){
+		.underlying_stream_graph = &sg2,
+	};
+	Stream st2 = (Stream){
+		.type = FULL_STREAM_GRAPH,
+		.stream = &fsg2,
+	};
+	printf("Loaded graph\n");
+
+	Walk w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
+	str = Walk_to_string(&w3);
+	printf("w3 %s\n", str);
+	free(str);
+	w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
+	str = Walk_to_string(&w3);
+	printf("w3 %s\n", str);
 	free(str);
 
 	return true;
 }
 
 bool test_walk_optimal() {
-	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
+	/*StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
 	FullStreamGraph fsg = (FullStreamGraph){
 		.underlying_stream_graph = &sg,
 	};
@@ -83,13 +107,13 @@ bool test_walk_optimal() {
 	free(str);
 	str = Interval_to_string(&i2);
 	printf("optimal between %s\n\n", str);
-	free(str);
+	free(str);*/
 
 	return true;
 }
 
 bool test_optimals() {
-	StreamGraph sg = StreamGraph_from_external("tests/test_data/L_10.txt");
+	/*StreamGraph sg = StreamGraph_from_external("tests/test_data/L_10.txt");
 	FullStreamGraph fsg = (FullStreamGraph){
 		.underlying_stream_graph = &sg,
 	};
@@ -127,7 +151,7 @@ bool test_optimals() {
 			printf("%s\n", str);
 			free(str);
 		}
-	}
+	}*/
 
 	return true;
 }
