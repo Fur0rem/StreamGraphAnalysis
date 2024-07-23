@@ -30,7 +30,7 @@ char* TreeEdge_to_string(TreeEdge* edge) {
 	return str;
 }
 
-// Breadth-first search for shortest path
+// Breadth-first search for shortest walk
 typedef struct {
 	NodeId node;
 	size_t time;
@@ -47,21 +47,21 @@ char* QueueInfo_to_string(QueueInfo* info) {
 	return str;
 }
 
-char* PathStep_to_string(PathStep* step) {
+char* WalkStep_to_string(WalkStep* step) {
 	char* str = malloc(100);
-	sprintf(str, "PathStep(link:%zu, time:%zu)", step->link, step->time);
+	sprintf(str, "WalkStep(link:%zu, time:%zu)", step->link, step->time);
 	return str;
 }
 
-bool PathStep_equals(PathStep a, PathStep b) {
+bool WalkStep_equals(WalkStep a, WalkStep b) {
 	return a.link == b.link && a.time == b.time;
 }
 
 DefVector(QueueInfo, NO_FREE(QueueInfo));
 
 // Minimal number of hops between two nodes
-Path Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
-	// printf("Shortest path from %zu to %zu at %zu\n", from, to, at);
+Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
+	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
@@ -86,11 +86,11 @@ Path Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 		// Get the next node from the queue
 		current_info = QueueInfoVector_pop_front(&queue);
 
-		QueueInfo current_path = current_info;
-		/*printf("Candidate Path:");
-		while (current_path.previous != NULL) {
-			printf(" %zu (@ %zu)", current_path.node, current_path.time);
-			current_path = *(QueueInfo*)current_path.previous;
+		QueueInfo current_walk = current_info;
+		/*printf("Candidate Walk:");
+		while (current_walk.previous != NULL) {
+			printf(" %zu (@ %zu)", current_walk.node, current_walk.time);
+			current_walk = *(QueueInfo*)current_walk.previous;
 		}
 		printf("\n");*/
 		current_candidate = current_info.node;
@@ -131,12 +131,12 @@ Path Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 			}
 		}
 	}
-	/*printf("Shortest path found\n");
+	/*printf("Shortest walk found\n");
 	char* str = QueueInfoVector_to_string(&queue);
 	printf("Queue: %s\n", str);
 	free(str);*/
 
-	// Print the path
+	// Print the walk
 	/*QueueInfo* current = &current_info;
 	while (current != NULL) {
 		char* info_str = QueueInfo_to_string(current);
@@ -144,47 +144,47 @@ Path Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 		free(info_str);
 		current = current->previous;
 	}
-	printf("End of path\n");*/
+	printf("End of walk\n");*/
 
-	// Build the path
-	Path path = {
+	// Build the walk
+	Walk walk = {
 		.start = from,
 		.end = to,
 		.start_time = at,
 		.stream = stream,
-		.steps = PathStepVector_with_capacity(1),
+		.steps = WalkStepVector_with_capacity(1),
 	};
-	QueueInfo* current_path = &current_info;
-	while (current_path != NULL) {
-		/*Link link = sg.links.links[current_path->node];
-		PathStep step = {current_path->node, current_path->time};
-		PathStepVector_push(&path.steps, step);
-		current_path = current_path->previous;*/
-		NodeId current_node = current_path->node;
-		QueueInfo* previous = current_path->previous;
+	QueueInfo* current_walk = &current_info;
+	while (current_walk != NULL) {
+		/*Link link = sg.links.links[current_walk->node];
+		WalkStep step = {current_walk->node, current_walk->time};
+		WalkStepVector_push(&walk.steps, step);
+		current_walk = current_walk->previous;*/
+		NodeId current_node = current_walk->node;
+		QueueInfo* previous = current_walk->previous;
 		NodeId previous_node = previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
 		for (size_t i = 0; i < sg.links.nb_links; i++) {
 			Link link = sg.links.links[i];
 			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
-				PathStep step = {i, current_path->time};
-				PathStepVector_push(&path.steps, step);
+				WalkStep step = {i, current_walk->time};
+				WalkStepVector_push(&walk.steps, step);
 				break;
 			}
 		}
 
-		current_path = previous;
+		current_walk = previous;
 	}
 
-	// reverse the path
-	for (size_t i = 0; i < path.steps.size / 2; i++) {
-		PathStep tmp = path.steps.array[i];
-		path.steps.array[i] = path.steps.array[path.steps.size - i - 1];
-		path.steps.array[path.steps.size - i - 1] = tmp;
+	// reverse the walk
+	for (size_t i = 0; i < walk.steps.size / 2; i++) {
+		WalkStep tmp = walk.steps.array[i];
+		walk.steps.array[i] = walk.steps.array[walk.steps.size - i - 1];
+		walk.steps.array[walk.steps.size - i - 1] = tmp;
 	}
 
-	return path;
+	return walk;
 }
 
 typedef char char2;
@@ -194,25 +194,25 @@ DefVector(char2, NO_FREE(char2));
 
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
-char* Path_to_string(Path* path) {
+char* Walk_to_string(Walk* walk) {
 	char2Vector str = char2Vector_with_capacity(100);
-	char2Vector_append(&str, APPEND_CONST("Path from "));
+	char2Vector_append(&str, APPEND_CONST("Walk from "));
 	char buf[100];
-	sprintf(buf, "%zu", path->start);
+	sprintf(buf, "%zu", walk->start);
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST(" to "));
-	sprintf(buf, "%zu", path->end);
+	sprintf(buf, "%zu", walk->end);
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST(" at "));
-	sprintf(buf, "%zu", path->start_time);
+	sprintf(buf, "%zu", walk->start_time);
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST("\n"));
 
-	FullStreamGraph* fsg = (FullStreamGraph*)path->stream->stream;
+	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
 
-	for (size_t i = 0; i < path->steps.size; i++) {
-		PathStep step = path->steps.array[i];
+	for (size_t i = 0; i < walk->steps.size; i++) {
+		WalkStep step = walk->steps.array[i];
 		sprintf(buf, "%zu", step.link);
 		char2Vector_append(&str, buf, strlen(buf));
 		NodeId from = sg.links.links[step.link].nodes[0];
@@ -228,7 +228,7 @@ char* Path_to_string(Path* path) {
 	return str.array;
 }
 
-// Breadth-first search for shortest path
+// Breadth-first search for shortest walk
 typedef struct {
 	NodeId node;
 	size_t time;
@@ -248,8 +248,8 @@ char* QueueInfoDepth_to_string(QueueInfoDepth* info) {
 
 DefVector(QueueInfoDepth, NO_FREE(QueueInfoDepth));
 
-Path Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId at) {
-	// printf("Shortest path from %zu to %zu at %zu\n", from, to, at);
+Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
+	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
@@ -277,11 +277,11 @@ Path Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId
 		// Get the next node from the queue
 		current_info = QueueInfoDepthVector_pop_front(&queue);
 
-		QueueInfoDepth current_path = current_info;
-		/*printf("Candidate Path:");
-		while (current_path.previous != NULL) {
-			printf(" %zu (@ %zu)", current_path.node, current_path.time);
-			current_path = *(QueueInfoDepth*)current_path.previous;
+		QueueInfoDepth current_walk = current_info;
+		/*printf("Candidate Walk:");
+		while (current_walk.previous != NULL) {
+			printf(" %zu (@ %zu)", current_walk.node, current_walk.time);
+			current_walk = *(QueueInfoDepth*)current_walk.previous;
 		}
 		printf(" Depth: %zu", current_info.depth);
 		printf("\n");*/
@@ -331,12 +331,12 @@ Path Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId
 			}
 		}
 	}
-	/*printf(" fastest shortest path found\n");
+	/*printf(" fastest shortest walk found\n");
 	char* str = QueueInfoDepthVector_to_string(&queue);
 	printf("Queue: %s\n", str);
 	free(str);*/
 
-	// Print the path
+	// Print the walk
 	/*QueueInfoDepth* current = &best_yet;
 	while (current != NULL) {
 		char* info_str = QueueInfoDepth_to_string(current);
@@ -344,45 +344,45 @@ Path Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId
 		free(info_str);
 		current = current->previous;
 	}
-	printf("End of path\n");*/
+	printf("End of walk\n");*/
 
-	// Build the path
-	Path path = {
+	// Build the walk
+	Walk walk = {
 		.start = from,
 		.end = to,
 		.start_time = at,
 		.stream = stream,
-		.steps = PathStepVector_with_capacity(1),
+		.steps = WalkStepVector_with_capacity(1),
 	};
-	QueueInfoDepth* current_path = &best_yet;
-	while (current_path != NULL) {
-		/*Link link = sg.links.links[current_path->node];
-		PathStep step = {current_path->node, current_path->time};
-		PathStepVector_push(&path.steps, step);
-		current_path = current_path->previous;*/
-		NodeId current_node = current_path->node;
-		QueueInfoDepth* previous = current_path->previous;
+	QueueInfoDepth* current_walk = &best_yet;
+	while (current_walk != NULL) {
+		/*Link link = sg.links.links[current_walk->node];
+		WalkStep step = {current_walk->node, current_walk->time};
+		WalkStepVector_push(&walk.steps, step);
+		current_walk = current_walk->previous;*/
+		NodeId current_node = current_walk->node;
+		QueueInfoDepth* previous = current_walk->previous;
 		NodeId previous_node = previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
 		for (size_t i = 0; i < sg.links.nb_links; i++) {
 			Link link = sg.links.links[i];
 			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
-				PathStep step = {i, current_path->time};
-				PathStepVector_push(&path.steps, step);
+				WalkStep step = {i, current_walk->time};
+				WalkStepVector_push(&walk.steps, step);
 				break;
 			}
 		}
 
-		current_path = previous;
+		current_walk = previous;
 	}
 
-	// reverse the path
-	for (size_t i = 0; i < path.steps.size / 2; i++) {
-		PathStep tmp = path.steps.array[i];
-		path.steps.array[i] = path.steps.array[path.steps.size - i - 1];
-		path.steps.array[path.steps.size - i - 1] = tmp;
+	// reverse the walk
+	for (size_t i = 0; i < walk.steps.size / 2; i++) {
+		WalkStep tmp = walk.steps.array[i];
+		walk.steps.array[i] = walk.steps.array[walk.steps.size - i - 1];
+		walk.steps.array[walk.steps.size - i - 1] = tmp;
 	}
 
-	return path;
+	return walk;
 }

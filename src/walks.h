@@ -36,22 +36,22 @@ TreeNode exploration_tree_from_stream(Stream* stream);
 typedef struct {
 	LinkId link;
 	size_t time;
-} PathStep;
+} WalkStep;
 
-char* PathStep_to_string(PathStep* step);
-bool PathStep_equals(PathStep a, PathStep b);
+char* WalkStep_to_string(WalkStep* step);
+bool WalkStep_equals(WalkStep a, WalkStep b);
 
-DefVector(PathStep, NO_FREE(PathStep));
+DefVector(WalkStep, NO_FREE(WalkStep));
 
 typedef struct {
 	NodeId start;
 	NodeId end;
 	TimeId start_time;
 	Stream* stream;
-	PathStepVector steps;
-} Path;
+	WalkStepVector steps;
+} Walk;
 
-Path Stream_shortest_path_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
-Path Stream_fastest_shortest_path(Stream* stream, NodeId from, NodeId to, TimeId at);
-char* Path_to_string(Path* path);
+Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
+Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
+char* Walk_to_string(Walk* walk);
 #endif // WALK_H
