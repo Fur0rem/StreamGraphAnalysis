@@ -33,8 +33,14 @@ bool test_walk_a_c() {
 	// printf("%s\n", str);
 	// free(str);
 
-	Stream_shortest_path_from_to_at(st, 0, 3, 0);
-	Stream_fastest_shortest_path(st, 0, 3, 0);
+	Path w = Stream_shortest_path_from_to_at(st, 0, 3, 0);
+	Path w2 = Stream_fastest_shortest_path(st, 0, 3, 0);
+	char* str = Path_to_string(&w);
+	printf("w %s\n", str);
+	free(str);
+	str = Path_to_string(&w2);
+	printf("w2 %s\n", str);
+	free(str);
 	return true;
 }
 
