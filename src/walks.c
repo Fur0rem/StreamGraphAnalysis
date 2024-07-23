@@ -160,7 +160,6 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 	Walk walk = {
 		.start = from,
 		.end = to,
-		.start_time = at,
 		.stream = stream,
 		.steps = WalkStepVector_with_capacity(1),
 	};
@@ -201,6 +200,8 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
 	}
 
+	walk.optimal_between = Interval_from(at, walk.steps.array[0].needs_to_arrive_before);
+
 	char* str = WalkStepVector_to_string(&walk.steps);
 	printf("Walk: %s\n", str);
 	free(str);
@@ -225,7 +226,7 @@ char* Walk_to_string(Walk* walk) {
 	sprintf(buf, "%zu", walk->end);
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST(" at "));
-	sprintf(buf, "%zu", walk->start_time);
+	sprintf(buf, "Optimal at %s\n", Interval_to_string(&walk->optimal_between));
 	char2Vector_append(&str, buf, strlen(buf));
 	char2Vector_append(&str, APPEND_CONST("\n"));
 

@@ -49,7 +49,7 @@ DefVector(WalkStep, NO_FREE(WalkStep));
 typedef struct {
 	NodeId start;
 	NodeId end;
-	TimeId start_time;
+	Interval optimal_between;
 	Stream* stream;
 	WalkStepVector steps;
 } Walk;
