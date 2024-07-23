@@ -386,3 +386,11 @@ Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId
 
 	return walk;
 }
+
+Interval Walk_is_still_optimal_between(Walk* walk) {
+	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream;
+	StreamGraph sg = *fsg->underlying_stream_graph;
+
+	Interval still_optimal = {walk->start_time, walk->steps.array[0].time};
+	return still_optimal;
+}

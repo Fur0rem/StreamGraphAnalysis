@@ -1,10 +1,12 @@
 #ifndef WALK_H
 #define WALK_H
 
+#include "interval.h"
 #include "stream.h"
 #include "units.h"
 #include "utils.h"
 #include "vector.h"
+#include <stdbool.h>
 #include <stddef.h>
 
 // Forward declaration of TreeNode since it's used in TreeEdge before its full definition.
@@ -54,4 +56,5 @@ typedef struct {
 Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
 Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 char* Walk_to_string(Walk* walk);
+Interval Walk_is_still_optimal_between(Walk* walk);
 #endif // WALK_H

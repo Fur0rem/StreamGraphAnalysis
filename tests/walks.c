@@ -35,12 +35,19 @@ bool test_walk_a_c() {
 
 	Walk w = Stream_shortest_walk_from_to_at(st, 0, 3, 0);
 	Walk w2 = Stream_fastest_shortest_walk(st, 0, 3, 0);
+	Interval iw = Walk_is_still_optimal_between(&w);
+	Interval iw2 = Walk_is_still_optimal_between(&w2);
 	char* str = Walk_to_string(&w);
-	printf("w %s\n", str);
+	printf("w %s", str);
 	free(str);
+	printf("w is optimal between %zu and %zu\n\n", iw.start, iw.end);
+
 	str = Walk_to_string(&w2);
-	printf("w2 %s\n", str);
+	printf("w2 %s", str);
+	printf("w2 is optimal between %zu and %zu\n", iw2.start, iw2.end);
+
 	free(str);
+
 	return true;
 }
 
