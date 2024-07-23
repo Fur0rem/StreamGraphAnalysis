@@ -47,19 +47,57 @@ bool WalkStep_equals(WalkStep a, WalkStep b);
 DefVector(WalkStep, NO_FREE(WalkStep));
 
 typedef struct {
-	NodeId start;
-	NodeId end;
-	Interval optimal_between;
+	// NodeId start;
+	// NodeId end;
+	// Interval optimal_between;
 	Stream* stream;
 	WalkStepVector steps;
 } Walk;
 
-Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
+typedef struct {
+	Interval interval;
+} NodeDoesntExistInfo;
+
+typedef struct {
+	TimeId time;
+} ImpossibleToReachInfo;
+
+typedef struct {
+	union {
+		NodeDoesntExistInfo node_doesnt_exist;
+		ImpossibleToReachInfo impossible_to_reach;
+	} reason;
+	enum {
+		NODE_DOESNT_EXIST,
+		IMPOSSIBLE_TO_REACH
+	} type;
+} NoWalkReason;
+
+typedef struct {
+	NodeId start, end;
+	Walk walk;
+	Interval optimality;
+} WalkWithInfo;
+
+typedef struct {
+	union {
+		WalkWithInfo walk_with_info;
+		NoWalkReason no_walk_reason;
+	} walk_or_reason;
+	enum {
+		WALK,
+		NO_WALK
+	} type;
+} WalkInfo;
+
+WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
 // Walk Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 char* Walk_to_string(Walk* walk);
 bool Walk_equals(Walk a, Walk b);
+char* WalkInfo_to_string(WalkInfo* wi);
+bool WalkInfo_equals(WalkInfo a, WalkInfo b);
 
-DefVector(Walk, NO_FREE(Walk));
+DefVector(WalkInfo, NO_FREE(WalkInfo));
 // Interval Walk_is_still_optimal_between(Walk* walk);
 
 // typedef struct {
@@ -77,6 +115,6 @@ DefVector(Walk, NO_FREE(Walk));
 
 // WalkOptimalVector optimals_between_two_nodes(Stream* stream, NodeId from, NodeId to);
 
-WalkVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
-										   Walk (*fn)(Stream*, NodeId, NodeId, TimeId));
+WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
+											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
 #endif // WALK_H

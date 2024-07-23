@@ -68,7 +68,7 @@ size_t min(size_t a, size_t b) {
 	return a < b ? a : b;
 }
 // Minimal number of hops between two nodes
-Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
+WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
@@ -158,8 +158,8 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 
 	// Build the walk
 	Walk walk = {
-		.start = from,
-		.end = to,
+		//.start = from,
+		//.end = to,
 		.stream = stream,
 		.steps = WalkStepVector_with_capacity(1),
 	};
@@ -195,8 +195,24 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 
 	// propagate the optimal intervals
 	if (walk.steps.size == 0) {
-		walk.optimal_between = Interval_from(at, at);
-		return walk;
+		// No walk found
+		NoWalkReason reason = {
+			.type = NODE_DOESNT_EXIST,
+			.reason =
+				{
+						 .node_doesnt_exist =
+						{
+							.interval = Interval_from(at, max_lifespan),
+						}, },
+		};
+		WalkInfo result = {
+			.type = NO_WALK,
+			.walk_or_reason =
+				{
+								 .no_walk_reason = reason,
+								 },
+		};
+		return result;
 	}
 
 	for (size_t i = 0; i < walk.steps.size - 1; i++) {
@@ -205,13 +221,20 @@ Walk Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, Tim
 			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
 	}
 
-	walk.optimal_between = Interval_from(at, walk.steps.array[0].needs_to_arrive_before);
+	WalkWithInfo wi = {
+		.walk = walk,
+		.optimality = Interval_from(at, walk.steps.array[0].needs_to_arrive_before),
+	};
+	WalkInfo result = {
+		.type = WALK,
+		.walk_or_reason = wi,
+	};
 
 	char* str = WalkStepVector_to_string(&walk.steps);
 	printf("Walk: %s\n", str);
 	free(str);
 
-	return walk;
+	return result;
 }
 
 typedef char char2;
@@ -224,21 +247,11 @@ DefVector(char2, NO_FREE(char2));
 char* Walk_to_string(Walk* walk) {
 	if (walk->steps.size == 0) {
 		char* str = malloc(100);
-		sprintf(str, "No walk from %zu to %zu at %zu\n", walk->start, walk->end, walk->optimal_between.start);
+		sprintf(str, "No walk exists\n");
 		return str;
 	}
 	char2Vector str = char2Vector_with_capacity(100);
-	char2Vector_append(&str, APPEND_CONST("Walk from "));
 	char buf[100];
-	sprintf(buf, "%zu", walk->start);
-	char2Vector_append(&str, buf, strlen(buf));
-	char2Vector_append(&str, APPEND_CONST(" to "));
-	sprintf(buf, "%zu", walk->end);
-	char2Vector_append(&str, buf, strlen(buf));
-	char2Vector_append(&str, APPEND_CONST(" at "));
-	sprintf(buf, "Optimal at %s\n", Interval_to_string(&walk->optimal_between));
-	char2Vector_append(&str, buf, strlen(buf));
-	char2Vector_append(&str, APPEND_CONST("\n"));
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
@@ -261,9 +274,6 @@ char* Walk_to_string(Walk* walk) {
 }
 
 bool Walk_equals(Walk a, Walk b) {
-	if (a.start != b.start || a.end != b.end || a.stream != b.stream || a.steps.size != b.steps.size) {
-		return false;
-	}
 	for (size_t i = 0; i < a.steps.size; i++) {
 		if (!WalkStep_equals(a.steps.array[i], b.steps.array[i])) {
 			return false;
@@ -272,24 +282,76 @@ bool Walk_equals(Walk a, Walk b) {
 	return true;
 }
 
-WalkVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
-										   Walk (*fn)(Stream*, NodeId, NodeId, TimeId)) {
+char* WalkWithInfo_to_string(WalkWithInfo* wi) {
+	char* str = Walk_to_string(&wi->walk);
+	char* str2 = Interval_to_string(&wi->optimality);
+	char* result = malloc(strlen(str) + strlen(str2) + 2);
+	strcpy(result, str2);
+	strcat(result, "\n");
+	strcat(result, str);
+
+	free(str);
+	free(str2);
+	return result;
+}
+
+char* WalkInfo_to_string(WalkInfo* wi) {
+	if (wi->type == WALK) {
+		char* str = WalkWithInfo_to_string(&wi->walk_or_reason.walk_with_info);
+		char* result = malloc(strlen(str) + 100);
+		sprintf(result, "WalkInfo(WALK, %s)", str);
+		free(str);
+		return result;
+	}
+	else {
+		char* result = malloc(100);
+		sprintf(result, "WalkInfo(NO_WALK, %s)",
+				wi->type == NODE_DOESNT_EXIST ? "NODE_DOESNT_EXIST" : "IMPOSSIBLE_TO_REACH");
+		return result;
+	}
+}
+bool WalkInfo_equals(WalkInfo a, WalkInfo b) {
+	if (a.type != b.type) {
+		return false;
+	}
+	if (a.type == WALK) {
+		return Walk_equals(a.walk_or_reason.walk_with_info.walk, b.walk_or_reason.walk_with_info.walk);
+	}
+	else {
+		return a.walk_or_reason.no_walk_reason.type == b.walk_or_reason.no_walk_reason.type;
+	}
+}
+
+WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
+											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId)) {
 	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
-	WalkVector walks = WalkVector_with_capacity(1);
+	WalkInfoVector walks = WalkInfoVector_with_capacity(1);
 	TimeId current_time = 0;
 	TimeId previous_time = 0;
 	while (current_time != StreamGraph_lifespan_end(&sg)) {
 		printf("Finding optimal walk from %zu to %zu at %zu\n", from, to, current_time);
-		Walk optimal = fn(stream, from, to, current_time);
-		WalkVector_push(&walks, optimal);
-		current_time = optimal.optimal_between.end;
+		WalkInfo optimal = fn(stream, from, to, current_time);
+		WalkInfoVector_push(&walks, optimal);
+		/*current_time = optimal.optimal_between.end;
 		if (current_time == previous_time) {
 			current_time++;
 		}
-		previous_time = current_time;
+		previous_time = current_time;*/
+		if (optimal.type == NO_WALK) {
+			NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
+			if (error.type == NODE_DOESNT_EXIST) {
+				current_time = error.reason.node_doesnt_exist.interval.end;
+			}
+			else if (error.type == IMPOSSIBLE_TO_REACH) {
+				return walks;
+			}
+		}
+		else if (optimal.type == WALK) {
+			Interval optimality = optimal.walk_or_reason.walk_with_info.optimality;
+			current_time = optimality.end;
+		}
 	}
-	printf("found %zu optimal walks\n", walks.size);
 	return walks;
 }
 

@@ -33,14 +33,14 @@ bool test_walk_a_c() {
 	// printf("%s\n", str);
 	// free(str);
 
-	Walk w = Stream_shortest_walk_from_to_at(st, 0, 3, 0);
+	WalkInfo w = Stream_shortest_walk_from_to_at(st, 0, 3, 0);
 	// Walk w2 = Stream_fastest_shortest_walk(st, 0, 3, 0);
-	char* str = Walk_to_string(&w);
+	char* str = WalkInfo_to_string(&w);
 	printf("w %s\n", str);
 	free(str);
 
-	Walk w2 = Stream_shortest_walk_from_to_at(st, 0, 3, 5);
-	str = Walk_to_string(&w2);
+	WalkInfo w2 = Stream_shortest_walk_from_to_at(st, 0, 3, 5);
+	str = WalkInfo_to_string(&w2);
 	printf("w2 %s\n", str);
 	free(str);
 
@@ -59,12 +59,12 @@ bool test_walk_a_c() {
 	};
 	printf("Loaded graph\n");
 
-	Walk w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
-	str = Walk_to_string(&w3);
+	WalkInfo w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
+	str = WalkInfo_to_string(&w3);
 	printf("w3 %s\n", str);
 	free(str);
 	w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
-	str = Walk_to_string(&w3);
+	str = WalkInfo_to_string(&w3);
 	printf("w3 %s\n", str);
 	free(str);
 
@@ -82,10 +82,10 @@ bool test_walk_optimal() {
 	};
 	printf("Loaded graph\n");
 
-	WalkVector walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
+	WalkInfoVector walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
 	printf("Optimal walks between 0 and 3\n");
 	for (size_t i = 0; i < walks.size; i++) {
-		char* str = Walk_to_string(&walks.array[i]);
+		char* str = WalkInfo_to_string(&walks.array[i]);
 		printf("%s\n", str);
 		free(str);
 	}
