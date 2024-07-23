@@ -392,5 +392,34 @@ Interval Walk_is_still_optimal_between(Walk* walk) {
 	StreamGraph sg = *fsg->underlying_stream_graph;
 
 	Interval still_optimal = {walk->start_time, walk->steps.array[0].time};
+	// Look at the start node and go back until you find a link that appeared before the one taken in the walk
+	NodeId current_node = walk->start;
+	size_t current_time = walk->start_time;
+	TemporalNode node = sg.nodes.nodes[current_node];
+
+	size_t min_app = SIZE_MAX;
+	for (size_t n = 0; n < node.nb_neighbours; n++) {
+		LinkId link_id = node.neighbours[n];
+		Link link = sg.links.links[link_id];
+		for (size_t i = 0; i < link.presence.nb_intervals; i++) {
+			Interval interval = link.presence.intervals[i];
+
+			// Skip intervals that are not relevant
+			if (interval.start >= current_time) {
+				goto end_inner;
+			}
+			if (interval.end <= current_time) {
+				continue;
+			}
+			if (interval.start < min_app) {
+				min_app = interval.start;
+			}
+		}
+	end_inner:;
+	}
+	if (min_app < still_optimal.start) {
+		still_optimal.start = min_app;
+	}
+
 	return still_optimal;
 }
