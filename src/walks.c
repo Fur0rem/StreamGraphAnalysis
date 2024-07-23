@@ -185,6 +185,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		// No walk found
 		NoWalkReason reason = {
 			.type = IMPOSSIBLE_TO_REACH,
+			.reason.impossible_to_reach.impossible_after = at,
 		};
 		result = (WalkInfo){
 			.type = NO_WALK,
@@ -349,9 +350,15 @@ char* WalkInfo_to_string(WalkInfo* wi) {
 		return result;
 	}
 	else {
-		char* result = malloc(100);
-		sprintf(result, "WalkInfo(NO_WALK, %s)",
-				wi->type == NODE_DOESNT_EXIST ? "NODE_DOESNT_EXIST" : "IMPOSSIBLE_TO_REACH");
+		char* result = malloc(200);
+		if (wi->walk_or_reason.no_walk_reason.type == NODE_DOESNT_EXIST) {
+			NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
+			sprintf(result, "WalkInfo(NO_WALK, NODE_DOESNT_EXIST in interval %s)", Interval_to_string(&info.interval));
+		}
+		else {
+			ImpossibleToReachInfo info = wi->walk_or_reason.no_walk_reason.reason.impossible_to_reach;
+			sprintf(result, "WalkInfo(NO_WALK, IMPOSSIBLE_TO_REACH after %zu)", info.impossible_after);
+		}
 		return result;
 	}
 }
@@ -498,6 +505,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		// No walk found
 		NoWalkReason reason = {
 			.type = IMPOSSIBLE_TO_REACH,
+			.reason.impossible_to_reach.impossible_after = at,
 		};
 		result = (WalkInfo){
 			.type = NO_WALK,
@@ -562,7 +570,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		// No walk found
 		NoWalkReason reason = {
 			.type = IMPOSSIBLE_TO_REACH,
-			.reason.impossible_to_reach.impossible_after = current_time,
+			.reason.impossible_to_reach.impossible_after = at,
 		};
 		result = (WalkInfo){
 			.type = NO_WALK,
