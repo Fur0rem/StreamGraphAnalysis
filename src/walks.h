@@ -90,8 +90,9 @@ char* Walk_to_string(Walk* walk);
 bool Walk_equals(Walk a, Walk b);
 char* WalkInfo_to_string(WalkInfo* wi);
 bool WalkInfo_equals(WalkInfo a, WalkInfo b);
-
-DefVector(WalkInfo, NO_FREE(WalkInfo));
+void Walk_destroy(Walk walk);
+void WalkInfo_destroy(WalkInfo wi);
+DefVector(WalkInfo, WalkInfo_destroy);
 // Interval Walk_is_still_optimal_between(Walk* walk);
 
 // typedef struct {
@@ -111,4 +112,5 @@ DefVector(WalkInfo, NO_FREE(WalkInfo));
 
 WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
 											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
+
 #endif // WALK_H
