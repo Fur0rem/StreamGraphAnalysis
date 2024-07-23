@@ -1,4 +1,5 @@
 #include "walks.h"
+#include "hashset.h"
 #include "interval.h"
 #include "iterators.h"
 #include "stream_functions.h"
@@ -67,6 +68,28 @@ DefVector(QueueInfo, NO_FREE(QueueInfo));
 size_t min(size_t a, size_t b) {
 	return a < b ? a : b;
 }
+
+typedef struct {
+	NodeId node;
+	TimeId time;
+} ExploredState;
+
+bool ExploredState_equals(ExploredState a, ExploredState b) {
+	return a.node == b.node && a.time == b.time;
+}
+
+char* ExploredState_to_string(ExploredState* state) {
+	char* str = malloc(100);
+	sprintf(str, "ExploredState(node:%zu, time:%zu)", state->node, state->time);
+	return str;
+}
+
+size_t ExploredState_hash(ExploredState state) {
+	return state.node * 31 + state.time;
+}
+
+DefHashset(ExploredState, ExploredState_hash, NO_FREE(ExploredState));
+
 // Minimal number of hops between two nodes
 WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
@@ -85,6 +108,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 
 	NodeId current_candidate = from;
 	QueueInfo current_info;
+	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	while ((current_candidate != to) && (!QueueInfoVector_is_empty(queue))) {
 
 		/*printf(TEXT_BOLD "Current candidate: %zu\n" TEXT_RESET, current_candidate);
@@ -94,8 +118,15 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		free(str);*/
 		// Get the next node from the queue
 		current_info = QueueInfoVector_pop_front(&queue);
+		printf("Current info: %s\n", QueueInfo_to_string(&current_info));
 
 		QueueInfo current_walk = current_info;
+
+		// TODO : maybe there is a better solution than hashsets to not loop between the same nodes?
+		if (ExploredStateHashset_contains(explored, (ExploredState){current_info.node, current_info.time})) {
+			continue;
+		}
+		ExploredStateHashset_insert(&explored, (ExploredState){current_info.node, current_info.time});
 		/*printf("Candidate Walk:");
 		while (current_walk.previous != NULL) {
 			printf(" %zu (@ %zu)", current_walk.node, current_walk.time);
@@ -139,6 +170,21 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 				}
 			}
 		}
+	}
+
+	if (QueueInfoVector_is_empty(queue)) {
+		// No walk found
+		NoWalkReason reason = {
+			.type = IMPOSSIBLE_TO_REACH,
+		};
+		WalkInfo result = {
+			.type = NO_WALK,
+			.walk_or_reason =
+				{
+								 .no_walk_reason = reason,
+								 },
+		};
+		return result;
 	}
 	/*printf("Shortest walk found\n");
 	char* str = QueueInfoVector_to_string(&queue);
