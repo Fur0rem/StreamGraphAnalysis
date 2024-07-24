@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TODO : Make this a macro so we don't have to free it in the end
 Stream FullStreamGraph_from(StreamGraph* stream_graph) {
 	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = stream_graph;
