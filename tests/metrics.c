@@ -77,7 +77,16 @@ bool test_cardinal_of_W_S() {
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
 	size_t cardinal = 0;
 	FOR_EACH_NODE(node_id, nodes_iter) {
+		printf("NODE %zu\n", node_id);
+		size_t before = cardinal;
+		// for each interval of presence of the node
+		TemporalNode node = sg.nodes.nodes[node_id];
+		// for each interval of presence of the node
+		for (size_t i = 0; i < node.presence.nb_intervals; i++) {
+			printf("Interval %zu : [%lu, %lu]\n", i, node.presence.intervals[i].start, node.presence.intervals[i].end);
+		}
 		cardinal += total_time_of(funcs.times_node_present(st.stream, node_id));
+		printf("Cardinal : %zu\n", cardinal - before);
 	}
 	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);

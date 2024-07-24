@@ -158,7 +158,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		IntervalsSet presence = IntervalsSet_alloc(nb_intervals + 1);
+		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
 		sg.nodes.nodes[node].presence = presence;
 	}
 
@@ -290,6 +290,22 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	NEXT_HEADER([EndOfFile]);
 
 	free(key_moments);
+
+	// for each thing pushed, check if it is even
+	// TODO : better checking and error messages
+	for (size_t i = 0; i < nb_nodes; i++) {
+		if (nb_pushed_for_nodes[i] % 2 != 0) {
+			fprintf(stderr, TEXT_RED TEXT_BOLD "Node %zu was pushed/removed %d times\n" TEXT_RESET, i,
+					nb_pushed_for_nodes[i]);
+		}
+	}
+	for (size_t i = 0; i < nb_links; i++) {
+		if (nb_pushed_for_links[i] % 2 != 0) {
+			fprintf(stderr, TEXT_RED TEXT_BOLD "Link %zu was pushed/removed %d times\n" TEXT_RESET, i,
+					nb_pushed_for_links[i]);
+		}
+	}
+
 	free(nb_pushed_for_nodes);
 	free(nb_pushed_for_links);
 
@@ -1400,6 +1416,7 @@ StreamGraph StreamGraph_from_external(const char* filename) {
 	// turn the external format into a stream graph
 	char* internal_format = InternalFormat_from_External_str(buffer);
 	printf("internal_format done\n");
+
 	StreamGraph sg = StreamGraph_from_string(internal_format);
 	printf("streamgraph done\n");
 	free(internal_format);
