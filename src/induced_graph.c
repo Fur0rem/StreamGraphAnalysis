@@ -108,6 +108,9 @@ LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t) {
 	links_iter_data->current_link = 0;
 
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = stream_graph;
 
 	if (current_event > stream_graph->events.nb_events) {
 		return (LinksIterator){.stream_graph = stream,
@@ -221,6 +224,9 @@ NodesIterator get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t) {
 	}
 
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = stream_graph;
 	if (current_event > stream_graph->events.nb_events) {
 		NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
 		return (NodesIterator){.stream_graph = stream,

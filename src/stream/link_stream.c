@@ -134,6 +134,9 @@ void LinkStream_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
 TimesIterator LinkStream_times_node_present(LinkStream* link_stream, NodeId node_id) {
 	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = link_stream->underlying_stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = link_stream->underlying_stream_graph;
 	iterator_data->has_been_called = false;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,

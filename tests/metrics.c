@@ -138,7 +138,7 @@ bool test_node_duration_S() {
 	bool test_##name() {                                                                                               \
 		StreamGraph sg = StreamGraph_from_external("tests/test_data/" #graph ".txt");                                  \
 		Stream st = type##_from(&sg);                                                                                  \
-		bool result = EXPECT_F_APPROX_EQ(Stream_##name(&st), value, 1e-2);                                             \
+		bool result = EXPECT_F_APPROX_EQ(Stream_##name(&st), value, 1e-5);                                             \
 		StreamGraph_destroy(sg);                                                                                       \
 		type##_destroy(st);                                                                                            \
 		return result;                                                                                                 \
@@ -203,10 +203,17 @@ bool test_density_of_link() {
 
 bool test_density_of_node() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
-	Stream st = FullStreamGraph_from(&sg);
-	double density_d = Stream_density_of_node(&st, 3);
+	// Stream st = FullStreamGraph_from(&sg);
+	FullStreamGraph* fsg = malloc(sizeof(FullStreamGraph));
+	fsg->underlying_stream_graph = &sg;
+	Stream* st = malloc(sizeof(Stream));
+	st->type = FULL_STREAM_GRAPH;
+	st->stream = fsg;
+	double density_d = Stream_density_of_node(st, 3);
 	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	FullStreamGraph_destroy(*st);
+	free(st);
+	//	free(fsg);
 	return EXPECT_F_APPROX_EQ(density_d, 1.0 / 4.0, 1e-2);
 }
 

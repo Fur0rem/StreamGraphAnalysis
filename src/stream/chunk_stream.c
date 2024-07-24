@@ -68,6 +68,9 @@ NodesIterator ChunkStream_nodes_set(ChunkStream* chunk_stream) {
 	NodesSetIteratorData* iterator_data = MALLOC(sizeof(NodesSetIteratorData));
 	iterator_data->current_node = 0;
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	NodesIterator nodes_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -103,6 +106,9 @@ LinksIterator ChunkStream_links_set(ChunkStream* chunk_stream) {
 	CS_LinksSetIteratorData* iterator_data = MALLOC(sizeof(CS_LinksSetIteratorData));
 	iterator_data->current_link = 0;
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -160,6 +166,9 @@ LinksIterator ChunkStream_neighbours_of_node(ChunkStream* chunk_stream, NodeId n
 		.current_neighbour = 0,
 	};
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	LinksIterator neighbours_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -217,6 +226,9 @@ TimesIterator ChunkStream_times_node_present(ChunkStream* chunk_stream, NodeId n
 		.current_id = node,
 	};
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -254,6 +266,9 @@ TimesIterator ChunkStream_times_link_present(ChunkStream* chunk_stream, LinkId l
 		.current_id = link,
 	};
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -302,6 +317,9 @@ NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId i
 	iterator_data->underlying_stream_graph = full_stream_graph;
 
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	NodesIterator nodes_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -342,6 +360,9 @@ LinksIterator ChunkStream_links_present_at_t(ChunkStream* chunk_stream, TimeId i
 	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM;
+	// stream->stream = chunk_stream;
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
