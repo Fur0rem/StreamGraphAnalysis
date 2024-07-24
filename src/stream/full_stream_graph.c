@@ -56,14 +56,15 @@ NodesIterator FullStreamGraph_nodes_set(FullStreamGraph* full_stream_graph) {
 	NodesSetIteratorData* iterator_data = MALLOC(sizeof(NodesSetIteratorData));
 	iterator_data->current_node = 0;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = full_stream_graph;
 	NodesIterator nodes_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
 		.next = (size_t(*)(void*))NodesSet_next,
 		.destroy = (void (*)(void*))NodesSetIterator_destroy,
 	};
-	nodes_iterator.stream_graph.stream = full_stream_graph;
-	nodes_iterator.stream_graph.type = FULL_STREAM_GRAPH;
 	return nodes_iterator;
 }
 
@@ -90,6 +91,9 @@ LinksIterator FullStreamGraph_links_set(FullStreamGraph* full_stream_graph) {
 	LinksSetIteratorData* iterator_data = MALLOC(sizeof(LinksSetIteratorData));
 	iterator_data->current_link = 0;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = full_stream_graph;
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -143,6 +147,9 @@ TimesIterator FullStreamGraph_times_node_present(FullStreamGraph* full_stream_gr
 	iterator_data->current_interval = 0;
 	iterator_data->node = &full_stream_graph->underlying_stream_graph->nodes.nodes[node_id];
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = full_stream_graph;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -183,6 +190,9 @@ TimesIterator FullStreamGraph_times_link_present(FullStreamGraph* full_stream_gr
 	iterator_data->current_interval = 0;
 	iterator_data->link_id = link_id;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = full_stream_graph;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -203,13 +213,13 @@ typedef struct {
 
 size_t NeighboursOfNode_next(LinksIterator* iter) {
 	NeighboursOfNodeIteratorData* neighbours_iter_data = (NeighboursOfNodeIteratorData*)iter->iterator_data;
-	printf("neighbours_iter_data->node_to_get_neighbours : %zu\n", neighbours_iter_data->node_to_get_neighbours);
+	// printf("neighbours_iter_data->node_to_get_neighbours : %zu\n", neighbours_iter_data->node_to_get_neighbours);
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)iter->stream_graph.stream;
-	printf("full_stream_graph : %p\n", full_stream_graph);
+	// printf("full_stream_graph : %p\n", full_stream_graph);
 	NodeId node_id = neighbours_iter_data->node_to_get_neighbours;
-	printf("full_stream_graph->underlying_stream_graph : %p\n", full_stream_graph->underlying_stream_graph);
-	printf("full_stream_graph->underlying_stream_graph->nodes : %p\n",
-		   &full_stream_graph->underlying_stream_graph->nodes);
+	// printf("full_stream_graph->underlying_stream_graph : %p\n", full_stream_graph->underlying_stream_graph);
+	// printf("full_stream_graph->underlying_stream_graph->nodes : %p\n",
+	//    &full_stream_graph->underlying_stream_graph->nodes);
 	if (neighbours_iter_data->current_neighbour >=
 		full_stream_graph->underlying_stream_graph->nodes.nodes[node_id].nb_neighbours) {
 		return SIZE_MAX;
@@ -229,6 +239,9 @@ LinksIterator FullStreamGraph_neighbours_of_node(FullStreamGraph* full_stream_gr
 	iterator_data->node_to_get_neighbours = node_id;
 	iterator_data->current_neighbour = 0;
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = full_stream_graph};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = FULL_STREAM_GRAPH;
+	// stream->stream = full_stream_graph;
 	LinksIterator neighbours_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,

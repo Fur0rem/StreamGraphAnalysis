@@ -73,11 +73,15 @@ void ChunkStreamSmallNodesSetIterator_destroy(NodesIterator* it) {
 NodesIterator ChunkStreamSmall_nodes_set(ChunkStreamSmall* chunk_stream) {
 	ChunkStreamSmallNodesSetIteratorData* iterator_data = MALLOC(sizeof(ChunkStreamSmallNodesSetIteratorData));
 	iterator_data->current_node = 0;
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM_SMALL;
+	// stream->stream = chunk_stream;
+	Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
 	return (NodesIterator){
 		.iterator_data = iterator_data,
 		.next = (NodeId(*)(void*))ChunkStreamSmallNodesSetIterator_next,
 		.destroy = (void (*)(void*))ChunkStreamSmallNodesSetIterator_destroy,
-		.stream_graph = (Stream){.type = CHUNK_STREAM_SMALL, .stream = chunk_stream},
+		.stream_graph = stream,
 	};
 }
 
@@ -103,11 +107,12 @@ void ChunkStreamSmallLinksSetIterator_destroy(LinksIterator* it) {
 LinksIterator ChunkStreamSmall_links_set(ChunkStreamSmall* chunk_stream) {
 	ChunkStreamSmallLinksSetIteratorData* iterator_data = MALLOC(sizeof(ChunkStreamSmallLinksSetIteratorData));
 	iterator_data->current_link = 0;
+	Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
 	return (LinksIterator){
 		.iterator_data = iterator_data,
 		.next = (LinkId(*)(void*))ChunkStreamSmallLinksSetIterator_next,
 		.destroy = (void (*)(void*))ChunkStreamSmallLinksSetIterator_destroy,
-		.stream_graph = (Stream){.type = CHUNK_STREAM_SMALL, .stream = chunk_stream},
+		.stream_graph = stream,
 	};
 }
 
@@ -150,11 +155,12 @@ NodesIterator ChunkStreamSmall_nodes_present_at_t(ChunkStreamSmall* chunk_stream
 	ChunkStreamSmallNPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamSmallNPATIterData));
 	iterator_data->nodes_iterator_fsg = nodes_iterator_fsg;
 	iterator_data->underlying_stream_graph = fsg;
+	Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
 	return (NodesIterator){
 		.iterator_data = iterator_data,
 		.next = (NodeId(*)(void*))ChunkStreamSmallNodesPresentAtTIterator_next,
 		.destroy = (void (*)(void*))ChunkStreamSmallNodesPresentAtTIterator_destroy,
-		.stream_graph = (Stream){.type = CHUNK_STREAM_SMALL, .stream = chunk_stream},
+		.stream_graph = stream,
 	};
 }
 
@@ -191,11 +197,12 @@ LinksIterator ChunkStreamSmall_links_present_at_t(ChunkStreamSmall* chunk_stream
 	ChunkStreamSmallLPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamSmallLPATIterData));
 	iterator_data->links_iterator_fsg = links_iterator_fsg;
 	iterator_data->underlying_stream_graph = fsg;
+	Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
 	return (LinksIterator){
 		.iterator_data = iterator_data,
 		.next = (LinkId(*)(void*))ChunkStreamSmallLinksPresentAtTIterator_next,
 		.destroy = (void (*)(void*))ChunkStreamSmallLinksPresentAtTIterator_destroy,
-		.stream_graph = (Stream){.type = CHUNK_STREAM_SMALL, .stream = chunk_stream},
+		.stream_graph = stream,
 	};
 }
 
@@ -235,6 +242,7 @@ LinksIterator ChunkStreamSmall_neighbours_of_node(ChunkStreamSmall* chunk_stream
 		.node_to_get_neighbours = node,
 		.current_neighbour = 0,
 	};
+	// Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
 	Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
 	LinksIterator neighbours_iterator = {
 		.stream_graph = stream,
@@ -281,6 +289,9 @@ TimesIterator ChunkStreamSmall_times_node_present(ChunkStreamSmall* chunk_stream
 		.current_id = node,
 	};
 	Stream stream = {.type = CHUNK_STREAM_SMALL, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM_SMALL;
+	// stream->stream = chunk_stream;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
@@ -318,6 +329,9 @@ TimesIterator ChunkStreamSmall_times_link_present(ChunkStreamSmall* chunk_stream
 		.current_id = link,
 	};
 	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	// Stream* stream = MALLOC(sizeof(Stream));
+	// stream->type = CHUNK_STREAM_SMALL;
+	// stream->stream = chunk_stream;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
