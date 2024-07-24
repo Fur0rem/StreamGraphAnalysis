@@ -23,7 +23,7 @@ typedef struct {
 		CHUNK_STREAM,
 		CHUNK_STREAM_SMALL,
 	} type;
-	void* stream;
+	void* stream; // TODO : maybe make this a union
 	InformationCache cache;
 } Stream;
 
