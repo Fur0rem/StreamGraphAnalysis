@@ -36,13 +36,15 @@ char* TreeEdge_to_string(TreeEdge* edge) {
 }
 
 // Breadth-first search for shortest walk
-typedef struct {
+
+typedef struct QueueInfo QueueInfo;
+struct QueueInfo {
 	NodeId node;
 	size_t time;
 	size_t depth;
 	Interval interval_taken;
-	void* previous; // (QueueInfo*)
-} QueueInfo;
+	QueueInfo* previous;
+};
 
 bool QueueInfo_equals(QueueInfo a, QueueInfo b) {
 	return a.node == b.node && a.time == b.time && a.previous == b.previous &&
@@ -234,6 +236,7 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 		}
 		current_walk = previous;
 	}
+
 	WalkStepVector_reverse(&steps);
 	return steps;
 }
@@ -260,7 +263,7 @@ WalkInfo node_doesnt_exist_in_interval(Interval interval) {
 	};
 }
 
-WalkInfo walk(Walk walk) {
+WalkInfo walk_exists(Walk walk) {
 	return (WalkInfo){
 		.type = WALK,
 		.walk_or_reason.walk = walk,
@@ -276,7 +279,6 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	size_t current_time = at;
 
 	ArenaVector arena = ArenaVector_init();
-	printf("Arena initialized\n");
 
 	FullStreamGraph* fsg = (FullStreamGraph*)stream->stream;
 	StreamGraph sg = *fsg->underlying_stream_graph;
@@ -327,8 +329,6 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		}
 	}
 
-	printf("Queue is empty: %d\n", QueueInfoVector_is_empty(queue));
-
 	if (QueueInfoVector_is_empty(queue)) { // No walk found
 		result = unreachable_after(at);
 		goto cleanup_and_return;
@@ -340,30 +340,8 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		.end = to,
 		.optimality = Interval_from(at, StreamGraph_lifespan_end(&sg)),
 		.stream = stream,
-		.steps = WalkStepVector_with_capacity(1),
+		.steps = WalkStepVector_from_candidates(stream, &current_info, from, to),
 	};
-
-	// Build the walk steps
-	QueueInfo* current_walk = &current_info;
-	while (current_walk != NULL) {
-		NodeId current_node = current_walk->node;
-		QueueInfo* previous = current_walk->previous;
-		NodeId previous_node = previous == NULL ? from : previous->node;
-		// Find the link between the current node and the previous node
-		// TODO : make a function that does finds the link between two nodes for a given stream cause i use that a lot
-		for (size_t i = 0; i < sg.links.nb_links; i++) {
-			Link link = sg.links.links[i];
-			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
-				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
-				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
-				WalkStepVector_push(&walk.steps, step);
-				break;
-			}
-		}
-		current_walk = previous;
-	}
-
-	WalkStepVector_reverse(&walk.steps);
 
 	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
 	for (size_t i = 0; i < walk.steps.size - 1; i++) {
@@ -373,18 +351,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	}
 	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
 
-	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
-	for (size_t i = 0; i < walk.steps.size - 1; i++) {
-		WalkStep* step = &walk.steps.array[i];
-		step->needs_to_arrive_before =
-			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
-	}
-	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
-
-	result = (WalkInfo){
-		.type = WALK,
-		.walk_or_reason.walk = walk,
-	};
+	result = walk_exists(walk);
 
 cleanup_and_return:
 	QueueInfoVector_destroy(queue);
@@ -460,15 +427,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 	}
 
 	if (QueueInfoVector_is_empty(queue)) {
-		// No walk found
-		NoWalkReason reason = {
-			.type = IMPOSSIBLE_TO_REACH,
-			.reason.impossible_to_reach.impossible_after = at,
-		};
-		result = (WalkInfo){
-			.type = NO_WALK,
-			.walk_or_reason.no_walk_reason = reason,
-		};
+		result = unreachable_after(at);
 		goto cleanup_and_return;
 	}
 
@@ -478,22 +437,12 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		.end = to,
 		.optimality = Interval_from(at, StreamGraph_lifespan_end(&sg)),
 		.stream = stream,
-		.steps = WalkStepVector_from_candidates(stream, best_yet.previous, from, to),
+		.steps = WalkStepVector_from_candidates(stream, &best_yet, from, to),
 	};
-
-	WalkStepVector_reverse(&walk.steps);
 
 	// propagate the optimal intervals
 	if (walk.steps.size == 0) {
-		// No walk found
-		NoWalkReason reason = {
-			.type = IMPOSSIBLE_TO_REACH,
-			.reason.impossible_to_reach.impossible_after = at,
-		};
-		result = (WalkInfo){
-			.type = NO_WALK,
-			.walk_or_reason.no_walk_reason = reason,
-		};
+		result = unreachable_after(at);
 		goto cleanup_and_return;
 	}
 
@@ -505,14 +454,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 
 	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
 
-	/*char* str = WalkStepVector_to_string(&walk.steps);
-	printf("Walk: %s\n", str);
-	free(str);*/
-
-	result = (WalkInfo){
-		.type = WALK,
-		.walk_or_reason.walk = walk,
-	};
+	result = walk_exists(walk);
 
 cleanup_and_return:
 	QueueInfoVector_destroy(queue);
