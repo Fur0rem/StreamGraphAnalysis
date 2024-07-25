@@ -2,6 +2,7 @@
 #define CHUNK_STREAM_H
 
 #include "../metrics.h"
+#include "../stream.h"
 #include "../stream_functions.h"
 #include "../stream_graph.h"
 #include <stddef.h>

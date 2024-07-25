@@ -62,8 +62,8 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	TimesIterator times = {
 		.stream_graph = a.stream_graph,
 		.iterator_data = data,
-		.next = (Interval(*)(void*))IntervalsIterator_next,
-		.destroy = (void (*)(void*))IntervalsIterator_destroy,
+		.next = IntervalsIterator_next,
+		.destroy = IntervalsIterator_destroy,
 	};
 
 	IntervalVector_destroy(intervals);
@@ -99,8 +99,8 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	TimesIterator times = {
 		.stream_graph = a.stream_graph,
 		.iterator_data = MALLOC(sizeof(IntervalsIteratorData)),
-		.next = (Interval(*)(void*))IntervalsIterator_next,
-		.destroy = (void (*)(void*))IntervalsIterator_destroy,
+		.next = IntervalsIterator_next,
+		.destroy = IntervalsIterator_destroy,
 	};
 
 	IntervalsIteratorData* data = (IntervalsIteratorData*)times.iterator_data;

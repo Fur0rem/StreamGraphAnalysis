@@ -27,35 +27,37 @@
 /**
  * @brief An iterator over nodes.
  */
-typedef struct {
+typedef struct NodesIterator NodesIterator;
+struct NodesIterator {
 	Stream stream_graph;
 	void* iterator_data;
-	size_t (*next)(void*);
-	void (*destroy)(void*);
+	size_t (*next)(NodesIterator*);
+	void (*destroy)(NodesIterator*);
 	void (*skip_n)(void*, size_t);
-} NodesIterator;
+};
 
 /**
  * @brief An iterator over links.
  */
-typedef struct {
+typedef struct LinksIterator LinksIterator;
+struct LinksIterator {
 	Stream stream_graph;
 	void* iterator_data;
-	size_t (*next)(void*);
-	void (*destroy)(void*);
-	void (*skip_n)(void*, size_t);
-} LinksIterator;
+	size_t (*next)(LinksIterator*);
+	void (*destroy)(LinksIterator*);
+	void (*skip_n)(void*, size_t); // TODO : those
+};
 
 /**
  * @brief An iterator over a set of time intervals.
  */
-typedef struct {
+typedef struct TimesIterator TimesIterator;
+struct TimesIterator {
 	Stream stream_graph;
 	void* iterator_data;
-	Interval (*next)(void*);
-	void (*destroy)(void*);
-	void (*skip_n)(void*, size_t);
-} TimesIterator;
+	Interval (*next)(TimesIterator*);
+	void (*destroy)(TimesIterator*);
+};
 
 /** @cond */
 // TRICK : The || ({ x.destroy(&x); 0; }) executes the destroy function of the iterator when it ends

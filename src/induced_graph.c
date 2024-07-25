@@ -14,7 +14,7 @@
 size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 
 	LinksPresentAtTIterator* links_iter_data = (LinksPresentAtTIterator*)links_iter->iterator_data;
-	StreamGraph* stream_graph = links_iter->stream_graph.stream;
+	StreamGraph* stream_graph = links_iter->stream_graph.stream_data;
 
 	// If you asked for the very last key moment, nothing is present
 	// I need to check if the current event is equal to the number of events because of the shift by 1 in the after
@@ -56,7 +56,7 @@ size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
 
 	LinksPresentAtTIterator* links_iter_data = (LinksPresentAtTIterator*)links_iter->iterator_data;
-	StreamGraph* stream_graph = links_iter->stream_graph.stream;
+	StreamGraph* stream_graph = links_iter->stream_graph.stream_data;
 
 	// If you're the last link of the event
 	size_t return_val;
@@ -107,7 +107,7 @@ LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t) {
 	links_iter_data->current_event = current_event;
 	links_iter_data->current_link = 0;
 
-	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = FULL_STREAM_GRAPH;
 	// stream->stream = stream_graph;
@@ -115,20 +115,20 @@ LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t) {
 	if (current_event > stream_graph->events.nb_events) {
 		return (LinksIterator){.stream_graph = stream,
 							   .iterator_data = links_iter_data,
-							   .next = (size_t(*)(void*))LinksPresentAtT_next_after_disappearence,
-							   .destroy = (void (*)(void*))LinksPresentAtTIterator_destroy};
+							   .next = LinksPresentAtT_next_after_disappearence,
+							   .destroy = LinksPresentAtTIterator_destroy};
 	}
 
 	LinksIterator links_iter = {
 		.stream_graph = stream,
 		.iterator_data = links_iter_data,
-		.destroy = (void (*)(void*))LinksPresentAtTIterator_destroy,
+		.destroy = LinksPresentAtTIterator_destroy,
 	};
 	if (current_event > stream_graph->events.link_events.disappearance_index) {
-		links_iter.next = (size_t(*)(void*))LinksPresentAtT_next_after_disappearence;
+		links_iter.next = LinksPresentAtT_next_after_disappearence;
 	}
 	else {
-		links_iter.next = (size_t(*)(void*))LinksPresentAtT_next_before_disappearance;
+		links_iter.next = LinksPresentAtT_next_before_disappearance;
 	}
 	return links_iter;
 }
@@ -138,7 +138,7 @@ LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t) {
 size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 
 	NodesPresentAtTIterator* nodes_iter_data = (NodesPresentAtTIterator*)nodes_iter->iterator_data;
-	StreamGraph* stream_graph = nodes_iter->stream_graph.stream;
+	StreamGraph* stream_graph = nodes_iter->stream_graph.stream_data;
 
 	if (nodes_iter_data->current_event >= stream_graph->events.nb_events) {
 		return SIZE_MAX;
@@ -176,7 +176,7 @@ size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
 
 	NodesPresentAtTIterator* nodes_iter_data = (NodesPresentAtTIterator*)nodes_iter->iterator_data;
-	StreamGraph* stream_graph = nodes_iter->stream_graph.stream;
+	StreamGraph* stream_graph = nodes_iter->stream_graph.stream_data;
 
 	// If you're the last node of the event
 	size_t return_val;
@@ -223,16 +223,18 @@ NodesIterator get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t) {
 		current_event++;
 	}
 
-	Stream stream = {.type = FULL_STREAM_GRAPH, .stream = stream_graph};
+	Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = FULL_STREAM_GRAPH;
 	// stream->stream = stream_graph;
 	if (current_event > stream_graph->events.nb_events) {
 		NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
-		return (NodesIterator){.stream_graph = stream,
-							   .iterator_data = nodes_iter_data,
-							   .next = (size_t(*)(void*))NodesPresentAtT_next_after_disappearence,
-							   .destroy = (void (*)(void*))NodesPresentAtTIterator_destroy};
+		return (NodesIterator){
+			.stream_graph = stream,
+			.iterator_data = nodes_iter_data,
+			.next = NodesPresentAtT_next_after_disappearence,
+			.destroy = NodesPresentAtTIterator_destroy,
+		};
 	}
 
 	NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
@@ -241,13 +243,13 @@ NodesIterator get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t) {
 	NodesIterator nodes_iter = {
 		.stream_graph = stream,
 		.iterator_data = nodes_iter_data,
-		.destroy = (void (*)(void*))NodesPresentAtTIterator_destroy,
+		.destroy = NodesPresentAtTIterator_destroy,
 	};
 	if (current_event > stream_graph->events.node_events.disappearance_index) {
-		nodes_iter.next = (size_t(*)(void*))NodesPresentAtT_next_after_disappearence;
+		nodes_iter.next = NodesPresentAtT_next_after_disappearence;
 	}
 	else {
-		nodes_iter.next = (size_t(*)(void*))NodesPresentAtT_next_before_disappearance;
+		nodes_iter.next = NodesPresentAtT_next_before_disappearance;
 	}
 	return nodes_iter;
 }

@@ -16,7 +16,7 @@ bool test_cardinal_of_T_S_0() {
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 
-	TimesIterator times_iter = funcs.times_node_present(st.stream, 0);
+	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 0);
 	size_t cardinal = total_time_of(times_iter);
 
 	FullStreamGraph_destroy(st);
@@ -27,7 +27,7 @@ bool test_cardinal_of_T_S_1() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream, 1);
+	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 1);
 	size_t cardinal = total_time_of(times_iter);
 	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
@@ -38,7 +38,7 @@ bool test_cardinal_of_T_S_2() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream, 2);
+	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 2);
 	size_t cardinal = total_time_of(times_iter);
 	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
@@ -49,7 +49,7 @@ bool test_cardinal_of_T_S_3() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream, 3);
+	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
 	size_t cardinal = total_time_of(times_iter);
 	FullStreamGraph_destroy(st);
 	StreamGraph_destroy(sg);
@@ -60,7 +60,7 @@ bool test_times_node_present() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream, 3);
+	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
 	printf("Present from : \n");
 	FOR_EACH_TIME(interval, times_iter) {
 		printf("[%lu, %lu] U ", interval.start, interval.end);
@@ -74,7 +74,7 @@ bool test_cardinal_of_W_S() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	size_t cardinal = 0;
 	FOR_EACH_NODE(node_id, nodes_iter) {
 		printf("NODE %zu\n", node_id);
@@ -85,7 +85,7 @@ bool test_cardinal_of_W_S() {
 		for (size_t i = 0; i < node.presence.nb_intervals; i++) {
 			printf("Interval %zu : [%lu, %lu]\n", i, node.presence.intervals[i].start, node.presence.intervals[i].end);
 		}
-		cardinal += total_time_of(funcs.times_node_present(st.stream, node_id));
+		cardinal += total_time_of(funcs.times_node_present(st.stream_data, node_id));
 		printf("Cardinal : %zu\n", cardinal - before);
 	}
 	FullStreamGraph_destroy(st);
@@ -97,10 +97,10 @@ bool test_cardinal_of_W_L() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	Stream st = LS_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	size_t cardinal = 0;
 	FOR_EACH_NODE(node_id, nodes_iter) {
-		cardinal += total_time_of(funcs.times_node_present(st.stream, node_id));
+		cardinal += total_time_of(funcs.times_node_present(st.stream_data, node_id));
 	}
 	LS_destroy(st);
 	StreamGraph_destroy(sg);
@@ -119,7 +119,7 @@ bool test_coverage_S() {
 bool test_coverage_L() {
 	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
 	LinkStream ls = LinkStream_from(&sg);
-	Stream st = (Stream){.type = LINK_STREAM, .stream = &ls};
+	Stream st = (Stream){.type = LINK_STREAM, .stream_data = &ls}; // TODO : switch to LS_from
 	double coverage = Stream_coverage(&st);
 	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(coverage, 1.0, 1e-6);
@@ -208,7 +208,7 @@ bool test_density_of_node() {
 	fsg->underlying_stream_graph = &sg;
 	Stream* st = malloc(sizeof(Stream));
 	st->type = FULL_STREAM_GRAPH;
-	st->stream = fsg;
+	st->stream_data = fsg;
 	double density_d = Stream_density_of_node(st, 3);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(*st);
@@ -242,12 +242,12 @@ bool test_chunk_stream_nodes_set() {
 
 	Stream st = CS_from(&sg, &nodes, &links, 0, 100);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
 		printf("NODE %zu\n", node_id);
 	}
 
-	LinksIterator links_iter = funcs.links_set(st.stream);
+	LinksIterator links_iter = funcs.links_set(st.stream_data);
 	FOR_EACH_LINK(link_id, links_iter) {
 		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
 	}
@@ -274,9 +274,9 @@ bool test_neighbours_of_node_chunk_stream() {
 
 	Stream st = CS_from(&sg, &nodes, &links, 0, 100);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
-		LinksIterator neighbours_iter = funcs.neighbours_of_node(st.stream, node_id);
+		LinksIterator neighbours_iter = funcs.neighbours_of_node(st.stream_data, node_id);
 		printf("NODE %zu\n", node_id);
 		FOR_EACH_LINK(link_id, neighbours_iter) {
 			printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0],
@@ -306,9 +306,9 @@ bool test_times_node_present_chunk_stream() {
 
 	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
-		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		TimesIterator times_iter = funcs.times_node_present(st.stream_data, node_id);
 		printf("NODE %zu : ", node_id);
 		FOR_EACH_TIME(interval, times_iter) {
 			printf("[%lu, %lu] U ", interval.start, interval.end);
@@ -338,9 +338,9 @@ bool test_times_node_present_chunk_stream_2() {
 
 	Stream st = CS_from(&sg, &nodes, &links, 40, 45);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
-		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		TimesIterator times_iter = funcs.times_node_present(st.stream_data, node_id);
 		printf("NODE %zu : ", node_id);
 		FOR_EACH_TIME(interval, times_iter) {
 			printf("[%lu, %lu] U ", interval.start, interval.end);
@@ -370,9 +370,9 @@ bool test_link_presence_chunk_stream() {
 
 	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	LinksIterator links_iter = funcs.links_set(st.stream);
+	LinksIterator links_iter = funcs.links_set(st.stream_data);
 	FOR_EACH_LINK(link_id, links_iter) {
-		TimesIterator times_iter = funcs.times_link_present(st.stream, link_id);
+		TimesIterator times_iter = funcs.times_link_present(st.stream_data, link_id);
 		printf("LINK %zu : ", link_id);
 		FOR_EACH_TIME(interval, times_iter) {
 			printf("[%lu, %lu] U ", interval.start, interval.end);
@@ -403,18 +403,18 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 
 	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_present_at_t(st.stream, 40);
+	NodesIterator nodes_iter = funcs.nodes_present_at_t(st.stream_data, 40);
 	printf("STUFF PRESENT AT 40\n");
 	FOR_EACH_NODE(node_id, nodes_iter) {
 		printf("NODE %zu : ", node_id);
-		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		TimesIterator times_iter = funcs.times_node_present(st.stream_data, node_id);
 		FOR_EACH_TIME(interval, times_iter) {
 			printf("[%lu, %lu] U ", interval.start, interval.end);
 		}
 		printf("\n");
 	}
 
-	LinksIterator links_iter = funcs.links_present_at_t(st.stream, 40);
+	LinksIterator links_iter = funcs.links_present_at_t(st.stream_data, 40);
 	FOR_EACH_LINK(link_id, links_iter) {
 		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
 	}
@@ -463,12 +463,12 @@ bool test_chunk_stream_small_nodes_set() {
 
 	Stream st = CSS_from(&sg, nodes.array, links.array, Interval_from(0, 100), nodes.size, links.size);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
 		printf("NODE %zu\n", node_id);
 	}
 
-	LinksIterator links_iter = funcs.links_set(st.stream);
+	LinksIterator links_iter = funcs.links_set(st.stream_data);
 	FOR_EACH_LINK(link_id, links_iter) {
 		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
 	}
@@ -493,9 +493,9 @@ bool test_chunk_stream_small_neighbours_of_node() {
 
 	Stream st = CSS_from(&sg, nodes.array, links.array, Interval_from(0, 100), nodes.size, links.size);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
-		LinksIterator neighbours_iter = funcs.neighbours_of_node(st.stream, node_id);
+		LinksIterator neighbours_iter = funcs.neighbours_of_node(st.stream_data, node_id);
 		printf("NODE %zu\n", node_id);
 		FOR_EACH_LINK(link_id, neighbours_iter) {
 			printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0],
@@ -523,9 +523,9 @@ bool test_chunk_stream_small_times_node_present() {
 
 	Stream st = CSS_from(&sg, nodes.array, links.array, Interval_from(20, 80), nodes.size, links.size);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream);
+	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
-		TimesIterator times_iter = funcs.times_node_present(st.stream, node_id);
+		TimesIterator times_iter = funcs.times_node_present(st.stream_data, node_id);
 		printf("NODE %zu : ", node_id);
 		FOR_EACH_TIME(interval, times_iter) {
 			printf("[%lu, %lu] U ", interval.start, interval.end);
@@ -533,9 +533,9 @@ bool test_chunk_stream_small_times_node_present() {
 		printf("\n");
 	}
 
-	LinksIterator links_iter = funcs.links_set(st.stream);
+	LinksIterator links_iter = funcs.links_set(st.stream_data);
 	FOR_EACH_LINK(link_id, links_iter) {
-		TimesIterator times_iter = funcs.times_link_present(st.stream, link_id);
+		TimesIterator times_iter = funcs.times_link_present(st.stream_data, link_id);
 		printf("LINK %zu : ", link_id);
 		FOR_EACH_TIME(interval, times_iter) {
 			printf("[%lu, %lu] U ", interval.start, interval.end);
@@ -555,6 +555,7 @@ bool test_clustering_coeff_of_node() {
 	free(str);
 	Stream st = FullStreamGraph_from(&sg);
 	double clustering_coeff_c = Stream_clustering_coeff_of_node(&st, 2);
+	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(clustering_coeff_c, 3.0 / 5.0, 1e-6);
 }
 

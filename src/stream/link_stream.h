@@ -2,8 +2,10 @@
 #define LINK_STREAM_H
 
 #include "../metrics.h"
+#include "../stream.h"
 #include "../stream_functions.h"
 #include "../stream_graph.h"
+
 typedef struct {
 	StreamGraph* underlying_stream_graph;
 } LinkStream;
