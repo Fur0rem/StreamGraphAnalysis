@@ -175,7 +175,6 @@ typedef struct {
 
 LinkId ChunkStreamSmallLinksPresentAtTIterator_next(LinksIterator* it) {
 	ChunkStreamSmallLPATIterData* iterator_data = it->iterator_data;
-	FullStreamGraph* fsg = iterator_data->underlying_stream_graph;
 	LinkId link_id = iterator_data->links_iterator_fsg.next(&iterator_data->links_iterator_fsg);
 	if (link_id == SIZE_MAX) {
 		return SIZE_MAX;
