@@ -16,7 +16,12 @@ typedef struct {
 	OptionalSizeT cardinalOfV;
 } InformationCache;
 
-typedef void StreamData;
+// TRICK: StreamData is a blanket struct that serves as a placeholder for the union of all stream types
+// (FullStreamGraph, LinkStream, ect...).
+// Otherwise a circular dependency would be created since these files need stream.h.
+// And if we used a void* pointer, we would lose type safety.
+typedef struct {
+} StreamData;
 
 typedef struct {
 	enum {
