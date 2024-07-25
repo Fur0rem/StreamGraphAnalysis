@@ -16,6 +16,8 @@ typedef struct {
 	OptionalSizeT cardinalOfV;
 } InformationCache;
 
+typedef void StreamData;
+
 typedef struct {
 	enum {
 		FULL_STREAM_GRAPH,
@@ -23,7 +25,7 @@ typedef struct {
 		CHUNK_STREAM,
 		CHUNK_STREAM_SMALL,
 	} type;
-	void* stream;
+	StreamData* stream_data;
 	InformationCache cache;
 } Stream;
 

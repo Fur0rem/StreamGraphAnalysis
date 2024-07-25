@@ -2,22 +2,23 @@
 #define STREAM_FUNCTIONS_H
 
 #include "iterators.h"
+#include "stream.h"
 #include "stream_graph/links_set.h"
 
 typedef struct {
-	NodesIterator (*nodes_set)(void*);
-	LinksIterator (*links_set)(void*);
-	Interval (*lifespan)(void*);
-	size_t (*scaling)(void*);
+	NodesIterator (*nodes_set)(StreamData*);
+	LinksIterator (*links_set)(StreamData*);
+	Interval (*lifespan)(StreamData*);
+	size_t (*scaling)(StreamData*);
 
-	NodesIterator (*nodes_present_at_t)(void*, TimeId);
-	LinksIterator (*links_present_at_t)(void*, TimeId);
+	NodesIterator (*nodes_present_at_t)(StreamData*, TimeId);
+	LinksIterator (*links_present_at_t)(StreamData*, TimeId);
 
-	TimesIterator (*times_node_present)(void*, NodeId);
-	TimesIterator (*times_link_present)(void*, LinkId);
+	TimesIterator (*times_node_present)(StreamData*, NodeId);
+	TimesIterator (*times_link_present)(StreamData*, LinkId);
 
-	Link (*nth_link)(void*, size_t);
-	LinksIterator (*neighbours_of_node)(void*, NodeId);
+	Link (*nth_link)(StreamData*, size_t);
+	LinksIterator (*neighbours_of_node)(StreamData*, NodeId);
 
 } StreamFunctions;
 

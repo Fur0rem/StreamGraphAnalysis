@@ -105,13 +105,7 @@ bool test_walk_optimal() {
 
 bool test_fastest_shortest() {
 	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
-	FullStreamGraph fsg = (FullStreamGraph){
-		.underlying_stream_graph = &sg,
-	};
-	Stream st = (Stream){
-		.type = FULL_STREAM_GRAPH,
-		.stream = &fsg,
-	};
+	Stream st = FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
 	WalkInfo w = Stream_fastest_shortest_walk(&st, 0, 3, 0);
@@ -120,13 +114,7 @@ bool test_fastest_shortest() {
 	free(str);
 
 	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
-	FullStreamGraph fsg2 = (FullStreamGraph){
-		.underlying_stream_graph = &sg2,
-	};
-	Stream st2 = (Stream){
-		.type = FULL_STREAM_GRAPH,
-		.stream = &fsg2,
-	};
+	Stream st2 = FullStreamGraph_from(&sg2);
 
 	WalkInfo w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
 	str = WalkInfo_to_string(&w2);
@@ -140,6 +128,8 @@ bool test_fastest_shortest() {
 
 	StreamGraph_destroy(sg);
 	StreamGraph_destroy(sg2);
+	FullStreamGraph_destroy(st);
+	FullStreamGraph_destroy(st2);
 	WalkInfo_destroy(w);
 	WalkInfo_destroy(w2);
 	WalkInfo_destroy(w3);

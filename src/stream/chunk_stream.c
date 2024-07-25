@@ -30,13 +30,13 @@ Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* lin
 			   size_t time_end) {
 	ChunkStream* chunk_stream = MALLOC(sizeof(ChunkStream));
 	*chunk_stream = ChunkStream_from(stream_graph, nodes, links, time_start, time_end);
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	init_cache(&stream);
 	return stream;
 }
 
 void CS_destroy(Stream stream) {
-	ChunkStream* chunk_stream = (ChunkStream*)stream.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)stream.stream_data;
 	BitArray_destroy(chunk_stream->nodes_present);
 	BitArray_destroy(chunk_stream->links_present);
 	free(chunk_stream);
@@ -48,7 +48,7 @@ typedef struct {
 
 size_t CS_NodesSet_next(NodesIterator* iter) {
 	NodesSetIteratorData* nodes_iter_data = (NodesSetIteratorData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	if (nodes_iter_data->current_node >= chunk_stream->underlying_stream_graph->nodes.nb_nodes) {
 		return SIZE_MAX;
 	}
@@ -64,18 +64,19 @@ void CS_NodesSetIterator_destroy(NodesIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-NodesIterator ChunkStream_nodes_set(ChunkStream* chunk_stream) {
+NodesIterator ChunkStream_nodes_set(StreamData* stream_data) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	NodesSetIteratorData* iterator_data = MALLOC(sizeof(NodesSetIteratorData));
 	iterator_data->current_node = 0;
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	NodesIterator nodes_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (size_t(*)(void*))CS_NodesSet_next,
-		.destroy = (void (*)(void*))CS_NodesSetIterator_destroy,
+		.next = CS_NodesSet_next,
+		.destroy = CS_NodesSetIterator_destroy,
 	};
 	return nodes_iterator;
 }
@@ -86,7 +87,7 @@ typedef struct {
 
 size_t CS_LinksSet_next(LinksIterator* iter) {
 	CS_LinksSetIteratorData* links_iter_data = (CS_LinksSetIteratorData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	if (links_iter_data->current_link >= chunk_stream->underlying_stream_graph->links.nb_links) {
 		return SIZE_MAX;
 	}
@@ -102,27 +103,30 @@ void CS_LinksSetIterator_destroy(LinksIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-LinksIterator ChunkStream_links_set(ChunkStream* chunk_stream) {
+LinksIterator ChunkStream_links_set(StreamData* stream_data) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	CS_LinksSetIteratorData* iterator_data = MALLOC(sizeof(CS_LinksSetIteratorData));
 	iterator_data->current_link = 0;
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (size_t(*)(void*))CS_LinksSet_next,
-		.destroy = (void (*)(void*))CS_LinksSetIterator_destroy,
+		.next = CS_LinksSet_next,
+		.destroy = CS_LinksSetIterator_destroy,
 	};
 	return links_iterator;
 }
 
-Interval ChunkStream_lifespan(ChunkStream* chunk_stream) {
+Interval ChunkStream_lifespan(StreamData* stream_data) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	return chunk_stream->snapshot;
 }
 
-size_t ChunkStream_scaling(ChunkStream* chunk_stream) {
+size_t ChunkStream_scaling(StreamData* stream_data) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	return chunk_stream->underlying_stream_graph->scaling;
 }
 
@@ -139,7 +143,7 @@ typedef struct {
 
 size_t ChunkStream_NeighboursOfNode_next(LinksIterator* iter) {
 	CS_NeighboursOfNodeIteratorData* neighbours_iter_data = (CS_NeighboursOfNodeIteratorData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
 	NodeId node = neighbours_iter_data->node_to_get_neighbours;
 	// Print all the neighbours of the node
@@ -159,21 +163,22 @@ void ChunkStream_NeighboursOfNodeIterator_destroy(LinksIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-LinksIterator ChunkStream_neighbours_of_node(ChunkStream* chunk_stream, NodeId node) {
+LinksIterator ChunkStream_neighbours_of_node(StreamData* stream_data, NodeId node) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	CS_NeighboursOfNodeIteratorData* iterator_data = MALLOC(sizeof(CS_NeighboursOfNodeIteratorData));
 	*iterator_data = (CS_NeighboursOfNodeIteratorData){
 		.node_to_get_neighbours = node,
 		.current_neighbour = 0,
 	};
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	LinksIterator neighbours_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (size_t(*)(void*))ChunkStream_NeighboursOfNode_next,
-		.destroy = (void (*)(void*))ChunkStream_NeighboursOfNodeIterator_destroy,
+		.next = ChunkStream_NeighboursOfNode_next,
+		.destroy = ChunkStream_NeighboursOfNodeIterator_destroy,
 	};
 	return neighbours_iterator;
 }
@@ -197,7 +202,7 @@ void filter_interval(Interval* interval, Interval snapshot) {
 
 Interval CS_TimesNodePresentAt_next(TimesIterator* iter) {
 	CS_TimesIdPresentAtIteratorData* times_iter_data = (CS_TimesIdPresentAtIteratorData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
 	NodeId node = times_iter_data->current_id;
 	if (times_iter_data->current_time >= stream_graph->nodes.nodes[node].presence.nb_intervals) {
@@ -213,7 +218,8 @@ void CS_TimesNodePresentAtIterator_destroy(TimesIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-TimesIterator ChunkStream_times_node_present(ChunkStream* chunk_stream, NodeId node) {
+TimesIterator ChunkStream_times_node_present(StreamData* stream_data, NodeId node) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	CS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CS_TimesIdPresentAtIteratorData));
 	size_t nb_skips = 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.nb_intervals &&
@@ -225,15 +231,15 @@ TimesIterator ChunkStream_times_node_present(ChunkStream* chunk_stream, NodeId n
 		.current_time = nb_skips,
 		.current_id = node,
 	};
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (Interval(*)(void*))CS_TimesNodePresentAt_next,
-		.destroy = (void (*)(void*))CS_TimesNodePresentAtIterator_destroy,
+		.next = CS_TimesNodePresentAt_next,
+		.destroy = CS_TimesNodePresentAtIterator_destroy,
 	};
 	return times_iterator;
 }
@@ -241,7 +247,7 @@ TimesIterator ChunkStream_times_node_present(ChunkStream* chunk_stream, NodeId n
 // same for links now
 Interval CS_TimesLinkPresentAt_next(TimesIterator* iter) {
 	CS_TimesIdPresentAtIteratorData* times_iter_data = (CS_TimesIdPresentAtIteratorData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	StreamGraph* stream_graph = chunk_stream->underlying_stream_graph;
 	LinkId link = times_iter_data->current_id;
 	if (times_iter_data->current_time >= stream_graph->links.links[link].presence.nb_intervals) {
@@ -253,7 +259,8 @@ Interval CS_TimesLinkPresentAt_next(TimesIterator* iter) {
 	return nth_time;
 }
 
-TimesIterator ChunkStream_times_link_present(ChunkStream* chunk_stream, LinkId link) {
+TimesIterator ChunkStream_times_link_present(StreamData* stream_data, LinkId link) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	CS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CS_TimesIdPresentAtIteratorData));
 	size_t nb_skips = 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->links.links[link].presence.nb_intervals &&
@@ -265,20 +272,21 @@ TimesIterator ChunkStream_times_link_present(ChunkStream* chunk_stream, LinkId l
 		.current_time = nb_skips,
 		.current_id = link,
 	};
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	TimesIterator times_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (Interval(*)(void*))CS_TimesLinkPresentAt_next,
-		.destroy = (void (*)(void*))CS_TimesNodePresentAtIterator_destroy,
+		.next = CS_TimesLinkPresentAt_next,
+		.destroy = CS_TimesNodePresentAtIterator_destroy,
 	};
 	return times_iterator;
 }
 
-Link ChunkStream_nth_link(ChunkStream* chunk_stream, size_t link_id) {
+Link ChunkStream_nth_link(StreamData* stream_data, size_t link_id) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	return chunk_stream->underlying_stream_graph->links.links[link_id];
 }
 
@@ -290,7 +298,7 @@ typedef struct {
 NodeId ChunkStreamNPAT_next(NodesIterator* iter) {
 	// call the next function of the underlying iterator
 	ChunkStreamNPATIterData* iterator_data = (ChunkStreamNPATIterData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	NodeId node = iterator_data->nodes_iterator_fsg.next(&iterator_data->nodes_iterator_fsg);
 	// if the node is not present in the chunk stream, call the next function again
 	while (node != SIZE_MAX && BitArray_is_zero(chunk_stream->nodes_present, node)) {
@@ -307,24 +315,25 @@ void ChunkStreamNPAT_destroy(NodesIterator* iterator) {
 }
 
 // TRICK : kind of weird hack but it works ig?
-NodesIterator ChunkStream_nodes_present_at_t(ChunkStream* chunk_stream, TimeId instant) {
+NodesIterator ChunkStream_nodes_present_at_t(StreamData* stream_data, TimeId instant) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	ChunkStreamNPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamNPATIterData));
 	/*FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	 *full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);*/
 	Stream fsg = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
-	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream;
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream_data;
 	iterator_data->nodes_iterator_fsg = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	NodesIterator nodes_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (size_t(*)(void*))ChunkStreamNPAT_next,
-		.destroy = (void (*)(void*))ChunkStreamNPAT_destroy,
+		.next = ChunkStreamNPAT_next,
+		.destroy = ChunkStreamNPAT_destroy,
 	};
 	return nodes_iterator;
 }
@@ -337,7 +346,7 @@ typedef struct {
 LinkId ChunkStreamLPAT_next(LinksIterator* iter) {
 	// call the next function of the underlying iterator
 	ChunkStreamLPATIterData* iterator_data = (ChunkStreamLPATIterData*)iter->iterator_data;
-	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream;
+	ChunkStream* chunk_stream = (ChunkStream*)iter->stream_graph.stream_data;
 	LinkId link = iterator_data->links_iterator_fsg.next(&iterator_data->links_iterator_fsg);
 	// if the link is not present in the chunk stream, call the next function again
 	while (link != SIZE_MAX && BitArray_is_zero(chunk_stream->links_present, link)) {
@@ -353,36 +362,37 @@ void ChunkStreamLPAT_destroy(LinksIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-LinksIterator ChunkStream_links_present_at_t(ChunkStream* chunk_stream, TimeId instant) {
+LinksIterator ChunkStream_links_present_at_t(StreamData* stream_data, TimeId instant) {
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
 	ChunkStreamLPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamLPATIterData));
 	Stream fsg = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
-	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream;
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream_data;
 	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
-	Stream stream = {.type = CHUNK_STREAM, .stream = chunk_stream};
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = CHUNK_STREAM;
 	// stream->stream = chunk_stream;
 	LinksIterator links_iterator = {
 		.stream_graph = stream,
 		.iterator_data = iterator_data,
-		.next = (size_t(*)(void*))ChunkStreamLPAT_next,
-		.destroy = (void (*)(void*))ChunkStreamLPAT_destroy,
+		.next = ChunkStreamLPAT_next,
+		.destroy = ChunkStreamLPAT_destroy,
 	};
 	return links_iterator;
 }
 
 const StreamFunctions ChunkStream_stream_functions = {
-	.nodes_set = (NodesIterator(*)(void*))ChunkStream_nodes_set,
-	.links_set = (LinksIterator(*)(void*))ChunkStream_links_set,
-	.lifespan = (Interval(*)(void*))ChunkStream_lifespan,
-	.scaling = (size_t(*)(void*))ChunkStream_scaling,
-	.nodes_present_at_t = (NodesIterator(*)(void*, TimeId))ChunkStream_nodes_present_at_t,
-	.links_present_at_t = (LinksIterator(*)(void*, TimeId))ChunkStream_links_present_at_t,
-	.times_node_present = (TimesIterator(*)(void*, NodeId))ChunkStream_times_node_present,
-	.times_link_present = (TimesIterator(*)(void*, LinkId))ChunkStream_times_link_present,
-	.nth_link = (Link(*)(void*, size_t))ChunkStream_nth_link,
-	.neighbours_of_node = (LinksIterator(*)(void*, NodeId))ChunkStream_neighbours_of_node,
+	.nodes_set = ChunkStream_nodes_set,
+	.links_set = ChunkStream_links_set,
+	.lifespan = ChunkStream_lifespan,
+	.scaling = ChunkStream_scaling,
+	.nodes_present_at_t = ChunkStream_nodes_present_at_t,
+	.links_present_at_t = ChunkStream_links_present_at_t,
+	.times_node_present = ChunkStream_times_node_present,
+	.times_link_present = ChunkStream_times_link_present,
+	.nth_link = ChunkStream_nth_link,
+	.neighbours_of_node = ChunkStream_neighbours_of_node,
 };
 
 const MetricsFunctions ChunkStream_metrics_functions = {

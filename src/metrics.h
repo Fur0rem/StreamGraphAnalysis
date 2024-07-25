@@ -26,12 +26,12 @@
  */
 // TODO : rename these
 typedef struct {
-	size_t (*cardinalOfW)(void*);
-	size_t (*cardinalOfT)(void*);
-	size_t (*cardinalOfV)(void*);
-	double (*coverage)(void*);
-	double (*node_duration)(void*);
-	double (*density)(void*);
+	size_t (*cardinalOfW)(Stream*);
+	size_t (*cardinalOfT)(Stream*);
+	size_t (*cardinalOfV)(Stream*);
+	double (*coverage)(Stream*);
+	double (*node_duration)(Stream*);
+	double (*density)(Stream*);
 } MetricsFunctions;
 
 /**
