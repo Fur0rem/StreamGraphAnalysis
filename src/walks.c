@@ -7,6 +7,7 @@
 #include "stream_functions.h"
 
 // For STREAM_FUNCS
+#include "metrics.h"
 #include "stream/chunk_stream.h"
 #include "stream/chunk_stream_small.h"
 #include "stream/full_stream_graph.h"
@@ -507,24 +508,24 @@ DefHashset(DijkstraState, DijkstraState_hash, NO_FREE(DijkstraState));*/
 typedef struct DijkstraState DijkstraState;
 struct DijkstraState {
 	NodeId node;
-	size_t distance;
+	size_t time;
 	size_t number_of_jumps;
 	DijkstraState* previous;
 };
 
 bool DijkstraState_equals(DijkstraState a, DijkstraState b) {
-	return a.node == b.node && a.distance == b.distance;
+	return a.node == b.node && a.time == b.time && a.number_of_jumps == b.number_of_jumps;
 }
 
 char* DijkstraState_to_string(DijkstraState* state) {
-	char* str = malloc(100);
-	sprintf(str, "DijkstraState(node:%zu, distance:%zu, number_of_jumps:%zu)", state->node, state->distance,
-			state->number_of_jumps);
+	char* str = malloc(150);
+	sprintf(str, "DijkstraState(node:%zu, time:%zu, number_of_jumps:%zu, previous_node:%zu)", state->node, state->time,
+			state->number_of_jumps, state->previous == NULL ? SIZE_MAX : state->previous->node);
 	return str;
 }
 
 size_t DijkstraState_hash(DijkstraState state) {
-	return state.node * 31 + state.distance;
+	return state.node * 31 + state.time;
 }
 
 DefHashset(DijkstraState, DijkstraState_hash, NO_FREE(DijkstraState));
@@ -539,24 +540,34 @@ BinaryHeap BinaryHeap_init() {
 	};
 }
 
-int DijkstraState_compare(DijkstraState a, DijkstraState b) {
-	if (a.distance < b.distance) {
+int DijkstraState_compare(DijkstraState* a, DijkstraState* b) {
+	if (a->time < b->time) {
 		return -1;
 	}
-	else if (a.distance > b.distance) {
+	else if (a->time > b->time) {
 		return 1;
 	}
-	if (a.number_of_jumps < b.number_of_jumps) {
+	if (a->number_of_jumps < b->number_of_jumps) {
 		return -1;
 	}
-	else if (a.number_of_jumps > b.number_of_jumps) {
+	else if (a->number_of_jumps > b->number_of_jumps) {
 		return 1;
 	}
 	return 0;
 }
 
-void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
+/*void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
 	DijkstraStateVector_push(&heap->nodes, state);
+	// if you find any dijkstra state with the same node and a lower time or number of jumps, replace it
+	for (size_t i = 0; i < heap->nodes.size; i++) {
+		DijkstraState current = heap->nodes.array[i];
+		if (current.node == state.node) {
+			if (DijkstraState_compare(state, current) < 0) {
+				heap->nodes.array[i] = state;
+				break;
+			}
+		}
+	}
 	size_t current_index = heap->nodes.size - 1;
 	while (current_index != 0) {
 		size_t parent_index = (current_index - 1) / 2;
@@ -586,12 +597,12 @@ DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
 		}
 		size_t smallest_child_index = left_child_index;
 		if (right_child_index < heap->nodes.size &&
-			heap->nodes.array[right_child_index].distance < heap->nodes.array[left_child_index].distance) {
+			heap->nodes.array[right_child_index].time < heap->nodes.array[left_child_index].time) {
 			smallest_child_index = right_child_index;
 		}
 		DijkstraState current = heap->nodes.array[current_index];
 		DijkstraState smallest_child = heap->nodes.array[smallest_child_index];
-		if (current.distance > smallest_child.distance) {
+		if (current.time > smallest_child.time) {
 			heap->nodes.array[current_index] = smallest_child;
 			heap->nodes.array[smallest_child_index] = current;
 			current_index = smallest_child_index;
@@ -600,6 +611,19 @@ DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
 			break;
 		}
 	}
+	return result;
+}*/
+
+// OPTIMISE: do an actual heap dumbass
+void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
+	DijkstraStateVector_push(&heap->nodes, state);
+	// sort the heap
+	DijkstraStateVector_sort(&heap->nodes, (int (*)(const void*, const void*))DijkstraState_compare);
+}
+
+DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
+	DijkstraState result = heap->nodes.array[0];
+	DijkstraStateVector_remove(&heap->nodes, 0);
 	return result;
 }
 
@@ -611,7 +635,12 @@ void BinaryHeap_destroy(BinaryHeap heap) {
 	DijkstraStateVector_destroy(heap.nodes);
 }
 
+char* BinaryHeap_to_string(BinaryHeap* heap) {
+	return DijkstraStateVector_to_string(&heap->nodes);
+}
+
 // Dijkstra's algorithm to find the minimum delay between two nodes
+// Its also the shortest fastest
 WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	WalkInfo result;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
@@ -628,19 +657,24 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	DijkstraState current_info;
 	size_t best_time_yet = SIZE_MAX;
 	DijkstraState best_yet;
-	bool found = false;
-	size_t depth_found = SIZE_MAX;
+	// bool found = false;
+	// size_t depth_found = SIZE_MAX;
 	DijkstraStateHashset explored = DijkstraStateHashset_with_capacity(50);
-	while ((!BinaryHeap_is_empty(&queue)) && ((!found) || (current_info.number_of_jumps <= depth_found))) {
+
+	while ((!BinaryHeap_is_empty(&queue)) && (current_candidate != to)) {
 		// Get the next node from the queue
+		char* heap_str = BinaryHeap_to_string(&queue);
+		printf("Heap : %s\n", heap_str);
+		free(heap_str);
+
 		current_info = BinaryHeap_pop(&queue);
-		if (DijkstraStateHashset_contains(explored, (DijkstraState){current_info.node, current_info.distance})) {
+		if (DijkstraStateHashset_contains(explored, (DijkstraState){current_info.node, current_info.time})) {
 			continue;
 		}
-		DijkstraStateHashset_insert(&explored, (DijkstraState){current_info.node, current_info.distance});
+		DijkstraStateHashset_insert(&explored, (DijkstraState){current_info.node, current_info.time});
 
 		current_candidate = current_info.node;
-		current_time = current_info.distance;
+		current_time = current_info.time;
 
 		// Get its neighbors
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
@@ -661,13 +695,17 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 				}
 			}
 		}
-		if (current_candidate == to) {
+		/*if (current_candidate == to) {
 			found = true;
 			depth_found = current_info.number_of_jumps;
 			if (current_time < best_time_yet) {
 				best_time_yet = current_time;
 				best_yet = current_info;
 			}
+		}*/
+		if (current_candidate == to && current_time < best_time_yet) {
+			best_time_yet = current_time;
+			best_yet = current_info;
 		}
 	}
 
@@ -687,7 +725,11 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 
 	// Build the steps
 	DijkstraState* current_walk = &best_yet;
+	printf("building walk\n");
 	while (current_walk != NULL) {
+		char* str = DijkstraState_to_string(current_walk);
+		printf("Current walk : %s\n", str);
+		free(str);
 		DijkstraState* previous = current_walk->previous;
 		NodeId previous_node = previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
@@ -696,7 +738,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 			Link link = fns.nth_link(stream->stream_data, i);
 			if ((link.nodes[0] == current_walk->node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_walk->node && link.nodes[0] == previous_node)) {
-				WalkStep step = {i, current_walk->distance, .needs_to_arrive_before = current_walk->distance};
+				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->time};
 				WalkStepVector_push(&walk.steps, step);
 				links.destroy(&links);
 				break;

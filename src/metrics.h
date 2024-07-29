@@ -167,6 +167,10 @@ double Stream_node_clustering_coeff(Stream* stream);
 
 double Stream_transitivity_ratio(Stream* stream);
 
+size_t cardinalOfW(Stream* stream);
+size_t cardinalOfT(Stream* stream);
+size_t cardinalOfV(Stream* stream);
+size_t cardinalOfE(Stream* stream);
 /** @} */
 
 #endif // METRICS_H
