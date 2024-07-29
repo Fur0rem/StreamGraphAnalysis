@@ -112,5 +112,6 @@ DefVector(WalkInfo, WalkInfo_destroy);
 
 WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
 											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
+WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 
 #endif // WALK_H

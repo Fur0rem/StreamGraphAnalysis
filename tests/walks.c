@@ -137,11 +137,56 @@ bool test_fastest_shortest() {
 	return true;
 }
 
+bool test_fastest() {
+	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
+	Stream st = FullStreamGraph_from(&sg);
+	printf("Loaded graph\n");
+
+	WalkInfo w = Stream_fastest_walk(&st, 0, 3, 0);
+	char* str = WalkInfo_to_string(&w);
+	printf("w %s\n", str);
+	free(str);
+
+	WalkInfo w1 = Stream_fastest_shortest_walk(&st, 0, 3, 5);
+	str = WalkInfo_to_string(&w1);
+	printf("w1 %s\n", str);
+	free(str);
+
+	WalkInfo w12 = Stream_fastest_shortest_walk(&st, 0, 3, 4);
+	str = WalkInfo_to_string(&w12);
+	printf("w12 %s\n", str);
+	free(str);
+
+	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
+	Stream st2 = FullStreamGraph_from(&sg2);
+
+	WalkInfo w2 = Stream_fastest_walk(&st2, 0, 3, 5);
+	str = WalkInfo_to_string(&w2);
+	printf("w2 %s\n", str);
+	free(str);
+
+	WalkInfo w3 = Stream_fastest_walk(&st2, 0, 3, 9);
+	str = WalkInfo_to_string(&w3);
+	printf("w3 %s\n", str);
+	free(str);
+
+	StreamGraph_destroy(sg);
+	StreamGraph_destroy(sg2);
+	FullStreamGraph_destroy(st);
+	FullStreamGraph_destroy(st2);
+	WalkInfo_destroy(w);
+	WalkInfo_destroy(w2);
+	WalkInfo_destroy(w3);
+
+	return true;
+}
+
 int main() {
 	Test* tests[] = {
 		&(Test){"walk_a_c",			test_walk_a_c		 },
 		&(Test){"walk_optimal",		test_walk_optimal	 },
 		&(Test){"fastest_shortest", test_fastest_shortest},
+		&(Test){"fastest",		   test_fastest		   },
 
 		NULL
 	};
