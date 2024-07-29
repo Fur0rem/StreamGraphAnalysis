@@ -108,7 +108,7 @@
 	}                                                                                                                  \
                                                                                                                        \
 	static char* type##Vector_to_string(type##Vector* vec) {                                                           \
-		char* str = (char*)malloc(1000);                                                                               \
+		char* str = (char*)malloc(100000);                                                                             \
 		str[0] = '\0';                                                                                                 \
 		strcat(str, "[ ");                                                                                             \
 		for (size_t i = 0; i < vec->size; i++) {                                                                       \
@@ -154,5 +154,7 @@
 			vec->array[vec->size - i - 1] = tmp;                                                                       \
 		}                                                                                                              \
 	}
+
+// TODO : dynamic str for to_string (crash if too long)
 
 #endif // VECTOR_H
