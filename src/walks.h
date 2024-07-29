@@ -114,4 +114,7 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
 WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 
+size_t Walk_length(Walk* walk);
+size_t Walk_duration(Walk* walk);
+
 #endif // WALK_H
