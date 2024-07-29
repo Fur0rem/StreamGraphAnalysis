@@ -769,3 +769,16 @@ cleanup_and_return:
 	ArenaVector_destroy(arena);
 	return result;
 }
+
+size_t Walk_length(Walk* walk) {
+	return walk->steps.size;
+}
+
+size_t Walk_duration(Walk* walk) {
+	if (walk->steps.size == 0) {
+		return 0;
+	}
+	size_t start_time = walk->steps.array[0].time;
+	size_t end_time = walk->steps.array[walk->steps.size - 1].time;
+	return end_time - start_time;
+}
