@@ -2,7 +2,6 @@
 
 #include "../interval.h"
 #include "../iterators.h"
-#include "../stream_graph.h"
 #include "chunk_stream.h"
 #include "full_stream_graph.h"
 #include <stddef.h>

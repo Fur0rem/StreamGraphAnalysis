@@ -1,7 +1,6 @@
 #include "full_stream_graph.h"
 #include "../induced_graph.h"
 #include "../metrics.h"
-#include "../stream_graph.h"
 #include "../stream_graph/nodes_set.h"
 #include "../units.h"
 #include "../utils.h"
