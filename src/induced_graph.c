@@ -1,5 +1,4 @@
 #include "induced_graph.h"
-#include "stream_graph.h"
 #include "utils.h"
 #include <stdbool.h>
 #include <stddef.h>

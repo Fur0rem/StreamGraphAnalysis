@@ -45,9 +45,18 @@ stream: $(SRC_DIR)/stream.c events_table key_moments_table links_set nodes_set
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream.c -o $(BIN_DIR)/stream.o
 	ar rcs $(BIN_DIR)/stream.a $(BIN_DIR)/stream.o $(BIN_DIR)/events_table.a $(BIN_DIR)/key_moments_table.a $(BIN_DIR)/links_set.a $(BIN_DIR)/nodes_set.a
 
-full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream defaults | $(BIN_DIR)
+induced_graph: $(SRC_DIR)/induced_graph.c interval stream defaults | $(BIN_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/induced_graph.c -o $(BIN_DIR)/induced_graph.o
+	ar rcs $(BIN_DIR)/induced_graph.a $(BIN_DIR)/interval.a $(BIN_DIR)/stream.a $(BIN_DIR)/induced_graph.o $(BIN_DIR)/defaults.a
+
+# full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream defaults | $(BIN_DIR)
+# 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/full_stream_graph.c -o $(BIN_DIR)/full_stream_graph.o
+# 	ar rcs $(BIN_DIR)/full_stream_graph.a $(BIN_DIR)/interval.a $(BIN_DIR)/stream.a $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/defaults.a
+
+full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream defaults induced_graph events_table key_moments_table links_set nodes_set utils bit_array | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/full_stream_graph.c -o $(BIN_DIR)/full_stream_graph.o
-	ar rcs $(BIN_DIR)/full_stream_graph.a $(BIN_DIR)/interval.a $(BIN_DIR)/stream.a $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/defaults.a
+	# ar rcs $(BIN_DIR)/full_stream_graph.a $(BIN_DIR)/interval.a $(BIN_DIR)/stream.a $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/defaults.a $(BIN_DIR)/events_table.a $(BIN_DIR)/key_moments_table.a $(BIN_DIR)/links_set.a $(BIN_DIR)/nodes_set.a $(BIN_DIR)/utils.o $(BIN_DIR)/induced_graph.a
+	ar rcs $(BIN_DIR)/full_stream_graph.a bin/full_stream_graph.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o
 
 link_stream: $(SRC_DIR)/link_stream.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/link_stream.o

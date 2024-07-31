@@ -212,9 +212,9 @@
 		return false;                                                                                                  \
 	}
 
-#define DeclareHashsetDeriveToString(type) char* type##Hashset_to_string(type##Hashset* s);
+#define DeclareHashsetDeriveToString(type) String type##Hashset_to_string(const type##Hashset* s);
 #define DefineHashsetDeriveToString(type)                                                                              \
-	String type##Hashset_to_string(type##Hashset* s) {                                                                 \
+	String type##Hashset_to_string(const type##Hashset* s) {                                                           \
 		String str = String_from_duplicate("{ ");                                                                      \
 		for (size_t i = 0; i < s->capacity; i++) {                                                                     \
 			if (s->buckets[i].size == 0) {                                                                             \
