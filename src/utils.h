@@ -57,7 +57,7 @@
 		}                                                                                                              \
 	}
 
-#define DeclareEquals(type)	 bool type##_equals(type* a, type* b);
+#define DeclareEquals(type)	 bool type##_equals(const type* a, const type* b);
 #define DeclareCompare(type) int type##_compare(const void* a, const void* b);
 
 #define DEFAULT_MIN_MAX(type)                                                                                          \

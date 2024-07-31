@@ -57,6 +57,15 @@ String Interval_to_string(Interval* interval) {
 	return string;
 }
 
+bool Interval_equals(const Interval* a, const Interval* b) {
+	return a->start == b->start && a->end == b->end;
+}
+
+DefineVector(Interval);
+DefineVectorDeriveRemove(Interval, NO_FREE(Interval));
+DefineVectorDeriveEquals(Interval);
+DefineVectorDeriveToString(Interval);
+
 void IntervalsSet_destroy(IntervalsSet intervals_set) {
 	free(intervals_set.intervals);
 }

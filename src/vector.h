@@ -300,7 +300,7 @@
 			return false;                                                                                              \
 		}                                                                                                              \
 		for (size_t i = 0; i < vec1.size; i++) {                                                                       \
-			if (!type##_equals(vec1.array[i], vec2.array[i])) {                                                        \
+			if (!type##_equals(&vec1.array[i], &vec2.array[i])) {                                                      \
 				return false;                                                                                          \
 			}                                                                                                          \
 		}                                                                                                              \
@@ -309,7 +309,7 @@
                                                                                                                        \
 	size_t type##Vector_find(type##Vector vec, type value) {                                                           \
 		for (size_t i = 0; i < vec.size; i++) {                                                                        \
-			if (type##_equals(vec.array[i], value)) {                                                                  \
+			if (type##_equals(&vec.array[i], &value)) {                                                                \
 				return i;                                                                                              \
 			}                                                                                                          \
 		}                                                                                                              \

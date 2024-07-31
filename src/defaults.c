@@ -29,3 +29,6 @@ size_t size_t_hash(size_t* value) {
 }
 
 DefineHashset(size_t);
+DefineHashsetDeriveRemove(size_t, NO_FREE(size_t));
+DefineHashsetDeriveEquals(size_t);
+DefineHashsetDeriveToString(size_t);
