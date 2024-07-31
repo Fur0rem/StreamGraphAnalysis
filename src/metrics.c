@@ -8,7 +8,6 @@
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
 #include "stream_functions.h"
-#include "stream_graph.h"
 #include "units.h"
 #include "utils.h"
 #include <assert.h>

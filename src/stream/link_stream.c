@@ -1,7 +1,6 @@
 #include "link_stream.h"
 #include "../interval.h"
 #include "../metrics.h"
-#include "../stream_graph.h"
 #include "../utils.h"
 #include "full_stream_graph.h"
 #include <stddef.h>

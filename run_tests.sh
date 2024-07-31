@@ -32,17 +32,31 @@ if [ $# -eq 1 ]; then
     rm -f $BIN_DIR/$filename.a
     rm -f $BIN_DIR/$filename.o
     # If the src file.c does not exist, compile the test file into an executable (header only library)
-    if [ ! -f $SRC_DIR/$filename.c ]; then
+    # if [ ! -f $SRC_DIR/$filename.c ]; then
+    #     $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
+    # else
+    #     make $filename
+    #     if [ -f $BIN_DIR/$filename.a ]; then
+    #         $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.a $BIN_DIR/test.o
+    #     else
+    #         $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/test.o
+    #     fi
+    # fi
+
+    # Try to make the file
+    result=$(make $filename 2>&1)
+    # If it failed, it's a header only library
+    if [ $? -ne 0 ]; then
         $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
     else
-        make $filename
+        # If the compilation produced a .a file, use it instead of the .o file
         if [ -f $BIN_DIR/$filename.a ]; then
             $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.a $BIN_DIR/test.o
         else
             $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/test.o
         fi
     fi
-
+    
     if [ $valgrind -ne 1 ]; then
         $BIN_DIR/test_$filename
     else

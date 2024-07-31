@@ -7,7 +7,7 @@
  */
 
 #include "iterators.h"
-#include "stream_graph.h"
+#include "stream.h"
 #include <stddef.h>
 
 /**
