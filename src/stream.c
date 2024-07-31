@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "defaults.h"
 #include <memory.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -17,6 +18,7 @@
 #include "stream_graph/links_set.h"
 #include "units.h"
 #include "utils.h"
+#include "vector.h"
 
 char* get_to_header(const char* str, const char* header) {
 	if (str == NULL) {
@@ -344,24 +346,6 @@ StreamGraph StreamGraph_from_file(const char* filename) {
 	return sg;
 }
 
-#include "vector.h"
-DEFAULT_COMPARE(char)
-DEFAULT_TO_STRING(char, "%c")
-#define APPEND_CONST(str) str, sizeof(str) - 1
-DefVector(char, NO_FREE(char));
-
-void append_node_name(charVector* vec, size_t node_idx, const char** node_names) {
-	if (node_names == NULL) {
-		char name[50];
-		sprintf(name, "%zu", node_idx);
-		charVector_append(vec, name, strlen(name));
-	}
-	else {
-		const char* name = node_names[node_idx];
-		charVector_append(vec, name, strlen(name));
-	}
-}
-
 size_t StreamGraph_lifespan_begin(StreamGraph* sg) {
 	return KeyMomentsTable_first_moment(&sg->key_moments);
 }
@@ -497,23 +481,21 @@ bool EventTuple_equals(EventTuple tuple1, EventTuple tuple2) {
 	return true;
 }
 
-DefVector(EventTuple, NO_FREE(EventTuple));
-DEFAULT_COMPARE(size_t);
-DEFAULT_TO_STRING(size_t, "%zu");
+DeclareVector(EventTuple);
+DefineVector(EventTuple);
+// DEFAULT_COMPARE(size_t);
+// DEFAULT_TO_STRING(size_t, "%zu");
 
-size_t size_t_hash(size_t key) {
-	return key;
-}
+// DefVector(size_tHashset, NO_FREE(size_tHashset));
 
-DefHashset(size_t, size_t_hash, NO_FREE(size_t));
+DeclareVector(size_tHashset);
+DefineVector(size_tHashset);
 
-bool size_tHashset_equals(size_tHashset set1, size_tHashset set2) {
-	return true;
-}
-
-DefVector(size_tHashset, NO_FREE(size_tHashset));
-
-DefVector(EventTupleVector, NO_FREE(EventTupleVector));
+// DefVector(EventTupleVector, NO_FREE(EventTupleVector));
+DeclareVector(EventTupleVector);
+DefineVector(EventTupleVector);
+DefineVectorDeriveRemove(EventTuple, NO_FREE(EventTuple));
+DefineVectorDeriveRemove(EventTupleVector, EventTupleVector_destroy);
 
 size_t link_hash(Link key) {
 	return key.nodes[0] + key.nodes[1];
@@ -524,10 +506,10 @@ typedef struct {
 	size_t nb_intervals;
 } LinkInfo;
 
-char* LinkInfo_to_string(LinkInfo* info) {
+String LinkInfo_to_string(LinkInfo* info) {
 	char* str = (char*)malloc(50);
 	sprintf(str, "(%zu %zu) %zu", info->nodes[0], info->nodes[1], info->nb_intervals);
-	return str;
+	return String_from_consume(str);
 }
 
 bool LinkInfo_equals(LinkInfo info1, LinkInfo info2) {
@@ -536,28 +518,44 @@ bool LinkInfo_equals(LinkInfo info1, LinkInfo info2) {
 
 // DefHashset(Link, link_hash, NO_FREE(Link));
 
-DefVector(LinkInfo, NO_FREE(LinkInfo));
+// DefVector(LinkInfo, NO_FREE(LinkInfo));
+DeclareVector(LinkInfo);
+DefineVector(LinkInfo);
 
 typedef struct {
 	size_t nodes[2];
 	size_t id;
 } LinkIdMap;
 
-size_t LinkIdMap_hash(LinkIdMap key) {
-	return key.nodes[0] + key.nodes[1];
+size_t LinkIdMap_hash(LinkIdMap* key) {
+	return key->nodes[0] + key->nodes[1];
 }
 
-bool LinkIdMap_equals(LinkIdMap map1, LinkIdMap map2) {
-	return map1.nodes[0] == map2.nodes[0] && map1.nodes[1] == map2.nodes[1];
+bool LinkIdMap_equals(LinkIdMap* map1, LinkIdMap* map2) {
+	return map1->nodes[0] == map2->nodes[0] && map1->nodes[1] == map2->nodes[1];
 }
 
-char* LinkIdMap_to_string(LinkIdMap* map) {
-	char* str = (char*)malloc(50);
-	sprintf(str, "(%zu %zu) %zu", map->nodes[0], map->nodes[1], map->id);
-	return str;
-}
+// char* LinkIdMap_to_string(LinkIdMap* map) {
+// 	char* str = (char*)malloc(50);
+// 	sprintf(str, "(%zu %zu) %zu", map->nodes[0], map->nodes[1], map->id);
+// 	return str;
+// }
 
-DefHashset(LinkIdMap, LinkIdMap_hash, NO_FREE(LinkIdMap));
+// DefHashset(LinkIdMap, LinkIdMap_hash, NO_FREE(LinkIdMap));
+DeclareVector(LinkIdMap);
+DefineVector(LinkIdMap);
+DeclareHashset(LinkIdMap);
+DefineHashset(LinkIdMap);
+
+// TODO : use the string struct
+DeclareVector(char);
+DefineVector(char);
+DeclareVectorDeriveRemove(char, NO_FREE(char));
+DefineVectorDeriveRemove(char, NO_FREE(char));
+#define APPEND_CONST(str) str, sizeof(str) - 1
+
+DefineVectorDeriveRemove(size_tHashset, size_tHashset_destroy);
+DefineVectorDeriveRemove(LinkInfo, NO_FREE(LinkInfo));
 
 // Transforms an external format to an internal format
 // TODO : fix issues with link neighbours
@@ -771,17 +769,17 @@ char* InternalFormat_from_External_str(const char* str) {
 	charVector_append(&vec, nb_nodes_str, strlen(nb_nodes_str));
 	charVector_append(&vec, APPEND_CONST("NumberOfLinks="));
 	char nb_links_str[50];
-	sprintf(nb_links_str, "%zu\n", LinkInfoVector_size(&links));
+	sprintf(nb_links_str, "%zu\n", LinkInfoVector_len(&links));
 	charVector_append(&vec, nb_links_str, strlen(nb_links_str));
 	charVector_append(&vec, APPEND_CONST("NumberOfKeyMoments="));
 	char nb_key_moments_str[50];
-	sprintf(nb_key_moments_str, "%zu\n\n", EventTupleVectorVector_size(&events));
+	sprintf(nb_key_moments_str, "%zu\n\n", EventTupleVectorVector_len(&events));
 	charVector_append(&vec, nb_key_moments_str, strlen(nb_key_moments_str));
 	charVector_append(&vec, APPEND_CONST("[[Nodes]]\n"));
 	charVector_append(&vec, APPEND_CONST("[[[NumberOfNeighbours]]]\n"));
 	for (size_t i = 0; i <= biggest_node_id; i++) {
 		char nb_neighbours_str[50];
-		sprintf(nb_neighbours_str, "%zu\n", size_tHashset_size(&node_neighbours.array[i]));
+		sprintf(nb_neighbours_str, "%zu\n", size_tHashset_nb_elems(&node_neighbours.array[i]));
 		charVector_append(&vec, nb_neighbours_str, strlen(nb_neighbours_str));
 	}
 	charVector_append(&vec, APPEND_CONST("[[[NumberOfIntervals]]]\n"));
@@ -792,7 +790,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	}
 	charVector_append(&vec, APPEND_CONST("[[Links]]\n"));
 	charVector_append(&vec, APPEND_CONST("[[[NumberOfIntervals]]]\n"));
-	for (size_t i = 0; i < LinkInfoVector_size(&links); i++) {
+	for (size_t i = 0; i < LinkInfoVector_len(&links); i++) {
 		char nb_intervals_str[50];
 		sprintf(nb_intervals_str, "%zu\n", links.array[i].nb_intervals / 2);
 		charVector_append(&vec, nb_intervals_str, strlen(nb_intervals_str));
@@ -837,7 +835,7 @@ char* InternalFormat_from_External_str(const char* str) {
 				charVector_append(&vec, APPEND_CONST(" "));
 			}
 		}
-		charVector_pop(&vec);
+		charVector_pop_last(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
 	}
 	printf("parsed %zu nodes\n", nodes.size);
@@ -919,7 +917,7 @@ char* InternalFormat_from_External_str(const char* str) {
 			strcat(buffer, tuple_str);
 		}
 		charVector_append(&vec, buffer, strlen(buffer));
-		charVector_pop(&vec);
+		charVector_pop_last(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
 	}
 	size_t sum_events = 0;

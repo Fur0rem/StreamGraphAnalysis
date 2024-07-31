@@ -21,12 +21,16 @@ bool Interval_contains(Interval interval, TimeId time);
 size_t Interval_size(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
 Interval Interval_intersection(Interval a, Interval b);
-bool Interval_equals(Interval a, Interval b);
-char* Interval_to_string(Interval* interval);
 
-DefVector(Interval, NO_FREE(Interval));
+DeclareToString(Interval);
+DeclareEquals(Interval);
 
-int Interval_starts_before(const void* a, const void* b);
+DeclareVector(Interval);
+DeclareVectorDeriveRemove(Interval, NO_FREE(Interval));
+DeclareVectorDeriveEquals(Interval);
+DeclareVectorDeriveToString(Interval);
+
+// int Interval_starts_before(const void* a, const void* b);
 
 size_t IntervalsSet_size(IntervalsSet intervals_set);
 IntervalsSet IntervalsSet_alloc(size_t nb_intervals);

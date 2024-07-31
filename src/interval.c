@@ -1,6 +1,8 @@
 #include "interval.h"
+#include "defaults.h"
 #include "utils.h"
 #include "vector.h"
+#include <stddef.h>
 
 bool Interval_contains(Interval interval, TimeId time) {
 	return interval.start <= time && time < interval.end;
@@ -42,14 +44,17 @@ IntervalsSet IntervalsSet_alloc(size_t nb_intervals) {
 	return set;
 }
 
-bool Interval_equals(Interval a, Interval b) {
-	return a.start == b.start && a.end == b.end;
-}
-
-char* Interval_to_string(Interval* interval) {
-	char* str = MALLOC(32);
-	snprintf(str, 32, "[%lu, %lu[", interval->start, interval->end);
-	return str;
+String Interval_to_string(Interval* interval) {
+	String string = String_from_duplicate("[");
+	String start_str = size_t_to_string(&interval->start);
+	String_concat(&string, &start_str);
+	String_push(&string, ',');
+	String end_str = size_t_to_string(&interval->end);
+	String_concat(&string, &end_str);
+	String_push(&string, ']');
+	String_destroy(start_str);
+	String_destroy(end_str);
+	return string;
 }
 
 void IntervalsSet_destroy(IntervalsSet intervals_set) {

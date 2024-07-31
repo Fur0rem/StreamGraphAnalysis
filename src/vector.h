@@ -1,6 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -177,16 +178,16 @@
 
 #define DefineVector(type)                                                                                             \
                                                                                                                        \
-	static type##Vector type##Vector_with_capacity(size_t capacity) {                                                  \
+	type##Vector type##Vector_with_capacity(size_t capacity) {                                                         \
 		type##Vector vec = {.array = (type*)malloc(sizeof(type) * capacity), .size = 0, .capacity = capacity};         \
 		return vec;                                                                                                    \
 	}                                                                                                                  \
                                                                                                                        \
-	static type##Vector type##Vector_new() {                                                                           \
+	type##Vector type##Vector_new() {                                                                                  \
 		return type##Vector_with_capacity(2);                                                                          \
 	}                                                                                                                  \
                                                                                                                        \
-	static void type##Vector_push(type##Vector* vec, type value) {                                                     \
+	void type##Vector_push(type##Vector* vec, type value) {                                                            \
 		if (vec->size == vec->capacity) {                                                                              \
 			vec->capacity *= 2;                                                                                        \
 			type* new_array = (type*)malloc(sizeof(type) * vec->capacity);                                             \
@@ -198,20 +199,20 @@
 		vec->size++;                                                                                                   \
 	}                                                                                                                  \
                                                                                                                        \
-	static type* type##Vector_get(type##Vector* vec, size_t idx) {                                                     \
-		DEBUG_ASSERT(idx < vec->size, "Index out of bounds");                                                          \
+	type* type##Vector_get(type##Vector* vec, size_t idx) {                                                            \
+		ASSERT(idx < vec->size);                                                                                       \
 		return &vec->array[idx];                                                                                       \
 	}                                                                                                                  \
                                                                                                                        \
-	static size_t type##Vector_len(type##Vector* vec) {                                                                \
+	size_t type##Vector_len(type##Vector* vec) {                                                                       \
 		return vec->size;                                                                                              \
 	}                                                                                                                  \
                                                                                                                        \
-	static bool type##Vector_is_empty(type##Vector vec) {                                                              \
+	bool type##Vector_is_empty(type##Vector vec) {                                                                     \
 		return vec.size == 0;                                                                                          \
 	}                                                                                                                  \
                                                                                                                        \
-	static void type##Vector_reverse(type##Vector* vec) {                                                              \
+	void type##Vector_reverse(type##Vector* vec) {                                                                     \
 		for (size_t i = 0; i < vec->size / 2; i++) {                                                                   \
 			type tmp = vec->array[i];                                                                                  \
 			vec->array[i] = vec->array[vec->size - i - 1];                                                             \
@@ -219,7 +220,7 @@
 		}                                                                                                              \
 	}                                                                                                                  \
                                                                                                                        \
-	static void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values) {                         \
+	void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values) {                                \
 		if (vec->size + nb_values > vec->capacity) {                                                                   \
 			vec->capacity = vec->size + nb_values;                                                                     \
 			type* new_array = (type*)malloc(sizeof(type) * vec->capacity);                                             \
@@ -287,19 +288,19 @@
 
 /// Derives functions to the vector, if the elements can be said equal or not equal
 /// You should prefer using VectorDeriveCompare if all of the elements can be full ordered
-#define DeclareVectorDeriveEquals(type, eq_fn)                                                                         \
+#define DeclareVectorDeriveEquals(type)                                                                                \
 	bool type##Vector_equals(type##Vector vec1, type##Vector vec2);                                                    \
 	size_t type##Vector_find(type##Vector vec, type value);                                                            \
 	bool type##Vector_contains(type##Vector vec, type value);
 
-#define DefineVectorDeriveEquals(type, eq_fn)                                                                          \
+#define DefineVectorDeriveEquals(type)                                                                                 \
                                                                                                                        \
 	bool type##Vector_equals(type##Vector vec1, type##Vector vec2) {                                                   \
 		if (vec1.size != vec2.size) {                                                                                  \
 			return false;                                                                                              \
 		}                                                                                                              \
 		for (size_t i = 0; i < vec1.size; i++) {                                                                       \
-			if (!eq_fn(vec1.array[i], vec2.array[i])) {                                                                \
+			if (!type##_equals(vec1.array[i], vec2.array[i])) {                                                        \
 				return false;                                                                                          \
 			}                                                                                                          \
 		}                                                                                                              \
@@ -308,7 +309,7 @@
                                                                                                                        \
 	size_t type##Vector_find(type##Vector vec, type value) {                                                           \
 		for (size_t i = 0; i < vec.size; i++) {                                                                        \
-			if (eq_fn(vec.array[i], value)) {                                                                          \
+			if (type##_equals(vec.array[i], value)) {                                                                  \
 				return i;                                                                                              \
 			}                                                                                                          \
 		}                                                                                                              \
@@ -321,20 +322,20 @@
 
 /// Derives functions to the vector, if the elements can be compared
 /// This is a superset of VectorDeriveEquals, so you should prefer this one if you need both
-#define DeclareVectorDeriveOrdered(type, cmp_fn)                                                                       \
+#define DeclareVectorDeriveOrdered(type)                                                                               \
 	bool type##Vector_equals(type##Vector vec1, type##Vector vec2);                                                    \
 	size_t type##Vector_find(type##Vector vec, type value);                                                            \
 	bool type##Vector_contains(type##Vector vec, type value);                                                          \
 	void type##Vector_sort(type##Vector* vec);
 
-#define DefineVectorDeriveOrdered(type, cmp_fn)                                                                        \
+#define DefineVectorDeriveOrdered(type)                                                                                \
                                                                                                                        \
 	bool type##Vector_equals(type##Vector vec1, type##Vector vec2) {                                                   \
 		if (vec1.size != vec2.size) {                                                                                  \
 			return false;                                                                                              \
 		}                                                                                                              \
 		for (size_t i = 0; i < vec1.size; i++) {                                                                       \
-			if (!cmp_fn(vec1.array[i], vec2.array[i])) {                                                               \
+			if (type##_compare(&vec1.array[i], &vec2.array[i])) {                                                      \
 				return false;                                                                                          \
 			}                                                                                                          \
 		}                                                                                                              \
@@ -343,7 +344,7 @@
                                                                                                                        \
 	size_t type##Vector_find(type##Vector vec, type value) {                                                           \
 		for (size_t i = 0; i < vec.size; i++) {                                                                        \
-			if (cmp_fn(vec.array[i], value)) {                                                                         \
+			if (!type##_compare(&vec.array[i], &value)) {                                                              \
 				return i;                                                                                              \
 			}                                                                                                          \
 		}                                                                                                              \
@@ -355,7 +356,24 @@
 	}                                                                                                                  \
                                                                                                                        \
 	void type##Vector_sort(type##Vector* vec) {                                                                        \
-		qsort(vec->array, vec->size, sizeof(type), cmp_fn);                                                            \
+		qsort(vec->array, vec->size, sizeof(type), type##_compare);                                                    \
+	}
+
+#define DeclareVectorDeriveToString(type) String type##Vector_to_string(type##Vector* vec);
+
+#define DefineVectorDeriveToString(type)                                                                               \
+	String type##Vector_to_string(type##Vector* vec) {                                                                 \
+		String str = String_from_duplicate("[ ");                                                                      \
+		for (size_t i = 0; i < vec->size; i++) {                                                                       \
+			String elem_str = type##_to_string(&vec->array[i]);                                                        \
+			String_concat(&str, &elem_str);                                                                            \
+			String_destroy(elem_str);                                                                                  \
+			if (i < vec->size - 1) {                                                                                   \
+				String_push_str(&str, ", ");                                                                           \
+			}                                                                                                          \
+		}                                                                                                              \
+		String_push_str(&str, " ]");                                                                                   \
+		return str;                                                                                                    \
 	}
 
 #endif // VECTOR_H
