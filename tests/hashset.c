@@ -1,40 +1,27 @@
-#include "../src/hashset.h"
+#include "../src/defaults.h"
+#include "../src/utils.h"
 #include "test.h"
-#include <string.h>
 
-int hash_string(const char* str) {
-	int hash = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
-		hash = ((hash * 31) + str[i]) ^ (str[i / 2] | str[i / 4]);
-	}
-	return hash;
-}
-
-typedef char* String;
-
-char* String_to_string(String* str) {
-	return strdup(*str);
-}
-
-bool String_equals(String str1, String str2) {
-	return !strcmp(str1, str2);
-}
-
-DefHashset(String, hash_string, free);
+DeclareVector(String);
+DefineVector(String);
+DeclareHashset(String);
+DefineHashset(String);
+DefineVectorDeriveRemove(String, String_destroy);
+DefineHashsetDeriveRemove(String, String_destroy);
 
 bool test_insert() {
 	StringHashset s = StringHashset_with_capacity(10);
-	String str = strdup("hello");
+	String str = String_from_duplicate("hello");
 	bool success = StringHashset_insert(&s, str);
 	EXPECT(success);
-	success &= EXPECT(StringHashset_contains(s, "hello"));
+	success &= EXPECT(StringHashset_contains(s, String_from_duplicate("hello")));
 	StringHashset_destroy(s);
 	return success;
 }
 
 bool test_insert_unique() {
 	StringHashset s = StringHashset_with_capacity(10);
-	String str = strdup("hello");
+	String str = String_from_duplicate("hello");
 	bool success = StringHashset_insert(&s, str);
 	EXPECT(success);
 	success &= !StringHashset_insert(&s, str);
@@ -44,22 +31,22 @@ bool test_insert_unique() {
 
 bool test_find_present() {
 	StringHashset s = StringHashset_with_capacity(10);
-	String str = strdup("hello");
+	String str = String_from_duplicate("hello");
 	StringHashset_insert(&s, str);
-	String* found = StringHashset_find(s, str);
-	return EXPECT_EQ(*found, str);
+	const String* found = StringHashset_find(s, str);
+	return EXPECT(found != NULL && String_equals(found, &str));
 }
 
 bool test_find_not_present() {
 	StringHashset s = StringHashset_with_capacity(10);
-	String str = strdup("hello");
-	String* found = StringHashset_find(s, str);
+	String str = String_from_duplicate("hello");
+	const String* found = StringHashset_find(s, str);
 	return EXPECT(found == NULL);
 }
 
 bool test_remove_present() {
 	StringHashset s = StringHashset_with_capacity(10);
-	String str = strdup("hello");
+	String str = String_from_duplicate("hello");
 	bool success = EXPECT(StringHashset_insert(&s, str));
 	success &= EXPECT(StringHashset_contains(s, str));
 	success &= EXPECT(StringHashset_remove(&s, str));
@@ -69,7 +56,7 @@ bool test_remove_present() {
 
 bool test_remove_not_present() {
 	StringHashset s = StringHashset_with_capacity(10);
-	String str = strdup("hello");
+	String str = String_from_duplicate("hello");
 	return EXPECT(!StringHashset_remove(&s, str));
 }
 

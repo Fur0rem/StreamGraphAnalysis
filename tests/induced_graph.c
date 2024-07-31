@@ -1,6 +1,5 @@
 #include "../src/induced_graph.h"
 #include "../src/stream/full_stream_graph.h"
-#include "../src/stream_graph.h"
 #include "test.h"
 #include <unistd.h>
 

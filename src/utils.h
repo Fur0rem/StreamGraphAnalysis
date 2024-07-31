@@ -1,7 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "vector.h"
 #include <assert.h>
 #include <math.h>
 #include <stdbool.h>
@@ -39,26 +38,27 @@
 #define F_EQUALS_APPROX(a, b, eps) (fabs((a) - (b)) < eps)
 
 #define NO_FREE(type) ((void (*)(type))NULL)
-#define UNCOMPARABLE(type)                                                                                             \
-	bool type##_equals(type a, type b) {                                                                               \
-		return false;                                                                                                  \
+#define DEFAULT_EQUALS(type)                                                                                           \
+	bool type##_equals(type* a, type* b) {                                                                             \
+		return *a == *b;                                                                                               \
 	}
-
 #define DEFAULT_COMPARE(type)                                                                                          \
-	bool type##_equals(type val1, type val2) {                                                                         \
-		return (val1) == (val2);                                                                                       \
+	int type##_compare(const void* a, const void* b) {                                                                 \
+		type a_val = *(type*)a;                                                                                        \
+		type b_val = *(type*)b;                                                                                        \
+		if (a_val < b_val) {                                                                                           \
+			return -1;                                                                                                 \
+		}                                                                                                              \
+		else if (a_val > b_val) {                                                                                      \
+			return 1;                                                                                                  \
+		}                                                                                                              \
+		else {                                                                                                         \
+			return 0;                                                                                                  \
+		}                                                                                                              \
 	}
 
-#define DEFAULT_TO_STRING(type, format)                                                                                \
-	char* type##_to_string(const type* value) {                                                                        \
-		char* str = (char*)malloc(100);                                                                                \
-		sprintf(str, format, *value);                                                                                  \
-		return str;                                                                                                    \
-	}
-
-#define DeclareGenerics(type)                                                                                          \
-	char* type##_to_string(const type* value);                                                                         \
-	bool type##_equals(type a, type b);
+#define DeclareEquals(type)	 bool type##_equals(type* a, type* b);
+#define DeclareCompare(type) int type##_compare(const void* a, const void* b);
 
 #define DEFAULT_MIN_MAX(type)                                                                                          \
 	type type##_min(type a, type b) {                                                                                  \
@@ -81,5 +81,37 @@
 #		define ASSERT(expr) __attribute__((assume(expr)))
 #	endif
 #endif
+
+typedef struct {
+	size_t size;
+	size_t capacity;
+	char* data;
+} String;
+
+#include "utils.h"
+#include <stddef.h>
+#include <string.h>
+
+String String_from_consume(char* str);
+String String_from_duplicate(const char* str);
+
+void String_push(String* string, char c);
+void String_push_str(String* string, const char* str);
+void String_concat(String* a, const String* b);
+
+void String_destroy(String string);
+bool String_equals(const String* a, const String* b);
+
+int String_compare(const void* a, const void* b);
+int String_hash(const String* string);
+
+#define DeclareToString(type) String type##_to_string(type* value);
+
+#define DEFAULT_TO_STRING(type, format)                                                                                \
+	String type##_to_string(type* value) {                                                                             \
+		char* str = MALLOC(100);                                                                                       \
+		sprintf(str, format, *value);                                                                                  \
+		return String_from_consume(str);                                                                               \
+	}
 
 #endif
