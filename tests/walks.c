@@ -3,7 +3,6 @@
 #include "../src/stream/chunk_stream_small.h"
 #include "../src/stream/full_stream_graph.h"
 #include "../src/stream/link_stream.h"
-#include "../src/stream_graph.h"
 #include "test.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -29,25 +28,25 @@ bool test_walk_a_c() {
 	// printf("st->stream : %p\n", st->stream);
 	// printf("Loaded graph\n");
 	StreamGraph sg = StreamGraph_from_external("tests/test_data/L.txt");
-	// char* str = StreamGraph_to_string(&sg);
-	// printf("%s\n", str);
-	// free(str);
+	// String str = StreamGraph_to_string(&sg);
+	// printf("%s\n", str.data);
+	// String_destroy(str);
 	Stream st = FullStreamGraph_from(&sg);
 
-	// char* str = StreamGraph_to_string(&sg);
-	// printf("%s\n", str);
-	// free(str);
+	// String str = StreamGraph_to_string(&sg);
+	// printf("%s\n", str.data);
+	// String_destroy(str);
 
 	WalkInfo w = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
 	// Walk w2 = Stream_fastest_shortest_walk(st, 0, 3, 0);
-	char* str = WalkInfo_to_string(&w);
-	printf("w %s\n", str);
-	free(str);
+	String str = WalkInfo_to_string(&w);
+	printf("w %s\n", str.data);
+	String_destroy(str);
 
 	WalkInfo w2 = Stream_shortest_walk_from_to_at(&st, 0, 3, 5);
 	str = WalkInfo_to_string(&w2);
-	printf("w2 %s\n", str);
-	free(str);
+	printf("w2 %s\n", str.data);
+	String_destroy(str);
 
 	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
 	Stream st2 = FullStreamGraph_from(&sg2);
@@ -55,12 +54,12 @@ bool test_walk_a_c() {
 
 	WalkInfo w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
 	str = WalkInfo_to_string(&w3);
-	printf("w3 %s\n", str);
-	free(str);
+	printf("w3 %s\n", str.data);
+	String_destroy(str);
 	WalkInfo w4 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
 	str = WalkInfo_to_string(&w4);
-	printf("w4 %s\n", str);
-	free(str);
+	printf("w4 %s\n", str.data);
+	String_destroy(str);
 
 	StreamGraph_destroy(sg);
 	StreamGraph_destroy(sg2);
@@ -91,9 +90,9 @@ bool test_walk_optimal() {
 	WalkInfoVector walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
 	printf("Optimal walks between 0 and 3\n");
 	for (size_t i = 0; i < walks.size; i++) {
-		char* str = WalkInfo_to_string(&walks.array[i]);
-		printf("%s\n", str);
-		free(str);
+		String str = WalkInfo_to_string(&walks.array[i]);
+		printf("%s\n", str.data);
+		String_destroy(str);
 	}
 
 	StreamGraph_destroy(sg);
@@ -109,22 +108,22 @@ bool test_fastest_shortest() {
 	printf("Loaded graph\n");
 
 	WalkInfo w = Stream_fastest_shortest_walk(&st, 0, 3, 0);
-	char* str = WalkInfo_to_string(&w);
-	printf("w %s\n", str);
-	free(str);
+	String str = WalkInfo_to_string(&w);
+	printf("w %s\n", str.data);
+	String_destroy(str);
 
 	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
 	Stream st2 = FullStreamGraph_from(&sg2);
 
 	WalkInfo w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
 	str = WalkInfo_to_string(&w2);
-	printf("w2 %s\n", str);
-	free(str);
+	printf("w2 %s\n", str.data);
+	String_destroy(str);
 
 	WalkInfo w3 = Stream_fastest_shortest_walk(&st2, 0, 3, 9);
 	str = WalkInfo_to_string(&w3);
-	printf("w3 %s\n", str);
-	free(str);
+	printf("w3 %s\n", str.data);
+	String_destroy(str);
 
 	StreamGraph_destroy(sg);
 	StreamGraph_destroy(sg2);
@@ -143,32 +142,32 @@ bool test_fastest() {
 	printf("Loaded graph\n");
 
 	WalkInfo w = Stream_fastest_walk(&st, 0, 3, 0);
-	char* str = WalkInfo_to_string(&w);
-	printf("w %s\n", str);
-	free(str);
+	String str = WalkInfo_to_string(&w);
+	printf("w %s\n", str.data);
+	String_destroy(str);
 
 	WalkInfo w1 = Stream_fastest_shortest_walk(&st, 0, 3, 5);
 	str = WalkInfo_to_string(&w1);
-	printf("w1 %s\n", str);
-	free(str);
+	printf("w1 %s\n", str.data);
+	String_destroy(str);
 
 	WalkInfo w12 = Stream_fastest_shortest_walk(&st, 0, 3, 4);
 	str = WalkInfo_to_string(&w12);
-	printf("w12 %s\n", str);
-	free(str);
+	printf("w12 %s\n", str.data);
+	String_destroy(str);
 
 	StreamGraph sg2 = StreamGraph_from_external("tests/test_data/test.txt");
 	Stream st2 = FullStreamGraph_from(&sg2);
 
 	WalkInfo w2 = Stream_fastest_walk(&st2, 0, 3, 5);
 	str = WalkInfo_to_string(&w2);
-	printf("w2 %s\n", str);
-	free(str);
+	printf("w2 %s\n", str.data);
+	String_destroy(str);
 
 	WalkInfo w3 = Stream_fastest_walk(&st2, 0, 3, 9);
 	str = WalkInfo_to_string(&w3);
-	printf("w3 %s\n", str);
-	free(str);
+	printf("w3 %s\n", str.data);
+	String_destroy(str);
 
 	StreamGraph_destroy(sg);
 	StreamGraph_destroy(sg2);

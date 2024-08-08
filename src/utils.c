@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <string.h>
 
-String String_from_consume(char* str) {
+String String_from_owned(char* str) {
 	size_t len = strlen(str);
 	String string = (String){
 		.size = len,

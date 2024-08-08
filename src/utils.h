@@ -68,10 +68,11 @@
 		return a > b ? a : b;                                                                                          \
 	}
 
+// TODO : optionnal message
 #ifdef DEBUG
 #	define ASSERT(expr)                                                                                               \
 		if (!(expr)) {                                                                                                 \
-			fprintf(stderr, "Assertion failed: %s\n", #expr);                                                          \
+			fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", #expr, __FILE__, __LINE__);                    \
 			assert(expr);                                                                                              \
 		}
 #else
@@ -92,7 +93,7 @@ typedef struct {
 #include <stddef.h>
 #include <string.h>
 
-String String_from_consume(char* str);
+String String_from_owned(char* str);
 String String_from_duplicate(const char* str);
 
 void String_push(String* string, char c);
@@ -105,13 +106,13 @@ bool String_equals(const String* a, const String* b);
 int String_compare(const void* a, const void* b);
 int String_hash(const String* string);
 
-#define DeclareToString(type) String type##_to_string(type* value);
+#define DeclareToString(type) String type##_to_string(const type* value);
 
 #define DEFAULT_TO_STRING(type, format)                                                                                \
-	String type##_to_string(type* value) {                                                                             \
+	String type##_to_string(const type* value) {                                                                       \
 		char* str = MALLOC(100);                                                                                       \
 		sprintf(str, format, *value);                                                                                  \
-		return String_from_consume(str);                                                                               \
+		return String_from_owned(str);                                                                                 \
 	}
 
 #endif

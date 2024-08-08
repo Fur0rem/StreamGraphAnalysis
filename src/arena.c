@@ -1,5 +1,6 @@
 #include "arena.h"
 #include "utils.h"
+#include "vector.h"
 
 void Arena_init(Arena* arena) {
 	arena->data = MALLOC(ARENA_SIZE);
@@ -18,14 +19,15 @@ void* Arena_alloc(Arena* arena, size_t size) {
 void Arena_destroy(Arena arena) {
 	free(arena.data);
 }
-char* Arena_to_string(Arena* arena) {
+
+String Arena_to_string(const Arena* arena) {
 	char* str = MALLOC(32);
 	snprintf(str, 32, "Arena(%p, %lu)", arena->data, arena->size_left);
-	return str;
+	return String_from_owned(str);
 }
 
-bool Arena_equals(Arena a, Arena b) {
-	return a.data == b.data && a.size_left == b.size_left;
+bool Arena_equals(const Arena* a, const Arena* b) {
+	return a->data == b->data && a->size_left == b->size_left;
 }
 
 ArenaVector ArenaVector_init() {
@@ -46,3 +48,8 @@ void* ArenaVector_alloc(ArenaVector* vector, size_t size) {
 	}
 	return ptr;
 }
+
+DefineVector(Arena);
+DefineVectorDeriveRemove(Arena, Arena_destroy);
+DefineVectorDeriveEquals(Arena);
+DefineVectorDeriveToString(Arena);

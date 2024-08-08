@@ -14,6 +14,7 @@ TEXT_RED=$(tput setaf 1)
 global_success=0
 
 # Compile test.c into an object file
+make clean
 $CC $CFLAGS -c $TEST_DIR/test.c -o $BIN_DIR/test.o
 
 # Check if the --valgrind flag is present
@@ -89,16 +90,17 @@ for file in $TEST_DIR/*.c; do
     echo "Found test file: $filename"
     # Remove old test file
     rm -f $BIN_DIR/test_$filename
-    # If the src file.c does not exist, compile the test file into an executable
-    if [ ! -f $SRC_DIR/$filename.c ]; then
-        $CC $CFLAGS -o $BIN_DIR/test_$filename $file $BIN_DIR/test.o
+    # Try to make the file
+    result=$(make $filename 2>&1)
+    # If it failed, it's a header only library
+    if [ $? -ne 0 ]; then
+        $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
     else
-        make $filename
         # If the compilation produced a .a file, use it instead of the .o file
         if [ -f $BIN_DIR/$filename.a ]; then
-            $CC -Wno-unused-function -g -o $BIN_DIR/test_$filename $file $BIN_DIR/$filename.a $BIN_DIR/test.o
+            $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.a $BIN_DIR/test.o
         else
-            $CC -Wno-unused-function -g -o $BIN_DIR/test_$filename $file $BIN_DIR/$filename.o $BIN_DIR/test.o
+            $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/test.o
         fi
     fi
 

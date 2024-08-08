@@ -18,12 +18,13 @@ typedef struct {
 } TreeEdge;
 
 // Function declarations that use TreeEdge.
-bool TreeEdge_equals(TreeEdge a, TreeEdge b);
-char* TreeEdge_to_string(TreeEdge* edge);
+DeclareToString(TreeEdge);
+DeclareEquals(TreeEdge);
 
-// Assuming DefVector is a macro for defining a vector type for TreeEdge,
-// and NO_FREE is a macro used within that definition.
-DefVector(TreeEdge, NO_FREE(TreeEdge));
+DeclareVector(TreeEdge);
+DeclareVectorDeriveEquals(TreeEdge);
+DeclareVectorDeriveToString(TreeEdge);
+DeclareVectorDeriveRemove(TreeEdge);
 
 // Now fully define TreeNode, after TreeEdge has been defined.
 struct TreeNode {
@@ -41,10 +42,13 @@ typedef struct {
 	size_t needs_to_arrive_before;
 } WalkStep;
 
-char* WalkStep_to_string(WalkStep* step);
-bool WalkStep_equals(WalkStep a, WalkStep b);
+DeclareToString(WalkStep);
+DeclareEquals(WalkStep);
 
-DefVector(WalkStep, NO_FREE(WalkStep));
+DeclareVector(WalkStep);
+DeclareVectorDeriveEquals(WalkStep);
+DeclareVectorDeriveToString(WalkStep);
+DeclareVectorDeriveRemove(WalkStep);
 
 typedef struct {
 	NodeId start;
@@ -86,13 +90,17 @@ typedef struct {
 
 WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
 WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
-char* Walk_to_string(Walk* walk);
-bool Walk_equals(Walk a, Walk b);
-char* WalkInfo_to_string(WalkInfo* wi);
-bool WalkInfo_equals(WalkInfo a, WalkInfo b);
+DeclareToString(Walk);
+DeclareEquals(Walk);
+DeclareToString(WalkInfo);
+DeclareEquals(WalkInfo);
 void Walk_destroy(Walk walk);
 void WalkInfo_destroy(WalkInfo wi);
-DefVector(WalkInfo, WalkInfo_destroy);
+DeclareVector(WalkInfo);
+DeclareVectorDeriveEquals(WalkInfo);
+DeclareVectorDeriveToString(WalkInfo);
+DeclareVectorDeriveRemove(WalkInfo);
+
 // Interval Walk_is_still_optimal_between(Walk* walk);
 
 // typedef struct {

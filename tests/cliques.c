@@ -2,7 +2,6 @@
 #include "../src/induced_graph.h"
 #include "../src/stream.h"
 #include "../src/stream/full_stream_graph.h"
-#include "../src/stream_graph.h"
 #include "../src/units.h"
 
 #include "test.h"
@@ -76,9 +75,9 @@ bool test_maximal_cliques() {
 
 	CliqueVector cliques = maximal_cliques(v);
 
-	char* cliques_str = CliqueVector_to_string(&cliques);
-	printf("%s\n", cliques_str);
-	free(cliques_str);
+	String cliques_str = CliqueVector_to_string(&cliques);
+	printf("%s\n", cliques_str.data);
+	String_destroy(cliques_str);
 
 	StreamGraph_destroy(sg);
 	/*1 5 1 2

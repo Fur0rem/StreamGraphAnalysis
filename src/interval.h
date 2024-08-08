@@ -26,7 +26,7 @@ DeclareToString(Interval);
 DeclareEquals(Interval);
 
 DeclareVector(Interval);
-DeclareVectorDeriveRemove(Interval, NO_FREE(Interval));
+DeclareVectorDeriveRemove(Interval);
 DeclareVectorDeriveEquals(Interval);
 DeclareVectorDeriveToString(Interval);
 

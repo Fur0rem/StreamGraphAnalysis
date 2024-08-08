@@ -509,7 +509,7 @@ typedef struct {
 String LinkInfo_to_string(LinkInfo* info) {
 	char* str = (char*)malloc(50);
 	sprintf(str, "(%zu %zu) %zu", info->nodes[0], info->nodes[1], info->nb_intervals);
-	return String_from_consume(str);
+	return String_from_owned(str);
 }
 
 bool LinkInfo_equals(LinkInfo info1, LinkInfo info2) {
@@ -550,7 +550,7 @@ DefineHashset(LinkIdMap);
 // TODO : use the string struct
 DeclareVector(char);
 DefineVector(char);
-DeclareVectorDeriveRemove(char, NO_FREE(char));
+DeclareVectorDeriveRemove(char);
 DefineVectorDeriveRemove(char, NO_FREE(char));
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
@@ -940,12 +940,14 @@ char* InternalFormat_from_External_str(const char* str) {
 	// free(slices_str);
 
 	// Destroy the vectors
-	for (size_t i = 0; i < node_neighbours.size; i++) {
-		size_tHashset_destroy(node_neighbours.array[i]);
-	}
-	for (size_t i = 0; i < events.size; i++) {
-		EventTupleVector_destroy(events.array[i]);
-	}
+	// TODO : destroy the hashsets
+	// for (size_t i = 0; i < node_neighbours.size; i++) {
+	// 	size_tHashset_destroy(node_neighbours.array[i]);
+	// }
+	// for (size_t i = 0; i < events.size; i++) {
+	// 	EventTupleVector_destroy(events.array[i]);
+	// }
+
 	size_tHashsetVector_destroy(node_neighbours);
 	EventTupleVectorVector_destroy(events);
 	LinkInfoVector_destroy(links);
@@ -1113,9 +1115,9 @@ char* StreamGraph_to_string(StreamGraph* sg) {
 	// tostring the links
 	charVector_append(&vec, APPEND_CONST("\n\tLinks=[\n"));
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		char* link_str = Link_to_string(&sg->links.links[i]);
-		charVector_append(&vec, link_str, strlen(link_str));
-		free(link_str);
+		String link_str = Link_to_string(&sg->links.links[i]);
+		charVector_append(&vec, link_str.data, link_str.size);
+		String_destroy(link_str);
 	}
 
 	// tostring the events

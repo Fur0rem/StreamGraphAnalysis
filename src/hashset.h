@@ -189,7 +189,7 @@
 // DeclareVectorDeriveCompare(type)
 // DeclareVectorDeriveToString(type)
 // DeclareVectorDeriveRemove(type, free_fn)
-#define DeclareHashsetDeriveRemove(type, free_fn)                                                                      \
+#define DeclareHashsetDeriveRemove(type)                                                                               \
 	void type##Hashset_destroy(type##Hashset s);                                                                       \
 	bool type##Hashset_remove(type##Hashset* s, type value);
 

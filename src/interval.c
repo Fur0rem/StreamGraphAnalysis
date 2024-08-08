@@ -44,7 +44,7 @@ IntervalsSet IntervalsSet_alloc(size_t nb_intervals) {
 	return set;
 }
 
-String Interval_to_string(Interval* interval) {
+String Interval_to_string(const Interval* interval) {
 	String string = String_from_duplicate("[");
 	String start_str = size_t_to_string(&interval->start);
 	String_concat(&string, &start_str);

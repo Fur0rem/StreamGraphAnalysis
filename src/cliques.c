@@ -8,22 +8,20 @@
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
 #include "stream_functions.h"
-#include "stream_graph.h"
 #include "stream_graph/links_set.h"
 #include "units.h"
 #include "utils.h"
 #include "vector.h"
 #include <stddef.h>
 #include <stdio.h>
-
-DefVector(char, NO_FREE(char));
+#include <stdlib.h>
 
 // TODO : merge this in one file
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
 #define APPEND_STR(str) str, strlen(str)
 
-char* Clique_to_string(Clique* c) {
+/*char* Clique_to_string(Clique* c) {
 	charVector str = charVector_new();
 	charVector_append(&str, APPEND_CONST("Clique ["));
 	char time_str[20];
@@ -41,9 +39,9 @@ char* Clique_to_string(Clique* c) {
 	charVector_push(&str, ']');
 	charVector_push(&str, '\0');
 	return str.array;
-}
+}*/
 
-bool Clique_equals(Clique c1, Clique c2) {
+/*bool Clique_equals(Clique c1, Clique c2) {
 	if (c1.time_start != c2.time_start || c1.time_end != c2.time_end || c1.nb_nodes != c2.nb_nodes) {
 		return false;
 	}
@@ -53,7 +51,46 @@ bool Clique_equals(Clique c1, Clique c2) {
 		}
 	}
 	return true;
+}*/
+
+bool Clique_equals(const Clique* c1, const Clique* c2) {
+	if (c1->time_start != c2->time_start || c1->time_end != c2->time_end || c1->nb_nodes != c2->nb_nodes) {
+		return false;
+	}
+	for (size_t i = 0; i < c1->nb_nodes; i++) {
+		if (c1->nodes[i] != c2->nodes[i]) {
+			return false;
+		}
+	}
+	return true;
 }
+
+String Clique_to_string(const Clique* c) {
+	String str = String_from_duplicate("Clique [");
+	char time_str[20];
+	sprintf(time_str, "%zu -> %zu] ", c->time_start, c->time_end);
+	String_push_str(&str, time_str);
+	String_push(&str, '[');
+	for (size_t i = 0; i < c->nb_nodes; i++) {
+		char node_str[20];
+		sprintf(node_str, "%zu", c->nodes[i]);
+		String_push_str(&str, node_str);
+		if (i < c->nb_nodes - 1) {
+			String_push(&str, ',');
+			String_push(&str, ' ');
+		}
+	}
+	String_push(&str, ']');
+	return str;
+}
+
+DefineVector(Clique);
+DefineVectorDeriveRemove(Clique, NO_FREE(Clique));
+DefineVectorDeriveEquals(Clique);
+DefineVectorDeriveToString(Clique);
+
+DefineVector(MyLink);
+DefineVectorDeriveRemove(MyLink, NO_FREE(MyLink));
 
 bool is_space(char c) {
 	return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f';
@@ -106,18 +143,12 @@ typedef struct {
 	int* tab; // list of the elements
 } MyList;
 
-MyList* allocMyList(int size) {
-	MyList* mv = (MyList*)malloc(sizeof(MyList));
-	if (mv == NULL) {
-		exit(EXIT_FAILURE);
-	}
+MyList* allocMyList(size_t size) {
+	MyList* mv = MALLOC(sizeof(MyList));
 
 	mv->n = 0;
 	// mv->nmax = size;
-	mv->tab = (int*)malloc(size * sizeof(int));
-	if (mv->tab == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	mv->tab = MALLOC(size * sizeof(int));
 
 	return mv;
 }
@@ -186,63 +217,31 @@ typedef struct {
 
 XPR* allocXPR(int n, int depthMax) {
 	int i, depth;
-	XPR* xpr = (XPR*)malloc(sizeof(XPR));
-	if (xpr == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	XPR* xpr = MALLOC(sizeof(XPR));
 
 	// FOR ITERATIVE CODE
-	xpr->i = (int*)calloc(depthMax, sizeof(int));
-	xpr->e = (int*)malloc(depthMax * sizeof(int));
-	xpr->R_is_max = (bool*)malloc(depthMax * sizeof(bool));
+	xpr->i = (int*)calloc(depthMax, sizeof(int)); // TODO : safe calloc?
+	xpr->e = MALLOC(depthMax * sizeof(int));
+	xpr->R_is_max = MALLOC(depthMax * sizeof(bool)); // TODO : bit mask?
 
 	// xpr->n = 0;
-	xpr->XPnode = (int*)malloc(n * sizeof(int));
-	if (xpr->XPnode == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	xpr->XPindex = (int*)malloc(n * sizeof(int));
-	if (xpr->XPindex == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	xpr->XPnode = MALLOC(n * sizeof(int));
+	xpr->XPindex = MALLOC(n * sizeof(int));
 
 	for (i = 0; i < n; i++) {
 		xpr->XPnode[i] = i;
 		xpr->XPindex[i] = i;
 	}
-	xpr->beginX = (int*)malloc(depthMax * sizeof(int));
-	if (xpr->beginX == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	xpr->beginP = (int*)malloc(depthMax * sizeof(int));
-	if (xpr->beginP == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	xpr->endP = (int*)malloc(depthMax * sizeof(int));
-	if (xpr->endP == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	xpr->timeEndRNode = (int**)malloc(depthMax * sizeof(int*));
-	if (xpr->timeEndRNode == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	xpr->beginX = MALLOC(depthMax * sizeof(int));
+	xpr->beginP = MALLOC(depthMax * sizeof(int));
+	xpr->endP = MALLOC(depthMax * sizeof(int));
+	xpr->timeEndRNode = MALLOC(depthMax * sizeof(int*));
 
 	xpr->R = allocMyList(depthMax);
-	xpr->candidates_to_iterate = (MyList**)malloc(depthMax * sizeof(MyList));
-	if (xpr->candidates_to_iterate == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	xpr->candidates_to_iterate = MALLOC(depthMax * sizeof(MyList));
 
 	for (depth = 0; depth < depthMax; depth++) {
-		xpr->timeEndRNode[depth] = (int*)malloc(n * sizeof(int));
-		if (xpr->timeEndRNode[depth] == NULL) {
-			exit(EXIT_FAILURE);
-		}
-
+		xpr->timeEndRNode[depth] = MALLOC(n * sizeof(int));
 		xpr->candidates_to_iterate[depth] = allocMyList(depthMax);
 	}
 	return xpr;
@@ -415,22 +414,10 @@ typedef struct {
 } NeighborList;
 
 NeighborList* alloc_NeighborList(int degreeMax, int depthMax) {
-	NeighborList* Nl = (NeighborList*)malloc(sizeof(NeighborList));
-	if (Nl == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	Nl->n = (int*)malloc(depthMax * sizeof(int));
-	if (Nl->n == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	NeighborList* Nl = MALLOC(sizeof(NeighborList));
+	Nl->n = MALLOC(depthMax * sizeof(int));
 	Nl->n[0] = 0;
-	Nl->node = (int*)malloc(degreeMax * sizeof(int));
-	if (Nl->node == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	Nl->node = MALLOC(degreeMax * sizeof(int));
 	return Nl;
 }
 
@@ -500,7 +487,7 @@ void reorderS_P(XPR* xpr, NeighborList** S, int depth) {
 void print_NeighborList_nodes(NeighborList* Nl, int depth) {
 	for (int i = 0; i < Nl->n[depth]; i++) {
 		// cerr << Nl->node[i] << " ";
-		printf("%d ", Nl->node[i]);
+		printf("%d", Nl->node[i]);
 	}
 	// cerr << endl;
 	printf("\n");
@@ -516,27 +503,11 @@ typedef struct {
 } NeighborListEnd;
 
 NeighborListEnd* alloc_NeighborListEnd(int degreeMax, int depthMax) {
-	NeighborListEnd* Nle = (NeighborListEnd*)malloc(sizeof(NeighborListEnd));
-	if (Nle == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	Nle->n = (int*)malloc(degreeMax * sizeof(int));
-	if (Nle->n == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	NeighborListEnd* Nle = MALLOC(sizeof(NeighborListEnd));
+	Nle->n = MALLOC(degreeMax * sizeof(int));
 	Nle->n[0] = 0;
-	Nle->node = (int*)malloc(degreeMax * sizeof(int));
-	if (Nle->node == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
-	Nle->end = (int*)malloc(degreeMax * sizeof(int));
-	if (Nle->end == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	Nle->node = MALLOC(degreeMax * sizeof(int));
+	Nle->end = MALLOC(degreeMax * sizeof(int));
 	return Nle;
 }
 
@@ -674,24 +645,12 @@ typedef struct {
 } MySet;
 
 MySet* allocMySet(int init_size) {
-	MySet* s = (MySet*)malloc(sizeof(MySet));
-	if (s == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	MySet* s = MALLOC(sizeof(MySet));
 	s->n = 0;
 	// s->nlmax = init_size;
-	s->list = (int*)malloc(init_size * sizeof(int));
-	if (s->list == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	s->list = MALLOC(init_size * sizeof(int));
 	// s->ntmax = init_size;
-	s->tab = (bool*)calloc(init_size, sizeof(bool));
-	if (s->tab == NULL) {
-		exit(EXIT_FAILURE);
-	}
-
+	s->tab = (bool*)calloc(init_size, sizeof(bool)); // TODO: safe calloc?
 	return s;
 }
 
@@ -719,7 +678,9 @@ void addToMySet(MySet* s, int x) {
 		//   s->nlmax *= 2;
 		//   s->list = realloc(s->list, s->nlmax * sizeof(Clique));
 		// }
-		s->list[s->n++] = x;
+		// s->list[s->n++] = x;
+		s->list[s->n] = x;
+		s->n += 1;
 		s->tab[x] = true;
 	}
 }
@@ -861,10 +822,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	MyList* NewEdges;
 	XPR* xpr;
 
-	int* link = (int*)malloc(4 * sizeof(int));
-	if (link == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	int* link = MALLOC(4 * sizeof(int));
 
 	int b, u, v, i;
 	int n = 0, m = 0, ntimestep = 0;
@@ -941,10 +899,10 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	}
 
 	// Init data
-	degreeT = (int*)calloc(n + 1, sizeof(int));
-	degreeMax = (int*)calloc(n + 1, sizeof(int));
-	N = (NeighborListEnd**)malloc((n + 1) * sizeof(NeighborListEnd*));
-	S = (NeighborList**)malloc((n + 1) * sizeof(NeighborList*));
+	degreeT = calloc(n + 1, sizeof(int));
+	degreeMax = calloc(n + 1, sizeof(int));
+	N = malloc((n + 1) * sizeof(NeighborListEnd*));
+	S = malloc((n + 1) * sizeof(NeighborList*));
 	Snodes = allocMySet(n + 1);
 	NewEdges = allocMyList(3 * mtmax); // we need to store u,v,e for each starting edge
 
@@ -954,8 +912,8 @@ Datastructure* allocDatastrucure(char* lsFile) {
 
 	// cerr << ls_end->timesteps->n << endl;
 	// cerr << ntimestep << endl;
-	// printf("%d\n", ls_end->timesteps->n);
-	// printf("%d\n", ntimestep);
+	// printf("%zu\n", ls_end->timesteps->n);
+	// printf("%zu\n", ntimestep);
 
 	ASSERT(ls_end->timesteps->n == ntimestep);
 
@@ -1019,10 +977,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	free(link);
 	free(line);
 
-	Datastructure* d = (Datastructure*)malloc(sizeof(Datastructure));
-	if (d == NULL) {
-		exit(EXIT_FAILURE);
-	}
+	Datastructure* d = MALLOC(sizeof(Datastructure));
 
 	d->n = n;
 	d->m = m;
@@ -1273,9 +1228,9 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 		// 	cout << xpr->R->tab[i] << " ";
 		// }
 		// cout << endl;
-		/*printf("%d %d ", b, e);
+		/*printf("%zu %zu ", b, e);
 		for (i = 0; i < xpr->R->n; i++) {
-			printf("%d ", xpr->R->tab[i]);
+			printf("%zu ", xpr->R->tab[i]);
 		}
 		printf("\n");*/
 		Clique c = {
@@ -1539,15 +1494,21 @@ bool MyLink_equals(MyLink l1, MyLink l2) {
 
 char* MyLink_to_string(MyLink* l) {
 	char* str = (char*)malloc(100 * sizeof(char));
-	sprintf(str, "b = %d, e = %d, u = %d, v = %d", l->b, l->e, l->u, l->v);
+	sprintf(str, "b = %zu, e = %zu, u = %zu, v = %zu", l->b, l->e, l->u, l->v);
 	return str;
 }
 
-int cmp_by_b(const void* a, const void* b) {
+/*int cmp_by_b(const void* a, const void* b) {
 	MyLink* l1 = (MyLink*)a;
 	MyLink* l2 = (MyLink*)b;
 	return l1->b - l2->b;
+}*/
+
+int MyLink_compare(const MyLink* l1, const MyLink* l2) {
+	return l1->b - l2->b;
 }
+
+DefineVectorDeriveOrdered(MyLink);
 
 CliqueVector maximal_cliques(LinkVector ls) {
 
@@ -1570,7 +1531,7 @@ CliqueVector maximal_cliques(LinkVector ls) {
 	// 		MyLinkVector_push(&links, l);
 	// 	}
 	// }
-	// printf("ls.size = %d\n", ls.size);
+	// printf("ls.size = %zu\n", ls.size);
 	for (size_t i = 0; i < ls.size; i++) {
 		Link link = ls.array[i];
 		for (size_t j = 0; j < link.presence.nb_intervals; j++) {
@@ -1584,13 +1545,13 @@ CliqueVector maximal_cliques(LinkVector ls) {
 
 	char* lsFile = "links.txt";
 
-	MyLinkVector_sort(&links, cmp_by_b);
+	MyLinkVector_sort(&links);
 	// write them all to a file
 	FILE* f = fopen(lsFile, "w");
-	// printf("Writing %d links to %s\n", links.size, lsFile);
+	// printf("Writing %zu links to %s\n", links.size, lsFile);
 	for (size_t i = 0; i < links.size; i++) {
 		MyLink l = links.array[i];
-		fprintf(f, "%d %d %d %d\n", l.b, l.e, l.u, l.v);
+		fprintf(f, "%zu %zu %zu %zu\n", l.b, l.e, l.u, l.v);
 	}
 	fclose(f);
 
