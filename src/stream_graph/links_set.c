@@ -8,7 +8,7 @@ LinksSet LinksSet_alloc(size_t nb_links) {
 	return set;
 }
 
-char* Link_to_string(Link* link) {
+String Link_to_string(const Link* link) {
 	char* str = MALLOC(9999);
 	snprintf(str, 9999, "		(%lu - %lu), Intervals : [", link->nodes[0], link->nodes[1]);
 	for (size_t i = 0; i < link->presence.nb_intervals; i++) {
@@ -16,9 +16,14 @@ char* Link_to_string(Link* link) {
 				 link->presence.intervals[i].end);
 	}
 	snprintf(str + strlen(str) - 3, 9999 - strlen(str), "]\n");
-	return str;
+	return String_from_owned(str);
 }
 
-bool Link_equals(Link a, Link b) {
-	return a.nodes[0] == b.nodes[0] && a.nodes[1] == b.nodes[1];
+bool Link_equals(const Link* a, const Link* b) {
+	return a->nodes[0] == b->nodes[0] && a->nodes[1] == b->nodes[1];
 }
+
+DefineVector(Link);
+DefineVectorDeriveEquals(Link);
+DefineVectorDeriveToString(Link);
+DefineVectorDeriveRemove(Link, NO_FREE(Link));

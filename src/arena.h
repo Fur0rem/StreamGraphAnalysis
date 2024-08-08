@@ -1,6 +1,7 @@
 #ifndef ARENA_H
 #define ARENA_H
 
+#include "utils.h"
 #include "vector.h"
 #include <stdbool.h>
 #include <stddef.h>
@@ -14,10 +15,13 @@ typedef struct {
 
 void Arena_init(Arena* arena);
 void Arena_destroy(Arena arena);
-char* Arena_to_string(Arena* arena);
-bool Arena_equals(Arena a, Arena b);
+DeclareToString(Arena);
+DeclareEquals(Arena);
 
-DefVector(Arena, Arena_destroy);
+DeclareVector(Arena);
+DeclareVectorDeriveRemove(Arena);
+DeclareVectorDeriveEquals(Arena);
+DeclareVectorDeriveToString(Arena);
 
 void* ArenaVector_alloc(ArenaVector* vector, size_t size);
 ArenaVector ArenaVector_init();

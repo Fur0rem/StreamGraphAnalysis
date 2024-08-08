@@ -174,7 +174,9 @@
 	size_t type##Vector_len(type##Vector* vec);                                                                        \
 	bool type##Vector_is_empty(type##Vector vec);                                                                      \
 	void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values);                                 \
-	void type##Vector_reverse(type##Vector* vec);
+	void type##Vector_reverse(type##Vector* vec);                                                                      \
+	type type##Vector_pop_first(type##Vector* vec);                                                                    \
+	type type##Vector_pop_last(type##Vector* vec);
 
 #define DefineVector(type)                                                                                             \
                                                                                                                        \
@@ -230,15 +232,29 @@
 		}                                                                                                              \
 		memcpy(vec->array + vec->size, values, sizeof(type) * nb_values);                                              \
 		vec->size += nb_values;                                                                                        \
+	}                                                                                                                  \
+                                                                                                                       \
+	type type##Vector_pop_first(type##Vector* vec) {                                                                   \
+		ASSERT(vec->size > 0);                                                                                         \
+		type value = vec->array[0];                                                                                    \
+		for (size_t i = 0; i < vec->size - 1; i++) {                                                                   \
+			vec->array[i] = vec->array[i + 1];                                                                         \
+		}                                                                                                              \
+		vec->size--;                                                                                                   \
+		return value;                                                                                                  \
+	}                                                                                                                  \
+                                                                                                                       \
+	type type##Vector_pop_last(type##Vector* vec) {                                                                    \
+		ASSERT(vec->size > 0);                                                                                         \
+		vec->size--;                                                                                                   \
+		return vec->array[vec->size];                                                                                  \
 	}
 
 /// Derives functions to the vector to remove elements, given a way to free the elements
-#define DeclareVectorDeriveRemove(type, free_fn)                                                                       \
+#define DeclareVectorDeriveRemove(type)                                                                                \
 	void type##Vector_remove_and_swap(type##Vector* vec, size_t idx);                                                  \
 	void type##Vector_remove(type##Vector* vec, size_t idx);                                                           \
-	void type##Vector_destroy(type##Vector vec);                                                                       \
-	void type##Vector_pop_last(type##Vector* vec);                                                                     \
-	void type##Vector_pop_first(type##Vector* vec);
+	void type##Vector_destroy(type##Vector vec);
 
 #define DefineVectorDeriveRemove(type, free_fn)                                                                        \
                                                                                                                        \
@@ -269,21 +285,13 @@
 		free(vec.array);                                                                                               \
 	}                                                                                                                  \
                                                                                                                        \
-	void type##Vector_pop_last(type##Vector* vec) {                                                                    \
-		if (free_fn) {                                                                                                 \
-			free_fn(vec->array[vec->size - 1]);                                                                        \
+	void type##Vector_clear(type##Vector* vec) {                                                                       \
+		for (size_t i = 0; i < vec->size; i++) {                                                                       \
+			if (free_fn) {                                                                                             \
+				free_fn(vec->array[i]);                                                                                \
+			}                                                                                                          \
 		}                                                                                                              \
-		vec->size--;                                                                                                   \
-	}                                                                                                                  \
-                                                                                                                       \
-	void type##Vector_pop_first(type##Vector* vec) {                                                                   \
-		if (free_fn) {                                                                                                 \
-			free_fn(vec->array[0]);                                                                                    \
-		}                                                                                                              \
-		for (size_t i = 0; i < vec->size - 1; i++) {                                                                   \
-			vec->array[i] = vec->array[i + 1];                                                                         \
-		}                                                                                                              \
-		vec->size--;                                                                                                   \
+		vec->size = 0;                                                                                                 \
 	}
 
 /// Derives functions to the vector, if the elements can be said equal or not equal
@@ -356,7 +364,7 @@
 	}                                                                                                                  \
                                                                                                                        \
 	void type##Vector_sort(type##Vector* vec) {                                                                        \
-		qsort(vec->array, vec->size, sizeof(type), type##_compare);                                                    \
+		qsort(vec->array, vec->size, sizeof(type), (int (*)(const void*, const void*))type##_compare);                 \
 	}
 
 #define DeclareVectorDeriveToString(type) String type##Vector_to_string(type##Vector* vec);

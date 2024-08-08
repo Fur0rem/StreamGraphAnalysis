@@ -17,7 +17,12 @@ typedef struct {
 } LinksSet;
 
 LinksSet LinksSet_alloc(size_t nb_links);
-char* Link_to_string(Link* link);
-bool Link_equals(Link a, Link b);
+DeclareToString(Link);
+DeclareEquals(Link);
+
+DeclareVector(Link);
+DeclareVectorDeriveEquals(Link);
+DeclareVectorDeriveToString(Link);
+DeclareVectorDeriveRemove(Link);
 
 #endif // STREAM_GRAPH_LINKS_SET_H

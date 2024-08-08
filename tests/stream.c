@@ -1,4 +1,4 @@
-#include "../src/stream_graph.h"
+#include "../src/stream.h"
 #include "test.h"
 
 // TODO : more tests for neighbours and such

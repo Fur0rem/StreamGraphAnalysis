@@ -4,6 +4,8 @@
 #include "../metrics.h"
 #include "../stream.h"
 #include "../stream_functions.h"
+#include "../stream_graph/links_set.h"
+#include "../stream_graph/nodes_set.h"
 #include <stddef.h>
 
 typedef struct {
@@ -20,14 +22,6 @@ DefVector(NodeId, NO_FREE(NodeId));
 DEFAULT_TO_STRING(LinkId, "%zu");
 DEFAULT_COMPARE(LinkId);
 DefVector(LinkId, NO_FREE(LinkId));*/
-
-char* NodeId_to_string(const NodeId* node_id);
-bool NodeId_equals(NodeId a, NodeId b);
-DefVector(NodeId, NO_FREE(NodeId));
-
-char* LinkId_to_string(const LinkId* link_id);
-bool LinkId_equals(LinkId a, LinkId b);
-DefVector(LinkId, NO_FREE(LinkId));
 
 ChunkStream ChunkStream_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
 							 size_t time_end);

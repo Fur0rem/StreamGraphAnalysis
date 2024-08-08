@@ -12,7 +12,6 @@
 #include "stream/chunk_stream_small.h"
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
-#include "stream_graph.h"
 #include "stream_graph/links_set.h"
 #include "stream_graph/nodes_set.h"
 #include "units.h"
@@ -26,14 +25,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool TreeEdge_equals(TreeEdge a, TreeEdge b) {
-	return a.weight == b.weight && a.child->id == b.child->id;
+bool TreeEdge_equals(const TreeEdge* a, const TreeEdge* b) {
+	return a->weight == b->weight && a->child->id == b->child->id;
 }
 
-char* TreeEdge_to_string(TreeEdge* edge) {
+String TreeEdge_to_string(const TreeEdge* edge) {
 	char* str = malloc(100);
-	sprintf(str, "TreeEdge(%zu, %zu)", edge->weight, edge->child->id);
-	return str;
+	sprintf(str, "TreeEdge(weight:%zu, child:%zu)", edge->weight, edge->child->id);
+	return String_from_owned(str);
 }
 
 // Breadth-first search for shortest walk
@@ -47,30 +46,43 @@ struct QueueInfo {
 	QueueInfo* previous;
 };
 
-bool QueueInfo_equals(QueueInfo a, QueueInfo b) {
-	return a.node == b.node && a.time == b.time && a.previous == b.previous &&
-		   Interval_equals(a.interval_taken, b.interval_taken) && a.depth == b.depth;
+bool QueueInfo_equals(const QueueInfo* a, const QueueInfo* b) {
+	return a->node == b->node && a->time == b->time && a->previous == b->previous &&
+		   Interval_equals(&a->interval_taken, &b->interval_taken) && a->depth == b->depth;
 }
 
-char* QueueInfo_to_string(QueueInfo* info) {
-	char* str = malloc(100);
+String QueueInfo_to_string(const QueueInfo* info) {
+	/*char* str = malloc(100);
 	sprintf(str, "QueueInfo(node:%zu, time:%zu, interval taken:%s, depth:%zu)", info->node, info->time,
 			Interval_to_string(&info->interval_taken), info->depth);
+	return str;*/
+	String str = String_from_duplicate("");
+	char buf[100];
+	sprintf(buf, "QueueInfo(node:%zu, time:%zu, interval taken:", info->node, info->time);
+	String_push_str(&str, buf);
+	String interval_str = Interval_to_string(&info->interval_taken);
+	String_concat(&str, &interval_str);
+	String_push_str(&str, ", depth:");
+	sprintf(buf, "%zu", info->depth);
+	String_push_str(&str, buf);
 	return str;
 }
 
-char* WalkStep_to_string(WalkStep* step) {
-	char* str = malloc(100);
+String WalkStep_to_string(const WalkStep* step) {
+	char* str = MALLOC(100);
 	sprintf(str, "WalkStep(link:%zu, time:%zu, needs_to_arrive_before:%zu)", step->link, step->time,
 			step->needs_to_arrive_before);
-	return str;
+	return String_from_owned(str);
 }
 
-bool WalkStep_equals(WalkStep a, WalkStep b) {
-	return a.link == b.link && a.time == b.time;
+bool WalkStep_equals(const WalkStep* a, const WalkStep* b) {
+	return a->link == b->link && a->time == b->time;
 }
 
-DefVector(QueueInfo, NO_FREE(QueueInfo));
+// DefVector(QueueInfo, NO_FREE(QueueInfo));
+DeclareVector(QueueInfo);
+DefineVector(QueueInfo);
+DefineVectorDeriveRemove(QueueInfo, NO_FREE(QueueInfo));
 
 size_t min(size_t a, size_t b) {
 	return a < b ? a : b;
@@ -81,49 +93,62 @@ typedef struct {
 	TimeId time;
 } ExploredState;
 
-bool ExploredState_equals(ExploredState a, ExploredState b) {
-	return a.node == b.node && a.time == b.time;
+bool ExploredState_equals(ExploredState* a, ExploredState* b) {
+	return a->node == b->node && a->time == b->time;
 }
 
-char* ExploredState_to_string(ExploredState* state) {
+String ExploredState_to_string(ExploredState* state) {
 	char* str = malloc(100);
 	sprintf(str, "ExploredState(node:%zu, time:%zu)", state->node, state->time);
-	return str;
+	return String_from_owned(str);
 }
 
-size_t ExploredState_hash(ExploredState state) {
-	return state.node * 31 + state.time;
+size_t ExploredState_hash(ExploredState* state) {
+	return state->node * 31 + state->time;
 }
 
-DefHashset(ExploredState, ExploredState_hash, NO_FREE(ExploredState));
-
-typedef char char2;
-DEFAULT_COMPARE(char2)
-DEFAULT_TO_STRING(char2, "%c")
-DefVector(char2, NO_FREE(char2));
+// DefHashset(ExploredState, ExploredState_hash, NO_FREE(ExploredState));
+DeclareVector(ExploredState);
+DefineVector(ExploredState);
+DefineVectorDeriveRemove(ExploredState, NO_FREE(ExploredState));
+DeclareHashset(ExploredState);
+DefineHashset(ExploredState);
+DefineHashsetDeriveRemove(ExploredState, NO_FREE(ExploredState));
 
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
-char* Walk_to_string(Walk* walk) {
+String Walk_to_string(const Walk* walk) {
 	if (walk->steps.size == 0) {
-		char* str = malloc(100);
-		sprintf(str, "No walk from %zu to %zu at %zu\n", walk->start, walk->end, walk->optimality.start);
+		char* buf = malloc(100);
+		sprintf(buf, "No walk from %zu to %zu at %zu\n", walk->start, walk->end, walk->optimality.start);
+		String str = String_from_owned(buf);
 		return str;
 	}
-	char2Vector str = char2Vector_with_capacity(100);
-	char2Vector_append(&str, APPEND_CONST("Walk from "));
+	String str = String_from_duplicate("");
+	String_push_str(&str, "Walk from ");
 	char buf[100];
 	sprintf(buf, "%zu", walk->start);
-	char2Vector_append(&str, buf, strlen(buf));
-	char2Vector_append(&str, APPEND_CONST(" to "));
+	// char2Vector_append(&str, buf, strlen(buf));
+	String_push_str(&str, buf);
+	// char2Vector_append(&str, APPEND_CONST(" to "));
+	String_push_str(&str, " to ");
 	sprintf(buf, "%zu", walk->end);
-	char2Vector_append(&str, buf, strlen(buf));
-	char2Vector_append(&str, APPEND_CONST(" at "));
-	char* time_str = Interval_to_string(&walk->optimality);
-	sprintf(buf, "Optimal at %s\n", time_str);
-	free(time_str);
-	char2Vector_append(&str, buf, strlen(buf));
-	char2Vector_append(&str, APPEND_CONST("\n"));
+	// char2Vector_append(&str, buf, strlen(buf));
+	String_push_str(&str, buf);
+	// char2Vector_append(&str, APPEND_CONST(" at "));
+	String_push_str(&str, " at ");
+	sprintf(buf, "%zu", walk->optimality.start);
+	// char2Vector_append(&str, buf, strlen(buf));
+	String_push_str(&str, buf);
+	// char* time_str = Interval_to_string(&walk->optimality);
+	String time_str = Interval_to_string(&walk->optimality);
+	// sprintf(buf, "Optimal at %s\n", time_str.data);
+	// free(time_str);
+	// char2Vector_append(&str, buf, strlen(buf));
+	// char2Vector_append(&str, APPEND_CONST("\n"));
+	String_push_str(&str, "Optimal at ");
+	String_concat(&str, &time_str);
+	String_push(&str, '\n');
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream_data;
 	StreamGraph sg = *fsg->underlying_stream_graph;
@@ -131,59 +156,82 @@ char* Walk_to_string(Walk* walk) {
 	for (size_t i = 0; i < walk->steps.size; i++) {
 		WalkStep step = walk->steps.array[i];
 		sprintf(buf, "%zu", step.link);
-		char2Vector_append(&str, buf, strlen(buf));
+		// char2Vector_append(&str, buf, strlen(buf));
+		String_push_str(&str, buf);
 		NodeId from = sg.links.links[step.link].nodes[0];
 		NodeId to = sg.links.links[step.link].nodes[1];
 		sprintf(buf, " (%zu -> %zu)", from, to);
-		char2Vector_append(&str, buf, strlen(buf));
-		char2Vector_append(&str, APPEND_CONST(" @ "));
+		String_push_str(&str, buf);
+		String_push_str(&str, " @ ");
+		// char2Vector_append(&str, buf, strlen(buf));
+		// char2Vector_append(&str, APPEND_CONST(" @ "));
 		sprintf(buf, "%zu", step.time);
-		char2Vector_append(&str, buf, strlen(buf));
-		char2Vector_append(&str, APPEND_CONST("\n"));
+		// char2Vector_append(&str, buf, strlen(buf));
+		String_push_str(&str, buf);
+		// char2Vector_append(&str, APPEND_CONST("\n"));
+		String_push(&str, '\n');
 	}
-	char2Vector_push(&str, '\0');
-	return str.array;
+	// char2Vector_push(&str, '\0');
+	return str;
 }
 
-bool Walk_equals(Walk a, Walk b) {
-	for (size_t i = 0; i < a.steps.size; i++) {
-		if (!WalkStep_equals(a.steps.array[i], b.steps.array[i])) {
+bool Walk_equals(const Walk* a, const Walk* b) {
+	for (size_t i = 0; i < a->steps.size; i++) {
+		if (!WalkStep_equals(&a->steps.array[i], &b->steps.array[i])) {
 			return false;
 		}
 	}
 	return true;
 }
 
-char* WalkInfo_to_string(WalkInfo* wi) {
+String WalkInfo_to_string(const WalkInfo* wi) {
 	if (wi->type == WALK) {
-		char* str = Walk_to_string(&wi->walk_or_reason.walk);
-		char* result = malloc(strlen(str) + 100);
-		sprintf(result, "WalkInfo(WALK, %s)", str);
-		free(str);
-		return result;
+		// char* result = malloc(strlen(str) + 100);
+		// sprintf(result, "WalkInfo(WALK, %s)", str);
+		// free(str);
+		String walk_str = Walk_to_string(&wi->walk_or_reason.walk);
+		String str = String_from_duplicate("WalkInfo(WALK, ");
+		String_concat(&str, &walk_str);
+		String_push(&str, ')');
+		return str;
 	}
 	else {
-		char* result = malloc(200);
+		// char* result = malloc(200);
+		// if (wi->walk_or_reason.no_walk_reason.type == NODE_DOESNT_EXIST) {
+		// 	NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
+		// 	sprintf(result, "WalkInfo(NO_WALK, NODE_DOESNT_EXIST in interval %s)", Interval_to_string(&info.interval));
+		// }
+		// else {
+		// 	ImpossibleToReachInfo info = wi->walk_or_reason.no_walk_reason.reason.impossible_to_reach;
+		// 	sprintf(result, "WalkInfo(NO_WALK, IMPOSSIBLE_TO_REACH after %zu)", info.impossible_after);
+		// }
+		// return result;
+		String str = String_from_duplicate("WalkInfo(NO_WALK, ");
 		if (wi->walk_or_reason.no_walk_reason.type == NODE_DOESNT_EXIST) {
 			NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
-			sprintf(result, "WalkInfo(NO_WALK, NODE_DOESNT_EXIST in interval %s)", Interval_to_string(&info.interval));
+			String interval_str = Interval_to_string(&info.interval);
+			String_push_str(&str, "NODE_DOESNT_EXIST in interval ");
+			String_concat(&str, &interval_str);
 		}
 		else {
 			ImpossibleToReachInfo info = wi->walk_or_reason.no_walk_reason.reason.impossible_to_reach;
-			sprintf(result, "WalkInfo(NO_WALK, IMPOSSIBLE_TO_REACH after %zu)", info.impossible_after);
+			char buf[100];
+			sprintf(buf, "IMPOSSIBLE_TO_REACH after %zu", info.impossible_after);
+			String_push_str(&str, buf);
 		}
-		return result;
+		String_push(&str, ')');
+		return str;
 	}
 }
-bool WalkInfo_equals(WalkInfo a, WalkInfo b) {
-	if (a.type != b.type) {
+bool WalkInfo_equals(const WalkInfo* a, const WalkInfo* b) {
+	if (a->type != b->type) {
 		return false;
 	}
-	if (a.type == WALK) {
-		return Walk_equals(a.walk_or_reason.walk, b.walk_or_reason.walk);
+	if (a->type == WALK) {
+		return Walk_equals(&a->walk_or_reason.walk, &b->walk_or_reason.walk);
 	}
 	else {
-		return a.walk_or_reason.no_walk_reason.type == b.walk_or_reason.no_walk_reason.type;
+		return a->walk_or_reason.no_walk_reason.type == b->walk_or_reason.no_walk_reason.type;
 	}
 }
 
@@ -214,6 +262,13 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 	}
 	return walks;
 }
+
+// TODO : put it in the right place
+DefineVector(WalkStep);
+DefineVectorDeriveRemove(WalkStep, NO_FREE(WalkStep));
+
+DefineVector(WalkInfo);
+DefineVectorDeriveRemove(WalkInfo, NO_FREE(WalkInfo));
 
 // TODO : this doesn't work (why i copy pasted the other one ???)
 WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candidates, NodeId from, NodeId to) {
@@ -296,7 +351,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	while ((current_candidate != to) && (!QueueInfoVector_is_empty(queue))) {
 		// Get the next node from the queue
-		current_info = QueueInfoVector_pop_front(&queue);
+		current_info = QueueInfoVector_pop_first(&queue);
 
 		// TODO : maybe there is a better solution than hashsets to not loop between the same nodes?
 		if (ExploredStateHashset_contains(explored, (ExploredState){current_info.node, current_info.time})) {
@@ -391,7 +446,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	while ((!QueueInfoVector_is_empty(queue)) && ((!found) || (current_info.depth <= depth_found))) {
 		// Get the next node from the queue
-		current_info = QueueInfoVector_pop_front(&queue);
+		current_info = QueueInfoVector_pop_first(&queue);
 		if (ExploredStateHashset_contains(explored, (ExploredState){current_info.node, current_info.time})) {
 			continue;
 		}
@@ -513,34 +568,22 @@ struct DijkstraState {
 	DijkstraState* previous;
 };
 
-bool DijkstraState_equals(DijkstraState a, DijkstraState b) {
-	return a.node == b.node && a.time == b.time && a.number_of_jumps == b.number_of_jumps;
+bool DijkstraState_equals(DijkstraState* a, DijkstraState* b) {
+	return a->node == b->node && a->time == b->time && a->number_of_jumps == b->number_of_jumps;
 }
 
-char* DijkstraState_to_string(DijkstraState* state) {
-	char* str = malloc(150);
-	sprintf(str, "DijkstraState(node:%zu, time:%zu, number_of_jumps:%zu, previous_node:%zu)", state->node, state->time,
-			state->number_of_jumps, state->previous == NULL ? SIZE_MAX : state->previous->node);
-	return str;
+String DijkstraState_to_string(DijkstraState* state) {
+	char* str = malloc(100);
+	sprintf(str, "DijkstraState(node:%zu, time:%zu, number_of_jumps:%zu)", state->node, state->time,
+			state->number_of_jumps);
+	return String_from_owned(str);
 }
 
-size_t DijkstraState_hash(DijkstraState state) {
-	return state.node * 31 + state.time;
+size_t DijkstraState_hash(const DijkstraState* state) {
+	return state->node * 31 + state->time;
 }
 
-DefHashset(DijkstraState, DijkstraState_hash, NO_FREE(DijkstraState));
-
-typedef struct {
-	DijkstraStateVector nodes;
-} BinaryHeap;
-
-BinaryHeap BinaryHeap_init() {
-	return (BinaryHeap){
-		.nodes = DijkstraStateVector_with_capacity(1),
-	};
-}
-
-int DijkstraState_compare(DijkstraState* a, DijkstraState* b) {
+int DijkstraState_compare(const DijkstraState* a, const DijkstraState* b) {
 	if (a->time < b->time) {
 		return -1;
 	}
@@ -554,6 +597,29 @@ int DijkstraState_compare(DijkstraState* a, DijkstraState* b) {
 		return 1;
 	}
 	return 0;
+}
+
+// DefHashset(DijkstraState, DijkstraState_hash, NO_FREE(DijkstraState));
+DeclareVector(DijkstraState);
+DefineVector(DijkstraState);
+DefineVectorDeriveRemove(DijkstraState, NO_FREE(DijkstraState));
+DefineVectorDeriveToString(DijkstraState);
+DefineVectorDeriveOrdered(DijkstraState);
+
+DeclareHashset(DijkstraState);
+DefineHashset(DijkstraState);
+DefineHashsetDeriveRemove(DijkstraState, NO_FREE(DijkstraState));
+DefineHashsetDeriveEquals(DijkstraState);
+DefineHashsetDeriveToString(DijkstraState);
+
+typedef struct {
+	DijkstraStateVector nodes;
+} BinaryHeap;
+
+BinaryHeap BinaryHeap_init() {
+	return (BinaryHeap){
+		.nodes = DijkstraStateVector_with_capacity(1),
+	};
 }
 
 /*void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
@@ -618,7 +684,7 @@ DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
 void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
 	DijkstraStateVector_push(&heap->nodes, state);
 	// sort the heap
-	DijkstraStateVector_sort(&heap->nodes, (int (*)(const void*, const void*))DijkstraState_compare);
+	DijkstraStateVector_sort(&heap->nodes);
 }
 
 DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
@@ -635,7 +701,7 @@ void BinaryHeap_destroy(BinaryHeap heap) {
 	DijkstraStateVector_destroy(heap.nodes);
 }
 
-char* BinaryHeap_to_string(BinaryHeap* heap) {
+String BinaryHeap_to_string(BinaryHeap* heap) {
 	return DijkstraStateVector_to_string(&heap->nodes);
 }
 
@@ -663,9 +729,9 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 
 	while ((!BinaryHeap_is_empty(&queue)) && (current_candidate != to)) {
 		// Get the next node from the queue
-		char* heap_str = BinaryHeap_to_string(&queue);
-		printf("Heap : %s\n", heap_str);
-		free(heap_str);
+		String heap_str = BinaryHeap_to_string(&queue);
+		printf("Heap : %s\n", heap_str.data);
+		String_destroy(heap_str);
 
 		current_info = BinaryHeap_pop(&queue);
 		if (DijkstraStateHashset_contains(explored, (DijkstraState){current_info.node, current_info.time})) {
@@ -727,9 +793,12 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	DijkstraState* current_walk = &best_yet;
 	printf("building walk\n");
 	while (current_walk != NULL) {
-		char* str = DijkstraState_to_string(current_walk);
-		printf("Current walk : %s\n", str);
-		free(str);
+		// char* str = DijkstraState_to_string(current_walk);
+		// printf("Current walk : %s\n", str);
+		// free(str);
+		String str = DijkstraState_to_string(current_walk);
+		printf("Current walk : %s\n", str.data);
+		String_destroy(str);
 		DijkstraState* previous = current_walk->previous;
 		NodeId previous_node = previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
