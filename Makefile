@@ -50,9 +50,9 @@ stream: $(SRC_DIR)/stream.c events_table key_moments_table links_set nodes_set d
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream.c -o $(BIN_DIR)/stream.o
 	ar rcs $(BIN_DIR)/stream.a $(BIN_DIR)/stream.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/defaults.o $(BIN_DIR)/interval.o $(BIN_DIR)/utils.o $(BIN_DIR)/bit_array.o
 
-induced_graph: $(SRC_DIR)/induced_graph.c interval stream defaults | $(BIN_DIR)
+induced_graph: $(SRC_DIR)/induced_graph.c interval stream defaults events_table key_moments_table links_set nodes_set bit_array units utils| $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/induced_graph.c -o $(BIN_DIR)/induced_graph.o
-	ar rcs $(BIN_DIR)/induced_graph.a $(BIN_DIR)/interval.a $(BIN_DIR)/stream.a $(BIN_DIR)/induced_graph.o $(BIN_DIR)/defaults.a
+	ar rcs $(BIN_DIR)/induced_graph.a $(BIN_DIR)/interval.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/defaults.o $(BIN_DIR)/interval.o $(BIN_DIR)/stream.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/units.o $(BIN_DIR)/utils.o
 
 # full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream defaults | $(BIN_DIR)
 # 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/full_stream_graph.c -o $(BIN_DIR)/full_stream_graph.o
@@ -89,6 +89,6 @@ walks: $(SRC_DIR)/walks.c iterators utils units defaults interval arena full_str
 cliques: $(SRC_DIR)/cliques.c iterators utils units defaults interval arena full_stream_graph chunk_stream_small chunk_stream link_stream stream bit_array nodes_set links_set events_table key_moments_table induced_graph metrics walks | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/cliques.c -o $(BIN_DIR)/cliques.o
 	ar rcs $(BIN_DIR)/cliques.a $(BIN_DIR)/cliques.o $(BIN_DIR)/iterators.o $(BIN_DIR)/utils.o $(BIN_DIR)/units.o $(BIN_DIR)/defaults.o $(BIN_DIR)/interval.o $(BIN_DIR)/arena.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/chunk_stream_small.o $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/stream.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/links_set.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/metrics.o $(BIN_DIR)/walks.o
-	
+
 clean:
 	rm -f $(BIN_DIR)/*
