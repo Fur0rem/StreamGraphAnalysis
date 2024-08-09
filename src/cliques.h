@@ -8,12 +8,13 @@
 #include "vector.h"
 #include <stdbool.h>
 
-typedef struct {
+typedef struct Clique Clique;
+struct Clique {
 	TimeId time_start;
 	TimeId time_end;
 	NodeId* nodes;
 	size_t nb_nodes;
-} Clique;
+};
 
 typedef struct {
 	int b;
