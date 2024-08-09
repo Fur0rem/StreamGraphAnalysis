@@ -117,3 +117,15 @@ size_t BitArray_leading_zeros_from(BitArray array, size_t index) {
 	}
 	return leading_zeros;
 }
+
+void BitArray_all_to_one(BitArray array) {
+	for (size_t i = 0; i < nb_bytes(array.nb_bits); i++) {
+		array.bits[i] = ~0;
+	}
+}
+
+void BitArray_all_to_zero(BitArray array) {
+	for (size_t i = 0; i < nb_bytes(array.nb_bits); i++) {
+		array.bits[i] = 0;
+	}
+}

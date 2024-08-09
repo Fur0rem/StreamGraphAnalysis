@@ -9,12 +9,14 @@
 #define DeclareFullDerivedVector(T)                                                                                    \
 	DeclareVector(T);                                                                                                  \
 	DeclareVectorDeriveRemove(T);                                                                                      \
+	DeclareVectorDeriveEquals(T);                                                                                      \
 	DeclareVectorDeriveOrdered(T);                                                                                     \
 	DeclareVectorDeriveToString(T);
 
 #define DefineFullDerivedVector(T, free_func)                                                                          \
 	DefineVector(T);                                                                                                   \
 	DefineVectorDeriveRemove(T, free_func);                                                                            \
+	DefineVectorDeriveEquals(T);                                                                                       \
 	DefineVectorDeriveOrdered(T);                                                                                      \
 	DefineVectorDeriveToString(T);
 

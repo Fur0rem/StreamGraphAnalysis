@@ -341,39 +341,9 @@
 
 /// Derives functions to the vector, if the elements can be compared
 /// This is a superset of VectorDeriveEquals, so you should prefer this one if you need both
-#define DeclareVectorDeriveOrdered(type)                                                                               \
-	bool type##Vector_equals(type##Vector vec1, type##Vector vec2);                                                    \
-	size_t type##Vector_find(type##Vector vec, type value);                                                            \
-	bool type##Vector_contains(type##Vector vec, type value);                                                          \
-	void type##Vector_sort(type##Vector* vec);
+#define DeclareVectorDeriveOrdered(type) void type##Vector_sort(type##Vector* vec);
 
 #define DefineVectorDeriveOrdered(type)                                                                                \
-                                                                                                                       \
-	bool type##Vector_equals(type##Vector vec1, type##Vector vec2) {                                                   \
-		if (vec1.size != vec2.size) {                                                                                  \
-			return false;                                                                                              \
-		}                                                                                                              \
-		for (size_t i = 0; i < vec1.size; i++) {                                                                       \
-			if (type##_compare(&vec1.array[i], &vec2.array[i])) {                                                      \
-				return false;                                                                                          \
-			}                                                                                                          \
-		}                                                                                                              \
-		return true;                                                                                                   \
-	}                                                                                                                  \
-                                                                                                                       \
-	size_t type##Vector_find(type##Vector vec, type value) {                                                           \
-		for (size_t i = 0; i < vec.size; i++) {                                                                        \
-			if (!type##_compare(&vec.array[i], &value)) {                                                              \
-				return i;                                                                                              \
-			}                                                                                                          \
-		}                                                                                                              \
-		return vec.size;                                                                                               \
-	}                                                                                                                  \
-                                                                                                                       \
-	bool type##Vector_contains(type##Vector vec, type value) {                                                         \
-		return type##Vector_find(vec, value) < vec.size;                                                               \
-	}                                                                                                                  \
-                                                                                                                       \
 	void type##Vector_sort(type##Vector* vec) {                                                                        \
 		qsort(vec->array, vec->size, sizeof(type), (int (*)(const void*, const void*))type##_compare);                 \
 	}
