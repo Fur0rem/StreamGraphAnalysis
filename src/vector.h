@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+// TODO: maybe change push to push_back and array to data?
+// TODO: add macro for elem in array?
+
 // Dynamic array (vectors)
 /*#define DefVector(type, freefunc) \
 																													   \
@@ -170,6 +173,7 @@
 	type##Vector type##Vector_with_capacity(size_t capacity);                                                          \
 	type##Vector type##Vector_new();                                                                                   \
 	void type##Vector_push(type##Vector* vec, type value);                                                             \
+	void type##Vector_push_unchecked(type##Vector* vec, type value);                                                   \
 	type* type##Vector_get(type##Vector* vec, size_t idx);                                                             \
 	size_t type##Vector_len(type##Vector* vec);                                                                        \
 	bool type##Vector_is_empty(type##Vector vec);                                                                      \
@@ -197,6 +201,12 @@
 			free(vec->array);                                                                                          \
 			vec->array = new_array;                                                                                    \
 		}                                                                                                              \
+		vec->array[vec->size] = value;                                                                                 \
+		vec->size++;                                                                                                   \
+	}                                                                                                                  \
+                                                                                                                       \
+	void type##Vector_push_unchecked(type##Vector* vec, type value) {                                                  \
+		ASSERT(vec->size < vec->capacity);                                                                             \
 		vec->array[vec->size] = value;                                                                                 \
 		vec->size++;                                                                                                   \
 	}                                                                                                                  \
@@ -254,7 +264,8 @@
 #define DeclareVectorDeriveRemove(type)                                                                                \
 	void type##Vector_remove_and_swap(type##Vector* vec, size_t idx);                                                  \
 	void type##Vector_remove(type##Vector* vec, size_t idx);                                                           \
-	void type##Vector_destroy(type##Vector vec);
+	void type##Vector_destroy(type##Vector vec);                                                                       \
+	void type##Vector_clear(type##Vector* vec);
 
 #define DefineVectorDeriveRemove(type, free_fn)                                                                        \
                                                                                                                        \
@@ -286,8 +297,8 @@
 	}                                                                                                                  \
                                                                                                                        \
 	void type##Vector_clear(type##Vector* vec) {                                                                       \
-		for (size_t i = 0; i < vec->size; i++) {                                                                       \
-			if (free_fn) {                                                                                             \
+		if (free_fn) {                                                                                                 \
+			for (size_t i = 0; i < vec->size; i++) {                                                                   \
 				free_fn(vec->array[i]);                                                                                \
 			}                                                                                                          \
 		}                                                                                                              \

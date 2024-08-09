@@ -50,30 +50,30 @@ bool test_maximal_cliques() {
 	// StreamGraph sg = StreamGraph_from_file("tests/test_data/internal_cliques.txt");
 	StreamGraph sg = StreamGraph_from_external("tests/test_data/cliques.txt");
 	Stream st = FullStreamGraph_from(&sg);
-	printf("Loaded graph\n");
-	char* str = StreamGraph_to_string(&sg);
-	printf("%s\n", str);
-	free(str);
+	// printf("Loaded graph\n");
+	// char* str = StreamGraph_to_string(&sg);
+	// printf("%s\n", str);
+	// free(str);
 
-	init_events_table(&sg);
+	// init_events_table(&sg);
 
 	// CliqueVector cliques = maximal_cliques(&st);
 	// CliqueVector cliques = maximal_cliques(&sg);
 
-	StreamFunctions funcs = FullStreamGraph_stream_functions;
-	LinkVector v = LinkVector_new();
+	// StreamFunctions funcs = FullStreamGraph_stream_functions;
+	// LinkVector v = LinkVector_new();
 	/*LinksIterator it = funcs.links_set(&st);
 	FOR_EACH_LINK(link_id, it) {
 		Link link = sg.links.links[link_id];
 		LinkVector_push(&v, link);
 	}*/
 
-	for (size_t i = 0; i < sg.links.nb_links; i++) {
-		Link link = sg.links.links[i];
-		LinkVector_push(&v, link);
-	}
+	// for (size_t i = 0; i < sg.links.nb_links; i++) {
+	// 	Link link = sg.links.links[i];
+	// 	LinkVector_push(&v, link);
+	// }
 
-	CliqueVector cliques = maximal_cliques(v);
+	CliqueVector cliques = Stream_maximal_cliques(&st);
 
 	String cliques_str = CliqueVector_to_string(&cliques);
 	printf("%s\n", cliques_str.data);
@@ -99,7 +99,7 @@ bool test_maximal_cliques() {
 				  EXPECT(cliques.array[3].nodes[2] == 3);
 
 	CliqueVector_destroy(cliques);
-	LinkVector_destroy(v);
+	// LinkVector_destroy(v);
 
 	return result;
 }

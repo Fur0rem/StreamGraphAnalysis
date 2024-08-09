@@ -16,10 +16,10 @@ typedef struct {
 } Clique;
 
 typedef struct {
-	size_t b;
-	size_t e;
-	size_t u;
-	size_t v;
+	int b;
+	int e;
+	int u;
+	int v;
 } MyLink;
 bool MyLink_equals(MyLink l1, MyLink l2);
 char* MyLink_to_string(MyLink* l);
@@ -36,6 +36,6 @@ DeclareVectorDeriveEquals(Clique);
 DeclareVectorDeriveToString(Clique);
 DeclareVectorDeriveRemove(Clique);
 
-CliqueVector maximal_cliques(LinkVector ls);
+CliqueVector Stream_maximal_cliques(Stream* st);
 
 #endif // CLIQUES_H

@@ -4,8 +4,7 @@ BIN_DIR = bin
 DEBUG_FLAGS = -g -O0
 RELEASE_FLAGS = -O3
 FLAGS = $(DEBUG_FLAGS)
-# CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
-CFLAGS = $(FLAGS) -std=c2x
+CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
 LDFLAGS = -lm
 
 # Ensure the binary directory exists
