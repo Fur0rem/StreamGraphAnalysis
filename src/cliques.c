@@ -1,4 +1,5 @@
 #include "cliques.h"
+#include "defaults.h"
 #include "hashset.h"
 #include "interval.h"
 #include "iterators.h"
@@ -15,43 +16,6 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-// TODO : merge this in one file
-#define APPEND_CONST(str) str, sizeof(str) - 1
-
-#define APPEND_STR(str) str, strlen(str)
-
-/*char* Clique_to_string(Clique* c) {
-	charVector str = charVector_new();
-	charVector_append(&str, APPEND_CONST("Clique ["));
-	char time_str[20];
-	sprintf(time_str, "%zu -> %zu] ", c->time_start, c->time_end);
-	charVector_append(&str, APPEND_STR(time_str));
-	charVector_append(&str, APPEND_CONST("Nodes : ["));
-	for (size_t i = 0; i < c->nb_nodes; i++) {
-		char node_str[20];
-		sprintf(node_str, "%zu", c->nodes[i]);
-		charVector_append(&str, APPEND_STR(node_str));
-		if (i < c->nb_nodes - 1) {
-			charVector_append(&str, APPEND_CONST(", "));
-		}
-	}
-	charVector_push(&str, ']');
-	charVector_push(&str, '\0');
-	return str.array;
-}*/
-
-/*bool Clique_equals(Clique c1, Clique c2) {
-	if (c1.time_start != c2.time_start || c1.time_end != c2.time_end || c1.nb_nodes != c2.nb_nodes) {
-		return false;
-	}
-	for (size_t i = 0; i < c1.nb_nodes; i++) {
-		if (c1.nodes[i] != c2.nodes[i]) {
-			return false;
-		}
-	}
-	return true;
-}*/
 
 bool Clique_equals(const Clique* c1, const Clique* c2) {
 	if (c1->time_start != c2->time_start || c1->time_end != c2->time_end || c1->nb_nodes != c2->nb_nodes) {
@@ -102,13 +66,13 @@ void link_from_line(int* link, char* str) {
 	// ASSERT(*i == 0);
 	int i = 0;
 
-	while (1) {
+	while (true) {
 		// Skip whitespace by hand, to detect the end.
-		while (is_space(*str)) {
+		while (is_space(str[0])) {
 			str++;
 		}
 
-		if (*str == 0) {
+		if (str[0] == 0) {
 			return;
 		}
 
@@ -116,6 +80,7 @@ void link_from_line(int* link, char* str) {
 		// so it ought to be another number.
 		// Parse it.
 		next = (int)strtol(str, &tail, 0);
+		ASSERT(tail != str);
 		link[i++] = next;
 		// Advance past it.
 		str = tail;
@@ -126,75 +91,9 @@ void link_from_line(int* link, char* str) {
 
 /*__attribute__((always_inline))*/
 void swap(int* tab, int i, int j) {
-	// cout << "-- swap --" << endl;
-	// cout << "i = " << i << " ; tab[i] = " << tab[i] << endl;
-	// cout << "j = " << j << " ; tab[j] = " << tab[j] << endl;
-
 	int tmp = tab[i];
 	tab[i] = tab[j];
 	tab[j] = tmp;
-
-	// cout << "-- END swap --" << endl;
-}
-
-typedef struct {
-	int n; // size of the vector
-	// int nmax; // size of allocated memory
-	int* tab; // list of the elements
-} MyList;
-
-MyList* allocMyList(size_t size) {
-	MyList* mv = MALLOC(sizeof(MyList));
-
-	mv->n = 0;
-	// mv->nmax = size;
-	mv->tab = MALLOC(size * sizeof(int));
-
-	return mv;
-}
-
-/*__attribute__((always_inline))*/
-void pushback(MyList* mv, int x) {
-	// Les tailles sont allouées à l'avance
-	// if (mv->n == mv->nmax)
-	// {
-	//     mv->nmax *= 2;
-	//     mv->tab = (int *)realloc(mv->tab, mv->nmax * sizeof(int));
-	// }
-
-	// cout << "mv->n = " << mv->n << " ; x = " << x << endl;
-	mv->tab[mv->n++] = x;
-}
-
-/*__attribute__((always_inline))*/
-void popback(MyList* mv) {
-	mv->n--;
-}
-
-/*__attribute__((always_inline))*/
-void removeFromMyList(MyList* mv, int x) {
-	int i;
-	for (i = 0; i < mv->n; i++) {
-		if (mv->tab[i] == x) {
-			mv->tab[i] = mv->tab[--mv->n];
-			return;
-		}
-	}
-}
-
-/*__attribute__((always_inline))*/
-void clearMyList(MyList* mv) {
-	mv->n = 0;
-}
-
-void print_MyList(MyList* mv) {
-	int i;
-	for (i = 0; i < mv->n; i++) {
-		// cerr << mv->tab[i] << " ";
-		printf("%d ", mv->tab[i]);
-	}
-	// cerr << endl;
-	printf("\n");
 }
 
 typedef struct {
@@ -205,8 +104,8 @@ typedef struct {
 	int* beginP;
 	int* endP;
 	int** timeEndRNode; // timeEndRNode[depth][w] : end time of R U {w}
-	MyList* R;
-	MyList** candidates_to_iterate;
+	intVector R;
+	intVector* candidates_to_iterate;
 
 	// FOR ITERATIVE CODE
 	int* i;			// i[depth] = indice courant dans candidates_to_iterate[depth]
@@ -237,12 +136,12 @@ XPR* allocXPR(int n, int depthMax) {
 	xpr->endP = MALLOC(depthMax * sizeof(int));
 	xpr->timeEndRNode = MALLOC(depthMax * sizeof(int*));
 
-	xpr->R = allocMyList(depthMax);
-	xpr->candidates_to_iterate = MALLOC(depthMax * sizeof(MyList));
+	xpr->R = intVector_with_capacity(depthMax);
+	xpr->candidates_to_iterate = MALLOC(depthMax * sizeof(intVector));
 
 	for (depth = 0; depth < depthMax; depth++) {
 		xpr->timeEndRNode[depth] = MALLOC(n * sizeof(int));
-		xpr->candidates_to_iterate[depth] = allocMyList(depthMax);
+		xpr->candidates_to_iterate[depth] = intVector_with_capacity(depthMax);
 	}
 	return xpr;
 }
@@ -267,12 +166,7 @@ bool is_in_PUX(XPR* xpr, int w, int depth) {
 
 /*__attribute__((always_inline))*/
 bool is_in_R(XPR* xpr, int w) {
-	for (int i = 0; i < xpr->R->n; i++) {
-		if (xpr->R->tab[i] == w) {
-			return true;
-		}
-	}
-	return false;
+	return intVector_contains(xpr->R, w);
 }
 
 /*__attribute__((always_inline))*/
@@ -344,29 +238,13 @@ void swap_P_node_position(XPR* xpr, int u, int iv) {
 	swap(xpr->XPindex, u, v);
 }
 
-/*__attribute__((always_inline))*/
-void init_timeEndRNode(XPR* xpr, int w, int e1, int e2, int e3, int depth) {
-	// on garde min(e1,e2,e3)
-	if (e1 < e2) {
-		if (e1 < e3) {
-			xpr->timeEndRNode[depth][w] = e1;
-		}
-		else {
-			xpr->timeEndRNode[depth][w] = e3;
-		}
-	}
-	else {
-		if (e2 < e3) {
-			xpr->timeEndRNode[depth][w] = e2;
-		}
-		else {
-			xpr->timeEndRNode[depth][w] = e3;
-		}
-	}
-}
-
 int min(int a, int b) {
 	return a < b ? a : b;
+}
+
+/*__attribute__((always_inline))*/
+void init_timeEndRNode(XPR* xpr, int w, int e1, int e2, int e3, int depth) {
+	xpr->timeEndRNode[depth][w] = min(min(e1, e2), e3);
 }
 
 /*__attribute__((always_inline))*/
@@ -402,7 +280,9 @@ void print_X(XPR* xpr, int depth) {
 void print_R(XPR* xpr) {
 	// cerr << "R = ";
 	printf("R = ");
-	print_MyList(xpr->R);
+	String str = intVector_to_string(&xpr->R);
+	printf("%s\n", str.data);
+	String_destroy(str);
 }
 
 typedef struct {
@@ -697,7 +577,7 @@ void clearMySet(MySet* s) {
 typedef struct {
 	int m;
 	MyLink* link;
-	MyList* timesteps;
+	intVector timesteps;
 } MyLinkStream;
 
 int endlink_sorter(const MyLink* l1, const MyLink* l2) {
@@ -720,7 +600,7 @@ MyLinkStream* allocLinkStream_end(char* lsFile, int m, int ntimestep) {
 	MyLink* add_link = MALLOC(m * sizeof(MyLink));
 	MyLink* del_link = MALLOC(m * sizeof(MyLink));
 
-	ls_end->timesteps = allocMyList(ntimestep);
+	ls_end->timesteps = intVector_with_capacity(ntimestep);
 	im = 0;
 
 	// Fill link stream tmp structures
@@ -735,7 +615,8 @@ MyLinkStream* allocLinkStream_end(char* lsFile, int m, int ntimestep) {
 		u = link[2];
 		v = link[3];
 		if (b > old_b) {
-			pushback(ls_end->timesteps, b);
+			// pushback(ls_end->timesteps, b);
+			intVector_push_unchecked(&ls_end->timesteps, b);
 		}
 		old_b = b;
 
@@ -802,6 +683,110 @@ MyLinkStream* allocLinkStream_end(char* lsFile, int m, int ntimestep) {
 	return ls_end;
 }
 
+MyLinkStream* allocLinkStream_end_from_links(MyLinkVector links, int m, int ntimestep) {
+	int i, b, old_b, im, e, u, v;
+	int ia, id, ba, ea, ua, va, ed, ud, vd;
+
+	MyLinkStream* ls_end = MALLOC(sizeof(MyLinkStream));
+	// int* link = MALLOC(4 * sizeof(int));
+	// char* line = NULL;
+	// size_t len = 0;
+
+	// Init link stream data structures
+	ls_end->m = m;
+	ls_end->link = MALLOC(2 * m * sizeof(MyLink)); // double to add end
+
+	MyLink* add_link = MALLOC(m * sizeof(MyLink));
+	MyLink* del_link = MALLOC(m * sizeof(MyLink));
+
+	ls_end->timesteps = intVector_with_capacity(ntimestep);
+	im = 0;
+
+	// Fill link stream tmp structures
+	// FILE* fp = fopen(lsFile, "r");
+
+	old_b = -1;
+	// while ((getline(&line, &len, fp)) != -1) {
+	for (size_t l = 0; l < links.size; l++) {
+		i = 0;
+		// link_from_line(link, line);
+		// b = link[0];
+		// e = link[1];
+		// u = link[2];
+		// v = link[3];
+		b = links.array[l].b;
+		e = links.array[l].e;
+		u = links.array[l].u;
+		v = links.array[l].v;
+		if (b > old_b) {
+			// pushback(ls_end->timesteps, b);
+			intVector_push_unchecked(&ls_end->timesteps, b);
+		}
+		old_b = b;
+
+		add_link[im].b = b;
+		add_link[im].e = e;
+		add_link[im].u = u;
+		add_link[im].v = v;
+
+		del_link[im].b = -1;
+		del_link[im].e = e;
+		del_link[im].u = u;
+		del_link[im].v = v;
+
+		im++;
+	}
+	// fclose(fp);
+
+	ASSERT(im == m);
+
+	// Sort end link
+	// sort(del_link, del_link + m, &endlink_sorter);
+	qsort(del_link, m, sizeof(MyLink), (int (*)(const void*, const void*)) & endlink_sorter);
+	// for (i = 0; i < 100; i++)
+	// {
+	//     cerr << "e = " << del_link[i].e << endl;
+	// }
+
+	ia = 0;
+	id = 0;
+	i = 0;
+	while (ia < m) {
+		ba = add_link[ia].b;
+		ea = add_link[ia].e;
+		ua = add_link[ia].u;
+		va = add_link[ia].v;
+
+		ed = del_link[id].e;
+		ud = del_link[id].u;
+		vd = del_link[id].v;
+
+		if (ba <= ed) {
+			ls_end->link[i++] = add_link[ia++];
+		}
+		else {
+			ls_end->link[i++] = del_link[id++];
+		}
+	}
+	ls_end->m = i;
+
+	// for (i = 0; i < ls_end->m; i++)
+	// {
+	//     b = ls_end->link[i].b;
+	//     e = ls_end->link[i].e;
+	//     u = ls_end->link[i].u;
+	//     v = ls_end->link[i].v;
+	//     cerr << b << " " << e << " " << u << " " << v << endl;
+	// }
+
+	// free(link);
+	// free(line);
+	free(add_link);
+	free(del_link);
+
+	return ls_end;
+}
+
 typedef struct {
 	unsigned long int n;
 	unsigned long int m;
@@ -811,7 +796,7 @@ typedef struct {
 	NeighborListEnd** N; // Neighbors of each node
 	NeighborList** S;	 // Seen edges which must not belong to max cliques anymore
 	MySet* Snodes;		 // Nodes of seen edges
-	MyList* NewEdges;	 // Edges at a given time : have to start max cliques at this time
+	intVector NewEdges;	 // Edges at a given time : have to start max cliques at this time
 	XPR* xpr;			 // X P R bron kerbosh datastructure
 } Datastructure;
 
@@ -819,7 +804,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	NeighborListEnd** N;
 	NeighborList** S;
 	MySet* Snodes;
-	MyList* NewEdges;
+	intVector NewEdges;
 	XPR* xpr;
 
 	int* link = MALLOC(4 * sizeof(int));
@@ -904,7 +889,8 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	N = malloc((n + 1) * sizeof(NeighborListEnd*));
 	S = malloc((n + 1) * sizeof(NeighborList*));
 	Snodes = allocMySet(n + 1);
-	NewEdges = allocMyList(3 * mtmax); // we need to store u,v,e for each starting edge
+	// NewEdges = allocMyList(3 * mtmax); // we need to store u,v,e for each starting edge
+	NewEdges = intVector_with_capacity(3 * mtmax);
 
 	MyLinkStream* ls_end = allocLinkStream_end(lsFile, m, ntimestep);
 
@@ -915,7 +901,7 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	// printf("%zu\n", ls_end->timesteps->n);
 	// printf("%zu\n", ntimestep);
 
-	ASSERT(ls_end->timesteps->n == ntimestep);
+	ASSERT(ls_end->timesteps.size == ntimestep);
 
 	// Fill degree
 	for (i = 0; i < ls_end->m; i++) {
@@ -976,6 +962,146 @@ Datastructure* allocDatastrucure(char* lsFile) {
 	free(degreeMax);
 	free(link);
 	free(line);
+
+	Datastructure* d = MALLOC(sizeof(Datastructure));
+
+	d->n = n;
+	d->m = m;
+	d->ntimestep = ntimestep;
+	d->degmax = dmax;
+	d->ls_end = ls_end;
+	d->N = N;
+	d->S = S;
+	d->Snodes = Snodes;
+	d->NewEdges = NewEdges;
+	d->xpr = xpr;
+
+	return d;
+}
+
+Datastructure* allocDatastrucure_from_links(MyLinkVector links) {
+	NeighborListEnd** N;
+	NeighborList** S;
+	MySet* Snodes;
+	intVector NewEdges;
+	XPR* xpr;
+
+	int b, u, v, i;
+	int n = 0, m = 0, ntimestep = 0;
+	int nmin = -1;
+	int nreal = 0;
+	int mt = 0, mtmax = 0; // nombre max d'arêtes par unité de temps
+	int old_b;
+	int *degreeT, *degreeMax;
+	int dmax, dsum;
+	bool first = true;
+
+	for (i = 0; i < links.size; i++) {
+		MyLink* link = &links.array[i];
+		m++;
+		b = link->b;
+
+		if (first) {
+			old_b = b;
+			ntimestep++;
+			first = false;
+		}
+
+		ASSERT(b >= old_b);
+
+		if (b > old_b) {
+			ntimestep++;
+			if (mt > mtmax) {
+				mtmax = mt;
+			}
+			mt = 1;
+		}
+		else {
+			mt++;
+		}
+
+		old_b = b;
+
+		u = link->u;
+		v = link->v;
+		ASSERT(u < v);
+
+		// node max / min
+		if (nmin == -1) {
+			nmin = u;
+		}
+		if (u < nmin) {
+			nmin = u;
+		}
+		if (v < nmin) {
+			nmin = v;
+		}
+		if (u > n) {
+			n = u;
+		}
+		if (v > n) {
+			n = v;
+		}
+	}
+
+	ASSERT(b == old_b);
+	mt++;
+
+	if (mt > mtmax) {
+		mtmax = mt;
+	}
+
+	// Init data
+	degreeT = calloc(n + 1, sizeof(int));
+	degreeMax = calloc(n + 1, sizeof(int));
+	N = MALLOC((n + 1) * sizeof(NeighborListEnd*));
+	S = MALLOC((n + 1) * sizeof(NeighborList*));
+	Snodes = allocMySet(n + 1);
+	NewEdges = intVector_with_capacity(3 * mtmax);
+
+	MyLinkStream* ls_end = allocLinkStream_end_from_links(links, m, ntimestep);
+
+	ASSERT(ls_end->timesteps.size == ntimestep);
+
+	// Fill degree
+	for (i = 0; i < links.size; i++) {
+		b = links.array[i].b;
+		u = links.array[i].u;
+		v = links.array[i].v;
+		if (b == -1) // end link
+		{
+			degreeT[u]--;
+			degreeT[v]--;
+		}
+		else // new link
+		{
+			degreeT[u]++;
+			degreeT[v]++;
+			if (degreeT[u] > degreeMax[u]) {
+				degreeMax[u] = degreeT[u];
+			}
+			if (degreeT[v] > degreeMax[v]) {
+				degreeMax[v] = degreeT[v];
+			}
+		}
+	}
+
+	// Init N and S
+	dmax = 0;
+	dsum = 0;
+	for (u = 0; u <= n; u++) {
+		if (degreeMax[u] > 0) {
+			N[u] = alloc_NeighborListEnd(degreeMax[u], degreeMax[u]);
+			S[u] = alloc_NeighborList(degreeMax[u], degreeMax[u]);
+			dsum += degreeMax[u];
+			nreal += 1;
+			if (degreeMax[u] > dmax) {
+				dmax = degreeMax[u];
+			}
+		}
+	}
+
+	xpr = allocXPR(n + 1, dmax + 1);
 
 	Datastructure* d = MALLOC(sizeof(Datastructure));
 
@@ -1108,16 +1234,20 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 		}
 
 		const int next_depth = depth + 1;
-		clearMyList(xpr->candidates_to_iterate[depth]);
+		// clearMyList(xpr->candidates_to_iterate[depth]);
+		intVector_clear(&xpr->candidates_to_iterate[depth]);
 
 		// noeuds sur lesquels faire un appel récursif
 		for (i = xpr->beginP[depth]; i < np; i++) {
-			pushback(xpr->candidates_to_iterate[depth], xpr->XPnode[i]);
+			// pushback(xpr->candidates_to_iterate[depth], xpr->XPnode[i]);
+			intVector_push(&xpr->candidates_to_iterate[depth], xpr->XPnode[i]);
 		}
 
 		// parcours des noeuds sur lesquels faire un appel récursif
-		for (i = 0; i < xpr->candidates_to_iterate[depth]->n; i++) {
-			u = xpr->candidates_to_iterate[depth]->tab[i];
+		// for (i = 0; i < xpr->candidates_to_iterate[depth]->n; i++) {
+		for (i = 0; i < xpr->candidates_to_iterate[depth].size; i++) {
+			// u = xpr->candidates_to_iterate[depth]->tab[i];
+			u = xpr->candidates_to_iterate[depth].array[i];
 
 			// Reduced clique duration
 			e_new = min(xpr->timeEndRNode[depth][u], e);
@@ -1164,7 +1294,8 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 			reorderS_P(xpr, S, next_depth);
 
 			// Ajouter u à R
-			pushback(xpr->R, u);
+			// pushback(xpr->R, u);
+			intVector_push(&xpr->R, u);
 
 			// Appel Récursif
 			// BKtemporal(xpr, b, e_new, N, S, cpt, next_depth, PIVOT);
@@ -1179,15 +1310,18 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 			}
 
 			// Enlever u de R
-			popback(xpr->R);
+			// popback(xpr->R);
+			intVector_pop_last(&xpr->R);
 
 			// Enlever u de P et le mettre dans X, à depth
 			swap_from_P_to_X(xpr, u, depth);
 		}
 
 		// Réordonner X pour remettre à la bonne place le X du début
-		for (i = 0; i < xpr->candidates_to_iterate[depth]->n; i++) {
-			u = xpr->candidates_to_iterate[depth]->tab[i];
+		// for (i = 0; i < xpr->candidates_to_iterate[depth]->n; i++) {
+		for (i = 0; i < xpr->candidates_to_iterate[depth].size; i++) {
+			// u = xpr->candidates_to_iterate[depth]->tab[i];
+			u = xpr->candidates_to_iterate[depth].array[i];
 			swap_from_X_to_P(xpr, u, depth);
 		}
 	}
@@ -1214,8 +1348,8 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 		if (BK_not_called) {
 			// And R max in node
 			// mc->sumSizeMaxNodeCliques += xpr->R->n;
-			if (xpr->R->n > mc->maxCliqueSize) {
-				mc->maxCliqueSize = xpr->R->n;
+			if (xpr->R.size > mc->maxCliqueSize) {
+				mc->maxCliqueSize = xpr->R.size;
 			}
 		}
 		// (*cpt)++;
@@ -1236,11 +1370,11 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 		Clique c = {
 			.time_start = b,
 			.time_end = e,
-			.nb_nodes = xpr->R->n,
-			.nodes = malloc(xpr->R->n * sizeof(NodeId)),
+			.nb_nodes = xpr->R.size,
+			.nodes = malloc(xpr->R.size * sizeof(NodeId)),
 		};
-		for (i = 0; i < xpr->R->n; i++) {
-			c.nodes[i] = xpr->R->tab[i];
+		for (i = 0; i < xpr->R.size; i++) {
+			c.nodes[i] = xpr->R.array[i];
 		}
 		CliqueVector_push(cliques, c);
 
@@ -1265,7 +1399,7 @@ void BKtemporal(XPR* xpr, int b, int e, NeighborListEnd** N, NeighborList** S,
 	}
 }
 
-void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int b, NeighborListEnd** N, XPR* xpr,
+void MaxCliquesFromEdges(intVector NewEdges, NeighborList** S, MySet* Snodes, int b, NeighborListEnd** N, XPR* xpr,
 						 // int *cpt,
 						 MyCounter* mc, bool PIVOT, CliqueVector* cliques) {
 	// int a = 1583;
@@ -1282,10 +1416,11 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 	const int depth = 0;
 	const int next_depth = depth + 1;
 
-	for (i = 0; i < NewEdges->n; i += 3) {
-		u = NewEdges->tab[i];
-		v = NewEdges->tab[i + 1];
-		e = NewEdges->tab[i + 2];
+	ASSERT(NewEdges.size % 3 == 0);
+	for (i = 0; i < NewEdges.size; i += 3) {
+		u = NewEdges.array[i];
+		v = NewEdges.array[i + 1];
+		e = NewEdges.array[i + 2];
 
 		// cout << "u = " << u << endl;
 		// cout << xpr->XPindex[u] << endl;
@@ -1362,9 +1497,12 @@ void MaxCliquesFromEdges(MyList* NewEdges, NeighborList** S, MySet* Snodes, int 
 		reorderS_P(xpr, S, next_depth);
 
 		// Initialisation de R = {u,v}
-		clearMyList(xpr->R);
-		pushback(xpr->R, u);
-		pushback(xpr->R, v);
+		// clearMyList(xpr->R);
+		// pushback(xpr->R, u);
+		// pushback(xpr->R, v);
+		intVector_clear(&xpr->R);
+		intVector_push(&xpr->R, u);
+		intVector_push(&xpr->R, v);
 
 		// Appel du calcul des cliques max
 		// BKtemporal(xpr, b, e, N, S, cpt, next_depth, PIVOT);
@@ -1398,7 +1536,7 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 	NeighborListEnd** N = d->N;
 	NeighborList** S = d->S;
 	MySet* Snodes = d->Snodes;
-	MyList* NewEdges = d->NewEdges;
+	intVector NewEdges = d->NewEdges;
 	XPR* xpr = d->xpr;
 	CliqueVector result = CliqueVector_with_capacity(100);
 
@@ -1411,7 +1549,7 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 
 		if (b == -1) { // end link
 
-			if (e >= old_b && NewEdges->n > 0) {
+			if (e >= old_b && NewEdges.size > 0) {
 				// MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, cpt, PIVOT);
 				MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT, &result);
 
@@ -1420,7 +1558,8 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 				// cout << old_b << " " << (t2.tv_sec * 1000000 + t2.tv_usec) - (t1.tv_sec * 1000000 + t1.tv_usec) <<
 				// endl; gettimeofday(&t1, NULL);
 
-				clearMyList(NewEdges);
+				// clearMyList(NewEdges);
+				intVector_clear(&NewEdges);
 				old_b = e;
 			}
 
@@ -1449,7 +1588,8 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 				// cout << old_b << " " << (t2.tv_sec * 1000000 + t2.tv_usec) - (t1.tv_sec * 1000000 + t1.tv_usec) <<
 				// endl; gettimeofday(&t1, NULL);
 
-				clearMyList(NewEdges);
+				// clearMyList(NewEdges);
+				intVector_clear(&NewEdges);
 				old_b = b;
 			}
 
@@ -1472,12 +1612,15 @@ CliqueVector cliques_sequential(MyLinkStream* ls_end, Datastructure* d, MyCounte
 			// }
 			add_NeighborListEnd(N[v], u, e);
 
-			pushback(NewEdges, u);
-			pushback(NewEdges, v);
-			pushback(NewEdges, e);
+			// pushback(NewEdges, u);
+			// pushback(NewEdges, v);
+			// pushback(NewEdges, e);
+			intVector_push(&NewEdges, u);
+			intVector_push(&NewEdges, v);
+			intVector_push(&NewEdges, e);
 		}
 	}
-	if (NewEdges->n > 0) {
+	if (NewEdges.size > 0) {
 		MaxCliquesFromEdges(NewEdges, S, Snodes, old_b, N, xpr, mc, PIVOT, &result);
 		// TIME FOR THIS STEP
 		// gettimeofday(&t2, NULL);
@@ -1590,4 +1733,37 @@ CliqueVector maximal_cliques(LinkVector ls) {
 	t1 = t2;*/
 
 	// return CliqueVector_new();
+}
+
+CliqueVector Stream_maximal_cliques(Stream* st) {
+	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	// LinkVector ls = LinkVector_new();
+	// LinksIterator it = funcs.links_set(st->stream_data);
+	// FOR_EACH_LINK(link_id, it) {
+	// 	Link link = funcs.nth_link(st->stream_data, link_id);
+	// 	LinkVector_push(&ls, link);
+	// }
+	// CliqueVector v = maximal_cliques(ls);
+	// LinkVector_destroy(ls);
+
+	MyLinkVector links = MyLinkVector_new();
+	LinksIterator links_set = funcs.links_set(st->stream_data);
+	FOR_EACH_LINK(link_id, links_set) {
+		Link link = funcs.nth_link(st->stream_data, link_id);
+		for (size_t i = 0; i < link.presence.nb_intervals; i++) {
+			MyLink l = (MyLink){.b = link.presence.intervals[i].start,
+								.e = link.presence.intervals[i].end,
+								.u = link.nodes[0],
+								.v = link.nodes[1]};
+			MyLinkVector_push(&links, l);
+		}
+	}
+
+	MyLinkVector_sort(&links);
+	Datastructure* d = allocDatastrucure_from_links(links);
+	MyCounter* mc = alloc_MyCounter();
+	CliqueVector v = cliques_sequential(d->ls_end, d, mc, true);
+	MyLinkVector_destroy(links);
+
+	return v;
 }
