@@ -5,4 +5,5 @@ Checks: "
   misc-*,
   bugprone-*,
   clang-analyzer-*,
+  readability-isolate-declaration,
   "

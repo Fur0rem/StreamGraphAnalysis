@@ -82,6 +82,13 @@ void BitArray_set_one(BitArray array, size_t index);
 void BitArray_set_zero(BitArray array, size_t index); /**< Like BitArray_set_one but sets the bit to 0. */
 
 /**
+ * @brief Sets all the bits in the BitArray to 1.
+ * @param[in, out] array The BitArray.
+ */
+void BitArray_all_to_one(BitArray array);
+void BitArray_all_to_zero(BitArray array); /**< Like BitArray_set_all_ones but sets all the bits to 0. */
+
+/**
  * @brief Performs a bitwise and with the bit at the given index.
  * @param[in, out] array The BitArray.
  * @param[in] index The index of the bit.
