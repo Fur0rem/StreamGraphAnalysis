@@ -78,8 +78,12 @@ String Clique_to_string(const Clique* c) {
 	return str;
 }
 
+void Clique_destroy(Clique c) {
+	free(c.nodes);
+}
+
 DefineVector(Clique);
-DefineVectorDeriveRemove(Clique, NO_FREE(Clique));
+DefineVectorDeriveRemove(Clique, Clique_destroy);
 DefineVectorDeriveEquals(Clique);
 DefineVectorDeriveToString(Clique);
 
@@ -103,6 +107,7 @@ typedef struct {
 	// FOR ITERATIVE CODE
 	size_t* i; // i[depth] = indice courant dans candidates_to_iterate[depth]
 	size_t* e; // e[depth] temps de fin de R à depth
+	size_t depth_pour_free_jsp;
 } XPR;
 
 XPR* allocXPR(size_t n, size_t depthMax) {
@@ -132,7 +137,26 @@ XPR* allocXPR(size_t n, size_t depthMax) {
 		xpr->timeEndRNode[depth] = MALLOC(n * sizeof(size_t));
 		xpr->candidates_to_iterate[depth] = size_tVector_with_capacity(depthMax);
 	}
+	xpr->depth_pour_free_jsp = depthMax;
 	return xpr;
+}
+
+void XPR_free(XPR* xpr) {
+	free(xpr->XPnode);
+	free(xpr->XPindex);
+	free(xpr->beginX);
+	free(xpr->beginP);
+	free(xpr->endP);
+	for (size_t depth = 0; depth < xpr->depth_pour_free_jsp; depth++) {
+		free(xpr->timeEndRNode[depth]);
+		size_tVector_destroy(xpr->candidates_to_iterate[depth]);
+	}
+	free(xpr->timeEndRNode);
+	size_tVector_destroy(xpr->R);
+	free(xpr->candidates_to_iterate);
+	free(xpr->i);
+	free(xpr->e);
+	free(xpr);
 }
 
 bool is_in_P(XPR* xpr, size_t w, size_t depth) {
@@ -259,6 +283,11 @@ NeighborList alloc_NeighborList(size_t degreeMax, size_t depthMax) {
 	return Nl;
 }
 
+void free_NeighborList(NeighborList* Nl) {
+	free(Nl->n);
+	free(Nl->node);
+}
+
 void add_NeighborList(NeighborList* Nl, size_t u) {
 	// Les tailles sont allouées à l'avance : ne peut pas dépasser
 	// ajout d'un noeud seulement pour depth == 0
@@ -330,6 +359,12 @@ NeighborListEnd alloc_NeighborListEnd(size_t degreeMax, size_t depthMax) {
 	Nle.node = MALLOC(degreeMax * sizeof(size_t));
 	Nle.end = MALLOC(degreeMax * sizeof(size_t));
 	return Nle;
+}
+
+void free_NeighborListEnd(NeighborListEnd* Nle) {
+	free(Nle->n);
+	free(Nle->node);
+	free(Nle->end);
 }
 
 void add_NeighborListEnd(NeighborListEnd* Nle, size_t u, size_t e) {
@@ -625,7 +660,36 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 	d->NewEdges = NewEdges;
 	d->xpr = xpr;
 
+	free(degreeT);
+	free(degreeMax);
+
 	return d;
+}
+
+void freeMySet(MySet* s) {
+	free(s->list);
+	BitArray_destroy(s->tab);
+	free(s);
+}
+
+void freeLinkPresenceStream(LinkPresenceStream* ls) {
+	free(ls->link);
+	size_tVector_destroy(ls->timesteps);
+	free(ls);
+}
+
+void DataStructure_free(Datastructure* d) {
+	for (size_t u = 0; u <= d->n; u++) {
+		free_NeighborListEnd(&d->N[u]);
+		free_NeighborList(&d->S[u]);
+	}
+	free(d->N);
+	free(d->S);
+	freeMySet(d->Snodes);
+	size_tVector_destroy(d->NewEdges);
+	XPR_free(d->xpr);
+	freeLinkPresenceStream(d->ls_end);
+	free(d);
 }
 
 size_t choose_pivot(XPR* xpr, NeighborListEnd* N, size_t depth) {
@@ -676,6 +740,10 @@ MyCounter* alloc_MyCounter() {
 	mc->nLeafBad = 0;
 	mc->nLeafGood = 0;
 	return mc;
+}
+
+void MyCounter_free(MyCounter* mc) {
+	free(mc);
 }
 
 void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* S, MyCounter* mc, size_t depth,
@@ -997,6 +1065,8 @@ CliqueVector Stream_maximal_cliques(Stream* st) {
 	MyCounter* mc = alloc_MyCounter();
 	CliqueVector v = cliques_sequential(d->ls_end, d, mc);
 	LinkPresenceVector_destroy(links);
+	MyCounter_free(mc);
+	DataStructure_free(d);
 
 	return v;
 }
