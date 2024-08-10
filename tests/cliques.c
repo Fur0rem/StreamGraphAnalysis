@@ -80,6 +80,7 @@ bool test_maximal_cliques() {
 	String_destroy(cliques_str);
 
 	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
 	/*1 5 1 2
 	2 4 0 1 2
 	3 11 2 3
