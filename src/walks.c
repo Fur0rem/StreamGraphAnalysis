@@ -851,3 +851,28 @@ size_t Walk_duration(Walk* walk) {
 	size_t end_time = walk->steps.array[walk->steps.size - 1].time;
 	return end_time - start_time;
 }
+
+// TODO: make better name idk ?
+size_t Walk_duration_integral(Walk* walk) {
+	// Area under the curve from [start, end] of the walk
+	// The area under the affine function (duration - x) over the interval [start, end] = t
+	// is ((d - t) * t) + (t^2 / 2), which can be simplified to (d * t) - (t^2 / 2)
+	size_t optimality_begin = walk->optimality.start;
+	size_t optimality_end = walk->optimality.end;
+	size_t duration = Walk_duration(walk);
+	size_t time_frame = optimality_end - optimality_begin;
+	size_t integral = (duration * time_frame) - (time_frame * time_frame / 2);
+	return integral;
+}
+
+size_t Walk_length_integral(Walk* walk) {
+	// Area under the curve from [start, end] of the walk
+	// The area under the constant function (length) over the interval [start, end] = t
+	// is (length * t)
+	size_t optimality_begin = walk->optimality.start;
+	size_t optimality_end = walk->optimality.end;
+	size_t length = Walk_length(walk);
+	size_t time_frame = optimality_end - optimality_begin;
+	size_t integral = length * time_frame;
+	return integral;
+}
