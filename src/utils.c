@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -100,4 +101,17 @@ char* read_file(const char* filename) {
 	buffer[length] = '\0';
 	fclose(file);
 	return buffer;
+}
+
+void String_append_formatted(String* string, const char* format, ...) {
+	va_list args;
+	va_start(args, format);
+	size_t len = vsnprintf(NULL, 0, format, args);
+	va_end(args);
+	char* buffer = malloc(len + 1);
+	va_start(args, format);
+	vsnprintf(buffer, len + 1, format, args);
+	va_end(args);
+	String_push_str(string, buffer);
+	free(buffer);
 }

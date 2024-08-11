@@ -98,6 +98,7 @@ String String_from_duplicate(const char* str);
 
 void String_push(String* string, char c);
 void String_push_str(String* string, const char* str);
+void String_append_formatted(String* string, const char* format, ...);
 void String_concat(String* a, const String* b);
 
 void String_destroy(String string);

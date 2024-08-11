@@ -3,7 +3,6 @@
 - Name guard for different iterators of the different stream types
 - Check for data coherence in the input file
 - Automatic translation for scaling by the number of digits after the comma you see in the input file at max
-- Add example L and use it for testing too
 - Automate tests and formatting using GitHub actions
 - Choose between calling nodes temporal nodes or nodes
 - Rename test files (?)
@@ -18,6 +17,7 @@
 - Debug for use of uninitialised table of events
 - Separate the metrics into different files
 - Verify catch implementations for all functions
+- const qualifier when needed
 
 - Read all the TODOs in the code
 
