@@ -9,6 +9,7 @@
 #include "stream/chunk_stream_small.h"
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
+#include "stream/snapshot_stream.h"
 #include "stream_functions.h"
 #include "stream_graph/links_set.h"
 #include "units.h"

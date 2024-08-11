@@ -15,9 +15,9 @@ typedef struct {
 	BitArray links_present;
 } ChunkStream;
 
-ChunkStream ChunkStream_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
-							 size_t time_end);
-Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start, size_t time_end);
+Stream CS_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start, size_t time_end);
+Stream CS_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+				  size_t time_end);
 void CS_destroy(Stream stream);
 
 void filter_interval(Interval* interval, Interval snapshot);

@@ -3,6 +3,7 @@
 #include "../src/stream/chunk_stream_small.h"
 #include "../src/stream/full_stream_graph.h"
 #include "../src/stream/link_stream.h"
+#include "../src/stream/snapshot_stream.h"
 #include "test.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -239,7 +240,7 @@ bool test_chunk_stream_nodes_set() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st = CS_from(&sg, &nodes, &links, 0, 100);
+	Stream st = CS_with(&sg, &nodes, &links, 0, 100);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -271,7 +272,7 @@ bool test_neighbours_of_node_chunk_stream() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st = CS_from(&sg, &nodes, &links, 0, 100);
+	Stream st = CS_with(&sg, &nodes, &links, 0, 100);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -303,7 +304,7 @@ bool test_times_node_present_chunk_stream() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
+	Stream st = CS_with(&sg, &nodes, &links, 20, 80);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -335,7 +336,7 @@ bool test_times_node_present_chunk_stream_2() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st = CS_from(&sg, &nodes, &links, 40, 45);
+	Stream st = CS_with(&sg, &nodes, &links, 40, 45);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -367,7 +368,7 @@ bool test_link_presence_chunk_stream() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
+	Stream st = CS_with(&sg, &nodes, &links, 20, 80);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	LinksIterator links_iter = funcs.links_set(st.stream_data);
 	FOR_EACH_LINK(link_id, links_iter) {
@@ -400,7 +401,7 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st = CS_from(&sg, &nodes, &links, 20, 80);
+	Stream st = CS_with(&sg, &nodes, &links, 20, 80);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_present_at_t(st.stream_data, 40);
 	printf("STUFF PRESENT AT 40\n");

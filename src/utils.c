@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
 String String_from_owned(char* str) {
@@ -75,4 +76,28 @@ int String_hash(const String* string) {
 		hash = ((hash * 31) + str[i]) ^ (str[i / 2] | str[i / 4]);
 	}
 	return hash;
+}
+
+char* read_file(const char* filename) {
+	FILE* file = fopen(filename, "r");
+	if (file == NULL) {
+		fprintf(stderr, "Error opening file %s\n", filename);
+		exit(1);
+	}
+	fseek(file, 0, SEEK_END);
+	size_t length = ftell(file);
+	fseek(file, 0, SEEK_SET);
+	char* buffer = malloc(length + 1);
+	if (buffer == NULL) {
+		fprintf(stderr, "Error allocating memory for file %s\n", filename);
+		exit(1);
+	}
+	size_t read = fread(buffer, 1, length, file);
+	if (read != length) {
+		fprintf(stderr, "Error reading file %s\n", filename);
+		exit(1);
+	}
+	buffer[length] = '\0';
+	fclose(file);
+	return buffer;
 }
