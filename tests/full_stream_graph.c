@@ -19,6 +19,7 @@ bool test_links_at_time_80() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
 	return true;
 }
 

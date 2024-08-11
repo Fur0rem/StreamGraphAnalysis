@@ -556,6 +556,7 @@ bool test_clustering_coeff_of_node() {
 	Stream st = FullStreamGraph_from(&sg);
 	double clustering_coeff_c = Stream_clustering_coeff_of_node(&st, 2);
 	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(clustering_coeff_c, 3.0 / 5.0, 1e-6);
 }
 

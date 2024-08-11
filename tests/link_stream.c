@@ -21,8 +21,9 @@ bool test_links_at_time_8() {
 	String_destroy(str);
 	LinkIdVector_destroy(links);
 	LinkIdVector_destroy(expected);
+	events_destroy(&sg);
 	StreamGraph_destroy(sg);
-	// Stream_destroy(ls);
+	LS_destroy(ls);
 	return true;
 }
 
@@ -39,6 +40,11 @@ bool test_nodes_present() {
 		nodes_present &= EXPECT(NodeIdVector_equals(&nodes_present_at_t, &nodes_expected));
 		NodeIdVector_destroy(nodes_present_at_t);
 	}
+
+	NodeIdVector_destroy(nodes_expected);
+	events_destroy(&sg);
+	StreamGraph_destroy(sg);
+	LS_destroy(ls);
 	return nodes_present;
 }
 
@@ -58,6 +64,11 @@ bool test_nodes_presence() {
 		nodes_always_present &= EXPECT(IntervalVector_equals(&intervals_node, &intervals));
 		IntervalVector_destroy(intervals_node);
 	}
+
+	IntervalVector_destroy(intervals);
+	StreamGraph_destroy(sg);
+	LS_destroy(ls);
+
 	return nodes_always_present;
 }
 
@@ -98,6 +109,12 @@ bool test_neighbours_of_node() {
 		has_right_neighbours &= EXPECT(LinkIdVector_equals(&neighbours_ids, &neighbours[node_id]));
 		LinkIdVector_destroy(neighbours_ids);
 	}
+
+	for (size_t i = 0; i < 4; i++) {
+		LinkIdVector_destroy(neighbours[i]);
+	}
+	StreamGraph_destroy(sg);
+	LS_destroy(ls);
 
 	return has_right_neighbours;
 }

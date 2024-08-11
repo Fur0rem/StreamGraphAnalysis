@@ -460,168 +460,32 @@ double Stream_transitivity_ratio(Stream* stream) {
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	size_t sum_num = 0;
 	size_t sum_den = 0;
-	/*NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);
-	FOR_EACH_NODE(node_id, nodes) {
-		LinksIterator neighbours = stream_functions.neighbours_of_node(stream->stream_data, node_id);
-		FOR_EACH_LINK(link_id, neighbours) {
-			Link link = stream_functions.link_by_id(stream->stream_data, link_id);
-			NodeId neighbour = link.nodes[0] == node_id ? link.nodes[1] : link.nodes[0];
-			LinksIterator neighbours_of_neighbour = stream_functions.neighbours_of_node(stream->stream_data, neighbour);
-			FOR_EACH_LINK(neighbour_link_id, neighbours_of_neighbour) {
-				Link neighbour_link = stream_functions.link_by_id(stream->stream_data, neighbour_link_id);
-				NodeId neighbour_neighbour =
-					neighbour_link.nodes[0] == neighbour ? neighbour_link.nodes[1] : neighbour_link.nodes[0];
-				if (neighbour_neighbour == node_id) {
-					// check if it's an actual triplet of unique nodes
-					NodeId nodes[3] = {node_id, neighbour, neighbour_neighbour};
-					//if (!(nodes[0] != nodes[1] && nodes[0] != nodes[2] && nodes[1] != nodes[2])) {
-					//	continue;
-					//}
-					// Triangle found
-					TimesIterator times_u = stream_functions.times_link_present(stream->stream_data, link_id);
-					TimesIterator times_v = stream_functions.times_link_present(stream->stream_data, neighbour_link_id);
-					TimesIterator times_w = stream_functions.times_node_present(stream->stream_data, node_id);
 
-					TimesIterator times_uv = TimesIterator_intersection(times_u, times_v);
-					times_u = stream_functions.times_link_present(stream->stream_data, link_id);
-					TimesIterator times_uw = TimesIterator_intersection(times_u, times_w);
-
-					TimesIterator times_uv_uw = TimesIterator_intersection(times_uv, times_uw);
-					size_t t_uv_uw = total_time_of(times_uv_uw);
-					sum_num += t_uv_uw;
-
-					// recompute uv
-					times_u = stream_functions.times_link_present(stream->stream_data, link_id);
-					times_v = stream_functions.times_link_present(stream->stream_data, neighbour_link_id);
-					times_uv = TimesIterator_intersection(times_u, times_v);
-
-					// recompute uw
-					times_u = stream_functions.times_link_present(stream->stream_data, link_id);
-					times_w = stream_functions.times_node_present(stream->stream_data, node_id);
-					times_uw = TimesIterator_intersection(times_u, times_w);
-
-					times_w = stream_functions.times_node_present(stream->stream_data, node_id);
-					times_v = stream_functions.times_link_present(stream->stream_data, neighbour_link_id);
-					TimesIterator times_vw = TimesIterator_intersection(times_v, times_w);
-
-					// do the intersection of all 3
-					times_uv_uw = TimesIterator_intersection(times_uw, times_uv);
-					TimesIterator times_uv_uw_vw = TimesIterator_intersection(times_uv_uw, times_vw);
-					size_t t_uv_uw_vw = total_time_of(times_uv_uw_vw);
-					sum_den += t_uv_uw_vw;
-
-					printf("a: %zu, b: %zu, c: %zu, time V: %zu, time triangle: %zu\n", node_id, neighbour,
-						   neighbour_neighbour, t_uv_uw, t_uv_uw_vw);
-				}
-			}
-		}
-	}*/
-
-	/*∨ = [2, 4] × {(b, a, c), (c, a, b)}
-	∪ ([1, 4] ∪ [6, 8]) × {(a, b, c), (c, b, a)}
-	∪ [7, 8] × {(c, b, d), (d, b, c)}
-	∪ [7, 9] × {(a, b, d), (d, b, a)}
-	∪ [2, 5] × {(a, c, b), (b, c, a)}
-	∪ [6, 8] × {(b, c, d), (d, c, b)}
-	∪ [7, 9] × {(b, d, c), (c, d, b)}*/
-	/*const ExpectedTriplets expected[18] = {
-	// In the line [x, y] × {(a, b, c), (c, b, a)}
-	// It turns into one triplet with .t = (y - x), .u = a, .v = b, .w = c
-	// And one triplet with .t = (y - x), .u = c, .v = b, .w = a
-	// with a=0, b=1, c=2, d=3
-		(ExpectedTriplets){.t = (4 - 2),			 .u = 1, .v = 0, .w = 2},
-		(ExpectedTriplets){.t = (4 - 2),			 .u = 2, .v = 0, .w = 1},
-		(ExpectedTriplets){.t = (4 - 1) + (8 - 6), .u = 0, .v = 1, .w = 2},
-		(ExpectedTriplets){.t = (4 - 1) + (8 - 6), .u = 2, .v = 1, .w = 0},
-		(ExpectedTriplets){.t = (8 - 7),			 .u = 2, .v = 1, .w = 3},
-		(ExpectedTriplets){.t = (8 - 7),			 .u = 3, .v = 1, .w = 2},
-		(ExpectedTriplets){.t = (9 - 7),			 .u = 0, .v = 1, .w = 3},
-		(ExpectedTriplets){.t = (9 - 7),			 .u = 3, .v = 1, .w = 0},
-		(ExpectedTriplets){.t = (5 - 2),			 .u = 0, .v = 2, .w = 1},
-		(ExpectedTriplets){.t = (5 - 2),			 .u = 1, .v = 2, .w = 0},
-		(ExpectedTriplets){.t = (8 - 6),			 .u = 1, .v = 2, .w = 3},
-		(ExpectedTriplets){.t = (8 - 6),			 .u = 3, .v = 2, .w = 1},
-		(ExpectedTriplets){.t = (9 - 7),			 .u = 1, .v = 3, .w = 2},
-		(ExpectedTriplets){.t = (9 - 7),			 .u = 2, .v = 3, .w = 1},
-	};*/
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(u, nodes) {
-		NodesIterator nodes2 = stream_functions.nodes_set(stream->stream_data);
 		LinksIterator n_u = stream_functions.neighbours_of_node(stream->stream_data, u);
-		// FOR_EACH_NODE(v, nodes2) {
 		FOR_EACH_LINK(uv, n_u) {
 			Link link_uv = stream_functions.link_by_id(stream->stream_data, uv);
 			NodeId v = Link_get_other_node(&link_uv, u);
-			// NodesIterator nodes3 = stream_functions.nodes_set(stream->stream_data);
-			// FOR_EACH_NODE(w, nodes3) {
 			LinksIterator n_v = stream_functions.neighbours_of_node(stream->stream_data, v);
 			FOR_EACH_LINK(vw, n_v) {
 				Link link_vw = stream_functions.link_by_id(stream->stream_data, vw);
-				NodeId w = link_vw.nodes[0] == v ? link_vw.nodes[1] : link_vw.nodes[0];
-				/*const int SPECIAL_U = 0;
-				const int SPECIAL_V = 2;
-				const int SPECIAL_W = 1;*/
-				/*if (u == v || u == w || v == w) {
-					continue;
-				}*/
+				NodeId w = Link_get_other_node(&link_vw, v);
+
 				// If (u,v,w) is present, so is (w,v,u), and therefore half can be skipped.
 				if (w >= u) {
 					continue;
 				}
-				/*if (u == SPECIAL_U && v == SPECIAL_V && w == SPECIAL_W) {
-					printf(TEXT_BOLD "SPECIAL CASE\n");
-				}*/
-				/*LinkId uv, uw, vw;
-				LinksIterator links = stream_functions.links_set(stream->stream_data);
-				bool found_uv, found_uw, found_vw;
-				found_uv = found_uw = found_vw = false;
-				FOR_EACH_LINK(link_id, links) {
-					Link link = stream_functions.link_by_id(stream->stream_data, link_id);
-					if ((link.nodes[0] == u && link.nodes[1] == v) || (link.nodes[0] == v && link.nodes[1] == u)) {
-						uv = link_id;
-						found_uv = true;
-					}
-					else if ((link.nodes[0] == u && link.nodes[1] == w) || (link.nodes[0] == w && link.nodes[1] == u)) {
-						uw = link_id;
-						found_uw = true;
-					}
-					else if ((link.nodes[0] == v && link.nodes[1] == w) || (link.nodes[0] == w && link.nodes[1] == v)) {
-						vw = link_id;
-						found_vw = true;
-					}
-				}*/
-				// LinkId uw = SIZE_MAX;
-				// LinksIterator n_w = stream_functions.neighbours_of_node(stream->stream_data, w);
-				// FOR_EACH_LINK(link_id, n_w) {
-				// 	Link link = stream_functions.link_by_id(stream->stream_data, link_id);
-				// 	if (link.nodes[0] == u || link.nodes[1] == u) {
-				// 		uw = link_id;
-				// 		break;
-				// 	}
-				// }
-				LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
-				// printf("uw = %zu | uw2 = %zu\n u=%zu | v=%zu | w=%zu\n", uw, uw2, u, v, w);
 
-				// printf("uv: %zu, uw: %zu, vw: %zu\n", uv, uw, vw);
-				// if (found_uv && found_vw) {
+				LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
+
 				TimesIterator times_uv = stream_functions.times_link_present(stream->stream_data, uv);
 				TimesIterator times_vw = stream_functions.times_link_present(stream->stream_data, vw);
 				TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
 
 				size_t time_of_triplet = total_time_of(times_uv_N_vw);
 				sum_den += time_of_triplet;
-				//}
 
-				/*if (found_uv && found_vw && found_uw) {
-					TimesIterator times_uv = stream_functions.times_link_present(stream->stream_data, uv);
-					TimesIterator times_uw = stream_functions.times_link_present(stream->stream_data, uw);
-					TimesIterator times_vw = stream_functions.times_link_present(stream->stream_data, vw);
-					TimesIterator times_uv_N_uw = TimesIterator_intersection(times_uv, times_uw);
-					TimesIterator times_uv_N_uw_N_vw = TimesIterator_intersection(times_uv_N_uw, times_vw);
-
-					size_t time_of_triangle = total_time_of(times_uv_N_uw_N_vw);
-					sum_num += time_of_triangle;
-				}*/
 				if (uw != SIZE_MAX) { // Triangle
 					TimesIterator times_uv = stream_functions.times_link_present(stream->stream_data, uv);
 					TimesIterator times_uw = stream_functions.times_link_present(stream->stream_data, uw);
@@ -632,48 +496,9 @@ double Stream_transitivity_ratio(Stream* stream) {
 					size_t time_of_triangle = total_time_of(times_uv_N_uw_N_vw);
 					sum_num += time_of_triangle;
 				}
-
-				/*printf("u: %zu, v: %zu, w: %zu, time of triplet: %zu, time of triangle: %zu\n", u, v, w,
-					   time_of_triplet, time_of_triangle);
-
-				if (u == SPECIAL_U && v == SPECIAL_V && w == SPECIAL_W) {
-					printf("END SPECIAL CASE\n" TEXT_RESET);
-				}*/
-
-				// look if the time of the triplet is the same as the expected time
-				/*bool found = false;
-				for (size_t i = 0; i < sizeof(expected) / sizeof(ExpectedTriplets); i++) {
-					if (expected[i].u == u && expected[i].v == v && expected[i].w == w) {
-						if (time_of_triplet != expected[i].t) {
-							printf(TEXT_RED
-								   "ERROR: for triplet %zu, %zu, %zu, expected time is %d, got %zu\n" TEXT_RESET,
-								   u, v, w, expected[i].t, time_of_triplet);
-						}
-						else {
-							printf(TEXT_GREEN
-								   "SUCCESS: for triplet %zu, %zu, %zu, expected time is %d, got %zu\n" TEXT_RESET,
-								   u, v, w, expected[i].t, time_of_triplet);
-						}
-						found = true;
-					}
-				}
-				if (!found) {
-					if (time_of_triplet != 0) {
-						printf(TEXT_RED
-							   "ERROR: for triplet %zu, %zu, %zu, expected time is not found, got %zu\n" TEXT_RESET,
-							   u, v, w, time_of_triplet);
-					}
-					else {
-						printf(TEXT_GREEN
-							   "SUCCESS: for triplet %zu, %zu, %zu, expected time is not found, got %zu\n" TEXT_RESET,
-							   u, v, w, time_of_triplet);
-					}
-				}*/
 			}
 		}
 	}
-
-	// printf("sum_num = %zu, sum_den = %zu\n", sum_num, sum_den);
 
 	return (double)sum_num / (double)sum_den;
 }

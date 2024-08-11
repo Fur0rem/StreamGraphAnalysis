@@ -148,7 +148,7 @@ String Walk_to_string(const Walk* walk) {
 	// char2Vector_append(&str, buf, strlen(buf));
 	// char2Vector_append(&str, APPEND_CONST("\n"));
 	String_push_str(&str, "Optimal at ");
-	String_concat_copy(&str, &time_str);
+	String_concat_consume(&str, &time_str);
 	String_push(&str, '\n');
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream_data;
@@ -198,7 +198,7 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 		// free(str);
 		String walk_str = Walk_to_string(&wi->walk_or_reason.walk);
 		String str = String_from_duplicate("WalkInfo(WALK, ");
-		String_concat_copy(&str, &walk_str);
+		String_concat_consume(&str, &walk_str);
 		String_push(&str, ')');
 		return str;
 	}
@@ -273,13 +273,19 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 	return walks;
 }
 
+void WalkInfo_destroy(WalkInfo wi) {
+	if (wi.type == WALK) {
+		Walk_destroy(wi.walk_or_reason.walk);
+	}
+}
+
 // TODO : put it in the right place
 DefineVector(WalkStep);
 DefineVectorDeriveRemove(WalkStep, NO_FREE(WalkStep));
 DefineVectorDeriveToString(WalkStep);
 
 DefineVector(WalkInfo);
-DefineVectorDeriveRemove(WalkInfo, NO_FREE(WalkInfo));
+DefineVectorDeriveRemove(WalkInfo, WalkInfo_destroy);
 DefineVectorDeriveToString(WalkInfo);
 
 // TODO : this doesn't work (why i copy pasted the other one ???)
@@ -541,12 +547,6 @@ cleanup_and_return:
 
 void Walk_destroy(Walk walk) {
 	WalkStepVector_destroy(walk.steps);
-}
-
-void WalkInfo_destroy(WalkInfo wi) {
-	if (wi.type == WALK) {
-		Walk_destroy(wi.walk_or_reason.walk);
-	}
 }
 
 /*typedef struct {
