@@ -701,6 +701,9 @@ bool Stream_equals(const Stream* stream1, const Stream* stream2) {
 		if (!IntervalVector_equals(&times_n1, &times_n2)) {
 			IntervalVector_destroy(times_n1);
 			IntervalVector_destroy(times_n2);
+			// TODO: remove repetition of destroy
+			NodeIdVector_destroy(nodes_set_1);
+			NodeIdVector_destroy(nodes_set_2);
 			printf("Times of node %zu are different\n", node);
 			return false;
 		}
@@ -714,6 +717,8 @@ bool Stream_equals(const Stream* stream1, const Stream* stream2) {
 		if (neighbours_n1.size != neighbours_n2.size) {
 			LinkIdVector_destroy(neighbours_n1);
 			LinkIdVector_destroy(neighbours_n2);
+			NodeIdVector_destroy(nodes_set_1);
+			NodeIdVector_destroy(nodes_set_2);
 			printf("Neighbours of node %zu are different\n", node);
 			return false;
 		}
@@ -741,12 +746,15 @@ bool Stream_equals(const Stream* stream1, const Stream* stream2) {
 						if (!IntervalVector_equals(&times_l1, &times_l2)) {
 							IntervalVector_destroy(times_l1);
 							IntervalVector_destroy(times_l2);
+							NodeIdVector_destroy(nodes_set_1);
+							NodeIdVector_destroy(nodes_set_2);
+							LinkIdVector_destroy(neighbours_n1);
+							LinkIdVector_destroy(neighbours_n2);
 							printf("Times of link %zu are different\n", lid);
 							return false;
 						}
 						IntervalVector_destroy(times_l1);
 						IntervalVector_destroy(times_l2);
-
 						found = true;
 						break;
 					}
@@ -755,18 +763,25 @@ bool Stream_equals(const Stream* stream1, const Stream* stream2) {
 				if (!found) {
 					LinkIdVector_destroy(neighbours_n1);
 					LinkIdVector_destroy(neighbours_n2);
+					NodeIdVector_destroy(nodes_set_1);
+					NodeIdVector_destroy(nodes_set_2);
 					printf("Neighbours of node %zu are different\n", node);
 					return false;
 				}
 			}
 
 			// Swap the vectors
-			LinkIdVector* tmp = &neighbours_n1;
-			neighbours_n1 = neighbours_n2;
-			neighbours_n2 = *tmp;
+			LinkIdVector tmp = links_vectors[0];
+			links_vectors[0] = links_vectors[1];
+			links_vectors[1] = tmp;
 		}
+
+		LinkIdVector_destroy(neighbours_n2);
+		LinkIdVector_destroy(neighbours_n1);
 	}
 
+	NodeIdVector_destroy(nodes_set_1);
+	NodeIdVector_destroy(nodes_set_2);
 	return true;
 }
 
@@ -775,7 +790,7 @@ String Stream_to_string(const Stream* stream) {
 	String str = String_from_duplicate("Stream {\n\tLifespan: ");
 	Interval lifespan = stream_functions.lifespan(stream->stream_data);
 	String interval_str = Interval_to_string(&lifespan);
-	String_concat(&str, &interval_str);
+	String_concat_consume(&str, &interval_str);
 	// TODO : rename push_str to append
 	String_push_str(&str, "\n\tNodes:\n");
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);

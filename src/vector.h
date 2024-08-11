@@ -355,7 +355,7 @@
 		String str = String_from_duplicate("[ ");                                                                      \
 		for (size_t i = 0; i < vec->size; i++) {                                                                       \
 			String elem_str = type##_to_string(&vec->array[i]);                                                        \
-			String_concat(&str, &elem_str);                                                                            \
+			String_concat_copy(&str, &elem_str);                                                                       \
 			String_destroy(elem_str);                                                                                  \
 			if (i < vec->size - 1) {                                                                                   \
 				String_push_str(&str, ", ");                                                                           \

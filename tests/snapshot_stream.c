@@ -29,6 +29,14 @@ bool test_split() {
 	String_destroy(strS);
 	String_destroy(strL);
 
+	SnapshotStream_destroy(split_S);
+	SnapshotStream_destroy(split_L);
+	FullStreamGraph_destroy(full_S);
+	FullStreamGraph_destroy(full_L);
+	StreamGraph_destroy(S_L);
+	StreamGraph_destroy(S);
+	StreamGraph_destroy(L);
+
 	return S_equals_split_S && L_equals_split_L;
 }
 

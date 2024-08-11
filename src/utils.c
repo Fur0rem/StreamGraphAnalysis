@@ -16,7 +16,7 @@ String String_from_owned(char* str) {
 
 String String_from_duplicate(const char* str) {
 	size_t len = strlen(str);
-	char* data = malloc(len + 1);
+	char* data = MALLOC(len + 1);
 	memcpy(data, str, len + 1);
 	String string = (String){
 		.size = len,
@@ -47,7 +47,7 @@ void String_push_str(String* string, const char* str) {
 	string->size += len;
 }
 
-void String_concat(String* a, const String* b) {
+void String_concat_copy(String* a, const String* b) {
 	if (a->size + b->size >= a->capacity) {
 		while (a->size + b->size >= a->capacity) {
 			a->capacity *= 2;
@@ -56,6 +56,11 @@ void String_concat(String* a, const String* b) {
 	}
 	memcpy(a->data + a->size, b->data, b->size + 1);
 	a->size += b->size;
+}
+
+void String_concat_consume(String* string, String* b) {
+	String_concat_copy(string, b);
+	String_destroy(*b);
 }
 
 void String_destroy(String string) {

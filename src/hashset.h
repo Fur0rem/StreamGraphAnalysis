@@ -222,7 +222,7 @@
 			}                                                                                                          \
 			for (size_t j = 0; j < s->buckets[i].size; j++) {                                                          \
 				String str2 = type##_to_string(&s->buckets[i].array[j]);                                               \
-				String_concat(&str, &str2);                                                                            \
+				String_concat_copy(&str, &str2);                                                                       \
 				String_push(&str, ' ');                                                                                \
 				String_destroy(str2);                                                                                  \
 			}                                                                                                          \

@@ -62,7 +62,7 @@ String QueueInfo_to_string(const QueueInfo* info) {
 	sprintf(buf, "QueueInfo(node:%zu, time:%zu, interval taken:", info->node, info->time);
 	String_push_str(&str, buf);
 	String interval_str = Interval_to_string(&info->interval_taken);
-	String_concat(&str, &interval_str);
+	String_concat_copy(&str, &interval_str);
 	String_push_str(&str, ", depth:");
 	sprintf(buf, "%zu", info->depth);
 	String_push_str(&str, buf);
@@ -148,7 +148,7 @@ String Walk_to_string(const Walk* walk) {
 	// char2Vector_append(&str, buf, strlen(buf));
 	// char2Vector_append(&str, APPEND_CONST("\n"));
 	String_push_str(&str, "Optimal at ");
-	String_concat(&str, &time_str);
+	String_concat_copy(&str, &time_str);
 	String_push(&str, '\n');
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream_data;
@@ -198,7 +198,7 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 		// free(str);
 		String walk_str = Walk_to_string(&wi->walk_or_reason.walk);
 		String str = String_from_duplicate("WalkInfo(WALK, ");
-		String_concat(&str, &walk_str);
+		String_concat_copy(&str, &walk_str);
 		String_push(&str, ')');
 		return str;
 	}
@@ -218,7 +218,7 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 			NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
 			String interval_str = Interval_to_string(&info.interval);
 			String_push_str(&str, "NODE_DOESNT_EXIST in interval ");
-			String_concat(&str, &interval_str);
+			String_concat_copy(&str, &interval_str);
 		}
 		else {
 			ImpossibleToReachInfo info = wi->walk_or_reason.no_walk_reason.reason.impossible_to_reach;
