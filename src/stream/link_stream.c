@@ -182,6 +182,13 @@ Link LinkStream_nth_link(StreamData* stream_data, LinkId link_id) {
 	return link;
 }
 
+LinksIterator LinkStream_neighbours_of_node(StreamData* stream_data, NodeId node_id) {
+	LinkStream* link_stream = (LinkStream*)stream_data;
+	Stream st = FullStreamGraph_from(link_stream->underlying_stream_graph);
+	FullStreamGraph* fsg = (FullStreamGraph*)st.stream_data;
+	return FullStreamGraph_stream_functions.neighbours_of_node(fsg, node_id);
+}
+
 const StreamFunctions LinkStream_stream_functions = {
 	.nodes_set = LinkStream_nodes_set,
 	.links_set = LinkStream_links_set,
@@ -192,11 +199,10 @@ const StreamFunctions LinkStream_stream_functions = {
 	.times_node_present = LinkStream_times_node_present,
 	.times_link_present = LinkStream_times_link_present,
 	.nth_link = LinkStream_nth_link,
-	// .neighbours_of_node = NULL, // TODO
+	.neighbours_of_node = LinkStream_neighbours_of_node,
 };
 
 double LS_coverage(Stream* stream_data) {
-	printf("called LS_coverage\n");
 	return 1.0;
 }
 

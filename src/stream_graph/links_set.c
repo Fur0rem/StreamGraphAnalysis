@@ -27,3 +27,12 @@ DefineVector(Link);
 DefineVectorDeriveEquals(Link);
 DefineVectorDeriveToString(Link);
 DefineVectorDeriveRemove(Link, NO_FREE(Link));
+
+NodeId Link_get_other_node(const Link* link, NodeId node_id) {
+	if (link->nodes[0] == node_id) {
+		return link->nodes[1];
+	}
+	else {
+		return link->nodes[0];
+	}
+}

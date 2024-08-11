@@ -3,6 +3,7 @@
 #include "../src/stream.h"
 #include "../src/units.h"
 #include "test.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,12 +60,55 @@ bool test_nodes_presence() {
 	}
 	return nodes_always_present;
 }
+
+bool test_neighbours_of_node() {
+	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
+	Stream ls = LS_from(&sg);
+	StreamFunctions funcs = LinkStream_stream_functions;
+
+	LinkIdVector neighbours_of_0 = LinkIdVector_new();
+	LinkIdVector_push(&neighbours_of_0, 1);
+	LinkIdVector_push(&neighbours_of_0, 2);
+	LinkIdVector neighbours_of_1 = LinkIdVector_new();
+	LinkIdVector_push(&neighbours_of_1, 0);
+	LinkIdVector_push(&neighbours_of_1, 2);
+	LinkIdVector_push(&neighbours_of_1, 3);
+	LinkIdVector neighbours_of_2 = LinkIdVector_new();
+	LinkIdVector_push(&neighbours_of_2, 0);
+	LinkIdVector_push(&neighbours_of_2, 1);
+	LinkIdVector neighbours_of_3 = LinkIdVector_new();
+	LinkIdVector_push(&neighbours_of_3, 1);
+	LinkIdVector neighbours[] = {neighbours_of_0, neighbours_of_1, neighbours_of_2, neighbours_of_3};
+
+	NodesIterator set = funcs.nodes_set(ls.stream_data);
+	bool has_right_neighbours = true;
+
+	FOR_EACH_NODE(node_id, set) {
+		LinksIterator neighbours_of_node = funcs.neighbours_of_node(ls.stream_data, node_id);
+		LinkIdVector neighbours_ids = SGA_collect_link_ids(neighbours_of_node);
+
+		// Map neighbouring links to neighbouring nodes
+		for (size_t i = 0; i < neighbours_ids.size; i++) {
+			LinkId link_id = neighbours_ids.array[i];
+			Link link = funcs.nth_link(ls.stream_data, link_id);
+			NodeId other_node = Link_get_other_node(&link, node_id);
+			neighbours_ids.array[i] = other_node;
+		}
+
+		has_right_neighbours &= EXPECT(LinkIdVector_equals(&neighbours_ids, &neighbours[node_id]));
+		LinkIdVector_destroy(neighbours_ids);
+	}
+
+	return has_right_neighbours;
+}
+
 int main() {
 	Test* tests[] = {
-		&(Test){"test_links_at_time_8", test_links_at_time_8},
+		&(Test){"test_links_at_time_8",	test_links_at_time_8	},
  // TODO: Better test names
-		&(Test){"test_nodes_present",	  test_nodes_present	},
-		   &(Test){"test_nodes_presence",  test_nodes_presence },
+		&(Test){"test_nodes_present",	  test_nodes_present		},
+		   &(Test){"test_nodes_presence",	  test_nodes_presence	 },
+		&(Test){"test_neighbours_of_node", test_neighbours_of_node},
 
 		NULL
 	};

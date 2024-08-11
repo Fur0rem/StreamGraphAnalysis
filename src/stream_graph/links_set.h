@@ -25,4 +25,6 @@ DeclareVectorDeriveEquals(Link);
 DeclareVectorDeriveToString(Link);
 DeclareVectorDeriveRemove(Link);
 
+NodeId Link_get_other_node(const Link* link, NodeId node_id);
+
 #endif // STREAM_GRAPH_LINKS_SET_H
