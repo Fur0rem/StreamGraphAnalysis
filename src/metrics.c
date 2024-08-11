@@ -9,6 +9,7 @@
 #include "stream/link_stream.h"
 #include "stream/snapshot_stream.h"
 #include "stream_functions.h"
+#include "stream_graph/links_set.h"
 #include "units.h"
 #include "utils.h"
 #include <assert.h>
@@ -381,29 +382,17 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 	FOR_EACH_LINK(uv, neighbours_of_v) {
 		LinksIterator neighbours_of_v_copy = stream_functions.neighbours_of_node(stream->stream_data, v);
 		FOR_EACH_LINK(vw, neighbours_of_v_copy) {
-			NodeId w, u;
 			Link vw_link = stream_functions.link_by_id(stream->stream_data, vw);
-			if (vw_link.nodes[0] == v) {
-				w = vw_link.nodes[1];
-			}
-			else {
-				w = vw_link.nodes[0];
-			}
-
+			NodeId w = Link_get_other_node(&vw_link, v);
 			Link uv_link = stream_functions.link_by_id(stream->stream_data, uv);
-			if (uv_link.nodes[0] == v) {
-				u = uv_link.nodes[1];
-			}
-			else {
-				u = uv_link.nodes[0];
-			}
+			NodeId u = Link_get_other_node(&uv_link, v);
 
-			printf("u = %zu | v = %zu | w = %zu\n", u, v, w);
+			// printf("u = %zu | v = %zu | w = %zu\n", u, v, w);
 
 			if (u >= w) {
 				continue;
 			}
-			printf("passed\n");
+			// printf("passed\n");
 
 			TimesIterator times_uv = stream_functions.times_link_present(stream->stream_data, uv);
 			TimesIterator times_vw = stream_functions.times_link_present(stream->stream_data, vw);
@@ -414,20 +403,19 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 
 			// Find link uw
 			// OPTIMISE : Reuse the first intersections
-			LinksIterator neighbours_of_u = stream_functions.neighbours_of_node(stream->stream_data, u);
-			LinkId uw = SIZE_MAX;
-			FOR_EACH_LINK(link_id, neighbours_of_u) {
-				Link link = stream_functions.link_by_id(stream->stream_data, link_id);
-				if (link.nodes[0] == w || link.nodes[1] == w) {
-					uw = link_id;
-					break;
-				}
-			}
+			// LinksIterator neighbours_of_u = stream_functions.neighbours_of_node(stream->stream_data, u);
+			// LinkId uw = SIZE_MAX;
+			// FOR_EACH_LINK(link_id, neighbours_of_u) {
+			// 	Link link = stream_functions.link_by_id(stream->stream_data, link_id);
+			// 	if (link.nodes[0] == w || link.nodes[1] == w) {
+			// 		uw = link_id;
+			// 		break;
+			// 	}
+			// }
+			LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
+			// printf("uw = %zu | uw2 = %zu\n u=%zu | v=%zu | w=%zu\n", uw, uw2, u, v, w);
 			if (uw == SIZE_MAX) {
 				continue;
-			}
-			else {
-				neighbours_of_u.destroy(&neighbours_of_u);
 			}
 
 			TimesIterator times_uw = stream_functions.times_link_present(stream->stream_data, uw);
@@ -562,7 +550,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 		// FOR_EACH_NODE(v, nodes2) {
 		FOR_EACH_LINK(uv, n_u) {
 			Link link_uv = stream_functions.link_by_id(stream->stream_data, uv);
-			NodeId v = link_uv.nodes[0] == u ? link_uv.nodes[1] : link_uv.nodes[0];
+			NodeId v = Link_get_other_node(&link_uv, u);
 			// NodesIterator nodes3 = stream_functions.nodes_set(stream->stream_data);
 			// FOR_EACH_NODE(w, nodes3) {
 			LinksIterator n_v = stream_functions.neighbours_of_node(stream->stream_data, v);
@@ -601,15 +589,17 @@ double Stream_transitivity_ratio(Stream* stream) {
 						found_vw = true;
 					}
 				}*/
-				LinkId uw = SIZE_MAX;
-				LinksIterator n_w = stream_functions.neighbours_of_node(stream->stream_data, w);
-				FOR_EACH_LINK(link_id, n_w) {
-					Link link = stream_functions.link_by_id(stream->stream_data, link_id);
-					if (link.nodes[0] == u || link.nodes[1] == u) {
-						uw = link_id;
-						break;
-					}
-				}
+				// LinkId uw = SIZE_MAX;
+				// LinksIterator n_w = stream_functions.neighbours_of_node(stream->stream_data, w);
+				// FOR_EACH_LINK(link_id, n_w) {
+				// 	Link link = stream_functions.link_by_id(stream->stream_data, link_id);
+				// 	if (link.nodes[0] == u || link.nodes[1] == u) {
+				// 		uw = link_id;
+				// 		break;
+				// 	}
+				// }
+				LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
+				// printf("uw = %zu | uw2 = %zu\n u=%zu | v=%zu | w=%zu\n", uw, uw2, u, v, w);
 
 				// printf("uv: %zu, uw: %zu, vw: %zu\n", uv, uw, vw);
 				// if (found_uv && found_vw) {
