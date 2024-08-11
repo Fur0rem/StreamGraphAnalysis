@@ -173,4 +173,9 @@ size_t cardinalOfV(Stream* stream);
 size_t cardinalOfE(Stream* stream);
 /** @} */
 
+// TODO: move out of metrics, and do Stream_mathematically_equivalent
+bool Stream_equals(const Stream* stream1, const Stream* stream2);
+
+String Stream_to_string(const Stream* stream);
+
 #endif // METRICS_H

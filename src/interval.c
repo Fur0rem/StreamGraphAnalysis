@@ -51,7 +51,7 @@ String Interval_to_string(const Interval* interval) {
 	String_push(&string, ',');
 	String end_str = size_t_to_string(&interval->end);
 	String_concat(&string, &end_str);
-	String_push(&string, ']');
+	String_push(&string, '[');
 	String_destroy(start_str);
 	String_destroy(end_str);
 	return string;

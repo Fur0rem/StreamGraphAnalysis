@@ -77,9 +77,13 @@ chunk_stream_small: $(SRC_DIR)/stream/chunk_stream_small.c interval stream defau
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream_small.c -o $(BIN_DIR)/chunk_stream_small.o
 	ar rcs $(BIN_DIR)/chunk_stream_small.a bin/chunk_stream_small.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o
 
-snapshot_stream: $(SRC_DIR)/stream/snapshot_stream.c interval stream defaults chunk_stream chunk_stream_small | $(BIN_DIR)
+snapshot_stream: $(SRC_DIR)/stream/snapshot_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array iterators full_stream_graph | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/snapshot_stream.c -o $(BIN_DIR)/snapshot_stream.o
-	ar rcs $(BIN_DIR)/snapshot_stream.a $(BIN_DIR)/snapshot_stream.o $(BIN_DIR)/interval.o $(BIN_DIR)/stream.o $(BIN_DIR)/defaults.o $(BIN_DIR)/chunk_stream.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/metrics.c -o $(BIN_DIR)/metrics.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream.c -o $(BIN_DIR)/chunk_stream.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream_small.c -o $(BIN_DIR)/chunk_stream_small.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/link_stream.c -o $(BIN_DIR)/link_stream.o
+	ar rcs $(BIN_DIR)/snapshot_stream.a bin/snapshot_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o bin/chunk_stream.o bin/chunk_stream_small.o bin/interval.o bin/link_stream.o
 
 iterators: $(SRC_DIR)/iterators.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/iterators.o
