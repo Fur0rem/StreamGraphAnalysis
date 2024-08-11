@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-ChunkStream ChunkStream_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+ChunkStream ChunkStream_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
 							 size_t time_end) {
 	ChunkStream chunk_stream = (ChunkStream){
 		.underlying_stream_graph = stream_graph,
@@ -26,14 +26,45 @@ ChunkStream ChunkStream_from(StreamGraph* stream_graph, NodeIdVector* nodes, Lin
 	return chunk_stream;
 }
 
-Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+Stream CS_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
 			   size_t time_end) {
 	ChunkStream* chunk_stream = MALLOC(sizeof(ChunkStream));
-	*chunk_stream = ChunkStream_from(stream_graph, nodes, links, time_start, time_end);
+	*chunk_stream = ChunkStream_with(stream_graph, nodes, links, time_start, time_end);
 	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	init_cache(&stream);
 	return stream;
 }
+
+ChunkStream ChunkStream_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+								size_t time_end) {
+	ChunkStream chunk_stream = (ChunkStream){
+		.underlying_stream_graph = stream_graph,
+		.snapshot = Interval_from(time_start, time_end),
+		.nodes_present = BitArray_n_ones(stream_graph->nodes.nb_nodes),
+		.links_present = BitArray_n_ones(stream_graph->links.nb_links),
+	};
+	for (size_t i = 0; i < nodes->size; i++) {
+		BitArray_set_zero(chunk_stream.nodes_present, nodes->array[i]);
+	}
+	for (size_t i = 0; i < links->size; i++) {
+		// If the two nodes are not present in the chunk stream, then the link is not present
+		Link link = stream_graph->links.links[links->array[i]];
+		if (BitArray_is_zero(chunk_stream.nodes_present, link.nodes[0]) ||
+			BitArray_is_zero(chunk_stream.nodes_present, link.nodes[1])) {
+			BitArray_set_zero(chunk_stream.links_present, links->array[i]);
+		}
+	}
+	return chunk_stream;
+}
+
+Stream CS_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+				  size_t time_end) {
+	ChunkStream* chunk_stream = MALLOC(sizeof(ChunkStream));
+	*chunk_stream = ChunkStream_without(stream_graph, nodes, links, time_start, time_end);
+	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
+	init_cache(&stream);
+	return stream;
+} // TODO : rename CS to ChunkStream
 
 void CS_destroy(Stream stream) {
 	ChunkStream* chunk_stream = (ChunkStream*)stream.stream_data;

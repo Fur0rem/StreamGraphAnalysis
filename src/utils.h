@@ -115,4 +115,6 @@ int String_hash(const String* string);
 		return String_from_owned(str);                                                                                 \
 	}
 
+char* read_file(const char* filename);
+
 #endif

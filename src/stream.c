@@ -595,7 +595,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t nb_events = 0;
 	size_t current_vec = 0;
 	size_tVector number_of_slices = size_tVector_with_capacity(10);
-	printf("parsing events\n");
+	// printf("parsing events\n");
 	while (strncmp(str, "[EndOfFile]", 11) != 0) {
 		// if the line is empty, skip it
 		if (*str == '\n') {
@@ -713,18 +713,18 @@ char* InternalFormat_from_External_str(const char* str) {
 
 		GO_TO_NEXT_LINE(str);
 	}
-	printf("parsed %zu events\n", nb_events);
+	// printf("parsed %zu events\n", nb_events);
 
 	// print the neighbours
-	for (size_t i = 0; i < node_neighbours.size; i++) {
-		printf("node %zu neighbours: ", i);
-		for (size_t j = 0; j < node_neighbours.array[i].capacity; j++) {
-			for (size_t k = 0; k < node_neighbours.array[i].buckets[j].size; k++) {
-				printf("%zu ", node_neighbours.array[i].buckets[j].array[k]);
-			}
-		}
-		printf("\n");
-	}
+	// for (size_t i = 0; i < node_neighbours.size; i++) {
+	// 	printf("node %zu neighbours: ", i);
+	// 	for (size_t j = 0; j < node_neighbours.array[i].capacity; j++) {
+	// 		for (size_t k = 0; k < node_neighbours.array[i].buckets[j].size; k++) {
+	// 			printf("%zu ", node_neighbours.array[i].buckets[j].array[k]);
+	// 		}
+	// 	}
+	// 	printf("\n");
+	// }
 	// printf("nb_events: %zu\n", nb_events);
 
 	// char* events_tuple = EventTupleVectorVector_to_string(&events);
@@ -737,7 +737,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	// printf("links: %s\n", links_str);
 
-	printf("parsing slices\n");
+	// printf("parsing slices\n");
 	for (size_t i = 0; i < events.size; i++) {
 		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
 		if (slice_id >= number_of_slices.size) {
@@ -747,11 +747,12 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		number_of_slices.array[slice_id]++;
 	}
-	printf("parsed slices\n");
+	// printf("parsed slices\n");
 
 	// char* slices_str = size_tVector_to_string(&number_of_slices); // TODO : this causes a stack overflow
 	// printf("slices: %s\n", slices_str);
 
+	// TODO : replace with String
 	charVector vec = charVector_new();
 	charVector_append(&vec, APPEND_CONST("SGA Internal version 1.0.0\n\n"));
 	charVector_append(&vec, APPEND_CONST("[General]\n"));
@@ -804,7 +805,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	charVector_append(&vec, APPEND_CONST("[Data]\n"));
 	charVector_append(&vec, APPEND_CONST("[[Neighbours]]\n"));
 	charVector_append(&vec, APPEND_CONST("[[[NodesToLinks]]]\n"));
-	printf("parsing nodes\n");
+	// printf("parsing nodes\n");
 	for (size_t i = 0; i < nodes.size; i++) {
 		charVector_append(&vec, APPEND_CONST("("));
 		size_tHashset neighs = node_neighbours.array[i];
@@ -838,7 +839,7 @@ char* InternalFormat_from_External_str(const char* str) {
 		charVector_pop_last(&vec);
 		charVector_append(&vec, APPEND_CONST(")\n"));
 	}
-	printf("parsed %zu nodes\n", nodes.size);
+	// printf("parsed %zu nodes\n", nodes.size);
 	charVector_append(&vec, APPEND_CONST("[[[LinksToNodes]]]\n"));
 	// charVector_append(&vec, links_str, strlen(links_str));
 	for (size_t i = 0; i < links.size; i++) {
@@ -881,7 +882,7 @@ char* InternalFormat_from_External_str(const char* str) {
 		link_id_map[links.array[i].nodes[1] * (biggest_node_id + 1) + links.array[i].nodes[0]] = i;
 	}
 
-	printf("parsing events 2\n");
+	// printf("parsing events 2\n");
 	for (size_t i = 0; i < events.size; i++) {
 		char buffer[50000]; // FIXME : make this dynamic or this shit can overflow
 		sprintf(buffer, "%zu=(", events.array[i].array[0].moment);
@@ -924,7 +925,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	for (size_t i = 0; i < events.size; i++) {
 		sum_events += events.array[i].size;
 	}
-	printf("parsed %zu events 2\n", sum_events);
+	// printf("parsed %zu events 2\n", sum_events);
 	/*for (size_t i = 0; i <= biggest_node_id; i++) {
 		free(link_id_map[i]);
 	}*/
@@ -1388,7 +1389,7 @@ void events_destroy(StreamGraph* sg) {
 }
 
 StreamGraph StreamGraph_from_external(const char* filename) {
-	printf("calling from_external\n");
+	// printf("calling from_external\n");
 	// read the file
 	FILE* file = fopen(filename, "r");
 	if (file == NULL) {
@@ -1412,14 +1413,14 @@ StreamGraph StreamGraph_from_external(const char* filename) {
 
 	// Close the file
 	fclose(file);
-	printf("file read\n");
+	// printf("file read\n");
 
 	// turn the external format into a stream graph
 	char* internal_format = InternalFormat_from_External_str(buffer);
-	printf("internal_format done\n");
+	// printf("internal_format done\n");
 
 	StreamGraph sg = StreamGraph_from_string(internal_format);
-	printf("streamgraph done\n");
+	// printf("streamgraph done\n");
 	free(internal_format);
 	free(buffer);
 

@@ -41,6 +41,10 @@ typedef struct {
 				(variable) = ChunkStreamSmall_stream_functions;                                                        \
 				break;                                                                                                 \
 			}                                                                                                          \
+			case SNAPSHOT_STREAM: {                                                                                    \
+				(variable) = SnapshotStream_stream_functions;                                                          \
+				break;                                                                                                 \
+			}                                                                                                          \
 		}                                                                                                              \
 		(variable);                                                                                                    \
 	})

@@ -7,6 +7,7 @@
 #include "stream/chunk_stream_small.h"
 #include "stream/full_stream_graph.h"
 #include "stream/link_stream.h"
+#include "stream/snapshot_stream.h"
 #include "stream_functions.h"
 #include "units.h"
 #include "utils.h"
@@ -62,8 +63,13 @@
 			}                                                                                                          \
 			break;                                                                                                     \
 		}                                                                                                              \
-	}                                                                                                                  \
-	printf("COULD NOT CATCH " #function "\n");
+		case SNAPSHOT_STREAM: {                                                                                        \
+			if (SnapshotStream_metrics_functions.function != NULL) {                                                   \
+				return SnapshotStream_metrics_functions.function(stream);                                              \
+			}                                                                                                          \
+			break;                                                                                                     \
+		}                                                                                                              \
+	}
 
 // TODO : rename the functions to be more explicit
 // TODO : rewrite them to be cleaner
@@ -107,7 +113,7 @@ size_t cardinalOfW(Stream* stream) {
 	NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);
 	size_t count = 0;
 	FOR_EACH_NODE(node_id, nodes) {
-		TimesIterator times = stream_functions.times_node_present(nodes.stream_graph.stream_data, node_id);
+		TimesIterator times = stream_functions.times_node_present(stream->stream_data, node_id);
 		count += total_time_of(times);
 	}
 	UPDATE_CACHE(stream, cardinalOfW, count);
