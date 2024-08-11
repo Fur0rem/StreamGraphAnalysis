@@ -50,6 +50,6 @@ void FullStreamGraph_destroy(Stream stream);
  * @param[in] link_id The link id.
  * @return The link corresponding to the given link id in the FullStreamGraph.
  */
-Link FullStreamGraph_nth_link(StreamData* stream_data, LinkId link_id);
+Link FullStreamGraph_link_by_id(StreamData* stream_data, LinkId link_id);
 
 #endif // FULL_STREAM_GRAPH_H

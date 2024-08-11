@@ -282,7 +282,7 @@ double Stream_density_of_link(Stream* stream, LinkId link_id) {
 	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
 	TimesIterator times_link = stream_functions.times_link_present(stream->stream_data, link_id);
 	size_t sum_num = total_time_of(times_link);
-	Link l = stream_functions.nth_link(stream->stream_data, link_id);
+	Link l = stream_functions.link_by_id(stream->stream_data, link_id);
 	TimesIterator t_u = stream_functions.times_node_present(stream->stream_data, l.nodes[0]);
 	TimesIterator t_v = stream_functions.times_node_present(stream->stream_data, l.nodes[1]);
 	TimesIterator t_i = TimesIterator_intersection(t_u, t_v);
@@ -382,7 +382,7 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 		LinksIterator neighbours_of_v_copy = stream_functions.neighbours_of_node(stream->stream_data, v);
 		FOR_EACH_LINK(vw, neighbours_of_v_copy) {
 			NodeId w, u;
-			Link vw_link = stream_functions.nth_link(stream->stream_data, vw);
+			Link vw_link = stream_functions.link_by_id(stream->stream_data, vw);
 			if (vw_link.nodes[0] == v) {
 				w = vw_link.nodes[1];
 			}
@@ -390,7 +390,7 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 				w = vw_link.nodes[0];
 			}
 
-			Link uv_link = stream_functions.nth_link(stream->stream_data, uv);
+			Link uv_link = stream_functions.link_by_id(stream->stream_data, uv);
 			if (uv_link.nodes[0] == v) {
 				u = uv_link.nodes[1];
 			}
@@ -417,7 +417,7 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 			LinksIterator neighbours_of_u = stream_functions.neighbours_of_node(stream->stream_data, u);
 			LinkId uw = SIZE_MAX;
 			FOR_EACH_LINK(link_id, neighbours_of_u) {
-				Link link = stream_functions.nth_link(stream->stream_data, link_id);
+				Link link = stream_functions.link_by_id(stream->stream_data, link_id);
 				if (link.nodes[0] == w || link.nodes[1] == w) {
 					uw = link_id;
 					break;
@@ -475,11 +475,11 @@ double Stream_transitivity_ratio(Stream* stream) {
 	FOR_EACH_NODE(node_id, nodes) {
 		LinksIterator neighbours = stream_functions.neighbours_of_node(stream->stream_data, node_id);
 		FOR_EACH_LINK(link_id, neighbours) {
-			Link link = stream_functions.nth_link(stream->stream_data, link_id);
+			Link link = stream_functions.link_by_id(stream->stream_data, link_id);
 			NodeId neighbour = link.nodes[0] == node_id ? link.nodes[1] : link.nodes[0];
 			LinksIterator neighbours_of_neighbour = stream_functions.neighbours_of_node(stream->stream_data, neighbour);
 			FOR_EACH_LINK(neighbour_link_id, neighbours_of_neighbour) {
-				Link neighbour_link = stream_functions.nth_link(stream->stream_data, neighbour_link_id);
+				Link neighbour_link = stream_functions.link_by_id(stream->stream_data, neighbour_link_id);
 				NodeId neighbour_neighbour =
 					neighbour_link.nodes[0] == neighbour ? neighbour_link.nodes[1] : neighbour_link.nodes[0];
 				if (neighbour_neighbour == node_id) {
@@ -561,13 +561,13 @@ double Stream_transitivity_ratio(Stream* stream) {
 		LinksIterator n_u = stream_functions.neighbours_of_node(stream->stream_data, u);
 		// FOR_EACH_NODE(v, nodes2) {
 		FOR_EACH_LINK(uv, n_u) {
-			Link link_uv = stream_functions.nth_link(stream->stream_data, uv);
+			Link link_uv = stream_functions.link_by_id(stream->stream_data, uv);
 			NodeId v = link_uv.nodes[0] == u ? link_uv.nodes[1] : link_uv.nodes[0];
 			// NodesIterator nodes3 = stream_functions.nodes_set(stream->stream_data);
 			// FOR_EACH_NODE(w, nodes3) {
 			LinksIterator n_v = stream_functions.neighbours_of_node(stream->stream_data, v);
 			FOR_EACH_LINK(vw, n_v) {
-				Link link_vw = stream_functions.nth_link(stream->stream_data, vw);
+				Link link_vw = stream_functions.link_by_id(stream->stream_data, vw);
 				NodeId w = link_vw.nodes[0] == v ? link_vw.nodes[1] : link_vw.nodes[0];
 				/*const int SPECIAL_U = 0;
 				const int SPECIAL_V = 2;
@@ -587,7 +587,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 				bool found_uv, found_uw, found_vw;
 				found_uv = found_uw = found_vw = false;
 				FOR_EACH_LINK(link_id, links) {
-					Link link = stream_functions.nth_link(stream->stream_data, link_id);
+					Link link = stream_functions.link_by_id(stream->stream_data, link_id);
 					if ((link.nodes[0] == u && link.nodes[1] == v) || (link.nodes[0] == v && link.nodes[1] == u)) {
 						uv = link_id;
 						found_uv = true;
@@ -604,7 +604,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 				LinkId uw = SIZE_MAX;
 				LinksIterator n_w = stream_functions.neighbours_of_node(stream->stream_data, w);
 				FOR_EACH_LINK(link_id, n_w) {
-					Link link = stream_functions.nth_link(stream->stream_data, link_id);
+					Link link = stream_functions.link_by_id(stream->stream_data, link_id);
 					if (link.nodes[0] == u || link.nodes[1] == u) {
 						uw = link_id;
 						break;

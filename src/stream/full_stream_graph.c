@@ -209,7 +209,7 @@ TimesIterator FullStreamGraph_times_link_present(StreamData* stream_data, LinkId
 	return times_iterator;
 }
 
-Link FullStreamGraph_nth_link(StreamData* stream_data, size_t link_id) {
+Link FullStreamGraph_link_by_id(StreamData* stream_data, size_t link_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	return full_stream_graph->underlying_stream_graph->links.links[link_id];
 }
@@ -260,6 +260,34 @@ LinksIterator FullStreamGraph_neighbours_of_node(StreamData* stream_data, NodeId
 	return neighbours_iterator;
 }
 
+TemporalNode FullStreamGraph_node_by_id(StreamData* stream_data, size_t node_id) {
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
+	return full_stream_graph->underlying_stream_graph->nodes.nodes[node_id];
+}
+
+LinkId FullStreamGraph_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
+	TemporalNode n1 = FullStreamGraph_node_by_id(stream_data, node_id);
+	TemporalNode n2 = FullStreamGraph_node_by_id(stream_data, other_node_id);
+	TemporalNode to_research = n1.nb_neighbours < n2.nb_neighbours ? n1 : n2;
+	// Since the nodes are sorted, we can use a binary search
+	size_t left = 0;
+	size_t right = to_research.nb_neighbours;
+	while (left < right) {
+		size_t mid = left + (right - left) / 2;
+		NodeId neighbour = to_research.neighbours[mid];
+		if (neighbour == other_node_id) {
+			return to_research.neighbours[mid];
+		}
+		else if (neighbour < other_node_id) {
+			left = mid + 1;
+		}
+		else {
+			right = mid;
+		}
+	}
+	return SIZE_MAX;
+}
+
 const StreamFunctions FullStreamGraph_stream_functions = {
 	.nodes_set = FullStreamGraph_nodes_set,
 	.links_set = FullStreamGraph_links_set,
@@ -269,8 +297,10 @@ const StreamFunctions FullStreamGraph_stream_functions = {
 	.links_present_at_t = FullStreamGraph_links_present_at_t,
 	.times_node_present = FullStreamGraph_times_node_present,
 	.times_link_present = FullStreamGraph_times_link_present,
-	.nth_link = FullStreamGraph_nth_link,
+	.link_by_id = FullStreamGraph_link_by_id,
+	.node_by_id = FullStreamGraph_node_by_id,
 	.neighbours_of_node = FullStreamGraph_neighbours_of_node,
+	.links_between_nodes = FullStreamGraph_links_between_nodes,
 };
 
 size_t FullStreamGraph_cardinalOfV(Stream* stream) {

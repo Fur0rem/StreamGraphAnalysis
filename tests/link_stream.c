@@ -90,7 +90,7 @@ bool test_neighbours_of_node() {
 		// Map neighbouring links to neighbouring nodes
 		for (size_t i = 0; i < neighbours_ids.size; i++) {
 			LinkId link_id = neighbours_ids.array[i];
-			Link link = funcs.nth_link(ls.stream_data, link_id);
+			Link link = funcs.link_by_id(ls.stream_data, link_id);
 			NodeId other_node = Link_get_other_node(&link, node_id);
 			neighbours_ids.array[i] = other_node;
 		}

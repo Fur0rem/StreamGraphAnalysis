@@ -173,13 +173,9 @@ void LS_destroy(Stream stream) {
 	free(stream.stream_data);
 }
 
-// TRICK
-Link LinkStream_nth_link(StreamData* stream_data, LinkId link_id) {
+Link LinkStream_link_by_id(StreamData* stream_data, LinkId link_id) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
-	Stream st = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	FullStreamGraph* fsg = (FullStreamGraph*)st.stream_data;
-	Link link = FullStreamGraph_nth_link(fsg, link_id);
-	return link;
+	return link_stream->underlying_stream_graph->links.links[link_id];
 }
 
 LinksIterator LinkStream_neighbours_of_node(StreamData* stream_data, NodeId node_id) {
@@ -187,6 +183,34 @@ LinksIterator LinkStream_neighbours_of_node(StreamData* stream_data, NodeId node
 	Stream st = FullStreamGraph_from(link_stream->underlying_stream_graph);
 	FullStreamGraph* fsg = (FullStreamGraph*)st.stream_data;
 	return FullStreamGraph_stream_functions.neighbours_of_node(fsg, node_id);
+}
+
+TemporalNode LinkStream_node_by_id(StreamData* stream_data, NodeId node_id) {
+	LinkStream* link_stream = (LinkStream*)stream_data;
+	return link_stream->underlying_stream_graph->nodes.nodes[node_id];
+}
+
+LinkId LinkStream_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
+	TemporalNode n1 = LinkStream_node_by_id(stream_data, node_id);
+	TemporalNode n2 = LinkStream_node_by_id(stream_data, other_node_id);
+	TemporalNode to_research = n1.nb_neighbours < n2.nb_neighbours ? n1 : n2;
+	// Since the nodes are sorted, we can use a binary search
+	size_t left = 0;
+	size_t right = to_research.nb_neighbours;
+	while (left < right) {
+		size_t mid = left + (right - left) / 2;
+		NodeId neighbour = to_research.neighbours[mid];
+		if (neighbour == other_node_id) {
+			return to_research.neighbours[mid];
+		}
+		else if (neighbour < other_node_id) {
+			left = mid + 1;
+		}
+		else {
+			right = mid;
+		}
+	}
+	return SIZE_MAX;
 }
 
 const StreamFunctions LinkStream_stream_functions = {
@@ -198,7 +222,7 @@ const StreamFunctions LinkStream_stream_functions = {
 	.links_present_at_t = LinkStream_links_present_at_t,
 	.times_node_present = LinkStream_times_node_present,
 	.times_link_present = LinkStream_times_link_present,
-	.nth_link = LinkStream_nth_link,
+	.link_by_id = LinkStream_link_by_id,
 	.neighbours_of_node = LinkStream_neighbours_of_node,
 };
 
