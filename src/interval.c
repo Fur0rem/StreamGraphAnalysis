@@ -45,15 +45,8 @@ IntervalsSet IntervalsSet_alloc(size_t nb_intervals) {
 }
 
 String Interval_to_string(const Interval* interval) {
-	String string = String_from_duplicate("[");
-	String start_str = size_t_to_string(&interval->start);
-	String_concat(&string, &start_str);
-	String_push(&string, ',');
-	String end_str = size_t_to_string(&interval->end);
-	String_concat(&string, &end_str);
-	String_push(&string, '[');
-	String_destroy(start_str);
-	String_destroy(end_str);
+	String string = String_from_duplicate("");
+	String_append_formatted(&string, "[%lu, %lu[", interval->start, interval->end);
 	return string;
 }
 
