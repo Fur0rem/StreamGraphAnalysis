@@ -63,11 +63,12 @@ full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream default
 
 # TODO : idfk how to do proper makefile dependencies
 link_stream: $(SRC_DIR)/stream/link_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array iterators full_stream_graph | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/link_stream.c -o $(BIN_DIR)/link_stream.o
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/metrics.c -o $(BIN_DIR)/metrics.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/link_stream.c -o $(BIN_DIR)/link_stream.o
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream.c -o $(BIN_DIR)/chunk_stream.o
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream_small.c -o $(BIN_DIR)/chunk_stream_small.o
-	ar rcs $(BIN_DIR)/link_stream.a bin/link_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o bin/chunk_stream.o bin/chunk_stream_small.o
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/snapshot_stream.c -o $(BIN_DIR)/snapshot_stream.o
+	ar rcs $(BIN_DIR)/link_stream.a bin/link_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o bin/chunk_stream.o bin/chunk_stream_small.o bin/snapshot_stream.o
 
 chunk_stream: $(SRC_DIR)/stream/chunk_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream.c -o $(BIN_DIR)/chunk_stream.o

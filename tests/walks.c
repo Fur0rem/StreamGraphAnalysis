@@ -174,6 +174,8 @@ bool test_fastest() {
 	FullStreamGraph_destroy(st);
 	FullStreamGraph_destroy(st2);
 	WalkInfo_destroy(w);
+	WalkInfo_destroy(w1);
+	WalkInfo_destroy(w12);
 	WalkInfo_destroy(w2);
 	WalkInfo_destroy(w3);
 
