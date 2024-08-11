@@ -24,40 +24,40 @@ DONT_OPTIMISE void transitivity_ratio() {
 
 int main() {
 	StreamGraph sg;
-	/*sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
+	/*sg = StreamGraph_from_external("data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links big", 100);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("benchmarks/data/primaryschool_3125_transformed.txt");
+	sg = StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links primaryschool", 100);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("benchmarks/data/facebooklike_1_transformed.txt");
+	sg = StreamGraph_from_external("data/facebooklike_1_transformed.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(number_of_links, "number_of_links facebooklike", 100);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	file_name = "benchmarks/data/LS_90.txt";
+	file_name = "data/LS_90.txt";
 	benchmark(load, "load big", 10);
 
-	file_name = "benchmarks/data/primaryschool_3125_transformed.txt";
+	file_name = "data/primaryschool_3125_transformed.txt";
 	benchmark(load, "load primaryschool", 10);
 
-	file_name = "benchmarks/data/facebooklike_1_transformed.txt";
+	file_name = "data/facebooklike_1_transformed.txt";
 	benchmark(load, "load facebooklike", 10);*/
 
-	sg = StreamGraph_from_external("benchmarks/data/Figure_8.txt");
+	sg = StreamGraph_from_external("data/Figure_8.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(transitivity_ratio, "transitivity_ratio Figure_8", 10000);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
+	sg = StreamGraph_from_external("data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(transitivity_ratio, "transitivity_ratio LS_90", 1);
 	StreamGraph_destroy(sg);

@@ -3,7 +3,7 @@
 
 // TODO : more tests for neighbours and such
 bool load() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	printf("Loaded graph\n");
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
@@ -13,7 +13,7 @@ bool load() {
 }
 
 bool test_load_slices() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S_multiple_slices.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S_multiple_slices.txt");
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
@@ -24,28 +24,28 @@ bool test_load_slices() {
 }
 
 bool test_find_index_of_time() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 75);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_in_slices() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S_multiple_slices.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S_multiple_slices.txt");
 	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 750);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_not_found() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 999999);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, sg.events.nb_events);
 }
 
 bool test_init_events_table() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	init_events_table(&sg);
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
@@ -54,7 +54,7 @@ bool test_init_events_table() {
 
 bool test_external_format() {
 	// Read the file
-	char* filename = "tests/test_data/S_external.txt";
+	char* filename = "data/S_external.txt";
 	// Open the file
 	FILE* file = fopen(filename, "r");
 	if (file == NULL) {
@@ -89,7 +89,7 @@ bool test_external_format() {
 }
 
 bool test_from_external_format() {
-	StreamGraph sg = StreamGraph_from_external("tests/test_data/S_external.txt");
+	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);

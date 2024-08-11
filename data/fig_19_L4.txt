@@ -1,0 +1,27 @@
+SGA External version 1.0.0
+
+[General]
+Lifespan=(0 8)
+Scaling=1
+
+[Events]
+0 + N 0
+0 + N 1
+0 + N 2
+0 + N 3
+0 + N 4
+0 + L 0 1
+1 - L 0 1
+2 + L 1 2
+3 + L 2 3
+4 - L 1 2
+5 - L 2 3
+6 + L 3 4
+7 - L 3 4
+8 - N 0
+8 - N 1
+8 - N 2
+8 - N 3
+8 - N 4
+
+[EndOfFile]

@@ -71,7 +71,7 @@ int String_compare(const void* a, const void* b) {
 int String_hash(const String* string) {
 	int hash = 0;
 	char* str = string->data;
-	for (int i = 0; i < string->size; i++) {
+	for (size_t i = 0; i < string->size; i++) {
 		hash = ((hash * 31) + str[i]) ^ (str[i / 2] | str[i / 4]);
 	}
 	return hash;

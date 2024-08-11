@@ -130,12 +130,6 @@ size_t ChunkStream_scaling(StreamData* stream_data) {
 	return chunk_stream->underlying_stream_graph->scaling;
 }
 
-DEFAULT_TO_STRING(NodeId, "%zu");
-DEFAULT_COMPARE(NodeId);
-
-DEFAULT_TO_STRING(LinkId, "%zu");
-DEFAULT_COMPARE(LinkId);
-
 typedef struct {
 	NodeId node_to_get_neighbours;
 	NodeId current_neighbour;

@@ -10,7 +10,7 @@
 #include <unistd.h>
 
 bool test_cardinal_of_T_S_0() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
@@ -23,7 +23,7 @@ bool test_cardinal_of_T_S_0() {
 	return EXPECT_EQ(cardinal, 100);
 }
 bool test_cardinal_of_T_S_1() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 1);
@@ -34,7 +34,7 @@ bool test_cardinal_of_T_S_1() {
 }
 
 bool test_cardinal_of_T_S_2() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 2);
@@ -45,7 +45,7 @@ bool test_cardinal_of_T_S_2() {
 }
 
 bool test_cardinal_of_T_S_3() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
@@ -56,7 +56,7 @@ bool test_cardinal_of_T_S_3() {
 }
 
 bool test_times_node_present() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
@@ -70,7 +70,7 @@ bool test_times_node_present() {
 }
 
 bool test_cardinal_of_W_S() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
@@ -93,7 +93,7 @@ bool test_cardinal_of_W_S() {
 }
 
 bool test_cardinal_of_W_L() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = LS_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
@@ -107,7 +107,7 @@ bool test_cardinal_of_W_L() {
 }
 
 bool test_coverage_S() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	double coverage = Stream_coverage(&st);
 	FullStreamGraph_destroy(st);
@@ -116,7 +116,7 @@ bool test_coverage_S() {
 }
 
 bool test_coverage_L() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	LinkStream ls = LinkStream_from(&sg);
 	Stream st = (Stream){.type = LINK_STREAM, .stream_data = &ls}; // TODO : switch to LS_from
 	double coverage = Stream_coverage(&st);
@@ -125,7 +125,7 @@ bool test_coverage_L() {
 }
 
 bool test_node_duration_S() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	double duration = Stream_node_duration(&st);
 	FullStreamGraph_destroy(st);
@@ -135,7 +135,7 @@ bool test_node_duration_S() {
 
 #define TEST_METRIC_F(name, value, graph, type)                                                                        \
 	bool test_##name() {                                                                                               \
-		StreamGraph sg = StreamGraph_from_external("tests/test_data/" #graph ".txt");                                  \
+		StreamGraph sg = StreamGraph_from_external("data/" #graph ".txt");                                             \
 		Stream st = type##_from(&sg);                                                                                  \
 		bool result = EXPECT_F_APPROX_EQ(Stream_##name(&st), value, 1e-5);                                             \
 		StreamGraph_destroy(sg);                                                                                       \
@@ -145,7 +145,7 @@ bool test_node_duration_S() {
 
 #define TEST_METRIC_I(name, value, graph, type)                                                                        \
 	bool test_##name() {                                                                                               \
-		StreamGraph sg = StreamGraph_from_external("tests/test_data/" #graph ".txt");                                  \
+		StreamGraph sg = StreamGraph_from_external("data/" #graph ".txt");                                             \
 		Stream st = type##_from(&sg);                                                                                  \
 		bool result = EXPECT_EQ(Stream_##name(st), value);                                                             \
 		StreamGraph_destroy(sg);                                                                                       \
@@ -160,7 +160,7 @@ TEST_METRIC_F(node_duration, 6.5, S_external, FullStreamGraph)
 TEST_METRIC_F(link_duration, 1.66666666666, S_external, FullStreamGraph)
 
 bool test_contribution_of_nodes() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	double contribution_a = Stream_contribution_of_node(&st, 0);
 	double contribution_b = Stream_contribution_of_node(&st, 1);
@@ -173,7 +173,7 @@ bool test_contribution_of_nodes() {
 }
 
 bool test_contributions_of_links() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	double contribution_ab = Stream_contribution_of_link(&st, 0);
 	double contribution_bd = Stream_contribution_of_link(&st, 1);
@@ -189,7 +189,7 @@ TEST_METRIC_F(uniformity, 22.0 / 56.0, S_external, FullStreamGraph)
 TEST_METRIC_F(density, 10.0 / 22.0, S_external, FullStreamGraph)
 
 bool test_density_of_link() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	double density_ab = Stream_density_of_link(&st, 0);
 	double density_bd = Stream_density_of_link(&st, 1);
@@ -201,7 +201,7 @@ bool test_density_of_link() {
 }
 
 bool test_density_of_node() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	// Stream st = FullStreamGraph_from(&sg);
 	FullStreamGraph* fsg = malloc(sizeof(FullStreamGraph));
 	fsg->underlying_stream_graph = &sg;
@@ -217,7 +217,7 @@ bool test_density_of_node() {
 }
 
 bool test_density_at_instant() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	init_events_table(&sg);
 	Stream st = FullStreamGraph_from(&sg);
 	double density_2 = Stream_density_at_instant(&st, 20); // TODO : add automatic traduction with scaling
@@ -228,7 +228,7 @@ bool test_density_at_instant() {
 }
 
 bool test_chunk_stream_nodes_set() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(2);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 2);
@@ -259,7 +259,7 @@ bool test_chunk_stream_nodes_set() {
 }
 
 bool test_neighbours_of_node_chunk_stream() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(2);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 1);
@@ -291,7 +291,7 @@ bool test_neighbours_of_node_chunk_stream() {
 }
 
 bool test_times_node_present_chunk_stream() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(3);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 1);
@@ -323,7 +323,7 @@ bool test_times_node_present_chunk_stream() {
 }
 
 bool test_times_node_present_chunk_stream_2() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(3);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 1);
@@ -355,7 +355,7 @@ bool test_times_node_present_chunk_stream_2() {
 }
 
 bool test_link_presence_chunk_stream() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(3);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 1);
@@ -387,7 +387,7 @@ bool test_link_presence_chunk_stream() {
 }
 
 bool test_nodes_and_links_present_at_t_chunk_stream() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	init_events_table(&sg);
 	NodeIdVector nodes = NodeIdVector_with_capacity(3);
 	NodeIdVector_push(&nodes, 0);
@@ -427,7 +427,7 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 }
 
 bool test_degree_of_node() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	double degree_a = Stream_degree_of_node(&st, 0);
 	StreamGraph_destroy(sg);
@@ -436,7 +436,7 @@ bool test_degree_of_node() {
 }
 
 bool test_cache() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	double cov = Stream_coverage(&st);
@@ -449,7 +449,7 @@ bool test_cache() {
 }
 
 bool test_chunk_stream_small_nodes_set() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(2);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 2);
@@ -478,7 +478,7 @@ bool test_chunk_stream_small_nodes_set() {
 }
 
 bool test_chunk_stream_small_neighbours_of_node() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(2);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 1);
@@ -508,7 +508,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 }
 
 bool test_chunk_stream_small_times_node_present() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(3);
 	NodeIdVector_push(&nodes, 0);
 	NodeIdVector_push(&nodes, 1);
@@ -548,7 +548,7 @@ bool test_chunk_stream_small_times_node_present() {
 }
 
 bool test_clustering_coeff_of_node() {
-	StreamGraph sg = StreamGraph_from_external("tests/test_data/Figure_8.txt");
+	StreamGraph sg = StreamGraph_from_external("data/Figure_8.txt");
 	char* str = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);

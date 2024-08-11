@@ -15,7 +15,7 @@ DONT_OPTIMISE void benchmark_maximal_cliques() {
 }
 
 int main() {
-	StreamGraph sg = StreamGraph_from_external("benchmarks/data/cliques.txt");
+	StreamGraph sg = StreamGraph_from_external("data/cliques.txt");
 	st = FullStreamGraph_from(&sg);
 
 	// CliqueVector cliques = maximal_cliques(&st);
@@ -31,7 +31,7 @@ int main() {
 
 	StreamGraph_destroy(sg);
 
-	/*sg = StreamGraph_from_external("benchmarks/data/LS_90.txt");
+	/*sg = StreamGraph_from_external("data/LS_90.txt");
 	st = FullStreamGraph_from(&sg);
 
 	LinkVector_destroy(v);

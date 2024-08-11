@@ -57,18 +57,21 @@ induced_graph: $(SRC_DIR)/induced_graph.c interval stream defaults events_table 
 # 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/full_stream_graph.c -o $(BIN_DIR)/full_stream_graph.o
 # 	ar rcs $(BIN_DIR)/full_stream_graph.a $(BIN_DIR)/interval.a $(BIN_DIR)/stream.a $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/defaults.a
 
-full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream defaults induced_graph events_table key_moments_table links_set nodes_set utils bit_array | $(BIN_DIR)
+full_stream_graph: $(SRC_DIR)/stream/full_stream_graph.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/full_stream_graph.c -o $(BIN_DIR)/full_stream_graph.o
-	ar rcs $(BIN_DIR)/full_stream_graph.a bin/full_stream_graph.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o
+	ar rcs $(BIN_DIR)/full_stream_graph.a bin/full_stream_graph.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o
 
-link_stream: $(SRC_DIR)/stream/link_stream.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/link_stream.o
+link_stream: $(SRC_DIR)/stream/link_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array iterators full_stream_graph metrics | $(BIN_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/link_stream.c -o $(BIN_DIR)/link_stream.o
+	ar rcs $(BIN_DIR)/link_stream.a bin/link_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o
 
-chunk_stream: $(SRC_DIR)/stream/chunk_stream.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/chunk_stream.o
+chunk_stream: $(SRC_DIR)/stream/chunk_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array | $(BIN_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream.c -o $(BIN_DIR)/chunk_stream.o
+	ar rcs $(BIN_DIR)/chunk_stream.a bin/chunk_stream.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o
 
-chunk_stream_small: $(SRC_DIR)/stream/chunk_stream_small.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/chunk_stream_small.o
+chunk_stream_small: $(SRC_DIR)/stream/chunk_stream_small.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array | $(BIN_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/stream/chunk_stream_small.c -o $(BIN_DIR)/chunk_stream_small.o
+	ar rcs $(BIN_DIR)/chunk_stream_small.a bin/chunk_stream_small.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o
 
 iterators: $(SRC_DIR)/iterators.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/iterators.o

@@ -5,10 +5,8 @@
 size_t total_time_of(TimesIterator times) {
 	size_t total_time = 0;
 	FOR_EACH_TIME(interval, times) {
-		// printf("[Interval: %zu %zu]", interval.start, interval.end);
 		total_time += Interval_size(interval);
 	}
-	// printf(">\n");
 	return total_time;
 }
 
@@ -108,21 +106,6 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	data->current_interval = 0;
 
 	IntervalVector_destroy(intervals);
-
-	/*printf("TIMES INTERSECTION set a: ");
-	for (size_t i = 0; i < intervals_set_a.nb_intervals; i++) {
-		printf("[%zu %zu]", intervals_set_a.intervals[i].start, intervals_set_a.intervals[i].end);
-	}
-	printf(" set b: ");
-	for (size_t i = 0; i < intervals_set_b.nb_intervals; i++) {
-		printf("[%zu %zu]", intervals_set_b.intervals[i].start, intervals_set_b.intervals[i].end);
-	}
-	printf(" intersected: ");
-	for (size_t i = 0; i < intersected.nb_intervals; i++) {
-		printf("[%zu %zu]", intersected.intervals[i].start, intersected.intervals[i].end);
-	}
-	printf("\n");*/
-
 	IntervalsSet_destroy(intervals_set_a);
 	IntervalsSet_destroy(intervals_set_b);
 
@@ -139,4 +122,28 @@ size_t count_links(LinksIterator links) {
 
 size_t count_times(TimesIterator times) {
 	return _COUNT_ITERATOR(Interval, interval, times, interval.start != SIZE_MAX);
+}
+
+IntervalVector SGA_collect_times(TimesIterator times) {
+	IntervalVector intervals = IntervalVector_new();
+	FOR_EACH_TIME(interval, times) {
+		IntervalVector_push(&intervals, interval);
+	}
+	return intervals;
+}
+
+NodeIdVector SGA_collect_node_ids(NodesIterator nodes) {
+	NodeIdVector node_ids = NodeIdVector_new();
+	FOR_EACH_NODE(node, nodes) {
+		NodeIdVector_push(&node_ids, node);
+	}
+	return node_ids;
+}
+
+LinkIdVector SGA_collect_link_ids(LinksIterator links) {
+	LinkIdVector link_ids = LinkIdVector_new();
+	FOR_EACH_LINK(link, links) {
+		LinkIdVector_push(&link_ids, link);
+	}
+	return link_ids;
 }
