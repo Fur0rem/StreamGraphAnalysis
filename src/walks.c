@@ -297,7 +297,7 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 			Link link = sg.links.links[i];*/
 		LinksIterator links = fns.links_set(stream->stream_data);
 		FOR_EACH_LINK(i, links) {
-			Link link = fns.nth_link(stream->stream_data, i);
+			Link link = fns.link_by_id(stream->stream_data, i);
 			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
 				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
@@ -392,7 +392,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 				// TODO : add verification if node still exists by then
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					Link link = fns.nth_link(stream->stream_data, link_id);
+					Link link = fns.link_by_id(stream->stream_data, link_id);
 					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
@@ -476,7 +476,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		// 		Interval interval = l.presence.intervals[j];
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
-			Link link = fns.nth_link(stream->stream_data, link_id);
+			Link link = fns.link_by_id(stream->stream_data, link_id);
 			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times_link_present) {
 				bool can_cross_now = Interval_contains(interval, current_time);
@@ -757,7 +757,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		// Get its neighbors
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
-			Link link = fns.nth_link(stream->stream_data, link_id);
+			Link link = fns.link_by_id(stream->stream_data, link_id);
 			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times_link_present) {
 				bool can_cross_now = Interval_contains(interval, current_time);
@@ -816,7 +816,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		// Find the link between the current node and the previous node
 		LinksIterator links = fns.links_set(stream->stream_data);
 		FOR_EACH_LINK(i, links) {
-			Link link = fns.nth_link(stream->stream_data, i);
+			Link link = fns.link_by_id(stream->stream_data, i);
 			if ((link.nodes[0] == current_walk->node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_walk->node && link.nodes[0] == previous_node)) {
 				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->time};
@@ -900,7 +900,7 @@ bool Walk_involves_node_at_time(Walk* walk, NodeId node, double time) {
 	for (size_t i = 0; i < walk->steps.size; i++) {
 		WalkStep step = walk->steps.array[i];
 		StreamFunctions fns = STREAM_FUNCS(fns, walk->stream);
-		Link link = fns.nth_link(walk->stream->stream_data, step.link);
+		Link link = fns.link_by_id(walk->stream->stream_data, step.link);
 		if (link.nodes[0] == node || link.nodes[1] == node) {
 			if ((double)step.time <= time && time <= (double)step.needs_to_arrive_before) {
 				return true;

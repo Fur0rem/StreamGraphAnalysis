@@ -4,6 +4,7 @@
 #include "iterators.h"
 #include "stream.h"
 #include "stream_graph/links_set.h"
+#include "stream_graph/nodes_set.h"
 
 typedef struct {
 	NodesIterator (*nodes_set)(StreamData*);
@@ -17,9 +18,11 @@ typedef struct {
 	TimesIterator (*times_node_present)(StreamData*, NodeId);
 	TimesIterator (*times_link_present)(StreamData*, LinkId);
 
-	Link (*nth_link)(StreamData*, size_t);
-	LinksIterator (*neighbours_of_node)(StreamData*, NodeId);
+	Link (*link_by_id)(StreamData*, size_t);
+	TemporalNode (*node_by_id)(StreamData*, size_t);
 
+	LinksIterator (*neighbours_of_node)(StreamData*, NodeId);
+	LinkId (*links_between_nodes)(StreamData*, NodeId, NodeId);
 } StreamFunctions;
 
 #define STREAM_FUNCS(variable, stream_var)                                                                             \
@@ -48,5 +51,25 @@ typedef struct {
 		}                                                                                                              \
 		(variable);                                                                                                    \
 	})
+
+#include "iterators.h"
+
+NodesIterator Stream_nodes_set(Stream* stream);
+LinksIterator Stream_links_set(Stream* stream);
+
+Interval Stream_lifespan(Stream* stream);
+size_t Stream_scaling(Stream* stream);
+
+NodesIterator Stream_nodes_present_at_t(Stream* stream, TimeId instant);
+LinksIterator Stream_links_present_at_t(Stream* stream, TimeId instant);
+
+TimesIterator Stream_times_node_present(Stream* stream, NodeId node_id);
+TimesIterator Stream_times_link_present(Stream* stream, LinkId link_id);
+
+Link Stream_link_by_id(Stream* stream, size_t link_id);
+TemporalNode Stream_node_by_id(Stream* stream, size_t node_id);
+
+LinksIterator Stream_neighbours_of_node(Stream* stream, NodeId node_id);
+LinkId Stream_links_between_nodes(Stream* stream, NodeId node_id, NodeId other_node_id);
 
 #endif // STREAM_FUNCTIONS_H

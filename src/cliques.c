@@ -1049,7 +1049,7 @@ CliqueVector Stream_maximal_cliques(Stream* st) {
 	LinkPresenceVector links = LinkPresenceVector_new();
 	LinksIterator links_set = funcs.links_set(st->stream_data);
 	FOR_EACH_LINK(link_id, links_set) {
-		Link link = funcs.nth_link(st->stream_data, link_id);
+		Link link = funcs.link_by_id(st->stream_data, link_id);
 		for (size_t i = 0; i < link.presence.nb_intervals; i++) {
 			LinkPresence l = (LinkPresence){
 				.start = link.presence.intervals[i].start,

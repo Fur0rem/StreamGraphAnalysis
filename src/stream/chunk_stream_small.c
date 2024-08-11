@@ -347,7 +347,7 @@ TimesIterator ChunkStreamSmall_times_link_present(StreamData* stream_data, LinkI
 	return times_iterator;
 }
 
-Link ChunkStreamSmall_nth_link(StreamData* stream_data, size_t link_id) {
+Link ChunkStreamSmall_link_by_id(StreamData* stream_data, size_t link_id) {
 	ChunkStreamSmall* chunk_stream = (ChunkStreamSmall*)stream_data;
 	return chunk_stream->underlying_stream_graph->links.links[link_id];
 }
@@ -360,7 +360,7 @@ const StreamFunctions ChunkStreamSmall_stream_functions = {
 	.links_present_at_t = ChunkStreamSmall_links_present_at_t,
 	.times_node_present = ChunkStreamSmall_times_node_present,
 	.times_link_present = ChunkStreamSmall_times_link_present,
-	.nth_link = ChunkStreamSmall_nth_link,
+	.link_by_id = ChunkStreamSmall_link_by_id,
 	.neighbours_of_node = ChunkStreamSmall_neighbours_of_node,
 };
 

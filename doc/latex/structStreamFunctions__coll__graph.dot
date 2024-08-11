@@ -21,7 +21,7 @@ digraph "StreamFunctions"
   Node8 [label="TimesIterator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structTimesIterator.html",tooltip="An iterator over a set of time intervals."];
   Node3 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_graph" ];
   Node7 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ];
-  Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" nth_link" ];
+  Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" link_by_id" ];
   Node9 [label="Link",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structLink.html",tooltip=" "];
   Node10 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" presence" ];
   Node10 [label="IntervalsSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structIntervalsSet.html",tooltip=" "];

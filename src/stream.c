@@ -1066,7 +1066,7 @@ char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector_append(&vec, APPEND_CONST("| Links : "));
 	for (size_t i = 0; i < event.nb_links; i++) {
 		// TODO : modify this to use the node names
-		sprintf(buffer, "%zu ", *Event_access_nth_link(event, i));
+		sprintf(buffer, "%zu ", *Event_access_link_by_id(event, i));
 		charVector_append(&vec, buffer, strlen(buffer));
 	}
 	charVector_append(&vec, APPEND_CONST(")\n"));

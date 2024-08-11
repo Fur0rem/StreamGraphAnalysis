@@ -176,7 +176,7 @@ TimesIterator SnapshotStream_times_link_present(StreamData* stream_data, LinkId 
 	return times_iterator;
 }
 
-Link SnapshotStream_nth_link(StreamData* stream_data, size_t link_id) {
+Link SnapshotStream_link_by_id(StreamData* stream_data, size_t link_id) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	return snapshot_stream->underlying_stream_graph->links.links[link_id];
 }
@@ -190,7 +190,7 @@ const StreamFunctions SnapshotStream_stream_functions = {
 	.links_present_at_t = SnapshotStream_links_present_at_t,
 	.times_node_present = SnapshotStream_times_node_present,
 	.times_link_present = SnapshotStream_times_link_present,
-	.nth_link = SnapshotStream_nth_link,
+	.link_by_id = SnapshotStream_link_by_id,
 	.neighbours_of_node = SnapshotStream_neighbours_of_node,
 };
 
