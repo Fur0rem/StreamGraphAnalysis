@@ -308,18 +308,18 @@
 /// Derives functions to the vector, if the elements can be said equal or not equal
 /// You should prefer using VectorDeriveCompare if all of the elements can be full ordered
 #define DeclareVectorDeriveEquals(type)                                                                                \
-	bool type##Vector_equals(type##Vector vec1, type##Vector vec2);                                                    \
+	bool type##Vector_equals(type##Vector* vec1, type##Vector* vec2);                                                  \
 	size_t type##Vector_find(type##Vector vec, type value);                                                            \
 	bool type##Vector_contains(type##Vector vec, type value);
 
 #define DefineVectorDeriveEquals(type)                                                                                 \
                                                                                                                        \
-	bool type##Vector_equals(type##Vector vec1, type##Vector vec2) {                                                   \
-		if (vec1.size != vec2.size) {                                                                                  \
+	bool type##Vector_equals(type##Vector* vec1, type##Vector* vec2) {                                                 \
+		if (vec1->size != vec2->size) {                                                                                \
 			return false;                                                                                              \
 		}                                                                                                              \
-		for (size_t i = 0; i < vec1.size; i++) {                                                                       \
-			if (!type##_equals(&vec1.array[i], &vec2.array[i])) {                                                      \
+		for (size_t i = 0; i < vec1->size; i++) {                                                                      \
+			if (!type##_equals(&vec1->array[i], &vec2->array[i])) {                                                    \
 				return false;                                                                                          \
 			}                                                                                                          \
 		}                                                                                                              \
