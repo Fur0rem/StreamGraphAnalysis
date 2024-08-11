@@ -9,7 +9,7 @@
 #include <string.h>
 
 bool test_links_at_time_80() {
-	StreamGraph sg = StreamGraph_from_file("tests/test_data/S.txt");
+	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	init_events_table(&sg);
 	Stream st = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = FullStreamGraph_stream_functions;

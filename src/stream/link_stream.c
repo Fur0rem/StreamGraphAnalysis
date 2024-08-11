@@ -200,19 +200,40 @@ double LS_coverage(Stream* stream_data) {
 	return 1.0;
 }
 
-double density(Stream* st) {
-	LinkStream* ls = (LinkStream*)st->stream_data;
-	StreamGraph* sg = ls->underlying_stream_graph;
-	size_t n = sg->nodes.nb_nodes;
-	double m = Stream_number_of_links(st);
+size_t LS_cardinal_of_T(Stream* stream) {
+	LinkStream* ls = (LinkStream*)stream->stream_data;
+	size_t t = Interval_size(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
+										   StreamGraph_lifespan_end(ls->underlying_stream_graph)));
+	UPDATE_CACHE(stream, cardinalOfT, t);
+	return t;
+}
+
+size_t LS_cardinal_of_V(Stream* stream) {
+	LinkStream* ls = (LinkStream*)stream->stream_data;
+	size_t v = ls->underlying_stream_graph->nodes.nb_nodes;
+	UPDATE_CACHE(stream, cardinalOfV, v);
+	return v;
+}
+
+size_t LS_cardinal_of_W(Stream* stream) {
+	size_t v = cardinalOfT(stream);
+	size_t t = cardinalOfW(stream);
+	size_t w = v * t;
+	UPDATE_CACHE(stream, cardinalOfW, w);
+	return w;
+}
+
+double density(Stream* stream) {
+	size_t n = LS_cardinal_of_V(stream);
+	double m = Stream_number_of_links(stream);
 	return m / (double)(n * (n - 1));
 }
 
 const MetricsFunctions LinkStream_metrics_functions = {
 	.coverage = LS_coverage,
 	.cardinalOfT = NULL,
-	.cardinalOfV = NULL,
-	.cardinalOfW = NULL,
+	.cardinalOfV = LS_cardinal_of_V,
+	.cardinalOfW = LS_cardinal_of_W,
 	.node_duration = NULL,
 	.density = density,
 };

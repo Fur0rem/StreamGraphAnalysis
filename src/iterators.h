@@ -137,4 +137,31 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b);
  */
 TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b);
 
+/**
+ * @brief Collects all the time intervals of the given iterator into a vector.
+
+ * Consumes the iterator.
+ * @param times The iterator over time intervals.
+ * @return A vector containing all the time intervals of the iterator.
+ */
+IntervalVector SGA_collect_times(TimesIterator times);
+
+/**
+ * @brief Collects all the nodes of the given iterator into a vector.
+
+ * Consumes the iterator.
+ * @param nodes The iterator over nodes.
+ * @return A vector containing all the node ids of the iterator.
+ */
+NodeIdVector SGA_collect_node_ids(NodesIterator nodes);
+
+/**
+ * @brief Collects all the links of the given iterator into a vector.
+
+ * Consumes the iterator.
+ * @param links The iterator over links.
+ * @return A vector containing all the link ids of the iterator.
+ */
+LinkIdVector SGA_collect_link_ids(LinksIterator links);
+
 #endif // ITERATORS_H

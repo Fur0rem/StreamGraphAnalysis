@@ -1370,9 +1370,6 @@ void init_events_table(StreamGraph* sg) {
 	}
 	free(node_events);
 	free(link_events);
-
-	printf("done initializing events table\n");
-	printf("kmt size: %p\n", &sg->key_moments);
 }
 
 void events_destroy(StreamGraph* sg) {

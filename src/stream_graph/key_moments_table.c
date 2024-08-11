@@ -99,7 +99,6 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
 	size_t relative_time = t % SLICE_SIZE;
 	// Recherche dichotomique
 	size_t left = 0;
-	printf("kmt : %p\n", kmt);
 	size_t right = kmt->slices[slice].nb_moments;
 	while (left < right) {
 		size_t mid = (left + right) / 2;

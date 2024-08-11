@@ -15,14 +15,6 @@ typedef struct {
 	BitArray links_present;
 } ChunkStream;
 
-/*DEFAULT_TO_STRING(NodeId, "%zu");
-DEFAULT_COMPARE(NodeId);
-DefVector(NodeId, NO_FREE(NodeId));
-
-DEFAULT_TO_STRING(LinkId, "%zu");
-DEFAULT_COMPARE(LinkId);
-DefVector(LinkId, NO_FREE(LinkId));*/
-
 ChunkStream ChunkStream_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
 							 size_t time_end);
 Stream CS_from(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start, size_t time_end);

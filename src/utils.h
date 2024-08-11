@@ -43,7 +43,7 @@
 		return *a == *b;                                                                                               \
 	}
 #define DEFAULT_COMPARE(type)                                                                                          \
-	int type##_compare(const void* a, const void* b) {                                                                 \
+	int type##_compare(const type* a, const type* b) {                                                                 \
 		type a_val = *(type*)a;                                                                                        \
 		type b_val = *(type*)b;                                                                                        \
 		if (a_val < b_val) {                                                                                           \
@@ -58,7 +58,7 @@
 	}
 
 #define DeclareEquals(type)	 bool type##_equals(const type* a, const type* b);
-#define DeclareCompare(type) int type##_compare(const void* a, const void* b);
+#define DeclareCompare(type) int type##_compare(const type* a, const type* b);
 
 #define DEFAULT_MIN_MAX(type)                                                                                          \
 	type type##_min(type a, type b) {                                                                                  \

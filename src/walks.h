@@ -101,23 +101,6 @@ DeclareVectorDeriveEquals(WalkInfo);
 DeclareVectorDeriveToString(WalkInfo);
 DeclareVectorDeriveRemove(WalkInfo);
 
-// Interval Walk_is_still_optimal_between(Walk* walk);
-
-// typedef struct {
-// 	Walk walk;
-// 	Interval optimality;
-// } WalkOptimal;
-
-// char* WalkOptimal_to_string(WalkOptimal* wo);
-
-// bool Walk_equals(Walk a, Walk b);
-
-// bool WalkOptimal_equals(WalkOptimal a, WalkOptimal b);
-
-// DefVector(WalkOptimal, NO_FREE(WalkOptimal));
-
-// WalkOptimalVector optimals_between_two_nodes(Stream* stream, NodeId from, NodeId to);
-
 WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
 											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
 WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
