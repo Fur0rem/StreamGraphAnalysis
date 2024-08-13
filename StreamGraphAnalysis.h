@@ -6,3 +6,4 @@
 #include "src/stream/snapshot_stream.h"
 #include "src/stream_functions.h"
 #include "src/utils.h"
+#include "src/walks.h"

@@ -108,4 +108,6 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 size_t Walk_length(Walk* walk);
 size_t Walk_duration(Walk* walk);
 
+double Stream_robustness_by_length(Stream* stream);
+
 #endif // WALK_H

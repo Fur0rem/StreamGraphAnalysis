@@ -1,5 +1,6 @@
 #include "walks.h"
 #include "arena.h"
+#include "defaults.h"
 #include "hashset.h"
 #include "interval.h"
 #include "iterators.h"
@@ -286,6 +287,7 @@ DefineVectorDeriveToString(WalkStep);
 
 DefineVector(WalkInfo);
 DefineVectorDeriveRemove(WalkInfo, WalkInfo_destroy);
+DefineVectorDeriveEquals(WalkInfo);
 DefineVectorDeriveToString(WalkInfo);
 
 // TODO : this doesn't work (why i copy pasted the other one ???)
@@ -954,4 +956,84 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 	// printf("Number of walks : %zu, Number of walks involving node : %zu\n", number_of_walks,
 	//    number_of_walks_involving_node);
 	return betweenness;
+}
+
+double Walk_length_integral_1_over_x(Walk* walk) {
+	size_t optimality_begin = walk->optimality.start;
+	size_t optimality_end = walk->optimality.end;
+	size_t length = Walk_length(walk);
+	size_t time_frame = optimality_end - optimality_begin;
+	double res = (1.0 / (double)length) * (double)time_frame;
+	printf("res = %f", res);
+	return res;
+}
+
+DeclareVector(WalkInfoVector);
+DefineVector(WalkInfoVector);
+DefineVectorDeriveRemove(WalkInfoVector, WalkInfoVector_destroy);
+DefineVectorDeriveToString(WalkInfoVector);
+DefineVectorDeriveEquals(WalkInfoVector);
+
+DeclareVector(WalkInfoVectorVector);
+DefineVector(WalkInfoVectorVector);
+DefineVectorDeriveRemove(WalkInfoVectorVector, WalkInfoVectorVector_destroy);
+DefineVectorDeriveToString(WalkInfoVectorVector);
+DefineVectorDeriveEquals(WalkInfoVectorVector);
+
+DeclareVector(size_tVector);
+DefineVector(size_tVector);
+DefineVectorDeriveRemove(size_tVector, size_tVector_destroy);
+DefineVectorDeriveToString(size_tVector);
+DefineVectorDeriveEquals(size_tVector);
+
+// TODO: matrix data struct?
+DeclareVector(size_tVectorVector);
+DefineVector(size_tVectorVector);
+DefineVectorDeriveRemove(size_tVectorVector, size_tVectorVector_destroy);
+DefineVectorDeriveToString(size_tVectorVector);
+DefineVectorDeriveEquals(size_tVectorVector);
+
+// TODO : rewrite it a bit clearer
+double Stream_robustness_by_length(Stream* stream) {
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
+	size_t begin = fns.lifespan(stream->stream_data).start;
+	double robustness = 0.0;
+
+	NodeIdVector nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
+
+	for (size_t f = 0; f < nodes.size; f++) {
+		NodeId from = nodes.array[f];
+		for (size_t t = 0; t < nodes.size; t++) {
+			NodeId to = nodes.array[t];
+			printf("From: %zu, To: %zu     ", from, to);
+			if (from == to) {
+				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
+				FOR_EACH_TIME(p, presence) {
+					printf("[%zu, %zu[ : 1   ", p.start, p.end);
+					robustness += (double)(p.end - p.start);
+				}
+			}
+			else {
+				WalkInfoVector optimals =
+					optimal_walks_between_two_nodes(stream, from, to, Stream_shortest_walk_from_to_at);
+				for (size_t o = 0; o < optimals.size; o++) {
+					WalkInfo w = optimals.array[o];
+					// TODO: put optimality somewhere else in the struct
+					printf("[%zu, %zu[ : ", w.walk_or_reason.walk.optimality.start,
+						   w.walk_or_reason.walk.optimality.end);
+					if (w.type == NO_WALK) {
+						printf("+INF");
+					}
+					else {
+						printf("%zu   ", Walk_length(&w.walk_or_reason.walk));
+					}
+					robustness += Walk_length_integral_1_over_x(&w.walk_or_reason.walk);
+				}
+			}
+			printf("\n");
+		}
+	}
+
+	return robustness / (double)(nodes.size * nodes.size * (max_lifespan - begin));
 }
