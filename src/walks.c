@@ -958,40 +958,11 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 	return betweenness;
 }
 
+/// returns integral of 1/length over the walk optimality interval
 double Walk_length_integral_1_over_x(Walk* walk) {
-	size_t optimality_begin = walk->optimality.start;
-	size_t optimality_end = walk->optimality.end;
-	size_t length = Walk_length(walk);
-	size_t time_frame = optimality_end - optimality_begin;
-	double res = (1.0 / (double)length) * (double)time_frame;
-	printf("res = %f", res);
-	return res;
+	size_t time_frame = walk->optimality.end - walk->optimality.start;
+	return (double)time_frame / (double)Walk_length(walk);
 }
-
-DeclareVector(WalkInfoVector);
-DefineVector(WalkInfoVector);
-DefineVectorDeriveRemove(WalkInfoVector, WalkInfoVector_destroy);
-DefineVectorDeriveToString(WalkInfoVector);
-DefineVectorDeriveEquals(WalkInfoVector);
-
-DeclareVector(WalkInfoVectorVector);
-DefineVector(WalkInfoVectorVector);
-DefineVectorDeriveRemove(WalkInfoVectorVector, WalkInfoVectorVector_destroy);
-DefineVectorDeriveToString(WalkInfoVectorVector);
-DefineVectorDeriveEquals(WalkInfoVectorVector);
-
-DeclareVector(size_tVector);
-DefineVector(size_tVector);
-DefineVectorDeriveRemove(size_tVector, size_tVector_destroy);
-DefineVectorDeriveToString(size_tVector);
-DefineVectorDeriveEquals(size_tVector);
-
-// TODO: matrix data struct?
-DeclareVector(size_tVectorVector);
-DefineVector(size_tVectorVector);
-DefineVectorDeriveRemove(size_tVectorVector, size_tVectorVector_destroy);
-DefineVectorDeriveToString(size_tVectorVector);
-DefineVectorDeriveEquals(size_tVectorVector);
 
 // TODO : rewrite it a bit clearer
 double Stream_robustness_by_length(Stream* stream) {
@@ -1006,12 +977,10 @@ double Stream_robustness_by_length(Stream* stream) {
 		NodeId from = nodes.array[f];
 		for (size_t t = 0; t < nodes.size; t++) {
 			NodeId to = nodes.array[t];
-			printf("From: %zu, To: %zu     ", from, to);
 			if (from == to) {
 				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
 				FOR_EACH_TIME(p, presence) {
-					printf("[%zu, %zu[ : 1   ", p.start, p.end);
-					robustness += (double)(p.end - p.start);
+					robustness += (double)(p.end - p.start); // 1 if exists, 0 if not
 				}
 			}
 			else {
@@ -1020,20 +989,15 @@ double Stream_robustness_by_length(Stream* stream) {
 				for (size_t o = 0; o < optimals.size; o++) {
 					WalkInfo w = optimals.array[o];
 					// TODO: put optimality somewhere else in the struct
-					printf("[%zu, %zu[ : ", w.walk_or_reason.walk.optimality.start,
-						   w.walk_or_reason.walk.optimality.end);
-					if (w.type == NO_WALK) {
-						printf("+INF");
+					if (w.type == WALK) {
+						robustness += Walk_length_integral_1_over_x(&w.walk_or_reason.walk);
 					}
-					else {
-						printf("%zu   ", Walk_length(&w.walk_or_reason.walk));
-					}
-					robustness += Walk_length_integral_1_over_x(&w.walk_or_reason.walk);
 				}
+				WalkInfoVector_destroy(optimals);
 			}
-			printf("\n");
 		}
 	}
+	NodeIdVector_destroy(nodes);
 
 	return robustness / (double)(nodes.size * nodes.size * (max_lifespan - begin));
 }

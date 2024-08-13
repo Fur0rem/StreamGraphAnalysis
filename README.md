@@ -75,6 +75,7 @@ Supported metrics (In order of first mention in the paper)
 - Average node degree : Section 8
 - Clustering coefficient of a node : Section 9
 - Node clustering coefficient : Section 9
+- Robustness by length : Outside of the paper
 
 (These were implemented in previous commits but have not been ported for generic streams yet)
 - Compactness : Section 4
