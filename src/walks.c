@@ -44,6 +44,7 @@ struct QueueInfo {
 	NodeId node;
 	size_t time;
 	size_t depth;
+	size_t previouses;
 	Interval interval_taken;
 	QueueInfo* previous;
 };
@@ -278,8 +279,8 @@ DefineVectorDeriveEquals(WalkInfo);
 DefineVectorDeriveToString(WalkInfo);
 
 WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candidates, NodeId from) {
-	WalkStepVector steps = WalkStepVector_with_capacity(1);
 	QueueInfo* current_walk = candidates;
+	WalkStepVector steps = WalkStepVector_with_capacity(candidates->previouses);
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	while (current_walk != NULL) {
 		NodeId current_node = current_walk->node;
@@ -295,7 +296,9 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
 				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
 				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
-				WalkStepVector_push(&steps, step);
+				// SAFETY: we keep track of how many previouses there were in the function, and we preallocate the
+				// vector with that size
+				WalkStepVector_push_unchecked(&steps, step);
 				links.destroy(&links);
 				break;
 			}
@@ -355,7 +358,8 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 	// Initialize the queue with the starting node
 	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
+	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL,
+					   .previouses = 0};
 	QueueInfoVector_push(&queue, start);
 
 	NodeId current_candidate = from;
@@ -398,7 +402,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 					*previous = current_info;
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
-											   .previous = previous};
+											   .previous = previous, .previouses = current_info.previouses + 1};
 					QueueInfoVector_push(&queue, neighbor_info);
 				}
 			}
@@ -448,7 +452,8 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 
 	// Initialize the queue with the starting node
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
+	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL,
+					   .previouses = 0};
 	QueueInfoVector_push(queue, start);
 
 	NodeId current_candidate = from;
@@ -490,7 +495,7 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 					*previous = current_info;
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
-											   .previous = previous};
+											   .previous = previous, .previouses = current_info.previouses + 1};
 					QueueInfoVector_push(queue, neighbor_info);
 				}
 			}
@@ -532,7 +537,8 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 	// Initialize the queue with the starting node
 	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start = {from, current_time, 0, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
+	QueueInfo start = {
+		from, current_time, 0, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL, .previouses = 0};
 	QueueInfoVector_push(&queue, start);
 
 	NodeId current_candidate = from;
@@ -572,8 +578,9 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
-					QueueInfo neighbor_info = {neighbor_id, time_crossed, current_info.depth + 1,
-											   .interval_taken = interval, .previous = previous};
+					QueueInfo neighbor_info = {
+						neighbor_id,		  time_crossed,	  current_info.depth + 1, .interval_taken = interval,
+						.previous = previous, .previouses = 0};
 					QueueInfoVector_push(&queue, neighbor_info);
 				}
 			}
@@ -799,6 +806,7 @@ String BinaryHeap_to_string(BinaryHeap* heap) {
 
 // Dijkstra's algorithm to find the minimum delay between two nodes
 // Its also the shortest fastest
+// OPTIMISE: preallocated memory of previouses like the other funcs
 WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	WalkInfo result;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
