@@ -194,9 +194,6 @@ DefineVectorDeriveEquals(Walk);
 
 String WalkInfo_to_string(const WalkInfo* wi) {
 	if (wi->type == WALK) {
-		// char* result = malloc(strlen(str) + 100);
-		// sprintf(result, "WalkInfo(WALK, %s)", str);
-		// free(str);
 		String walk_str = Walk_to_string(&wi->walk_or_reason.walk);
 		String str = String_from_duplicate("WalkInfo(WALK, ");
 		String_concat_consume(&str, &walk_str);
@@ -204,16 +201,6 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 		return str;
 	}
 	else {
-		// char* result = malloc(200);
-		// if (wi->walk_or_reason.no_walk_reason.type == NODE_DOESNT_EXIST) {
-		// 	NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
-		// 	sprintf(result, "WalkInfo(NO_WALK, NODE_DOESNT_EXIST in interval %s)", Interval_to_string(&info.interval));
-		// }
-		// else {
-		// 	ImpossibleToReachInfo info = wi->walk_or_reason.no_walk_reason.reason.impossible_to_reach;
-		// 	sprintf(result, "WalkInfo(NO_WALK, IMPOSSIBLE_TO_REACH after %zu)", info.impossible_after);
-		// }
-		// return result;
 		String str = String_from_duplicate("WalkInfo(NO_WALK, ");
 		if (wi->walk_or_reason.no_walk_reason.type == NODE_DOESNT_EXIST) {
 			NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
@@ -290,8 +277,7 @@ DefineVectorDeriveRemove(WalkInfo, WalkInfo_destroy);
 DefineVectorDeriveEquals(WalkInfo);
 DefineVectorDeriveToString(WalkInfo);
 
-// TODO : this doesn't work (why i copy pasted the other one ???)
-WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candidates, NodeId from, NodeId to) {
+WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candidates, NodeId from) {
 	WalkStepVector steps = WalkStepVector_with_capacity(1);
 	QueueInfo* current_walk = candidates;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
@@ -314,6 +300,12 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 				break;
 			}
 		}
+		// FIXME: for some reason this shit doesnt work.?.???
+		// LinkId link_id = fns.links_between_nodes(stream->stream_data, current_node, previous_node);
+		// if (link_id != SIZE_MAX) {
+		// 	WalkStep step = {link_id, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
+		// 	WalkStepVector_push(&steps, step);
+		// }
 		current_walk = previous;
 	}
 
@@ -424,7 +416,7 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		.end = to,
 		.optimality = Interval_from(at, max_lifespan),
 		.stream = stream,
-		.steps = WalkStepVector_from_candidates(stream, &current_info, from, to),
+		.steps = WalkStepVector_from_candidates(stream, &current_info, from),
 	};
 
 	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
@@ -442,6 +434,92 @@ cleanup_and_return:
 	ExploredStateHashset_destroy(explored);
 	ArenaVector_destroy(arena);
 	return result;
+}
+
+// Minimal number of hops between two nodes
+// Uses buffering to avoid reallocating memory
+void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeId to, TimeId at, WalkInfo* result,
+											  ArenaVector* arena, QueueInfoVector* queue,
+											  ExploredStateHashset* explored) {
+	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
+
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t current_time = at;
+
+	// Initialize the queue with the starting node
+	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
+	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
+	QueueInfoVector_push(queue, start);
+
+	NodeId current_candidate = from;
+	QueueInfo current_info;
+	while ((current_candidate != to) && (!QueueInfoVector_is_empty(*queue))) {
+		// Get the next node from the queue
+		current_info = QueueInfoVector_pop_first(queue);
+
+		// TODO : maybe there is a better solution than hashsets to not loop between the same nodes?
+		if (ExploredStateHashset_contains(*explored, (ExploredState){current_info.node, current_info.time})) {
+			continue;
+		}
+		ExploredStateHashset_insert(explored, (ExploredState){current_info.node, current_info.time});
+		current_candidate = current_info.node;
+		current_time = current_info.time;
+
+		// FIXME: do with iterators but they segfault for some reason :(
+		// Get its neighbors
+		// TemporalNode n = sg.nodes.nodes[current_candidate];
+		/*for (size_t i = 0; i < n.nb_neighbours; i++) {
+			size_t neighbor = n.neighbours[i];
+			Link l = sg.links.links[neighbor];*/
+		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
+		// printf("Neighbours of %zu\n", current_candidate);
+		// printf("linksiterators : %p", neighbours.stream_graph.stream);
+		FOR_EACH_LINK(link_id, neighbours) {
+			// Link l = sg.links.links[link_id];
+			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
+			// for (size_t j = 0; j < l.presence.nb_intervals; j++) {
+			FOR_EACH_TIME(interval, times_link_present) {
+				// Interval interval = l.presence.intervals[j];
+				bool can_cross_now = Interval_contains(interval, current_time);
+				// TODO : add verification if node still exists by then
+				bool will_cross_later = (interval.start > current_time);
+				if (can_cross_now || will_cross_later) {
+					Link link = fns.link_by_id(stream->stream_data, link_id);
+					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					QueueInfo* previous = ArenaVector_alloc(arena, sizeof(QueueInfo));
+					*previous = current_info;
+					TimeId time_crossed = can_cross_now ? current_time : interval.start;
+					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
+											   .previous = previous};
+					QueueInfoVector_push(queue, neighbor_info);
+				}
+			}
+		}
+	}
+
+	if (QueueInfoVector_is_empty(*queue)) { // No walk found
+		*result = unreachable_after(at);
+		return;
+	}
+
+	// Build the walk
+	Walk walk = {
+		.start = from,
+		.end = to,
+		.optimality = Interval_from(at, max_lifespan),
+		.stream = stream,
+		.steps = WalkStepVector_from_candidates(stream, &current_info, from),
+	};
+
+	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
+	for (size_t i = 0; i < walk.steps.size - 1; i++) {
+		WalkStep* step = &walk.steps.array[i];
+		step->needs_to_arrive_before =
+			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
+	}
+	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
+
+	*result = walk_exists(walk);
 }
 
 WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
@@ -521,7 +599,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		.end = to,
 		.optimality = Interval_from(at, max_lifespan),
 		.stream = stream,
-		.steps = WalkStepVector_from_candidates(stream, &best_yet, from, to),
+		.steps = WalkStepVector_from_candidates(stream, &best_yet, from),
 	};
 
 	// propagate the optimal intervals
@@ -932,9 +1010,6 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 						// 	walk.walk_or_reason.walk.optimality.end - walk.walk_or_reason.walk.optimality.start;
 						size_t walk_optimality = 1;
 						size_t number_of_walks = walk_optimality;
-						printf("Walk from %zu to %zu : %s\n", from, to, Walk_to_string(&walk.walk_or_reason.walk).data);
-						printf("Walk involves node %zu at time %f : %d\n", node, time,
-							   Walk_involves_node_at_time(&walk.walk_or_reason.walk, node, time));
 						size_t number_of_walks_involving_node = 0;
 						if (Walk_involves_node_at_time(&walk.walk_or_reason.walk, node, time)) {
 							number_of_walks_involving_node += walk_optimality;
@@ -946,7 +1021,6 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 					}
 				}
 				String str = WalkInfoVector_to_string(&optimal_walks);
-				printf("Optimal walks from %zu to %zu : %s\n", from, to, str.data);
 				String_destroy(str);
 				WalkInfoVector_destroy(optimal_walks);
 			}
@@ -965,10 +1039,50 @@ double Walk_length_integral_1_over_x(Walk* walk) {
 }
 
 // TODO : rewrite it a bit clearer
+// double Stream_robustness_by_length(Stream* stream) {
+// 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+// 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
+// 	size_t begin = fns.lifespan(stream->stream_data).start;
+// 	double robustness = 0.0;
+
+// 	NodeIdVector nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
+
+// 	for (size_t f = 0; f < nodes.size; f++) {
+// 		NodeId from = nodes.array[f];
+// 		for (size_t t = 0; t < nodes.size; t++) {
+// 			NodeId to = nodes.array[t];
+// 			if (from == to) {
+// 				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
+// 				FOR_EACH_TIME(p, presence) {
+// 					robustness += (double)(p.end - p.start); // 1 if exists, 0 if not
+// 				}
+// 			}
+// 			else {
+// 				WalkInfoVector optimals =
+// 					optimal_walks_between_two_nodes(stream, from, to, Stream_shortest_walk_from_to_at);
+// 				for (size_t o = 0; o < optimals.size; o++) {
+// 					WalkInfo w = optimals.array[o];
+// 					// TODO: put optimality somewhere else in the struct
+// 					if (w.type == WALK) {
+// 						robustness += Walk_length_integral_1_over_x(&w.walk_or_reason.walk);
+// 					}
+// 				}
+// 				WalkInfoVector_destroy(optimals);
+// 			}
+// 		}
+// 	}
+// 	NodeIdVector_destroy(nodes);
+
+// 	return robustness / (double)(nodes.size * nodes.size * (max_lifespan - begin));
+// }
+
 double Stream_robustness_by_length(Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
 	size_t begin = fns.lifespan(stream->stream_data).start;
+	ArenaVector arena = ArenaVector_init();
+	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
+	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	double robustness = 0.0;
 
 	NodeIdVector nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
@@ -977,6 +1091,7 @@ double Stream_robustness_by_length(Stream* stream) {
 		NodeId from = nodes.array[f];
 		for (size_t t = 0; t < nodes.size; t++) {
 			NodeId to = nodes.array[t];
+			double robustness_before = robustness;
 			if (from == to) {
 				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
 				FOR_EACH_TIME(p, presence) {
@@ -984,20 +1099,42 @@ double Stream_robustness_by_length(Stream* stream) {
 				}
 			}
 			else {
-				WalkInfoVector optimals =
-					optimal_walks_between_two_nodes(stream, from, to, Stream_shortest_walk_from_to_at);
-				for (size_t o = 0; o < optimals.size; o++) {
-					WalkInfo w = optimals.array[o];
-					// TODO: put optimality somewhere else in the struct
-					if (w.type == WALK) {
-						robustness += Walk_length_integral_1_over_x(&w.walk_or_reason.walk);
+				TimeId current_time = 0;
+				while (current_time != max_lifespan) {
+					WalkInfo optimal;
+					Arena_clear(&arena);
+					QueueInfoVector_clear(&queue);
+					ExploredStateHashset_clear(&explored);
+					Stream_shortest_walk_from_to_at_buffered(stream, from, to, current_time, &optimal, &arena, &queue,
+															 &explored);
+					size_t previous_time = current_time;
+					if (optimal.type == NO_WALK) {
+						NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
+						if (error.type == NODE_DOESNT_EXIST) {
+							current_time = error.reason.node_doesnt_exist.interval.end;
+						}
+						else if (error.type == IMPOSSIBLE_TO_REACH) {
+							goto after_while;
+						}
 					}
+					else if (optimal.type == WALK) {
+						Interval optimality = optimal.walk_or_reason.walk.optimality;
+						current_time = optimality.end;
+					}
+					if (current_time == previous_time) {
+						current_time++;
+					}
+					robustness += Walk_length_integral_1_over_x(&optimal.walk_or_reason.walk);
+					WalkInfo_destroy(optimal);
 				}
-				WalkInfoVector_destroy(optimals);
+			after_while:
 			}
 		}
 	}
 	NodeIdVector_destroy(nodes);
+	ExploredStateHashset_destroy(explored);
+	QueueInfoVector_destroy(queue);
+	ArenaVector_destroy(arena);
 
 	return robustness / (double)(nodes.size * nodes.size * (max_lifespan - begin));
 }

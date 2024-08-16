@@ -191,7 +191,8 @@
 // DeclareVectorDeriveRemove(type, free_fn)
 #define DeclareHashsetDeriveRemove(type)                                                                               \
 	void type##Hashset_destroy(type##Hashset s);                                                                       \
-	bool type##Hashset_remove(type##Hashset* s, type value);
+	bool type##Hashset_remove(type##Hashset* s, type value);                                                           \
+	void type##Hashset_clear(type##Hashset* s);
 
 #define DefineHashsetDeriveRemove(type, free_fn)                                                                       \
 	void type##Hashset_destroy(type##Hashset s) {                                                                      \
@@ -210,6 +211,12 @@
 			}                                                                                                          \
 		}                                                                                                              \
 		return false;                                                                                                  \
+	}                                                                                                                  \
+                                                                                                                       \
+	void type##Hashset_clear(type##Hashset* s) {                                                                       \
+		for (size_t i = 0; i < s->capacity; i++) {                                                                     \
+			type##Vector_clear(&s->buckets[i]);                                                                        \
+		}                                                                                                              \
 	}
 
 #define DeclareHashsetDeriveToString(type) String type##Hashset_to_string(const type##Hashset* s);

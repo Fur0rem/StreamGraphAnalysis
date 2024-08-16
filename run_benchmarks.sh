@@ -46,7 +46,7 @@ if [ $# -eq 1 ]; then
     if [ $valgrind -ne 1 ]; then
         $BIN_DIR/benchmark_$filename
     else
-        valgrind --track-origins=yes --leak-check=full -s $BIN_DIR/benchmark_$filename
+        valgrind --tool=callgrind $BIN_DIR/benchmark_$filename
     fi
     # Check the return code
     if [ $? -ne 0 ]; then

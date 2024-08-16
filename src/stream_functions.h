@@ -22,6 +22,7 @@ typedef struct {
 	TemporalNode (*node_by_id)(StreamData*, size_t);
 
 	LinksIterator (*neighbours_of_node)(StreamData*, NodeId);
+	// TODO: rename to link_between_nodes (singular)
 	LinkId (*links_between_nodes)(StreamData*, NodeId, NodeId);
 } StreamFunctions;
 
