@@ -49,6 +49,7 @@ void* ArenaVector_alloc(ArenaVector* vector, size_t size) {
 	return ptr;
 }
 
+// TODO: kinda meh structure, cause then it can't use the old arenas
 void Arena_clear(ArenaVector* vector) {
 	for (size_t i = 0; i < vector->size; i++) {
 		vector->array[i].size_left = ARENA_SIZE;
