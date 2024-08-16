@@ -578,9 +578,12 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
 					*previous = current_info;
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
-					QueueInfo neighbor_info = {
-						neighbor_id,		  time_crossed,	  current_info.depth + 1, .interval_taken = interval,
-						.previous = previous, .previouses = 0};
+					QueueInfo neighbor_info = {neighbor_id,
+											   time_crossed,
+											   current_info.depth + 1,
+											   .interval_taken = interval,
+											   .previous = previous,
+											   .previouses = current_info.previouses + 1};
 					QueueInfoVector_push(&queue, neighbor_info);
 				}
 			}
