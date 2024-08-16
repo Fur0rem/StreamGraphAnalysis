@@ -26,4 +26,6 @@ DeclareVectorDeriveToString(Arena);
 void* ArenaVector_alloc(ArenaVector* vector, size_t size);
 ArenaVector ArenaVector_init();
 
+void Arena_clear(ArenaVector* vector);
+
 #endif // ARENA_H

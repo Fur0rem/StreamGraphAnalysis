@@ -49,6 +49,12 @@ void* ArenaVector_alloc(ArenaVector* vector, size_t size) {
 	return ptr;
 }
 
+void Arena_clear(ArenaVector* vector) {
+	for (size_t i = 0; i < vector->size; i++) {
+		vector->array[i].size_left = ARENA_SIZE;
+	}
+}
+
 DefineVector(Arena);
 DefineVectorDeriveRemove(Arena, Arena_destroy);
 DefineVectorDeriveEquals(Arena);

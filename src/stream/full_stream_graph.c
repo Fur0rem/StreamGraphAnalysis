@@ -266,61 +266,20 @@ TemporalNode FullStreamGraph_node_by_id(StreamData* stream_data, size_t node_id)
 }
 
 LinkId FullStreamGraph_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
-	// TemporalNode n1 = FullStreamGraph_node_by_id(stream_data, node_id);
-	// TemporalNode n2 = FullStreamGraph_node_by_id(stream_data, other_node_id);
-	// TemporalNode to_research = n1.nb_neighbours < n2.nb_neighbours ? n1 : n2;
-	// NodeId other = n1.nb_neighbours < n2.nb_neighbours ? other_node_id : node_id;
-	// Since the nodes are sorted, we can use a binary search
+	TemporalNode n1 = FullStreamGraph_node_by_id(stream_data, node_id);
+	TemporalNode n2 = FullStreamGraph_node_by_id(stream_data, other_node_id);
 
-	// ASSERT That the nodes are sorted
-	// for (size_t i = 1; i < to_research.nb_neighbours; i++) {
-	// 	assert(to_research.neighbours[i - 1] < to_research.neighbours[i]);
-	// }
-	// TODO: the nodes aren't sorted, maybe change that?
-
-	// size_t left = 0;
-	// size_t right = to_research.nb_neighbours;
-	// while (left < right) {
-	// 	size_t mid = left + (right - left) / 2;
-	// 	LinkId neighbour_link = to_research.neighbours[mid];
-	// 	Link link = FullStreamGraph_link_by_id(stream_data, neighbour_link);
-	// 	NodeId neighbour = Link_get_other_node(&link, neighbour_link);
-	// 	if (neighbour == other_node_id) {
-	// 		return to_research.neighbours[mid];
-	// 	}
-	// 	else if (neighbour < other_node_id) {
-	// 		left = mid + 1;
-	// 	}
-	// 	else {
-	// 		right = mid;
-	// 	}
-	// }
-	// return SIZE_MAX;
-
-	// print all the neighbours
-
-	TemporalNode node_first = FullStreamGraph_node_by_id(stream_data, node_id);
-	TemporalNode node_second = FullStreamGraph_node_by_id(stream_data, other_node_id);
-	NodeId to_research = node_first.nb_neighbours < node_second.nb_neighbours ? node_id : other_node_id;
-	NodeId other = node_first.nb_neighbours < node_second.nb_neighbours ? other_node_id : node_id;
-	TemporalNode to_research_node = FullStreamGraph_node_by_id(stream_data, to_research);
-	printf("to_research : %zu\n", (FullStreamGraph_node_by_id(stream_data, node_id).nb_neighbours <
-								   FullStreamGraph_node_by_id(stream_data, other_node_id).nb_neighbours)
-									  ? node_id
-									  : other_node_id);
-	printf("other : %zu, neighbours : ", other);
-	for (size_t i = 0; i < to_research_node.nb_neighbours; i++) {
-		Link link = FullStreamGraph_link_by_id(stream_data, to_research_node.neighbours[i]);
-		NodeId neighbour = Link_get_other_node(&link, to_research_node.neighbours[i]);
-		printf("%zu ", neighbour);
+	// Optimisation: we iterate over the smallest neighbour list
+	if (n1.nb_neighbours > n2.nb_neighbours) {
+		TemporalNode tmp = n1;
+		n1 = n2;
+		n2 = tmp;
 	}
-	printf("\n");
 
-	for (size_t i = 0; i < to_research_node.nb_neighbours; i++) {
-		Link link = FullStreamGraph_link_by_id(stream_data, to_research_node.neighbours[i]);
-		NodeId neighbour = Link_get_other_node(&link, to_research);
-		if (neighbour == other) {
-			return to_research_node.neighbours[i];
+	for (size_t i = 0; i < n1.nb_neighbours; i++) {
+		Link link = FullStreamGraph_link_by_id(stream_data, n1.neighbours[i]);
+		if (link.nodes[0] == other_node_id || link.nodes[1] == other_node_id) {
+			return n1.neighbours[i];
 		}
 	}
 	return SIZE_MAX;

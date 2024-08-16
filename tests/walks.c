@@ -208,12 +208,25 @@ bool test_fastest() {
 // 	return one && two;
 // }
 
+bool test_robustness() {
+	StreamGraph sg = StreamGraph_from_external("data/robustness_1.txt");
+	Stream st = FullStreamGraph_from(&sg);
+
+	double robustness = Stream_robustness_by_length(&st);
+	bool success = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
+
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
+	return success;
+}
+
 int main() {
 	Test* tests[] = {
 		&(Test){"walk_a_c",			test_walk_a_c		 },
 		&(Test){"walk_optimal",		test_walk_optimal	 },
 		&(Test){"fastest_shortest", test_fastest_shortest},
 		&(Test){"fastest",		   test_fastest		   },
+		&(Test){"robustness",		  test_robustness		 },
  // &(Test){"betweenness_of_node_at_time",   test_betweenness_of_node_at_time  },
 	// &(Test){"betweenness_of_node_at_time_2", test_betweenness_of_node_at_time_2},
 
