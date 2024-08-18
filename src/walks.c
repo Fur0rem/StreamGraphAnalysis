@@ -388,9 +388,13 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 		// printf("linksiterators : %p", neighbours.stream_graph.stream);
 		FOR_EACH_LINK(link_id, neighbours) {
 			// Link l = sg.links.links[link_id];
-			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
+			// TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			// for (size_t j = 0; j < l.presence.nb_intervals; j++) {
-			FOR_EACH_TIME(interval, times_link_present) {
+			// FOR_EACH_TIME(interval, times_link_present) {
+
+			IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
+			for (size_t j = intervals.size; j-- > 0;) {
+				Interval interval = intervals.array[j];
 				// Interval interval = l.presence.intervals[j];
 				bool can_cross_now = Interval_contains(interval, current_time);
 				// TODO : add verification if node still exists by then
@@ -403,9 +407,32 @@ WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to,
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
 											   .previous = previous, .previouses = current_info.previouses + 1};
-					QueueInfoVector_push(&queue, neighbor_info);
+
+					// OPTIMISE
+					// try to find if the neighbor is already in the queue
+					if (ExploredStateHashset_contains(explored,
+													  (ExploredState){neighbor_info.node, neighbor_info.time})) {
+						continue;
+					}
+					bool found = false;
+					for (size_t i = 0; i < queue.size; i++) {
+						QueueInfo* info = &queue.array[i];
+						if (info->node == neighbor_info.node &&
+							info->time ==
+								neighbor_info
+									.time && // TODO: verify if we can improve the hypothesis for
+											 // exploring, maybe its true for link streams but not for other cases)
+							info->previouses <= neighbor_info.previouses) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						QueueInfoVector_push(&queue, neighbor_info);
+					}
 				}
 			}
+			IntervalVector_destroy(intervals);
 		}
 	}
 
@@ -479,11 +506,23 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		// printf("Neighbours of %zu\n", current_candidate);
 		// printf("linksiterators : %p", neighbours.stream_graph.stream);
+		// printf("hashset size : %zu\n", ({
+		// 		   size_t size = 0;
+		// 		   for (size_t i = 0; i < explored->capacity; i++) {
+		// 			   size += explored->buckets[i].size;
+		// 		   }
+		// 		   size;
+		// 	   }));
+		// printf("queue size : %zu\n", queue->size);
 		FOR_EACH_LINK(link_id, neighbours) {
 			// Link l = sg.links.links[link_id];
-			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			// for (size_t j = 0; j < l.presence.nb_intervals; j++) {
-			FOR_EACH_TIME(interval, times_link_present) {
+
+			// TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
+			// FOR_EACH_TIME(interval, times_link_present) {
+			IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
+			for (size_t j = intervals.size; j-- > 0;) {
+				Interval interval = intervals.array[j];
 				// Interval interval = l.presence.intervals[j];
 				bool can_cross_now = Interval_contains(interval, current_time);
 				// TODO : add verification if node still exists by then
@@ -496,11 +535,100 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 					TimeId time_crossed = can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
 											   .previous = previous, .previouses = current_info.previouses + 1};
-					QueueInfoVector_push(queue, neighbor_info);
+					// if (ExploredStateHashset_contains(*explored,
+					// 								  (ExploredState){neighbor_info.node, neighbor_info.time})) {
+					// 	continue;
+					// }
+
+					// try to find if the neighbor is already in the queue
+					bool found = false;
+					if (ExploredStateHashset_contains(*explored,
+													  (ExploredState){neighbor_info.node, neighbor_info.time})) {
+						continue;
+					}
+					for (size_t i = 0; i < queue->size; i++) {
+						QueueInfo* info = &queue->array[i];
+						if (info->node == neighbor_info.node &&
+							info->time ==
+								neighbor_info
+									.time && // TODO: verify if we can improve the hypothesis for
+											 // exploring, maybe its true for link streams but not for other cases)
+							info->previouses <= neighbor_info.previouses) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						QueueInfoVector_push(queue, neighbor_info);
+					}
+				}
+				if (!can_cross_now && !will_cross_later) {
+					break;
 				}
 			}
+			IntervalVector_destroy(intervals);
 		}
 	}
+
+	// while ((current_candidate != to) && (!QueueInfoVector_is_empty(*queue))) {
+	// 	// Get the next node from the queue
+	// 	current_info = QueueInfoVector_pop_first(queue);
+
+	// 	// TODO : maybe there is a better solution than hashsets to not loop between the same nodes?
+	// 	if (ExploredStateHashset_contains(*explored, (ExploredState){current_info.node, current_info.time})) {
+	// 		continue;
+	// 	}
+	// 	ExploredStateHashset_insert(explored, (ExploredState){current_info.node, current_info.time});
+	// 	current_candidate = current_info.node;
+	// 	current_time = current_info.time;
+
+	// 	// FIXME: do with iterators but they segfault for some reason :(
+	// 	// Get its neighbors
+	// 	// TemporalNode n = sg.nodes.nodes[current_candidate];
+	// 	/*for (size_t i = 0; i < n.nb_neighbours; i++) {
+	// 		size_t neighbor = n.neighbours[i];
+	// 		Link l = sg.links.links[neighbor];*/
+	// 	LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
+	// 	// printf("Neighbours of %zu\n", current_candidate);
+	// 	// printf("linksiterators : %p", neighbours.stream_graph.stream);
+	// 	printf("hashset size : %zu\n", ({
+	// 			   size_t size = 0;
+	// 			   for (size_t i = 0; i < explored->capacity; i++) {
+	// 				   size += explored->buckets[i].size;
+	// 			   }
+	// 			   size;
+	// 		   }));
+
+	// 	FOR_EACH_LINK(link_id, neighbours) {
+	// 		// Link l = sg.links.links[link_id];
+	// 		// for (size_t j = 0; j < l.presence.nb_intervals; j++) {
+
+	// 		TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
+	// 		FOR_EACH_TIME(interval, times_link_present) {
+	// 			// IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
+	// 			// for (size_t j = intervals.size; j-- > 0;) {
+	// 			// Interval interval = intervals.array[j];
+	// 			// Interval interval = l.presence.intervals[j];
+	// 			bool can_cross_now = Interval_contains(interval, current_time);
+	// 			// TODO : add verification if node still exists by then
+	// 			bool will_cross_later = (interval.start > current_time);
+	// 			if (can_cross_now || will_cross_later) {
+	// 				Link link = fns.link_by_id(stream->stream_data, link_id);
+	// 				NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+	// 				QueueInfo* previous = ArenaVector_alloc(arena, sizeof(QueueInfo));
+	// 				*previous = current_info;
+	// 				TimeId time_crossed = can_cross_now ? current_time : interval.start;
+	// 				QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
+	// 										   .previous = previous, .previouses = current_info.previouses + 1};
+	// 				QueueInfoVector_push(queue, neighbor_info);
+	// 			}
+	// 			// if (!can_cross_now && !will_cross_later) {
+	// 			// 	break;
+	// 			// }
+	// 		}
+	// 		// IntervalVector_destroy(intervals);
+	// 	}
+	// }
 
 	if (QueueInfoVector_is_empty(*queue)) { // No walk found
 		*result = unreachable_after(at);
@@ -1091,16 +1219,19 @@ double Stream_robustness_by_length(Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
 	size_t begin = fns.lifespan(stream->stream_data).start;
-	ArenaVector arena = ArenaVector_init();
+	// ArenaVector arena = ArenaVector_init();
 	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	double robustness = 0.0;
 
 	NodeIdVector nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
 
+	// printf("Number of nodes : %zu\n", nodes.size);
 	for (size_t f = 0; f < nodes.size; f++) {
 		NodeId from = nodes.array[f];
+		// printf("From %zu\n", from);
 		for (size_t t = 0; t < nodes.size; t++) {
+			// printf("To %zu\n", t);
 			NodeId to = nodes.array[t];
 			double robustness_before = robustness;
 			if (from == to) {
@@ -1112,8 +1243,10 @@ double Stream_robustness_by_length(Stream* stream) {
 			else {
 				TimeId current_time = 0;
 				while (current_time != max_lifespan) {
+					// printf("Current time %zu\n", current_time);
 					WalkInfo optimal;
-					Arena_clear(&arena);
+					// ArenaVector_clear(&arena);
+					ArenaVector arena = ArenaVector_init();
 					QueueInfoVector_clear(&queue);
 					ExploredStateHashset_clear(&explored);
 					Stream_shortest_walk_from_to_at_buffered(stream, from, to, current_time, &optimal, &arena, &queue,
@@ -1125,6 +1258,8 @@ double Stream_robustness_by_length(Stream* stream) {
 							current_time = error.reason.node_doesnt_exist.interval.end;
 						}
 						else if (error.type == IMPOSSIBLE_TO_REACH) {
+							WalkInfo_destroy(optimal);
+							ArenaVector_destroy(arena);
 							goto after_while;
 						}
 					}
@@ -1137,6 +1272,25 @@ double Stream_robustness_by_length(Stream* stream) {
 					}
 					robustness += Walk_length_integral_1_over_x(&optimal.walk_or_reason.walk);
 					WalkInfo_destroy(optimal);
+					ArenaVector_destroy(arena); // OPTIMISE: reuse it
+
+					// printf("From %zu to %zu at %zu\n", from, to, current_time);
+					// WalkInfo optimal = Stream_shortest_walk_from_to_at(stream, from, to, current_time);
+					// if (optimal.type == NO_WALK) {
+					// 	NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
+					// 	if (error.type == NODE_DOESNT_EXIST) {
+					// 		current_time = error.reason.node_doesnt_exist.interval.end;
+					// 	}
+					// 	else if (error.type == IMPOSSIBLE_TO_REACH) {
+					// 		goto after_while;
+					// 	}
+					// }
+					// else if (optimal.type == WALK) {
+					// 	Interval optimality = optimal.walk_or_reason.walk.optimality;
+					// 	current_time = optimality.end;
+					// }
+					// robustness += Walk_length_integral_1_over_x(&optimal.walk_or_reason.walk);
+					// WalkInfo_destroy(optimal);
 				}
 			after_while:
 			}
@@ -1145,7 +1299,7 @@ double Stream_robustness_by_length(Stream* stream) {
 	NodeIdVector_destroy(nodes);
 	ExploredStateHashset_destroy(explored);
 	QueueInfoVector_destroy(queue);
-	ArenaVector_destroy(arena);
+	// ArenaVector_destroy(arena);
 
 	return robustness / (double)(nodes.size * nodes.size * (max_lifespan - begin));
 }
