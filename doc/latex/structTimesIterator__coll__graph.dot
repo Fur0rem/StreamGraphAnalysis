@@ -3,13 +3,15 @@ digraph "TimesIterator"
  // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="TimesIterator",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="An iterator over a set of time intervals."];
+  Node1 [label="TimesIterator",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_graph" ];
   Node2 [label="Stream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStream.html",tooltip=" "];
-  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cache" ];
-  Node3 [label="InformationCache",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInformationCache.html",tooltip=" "];
-  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cardinalOfE\ncardinalOfT\ncardinalOfV\ncardinalOfW" ];
-  Node4 [label="OptionalSizeT",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structOptionalSizeT.html",tooltip=" "];
-  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ];
-  Node5 [label="Interval",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInterval.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_data" ];
+  Node3 [label="StreamData",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStreamData.html",tooltip=" "];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cache" ];
+  Node4 [label="InformationCache",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInformationCache.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cardinalOfE\ncardinalOfT\ncardinalOfV\ncardinalOfW" ];
+  Node5 [label="OptionalSizeT",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structOptionalSizeT.html",tooltip=" "];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ];
+  Node6 [label="Interval",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInterval.html",tooltip=" "];
 }

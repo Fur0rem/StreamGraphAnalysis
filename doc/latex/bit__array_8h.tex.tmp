@@ -44,6 +44,10 @@ void \mbox{\hyperlink{bit__array_8h_ac22e1d66f71b26493412050ee0262fe3}{Bit\+Arra
 \begin{DoxyCompactList}\small\item\em Sets the bit at the given index to 1. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{bit__array_8h_a2f5eb4a58ab7ebcff680edec5582f2b7}{Bit\+Array\+\_\+set\+\_\+zero}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array, size\+\_\+t index)
 \item 
+void \mbox{\hyperlink{bit__array_8h_a0a6b465196254ea81c9bfa809a687a4f}{Bit\+Array\+\_\+all\+\_\+to\+\_\+one}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array)
+\begin{DoxyCompactList}\small\item\em Sets all the bits in the \mbox{\hyperlink{structBitArray}{Bit\+Array}} to 1. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8h_a3de4906a9ce0ca8128315b5df0413c67}{Bit\+Array\+\_\+all\+\_\+to\+\_\+zero}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array)
+\item 
 void \mbox{\hyperlink{bit__array_8h_a8ea9e97257dc75decba1cc58f505af32}{Bit\+Array\+\_\+and\+\_\+bit}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array, size\+\_\+t index, int value)
 \begin{DoxyCompactList}\small\item\em Performs a bitwise and with the bit at the given index. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{bit__array_8h_a7512d496479cd9f3d1cc93afcf0e300d}{Bit\+Array\+\_\+or\+\_\+bit}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array, size\+\_\+t index, int value)
@@ -68,7 +72,28 @@ char $\ast$ \mbox{\hyperlink{bit__array_8h_a0db413990df11cb80b2893c42142f3f4}{Bi
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{bit__array_8h_aba8bf5561d8be0acfe2e9dce86575c7e}\label{bit__array_8h_aba8bf5561d8be0acfe2e9dce86575c7e}} 
+\mbox{\Hypertarget{bit__array_8h_a0a6b465196254ea81c9bfa809a687a4f}\label{bit__array_8h_a0a6b465196254ea81c9bfa809a687a4f}} 
+\index{bit\_array.h@{bit\_array.h}!BitArray\_all\_to\_one@{BitArray\_all\_to\_one}}
+\index{BitArray\_all\_to\_one@{BitArray\_all\_to\_one}!bit\_array.h@{bit\_array.h}}
+\doxysubsubsection{\texorpdfstring{BitArray\_all\_to\_one()}{BitArray\_all\_to\_one()}}
+{\footnotesize\ttfamily void Bit\+Array\+\_\+all\+\_\+to\+\_\+one (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array }\end{DoxyParamCaption})}
+
+
+
+Sets all the bits in the \mbox{\hyperlink{structBitArray}{Bit\+Array}} to 1. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em array} & The \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8h_a3de4906a9ce0ca8128315b5df0413c67}\label{bit__array_8h_a3de4906a9ce0ca8128315b5df0413c67}} 
+\index{bit\_array.h@{bit\_array.h}!BitArray\_all\_to\_zero@{BitArray\_all\_to\_zero}}
+\index{BitArray\_all\_to\_zero@{BitArray\_all\_to\_zero}!bit\_array.h@{bit\_array.h}}
+\doxysubsubsection{\texorpdfstring{BitArray\_all\_to\_zero()}{BitArray\_all\_to\_zero()}}
+{\footnotesize\ttfamily void Bit\+Array\+\_\+all\+\_\+to\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array }\end{DoxyParamCaption})}
+
+Like Bit\+Array\+\_\+set\+\_\+all\+\_\+ones but sets all the bits to 0. \mbox{\Hypertarget{bit__array_8h_aba8bf5561d8be0acfe2e9dce86575c7e}\label{bit__array_8h_aba8bf5561d8be0acfe2e9dce86575c7e}} 
 \index{bit\_array.h@{bit\_array.h}!BitArray\_and\_array@{BitArray\_and\_array}}
 \index{BitArray\_and\_array@{BitArray\_and\_array}!bit\_array.h@{bit\_array.h}}
 \doxysubsubsection{\texorpdfstring{BitArray\_and\_array()}{BitArray\_and\_array()}}

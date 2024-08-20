@@ -89,20 +89,17 @@ $(document).ready(function(){initNavTree('structTimesIterator.html',''); initRes
   <div class="headertitle"><div class="title">TimesIterator Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >An iterator over a set of time intervals. </p>
-</div>
-<p><code>#include &lt;<a class="el" href="iterators_8h_source.html">iterators.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for TimesIterator:</div>
 <div class="dyncontent">
 <div class="center"><img src="structTimesIterator__coll__graph.png" border="0" usemap="#aTimesIterator_coll__map" alt="Collaboration graph"/></div>
 <map name="aTimesIterator_coll__map" id="aTimesIterator_coll__map">
-<area shape="rect" title="An iterator over a set of time intervals." alt="" coords="82,317,193,344"/>
-<area shape="rect" href="structStream.html" title=" " alt="" coords="40,228,109,255"/>
-<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="5,139,144,165"/>
-<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="19,5,131,32"/>
-<area shape="rect" href="structInterval.html" title=" " alt="" coords="164,228,236,255"/>
+<area shape="rect" title=" " alt="" coords="121,317,232,344"/>
+<area shape="rect" href="structStream.html" title=" " alt="" coords="79,228,149,255"/>
+<area shape="rect" href="structStreamData.html" title=" " alt="" coords="5,139,105,165"/>
+<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="130,139,269,165"/>
+<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="143,5,255,32"/>
+<area shape="rect" href="structInterval.html" title=" " alt="" coords="203,228,275,255"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -114,15 +111,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa983f743455c72ab15ad83ed327abe17"><td class="memItemLeft" align="right" valign="top"><a id="aa983f743455c72ab15ad83ed327abe17" name="aa983f743455c72ab15ad83ed327abe17"></a>
 void *&#160;</td><td class="memItemRight" valign="bottom"><b>iterator_data</b></td></tr>
 <tr class="separator:aa983f743455c72ab15ad83ed327abe17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59818b7fbea0c0981679d5503101559b"><td class="memItemLeft" align="right" valign="top"><a id="a59818b7fbea0c0981679d5503101559b" name="a59818b7fbea0c0981679d5503101559b"></a>
-<a class="el" href="structInterval.html">Interval</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>next</b> )(void *)</td></tr>
-<tr class="separator:a59818b7fbea0c0981679d5503101559b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee6b688b7b57496842b01524ad04f35c"><td class="memItemLeft" align="right" valign="top"><a id="aee6b688b7b57496842b01524ad04f35c" name="aee6b688b7b57496842b01524ad04f35c"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>destroy</b> )(void *)</td></tr>
-<tr class="separator:aee6b688b7b57496842b01524ad04f35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4641bc28518befba0a3498a6ae43b4f8"><td class="memItemLeft" align="right" valign="top"><a id="a4641bc28518befba0a3498a6ae43b4f8" name="a4641bc28518befba0a3498a6ae43b4f8"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>skip_n</b> )(void *, size_t)</td></tr>
-<tr class="separator:a4641bc28518befba0a3498a6ae43b4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a413c99d6918d444ce68822c4eee2e444"><td class="memItemLeft" align="right" valign="top"><a id="a413c99d6918d444ce68822c4eee2e444" name="a413c99d6918d444ce68822c4eee2e444"></a>
+<a class="el" href="structInterval.html">Interval</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>next</b> )(<a class="el" href="structTimesIterator.html">TimesIterator</a> *)</td></tr>
+<tr class="separator:a413c99d6918d444ce68822c4eee2e444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02e9deeec71fe0cbcc72811d2cc13955"><td class="memItemLeft" align="right" valign="top"><a id="a02e9deeec71fe0cbcc72811d2cc13955" name="a02e9deeec71fe0cbcc72811d2cc13955"></a>
+void(*&#160;</td><td class="memItemRight" valign="bottom"><b>destroy</b> )(<a class="el" href="structTimesIterator.html">TimesIterator</a> *)</td></tr>
+<tr class="separator:a02e9deeec71fe0cbcc72811d2cc13955"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/<a class="el" href="iterators_8h_source.html">iterators.h</a></li>

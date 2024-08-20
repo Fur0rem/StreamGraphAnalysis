@@ -95,28 +95,34 @@ Collaboration diagram for Stream:</div>
 <div class="dyncontent">
 <div class="center"><img src="structStream__coll__graph.png" border="0" usemap="#aStream_coll__map" alt="Collaboration graph"/></div>
 <map name="aStream_coll__map" id="aStream_coll__map">
-<area shape="rect" title=" " alt="" coords="40,228,109,255"/>
-<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="5,139,144,165"/>
-<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="19,5,131,32"/>
+<area shape="rect" title=" " alt="" coords="79,228,149,255"/>
+<area shape="rect" href="structStreamData.html" title=" " alt="" coords="5,139,105,165"/>
+<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="130,139,269,165"/>
+<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="143,5,255,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2427eab71def5c9e0032b704dae1072b"><td class="memItemLeft" align="right" valign="top"><a id="a2427eab71def5c9e0032b704dae1072b" name="a2427eab71def5c9e0032b704dae1072b"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>FULL_STREAM_GRAPH</b>
+<tr class="memitem:a2117b89dfa8219957e3b1ac0e0944196"><td class="memItemLeft" align="right" valign="top"><a id="a2117b89dfa8219957e3b1ac0e0944196" name="a2117b89dfa8219957e3b1ac0e0944196"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>FULL_STREAM_GRAPH</b>
 , <b>LINK_STREAM</b>
 , <b>CHUNK_STREAM</b>
+, <b>CHUNK_STREAM_SMALL</b>
+, <br />
+&#160;&#160;<b>SNAPSHOT_STREAM</b>
+<br />
  }</td></tr>
-<tr class="separator:a2427eab71def5c9e0032b704dae1072b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a2117b89dfa8219957e3b1ac0e0944196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ade6e5877b03a8fb75171e279a8e5241f"><td class="memItemLeft" align="right" valign="top"><a id="ade6e5877b03a8fb75171e279a8e5241f" name="ade6e5877b03a8fb75171e279a8e5241f"></a>
+<tr class="memitem:ae70151f9aeafaddab5c94b8ea990ec8a"><td class="memItemLeft" align="right" valign="top"><a id="ae70151f9aeafaddab5c94b8ea990ec8a" name="ae70151f9aeafaddab5c94b8ea990ec8a"></a>
 enum Stream:: { ... } &#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="separator:ade6e5877b03a8fb75171e279a8e5241f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73d43ca6e871defeefcb8e2d1bf92e55"><td class="memItemLeft" align="right" valign="top"><a id="a73d43ca6e871defeefcb8e2d1bf92e55" name="a73d43ca6e871defeefcb8e2d1bf92e55"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>stream</b></td></tr>
-<tr class="separator:a73d43ca6e871defeefcb8e2d1bf92e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae70151f9aeafaddab5c94b8ea990ec8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0af727d32864ffa1e07e16bdf18dbccb"><td class="memItemLeft" align="right" valign="top"><a id="a0af727d32864ffa1e07e16bdf18dbccb" name="a0af727d32864ffa1e07e16bdf18dbccb"></a>
+<a class="el" href="structStreamData.html">StreamData</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>stream_data</b></td></tr>
+<tr class="separator:a0af727d32864ffa1e07e16bdf18dbccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae260f00346ff1f0f0dedb7a4c5b4e953"><td class="memItemLeft" align="right" valign="top"><a id="ae260f00346ff1f0f0dedb7a4c5b4e953" name="ae260f00346ff1f0f0dedb7a4c5b4e953"></a>
 <a class="el" href="structInformationCache.html">InformationCache</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cache</b></td></tr>
 <tr class="separator:ae260f00346ff1f0f0dedb7a4c5b4e953"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -26,4 +26,4 @@ Scaling=10
 100 - N 0
 100 - N 1
 
-[EndOfFile]
+[EndOfStream]

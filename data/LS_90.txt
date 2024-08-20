@@ -14088,4 +14088,4 @@ Scaling=1
 21245 - N 81
 21245 - N 84
 
-[EndOfFile]
+[EndOfStream]

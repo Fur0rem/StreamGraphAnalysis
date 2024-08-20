@@ -107,14 +107,20 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="bit__array_8h__dep__incl.png" border="0" usemap="#asrc_2bit__array_8hdep" alt=""/></div>
 <map name="asrc_2bit__array_8hdep" id="asrc_2bit__array_8hdep">
-<area shape="rect" title="A variable length array of bits and functions to manipulate it." alt="" coords="361,5,474,32"/>
-<area shape="rect" href="stream__graph_8h_source.html" title=" " alt="" coords="344,169,491,196"/>
-<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="391,80,574,121"/>
-<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="5,251,157,278"/>
-<area shape="rect" href="chunk__stream_8h_source.html" title=" " alt="" coords="182,251,381,278"/>
-<area shape="rect" href="substream_8h_source.html" title=" " alt="" coords="261,333,437,360"/>
-<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="455,244,625,285"/>
-<area shape="rect" href="link__stream_8h_source.html" title=" " alt="" coords="649,251,833,278"/>
+<area shape="rect" title="A variable length array of bits and functions to manipulate it." alt="" coords="397,5,511,32"/>
+<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="403,169,505,196"/>
+<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="428,80,611,121"/>
+<area shape="rect" href="cliques_8h_source.html" title=" " alt="" coords="5,244,108,271"/>
+<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="285,319,437,345"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="398,244,510,271"/>
+<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="655,319,762,345"/>
+<area shape="rect" href="chunk__stream_8h_source.html" title=" " alt="" coords="27,401,225,427"/>
+<area shape="rect" href="chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="250,393,437,435"/>
+<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="461,393,631,435"/>
+<area shape="rect" href="link__stream_8h_source.html" title=" " alt="" coords="655,401,839,427"/>
+<area shape="rect" href="snapshot__stream_8h_source.html" title=" " alt="" coords="863,393,1018,435"/>
+<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="461,319,631,345"/>
+<area shape="rect" href="walks_8h_source.html" title=" " alt="" coords="888,244,983,271"/>
 </map>
 </div>
 </div>
@@ -157,6 +163,11 @@ Functions</h2></td></tr>
 <tr class="separator:ac22e1d66f71b26493412050ee0262fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f5eb4a58ab7ebcff680edec5582f2b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#a2f5eb4a58ab7ebcff680edec5582f2b7">BitArray_set_zero</a> (<a class="el" href="structBitArray.html">BitArray</a> array, size_t index)</td></tr>
 <tr class="separator:a2f5eb4a58ab7ebcff680edec5582f2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a6b465196254ea81c9bfa809a687a4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#a0a6b465196254ea81c9bfa809a687a4f">BitArray_all_to_one</a> (<a class="el" href="structBitArray.html">BitArray</a> array)</td></tr>
+<tr class="memdesc:a0a6b465196254ea81c9bfa809a687a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets all the bits in the <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a> to 1.  <a href="bit__array_8h.html#a0a6b465196254ea81c9bfa809a687a4f">More...</a><br /></td></tr>
+<tr class="separator:a0a6b465196254ea81c9bfa809a687a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3de4906a9ce0ca8128315b5df0413c67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#a3de4906a9ce0ca8128315b5df0413c67">BitArray_all_to_zero</a> (<a class="el" href="structBitArray.html">BitArray</a> array)</td></tr>
+<tr class="separator:a3de4906a9ce0ca8128315b5df0413c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ea9e97257dc75decba1cc58f505af32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#a8ea9e97257dc75decba1cc58f505af32">BitArray_and_bit</a> (<a class="el" href="structBitArray.html">BitArray</a> array, size_t index, int value)</td></tr>
 <tr class="memdesc:a8ea9e97257dc75decba1cc58f505af32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a bitwise and with the bit at the given index.  <a href="bit__array_8h.html#a8ea9e97257dc75decba1cc58f505af32">More...</a><br /></td></tr>
 <tr class="separator:a8ea9e97257dc75decba1cc58f505af32"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,6 +190,51 @@ Functions</h2></td></tr>
 <tr class="separator:a0db413990df11cb80b2893c42142f3f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a0a6b465196254ea81c9bfa809a687a4f" name="a0a6b465196254ea81c9bfa809a687a4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a6b465196254ea81c9bfa809a687a4f">&#9670;&nbsp;</a></span>BitArray_all_to_one()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BitArray_all_to_one </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structBitArray.html">BitArray</a>&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets all the bits in the <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a> to 1. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">array</td><td>The <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3de4906a9ce0ca8128315b5df0413c67" name="a3de4906a9ce0ca8128315b5df0413c67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3de4906a9ce0ca8128315b5df0413c67">&#9670;&nbsp;</a></span>BitArray_all_to_zero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BitArray_all_to_zero </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structBitArray.html">BitArray</a>&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Like BitArray_set_all_ones but sets all the bits to 0. </p>
+
+</div>
+</div>
 <a id="aba8bf5561d8be0acfe2e9dce86575c7e" name="aba8bf5561d8be0acfe2e9dce86575c7e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba8bf5561d8be0acfe2e9dce86575c7e">&#9670;&nbsp;</a></span>BitArray_and_array()</h2>
 

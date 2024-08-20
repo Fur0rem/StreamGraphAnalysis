@@ -6,8 +6,8 @@
 \DoxyCodeLine{2 \textcolor{preprocessor}{\#define FULL\_STREAM\_GRAPH\_H}}
 \DoxyCodeLine{3 }
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}../metrics.h"{}}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}../stream\_graph.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}../stream.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
 \DoxyCodeLine{12 }
 \DoxyCodeLine{16 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
 \DoxyCodeLine{17     \mbox{\hyperlink{structStreamGraph}{StreamGraph}}* \mbox{\hyperlink{structFullStreamGraph_a48254cc047d28a531c6c7cdb2ce0fb6c}{underlying\_stream\_graph}}; }
@@ -19,10 +19,13 @@
 \DoxyCodeLine{29 }
 \DoxyCodeLine{35 \mbox{\hyperlink{structStream}{Stream}} \mbox{\hyperlink{full__stream__graph_8h_a92422b4cede73e1cf604d5b159c57dbb}{FullStreamGraph\_from}}(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph);}
 \DoxyCodeLine{36 }
-\DoxyCodeLine{42 \textcolor{keywordtype}{void} \mbox{\hyperlink{full__stream__graph_8h_aa486294dfad92536a7f5bdb3ff29da82}{FullStreamGraph\_destroy}}(\mbox{\hyperlink{structStream}{Stream}} stream);}
-\DoxyCodeLine{43 }
-\DoxyCodeLine{50 \mbox{\hyperlink{structLink}{Link}} \mbox{\hyperlink{full__stream__graph_8h_adeb2912d8e8605d304bd83b70024df39}{FullStreamGraph\_nth\_link}}(\mbox{\hyperlink{structFullStreamGraph}{FullStreamGraph}}* full\_stream\_graph, LinkId link\_id);}
-\DoxyCodeLine{51 }
-\DoxyCodeLine{52 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// FULL\_STREAM\_GRAPH\_H}}
+\DoxyCodeLine{37 \textcolor{comment}{// TODO}}
+\DoxyCodeLine{38 \mbox{\hyperlink{structStream}{Stream}}* FSG\_From(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{45 \textcolor{keywordtype}{void} \mbox{\hyperlink{full__stream__graph_8h_aa486294dfad92536a7f5bdb3ff29da82}{FullStreamGraph\_destroy}}(\mbox{\hyperlink{structStream}{Stream}} stream);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{53 \mbox{\hyperlink{structLink}{Link}} \mbox{\hyperlink{full__stream__graph_8h_a7113afa8886864fe1c5c9a2df61a4fab}{FullStreamGraph\_link\_by\_id}}(\mbox{\hyperlink{structStreamData}{StreamData}}* stream\_data, LinkId link\_id);}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// FULL\_STREAM\_GRAPH\_H}}
 
 \end{DoxyCode}

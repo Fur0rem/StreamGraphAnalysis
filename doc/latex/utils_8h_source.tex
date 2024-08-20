@@ -11,8 +11,8 @@
 \DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdlib.h>}}
 \DoxyCodeLine{8 }
 \DoxyCodeLine{9 \textcolor{comment}{// Text formatting}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#define TEXT\_BOLD "{}\(\backslash\)033[1m"{}}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#define TEXT\_RED "{}\(\backslash\)033[31m"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define TEXT\_BOLD  "{}\(\backslash\)033[1m"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define TEXT\_RED   "{}\(\backslash\)033[31m"{}}}
 \DoxyCodeLine{12 \textcolor{preprocessor}{\#define TEXT\_GREEN "{}\(\backslash\)033[32m"{}}}
 \DoxyCodeLine{13 \textcolor{preprocessor}{\#define TEXT\_RESET "{}\(\backslash\)033[0m"{}}}
 \DoxyCodeLine{14 }
@@ -31,56 +31,98 @@
 \DoxyCodeLine{27     \})}
 \DoxyCodeLine{28 }
 \DoxyCodeLine{29 \textcolor{preprocessor}{\#ifdef DEBUG}}
-\DoxyCodeLine{30 \textcolor{preprocessor}{\#define MALLOC(size) MALLOC\_CHECK(size)}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#   define MALLOC(size) MALLOC\_CHECK(size)}}
 \DoxyCodeLine{31 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{32 \textcolor{preprocessor}{\#define MALLOC(size) malloc(size)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#   define MALLOC(size) malloc(size)}}
 \DoxyCodeLine{33 \textcolor{preprocessor}{\#endif}}
 \DoxyCodeLine{34 }
 \DoxyCodeLine{35 \textcolor{comment}{// Floating point comparison}}
-\DoxyCodeLine{36 \textcolor{preprocessor}{\#define EPS 1e-\/9}}
-\DoxyCodeLine{37 \textcolor{preprocessor}{\#define F\_EQUALS(a, b) (fabs((a) -\/ (b)) < EPS)}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define EPS                        1e-\/9}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define F\_EQUALS(a, b)             (fabs((a) -\/ (b)) < EPS)}}
 \DoxyCodeLine{38 \textcolor{preprocessor}{\#define F\_EQUALS\_APPROX(a, b, eps) (fabs((a) -\/ (b)) < eps)}}
 \DoxyCodeLine{39 }
 \DoxyCodeLine{40 \textcolor{preprocessor}{\#define NO\_FREE(type) ((void (*)(type))NULL)}}
-\DoxyCodeLine{41 \textcolor{preprocessor}{\#define UNCOMPARABLE(type)                                                                                             \(\backslash\)}}
-\DoxyCodeLine{42 \textcolor{preprocessor}{    bool type\#\#\_equals(type a, type b) \{                                                                               \(\backslash\)}}
-\DoxyCodeLine{43 \textcolor{preprocessor}{        return false;                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define DEFAULT\_EQUALS(type)                                                                                           \(\backslash\)}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{    bool type\#\#\_equals(type* a, type* b) \{                                                                             \(\backslash\)}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{        return *a == *b;                                                                                               \(\backslash\)}}
 \DoxyCodeLine{44 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{46 \textcolor{preprocessor}{\#define DEFAULT\_COMPARE(type)                                                                                          \(\backslash\)}}
-\DoxyCodeLine{47 \textcolor{preprocessor}{    bool type\#\#\_equals(type val1, type val2) \{                                                                         \(\backslash\)}}
-\DoxyCodeLine{48 \textcolor{preprocessor}{        return (val1) == (val2);                                                                                       \(\backslash\)}}
-\DoxyCodeLine{49 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{50 }
-\DoxyCodeLine{51 \textcolor{preprocessor}{\#define DEFAULT\_TO\_STRING(type, format)                                                                                \(\backslash\)}}
-\DoxyCodeLine{52 \textcolor{preprocessor}{    char* type\#\#\_to\_string(const type* value) \{                                                                        \(\backslash\)}}
-\DoxyCodeLine{53 \textcolor{preprocessor}{        char* str = (char*)malloc(100);                                                                                \(\backslash\)}}
-\DoxyCodeLine{54 \textcolor{preprocessor}{        sprintf(str, format, *value);                                                                                  \(\backslash\)}}
-\DoxyCodeLine{55 \textcolor{preprocessor}{        return str;                                                                                                    \(\backslash\)}}
-\DoxyCodeLine{56 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{58 \textcolor{preprocessor}{\#define DeclareGenerics(type)                                                                                          \(\backslash\)}}
-\DoxyCodeLine{59 \textcolor{preprocessor}{    char* type\#\#\_to\_string(const type* value);                                                                         \(\backslash\)}}
-\DoxyCodeLine{60 \textcolor{preprocessor}{    bool type\#\#\_equals(type a, type b);}}
-\DoxyCodeLine{61 }
-\DoxyCodeLine{62 \textcolor{preprocessor}{\#define DEFAULT\_MIN\_MAX(type)                                                                                          \(\backslash\)}}
-\DoxyCodeLine{63 \textcolor{preprocessor}{    type type\#\#\_min(type a, type b) \{                                                                                  \(\backslash\)}}
-\DoxyCodeLine{64 \textcolor{preprocessor}{        return a < b ? a : b;                                                                                          \(\backslash\)}}
-\DoxyCodeLine{65 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
-\DoxyCodeLine{66 \textcolor{preprocessor}{    type type\#\#\_max(type a, type b) \{                                                                                  \(\backslash\)}}
-\DoxyCodeLine{67 \textcolor{preprocessor}{        return a > b ? a : b;                                                                                          \(\backslash\)}}
-\DoxyCodeLine{68 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{69 }
-\DoxyCodeLine{70 \textcolor{preprocessor}{\#ifdef DEBUG}}
-\DoxyCodeLine{71 \textcolor{preprocessor}{\#define DEBUG\_ASSERT(expr)                                                                                             \(\backslash\)}}
-\DoxyCodeLine{72 \textcolor{preprocessor}{    if (!(expr)) \{                                                                                                     \(\backslash\)}}
-\DoxyCodeLine{73 \textcolor{preprocessor}{        fprintf(stderr, "{}Assertion failed: \%s\(\backslash\)n"{}}, \#expr);                                                              \(\backslash\)}
-\DoxyCodeLine{74         assert(expr);                                                                                                  \(\backslash\)}
-\DoxyCodeLine{75     \}}
-\DoxyCodeLine{76 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{77 \textcolor{preprocessor}{\#define DEBUG\_ASSERT(expr)}}
-\DoxyCodeLine{78 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{79 }
-\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define DEFAULT\_COMPARE(type)                                                                                          \(\backslash\)}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{    int type\#\#\_compare(const type* a, const type* b) \{                                                                 \(\backslash\)}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{        type a\_val = *(type*)a;                                                                                        \(\backslash\)}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{        type b\_val = *(type*)b;                                                                                        \(\backslash\)}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{        if (a\_val < b\_val) \{                                                                                           \(\backslash\)}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{            return -\/1;                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{        else if (a\_val > b\_val) \{                                                                                      \(\backslash\)}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{            return 1;                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{        else \{                                                                                                         \(\backslash\)}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{            return 0;                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define DeclareEquals(type)  bool type\#\#\_equals(const type* a, const type* b);}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define DeclareCompare(type) int type\#\#\_compare(const type* a, const type* b);}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define DEFAULT\_MIN\_MAX(type)                                                                                          \(\backslash\)}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{    type type\#\#\_min(type a, type b) \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{        return a < b ? a : b;                                                                                          \(\backslash\)}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{    type type\#\#\_max(type a, type b) \{                                                                                  \(\backslash\)}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{        return a > b ? a : b;                                                                                          \(\backslash\)}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \textcolor{comment}{// TODO : optionnal message}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#ifdef DEBUG}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#   define ASSERT(expr)                                                                                               \(\backslash\)}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{        if (!(expr)) \{                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{            fprintf(stderr, "{}Assertion failed: \%s, file \%s, line \%d\(\backslash\)n"{}}, \#expr, \_\_FILE\_\_, \_\_LINE\_\_);                    \(\backslash\)}
+\DoxyCodeLine{76             assert(expr);                                                                                              \(\backslash\)}
+\DoxyCodeLine{77         \}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#   ifdef \_\_clang\_\_}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#       define ASSERT(expr) \_\_builtin\_expect((expr), 1)}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#   elif defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#       define ASSERT(expr) \_\_attribute\_\_((assume(expr)))}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{87     \textcolor{keywordtype}{size\_t} size;}
+\DoxyCodeLine{88     \textcolor{keywordtype}{size\_t} capacity;}
+\DoxyCodeLine{89     \textcolor{keywordtype}{char}* data;}
+\DoxyCodeLine{90 \} \mbox{\hyperlink{structString}{String}};}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \mbox{\hyperlink{structString}{String}} String\_from\_owned(\textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{97 \mbox{\hyperlink{structString}{String}} String\_from\_duplicate(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{keywordtype}{void} String\_push(\mbox{\hyperlink{structString}{String}}* \textcolor{keywordtype}{string}, \textcolor{keywordtype}{char} c);}
+\DoxyCodeLine{100 \textcolor{keywordtype}{void} String\_push\_str(\mbox{\hyperlink{structString}{String}}* \textcolor{keywordtype}{string}, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{101 \textcolor{keywordtype}{void} String\_append\_formatted(\mbox{\hyperlink{structString}{String}}* \textcolor{keywordtype}{string}, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* format, ...);}
+\DoxyCodeLine{102 \textcolor{keywordtype}{void} String\_concat\_copy(\mbox{\hyperlink{structString}{String}}* a, \textcolor{keyword}{const} \mbox{\hyperlink{structString}{String}}* b);}
+\DoxyCodeLine{103 \textcolor{keywordtype}{void} String\_concat\_consume(\mbox{\hyperlink{structString}{String}}* \textcolor{keywordtype}{string}, \mbox{\hyperlink{structString}{String}}* b);}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 \textcolor{keywordtype}{void} String\_destroy(\mbox{\hyperlink{structString}{String}} \textcolor{keywordtype}{string});}
+\DoxyCodeLine{106 \textcolor{keywordtype}{bool} String\_equals(\textcolor{keyword}{const} \mbox{\hyperlink{structString}{String}}* a, \textcolor{keyword}{const} \mbox{\hyperlink{structString}{String}}* b);}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108 \textcolor{keywordtype}{int} String\_compare(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* a, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* b);}
+\DoxyCodeLine{109 \textcolor{keywordtype}{int} String\_hash(\textcolor{keyword}{const} \mbox{\hyperlink{structString}{String}}* \textcolor{keywordtype}{string});}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#define DeclareToString(type) String type\#\#\_to\_string(const type* value);}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{preprocessor}{\#define DEFAULT\_TO\_STRING(type, format)                                                                                \(\backslash\)}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{    String type\#\#\_to\_string(const type* value) \{                                                                       \(\backslash\)}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{        char* str = MALLOC(100);                                                                                       \(\backslash\)}}
+\DoxyCodeLine{116 \textcolor{preprocessor}{        sprintf(str, format, *value);                                                                                  \(\backslash\)}}
+\DoxyCodeLine{117 \textcolor{preprocessor}{        return String\_from\_owned(str);                                                                                 \(\backslash\)}}
+\DoxyCodeLine{118 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \textcolor{keywordtype}{char}* read\_file(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

@@ -1,0 +1,48 @@
+digraph "ChunkStreamSmallLPATIterData"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="ChunkStreamSmallLPATIterData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" links_iterator_fsg" ];
+  Node2 [label="LinksIterator",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structLinksIterator.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_graph" ];
+  Node3 [label="Stream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStream.html",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" stream_data" ];
+  Node4 [label="StreamData",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStreamData.html",tooltip=" "];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cache" ];
+  Node5 [label="InformationCache",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInformationCache.html",tooltip=" "];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cardinalOfE\ncardinalOfT\ncardinalOfV\ncardinalOfW" ];
+  Node6 [label="OptionalSizeT",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structOptionalSizeT.html",tooltip=" "];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" underlying_stream_graph" ];
+  Node7 [label="FullStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structFullStreamGraph.html",tooltip="The FullStreamGraph structure."];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" underlying_stream_graph" ];
+  Node8 [label="StreamGraph",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStreamGraph.html",tooltip=" "];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" key_moments" ];
+  Node9 [label="KeyMomentsTable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structKeyMomentsTable.html",tooltip=" "];
+  Node10 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" slices" ];
+  Node10 [label="MomentsSlice",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structMomentsSlice.html",tooltip=" "];
+  Node11 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fill_info" ];
+  Node11 [label="KeyMomentsTableIterator",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structKeyMomentsTableIterator.html",tooltip=" "];
+  Node12 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" nodes" ];
+  Node12 [label="TemporalNodesSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structTemporalNodesSet.html",tooltip=" "];
+  Node13 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" nodes" ];
+  Node13 [label="TemporalNode",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structTemporalNode.html",tooltip=" "];
+  Node14 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" presence" ];
+  Node14 [label="IntervalsSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structIntervalsSet.html",tooltip=" "];
+  Node15 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" intervals" ];
+  Node15 [label="Interval",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInterval.html",tooltip=" "];
+  Node16 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" links" ];
+  Node16 [label="LinksSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structLinksSet.html",tooltip=" "];
+  Node17 -> Node16 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" links" ];
+  Node17 [label="Link",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structLink.html",tooltip=" "];
+  Node14 -> Node17 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" presence" ];
+  Node18 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" events" ];
+  Node18 [label="EventsTable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structEventsTable.html",tooltip=" "];
+  Node19 -> Node18 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" link_events\nnode_events" ];
+  Node19 [label="Events",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structEvents.html",tooltip=" "];
+  Node20 -> Node19 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" events" ];
+  Node20 [label="Event",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structEvent.html",tooltip=" "];
+  Node21 -> Node19 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" presence_mask" ];
+  Node21 [label="BitArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structBitArray.html",tooltip="The structure of a variable length array of bits."];
+}

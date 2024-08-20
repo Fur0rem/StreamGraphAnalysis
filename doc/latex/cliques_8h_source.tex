@@ -1,0 +1,35 @@
+\hypertarget{cliques_8h_source}{}\doxysection{cliques.\+h}
+\label{cliques_8h_source}\index{src/cliques.h@{src/cliques.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CLIQUES\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CLIQUES\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}stream.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}units.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}vector.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structClique}{Clique}} \mbox{\hyperlink{structClique}{Clique}};}
+\DoxyCodeLine{12 \textcolor{keyword}{struct }\mbox{\hyperlink{structClique}{Clique}} \{}
+\DoxyCodeLine{13     TimeId time\_start;}
+\DoxyCodeLine{14     TimeId time\_end;}
+\DoxyCodeLine{15     NodeId* nodes;}
+\DoxyCodeLine{16     \textcolor{keywordtype}{size\_t} nb\_nodes;}
+\DoxyCodeLine{17 \};}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 DeclareToString(\mbox{\hyperlink{structClique}{Clique}});}
+\DoxyCodeLine{20 DeclareEquals(\mbox{\hyperlink{structClique}{Clique}});}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 DeclareVector(\mbox{\hyperlink{structClique}{Clique}});}
+\DoxyCodeLine{23 DeclareVectorDeriveEquals(\mbox{\hyperlink{structClique}{Clique}});}
+\DoxyCodeLine{24 DeclareVectorDeriveToString(\mbox{\hyperlink{structClique}{Clique}});}
+\DoxyCodeLine{25 DeclareVectorDeriveRemove(\mbox{\hyperlink{structClique}{Clique}});}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 CliqueVector Stream\_maximal\_cliques(\mbox{\hyperlink{structStream}{Stream}}* st);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CLIQUES\_H}}
+
+\end{DoxyCode}

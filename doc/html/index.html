@@ -94,28 +94,47 @@ StreamGraphAnalysis : A C library for processing and analysing undirected unweig
 Current state of the Project</h2>
 <p >This is only a prototype, so the library is not usable at all for now. I'm still experimenting with how I approach the problem for now.</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
+How to use the library</h2>
+<p >Clone the repository, and then run make libSGA to compile the library. You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library. There is a header StreamGraphAnalysis.h in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the doc/ directory.</p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Data format</h2>
+<p >You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write, but the internal format is more efficient to read. So it's recommended to write your data in the external format, and then convert it to the internal format using the InternalFormat_from_External_str function, and save that for future use.</p>
+<p >External format : </p><div class="fragment"><div class="line">SGA External Format &lt;version&gt;</div>
+<div class="line"> </div>
+<div class="line">[General]</div>
+<div class="line">Lifespan=(&lt;start&gt;, &lt;end&gt;)</div>
+<div class="line">Scale=&lt;scale&gt;</div>
+<div class="line"> </div>
+<div class="line">[Events]</div>
+<div class="line">&lt;Timestamp&gt; &lt;+ or -&gt; &lt;N (for node) or L (for link)&gt; (&lt;NodeId&gt; for a node or &lt;Node1&gt; &lt;Node2&gt; for a link)</div>
+<div class="line">...</div>
+<div class="line"> </div>
+<div class="line">[EndOfStream]</div>
+<div class="line">Any text before this line will be ignored, and can be used for comments or metadata</div>
+</div><!-- fragment --><p >All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.5, 1.5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.</p>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Purpose of the library</h2>
 <p >The library is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6. It it based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at <a href="https://arxiv.org/abs/1710.04073">https://arxiv.org/abs/1710.04073</a>. It is optimised for reading and analysing huge stream graphs, with a balance between memory usage and speed. The library also supports the computation of metrics on subgraphs of the stream graph without copying much data, but at some cost I will explain in the code architecture section.</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Code architecture</h2>
 <ul>
 <li>The library was made for only reading stream graphs, and therefore the data structure doesn't allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.</li>
 <li>The data structure was made to have 3 very efficient primitives : Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.</li>
 <li>There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-computed base elements, and double-layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a <a class="el" href="structLinkStream.html">LinkStream</a> can hijack the computation of the coverage which is always 1.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 What it can do</h2>
 <ul>
 <li>Read a stream graph from a file</li>
 <li>Compute different metrics on the stream graph, the list of which is available below</li>
 <li>Support concurrent access to the stream graph, since it is read-only</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 What it cannot do</h2>
 <ul>
 <li>Modify the stream graph : the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Specifications of the stream graph data</h2>
 <ul>
 <li>The stream graph is continuous, undirected and unweighted</li>
@@ -123,7 +142,7 @@ Specifications of the stream graph data</h2>
 <li>The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[</li>
 <li>If a link is present at time t, the nodes u and v must be present at time t</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Project guidelines and organisation</h2>
 <ul>
 <li>Guidelines : None for now, I'm focusing on having something that works first, rather than something that is perfect but with no results. Things I'm considering for guidelines are namespacing to work with other libraries. Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro magic for the genericity specified above, so I'm not sure how to do that.</li>
@@ -135,7 +154,7 @@ Project guidelines and organisation</h2>
 <li>utils, which contains utility functions used by the other parts, such as generic dynamic arrays and hash tables</li>
 </ul>
 <p >The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. You can run them using the run_tests.sh script in the main directory.</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Supported metrics (In order of first mention in the paper)</h2>
 <ul>
 <li>Coverage : Section 3</li>
@@ -151,11 +170,14 @@ Supported metrics (In order of first mention in the paper)</h2>
 <li>Density of link : Section 5</li>
 <li>Density of node : Section 5</li>
 <li>Density of time : Section 5</li>
+<li>Degree of a node : Section 8</li>
+<li>Average node degree : Section 8</li>
+<li>Clustering coefficient of a node : Section 9</li>
+<li>Node clustering coefficient : Section 9</li>
+<li>Robustness by length : Outside of the paper</li>
 </ul>
 <p >(These were implemented in previous commits but have not been ported for generic streams yet)</p><ul>
-<li>Compactness : Section 4</li>
-<li>Degree of a node : Section 8</li>
-<li>Average node degree : Section 8 </li>
+<li>Compactness : Section 4 </li>
 </ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

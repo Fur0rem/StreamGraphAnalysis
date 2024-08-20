@@ -1,0 +1,28 @@
+\hypertarget{snapshot__stream_8h_source}{}\doxysection{snapshot\+\_\+stream.\+h}
+\label{snapshot__stream_8h_source}\index{src/stream/snapshot\_stream.h@{src/stream/snapshot\_stream.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SGA\_SNAPSHOT\_STREAM\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SGA\_SNAPSHOT\_STREAM\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../metrics.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../stream.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}../stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}../stream\_graph/nodes\_set.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{12     \mbox{\hyperlink{structStreamGraph}{StreamGraph}}* underlying\_stream\_graph;}
+\DoxyCodeLine{13     \mbox{\hyperlink{structInterval}{Interval}} snapshot;}
+\DoxyCodeLine{14 \} \mbox{\hyperlink{structSnapshotStream}{SnapshotStream}};}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \mbox{\hyperlink{structStream}{Stream}} SnapshotStream\_from(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, \mbox{\hyperlink{structInterval}{Interval}} snapshot);}
+\DoxyCodeLine{17 \textcolor{keywordtype}{void} SnapshotStream\_destroy(\mbox{\hyperlink{structStream}{Stream}} stream);}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structStreamFunctions}{StreamFunctions}} SnapshotStream\_stream\_functions;}
+\DoxyCodeLine{20 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structMetricsFunctions}{MetricsFunctions}} SnapshotStream\_metrics\_functions;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SGA\_SNAPSHOT\_STREAM\_H}}
+
+\end{DoxyCode}

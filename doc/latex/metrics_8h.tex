@@ -20,6 +20,14 @@ This graph shows which files directly or indirectly include this file\+:
 struct \mbox{\hyperlink{structMetricsFunctions}{Metrics\+Functions}}
 \begin{DoxyCompactList}\small\item\em Table of functions to compute metrics on a \mbox{\hyperlink{structStream}{Stream}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{metrics_8h_ade385c0c829248457b5606d92689d2d5}\label{metrics_8h_ade385c0c829248457b5606d92689d2d5}} 
+bool {\bfseries Stream\+\_\+equals} (const \mbox{\hyperlink{structStream}{Stream}} $\ast$stream1, const \mbox{\hyperlink{structStream}{Stream}} $\ast$stream2)
+\item 
+\mbox{\Hypertarget{metrics_8h_aeaaea1bc201a4d3cdd18b7ff0d5d0d7d}\label{metrics_8h_aeaaea1bc201a4d3cdd18b7ff0d5d0d7d}} 
+\mbox{\hyperlink{structString}{String}} {\bfseries Stream\+\_\+to\+\_\+string} (const \mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\end{DoxyCompactItemize}
 \begin{Indent}\textbf{ Section 3 \+: Stream graphs and link streams}\par
 \begin{DoxyCompactItemize}
 \item 
@@ -68,6 +76,29 @@ double \mbox{\hyperlink{metrics_8h_a7718e55a6a6da43ddf0949dc14bfc9cb}{Stream\+\_
 double \mbox{\hyperlink{metrics_8h_abcb7c1664997510c6c3811fb0b6bf0ad}{Stream\+\_\+average\+\_\+node\+\_\+degree}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
 \end{DoxyCompactItemize}
 \end{Indent}
+\begin{Indent}\textbf{ Section 9 \+: Clustering coefficient and transitivity ratio}\par
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}{Stream\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Node\+Id node\+\_\+id)
+\item 
+double \mbox{\hyperlink{metrics_8h_a433af043086448858f5bc38f99f1aefe}{Stream\+\_\+node\+\_\+clustering\+\_\+coeff}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\item 
+\mbox{\Hypertarget{metrics_8h_a50ab9c8c12d0b9c6767d069803da6399}\label{metrics_8h_a50ab9c8c12d0b9c6767d069803da6399}} 
+double {\bfseries Stream\+\_\+transitivity\+\_\+ratio} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\item 
+\mbox{\Hypertarget{metrics_8h_a0da130634b1a4af9625b46339429c99d}\label{metrics_8h_a0da130634b1a4af9625b46339429c99d}} 
+size\+\_\+t {\bfseries cardinal\+OfW} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\item 
+\mbox{\Hypertarget{metrics_8h_a0bb2588f94b6e6dded75604096c927ec}\label{metrics_8h_a0bb2588f94b6e6dded75604096c927ec}} 
+size\+\_\+t {\bfseries cardinal\+OfT} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\item 
+\mbox{\Hypertarget{metrics_8h_aafe8415a13811d5f34be90df16215eb9}\label{metrics_8h_aafe8415a13811d5f34be90df16215eb9}} 
+size\+\_\+t {\bfseries cardinal\+OfV} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\item 
+\mbox{\Hypertarget{metrics_8h_aaae69abae1a31c906fab8f79c4cfde5e}\label{metrics_8h_aaae69abae1a31c906fab8f79c4cfde5e}} 
+size\+\_\+t {\bfseries cardinal\+OfE} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\end{DoxyCompactItemize}
+\end{Indent}
 
 
 \doxysubsection{Function Documentation}
@@ -80,6 +111,19 @@ double \mbox{\hyperlink{metrics_8h_abcb7c1664997510c6c3811fb0b6bf0ad}{Stream\+\_
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}\label{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}} 
+\index{metrics.h@{metrics.h}!Stream\_clustering\_coeff\_of\_node@{Stream\_clustering\_coeff\_of\_node}}
+\index{Stream\_clustering\_coeff\_of\_node@{Stream\_clustering\_coeff\_of\_node}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{Stream\_clustering\_coeff\_of\_node()}{Stream\_clustering\_coeff\_of\_node()}}
+{\footnotesize\ttfamily double Stream\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Node\+Id}]{node\+\_\+id }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node to get the clustering coefficient of. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{metrics_8h_acc42aba82134e53acafd5428fb6ffcc7}\label{metrics_8h_acc42aba82134e53acafd5428fb6ffcc7}} 
@@ -200,6 +244,17 @@ Named density of a pair of nodes in the paper.
 \index{Stream\_link\_duration@{Stream\_link\_duration}!metrics.h@{metrics.h}}
 \doxysubsubsection{\texorpdfstring{Stream\_link\_duration()}{Stream\_link\_duration()}}
 {\footnotesize\ttfamily double Stream\+\_\+link\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{metrics_8h_a433af043086448858f5bc38f99f1aefe}\label{metrics_8h_a433af043086448858f5bc38f99f1aefe}} 
+\index{metrics.h@{metrics.h}!Stream\_node\_clustering\_coeff@{Stream\_node\_clustering\_coeff}}
+\index{Stream\_node\_clustering\_coeff@{Stream\_node\_clustering\_coeff}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{Stream\_node\_clustering\_coeff()}{Stream\_node\_clustering\_coeff()}}
+{\footnotesize\ttfamily double Stream\+\_\+node\+\_\+clustering\+\_\+coeff (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}

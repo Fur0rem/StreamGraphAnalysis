@@ -94,51 +94,59 @@ Collaboration diagram for StreamFunctions:</div>
 <div class="dyncontent">
 <div class="center"><img src="structStreamFunctions__coll__graph.png" border="0" usemap="#aStreamFunctions_coll__map" alt="Collaboration graph"/></div>
 <map name="aStreamFunctions_coll__map" id="aStreamFunctions_coll__map">
-<area shape="rect" title=" " alt="" coords="303,436,433,463"/>
-<area shape="rect" href="structNodesIterator.html" title="An iterator over nodes." alt="" coords="150,317,261,344"/>
-<area shape="rect" href="structStream.html" title=" " alt="" coords="171,228,240,255"/>
-<area shape="rect" href="structLinksIterator.html" title="An iterator over links." alt="" coords="5,317,109,344"/>
-<area shape="rect" href="structTimesIterator.html" title="An iterator over a set of time intervals." alt="" coords="313,317,423,344"/>
-<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="136,139,275,165"/>
-<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="149,5,261,32"/>
-<area shape="rect" href="structInterval.html" title=" " alt="" coords="485,139,557,165"/>
-<area shape="rect" href="structIntervalsSet.html" title=" " alt="" coords="559,228,659,255"/>
-<area shape="rect" href="structLink.html" title=" " alt="" coords="571,317,621,344"/>
+<area shape="rect" title=" " alt="" coords="370,436,501,463"/>
+<area shape="rect" href="structNodesIterator.html" title=" " alt="" coords="5,317,116,344"/>
+<area shape="rect" href="structStream.html" title=" " alt="" coords="137,228,206,255"/>
+<area shape="rect" href="structLinksIterator.html" title=" " alt="" coords="173,317,277,344"/>
+<area shape="rect" href="structTimesIterator.html" title=" " alt="" coords="452,317,563,344"/>
+<area shape="rect" href="structStreamData.html" title=" " alt="" coords="56,139,156,165"/>
+<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="181,139,319,165"/>
+<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="194,5,306,32"/>
+<area shape="rect" href="structInterval.html" title=" " alt="" coords="471,139,543,165"/>
+<area shape="rect" href="structIntervalsSet.html" title=" " alt="" coords="567,228,667,255"/>
+<area shape="rect" href="structLink.html" title=" " alt="" coords="592,317,641,344"/>
+<area shape="rect" href="structTemporalNode.html" title=" " alt="" coords="665,317,781,344"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a5aebd928af2559848f6c9e5c92062976"><td class="memItemLeft" align="right" valign="top"><a id="a5aebd928af2559848f6c9e5c92062976" name="a5aebd928af2559848f6c9e5c92062976"></a>
-<a class="el" href="structNodesIterator.html">NodesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>nodes_set</b> )(void *)</td></tr>
-<tr class="separator:a5aebd928af2559848f6c9e5c92062976"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65f1856ed2f3809d3f3430a951042f56"><td class="memItemLeft" align="right" valign="top"><a id="a65f1856ed2f3809d3f3430a951042f56" name="a65f1856ed2f3809d3f3430a951042f56"></a>
-<a class="el" href="structLinksIterator.html">LinksIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>links_set</b> )(void *)</td></tr>
-<tr class="separator:a65f1856ed2f3809d3f3430a951042f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaefb74f932fc03cc2c4971b87f44437a"><td class="memItemLeft" align="right" valign="top"><a id="aaefb74f932fc03cc2c4971b87f44437a" name="aaefb74f932fc03cc2c4971b87f44437a"></a>
-<a class="el" href="structInterval.html">Interval</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>lifespan</b> )(void *)</td></tr>
-<tr class="separator:aaefb74f932fc03cc2c4971b87f44437a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeb069b53039b6ca2ddba73e8a51b83a"><td class="memItemLeft" align="right" valign="top"><a id="abeb069b53039b6ca2ddba73e8a51b83a" name="abeb069b53039b6ca2ddba73e8a51b83a"></a>
-size_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>scaling</b> )(void *)</td></tr>
-<tr class="separator:abeb069b53039b6ca2ddba73e8a51b83a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6de4ffeb59a6f1615e1ebe80637fde37"><td class="memItemLeft" align="right" valign="top"><a id="a6de4ffeb59a6f1615e1ebe80637fde37" name="a6de4ffeb59a6f1615e1ebe80637fde37"></a>
-<a class="el" href="structNodesIterator.html">NodesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>nodes_present_at_t</b> )(void *, TimeId)</td></tr>
-<tr class="separator:a6de4ffeb59a6f1615e1ebe80637fde37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad87d28be2c21501b3080d67d3354dc8b"><td class="memItemLeft" align="right" valign="top"><a id="ad87d28be2c21501b3080d67d3354dc8b" name="ad87d28be2c21501b3080d67d3354dc8b"></a>
-<a class="el" href="structLinksIterator.html">LinksIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>links_present_at_t</b> )(void *, TimeId)</td></tr>
-<tr class="separator:ad87d28be2c21501b3080d67d3354dc8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac0ff8fa73127338e65581307a74b7c8"><td class="memItemLeft" align="right" valign="top"><a id="aac0ff8fa73127338e65581307a74b7c8" name="aac0ff8fa73127338e65581307a74b7c8"></a>
-<a class="el" href="structTimesIterator.html">TimesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>times_node_present</b> )(void *, NodeId)</td></tr>
-<tr class="separator:aac0ff8fa73127338e65581307a74b7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf21fdeffa6fd3c757e605bba23a945e"><td class="memItemLeft" align="right" valign="top"><a id="aaf21fdeffa6fd3c757e605bba23a945e" name="aaf21fdeffa6fd3c757e605bba23a945e"></a>
-<a class="el" href="structTimesIterator.html">TimesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>times_link_present</b> )(void *, LinkId)</td></tr>
-<tr class="separator:aaf21fdeffa6fd3c757e605bba23a945e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a92dc95b6d19f8b7334b5d252c4d601"><td class="memItemLeft" align="right" valign="top"><a id="a9a92dc95b6d19f8b7334b5d252c4d601" name="a9a92dc95b6d19f8b7334b5d252c4d601"></a>
-<a class="el" href="structLink.html">Link</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>link_by_id</b> )(void *, size_t)</td></tr>
-<tr class="separator:a9a92dc95b6d19f8b7334b5d252c4d601"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9cbb6538333ba9a95929eb450be1a05"><td class="memItemLeft" align="right" valign="top"><a id="ac9cbb6538333ba9a95929eb450be1a05" name="ac9cbb6538333ba9a95929eb450be1a05"></a>
-<a class="el" href="structLinksIterator.html">LinksIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>neighbours_of_node</b> )(void *, NodeId)</td></tr>
-<tr class="separator:ac9cbb6538333ba9a95929eb450be1a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b3513431e0f510d0513495040289162"><td class="memItemLeft" align="right" valign="top"><a id="a8b3513431e0f510d0513495040289162" name="a8b3513431e0f510d0513495040289162"></a>
+<a class="el" href="structNodesIterator.html">NodesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>nodes_set</b> )(<a class="el" href="structStreamData.html">StreamData</a> *)</td></tr>
+<tr class="separator:a8b3513431e0f510d0513495040289162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea736cdce3eb7352d1a43da8da914baa"><td class="memItemLeft" align="right" valign="top"><a id="aea736cdce3eb7352d1a43da8da914baa" name="aea736cdce3eb7352d1a43da8da914baa"></a>
+<a class="el" href="structLinksIterator.html">LinksIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>links_set</b> )(<a class="el" href="structStreamData.html">StreamData</a> *)</td></tr>
+<tr class="separator:aea736cdce3eb7352d1a43da8da914baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58a2c44b50b4b662e7913525db7cdc8e"><td class="memItemLeft" align="right" valign="top"><a id="a58a2c44b50b4b662e7913525db7cdc8e" name="a58a2c44b50b4b662e7913525db7cdc8e"></a>
+<a class="el" href="structInterval.html">Interval</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>lifespan</b> )(<a class="el" href="structStreamData.html">StreamData</a> *)</td></tr>
+<tr class="separator:a58a2c44b50b4b662e7913525db7cdc8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae11a99d4f1e31a0b3b5eb3fb9549a1f4"><td class="memItemLeft" align="right" valign="top"><a id="ae11a99d4f1e31a0b3b5eb3fb9549a1f4" name="ae11a99d4f1e31a0b3b5eb3fb9549a1f4"></a>
+size_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>scaling</b> )(<a class="el" href="structStreamData.html">StreamData</a> *)</td></tr>
+<tr class="separator:ae11a99d4f1e31a0b3b5eb3fb9549a1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a854eb650311200ebc3235e8b5f91e085"><td class="memItemLeft" align="right" valign="top"><a id="a854eb650311200ebc3235e8b5f91e085" name="a854eb650311200ebc3235e8b5f91e085"></a>
+<a class="el" href="structNodesIterator.html">NodesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>nodes_present_at_t</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, TimeId)</td></tr>
+<tr class="separator:a854eb650311200ebc3235e8b5f91e085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af829d72a2b7a16f07a4e8da292ef1ef9"><td class="memItemLeft" align="right" valign="top"><a id="af829d72a2b7a16f07a4e8da292ef1ef9" name="af829d72a2b7a16f07a4e8da292ef1ef9"></a>
+<a class="el" href="structLinksIterator.html">LinksIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>links_present_at_t</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, TimeId)</td></tr>
+<tr class="separator:af829d72a2b7a16f07a4e8da292ef1ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65239d4d7a791eb7ef6d16547b36c3a3"><td class="memItemLeft" align="right" valign="top"><a id="a65239d4d7a791eb7ef6d16547b36c3a3" name="a65239d4d7a791eb7ef6d16547b36c3a3"></a>
+<a class="el" href="structTimesIterator.html">TimesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>times_node_present</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, NodeId)</td></tr>
+<tr class="separator:a65239d4d7a791eb7ef6d16547b36c3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49aed711c9515fef3aecab8cb23a001"><td class="memItemLeft" align="right" valign="top"><a id="ac49aed711c9515fef3aecab8cb23a001" name="ac49aed711c9515fef3aecab8cb23a001"></a>
+<a class="el" href="structTimesIterator.html">TimesIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>times_link_present</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, LinkId)</td></tr>
+<tr class="separator:ac49aed711c9515fef3aecab8cb23a001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52aea3008bc2ccedce70084e1868aeb9"><td class="memItemLeft" align="right" valign="top"><a id="a52aea3008bc2ccedce70084e1868aeb9" name="a52aea3008bc2ccedce70084e1868aeb9"></a>
+<a class="el" href="structLink.html">Link</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>link_by_id</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, size_t)</td></tr>
+<tr class="separator:a52aea3008bc2ccedce70084e1868aeb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88626565ce7ac26bcabb54af76fdb5a"><td class="memItemLeft" align="right" valign="top"><a id="af88626565ce7ac26bcabb54af76fdb5a" name="af88626565ce7ac26bcabb54af76fdb5a"></a>
+<a class="el" href="structTemporalNode.html">TemporalNode</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>node_by_id</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, size_t)</td></tr>
+<tr class="separator:af88626565ce7ac26bcabb54af76fdb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeff4ccf9abade455b42f74718204294"><td class="memItemLeft" align="right" valign="top"><a id="abeff4ccf9abade455b42f74718204294" name="abeff4ccf9abade455b42f74718204294"></a>
+<a class="el" href="structLinksIterator.html">LinksIterator</a>(*&#160;</td><td class="memItemRight" valign="bottom"><b>neighbours_of_node</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, NodeId)</td></tr>
+<tr class="separator:abeff4ccf9abade455b42f74718204294"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6df130a58953aad8a0793b17c2340dc4"><td class="memItemLeft" align="right" valign="top"><a id="a6df130a58953aad8a0793b17c2340dc4" name="a6df130a58953aad8a0793b17c2340dc4"></a>
+LinkId(*&#160;</td><td class="memItemRight" valign="bottom"><b>links_between_nodes</b> )(<a class="el" href="structStreamData.html">StreamData</a> *, NodeId, NodeId)</td></tr>
+<tr class="separator:a6df130a58953aad8a0793b17c2340dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/<a class="el" href="stream__functions_8h_source.html">stream_functions.h</a></li>

@@ -1,0 +1,12 @@
+<map id="WalkInfo" name="WalkInfo">
+<area shape="rect" id="node1" title=" " alt="" coords="308,407,387,433"/>
+<area shape="rect" id="node2" href="$structWalk.html" title=" " alt="" coords="232,317,287,344"/>
+<area shape="rect" id="node3" href="$structInterval.html" title=" " alt="" coords="357,139,429,165"/>
+<area shape="rect" id="node9" href="$structNodeDoesntExistInfo.html" title=" " alt="" coords="356,228,515,255"/>
+<area shape="rect" id="node4" href="$structStream.html" title=" " alt="" coords="142,228,211,255"/>
+<area shape="rect" id="node5" href="$structStreamData.html" title=" " alt="" coords="5,139,105,165"/>
+<area shape="rect" id="node6" href="$structInformationCache.html" title=" " alt="" coords="130,139,269,165"/>
+<area shape="rect" id="node7" href="$structOptionalSizeT.html" title=" " alt="" coords="143,5,255,32"/>
+<area shape="rect" id="node8" href="$structNoWalkReason.html" title=" " alt="" coords="375,317,495,344"/>
+<area shape="rect" id="node10" href="$structImpossibleToReachInfo.html" title=" " alt="" coords="539,228,711,255"/>
+</map>

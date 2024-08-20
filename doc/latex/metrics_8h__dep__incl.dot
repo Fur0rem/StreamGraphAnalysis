@@ -6,11 +6,12 @@ digraph "src/metrics.h"
   Node1 [label="src/metrics.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Functions to compute metrics on a Stream."];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node2 [label="src/stream/chunk_stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$chunk__stream_8h_source.html",tooltip=" "];
-  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node3 [label="src/stream/substream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$substream_8h_source.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="src/stream/chunk_stream\l_small.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$chunk__stream__small_8h.html",tooltip="Like ChunkStream's, but with a memory representation more efficient for small chunks of the StreamGra..."];
   Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node4 [label="src/stream/full_stream\l_graph.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$full__stream__graph_8h.html",tooltip="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..."];
   Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node5 [label="src/stream/link_stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$link__stream_8h_source.html",tooltip=" "];
-  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="src/stream/snapshot\l_stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$snapshot__stream_8h_source.html",tooltip=" "];
 }
