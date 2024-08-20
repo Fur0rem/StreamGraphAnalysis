@@ -111,3 +111,6 @@ clean:
 # TODO : whats the proper way to do this
 libSGA: cliques walks arena iterators utils units defaults interval events_table key_moments_table links_set nodes_set stream induced_graph full_stream_graph link_stream chunk_stream chunk_stream_small metrics bit_array snapshot_stream | $(BIN_DIR)
 	ar rcs $(BIN_DIR)/libSGA.a $(BIN_DIR)/cliques.o $(BIN_DIR)/walks.o $(BIN_DIR)/arena.o $(BIN_DIR)/iterators.o $(BIN_DIR)/utils.o $(BIN_DIR)/units.o $(BIN_DIR)/defaults.o $(BIN_DIR)/interval.o $(BIN_DIR)/events_table.o $(BIN_DIR)/key_moments_table.o $(BIN_DIR)/links_set.o $(BIN_DIR)/nodes_set.o $(BIN_DIR)/stream.o $(BIN_DIR)/induced_graph.o $(BIN_DIR)/full_stream_graph.o $(BIN_DIR)/link_stream.o $(BIN_DIR)/chunk_stream.o $(BIN_DIR)/chunk_stream_small.o $(BIN_DIR)/metrics.o $(BIN_DIR)/bit_array.o $(BIN_DIR)/snapshot_stream.o
+
+docs:
+	doxygen .doxyfile

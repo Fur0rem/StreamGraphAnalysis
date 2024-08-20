@@ -6,6 +6,41 @@ Current state of the Project
 ----------------------------
 This is only a prototype, so the library is not usable at all for now. I'm still experimenting with how I approach the problem for now.
 
+How to use the library
+----------------------
+
+Clone the repository, and then run make libSGA to compile the library.
+You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library.
+There is a header StreamGraphAnalysis.h in the main directory that you can include in your project to use the library.
+You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the doc/ directory.
+
+Data format
+-----------
+
+You have two ways to format your data, either in the external format or in the internal format.
+The external format is easier to write, but the internal format is more efficient to read.
+So it's recommended to write your data in the external format, and then convert it to the internal format using the InternalFormat_from_External_str function, and save that for future use.
+
+External format :
+```
+SGA External Format <version>
+
+[General]
+Lifespan=(<start>, <end>)
+Scale=<scale>
+
+[Events]
+<Timestamp> <+ or -> <N (for node) or L (for link)> (<NodeId> for a node or <Node1> <Node2> for a link)
+...
+
+[EndOfStream]
+Any text before this line will be ignored, and can be used for comments or metadata
+```
+
+All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale.
+For example, if you have a stream with nodes present at 0.5, 1.5, ect...
+You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.
+
 Purpose of the library
 ----------------------
 The library is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6.

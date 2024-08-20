@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['link_0',['Link',['../structLink.html',1,'']]],
-  ['linkinfo_1',['LinkInfo',['../structLinkInfo.html',1,'']]],
-  ['linksiterator_2',['LinksIterator',['../structLinksIterator.html',1,'']]],
-  ['linkspresentattiterator_3',['LinksPresentAtTIterator',['../structLinksPresentAtTIterator.html',1,'']]],
-  ['linksset_4',['LinksSet',['../structLinksSet.html',1,'']]],
-  ['linkssetiteratordata_5',['LinksSetIteratorData',['../structLinksSetIteratorData.html',1,'']]],
-  ['linkstream_6',['LinkStream',['../structLinkStream.html',1,'']]],
-  ['linkstreamnodessetiteratordata_7',['LinkStreamNodesSetIteratorData',['../structLinkStreamNodesSetIteratorData.html',1,'']]]
+  ['impossibletoreachinfo_0',['ImpossibleToReachInfo',['../structImpossibleToReachInfo.html',1,'']]],
+  ['induced_5fgraph_2eh_1',['induced_graph.h',['../induced__graph_8h.html',1,'']]],
+  ['informationcache_2',['InformationCache',['../structInformationCache.html',1,'']]],
+  ['interval_3',['Interval',['../structInterval.html',1,'']]],
+  ['intervalsiteratordata_4',['IntervalsIteratorData',['../structIntervalsIteratorData.html',1,'']]],
+  ['intervalsset_5',['IntervalsSet',['../structIntervalsSet.html',1,'']]],
+  ['iterators_2eh_6',['iterators.h',['../iterators_8h.html',1,'']]]
 ];

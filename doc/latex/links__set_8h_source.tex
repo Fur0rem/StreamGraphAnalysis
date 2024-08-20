@@ -21,9 +21,16 @@
 \DoxyCodeLine{17 \} \mbox{\hyperlink{structLinksSet}{LinksSet}};}
 \DoxyCodeLine{18 }
 \DoxyCodeLine{19 \mbox{\hyperlink{structLinksSet}{LinksSet}} LinksSet\_alloc(\textcolor{keywordtype}{size\_t} nb\_links);}
-\DoxyCodeLine{20 \textcolor{keywordtype}{char}* Link\_to\_string(\mbox{\hyperlink{structLink}{Link}}* link);}
-\DoxyCodeLine{21 \textcolor{keywordtype}{bool} Link\_equals(\mbox{\hyperlink{structLink}{Link}} a, \mbox{\hyperlink{structLink}{Link}} b);}
+\DoxyCodeLine{20 DeclareToString(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{21 DeclareEquals(\mbox{\hyperlink{structLink}{Link}});}
 \DoxyCodeLine{22 }
-\DoxyCodeLine{23 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{23 DeclareVector(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{24 DeclareVectorDeriveEquals(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{25 DeclareVectorDeriveToString(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{26 DeclareVectorDeriveRemove(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 NodeId Link\_get\_other\_node(\textcolor{keyword}{const} \mbox{\hyperlink{structLink}{Link}}* link, NodeId node\_id);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_GRAPH\_LINKS\_SET\_H}}
 
 \end{DoxyCode}

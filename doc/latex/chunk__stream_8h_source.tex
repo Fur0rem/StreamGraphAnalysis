@@ -6,41 +6,29 @@
 \DoxyCodeLine{2 \textcolor{preprocessor}{\#define CHUNK\_STREAM\_H}}
 \DoxyCodeLine{3 }
 \DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../metrics.h"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}../stream\_graph.h"{}}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{8 }
-\DoxyCodeLine{9 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{10     \mbox{\hyperlink{structStreamGraph}{StreamGraph}}* underlying\_stream\_graph;}
-\DoxyCodeLine{11     \mbox{\hyperlink{structInterval}{Interval}} snapshot;}
-\DoxyCodeLine{12     \mbox{\hyperlink{structBitArray}{BitArray}} nodes\_present;}
-\DoxyCodeLine{13     \mbox{\hyperlink{structBitArray}{BitArray}} links\_present;}
-\DoxyCodeLine{14 \} \mbox{\hyperlink{structChunkStream}{ChunkStream}};}
-\DoxyCodeLine{15 }
-\DoxyCodeLine{16 \textcolor{comment}{/*DEFAULT\_TO\_STRING(NodeId, "{}\%zu"{});}}
-\DoxyCodeLine{17 \textcolor{comment}{DEFAULT\_COMPARE(NodeId);}}
-\DoxyCodeLine{18 \textcolor{comment}{DefVector(NodeId, NO\_FREE(NodeId));}}
-\DoxyCodeLine{19 \textcolor{comment}{}}
-\DoxyCodeLine{20 \textcolor{comment}{DEFAULT\_TO\_STRING(LinkId, "{}\%zu"{});}}
-\DoxyCodeLine{21 \textcolor{comment}{DEFAULT\_COMPARE(LinkId);}}
-\DoxyCodeLine{22 \textcolor{comment}{DefVector(LinkId, NO\_FREE(LinkId));*/}}
-\DoxyCodeLine{23 }
-\DoxyCodeLine{24 \textcolor{keywordtype}{char}* NodeId\_to\_string(\textcolor{keyword}{const} NodeId* node\_id);}
-\DoxyCodeLine{25 \textcolor{keywordtype}{bool} NodeId\_equals(NodeId a, NodeId b);}
-\DoxyCodeLine{26 DefVector(NodeId, NO\_FREE(NodeId));}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../stream.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}../stream\_functions.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}../stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}../stream\_graph/nodes\_set.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{12     \mbox{\hyperlink{structStreamGraph}{StreamGraph}}* underlying\_stream\_graph;}
+\DoxyCodeLine{13     \mbox{\hyperlink{structInterval}{Interval}} snapshot;}
+\DoxyCodeLine{14     \mbox{\hyperlink{structBitArray}{BitArray}} nodes\_present;}
+\DoxyCodeLine{15     \mbox{\hyperlink{structBitArray}{BitArray}} links\_present;}
+\DoxyCodeLine{16 \} \mbox{\hyperlink{structChunkStream}{ChunkStream}};}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \mbox{\hyperlink{structStream}{Stream}} CS\_with(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, NodeIdVector* nodes, LinkIdVector* links, \textcolor{keywordtype}{size\_t} time\_start, \textcolor{keywordtype}{size\_t} time\_end);}
+\DoxyCodeLine{19 \mbox{\hyperlink{structStream}{Stream}} CS\_without(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, NodeIdVector* nodes, LinkIdVector* links, \textcolor{keywordtype}{size\_t} time\_start,}
+\DoxyCodeLine{20                   \textcolor{keywordtype}{size\_t} time\_end);}
+\DoxyCodeLine{21 \textcolor{keywordtype}{void} CS\_destroy(\mbox{\hyperlink{structStream}{Stream}} stream);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keywordtype}{void} filter\_interval(\mbox{\hyperlink{structInterval}{Interval}}* interval, \mbox{\hyperlink{structInterval}{Interval}} snapshot);}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structStreamFunctions}{StreamFunctions}} ChunkStream\_stream\_functions;}
+\DoxyCodeLine{26 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structMetricsFunctions}{MetricsFunctions}} ChunkStream\_metrics\_functions;}
 \DoxyCodeLine{27 }
-\DoxyCodeLine{28 \textcolor{keywordtype}{char}* LinkId\_to\_string(\textcolor{keyword}{const} LinkId* link\_id);}
-\DoxyCodeLine{29 \textcolor{keywordtype}{bool} LinkId\_equals(LinkId a, LinkId b);}
-\DoxyCodeLine{30 DefVector(LinkId, NO\_FREE(LinkId));}
-\DoxyCodeLine{31 }
-\DoxyCodeLine{32 \mbox{\hyperlink{structChunkStream}{ChunkStream}} ChunkStream\_from(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, NodeIdVector* nodes, LinkIdVector* links, \textcolor{keywordtype}{size\_t} time\_start,}
-\DoxyCodeLine{33                              \textcolor{keywordtype}{size\_t} time\_end);}
-\DoxyCodeLine{34 \mbox{\hyperlink{structStream}{Stream}} CS\_from(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* stream\_graph, NodeIdVector* nodes, LinkIdVector* links, \textcolor{keywordtype}{size\_t} time\_start, \textcolor{keywordtype}{size\_t} time\_end);}
-\DoxyCodeLine{35 \textcolor{keywordtype}{void} CS\_destroy(\mbox{\hyperlink{structStream}{Stream}} stream);}
-\DoxyCodeLine{36 }
-\DoxyCodeLine{37 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structStreamFunctions}{StreamFunctions}} ChunkStream\_stream\_functions;}
-\DoxyCodeLine{38 \textcolor{keyword}{extern} \textcolor{keyword}{const} \mbox{\hyperlink{structMetricsFunctions}{MetricsFunctions}} ChunkStream\_metrics\_functions;}
-\DoxyCodeLine{39 }
-\DoxyCodeLine{40 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CHUNK\_STREAM\_H}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CHUNK\_STREAM\_H}}
 
 \end{DoxyCode}

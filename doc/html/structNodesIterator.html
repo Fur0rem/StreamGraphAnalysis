@@ -89,19 +89,16 @@ $(document).ready(function(){initNavTree('structNodesIterator.html',''); initRes
   <div class="headertitle"><div class="title">NodesIterator Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >An iterator over nodes. </p>
-</div>
-<p><code>#include &lt;<a class="el" href="iterators_8h_source.html">iterators.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for NodesIterator:</div>
 <div class="dyncontent">
 <div class="center"><img src="structNodesIterator__coll__graph.png" border="0" usemap="#aNodesIterator_coll__map" alt="Collaboration graph"/></div>
 <map name="aNodesIterator_coll__map" id="aNodesIterator_coll__map">
-<area shape="rect" title="An iterator over nodes." alt="" coords="19,317,130,344"/>
-<area shape="rect" href="structStream.html" title=" " alt="" coords="40,228,109,255"/>
-<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="5,139,144,165"/>
-<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="19,5,131,32"/>
+<area shape="rect" title=" " alt="" coords="59,317,169,344"/>
+<area shape="rect" href="structStream.html" title=" " alt="" coords="79,228,149,255"/>
+<area shape="rect" href="structStreamData.html" title=" " alt="" coords="5,139,105,165"/>
+<area shape="rect" href="structInformationCache.html" title=" " alt="" coords="130,139,269,165"/>
+<area shape="rect" href="structOptionalSizeT.html" title=" " alt="" coords="143,5,255,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -113,12 +110,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:af69f1b407337831f4b65ba4cc1a406c7"><td class="memItemLeft" align="right" valign="top"><a id="af69f1b407337831f4b65ba4cc1a406c7" name="af69f1b407337831f4b65ba4cc1a406c7"></a>
 void *&#160;</td><td class="memItemRight" valign="bottom"><b>iterator_data</b></td></tr>
 <tr class="separator:af69f1b407337831f4b65ba4cc1a406c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f0182893292cf4037cc1092e1189f33"><td class="memItemLeft" align="right" valign="top"><a id="a8f0182893292cf4037cc1092e1189f33" name="a8f0182893292cf4037cc1092e1189f33"></a>
-size_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>next</b> )(void *)</td></tr>
-<tr class="separator:a8f0182893292cf4037cc1092e1189f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22ba8b518a809f0aa61ae6776ffbeeb"><td class="memItemLeft" align="right" valign="top"><a id="ad22ba8b518a809f0aa61ae6776ffbeeb" name="ad22ba8b518a809f0aa61ae6776ffbeeb"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>destroy</b> )(void *)</td></tr>
-<tr class="separator:ad22ba8b518a809f0aa61ae6776ffbeeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cf842ea20b4244e19600b037fa1943f"><td class="memItemLeft" align="right" valign="top"><a id="a6cf842ea20b4244e19600b037fa1943f" name="a6cf842ea20b4244e19600b037fa1943f"></a>
+size_t(*&#160;</td><td class="memItemRight" valign="bottom"><b>next</b> )(<a class="el" href="structNodesIterator.html">NodesIterator</a> *)</td></tr>
+<tr class="separator:a6cf842ea20b4244e19600b037fa1943f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d696822b323adcdffe3d1bd9af42727"><td class="memItemLeft" align="right" valign="top"><a id="a0d696822b323adcdffe3d1bd9af42727" name="a0d696822b323adcdffe3d1bd9af42727"></a>
+void(*&#160;</td><td class="memItemRight" valign="bottom"><b>destroy</b> )(<a class="el" href="structNodesIterator.html">NodesIterator</a> *)</td></tr>
+<tr class="separator:a0d696822b323adcdffe3d1bd9af42727"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1db0764e215627016578724128f39ab6"><td class="memItemLeft" align="right" valign="top"><a id="a1db0764e215627016578724128f39ab6" name="a1db0764e215627016578724128f39ab6"></a>
 void(*&#160;</td><td class="memItemRight" valign="bottom"><b>skip_n</b> )(void *, size_t)</td></tr>
 <tr class="separator:a1db0764e215627016578724128f39ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>

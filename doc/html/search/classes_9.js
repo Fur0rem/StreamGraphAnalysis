@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['optionalsizet_0',['OptionalSizeT',['../structOptionalSizeT.html',1,'']]]
+  ['metricsfunctions_0',['MetricsFunctions',['../structMetricsFunctions.html',1,'']]],
+  ['momentsslice_1',['MomentsSlice',['../structMomentsSlice.html',1,'']]],
+  ['mycounter_2',['MyCounter',['../structMyCounter.html',1,'']]],
+  ['myset_3',['MySet',['../structMySet.html',1,'']]]
 ];

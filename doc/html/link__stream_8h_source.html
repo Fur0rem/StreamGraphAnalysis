@@ -90,25 +90,26 @@ $(document).ready(function(){initNavTree('link__stream_8h_source.html',''); init
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define LINK_STREAM_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../metrics.h&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;../stream_functions.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../stream_graph.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="structLinkStream.html">    7</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <a class="code hl_struct" href="structStreamGraph.html">StreamGraph</a>* underlying_stream_graph;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>} <a class="code hl_struct" href="structLinkStream.html">LinkStream</a>;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><a class="code hl_struct" href="structLinkStream.html">LinkStream</a> LinkStream_from(<a class="code hl_struct" href="structStreamGraph.html">StreamGraph</a>* stream_graph);</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><a class="code hl_struct" href="structStream.html">Stream</a> LS_from(<a class="code hl_struct" href="structStreamGraph.html">StreamGraph</a>* stream_graph);</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keywordtype">void</span> LS_destroy(<a class="code hl_struct" href="structStream.html">Stream</a> stream);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structStreamFunctions.html">StreamFunctions</a> LinkStream_stream_functions;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structMetricsFunctions.html">MetricsFunctions</a> LinkStream_metrics_functions;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#endif </span><span class="comment">// LINK_STREAM_H</span></div>
-<div class="ttc" id="astructLinkStream_html"><div class="ttname"><a href="structLinkStream.html">LinkStream</a></div><div class="ttdef"><b>Definition:</b> link_stream.h:7</div></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;../stream.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../stream_functions.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="structLinkStream.html">    8</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <a class="code hl_struct" href="structStreamGraph.html">StreamGraph</a>* underlying_stream_graph;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>} <a class="code hl_struct" href="structLinkStream.html">LinkStream</a>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><a class="code hl_struct" href="structLinkStream.html">LinkStream</a> LinkStream_from(<a class="code hl_struct" href="structStreamGraph.html">StreamGraph</a>* stream_graph);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><a class="code hl_struct" href="structStream.html">Stream</a> LS_from(<a class="code hl_struct" href="structStreamGraph.html">StreamGraph</a>* stream_graph);</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keywordtype">void</span> LS_destroy(<a class="code hl_struct" href="structStream.html">Stream</a> stream);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structStreamFunctions.html">StreamFunctions</a> LinkStream_stream_functions;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structMetricsFunctions.html">MetricsFunctions</a> LinkStream_metrics_functions;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif </span><span class="comment">// LINK_STREAM_H</span></div>
+<div class="ttc" id="astructLinkStream_html"><div class="ttname"><a href="structLinkStream.html">LinkStream</a></div><div class="ttdef"><b>Definition:</b> link_stream.h:8</div></div>
 <div class="ttc" id="astructMetricsFunctions_html"><div class="ttname"><a href="structMetricsFunctions.html">MetricsFunctions</a></div><div class="ttdoc">Table of functions to compute metrics on a Stream.</div><div class="ttdef"><b>Definition:</b> metrics.h:28</div></div>
-<div class="ttc" id="astructStreamFunctions_html"><div class="ttname"><a href="structStreamFunctions.html">StreamFunctions</a></div><div class="ttdef"><b>Definition:</b> stream_functions.h:7</div></div>
-<div class="ttc" id="astructStreamGraph_html"><div class="ttname"><a href="structStreamGraph.html">StreamGraph</a></div><div class="ttdef"><b>Definition:</b> stream_graph.h:15</div></div>
-<div class="ttc" id="astructStream_html"><div class="ttname"><a href="structStream.html">Stream</a></div><div class="ttdef"><b>Definition:</b> stream.h:19</div></div>
+<div class="ttc" id="astructStreamFunctions_html"><div class="ttname"><a href="structStreamFunctions.html">StreamFunctions</a></div><div class="ttdef"><b>Definition:</b> stream_functions.h:9</div></div>
+<div class="ttc" id="astructStreamGraph_html"><div class="ttname"><a href="structStreamGraph.html">StreamGraph</a></div><div class="ttdef"><b>Definition:</b> stream.h:15</div></div>
+<div class="ttc" id="astructStream_html"><div class="ttname"><a href="structStream.html">Stream</a></div><div class="ttdef"><b>Definition:</b> stream.h:53</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

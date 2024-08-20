@@ -28,13 +28,15 @@ var NAVTREE =
     [ "@anchor md_README", "index.html#autotoc_md0", null ],
     [ "StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs", "index.html#autotoc_md1", [
       [ "Current state of the Project", "index.html#autotoc_md2", null ],
-      [ "Purpose of the library", "index.html#autotoc_md3", null ],
-      [ "Code architecture", "index.html#autotoc_md4", null ],
-      [ "What it can do", "index.html#autotoc_md5", null ],
-      [ "What it cannot do", "index.html#autotoc_md6", null ],
-      [ "Specifications of the stream graph data", "index.html#autotoc_md7", null ],
-      [ "Project guidelines and organisation", "index.html#autotoc_md8", null ],
-      [ "Supported metrics (In order of first mention in the paper)", "index.html#autotoc_md9", null ]
+      [ "How to use the library", "index.html#autotoc_md3", null ],
+      [ "Data format", "index.html#autotoc_md4", null ],
+      [ "Purpose of the library", "index.html#autotoc_md5", null ],
+      [ "Code architecture", "index.html#autotoc_md6", null ],
+      [ "What it can do", "index.html#autotoc_md7", null ],
+      [ "What it cannot do", "index.html#autotoc_md8", null ],
+      [ "Specifications of the stream graph data", "index.html#autotoc_md9", null ],
+      [ "Project guidelines and organisation", "index.html#autotoc_md10", null ],
+      [ "Supported metrics (In order of first mention in the paper)", "index.html#autotoc_md11", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -50,6 +52,7 @@ var NAVTREE =
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]

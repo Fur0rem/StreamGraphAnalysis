@@ -2,6 +2,7 @@ var metrics_8h =
 [
     [ "MetricsFunctions", "structMetricsFunctions.html", null ],
     [ "Stream_average_node_degree", "metrics_8h.html#abcb7c1664997510c6c3811fb0b6bf0ad", null ],
+    [ "Stream_clustering_coeff_of_node", "metrics_8h.html#af47274c37cdebe12720fcae0bd19b6c2", null ],
     [ "Stream_contribution_of_link", "metrics_8h.html#acc42aba82134e53acafd5428fb6ffcc7", null ],
     [ "Stream_contribution_of_node", "metrics_8h.html#a26e18f5e9ac6f394c5e2333519b192a9", null ],
     [ "Stream_coverage", "metrics_8h.html#a1937d8594936fd8c6a94a0234b516fec", null ],
@@ -12,6 +13,7 @@ var metrics_8h =
     [ "Stream_density_of_node", "metrics_8h.html#a93c22db60ca580936b5b4b0970ed4dac", null ],
     [ "Stream_link_contribution_at_instant", "metrics_8h.html#afe6b432984c245e24c8c13bef6b36775", null ],
     [ "Stream_link_duration", "metrics_8h.html#a0587864a897d23cac05a2ef7439e89fd", null ],
+    [ "Stream_node_clustering_coeff", "metrics_8h.html#a433af043086448858f5bc38f99f1aefe", null ],
     [ "Stream_node_contribution_at_instant", "metrics_8h.html#a853f788384d68081c0deb434a006e9c1", null ],
     [ "Stream_node_duration", "metrics_8h.html#aef09e97fd5895cb11693874b76cb1c3f", null ],
     [ "Stream_number_of_links", "metrics_8h.html#a0b9fbd99e611df44a4261307f057a0d9", null ],

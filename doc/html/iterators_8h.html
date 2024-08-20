@@ -86,6 +86,7 @@ $(document).ready(function(){initNavTree('iterators_8h.html',''); initResizable(
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">iterators.h File Reference</div></div>
 </div><!--header-->
@@ -105,20 +106,27 @@ Include dependency graph for iterators.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="iterators_8h__incl.png" border="0" usemap="#asrc_2iterators_8h" alt=""/></div>
 <map name="asrc_2iterators_8h" id="asrc_2iterators_8h">
-<area shape="rect" title="Iterators over nodes, links and time intervals." alt="" coords="617,5,729,32"/>
-<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="439,80,523,107"/>
-<area shape="rect" title=" " alt="" coords="575,229,650,256"/>
-<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="685,155,765,181"/>
-<area shape="rect" title=" " alt="" coords="736,80,807,107"/>
-<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="543,155,610,181"/>
-<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="117,229,180,256"/>
-<area shape="rect" title=" " alt="" coords="414,304,497,331"/>
-<area shape="rect" href="vector_8h_source.html" title=" " alt="" coords="251,155,326,181"/>
-<area shape="rect" title=" " alt="" coords="98,304,173,331"/>
-<area shape="rect" title=" " alt="" coords="5,304,73,331"/>
-<area shape="rect" title=" " alt="" coords="197,304,268,331"/>
-<area shape="rect" title=" " alt="" coords="255,229,322,256"/>
-<area shape="rect" title=" " alt="" coords="347,229,417,256"/>
+<area shape="rect" title="Iterators over nodes, links and time intervals." alt="" coords="556,5,668,32"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="1035,244,1119,271"/>
+<area shape="rect" title=" " alt="" coords="429,692,504,719"/>
+<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="611,80,691,107"/>
+<area shape="rect" title=" " alt="" coords="537,244,607,271"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="363,319,429,345"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="798,617,861,644"/>
+<area shape="rect" title=" " alt="" coords="1077,692,1160,719"/>
+<area shape="rect" href="vector_8h_source.html" title=" " alt="" coords="859,543,933,569"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="677,393,763,420"/>
+<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="757,468,843,495"/>
+<area shape="rect" title=" " alt="" coords="707,617,773,644"/>
+<area shape="rect" title=" " alt="" coords="667,692,741,719"/>
+<area shape="rect" title=" " alt="" coords="766,692,834,719"/>
+<area shape="rect" title=" " alt="" coords="858,692,929,719"/>
+<area shape="rect" title=" " alt="" coords="953,692,1023,719"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="555,319,645,345"/>
+<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="144,155,304,196"/>
+<area shape="rect" href="key__moments__table_8h_source.html" title=" " alt="" coords="328,155,536,196"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="840,155,987,196"/>
+<area shape="rect" href="nodes__set_8h_source.html" title=" " alt="" coords="661,155,816,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -126,14 +134,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="iterators_8h__dep__incl.png" border="0" usemap="#asrc_2iterators_8hdep" alt=""/></div>
 <map name="asrc_2iterators_8hdep" id="asrc_2iterators_8hdep">
-<area shape="rect" title="Iterators over nodes, links and time intervals." alt="" coords="211,5,323,32"/>
-<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="5,80,157,107"/>
-<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="376,80,483,107"/>
-<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="181,80,352,107"/>
-<area shape="rect" href="chunk__stream_8h_source.html" title=" " alt="" coords="33,162,231,189"/>
-<area shape="rect" href="substream_8h_source.html" title=" " alt="" coords="44,244,220,271"/>
-<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="465,155,634,196"/>
-<area shape="rect" href="link__stream_8h_source.html" title=" " alt="" coords="256,162,440,189"/>
+<area shape="rect" title="Iterators over nodes, links and time intervals." alt="" coords="365,5,477,32"/>
+<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="160,80,312,107"/>
+<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="531,80,637,107"/>
+<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="336,80,507,107"/>
+<area shape="rect" href="chunk__stream_8h_source.html" title=" " alt="" coords="798,162,997,189"/>
+<area shape="rect" href="chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="5,155,192,196"/>
+<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="217,155,386,196"/>
+<area shape="rect" href="link__stream_8h_source.html" title=" " alt="" coords="411,162,595,189"/>
+<area shape="rect" href="snapshot__stream_8h_source.html" title=" " alt="" coords="619,155,773,196"/>
 </map>
 </div>
 </div>
@@ -142,13 +151,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNodesIterator.html">NodesIterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator over nodes.  <a href="structNodesIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinksIterator.html">LinksIterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator over links.  <a href="structLinksIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTimesIterator.html">TimesIterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator over a set of time intervals.  <a href="structTimesIterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -170,6 +176,21 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>FOR_EACH_TIME</b>(iterated,  iterator)&#160;&#160;&#160;FOR_EACH(<a class="el" href="structInterval.html">Interval</a>, iterated, iterator, (iterated).start != SIZE_MAX)</td></tr>
 <tr class="separator:ad486d9e1b33cf495255724764aa03e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ac329d89f5f25ae367833ebdaaeeedea4"><td class="memItemLeft" align="right" valign="top"><a id="ac329d89f5f25ae367833ebdaaeeedea4" name="ac329d89f5f25ae367833ebdaaeeedea4"></a>
+typedef struct <a class="el" href="structNodesIterator.html">NodesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>NodesIterator</b></td></tr>
+<tr class="memdesc:ac329d89f5f25ae367833ebdaaeeedea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator over nodes. <br /></td></tr>
+<tr class="separator:ac329d89f5f25ae367833ebdaaeeedea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cf998d549a9dbc3e839cb6df96ec48b"><td class="memItemLeft" align="right" valign="top"><a id="a7cf998d549a9dbc3e839cb6df96ec48b" name="a7cf998d549a9dbc3e839cb6df96ec48b"></a>
+typedef struct <a class="el" href="structLinksIterator.html">LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>LinksIterator</b></td></tr>
+<tr class="memdesc:a7cf998d549a9dbc3e839cb6df96ec48b"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator over links. <br /></td></tr>
+<tr class="separator:a7cf998d549a9dbc3e839cb6df96ec48b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a009bcd2a3424fe7a4e05495cc7ed682c"><td class="memItemLeft" align="right" valign="top"><a id="a009bcd2a3424fe7a4e05495cc7ed682c" name="a009bcd2a3424fe7a4e05495cc7ed682c"></a>
+typedef struct <a class="el" href="structTimesIterator.html">TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>TimesIterator</b></td></tr>
+<tr class="memdesc:a009bcd2a3424fe7a4e05495cc7ed682c"><td class="mdescLeft">&#160;</td><td class="mdescRight">An iterator over a set of time intervals. <br /></td></tr>
+<tr class="separator:a009bcd2a3424fe7a4e05495cc7ed682c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aba80f0a57ae795e7f431bfba2d162a08"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#aba80f0a57ae795e7f431bfba2d162a08">total_time_of</a> (<a class="el" href="structTimesIterator.html">TimesIterator</a> times)</td></tr>
@@ -181,6 +202,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a9907f8eeea980f6996d18bbdfd01424e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structTimesIterator.html">TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#a9907f8eeea980f6996d18bbdfd01424e">TimesIterator_intersection</a> (<a class="el" href="structTimesIterator.html">TimesIterator</a> a, <a class="el" href="structTimesIterator.html">TimesIterator</a> b)</td></tr>
 <tr class="memdesc:a9907f8eeea980f6996d18bbdfd01424e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an iterator over the intersection of two sets of time intervals.  <a href="iterators_8h.html#a9907f8eeea980f6996d18bbdfd01424e">More...</a><br /></td></tr>
 <tr class="separator:a9907f8eeea980f6996d18bbdfd01424e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2ad3490d499e44ad3f75c0e49e4cba9"><td class="memItemLeft" align="right" valign="top">IntervalVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#aa2ad3490d499e44ad3f75c0e49e4cba9">SGA_collect_times</a> (<a class="el" href="structTimesIterator.html">TimesIterator</a> times)</td></tr>
+<tr class="memdesc:aa2ad3490d499e44ad3f75c0e49e4cba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collects all the time intervals of the given iterator into a vector.  <a href="iterators_8h.html#aa2ad3490d499e44ad3f75c0e49e4cba9">More...</a><br /></td></tr>
+<tr class="separator:aa2ad3490d499e44ad3f75c0e49e4cba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab23b03c8a1b1d64539ad2b3f5546eb68"><td class="memItemLeft" align="right" valign="top">NodeIdVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#ab23b03c8a1b1d64539ad2b3f5546eb68">SGA_collect_node_ids</a> (<a class="el" href="structNodesIterator.html">NodesIterator</a> nodes)</td></tr>
+<tr class="memdesc:ab23b03c8a1b1d64539ad2b3f5546eb68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collects all the nodes of the given iterator into a vector.  <a href="iterators_8h.html#ab23b03c8a1b1d64539ad2b3f5546eb68">More...</a><br /></td></tr>
+<tr class="separator:ab23b03c8a1b1d64539ad2b3f5546eb68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a493c5348e5c6ccae6ec395e159694a16"><td class="memItemLeft" align="right" valign="top">LinkIdVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#a493c5348e5c6ccae6ec395e159694a16">SGA_collect_link_ids</a> (<a class="el" href="structLinksIterator.html">LinksIterator</a> links)</td></tr>
+<tr class="memdesc:a493c5348e5c6ccae6ec395e159694a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collects all the links of the given iterator into a vector.  <a href="iterators_8h.html#a493c5348e5c6ccae6ec395e159694a16">More...</a><br /></td></tr>
+<tr class="separator:a493c5348e5c6ccae6ec395e159694a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="aa8ec356ff1234cc9217cd023635fb4a3" name="aa8ec356ff1234cc9217cd023635fb4a3"></a>
@@ -211,6 +241,87 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a493c5348e5c6ccae6ec395e159694a16" name="a493c5348e5c6ccae6ec395e159694a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a493c5348e5c6ccae6ec395e159694a16">&#9670;&nbsp;</a></span>SGA_collect_link_ids()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LinkIdVector SGA_collect_link_ids </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structLinksIterator.html">LinksIterator</a>&#160;</td>
+          <td class="paramname"><em>links</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Collects all the links of the given iterator into a vector. </p>
+<p >Consumes the iterator. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">links</td><td>The iterator over links. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector containing all the link ids of the iterator. </dd></dl>
+
+</div>
+</div>
+<a id="ab23b03c8a1b1d64539ad2b3f5546eb68" name="ab23b03c8a1b1d64539ad2b3f5546eb68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab23b03c8a1b1d64539ad2b3f5546eb68">&#9670;&nbsp;</a></span>SGA_collect_node_ids()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NodeIdVector SGA_collect_node_ids </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structNodesIterator.html">NodesIterator</a>&#160;</td>
+          <td class="paramname"><em>nodes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Collects all the nodes of the given iterator into a vector. </p>
+<p >Consumes the iterator. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nodes</td><td>The iterator over nodes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector containing all the node ids of the iterator. </dd></dl>
+
+</div>
+</div>
+<a id="aa2ad3490d499e44ad3f75c0e49e4cba9" name="aa2ad3490d499e44ad3f75c0e49e4cba9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2ad3490d499e44ad3f75c0e49e4cba9">&#9670;&nbsp;</a></span>SGA_collect_times()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IntervalVector SGA_collect_times </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structTimesIterator.html">TimesIterator</a>&#160;</td>
+          <td class="paramname"><em>times</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Collects all the time intervals of the given iterator into a vector. </p>
+<p >Consumes the iterator. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">times</td><td>The iterator over time intervals. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector containing all the time intervals of the iterator. </dd></dl>
+
+</div>
+</div>
 <a id="a9907f8eeea980f6996d18bbdfd01424e" name="a9907f8eeea980f6996d18bbdfd01424e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9907f8eeea980f6996d18bbdfd01424e">&#9670;&nbsp;</a></span>TimesIterator_intersection()</h2>
 

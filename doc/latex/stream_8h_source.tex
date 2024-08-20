@@ -5,44 +5,80 @@
 \DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_H}}
 \DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_H}}
 \DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <stdbool.h>}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{6 }
-\DoxyCodeLine{7 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{8     \textcolor{keywordtype}{bool} present;}
-\DoxyCodeLine{9     \textcolor{keywordtype}{size\_t} data;}
-\DoxyCodeLine{10 \} \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}};}
-\DoxyCodeLine{11 }
-\DoxyCodeLine{12 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{13     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfW;}
-\DoxyCodeLine{14     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfT;}
-\DoxyCodeLine{15     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfE;}
-\DoxyCodeLine{16     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfV;}
-\DoxyCodeLine{17 \} \mbox{\hyperlink{structInformationCache}{InformationCache}};}
-\DoxyCodeLine{18 }
-\DoxyCodeLine{19 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{20     \textcolor{keyword}{enum} \{}
-\DoxyCodeLine{21         FULL\_STREAM\_GRAPH,}
-\DoxyCodeLine{22         LINK\_STREAM,}
-\DoxyCodeLine{23         CHUNK\_STREAM,}
-\DoxyCodeLine{24     \} type;}
-\DoxyCodeLine{25     \textcolor{keywordtype}{void}* stream;}
-\DoxyCodeLine{26     \mbox{\hyperlink{structInformationCache}{InformationCache}} cache;}
-\DoxyCodeLine{27 \} \mbox{\hyperlink{structStream}{Stream}};}
-\DoxyCodeLine{28 }
-\DoxyCodeLine{29 \textcolor{keywordtype}{void} init\_cache(\mbox{\hyperlink{structStream}{Stream}}* stream);}
-\DoxyCodeLine{30 }
-\DoxyCodeLine{31 \textcolor{preprocessor}{\#define FETCH\_CACHE(stream, field)                                                                                     \(\backslash\)}}
-\DoxyCodeLine{32 \textcolor{preprocessor}{    if ((stream)-\/>cache.field.present) \{                                                                               \(\backslash\)}}
-\DoxyCodeLine{33 \textcolor{preprocessor}{        printf("{}Cache hit for \%s\(\backslash\)n"{}}, \#field);                                                                          \(\backslash\)}
-\DoxyCodeLine{34         return (stream)-\/>cache.field.data;                                                                             \(\backslash\)}
-\DoxyCodeLine{35     \}                                                                                                                  \(\backslash\)}
-\DoxyCodeLine{36     printf("{}Cache miss for \%s\(\backslash\)n"{}, \#field);}
-\DoxyCodeLine{37 }
-\DoxyCodeLine{38 \textcolor{preprocessor}{\#define UPDATE\_CACHE(stream, field, value)                                                                             \(\backslash\)}}
-\DoxyCodeLine{39 \textcolor{preprocessor}{    (stream)-\/>cache.field.present = true;                                                                              \(\backslash\)}}
-\DoxyCodeLine{40 \textcolor{preprocessor}{    (stream)-\/>cache.field.data = value;}}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_H}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{bit__array_8h}{bit\_array.h}}"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}interval.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}stream\_graph/events\_table.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}stream\_graph/key\_moments\_table.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}stream\_graph/nodes\_set.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}units.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{16     \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}} key\_moments;}
+\DoxyCodeLine{17     \mbox{\hyperlink{structTemporalNodesSet}{TemporalNodesSet}} nodes;}
+\DoxyCodeLine{18     \mbox{\hyperlink{structLinksSet}{LinksSet}} links;}
+\DoxyCodeLine{19     \mbox{\hyperlink{structEventsTable}{EventsTable}} events;}
+\DoxyCodeLine{20     \textcolor{keywordtype}{size\_t} scaling;}
+\DoxyCodeLine{21 \} \mbox{\hyperlink{structStreamGraph}{StreamGraph}};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_string(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{24 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_file(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
+\DoxyCodeLine{25 \textcolor{keywordtype}{char}* StreamGraph\_to\_string(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{26 \textcolor{keywordtype}{void} StreamGraph\_destroy(\mbox{\hyperlink{structStreamGraph}{StreamGraph}} sg);}
+\DoxyCodeLine{27 \textcolor{keywordtype}{size\_t} StreamGraph\_lifespan\_begin(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{28 \textcolor{keywordtype}{size\_t} StreamGraph\_lifespan\_end(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{29 \textcolor{keywordtype}{void} init\_events\_table(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{30 \textcolor{keywordtype}{void} events\_destroy(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
+\DoxyCodeLine{31 \textcolor{keywordtype}{char}* InternalFormat\_from\_External\_str(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
+\DoxyCodeLine{32 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_external(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{35     \textcolor{keywordtype}{bool} present;}
+\DoxyCodeLine{36     \textcolor{keywordtype}{size\_t} data;}
+\DoxyCodeLine{37 \} \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{40     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfW;}
+\DoxyCodeLine{41     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfT;}
+\DoxyCodeLine{42     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfE;}
+\DoxyCodeLine{43     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfV;}
+\DoxyCodeLine{44 \} \mbox{\hyperlink{structInformationCache}{InformationCache}};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{comment}{// TRICK: StreamData is a blanket struct that serves as a placeholder for the union of all stream types}}
+\DoxyCodeLine{47 \textcolor{comment}{// (FullStreamGraph, LinkStream, ect...).}}
+\DoxyCodeLine{48 \textcolor{comment}{// Otherwise a circular dependency would be created since these files need stream.h.}}
+\DoxyCodeLine{49 \textcolor{comment}{// And if we used a void* pointer, we would lose type safety.}}
+\DoxyCodeLine{50 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{51 \} \mbox{\hyperlink{structStreamData}{StreamData}};}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{54     \textcolor{keyword}{enum} \{}
+\DoxyCodeLine{55         FULL\_STREAM\_GRAPH,}
+\DoxyCodeLine{56         LINK\_STREAM,}
+\DoxyCodeLine{57         CHUNK\_STREAM,}
+\DoxyCodeLine{58         CHUNK\_STREAM\_SMALL,}
+\DoxyCodeLine{59         SNAPSHOT\_STREAM,}
+\DoxyCodeLine{60     \} type;}
+\DoxyCodeLine{61     \mbox{\hyperlink{structStreamData}{StreamData}}* stream\_data;}
+\DoxyCodeLine{62     \mbox{\hyperlink{structInformationCache}{InformationCache}} cache;}
+\DoxyCodeLine{63 \} \mbox{\hyperlink{structStream}{Stream}};}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{keywordtype}{void} init\_cache(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define FETCH\_CACHE(stream, field)                                                                                     \(\backslash\)}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{    if ((stream)-\/>cache.field.present) \{                                                                               \(\backslash\)}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{        return (stream)-\/>cache.field.data;                                                                             \(\backslash\)}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define UPDATE\_CACHE(stream, field, value)                                                                             \(\backslash\)}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{    (stream)-\/>cache.field.present = true;                                                                              \(\backslash\)}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{    (stream)-\/>cache.field.data = value;}}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{keywordtype}{void} reset\_cache(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_H}}
 
 \end{DoxyCode}

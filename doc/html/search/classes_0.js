@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bitarray_0',['BitArray',['../structBitArray.html',1,'']]]
+  ['arena_0',['Arena',['../structArena.html',1,'']]]
 ];

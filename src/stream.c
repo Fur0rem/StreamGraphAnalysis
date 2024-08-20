@@ -291,7 +291,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	// printf("nb_key_moments: %zu\n", nb_key_moments);
 	// printf("nb_events: %zu\n", sg.events.nb_events);
 
-	NEXT_HEADER([EndOfFile]);
+	NEXT_HEADER([EndOfStream]);
 
 	free(key_moments);
 
@@ -380,7 +380,7 @@ Scaling=10
 100 - N 0
 100 - N 1
 
-[EndOfFile]
+[EndOfStream]
 */
 /* Format internal :
 SGA Internal version 1.0.0
@@ -448,7 +448,7 @@ NumberOfKeyMoments=13
 90=((- N 2) (- L 3))
 100=((- N 0) (- N 1))
 
-[EndOfFile]
+[EndOfStream]
 */
 
 typedef struct {
@@ -594,7 +594,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t current_vec = 0;
 	size_tVector number_of_slices = size_tVector_with_capacity(10);
 	// printf("parsing events\n");
-	while (strncmp(str, "[EndOfFile]", 11) != 0) {
+	while (strncmp(str, "[EndOfStream]", 11) != 0) {
 		// if the line is empty, skip it
 		if (*str == '\n') {
 			break;
@@ -928,7 +928,7 @@ char* InternalFormat_from_External_str(const char* str) {
 		free(link_id_map[i]);
 	}*/
 	free(link_id_map);
-	charVector_append(&vec, APPEND_CONST("[EndOfFile]\n"));
+	charVector_append(&vec, APPEND_CONST("[EndOfStream]\n"));
 
 	char* final_str = (char*)malloc((vec.size + 1) * sizeof(char));
 	memcpy(final_str, vec.array, vec.size);

@@ -12,12 +12,12 @@
 \DoxyCodeLine{19 }
 \DoxyCodeLine{27 \textcolor{comment}{// TODO : rename these}}
 \DoxyCodeLine{28 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{29     size\_t (*cardinalOfW)(\textcolor{keywordtype}{void}*);}
-\DoxyCodeLine{30     size\_t (*cardinalOfT)(\textcolor{keywordtype}{void}*);}
-\DoxyCodeLine{31     size\_t (*cardinalOfV)(\textcolor{keywordtype}{void}*);}
-\DoxyCodeLine{32     double (*coverage)(\textcolor{keywordtype}{void}*);}
-\DoxyCodeLine{33     double (*node\_duration)(\textcolor{keywordtype}{void}*);}
-\DoxyCodeLine{34     double (*density)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{29     size\_t (*cardinalOfW)(\mbox{\hyperlink{structStream}{Stream}}*);}
+\DoxyCodeLine{30     size\_t (*cardinalOfT)(\mbox{\hyperlink{structStream}{Stream}}*);}
+\DoxyCodeLine{31     size\_t (*cardinalOfV)(\mbox{\hyperlink{structStream}{Stream}}*);}
+\DoxyCodeLine{32     double (*coverage)(\mbox{\hyperlink{structStream}{Stream}}*);}
+\DoxyCodeLine{33     double (*node\_duration)(\mbox{\hyperlink{structStream}{Stream}}*);}
+\DoxyCodeLine{34     double (*density)(\mbox{\hyperlink{structStream}{Stream}}*);}
 \DoxyCodeLine{35 \} \mbox{\hyperlink{structMetricsFunctions}{MetricsFunctions}};}
 \DoxyCodeLine{36 }
 \DoxyCodeLine{44 \textcolor{keywordtype}{double} \mbox{\hyperlink{metrics_8h_a1937d8594936fd8c6a94a0234b516fec}{Stream\_coverage}}(\mbox{\hyperlink{structStream}{Stream}}* stream);}
@@ -50,6 +50,21 @@
 \DoxyCodeLine{144 \textcolor{keywordtype}{double} \mbox{\hyperlink{metrics_8h_a7718e55a6a6da43ddf0949dc14bfc9cb}{Stream\_degree\_of\_node}}(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId node\_id);}
 \DoxyCodeLine{145 }
 \DoxyCodeLine{149 \textcolor{keywordtype}{double} \mbox{\hyperlink{metrics_8h_abcb7c1664997510c6c3811fb0b6bf0ad}{Stream\_average\_node\_degree}}(\mbox{\hyperlink{structStream}{Stream}}* stream);}
-\DoxyCodeLine{152 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// METRICS\_H}}
+\DoxyCodeLine{161 \textcolor{keywordtype}{double} \mbox{\hyperlink{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}{Stream\_clustering\_coeff\_of\_node}}(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId node\_id);}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{166 \textcolor{keywordtype}{double} \mbox{\hyperlink{metrics_8h_a433af043086448858f5bc38f99f1aefe}{Stream\_node\_clustering\_coeff}}(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168 \textcolor{keywordtype}{double} Stream\_transitivity\_ratio(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170 \textcolor{keywordtype}{size\_t} cardinalOfW(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{171 \textcolor{keywordtype}{size\_t} cardinalOfT(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{172 \textcolor{keywordtype}{size\_t} cardinalOfV(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{173 \textcolor{keywordtype}{size\_t} cardinalOfE(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{176 \textcolor{comment}{// TODO: move out of metrics, and do Stream\_mathematically\_equivalent}}
+\DoxyCodeLine{177 \textcolor{keywordtype}{bool} Stream\_equals(\textcolor{keyword}{const} \mbox{\hyperlink{structStream}{Stream}}* stream1, \textcolor{keyword}{const} \mbox{\hyperlink{structStream}{Stream}}* stream2);}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179 \mbox{\hyperlink{structString}{String}} Stream\_to\_string(\textcolor{keyword}{const} \mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// METRICS\_H}}
 
 \end{DoxyCode}

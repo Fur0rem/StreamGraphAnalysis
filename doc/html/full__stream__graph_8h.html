@@ -93,36 +93,37 @@ $(document).ready(function(){initNavTree('full__stream__graph_8h.html',''); init
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A wrapper around a <a class="el" href="structStreamGraph.html">StreamGraph</a> to use it as a <a class="el" href="structStream.html">Stream</a>. It does not do any transformation on the <a class="el" href="structStreamGraph.html">StreamGraph</a>. </p>
 </div><div class="textblock"><code>#include &quot;<a class="el" href="metrics_8h_source.html">../metrics.h</a>&quot;</code><br />
+<code>#include &quot;../stream.h&quot;</code><br />
 <code>#include &quot;../stream_functions.h&quot;</code><br />
-<code>#include &quot;../stream_graph.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for full_stream_graph.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="full__stream__graph_8h__incl.png" border="0" usemap="#asrc_2stream_2full__stream__graph_8h" alt=""/></div>
 <map name="asrc_2stream_2full__stream__graph_8h" id="asrc_2stream_2full__stream__graph_8h">
-<area shape="rect" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="516,5,685,47"/>
-<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="340,95,435,121"/>
-<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="521,95,680,121"/>
-<area shape="rect" href="stream__graph_8h_source.html" title=" " alt="" coords="878,95,1014,121"/>
-<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="527,259,611,285"/>
-<area shape="rect" title=" " alt="" coords="737,408,811,435"/>
-<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="425,177,515,203"/>
-<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="270,333,350,360"/>
-<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="741,333,807,360"/>
-<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="227,408,289,435"/>
-<area shape="rect" title=" " alt="" coords="341,483,423,509"/>
-<area shape="rect" href="vector_8h_source.html" title=" " alt="" coords="121,333,195,360"/>
-<area shape="rect" title=" " alt="" coords="225,483,299,509"/>
-<area shape="rect" title=" " alt="" coords="132,483,200,509"/>
-<area shape="rect" title=" " alt="" coords="5,483,76,509"/>
-<area shape="rect" title=" " alt="" coords="41,408,107,435"/>
-<area shape="rect" title=" " alt="" coords="132,408,203,435"/>
-<area shape="rect" title=" " alt="" coords="925,259,996,285"/>
-<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="590,169,737,211"/>
-<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="1290,259,1381,285"/>
-<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="1273,169,1433,211"/>
-<area shape="rect" href="key__moments__table_8h_source.html" title=" " alt="" coords="1041,169,1249,211"/>
-<area shape="rect" href="nodes__set_8h_source.html" title=" " alt="" coords="811,169,966,211"/>
+<area shape="rect" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="490,5,659,47"/>
+<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="527,95,622,121"/>
+<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="407,244,487,271"/>
+<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="345,95,503,121"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="125,408,209,435"/>
+<area shape="rect" title=" " alt="" coords="720,856,795,883"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="305,169,394,196"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="615,483,681,509"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="213,781,275,808"/>
+<area shape="rect" title=" " alt="" coords="5,856,88,883"/>
+<area shape="rect" href="vector_8h_source.html" title=" " alt="" coords="367,707,441,733"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="435,557,522,584"/>
+<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="356,632,441,659"/>
+<area shape="rect" title=" " alt="" coords="425,781,492,808"/>
+<area shape="rect" title=" " alt="" coords="205,856,280,883"/>
+<area shape="rect" title=" " alt="" coords="113,856,181,883"/>
+<area shape="rect" title=" " alt="" coords="305,856,375,883"/>
+<area shape="rect" title=" " alt="" coords="399,856,470,883"/>
+<area shape="rect" title=" " alt="" coords="434,408,505,435"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="705,483,796,509"/>
+<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="937,319,1097,360"/>
+<area shape="rect" href="key__moments__table_8h_source.html" title=" " alt="" coords="655,319,863,360"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="484,319,631,360"/>
+<area shape="rect" href="nodes__set_8h_source.html" title=" " alt="" coords="153,319,308,360"/>
 </map>
 </div>
 </div>
@@ -139,12 +140,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a92422b4cede73e1cf604d5b159c57dbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structStream.html">Stream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="full__stream__graph_8h.html#a92422b4cede73e1cf604d5b159c57dbb">FullStreamGraph_from</a> (<a class="el" href="structStreamGraph.html">StreamGraph</a> *stream_graph)</td></tr>
 <tr class="memdesc:a92422b4cede73e1cf604d5b159c57dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="structStream.html">Stream</a> of a <a class="el" href="structFullStreamGraph.html" title="The FullStreamGraph structure.">FullStreamGraph</a> from a <a class="el" href="structStreamGraph.html">StreamGraph</a>.  <a href="full__stream__graph_8h.html#a92422b4cede73e1cf604d5b159c57dbb">More...</a><br /></td></tr>
 <tr class="separator:a92422b4cede73e1cf604d5b159c57dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e8281b62f4911c225c4f96b9bb8ef37"><td class="memItemLeft" align="right" valign="top"><a id="a1e8281b62f4911c225c4f96b9bb8ef37" name="a1e8281b62f4911c225c4f96b9bb8ef37"></a>
+<a class="el" href="structStream.html">Stream</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>FSG_From</b> (<a class="el" href="structStreamGraph.html">StreamGraph</a> *stream_graph)</td></tr>
+<tr class="separator:a1e8281b62f4911c225c4f96b9bb8ef37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa486294dfad92536a7f5bdb3ff29da82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="full__stream__graph_8h.html#aa486294dfad92536a7f5bdb3ff29da82">FullStreamGraph_destroy</a> (<a class="el" href="structStream.html">Stream</a> stream)</td></tr>
 <tr class="memdesc:aa486294dfad92536a7f5bdb3ff29da82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a <a class="el" href="structStream.html">Stream</a> of a <a class="el" href="structFullStreamGraph.html" title="The FullStreamGraph structure.">FullStreamGraph</a>.  <a href="full__stream__graph_8h.html#aa486294dfad92536a7f5bdb3ff29da82">More...</a><br /></td></tr>
 <tr class="separator:aa486294dfad92536a7f5bdb3ff29da82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adeb2912d8e8605d304bd83b70024df39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structLink.html">Link</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="full__stream__graph_8h.html#adeb2912d8e8605d304bd83b70024df39">FullStreamGraph_link_by_id</a> (<a class="el" href="structFullStreamGraph.html">FullStreamGraph</a> *full_stream_graph, LinkId link_id)</td></tr>
-<tr class="memdesc:adeb2912d8e8605d304bd83b70024df39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the link corresponding to the given link id in the <a class="el" href="structFullStreamGraph.html" title="The FullStreamGraph structure.">FullStreamGraph</a>.  <a href="full__stream__graph_8h.html#adeb2912d8e8605d304bd83b70024df39">More...</a><br /></td></tr>
-<tr class="separator:adeb2912d8e8605d304bd83b70024df39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7113afa8886864fe1c5c9a2df61a4fab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structLink.html">Link</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="full__stream__graph_8h.html#a7113afa8886864fe1c5c9a2df61a4fab">FullStreamGraph_link_by_id</a> (<a class="el" href="structStreamData.html">StreamData</a> *stream_data, LinkId link_id)</td></tr>
+<tr class="memdesc:a7113afa8886864fe1c5c9a2df61a4fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the link corresponding to the given link id in the <a class="el" href="structFullStreamGraph.html" title="The FullStreamGraph structure.">FullStreamGraph</a>.  <a href="full__stream__graph_8h.html#a7113afa8886864fe1c5c9a2df61a4fab">More...</a><br /></td></tr>
+<tr class="separator:a7113afa8886864fe1c5c9a2df61a4fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -211,8 +215,8 @@ const <a class="el" href="structMetricsFunctions.html">MetricsFunctions</a>&#160
 
 </div>
 </div>
-<a id="adeb2912d8e8605d304bd83b70024df39" name="adeb2912d8e8605d304bd83b70024df39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adeb2912d8e8605d304bd83b70024df39">&#9670;&nbsp;</a></span>FullStreamGraph_link_by_id()</h2>
+<a id="a7113afa8886864fe1c5c9a2df61a4fab" name="a7113afa8886864fe1c5c9a2df61a4fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7113afa8886864fe1c5c9a2df61a4fab">&#9670;&nbsp;</a></span>FullStreamGraph_link_by_id()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,8 +224,8 @@ const <a class="el" href="structMetricsFunctions.html">MetricsFunctions</a>&#160
         <tr>
           <td class="memname"><a class="el" href="structLink.html">Link</a> FullStreamGraph_link_by_id </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structFullStreamGraph.html">FullStreamGraph</a> *&#160;</td>
-          <td class="paramname"><em>full_stream_graph</em>, </td>
+          <td class="paramtype"><a class="el" href="structStreamData.html">StreamData</a> *&#160;</td>
+          <td class="paramname"><em>stream_data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

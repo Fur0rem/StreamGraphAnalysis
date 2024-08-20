@@ -1,10 +1,11 @@
 <map id="src/iterators.h" name="src/iterators.h">
-<area shape="rect" id="node1" title="Iterators over nodes, links and time intervals." alt="" coords="211,5,323,32"/>
-<area shape="rect" id="node2" href="$induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="5,80,157,107"/>
-<area shape="rect" id="node3" href="$metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="376,80,483,107"/>
-<area shape="rect" id="node8" href="$stream__functions_8h_source.html" title=" " alt="" coords="181,80,352,107"/>
-<area shape="rect" id="node4" href="$chunk__stream_8h_source.html" title=" " alt="" coords="33,162,231,189"/>
-<area shape="rect" id="node5" href="$substream_8h_source.html" title=" " alt="" coords="44,244,220,271"/>
-<area shape="rect" id="node6" href="$full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="465,155,634,196"/>
-<area shape="rect" id="node7" href="$link__stream_8h_source.html" title=" " alt="" coords="256,162,440,189"/>
+<area shape="rect" id="node1" title="Iterators over nodes, links and time intervals." alt="" coords="365,5,477,32"/>
+<area shape="rect" id="node2" href="$induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="160,80,312,107"/>
+<area shape="rect" id="node3" href="$metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="531,80,637,107"/>
+<area shape="rect" id="node9" href="$stream__functions_8h_source.html" title=" " alt="" coords="336,80,507,107"/>
+<area shape="rect" id="node4" href="$chunk__stream_8h_source.html" title=" " alt="" coords="798,162,997,189"/>
+<area shape="rect" id="node5" href="$chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="5,155,192,196"/>
+<area shape="rect" id="node6" href="$full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="217,155,386,196"/>
+<area shape="rect" id="node7" href="$link__stream_8h_source.html" title=" " alt="" coords="411,162,595,189"/>
+<area shape="rect" id="node8" href="$snapshot__stream_8h_source.html" title=" " alt="" coords="619,155,773,196"/>
 </map>
