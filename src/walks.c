@@ -346,136 +346,6 @@ WalkInfo walk_exists(Walk walk) {
 }
 
 // Minimal number of hops between two nodes
-WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
-	// printf("Shortest walk from %zu to %zu at %zu\n", from, to, at);
-	WalkInfo result;
-
-	StreamFunctions fns = STREAM_FUNCS(fns, stream);
-	size_t current_time = at;
-
-	ArenaVector arena = ArenaVector_init();
-
-	// Initialize the queue with the starting node
-	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
-	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL,
-					   .previouses = 0};
-	QueueInfoVector_push(&queue, start);
-
-	NodeId current_candidate = from;
-	QueueInfo current_info;
-	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
-	while ((current_candidate != to) && (!QueueInfoVector_is_empty(queue))) {
-		// Get the next node from the queue
-		current_info = QueueInfoVector_pop_first(&queue);
-
-		// TODO : maybe there is a better solution than hashsets to not loop between the same nodes?
-		if (ExploredStateHashset_contains(explored, (ExploredState){current_info.node, current_info.time})) {
-			continue;
-		}
-		ExploredStateHashset_insert(&explored, (ExploredState){current_info.node, current_info.time});
-		current_candidate = current_info.node;
-		current_time = current_info.time;
-
-		// printf("Exploring %zu at %zu\n", current_candidate, current_time);
-
-		// FIXME: do with iterators but they segfault for some reason :(
-		// Get its neighbors
-		// TemporalNode n = sg.nodes.nodes[current_candidate];
-		/*for (size_t i = 0; i < n.nb_neighbours; i++) {
-			size_t neighbor = n.neighbours[i];
-			Link l = sg.links.links[neighbor];*/
-		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
-		// printf("Neighbours of %zu\n", current_candidate);
-		// printf("linksiterators : %p", neighbours.stream_graph.stream);
-		FOR_EACH_LINK(link_id, neighbours) {
-			// printf("Link %zu : Nodes %zu %zu\n", link_id, fns.link_by_id(stream->stream_data, link_id).nodes[0],
-			//    fns.link_by_id(stream->stream_data, link_id).nodes[1]);
-			// Link l = sg.links.links[link_id];
-			// TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
-			// for (size_t j = 0; j < l.presence.nb_intervals; j++) {
-			// FOR_EACH_TIME(interval, times_link_present) {
-
-			IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
-			for (size_t j = intervals.size; j-- > 0;) {
-				Interval interval = intervals.array[j];
-				// Interval interval = l.presence.intervals[j];
-				bool can_cross_now = Interval_contains(interval, current_time);
-				// TODO : add verification if node still exists by then
-				bool will_cross_later = (interval.start > current_time);
-				// printf("Can cross now : %d, will cross later : %d\n", can_cross_now, will_cross_later);
-				if (can_cross_now || will_cross_later) {
-					Link link = fns.link_by_id(stream->stream_data, link_id);
-					NodeId neighbor_id = Link_get_other_node(&link, current_candidate);
-					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
-					*previous = current_info;
-					TimeId time_crossed = can_cross_now ? current_time : interval.start;
-					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
-											   .previous = previous, .previouses = current_info.previouses + 1};
-					// printf("time crossed : %zu\n", time_crossed);
-
-					// OPTIMISE
-					// try to find if the neighbor is already in the queue
-					if (ExploredStateHashset_contains(explored,
-													  (ExploredState){neighbor_info.node, neighbor_info.time})) {
-						continue;
-					}
-					bool found = false;
-					for (size_t i = 0; i < queue.size; i++) {
-						QueueInfo* info = &queue.array[i];
-						if (info->node == neighbor_info.node &&
-							info->time ==
-								neighbor_info
-									.time && // TODO: verify if we can improve the hypothesis for
-											 // exploring, maybe its true for link streams but not for other cases)
-							info->previouses <= neighbor_info.previouses) {
-							found = true;
-							break;
-						}
-					}
-					if (!found) {
-						QueueInfoVector_push(&queue, neighbor_info);
-					}
-				}
-			}
-			IntervalVector_destroy(intervals);
-		}
-	}
-
-	// No walk found
-	if (QueueInfoVector_is_empty(queue) && current_candidate != to) {
-		// printf("No walk found\n");
-		result = unreachable_after(at);
-		goto cleanup_and_return;
-	}
-
-	// Build the walk
-	Walk walk = {
-		.start = from,
-		.end = to,
-		.optimality = Interval_from(at, max_lifespan),
-		.stream = stream,
-		.steps = WalkStepVector_from_candidates(stream, &current_info, from),
-	};
-
-	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
-	for (size_t i = 0; i < walk.steps.size - 1; i++) {
-		WalkStep* step = &walk.steps.array[i];
-		step->needs_to_arrive_before =
-			min(step->needs_to_arrive_before, walk.steps.array[i + 1].needs_to_arrive_before);
-	}
-	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
-
-	result = walk_exists(walk);
-
-cleanup_and_return:
-	QueueInfoVector_destroy(queue);
-	ExploredStateHashset_destroy(explored);
-	ArenaVector_destroy(arena);
-	return result;
-}
-
-// Minimal number of hops between two nodes
 // Uses buffering to avoid reallocating memory
 void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeId to, TimeId at, WalkInfo* result,
 											  ArenaVector* arena, QueueInfoVector* queue,
@@ -504,28 +374,37 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 		current_candidate = current_info.node;
 		current_time = current_info.time;
 
+		// get for how long the node is present
+		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
+		Interval current_node_present = Interval_empty();
+
+		FOR_EACH_TIME(interval, times_node_present) {
+			if (Interval_contains(interval, current_time)) {
+				current_node_present = interval;
+				break;
+			}
+		}
+
+		if (Interval_is_empty(current_node_present)) {
+			*result = node_doesnt_exist_in_interval(current_node_present);
+			return;
+		}
+
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
 			IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
 			for (size_t j = intervals.size; j-- > 0;) {
 				Interval interval = intervals.array[j];
-				bool can_cross_now = Interval_contains(interval, current_time);
 
-				// Verification if node still exists by then
-				TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
-				bool node_is_present = false;
-				FOR_EACH_TIME(inte, times_node_present) {
-					if (Interval_contains(inte, current_time)) {
-						node_is_present = true;
-						times_node_present.destroy(&times_node_present);
-						break;
-					}
-				}
-
-				if (!node_is_present) {
+				// Any interval after the next disappearance of the node is unreachable
+				if (interval.start > current_node_present.end) {
 					break;
 				}
+				if (interval.end > current_node_present.end) {
+					interval.end = current_node_present.end;
+				}
 
+				bool can_cross_now = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
 					Link link = fns.link_by_id(stream->stream_data, link_id);
@@ -590,6 +469,19 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
 
 	*result = walk_exists(walk);
+}
+
+// Minimal number of hops between two nodes
+WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
+	WalkInfo result;
+	ArenaVector arena = ArenaVector_init();
+	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
+	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
+	Stream_shortest_walk_from_to_at_buffered(stream, from, to, at, &result, &arena, &queue, &explored);
+	QueueInfoVector_destroy(queue);
+	ExploredStateHashset_destroy(explored);
+	ArenaVector_destroy(arena);
+	return result;
 }
 
 WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
@@ -704,29 +596,6 @@ void Walk_destroy(Walk walk) {
 	WalkStepVector_destroy(walk.steps);
 }
 
-/*typedef struct {
-	NodeId node;
-	size_t distance;
-	size_t number_of_jumps;
-} DijkstraState;
-
-bool DijkstraState_equals(DijkstraState a, DijkstraState b) {
-	return a.node == b.node && a.distance == b.distance;
-}
-
-char* DijkstraState_to_string(DijkstraState* state) {
-	char* str = malloc(100);
-	sprintf(str, "DijkstraState(node:%zu, distance:%zu, number_of_jumps:%zu)", state->node, state->distance,
-			state->number_of_jumps);
-	return str;
-}
-
-size_t DijkstraState_hash(DijkstraState state) {
-	return state.node * 31 + state.distance;
-}
-
-DefHashset(DijkstraState, DijkstraState_hash, NO_FREE(DijkstraState));*/
-
 typedef struct DijkstraState DijkstraState;
 struct DijkstraState {
 	NodeId node;
@@ -788,64 +657,6 @@ BinaryHeap BinaryHeap_init() {
 		.nodes = DijkstraStateVector_with_capacity(1),
 	};
 }
-
-/*void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
-	DijkstraStateVector_push(&heap->nodes, state);
-	// if you find any dijkstra state with the same node and a lower time or number of jumps, replace it
-	for (size_t i = 0; i < heap->nodes.size; i++) {
-		DijkstraState current = heap->nodes.array[i];
-		if (current.node == state.node) {
-			if (DijkstraState_compare(state, current) < 0) {
-				heap->nodes.array[i] = state;
-				break;
-			}
-		}
-	}
-	size_t current_index = heap->nodes.size - 1;
-	while (current_index != 0) {
-		size_t parent_index = (current_index - 1) / 2;
-		DijkstraState current = heap->nodes.array[current_index];
-		DijkstraState parent = heap->nodes.array[parent_index];
-		if (DijkstraState_compare(current, parent) < 0) {
-			heap->nodes.array[current_index] = parent;
-			heap->nodes.array[parent_index] = current;
-			current_index = parent_index;
-		}
-		else {
-			break;
-		}
-	}
-}
-
-DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
-	DijkstraState result = heap->nodes.array[0];
-	heap->nodes.array[0] = heap->nodes.array[heap->nodes.size - 1];
-	heap->nodes.size--;
-	size_t current_index = 0;
-	while (true) {
-		size_t left_child_index = 2 * current_index + 1;
-		size_t right_child_index = 2 * current_index + 2;
-		if (left_child_index >= heap->nodes.size) {
-			break;
-		}
-		size_t smallest_child_index = left_child_index;
-		if (right_child_index < heap->nodes.size &&
-			heap->nodes.array[right_child_index].time < heap->nodes.array[left_child_index].time) {
-			smallest_child_index = right_child_index;
-		}
-		DijkstraState current = heap->nodes.array[current_index];
-		DijkstraState smallest_child = heap->nodes.array[smallest_child_index];
-		if (current.time > smallest_child.time) {
-			heap->nodes.array[current_index] = smallest_child;
-			heap->nodes.array[smallest_child_index] = current;
-			current_index = smallest_child_index;
-		}
-		else {
-			break;
-		}
-	}
-	return result;
-}*/
 
 // OPTIMISE: do an actual heap dumbass
 void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
