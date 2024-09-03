@@ -59,17 +59,9 @@ typedef struct {
 } Walk;
 
 typedef struct {
-	Interval interval;
-} NodeDoesntExistInfo;
-
-typedef struct {
-	TimeId impossible_after;
-} ImpossibleToReachInfo;
-
-typedef struct {
 	union {
-		NodeDoesntExistInfo node_doesnt_exist;
-		ImpossibleToReachInfo impossible_to_reach;
+		Interval node_doesnt_exist_in_interval;
+		TimeId impossible_to_reach_after;
 	} reason;
 	enum {
 		NODE_DOESNT_EXIST,
@@ -109,5 +101,12 @@ size_t Walk_length(Walk* walk);
 size_t Walk_duration(Walk* walk);
 
 double Stream_robustness_by_length(Stream* stream);
+
+bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...);
+
+Walk WalkInfo_unwrap_checked(WalkInfo info);
+Walk WalkInfo_unwrap_unchecked(WalkInfo info);
+
+TimeId Walk_arrives_at(Walk* walk);
 
 #endif // WALK_H

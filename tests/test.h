@@ -53,4 +53,9 @@ bool EXPECT_EQ_ptr(void* got, void* expected);
 
 bool EXPECT_ALL(int expr, ...);
 
+#define TEST(test_name)                                                                                                \
+	&(Test) {                                                                                                          \
+		.fn = (test_name), .name = #test_name                                                                          \
+	}
+
 #endif // TEST_H

@@ -20,6 +20,7 @@
 #include "utils.h"
 #include "vector.h"
 
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -131,25 +132,15 @@ String Walk_to_string(const Walk* walk) {
 	String_push_str(&str, "Walk from ");
 	char buf[100];
 	sprintf(buf, "%zu", walk->start);
-	// char2Vector_append(&str, buf, strlen(buf));
 	String_push_str(&str, buf);
-	// char2Vector_append(&str, APPEND_CONST(" to "));
 	String_push_str(&str, " to ");
 	sprintf(buf, "%zu", walk->end);
-	// char2Vector_append(&str, buf, strlen(buf));
 	String_push_str(&str, buf);
-	// char2Vector_append(&str, APPEND_CONST(" at "));
 	String_push_str(&str, " at ");
 	sprintf(buf, "%zu", walk->optimality.start);
-	// char2Vector_append(&str, buf, strlen(buf));
 	String_push_str(&str, buf);
-	// char* time_str = Interval_to_string(&walk->optimality);
 	String time_str = Interval_to_string(&walk->optimality);
-	// sprintf(buf, "Optimal at %s\n", time_str.data);
-	// free(time_str);
-	// char2Vector_append(&str, buf, strlen(buf));
-	// char2Vector_append(&str, APPEND_CONST("\n"));
-	String_push_str(&str, "Optimal at ");
+	String_push_str(&str, " | Optimal at ");
 	String_concat_consume(&str, &time_str);
 	String_push(&str, '\n');
 
@@ -159,22 +150,16 @@ String Walk_to_string(const Walk* walk) {
 	for (size_t i = 0; i < walk->steps.size; i++) {
 		WalkStep step = walk->steps.array[i];
 		sprintf(buf, "%zu", step.link);
-		// char2Vector_append(&str, buf, strlen(buf));
 		String_push_str(&str, buf);
 		NodeId from = sg.links.links[step.link].nodes[0];
 		NodeId to = sg.links.links[step.link].nodes[1];
 		sprintf(buf, " (%zu -> %zu)", from, to);
 		String_push_str(&str, buf);
 		String_push_str(&str, " @ ");
-		// char2Vector_append(&str, buf, strlen(buf));
-		// char2Vector_append(&str, APPEND_CONST(" @ "));
 		sprintf(buf, "%zu", step.time);
-		// char2Vector_append(&str, buf, strlen(buf));
 		String_push_str(&str, buf);
-		// char2Vector_append(&str, APPEND_CONST("\n"));
 		String_push(&str, '\n');
 	}
-	// char2Vector_push(&str, '\0');
 	return str;
 }
 
@@ -203,16 +188,15 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 	}
 	else {
 		String str = String_from_duplicate("WalkInfo(NO_WALK, ");
-		if (wi->walk_or_reason.no_walk_reason.type == NODE_DOESNT_EXIST) {
-			NodeDoesntExistInfo info = wi->walk_or_reason.no_walk_reason.reason.node_doesnt_exist;
-			String interval_str = Interval_to_string(&info.interval);
+		NoWalkReason reason = wi->walk_or_reason.no_walk_reason;
+		if (reason.type == NODE_DOESNT_EXIST) {
+			String interval_str = Interval_to_string(&reason.reason.node_doesnt_exist_in_interval);
 			String_push_str(&str, "NODE_DOESNT_EXIST in interval ");
 			String_concat_copy(&str, &interval_str);
 		}
 		else {
-			ImpossibleToReachInfo info = wi->walk_or_reason.no_walk_reason.reason.impossible_to_reach;
 			char buf[100];
-			sprintf(buf, "IMPOSSIBLE_TO_REACH after %zu", info.impossible_after);
+			sprintf(buf, "IMPOSSIBLE_TO_REACH after %zu", reason.reason.impossible_to_reach_after);
 			String_push_str(&str, buf);
 		}
 		String_push(&str, ')');
@@ -245,7 +229,7 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 		if (optimal.type == NO_WALK) {
 			NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
 			if (error.type == NODE_DOESNT_EXIST) {
-				current_time = error.reason.node_doesnt_exist.interval.end;
+				current_time = error.reason.node_doesnt_exist_in_interval.end;
 			}
 			else if (error.type == IMPOSSIBLE_TO_REACH) {
 				return walks;
@@ -319,7 +303,7 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 WalkInfo unreachable_after(TimeId after) {
 	NoWalkReason reason = {
 		.type = IMPOSSIBLE_TO_REACH,
-		.reason.impossible_to_reach.impossible_after = after, // TODO : rename impossible to reach to unreachable
+		.reason.impossible_to_reach_after = after, // TODO : rename impossible to reach to unreachable
 	};
 	return (WalkInfo){
 		.type = NO_WALK,
@@ -330,7 +314,7 @@ WalkInfo unreachable_after(TimeId after) {
 WalkInfo node_doesnt_exist_in_interval(Interval interval) {
 	NoWalkReason reason = {
 		.type = NODE_DOESNT_EXIST,
-		.reason.node_doesnt_exist.interval = interval,
+		.reason.node_doesnt_exist_in_interval = interval,
 	};
 	return (WalkInfo){
 		.type = NO_WALK,
@@ -850,6 +834,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
 	// printf("walk optimality : [%zu, %zu]\n", walk.optimality.start, walk.optimality.end);
 
+	WalkStepVector_reverse(&walk.steps);
 	result = walk_exists(walk);
 
 	// printf("Walk : %s\n", Walk_to_string(&result.walk_or_reason.walk).data);
@@ -1046,7 +1031,7 @@ double Stream_robustness_by_length(Stream* stream) {
 					if (optimal.type == NO_WALK) {
 						NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
 						if (error.type == NODE_DOESNT_EXIST) {
-							current_time = error.reason.node_doesnt_exist.interval.end;
+							current_time = error.reason.node_doesnt_exist_in_interval.end;
 						}
 						else if (error.type == IMPOSSIBLE_TO_REACH) {
 							WalkInfo_destroy(optimal);
@@ -1099,4 +1084,66 @@ double Stream_robustness_by_length(Stream* stream) {
 	// ArenaVector_destroy(arena);
 
 	return robustness / (double)(nodes.size * nodes.size * (max_lifespan - begin));
+}
+
+bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
+
+	if (walk->steps.size != nb_steps) {
+		return false;
+	}
+
+	if (nb_steps == 0) {
+		return true;
+	}
+
+	StreamFunctions fns = STREAM_FUNCS(fns, &stream);
+	va_list args;
+	va_start(args, nb_steps);
+
+	// Check the first node
+	NodeId first_node = va_arg(args, NodeId);
+	Link first_link = fns.link_by_id(stream.stream_data, walk->steps.array[0].link);
+	// printf("Checking first node %zu\n", first_node);
+	if (first_link.nodes[0] != first_node && first_link.nodes[1] != first_node) {
+		// printf("First node %zu FALSE\n", first_node);
+		return false;
+	}
+
+	// Check the intermediate nodes
+	for (size_t i = 1; i < nb_steps; i++) {
+		NodeId node = va_arg(args, NodeId);
+		// printf("Checking node %zu\n", node);
+		Link link = fns.link_by_id(stream.stream_data, walk->steps.array[i].link);
+		if (link.nodes[0] != node && link.nodes[1] != node) {
+			// printf("Node %zu FALSE\n", node);
+			return false;
+		}
+	}
+
+	// Check the last node
+	NodeId last_node = va_arg(args, NodeId);
+	Link last_link = fns.link_by_id(stream.stream_data, walk->steps.array[nb_steps - 1].link);
+	// printf("Checking last node %zu\n", last_node);
+	if (last_link.nodes[0] != last_node && last_link.nodes[1] != last_node) {
+		// printf("Last node %zu FALSE\n", last_node);
+		return false;
+	}
+
+	va_end(args);
+	return true;
+}
+
+Walk WalkInfo_unwrap_unchecked(WalkInfo info) {
+	return info.walk_or_reason.walk;
+}
+
+Walk WalkInfo_unwrap_checked(WalkInfo info) {
+	assert(info.type == WALK);
+	return WalkInfo_unwrap_unchecked(info);
+}
+
+TimeId Walk_arrives_at(Walk* walk) {
+	printf("Walk size : %zu\n", walk->steps.size);
+	printf("Walk arrival time : %zu\n", walk->steps.array[walk->steps.size - 1].time);
+	return walk->steps.array[walk->steps.size - 1].time;
 }
