@@ -182,6 +182,18 @@ bool test_fastest() {
 	return true;
 }
 
+bool test_walk() {
+	StreamGraph sg = StreamGraph_from_external("data/robustness_1.txt");
+	Stream st = FullStreamGraph_from(&sg);
+	printf("Loaded graph\n");
+	WalkInfo w = Stream_shortest_walk_from_to_at(&st, 1, 2, 0);
+	String str = WalkInfo_to_string(&w);
+	printf("Walk from 1 to 2 at 0 : %s\n", str.data);
+	String_destroy(str);
+
+	return true;
+}
+
 // NOTE: I realised the definition of betweenness is more complicated than I thought
 // So ignore these tests for now
 // bool test_betweenness_of_node_at_time() {
@@ -227,6 +239,7 @@ int main() {
 		&(Test){"fastest_shortest", test_fastest_shortest},
 		&(Test){"fastest",		   test_fastest		   },
 		&(Test){"robustness",		  test_robustness		 },
+		&(Test){"walk",				test_walk			 },
  // &(Test){"betweenness_of_node_at_time",   test_betweenness_of_node_at_time  },
 	// &(Test){"betweenness_of_node_at_time_2", test_betweenness_of_node_at_time_2},
 
