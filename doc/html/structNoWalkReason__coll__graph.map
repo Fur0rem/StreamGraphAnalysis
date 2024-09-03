@@ -1,6 +1,4 @@
 <map id="NoWalkReason" name="NoWalkReason">
-<area shape="rect" id="node1" title=" " alt="" coords="135,184,255,211"/>
-<area shape="rect" id="node2" href="$structNodeDoesntExistInfo.html" title=" " alt="" coords="5,95,164,121"/>
-<area shape="rect" id="node3" href="$structInterval.html" title=" " alt="" coords="49,5,121,32"/>
-<area shape="rect" id="node4" href="$structImpossibleToReachInfo.html" title=" " alt="" coords="188,95,360,121"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,95,125,121"/>
+<area shape="rect" id="node2" href="$structInterval.html" title=" " alt="" coords="29,5,101,32"/>
 </map>

@@ -388,12 +388,9 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 			Link uv_link = stream_functions.link_by_id(stream->stream_data, uv);
 			NodeId u = Link_get_other_node(&uv_link, v);
 
-			// printf("u = %zu | v = %zu | w = %zu\n", u, v, w);
-
 			if (u >= w) {
 				continue;
 			}
-			// printf("passed\n");
 
 			TimesIterator times_uv = stream_functions.times_link_present(stream->stream_data, uv);
 			TimesIterator times_vw = stream_functions.times_link_present(stream->stream_data, vw);
@@ -402,25 +399,14 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 			size_t t_uv_vw = total_time_of(times_uv_vw);
 			sum_den += t_uv_vw;
 
-			// Find link uw
-			// OPTIMISE : Reuse the first intersections
-			// LinksIterator neighbours_of_u = stream_functions.neighbours_of_node(stream->stream_data, u);
-			// LinkId uw = SIZE_MAX;
-			// FOR_EACH_LINK(link_id, neighbours_of_u) {
-			// 	Link link = stream_functions.link_by_id(stream->stream_data, link_id);
-			// 	if (link.nodes[0] == w || link.nodes[1] == w) {
-			// 		uw = link_id;
-			// 		break;
-			// 	}
-			// }
 			LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
-			// printf("uw = %zu | uw2 = %zu\n u=%zu | v=%zu | w=%zu\n", uw, uw2, u, v, w);
 			if (uw == SIZE_MAX) {
 				continue;
 			}
 
 			TimesIterator times_uw = stream_functions.times_link_present(stream->stream_data, uw);
 
+			// OPTIMISE : Reuse the first intersections
 			// reconstruct times_uv_vw
 			times_uv = stream_functions.times_link_present(stream->stream_data, uv);
 			times_vw = stream_functions.times_link_present(stream->stream_data, vw);
@@ -430,8 +416,6 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 			sum_num += t_uw_uv_vw;
 		}
 	}
-
-	// printf("sum_den = %zu, sum_num = %zu\n", sum_den, sum_num);
 
 	return (double)sum_num / (double)sum_den;
 }

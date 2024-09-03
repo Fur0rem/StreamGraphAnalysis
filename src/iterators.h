@@ -164,4 +164,10 @@ NodeIdVector SGA_collect_node_ids(NodesIterator nodes);
  */
 LinkIdVector SGA_collect_link_ids(LinksIterator links);
 
+#define BREAK_ITER(iterator)                                                                                           \
+	({                                                                                                                 \
+		(iterator).destroy(&(iterator));                                                                               \
+		break;                                                                                                         \
+	})
+
 #endif // ITERATORS_H

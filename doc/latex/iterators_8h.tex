@@ -29,7 +29,9 @@ struct \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}
 \begin{DoxyCompactItemize}
 \item 
 \#define \mbox{\hyperlink{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}{COUNT\+\_\+\+ITERATOR}}(iterator)~ \+\_\+\+Generic((iterator), Nodes\+Iterator\+: count\+\_\+nodes, Links\+Iterator\+: count\+\_\+links, Times\+Iterator\+: count\+\_\+times)(iterator)
-\begin{DoxyCompactList}\small\item\em Counts the number of elements in the given iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Counts the number of elements in the given iterator. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854}{BREAK\+\_\+\+ITER}}(iterator)
+\end{DoxyCompactItemize}
 \begin{Indent}\textbf{ Iteration macros}\par
 {\em Macros to iterate over nodes, links and times.
 
@@ -75,6 +77,20 @@ Link\+Id\+Vector \mbox{\hyperlink{iterators_8h_a493c5348e5c6ccae6ec395e159694a16
 
 
 \doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854}\label{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854}} 
+\index{iterators.h@{iterators.h}!BREAK\_ITER@{BREAK\_ITER}}
+\index{BREAK\_ITER@{BREAK\_ITER}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{BREAK\_ITER}{BREAK\_ITER}}
+{\footnotesize\ttfamily \#define BREAK\+\_\+\+ITER(\begin{DoxyParamCaption}\item[{}]{iterator }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    (\{                                                                                                                 \(\backslash\)}
+\DoxyCodeLine{        (iterator).destroy(\&(iterator));                                                                               \(\backslash\)}
+\DoxyCodeLine{        break;                                                                                                         \(\backslash\)}
+\DoxyCodeLine{    \})}
+
+\end{DoxyCode}
 \mbox{\Hypertarget{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}\label{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}} 
 \index{iterators.h@{iterators.h}!COUNT\_ITERATOR@{COUNT\_ITERATOR}}
 \index{COUNT\_ITERATOR@{COUNT\_ITERATOR}!iterators.h@{iterators.h}}

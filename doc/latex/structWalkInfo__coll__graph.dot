@@ -18,9 +18,5 @@ digraph "WalkInfo"
   Node7 [label="OptionalSizeT",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structOptionalSizeT.html",tooltip=" "];
   Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" no_walk_reason" ];
   Node8 [label="NoWalkReason",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structNoWalkReason.html",tooltip=" "];
-  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" node_doesnt_exist" ];
-  Node9 [label="NodeDoesntExistInfo",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structNodeDoesntExistInfo.html",tooltip=" "];
-  Node3 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" interval" ];
-  Node10 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" impossible_to_reach" ];
-  Node10 [label="ImpossibleToReachInfo",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structImpossibleToReachInfo.html",tooltip=" "];
+  Node3 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" node_not_present_between" ];
 }

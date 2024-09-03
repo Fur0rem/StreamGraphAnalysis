@@ -180,7 +180,7 @@ DefineVectorDeriveEquals(Walk);
 
 String WalkInfo_to_string(const WalkInfo* wi) {
 	if (wi->type == WALK) {
-		String walk_str = Walk_to_string(&wi->walk_or_reason.walk);
+		String walk_str = Walk_to_string(&wi->result.walk);
 		String str = String_from_duplicate("WalkInfo(WALK, ");
 		String_concat_consume(&str, &walk_str);
 		String_push(&str, ')');
@@ -188,9 +188,9 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 	}
 	else {
 		String str = String_from_duplicate("WalkInfo(NO_WALK, ");
-		NoWalkReason reason = wi->walk_or_reason.no_walk_reason;
+		NoWalkReason reason = wi->result.no_walk_reason;
 		if (reason.type == NODE_DOESNT_EXIST) {
-			String interval_str = Interval_to_string(&reason.reason.node_doesnt_exist_in_interval);
+			String interval_str = Interval_to_string(&reason.reason.node_not_present_between);
 			String_push_str(&str, "NODE_DOESNT_EXIST in interval ");
 			String_concat_copy(&str, &interval_str);
 		}
@@ -208,10 +208,10 @@ bool WalkInfo_equals(const WalkInfo* a, const WalkInfo* b) {
 		return false;
 	}
 	if (a->type == WALK) {
-		return Walk_equals(&a->walk_or_reason.walk, &b->walk_or_reason.walk);
+		return Walk_equals(&a->result.walk, &b->result.walk);
 	}
 	else {
-		return a->walk_or_reason.no_walk_reason.type == b->walk_or_reason.no_walk_reason.type;
+		return a->result.no_walk_reason.type == b->result.no_walk_reason.type;
 	}
 }
 
@@ -227,16 +227,16 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 		WalkInfo optimal = fn(stream, from, to, current_time);
 		WalkInfoVector_push(&walks, optimal);
 		if (optimal.type == NO_WALK) {
-			NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
+			NoWalkReason error = optimal.result.no_walk_reason;
 			if (error.type == NODE_DOESNT_EXIST) {
-				current_time = error.reason.node_doesnt_exist_in_interval.end;
+				current_time = error.reason.node_not_present_between.end;
 			}
 			else if (error.type == IMPOSSIBLE_TO_REACH) {
 				return walks;
 			}
 		}
 		else if (optimal.type == WALK) {
-			Interval optimality = optimal.walk_or_reason.walk.optimality;
+			Interval optimality = optimal.result.walk.optimality;
 			current_time = optimality.end;
 		}
 		if (current_time == previous_time) {
@@ -248,7 +248,7 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 
 void WalkInfo_destroy(WalkInfo wi) {
 	if (wi.type == WALK) {
-		Walk_destroy(wi.walk_or_reason.walk);
+		Walk_destroy(wi.result.walk);
 	}
 }
 
@@ -307,25 +307,25 @@ WalkInfo unreachable_after(TimeId after) {
 	};
 	return (WalkInfo){
 		.type = NO_WALK,
-		.walk_or_reason.no_walk_reason = reason,
+		.result.no_walk_reason = reason,
 	};
 }
 
-WalkInfo node_doesnt_exist_in_interval(Interval interval) {
+WalkInfo node_not_present_between(Interval interval) {
 	NoWalkReason reason = {
 		.type = NODE_DOESNT_EXIST,
-		.reason.node_doesnt_exist_in_interval = interval,
+		.reason.node_not_present_between = interval,
 	};
 	return (WalkInfo){
 		.type = NO_WALK,
-		.walk_or_reason.no_walk_reason = reason,
+		.result.no_walk_reason = reason,
 	};
 }
 
 WalkInfo walk_exists(Walk walk) {
 	return (WalkInfo){
 		.type = WALK,
-		.walk_or_reason.walk = walk,
+		.result.walk = walk,
 	};
 }
 
@@ -365,19 +365,19 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 		FOR_EACH_TIME(interval, times_node_present) {
 			if (Interval_contains(interval, current_time)) {
 				current_node_present = interval;
-				break;
+				BREAK_ITER(times_node_present);
 			}
 		}
 
 		if (Interval_is_empty(current_node_present)) {
-			*result = node_doesnt_exist_in_interval(current_node_present);
+			*result = node_not_present_between(current_node_present);
 			return;
 		}
 
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
 			IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
-			for (size_t j = intervals.size; j-- > 0;) {
+			for (size_t j = intervals.size; j-- > 0;) { // TODO: c'est quoi cette boucle de merde ??????
 				Interval interval = intervals.array[j];
 
 				// Any interval after the next disappearance of the node is unreachable
@@ -506,11 +506,11 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		FOR_EACH_TIME(interval, times_node_present) {
 			if (Interval_contains(interval, current_time)) {
 				current_node_present = interval;
-				break;
+				BREAK_ITER(times_node_present);
 			}
 		}
 		if (Interval_is_empty(current_node_present)) {
-			result = node_doesnt_exist_in_interval(current_node_present);
+			result = node_not_present_between(current_node_present);
 			goto cleanup_and_return;
 		}
 
@@ -522,7 +522,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 
 				// Any interval after the next disappearance of the node is unreachable
 				if (interval.start > current_node_present.end) {
-					break;
+					BREAK_ITER(times_link_present);
 				}
 				if (interval.end > current_node_present.end) {
 					interval.end = current_node_present.end;
@@ -727,12 +727,12 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		FOR_EACH_TIME(interval, times_node_present) {
 			if (Interval_contains(interval, current_time)) {
 				current_node_present = interval;
-				break;
+				BREAK_ITER(times_node_present);
 			}
 		}
 
 		if (Interval_is_empty(current_node_present)) {
-			result = node_doesnt_exist_in_interval(current_node_present);
+			result = node_not_present_between(current_node_present);
 			goto cleanup_and_return;
 		}
 
@@ -745,7 +745,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 
 				// Any interval after the next disappearance of the node is unreachable
 				if (interval.start > current_node_present.end) {
-					break;
+					BREAK_ITER(times_link_present);
 				}
 				if (interval.end > current_node_present.end) {
 					interval.end = current_node_present.end;
@@ -812,8 +812,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 				(link.nodes[1] == current_walk->node && link.nodes[0] == previous_node)) {
 				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->time};
 				WalkStepVector_push(&walk.steps, step);
-				links.destroy(&links);
-				break;
+				BREAK_ITER(links);
 			}
 		}
 		current_walk = previous;
@@ -837,7 +836,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	WalkStepVector_reverse(&walk.steps);
 	result = walk_exists(walk);
 
-	// printf("Walk : %s\n", Walk_to_string(&result.walk_or_reason.walk).data);
+	// printf("Walk : %s\n", Walk_to_string(&result.result.walk).data);
 
 cleanup_and_return:
 	BinaryHeap_destroy(queue);
@@ -919,11 +918,11 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 					WalkInfo walk = optimal_walks.array[i];
 					if (walk.type == WALK) {
 						// size_t walk_optimality =
-						// 	walk.walk_or_reason.walk.optimality.end - walk.walk_or_reason.walk.optimality.start;
+						// 	walk.result.walk.optimality.end - walk.result.walk.optimality.start;
 						size_t walk_optimality = 1;
 						size_t number_of_walks = walk_optimality;
 						size_t number_of_walks_involving_node = 0;
-						if (Walk_involves_node_at_time(&walk.walk_or_reason.walk, node, time)) {
+						if (Walk_involves_node_at_time(&walk.result.walk, node, time)) {
 							number_of_walks_involving_node += walk_optimality;
 						}
 						if (number_of_walks == 0) {
@@ -976,7 +975,7 @@ double Walk_length_integral_1_over_x(Walk* walk) {
 // 					WalkInfo w = optimals.array[o];
 // 					// TODO: put optimality somewhere else in the struct
 // 					if (w.type == WALK) {
-// 						robustness += Walk_length_integral_1_over_x(&w.walk_or_reason.walk);
+// 						robustness += Walk_length_integral_1_over_x(&w.result.walk);
 // 					}
 // 				}
 // 				WalkInfoVector_destroy(optimals);
@@ -1029,9 +1028,9 @@ double Stream_robustness_by_length(Stream* stream) {
 															 &explored);
 					size_t previous_time = current_time;
 					if (optimal.type == NO_WALK) {
-						NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
+						NoWalkReason error = optimal.result.no_walk_reason;
 						if (error.type == NODE_DOESNT_EXIST) {
-							current_time = error.reason.node_doesnt_exist_in_interval.end;
+							current_time = error.reason.node_not_present_between.end;
 						}
 						else if (error.type == IMPOSSIBLE_TO_REACH) {
 							WalkInfo_destroy(optimal);
@@ -1040,7 +1039,7 @@ double Stream_robustness_by_length(Stream* stream) {
 						}
 					}
 					else if (optimal.type == WALK) {
-						Interval optimality = optimal.walk_or_reason.walk.optimality;
+						Interval optimality = optimal.result.walk.optimality;
 						current_time = optimality.end;
 					}
 					if (current_time == previous_time) {
@@ -1050,7 +1049,7 @@ double Stream_robustness_by_length(Stream* stream) {
 					printf("Optimal : %s\n", str.data);
 					String_destroy(str);
 					double robustness_before = robustness;
-					robustness += Walk_length_integral_1_over_x(&optimal.walk_or_reason.walk);
+					robustness += Walk_length_integral_1_over_x(&optimal.result.walk);
 
 					printf("Robustness : %f\n", robustness - robustness_before);
 					WalkInfo_destroy(optimal);
@@ -1059,7 +1058,7 @@ double Stream_robustness_by_length(Stream* stream) {
 					// printf("From %zu to %zu at %zu\n", from, to, current_time);
 					// WalkInfo optimal = Stream_shortest_walk_from_to_at(stream, from, to, current_time);
 					// if (optimal.type == NO_WALK) {
-					// 	NoWalkReason error = optimal.walk_or_reason.no_walk_reason;
+					// 	NoWalkReason error = optimal.result.no_walk_reason;
 					// 	if (error.type == NODE_DOESNT_EXIST) {
 					// 		current_time = error.reason.node_doesnt_exist.interval.end;
 					// 	}
@@ -1068,10 +1067,10 @@ double Stream_robustness_by_length(Stream* stream) {
 					// 	}
 					// }
 					// else if (optimal.type == WALK) {
-					// 	Interval optimality = optimal.walk_or_reason.walk.optimality;
+					// 	Interval optimality = optimal.result.walk.optimality;
 					// 	current_time = optimality.end;
 					// }
-					// robustness += Walk_length_integral_1_over_x(&optimal.walk_or_reason.walk);
+					// robustness += Walk_length_integral_1_over_x(&optimal.result.walk);
 					// WalkInfo_destroy(optimal);
 				}
 			after_while:
@@ -1134,7 +1133,7 @@ bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
 }
 
 Walk WalkInfo_unwrap_unchecked(WalkInfo info) {
-	return info.walk_or_reason.walk;
+	return info.result.walk;
 }
 
 Walk WalkInfo_unwrap_checked(WalkInfo info) {

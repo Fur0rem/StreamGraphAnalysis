@@ -162,6 +162,8 @@ Macros</h2></td></tr>
 <tr class="memitem:aa8ec356ff1234cc9217cd023635fb4a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#aa8ec356ff1234cc9217cd023635fb4a3">COUNT_ITERATOR</a>(iterator)&#160;&#160;&#160;	_Generic((iterator), NodesIterator: count_nodes, LinksIterator: count_links, TimesIterator: count_times)(iterator)</td></tr>
 <tr class="memdesc:aa8ec356ff1234cc9217cd023635fb4a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts the number of elements in the given iterator.  <a href="iterators_8h.html#aa8ec356ff1234cc9217cd023635fb4a3">More...</a><br /></td></tr>
 <tr class="separator:aa8ec356ff1234cc9217cd023635fb4a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affc33d4ce1cef04276af9f8e3cd93854"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="iterators_8h.html#affc33d4ce1cef04276af9f8e3cd93854">BREAK_ITER</a>(iterator)</td></tr>
+<tr class="separator:affc33d4ce1cef04276af9f8e3cd93854"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Iteration macros</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p >Macros to iterate over nodes, links and times.</p>
 <p >The iterated variable becomes before the iterator in the macro call to mimic a for elem in list syntax. Consumes the iterator. </p>
@@ -213,6 +215,28 @@ Functions</h2></td></tr>
 <tr class="separator:a493c5348e5c6ccae6ec395e159694a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="affc33d4ce1cef04276af9f8e3cd93854" name="affc33d4ce1cef04276af9f8e3cd93854"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affc33d4ce1cef04276af9f8e3cd93854">&#9670;&nbsp;</a></span>BREAK_ITER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BREAK_ITER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">iterator</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    ({                                                                                                                 \</div>
+<div class="line">        (iterator).destroy(&amp;(iterator));                                                                               \</div>
+<div class="line">        break;                                                                                                         \</div>
+<div class="line">    })</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="aa8ec356ff1234cc9217cd023635fb4a3" name="aa8ec356ff1234cc9217cd023635fb4a3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8ec356ff1234cc9217cd023635fb4a3">&#9670;&nbsp;</a></span>COUNT_ITERATOR</h2>
 

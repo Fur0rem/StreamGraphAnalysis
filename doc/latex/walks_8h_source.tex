@@ -63,57 +63,56 @@
 \DoxyCodeLine{59 \} \mbox{\hyperlink{structWalk}{Walk}};}
 \DoxyCodeLine{60 }
 \DoxyCodeLine{61 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{62     \mbox{\hyperlink{structInterval}{Interval}} interval;}
-\DoxyCodeLine{63 \} \mbox{\hyperlink{structNodeDoesntExistInfo}{NodeDoesntExistInfo}};}
-\DoxyCodeLine{64 }
-\DoxyCodeLine{65 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{66     TimeId impossible\_after;}
-\DoxyCodeLine{67 \} \mbox{\hyperlink{structImpossibleToReachInfo}{ImpossibleToReachInfo}};}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{70     \textcolor{keyword}{union }\{}
-\DoxyCodeLine{71         \mbox{\hyperlink{structNodeDoesntExistInfo}{NodeDoesntExistInfo}} node\_doesnt\_exist;}
-\DoxyCodeLine{72         \mbox{\hyperlink{structImpossibleToReachInfo}{ImpossibleToReachInfo}} impossible\_to\_reach;}
-\DoxyCodeLine{73     \} reason;}
-\DoxyCodeLine{74     \textcolor{keyword}{enum} \{}
-\DoxyCodeLine{75         NODE\_DOESNT\_EXIST,}
-\DoxyCodeLine{76         IMPOSSIBLE\_TO\_REACH}
-\DoxyCodeLine{77     \} type;}
-\DoxyCodeLine{78 \} \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}};}
-\DoxyCodeLine{79 }
-\DoxyCodeLine{80 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{81     \textcolor{keyword}{union }\{}
-\DoxyCodeLine{82         \mbox{\hyperlink{structWalk}{Walk}} walk;}
-\DoxyCodeLine{83         \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}} no\_walk\_reason;}
-\DoxyCodeLine{84     \} walk\_or\_reason;}
-\DoxyCodeLine{85     \textcolor{keyword}{enum} \{}
-\DoxyCodeLine{86         WALK,}
-\DoxyCodeLine{87         NO\_WALK}
-\DoxyCodeLine{88     \} type;}
-\DoxyCodeLine{89 \} \mbox{\hyperlink{structWalkInfo}{WalkInfo}};}
-\DoxyCodeLine{90 }
-\DoxyCodeLine{91 \mbox{\hyperlink{structWalkInfo}{WalkInfo}} Stream\_shortest\_walk\_from\_to\_at(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to, TimeId at);}
-\DoxyCodeLine{92 \mbox{\hyperlink{structWalkInfo}{WalkInfo}} Stream\_fastest\_shortest\_walk(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to, TimeId at);}
-\DoxyCodeLine{93 DeclareToString(\mbox{\hyperlink{structWalk}{Walk}});}
-\DoxyCodeLine{94 DeclareEquals(\mbox{\hyperlink{structWalk}{Walk}});}
-\DoxyCodeLine{95 DeclareToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{96 DeclareEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{97 \textcolor{keywordtype}{void} Walk\_destroy(\mbox{\hyperlink{structWalk}{Walk}} walk);}
-\DoxyCodeLine{98 \textcolor{keywordtype}{void} WalkInfo\_destroy(\mbox{\hyperlink{structWalkInfo}{WalkInfo}} wi);}
-\DoxyCodeLine{99 DeclareVector(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{100 DeclareVectorDeriveEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{101 DeclareVectorDeriveToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{102 DeclareVectorDeriveRemove(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{103 }
-\DoxyCodeLine{104 WalkInfoVector optimal\_walks\_between\_two\_nodes(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to,}
-\DoxyCodeLine{105                                                \mbox{\hyperlink{structWalkInfo}{WalkInfo}} (*fn)(\mbox{\hyperlink{structStream}{Stream}}*, NodeId, NodeId, TimeId));}
-\DoxyCodeLine{106 \mbox{\hyperlink{structWalkInfo}{WalkInfo}} Stream\_fastest\_walk(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to, TimeId at);}
-\DoxyCodeLine{107 }
-\DoxyCodeLine{108 \textcolor{keywordtype}{size\_t} Walk\_length(\mbox{\hyperlink{structWalk}{Walk}}* walk);}
-\DoxyCodeLine{109 \textcolor{keywordtype}{size\_t} Walk\_duration(\mbox{\hyperlink{structWalk}{Walk}}* walk);}
-\DoxyCodeLine{110 }
-\DoxyCodeLine{111 \textcolor{keywordtype}{double} Stream\_robustness\_by\_length(\mbox{\hyperlink{structStream}{Stream}}* stream);}
-\DoxyCodeLine{112 }
-\DoxyCodeLine{113 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// WALK\_H}}
+\DoxyCodeLine{62     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{63         \mbox{\hyperlink{structInterval}{Interval}} node\_not\_present\_between;}
+\DoxyCodeLine{64         TimeId impossible\_to\_reach\_after;}
+\DoxyCodeLine{65     \} reason;}
+\DoxyCodeLine{66     \textcolor{keyword}{enum} \{}
+\DoxyCodeLine{67         NODE\_DOESNT\_EXIST,}
+\DoxyCodeLine{68         IMPOSSIBLE\_TO\_REACH}
+\DoxyCodeLine{69     \} type;}
+\DoxyCodeLine{70 \} \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{73     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{74         \mbox{\hyperlink{structWalk}{Walk}} walk;}
+\DoxyCodeLine{75         \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}} no\_walk\_reason;}
+\DoxyCodeLine{76     \} result;}
+\DoxyCodeLine{77     \textcolor{keyword}{enum} \{}
+\DoxyCodeLine{78         WALK,}
+\DoxyCodeLine{79         NO\_WALK}
+\DoxyCodeLine{80     \} type;}
+\DoxyCodeLine{81 \} \mbox{\hyperlink{structWalkInfo}{WalkInfo}};}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 \mbox{\hyperlink{structWalkInfo}{WalkInfo}} Stream\_shortest\_walk\_from\_to\_at(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to, TimeId at);}
+\DoxyCodeLine{84 \mbox{\hyperlink{structWalkInfo}{WalkInfo}} Stream\_fastest\_shortest\_walk(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to, TimeId at);}
+\DoxyCodeLine{85 DeclareToString(\mbox{\hyperlink{structWalk}{Walk}});}
+\DoxyCodeLine{86 DeclareEquals(\mbox{\hyperlink{structWalk}{Walk}});}
+\DoxyCodeLine{87 DeclareToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{88 DeclareEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{89 \textcolor{keywordtype}{void} Walk\_destroy(\mbox{\hyperlink{structWalk}{Walk}} walk);}
+\DoxyCodeLine{90 \textcolor{keywordtype}{void} WalkInfo\_destroy(\mbox{\hyperlink{structWalkInfo}{WalkInfo}} wi);}
+\DoxyCodeLine{91 DeclareVector(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{92 DeclareVectorDeriveEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{93 DeclareVectorDeriveToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{94 DeclareVectorDeriveRemove(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 WalkInfoVector optimal\_walks\_between\_two\_nodes(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to,}
+\DoxyCodeLine{97                                                \mbox{\hyperlink{structWalkInfo}{WalkInfo}} (*fn)(\mbox{\hyperlink{structStream}{Stream}}*, NodeId, NodeId, TimeId));}
+\DoxyCodeLine{98 \mbox{\hyperlink{structWalkInfo}{WalkInfo}} Stream\_fastest\_walk(\mbox{\hyperlink{structStream}{Stream}}* stream, NodeId from, NodeId to, TimeId at);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100 \textcolor{keywordtype}{size\_t} Walk\_length(\mbox{\hyperlink{structWalk}{Walk}}* walk);}
+\DoxyCodeLine{101 \textcolor{keywordtype}{size\_t} Walk\_duration(\mbox{\hyperlink{structWalk}{Walk}}* walk);}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103 \textcolor{keywordtype}{double} Stream\_robustness\_by\_length(\mbox{\hyperlink{structStream}{Stream}}* stream);}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 \textcolor{keywordtype}{bool} Walk\_goes\_through(\mbox{\hyperlink{structWalk}{Walk}}* walk, \mbox{\hyperlink{structStream}{Stream}} stream, \textcolor{keywordtype}{size\_t} nb\_steps, ...);}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \mbox{\hyperlink{structWalk}{Walk}} WalkInfo\_unwrap\_checked(\mbox{\hyperlink{structWalkInfo}{WalkInfo}} info);}
+\DoxyCodeLine{108 \mbox{\hyperlink{structWalk}{Walk}} WalkInfo\_unwrap\_unchecked(\mbox{\hyperlink{structWalkInfo}{WalkInfo}} info);}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 TimeId Walk\_arrives\_at(\mbox{\hyperlink{structWalk}{Walk}}* walk);}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// WALK\_H}}
 
 \end{DoxyCode}
