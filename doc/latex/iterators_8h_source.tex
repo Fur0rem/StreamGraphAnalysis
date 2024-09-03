@@ -74,6 +74,12 @@
 \DoxyCodeLine{157 }
 \DoxyCodeLine{165 LinkIdVector \mbox{\hyperlink{iterators_8h_a493c5348e5c6ccae6ec395e159694a16}{SGA\_collect\_link\_ids}}(\mbox{\hyperlink{structLinksIterator}{LinksIterator}} links);}
 \DoxyCodeLine{166 }
-\DoxyCodeLine{167 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// ITERATORS\_H}}
+\DoxyCodeLine{167 \textcolor{preprocessor}{\#define BREAK\_ITER(iterator)                                                                                           \(\backslash\)}}
+\DoxyCodeLine{168 \textcolor{preprocessor}{    (\{                                                                                                                 \(\backslash\)}}
+\DoxyCodeLine{169 \textcolor{preprocessor}{        (iterator).destroy(\&(iterator));                                                                               \(\backslash\)}}
+\DoxyCodeLine{170 \textcolor{preprocessor}{        break;                                                                                                         \(\backslash\)}}
+\DoxyCodeLine{171 \textcolor{preprocessor}{    \})}}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// ITERATORS\_H}}
 
 \end{DoxyCode}

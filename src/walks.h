@@ -60,7 +60,7 @@ typedef struct {
 
 typedef struct {
 	union {
-		Interval node_doesnt_exist_in_interval;
+		Interval node_not_present_between;
 		TimeId impossible_to_reach_after;
 	} reason;
 	enum {
@@ -73,7 +73,7 @@ typedef struct {
 	union {
 		Walk walk;
 		NoWalkReason no_walk_reason;
-	} walk_or_reason;
+	} result;
 	enum {
 		WALK,
 		NO_WALK
