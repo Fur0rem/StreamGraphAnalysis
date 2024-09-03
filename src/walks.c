@@ -516,18 +516,34 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		current_candidate = current_info.node;
 		current_time = current_info.time;
 
-		// Get its neighbors
-		// TemporalNode n = sg.nodes.nodes[current_candidate];
-		// for (size_t i = 0; i < n.nb_neighbours; i++) {
-		// 	size_t neighbor = n.neighbours[i];
-		// 	Link l = sg.links.links[neighbor];
-		// 	for (size_t j = 0; j < l.presence.nb_intervals; j++) {
-		// 		Interval interval = l.presence.intervals[j];
+		// Get for how long the node is present
+		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
+		Interval current_node_present = Interval_empty();
+		FOR_EACH_TIME(interval, times_node_present) {
+			if (Interval_contains(interval, current_time)) {
+				current_node_present = interval;
+				break;
+			}
+		}
+		if (Interval_is_empty(current_node_present)) {
+			result = node_doesnt_exist_in_interval(current_node_present);
+			goto cleanup_and_return;
+		}
+
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
 			Link link = fns.link_by_id(stream->stream_data, link_id);
 			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times_link_present) {
+
+				// Any interval after the next disappearance of the node is unreachable
+				if (interval.start > current_node_present.end) {
+					break;
+				}
+				if (interval.end > current_node_present.end) {
+					interval.end = current_node_present.end;
+				}
+
 				bool can_cross_now = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
@@ -721,12 +737,36 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		current_candidate = current_info.node;
 		current_time = current_info.time;
 
+		// Get for how long the node is present
+		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
+		Interval current_node_present = Interval_empty();
+		FOR_EACH_TIME(interval, times_node_present) {
+			if (Interval_contains(interval, current_time)) {
+				current_node_present = interval;
+				break;
+			}
+		}
+
+		if (Interval_is_empty(current_node_present)) {
+			result = node_doesnt_exist_in_interval(current_node_present);
+			goto cleanup_and_return;
+		}
+
 		// Get its neighbors
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
 			Link link = fns.link_by_id(stream->stream_data, link_id);
 			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times_link_present) {
+
+				// Any interval after the next disappearance of the node is unreachable
+				if (interval.start > current_node_present.end) {
+					break;
+				}
+				if (interval.end > current_node_present.end) {
+					interval.end = current_node_present.end;
+				}
+
 				bool can_cross_now = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
