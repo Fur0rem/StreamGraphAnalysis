@@ -10,68 +10,40 @@
 #include <unistd.h>
 
 bool test_walk_a_c() {
-	// // StreamGraph sg = StreamGraph_from_file("data/internal_cliques.txt");
-	// StreamGraph sg = StreamGraph_from_external("data/L.txt");
-	// /*FullStreamGraph fsg = (FullStreamGraph){
-	// 	.underlying_stream_graph = &sg,
-	// };
-	// Stream st = (Stream){
-	// 	.type = FULL_STREAM_GRAPH,
-	// 	.stream = &fsg,
-	// };*/
-	// FullStreamGraph* fsg = malloc(sizeof(FullStreamGraph));
-	// fsg->underlying_stream_graph = &sg;
-	// printf("fsg->underlying_stream_graph : %p\n", fsg->underlying_stream_graph);
-	// Stream* st = malloc(sizeof(Stream));
-	// st->type = FULL_STREAM_GRAPH;
-	// st->stream = fsg;
-	// printf("st->stream : %p\n", st->stream);
-	// printf("Loaded graph\n");
 	StreamGraph sg = StreamGraph_from_external("data/L.txt");
-	// String str = StreamGraph_to_string(&sg);
-	// printf("%s\n", str.data);
-	// String_destroy(str);
 	Stream st = FullStreamGraph_from(&sg);
 
-	// String str = StreamGraph_to_string(&sg);
-	// printf("%s\n", str.data);
-	// String_destroy(str);
+	bool result = true;
 
-	WalkInfo w = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
-	// Walk w2 = Stream_fastest_shortest_walk(st, 0, 3, 0);
-	String str = WalkInfo_to_string(&w);
-	printf("w %s\n", str.data);
-	String_destroy(str);
+	WalkInfo w1 = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
+	Walk w1_walk = WalkInfo_unwrap_checked(w1);
+	result &= EXPECT(Walk_goes_through(&w1_walk, st, 2, 0, 1, 3));
+	WalkInfo_destroy(w1);
 
 	WalkInfo w2 = Stream_shortest_walk_from_to_at(&st, 0, 3, 5);
-	str = WalkInfo_to_string(&w2);
-	printf("w2 %s\n", str.data);
-	String_destroy(str);
+	Walk w2_walk = WalkInfo_unwrap_checked(w2);
+	result &= EXPECT(Walk_goes_through(&w2_walk, st, 2, 0, 1, 3));
+	WalkInfo_destroy(w2);
 
 	StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
 	Stream st2 = FullStreamGraph_from(&sg2);
-	printf("Loaded graph\n");
 
 	WalkInfo w3 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
-	str = WalkInfo_to_string(&w3);
-	printf("w3 %s\n", str.data);
-	String_destroy(str);
+	Walk w3_walk = WalkInfo_unwrap_checked(w3);
+	result &= EXPECT(Walk_goes_through(&w3_walk, st2, 2, 0, 1, 3));
+	WalkInfo_destroy(w3);
+
 	WalkInfo w4 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
-	str = WalkInfo_to_string(&w4);
-	printf("w4 %s\n", str.data);
-	String_destroy(str);
+	Walk w4_walk = WalkInfo_unwrap_checked(w4);
+	result &= EXPECT(Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
+	WalkInfo_destroy(w4);
 
 	StreamGraph_destroy(sg);
 	StreamGraph_destroy(sg2);
 	FullStreamGraph_destroy(st);
 	FullStreamGraph_destroy(st2);
 
-	WalkInfo_destroy(w);
-	WalkInfo_destroy(w2);
-	WalkInfo_destroy(w3);
-	WalkInfo_destroy(w4);
-
-	return true;
+	return result;
 }
 
 bool test_walk_optimal() {
@@ -139,47 +111,85 @@ bool test_fastest_shortest() {
 bool test_fastest() {
 	StreamGraph sg = StreamGraph_from_external("data/L.txt");
 	Stream st = FullStreamGraph_from(&sg);
-	printf("Loaded graph\n");
+	// printf("Loaded graph\n");
 
-	WalkInfo w = Stream_fastest_walk(&st, 0, 3, 0);
-	String str = WalkInfo_to_string(&w);
-	printf("w %s\n", str.data);
-	String_destroy(str);
+	// WalkInfo w = Stream_fastest_walk(&st, 0, 3, 0);
+	// String str = WalkInfo_to_string(&w);
+	// printf("w %s\n", str.data);
+	// String_destroy(str);
 
-	WalkInfo w1 = Stream_fastest_shortest_walk(&st, 0, 3, 5);
-	str = WalkInfo_to_string(&w1);
-	printf("w1 %s\n", str.data);
-	String_destroy(str);
+	// WalkInfo w1 = Stream_fastest_shortest_walk(&st, 0, 3, 5);
+	// str = WalkInfo_to_string(&w1);
+	// printf("w1 %s\n", str.data);
+	// String_destroy(str);
 
-	WalkInfo w12 = Stream_fastest_shortest_walk(&st, 0, 3, 4);
-	str = WalkInfo_to_string(&w12);
-	printf("w12 %s\n", str.data);
-	String_destroy(str);
+	// WalkInfo w12 = Stream_fastest_shortest_walk(&st, 0, 3, 4);
+	// str = WalkInfo_to_string(&w12);
+	// printf("w12 %s\n", str.data);
+	// String_destroy(str);
+
+	// StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
+	// Stream st2 = FullStreamGraph_from(&sg2);
+
+	// WalkInfo w2 = Stream_fastest_walk(&st2, 0, 3, 5);
+	// str = WalkInfo_to_string(&w2);
+	// printf("w2 %s\n", str.data);
+	// String_destroy(str);
+
+	// WalkInfo w3 = Stream_fastest_walk(&st2, 0, 3, 9);
+	// str = WalkInfo_to_string(&w3);
+	// printf("w3 %s\n", str.data);
+	// String_destroy(str);
+
+	// StreamGraph_destroy(sg);
+	// StreamGraph_destroy(sg2);
+	// FullStreamGraph_destroy(st);
+	// FullStreamGraph_destroy(st2);
+	// WalkInfo_destroy(w);
+	// WalkInfo_destroy(w1);
+	// WalkInfo_destroy(w12);
+	// WalkInfo_destroy(w2);
+	// WalkInfo_destroy(w3);
+
+	bool result = true;
+
+	WalkInfo w1 = Stream_fastest_walk(&st, 0, 3, 0);
+	Walk w1_walk = WalkInfo_unwrap_checked(w1);
+	result &= EXPECT(Walk_goes_through(&w1_walk, st, 2, 0, 2, 3));
+	result &= EXPECT_EQ(Walk_arrives_at(&w1_walk), 6);
+	WalkInfo_destroy(w1);
+
+	WalkInfo w2 = Stream_fastest_walk(&st, 0, 3, 4);
+	Walk w2_walk = WalkInfo_unwrap_checked(w2);
+	result &= EXPECT(Walk_goes_through(&w2_walk, st, 2, 0, 2, 3));
+	result &= EXPECT_EQ(Walk_arrives_at(&w2_walk), 6);
+	WalkInfo_destroy(w2);
+
+	WalkInfo w3 = Stream_fastest_walk(&st, 0, 3, 5);
+	Walk w3_walk = WalkInfo_unwrap_checked(w3);
+	result &= EXPECT(Walk_goes_through(&w3_walk, st, 3, 0, 1, 2, 3));
+	result &= EXPECT_EQ(Walk_arrives_at(&w3_walk), 6);
+	WalkInfo_destroy(w3);
+
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
 
 	StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
 	Stream st2 = FullStreamGraph_from(&sg2);
 
-	WalkInfo w2 = Stream_fastest_walk(&st2, 0, 3, 5);
-	str = WalkInfo_to_string(&w2);
-	printf("w2 %s\n", str.data);
-	String_destroy(str);
+	WalkInfo w4 = Stream_fastest_walk(&st2, 0, 3, 5);
+	Walk w4_walk = WalkInfo_unwrap_checked(w4);
+	result &= EXPECT(Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
+	result &= EXPECT_EQ(Walk_arrives_at(&w4_walk), 8);
+	WalkInfo_destroy(w4);
 
-	WalkInfo w3 = Stream_fastest_walk(&st2, 0, 3, 9);
-	str = WalkInfo_to_string(&w3);
-	printf("w3 %s\n", str.data);
-	String_destroy(str);
+	WalkInfo w5 = Stream_fastest_walk(&st2, 0, 3, 9);
+	result &= EXPECT(w5.type == NO_WALK);
+	result &= EXPECT(w5.walk_or_reason.no_walk_reason.type == IMPOSSIBLE_TO_REACH);
+	result &= EXPECT_EQ(w5.walk_or_reason.no_walk_reason.reason.impossible_to_reach_after, 9);
+	WalkInfo_destroy(w5);
 
-	StreamGraph_destroy(sg);
-	StreamGraph_destroy(sg2);
-	FullStreamGraph_destroy(st);
-	FullStreamGraph_destroy(st2);
-	WalkInfo_destroy(w);
-	WalkInfo_destroy(w1);
-	WalkInfo_destroy(w12);
-	WalkInfo_destroy(w2);
-	WalkInfo_destroy(w3);
-
-	return true;
+	return result;
 }
 
 bool test_walk() {
@@ -205,7 +215,7 @@ bool test_walk_node_not_present() {
 	StreamFunctions fns = FullStreamGraph_stream_functions;
 
 	bool correct = true;
-	correct &= EXPECT_EQ((int)w.type, (int)WALK);
+	correct &= EXPECT(w.type == WALK);
 	Walk w1 = w.walk_or_reason.walk;
 	correct &= EXPECT_EQ(w1.steps.size, 3);
 
@@ -263,17 +273,8 @@ bool test_robustness() {
 
 int main() {
 	Test* tests[] = {
-		&(Test){"walk_a_c",				test_walk_a_c			 },
-		&(Test){"walk_optimal",			test_walk_optimal		 },
-		&(Test){"fastest_shortest",		test_fastest_shortest	 },
-		&(Test){"fastest",			   test_fastest			   },
-		&(Test){"robustness",			  test_robustness			 },
-		&(Test){"walk",					test_walk				 },
-		&(Test){"walk_node_not_present", test_walk_node_not_present},
- // &(Test){"betweenness_of_node_at_time",   test_betweenness_of_node_at_time  },
-	// &(Test){"betweenness_of_node_at_time_2", test_betweenness_of_node_at_time_2},
-
-		NULL
+		TEST(test_walk_a_c),   TEST(test_walk_optimal), TEST(test_fastest_shortest),	  TEST(test_fastest),
+		TEST(test_robustness), TEST(test_walk),			TEST(test_walk_node_not_present), NULL,
 	};
 
 	return test("Walks", tests);
