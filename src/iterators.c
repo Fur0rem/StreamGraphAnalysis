@@ -54,14 +54,14 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	IntervalsSet unioned = IntervalsSet_union(intervals_set_a, intervals_set_b);
 
 	IntervalsIteratorData* data = MALLOC(sizeof(IntervalsIteratorData));
-	data->intervals = unioned;
-	data->current_interval = 0;
+	data->intervals				= unioned;
+	data->current_interval		= 0;
 
 	TimesIterator times = {
-		.stream_graph = a.stream_graph,
+		.stream_graph  = a.stream_graph,
 		.iterator_data = data,
-		.next = IntervalsIterator_next,
-		.destroy = IntervalsIterator_destroy,
+		.next		   = IntervalsIterator_next,
+		.destroy	   = IntervalsIterator_destroy,
 	};
 
 	IntervalVector_destroy(intervals);
@@ -95,15 +95,15 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	IntervalsSet intersected = IntervalsSet_intersection(intervals_set_a, intervals_set_b);
 
 	TimesIterator times = {
-		.stream_graph = a.stream_graph,
+		.stream_graph  = a.stream_graph,
 		.iterator_data = MALLOC(sizeof(IntervalsIteratorData)),
-		.next = IntervalsIterator_next,
-		.destroy = IntervalsIterator_destroy,
+		.next		   = IntervalsIterator_next,
+		.destroy	   = IntervalsIterator_destroy,
 	};
 
 	IntervalsIteratorData* data = (IntervalsIteratorData*)times.iterator_data;
-	data->intervals = intersected;
-	data->current_interval = 0;
+	data->intervals				= intersected;
+	data->current_interval		= 0;
 
 	IntervalVector_destroy(intervals);
 	IntervalsSet_destroy(intervals_set_a);

@@ -5,11 +5,11 @@
 #include <string.h>
 
 String String_from_owned(char* str) {
-	size_t len = strlen(str);
+	size_t len	  = strlen(str);
 	String string = (String){
-		.size = len,
+		.size	  = len,
 		.capacity = len + 1,
-		.data = str,
+		.data	  = str,
 	};
 	return string;
 }
@@ -19,9 +19,9 @@ String String_from_duplicate(const char* str) {
 	char* data = MALLOC(len + 1);
 	memcpy(data, str, len + 1);
 	String string = (String){
-		.size = len,
+		.size	  = len,
 		.capacity = len + 1,
-		.data = data,
+		.data	  = data,
 	};
 	return string;
 }
@@ -32,7 +32,7 @@ void String_push(String* string, char c) {
 		string->data = realloc(string->data, string->capacity);
 	}
 	string->data[string->size++] = c;
-	string->data[string->size] = '\0';
+	string->data[string->size]	 = '\0';
 }
 
 void String_push_str(String* string, const char* str) {
@@ -76,7 +76,7 @@ int String_compare(const void* a, const void* b) {
 }
 
 int String_hash(const String* string) {
-	int hash = 0;
+	int hash  = 0;
 	char* str = string->data;
 	for (size_t i = 0; i < string->size; i++) {
 		hash = ((hash * 31) + str[i]) ^ (str[i / 2] | str[i / 4]);
@@ -119,4 +119,17 @@ void String_append_formatted(String* string, const char* format, ...) {
 	va_end(args);
 	String_push_str(string, buffer);
 	free(buffer);
+}
+
+void String_pop_n(String* string, size_t n) {
+	if (n > string->size) {
+		n = string->size;
+	}
+	string->size -= n;
+}
+
+void String_pop(String* string) {
+	if (string->size > 0) {
+		string->size--;
+	}
 }

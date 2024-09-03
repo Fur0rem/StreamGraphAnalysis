@@ -71,7 +71,7 @@ void init_cache(Stream* stream);
 
 #define UPDATE_CACHE(stream, field, value)                                                                             \
 	(stream)->cache.field.present = true;                                                                              \
-	(stream)->cache.field.data = value;
+	(stream)->cache.field.data	  = value;
 
 void reset_cache(Stream* stream);
 

@@ -90,8 +90,8 @@ DefineVectorDeriveToString(Clique);
 
 void swap(size_t* tab, size_t i, size_t j) {
 	size_t tmp = tab[i];
-	tab[i] = tab[j];
-	tab[j] = tmp;
+	tab[i]	   = tab[j];
+	tab[j]	   = tmp;
 }
 
 typedef struct {
@@ -119,23 +119,23 @@ XPR* allocXPR(size_t n, size_t depthMax) {
 	xpr->e = MALLOC(depthMax * sizeof(size_t));
 
 	// xpr->n = 0;
-	xpr->XPnode = MALLOC(n * sizeof(size_t));
+	xpr->XPnode	 = MALLOC(n * sizeof(size_t));
 	xpr->XPindex = MALLOC(n * sizeof(size_t));
 
 	for (size_t i = 0; i < n; i++) {
-		xpr->XPnode[i] = i;
+		xpr->XPnode[i]	= i;
 		xpr->XPindex[i] = i;
 	}
-	xpr->beginX = MALLOC(depthMax * sizeof(size_t));
-	xpr->beginP = MALLOC(depthMax * sizeof(size_t));
-	xpr->endP = MALLOC(depthMax * sizeof(size_t));
+	xpr->beginX		  = MALLOC(depthMax * sizeof(size_t));
+	xpr->beginP		  = MALLOC(depthMax * sizeof(size_t));
+	xpr->endP		  = MALLOC(depthMax * sizeof(size_t));
 	xpr->timeEndRNode = MALLOC(depthMax * sizeof(size_t*));
 
-	xpr->R = size_tVector_with_capacity(depthMax);
+	xpr->R					   = size_tVector_with_capacity(depthMax);
 	xpr->candidates_to_iterate = MALLOC(depthMax * sizeof(size_tVector));
 
 	for (size_t depth = 0; depth < depthMax; depth++) {
-		xpr->timeEndRNode[depth] = MALLOC(n * sizeof(size_t));
+		xpr->timeEndRNode[depth]		  = MALLOC(n * sizeof(size_t));
 		xpr->candidates_to_iterate[depth] = size_tVector_with_capacity(depthMax);
 	}
 	xpr->depth_pour_free_jsp = depthMax;
@@ -179,7 +179,7 @@ bool is_in_R(XPR* xpr, size_t w) {
 void add_to_P(XPR* xpr, size_t w, size_t depth) {
 
 	size_t iw = xpr->XPindex[w];
-	size_t u = xpr->XPnode[xpr->endP[depth]];
+	size_t u  = xpr->XPnode[xpr->endP[depth]];
 
 	swap(xpr->XPnode, iw, xpr->endP[depth]);
 	swap(xpr->XPindex, w, u);
@@ -191,7 +191,7 @@ void swap_from_P_to_X(XPR* xpr, size_t w, size_t depth) {
 
 	size_t iw = xpr->XPindex[w];
 	size_t iu = xpr->beginP[depth];
-	size_t u = xpr->XPnode[iu];
+	size_t u  = xpr->XPnode[iu];
 	swap(xpr->XPnode, iw, iu);
 	swap(xpr->XPindex, w, u);
 	xpr->beginP[depth]++;
@@ -203,7 +203,7 @@ void swap_from_X_to_P(XPR* xpr, size_t w, size_t depth) {
 	xpr->beginP[depth]--;
 	size_t iw = xpr->XPindex[w];
 	size_t iu = xpr->beginP[depth];
-	size_t u = xpr->XPnode[iu];
+	size_t u  = xpr->XPnode[iu];
 	swap(xpr->XPnode, iw, iu);
 	swap(xpr->XPindex, w, u);
 }
@@ -215,14 +215,14 @@ void add_to_X0(XPR* xpr, size_t w, size_t depth) {
 
 void keep_in_X(XPR* xpr, size_t w, size_t depth) {
 	size_t iw = xpr->XPindex[w];
-	size_t u = xpr->XPnode[--xpr->beginX[depth]];
+	size_t u  = xpr->XPnode[--xpr->beginX[depth]];
 	swap(xpr->XPnode, iw, xpr->beginX[depth]);
 	swap(xpr->XPindex, w, u);
 }
 
 void swap_P_node_position(XPR* xpr, size_t u, size_t iv) {
 	size_t iu = xpr->XPindex[u];
-	size_t v = xpr->XPnode[iv];
+	size_t v  = xpr->XPnode[iv];
 	swap(xpr->XPnode, iu, iv);
 	swap(xpr->XPindex, u, v);
 }
@@ -240,7 +240,7 @@ void init_timeEndRNode(XPR* xpr, size_t w, size_t e1, size_t e2, size_t e3, size
 }
 
 void update_timeEndRNode(XPR* xpr, size_t v, size_t e, size_t depth) {
-	size_t e1 = xpr->timeEndRNode[depth - 1][v];
+	size_t e1					= xpr->timeEndRNode[depth - 1][v];
 	xpr->timeEndRNode[depth][v] = min(e, e1);
 }
 
@@ -278,7 +278,7 @@ typedef struct {
 
 NeighborList alloc_NeighborList(size_t degreeMax, size_t depthMax) {
 	NeighborList Nl;
-	Nl.n = MALLOC(depthMax * sizeof(size_t));
+	Nl.n	= MALLOC(depthMax * sizeof(size_t));
 	Nl.n[0] = 0;
 	Nl.node = MALLOC(degreeMax * sizeof(size_t));
 	return Nl;
@@ -355,10 +355,10 @@ typedef struct {
 
 NeighborListEnd alloc_NeighborListEnd(size_t degreeMax, size_t depthMax) {
 	NeighborListEnd Nle;
-	Nle.n = MALLOC(degreeMax * sizeof(size_t));
+	Nle.n	 = MALLOC(degreeMax * sizeof(size_t));
 	Nle.n[0] = 0;
 	Nle.node = MALLOC(degreeMax * sizeof(size_t));
-	Nle.end = MALLOC(degreeMax * sizeof(size_t));
+	Nle.end	 = MALLOC(degreeMax * sizeof(size_t));
 	return Nle;
 }
 
@@ -371,7 +371,7 @@ void free_NeighborListEnd(NeighborListEnd* Nle) {
 void add_NeighborListEnd(NeighborListEnd* Nle, size_t u, size_t e) {
 	// ajout seulement pour depth == 0
 	Nle->node[Nle->n[0]] = u;
-	Nle->end[Nle->n[0]] = e;
+	Nle->end[Nle->n[0]]	 = e;
 	Nle->n[0]++;
 }
 
@@ -381,7 +381,7 @@ void remove_node_NeighborListEnd(NeighborListEnd* Nle, size_t u) {
 		if (Nle->node[i] == u) {
 			Nle->n[0]--;
 			Nle->node[i] = Nle->node[Nle->n[0]];
-			Nle->end[i] = Nle->end[Nle->n[0]];
+			Nle->end[i]	 = Nle->end[Nle->n[0]];
 			return;
 		}
 	}
@@ -442,8 +442,8 @@ typedef struct {
 
 MySet* allocMySet(size_t init_size) {
 	MySet* s = MALLOC(sizeof(MySet));
-	s->n = 0;
-	s->list = MALLOC(init_size * sizeof(size_t));
+	s->n	 = 0;
+	s->list	 = MALLOC(init_size * sizeof(size_t));
 	// s->tab = (bool*)calloc(init_size, sizeof(bool)); // TODO: safe calloc?
 	s->tab = BitArray_n_zeros(init_size);
 	return s;
@@ -481,14 +481,14 @@ LinkPresenceStream* allocLinkStream_end_from_links(LinkPresenceVector links, siz
 	LinkPresenceStream* ls_end = MALLOC(sizeof(LinkPresenceStream));
 
 	// Init link stream data structures
-	ls_end->m = m;
+	ls_end->m	 = m;
 	ls_end->link = MALLOC(2 * m * sizeof(LinkPresence)); // double to add end
 
 	LinkPresence* add_link = MALLOC(m * sizeof(LinkPresence));
 	LinkPresence* del_link = MALLOC(m * sizeof(LinkPresence));
 
 	ls_end->timesteps = size_tVector_with_capacity(ntimestep);
-	size_t im = 0;
+	size_t im		  = 0;
 
 	size_t old_b = SIZE_MAX;
 	for (size_t l = 0; l < links.size; l++) {
@@ -500,7 +500,7 @@ LinkPresenceStream* allocLinkStream_end_from_links(LinkPresenceVector links, siz
 
 		add_link[im] = links.array[l];
 
-		del_link[im] = links.array[l];
+		del_link[im]	   = links.array[l];
 		del_link[im].start = SIZE_MAX;
 
 		im++;
@@ -512,7 +512,7 @@ LinkPresenceStream* allocLinkStream_end_from_links(LinkPresenceVector links, siz
 
 	size_t ia = 0;
 	size_t id = 0;
-	size_t i = 0;
+	size_t i  = 0;
 	while (ia < m) {
 		if (add_link[ia].start <= del_link[id].end) {
 			ls_end->link[i++] = add_link[ia++];
@@ -550,7 +550,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 	XPR* xpr;
 
 	size_t b;
-	size_t nmin = SIZE_MAX;
+	size_t nmin	 = SIZE_MAX;
 	size_t nreal = 0;
 	size_t mt = 0, mtmax = 0; // nombre max d'arêtes par unité de temps
 	size_t old_b;
@@ -558,9 +558,9 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 	size_t dmax, dsum;
 	bool first = true;
 
-	size_t m = 0;
+	size_t m		 = 0;
 	size_t ntimestep = 0;
-	size_t n = 0;
+	size_t n		 = 0;
 	for (size_t i = 0; i < links.size; i++) {
 		LinkPresence* link = &links.array[i];
 		m++;
@@ -577,7 +577,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 		if (b > old_b) {
 			ntimestep++;
 			mtmax = max(mt, mtmax);
-			mt = 1;
+			mt	  = 1;
 		}
 		else {
 			mt++;
@@ -594,7 +594,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 			nmin = u;
 		}
 		nmin = min(min(u, v), nmin);
-		n = max(max(u, v), n);
+		n	 = max(max(u, v), n);
 	}
 
 	ASSERT(b == old_b);
@@ -605,12 +605,12 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 	}
 
 	// Init data
-	degreeT = calloc(n + 1, sizeof(size_t));
+	degreeT	  = calloc(n + 1, sizeof(size_t));
 	degreeMax = calloc(n + 1, sizeof(size_t));
-	N = MALLOC((n + 1) * sizeof(NeighborListEnd));
-	S = MALLOC((n + 1) * sizeof(NeighborList));
-	Snodes = allocMySet(n + 1);
-	NewEdges = size_tVector_with_capacity(3 * mtmax);
+	N		  = MALLOC((n + 1) * sizeof(NeighborListEnd));
+	S		  = MALLOC((n + 1) * sizeof(NeighborList));
+	Snodes	  = allocMySet(n + 1);
+	NewEdges  = size_tVector_with_capacity(3 * mtmax);
 
 	LinkPresenceStream* ls_end = allocLinkStream_end_from_links(links, m, ntimestep);
 
@@ -618,7 +618,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 
 	// Fill degree
 	for (size_t i = 0; i < links.size; i++) {
-		b = links.array[i].start;
+		b		 = links.array[i].start;
 		size_t u = links.array[i].nodes[0];
 		size_t v = links.array[i].nodes[1];
 		if (b == SIZE_MAX) { // end link
@@ -650,16 +650,16 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 
 	Datastructure* d = MALLOC(sizeof(Datastructure));
 
-	d->n = n;
-	d->m = m;
+	d->n		 = n;
+	d->m		 = m;
 	d->ntimestep = ntimestep;
-	d->degmax = dmax;
-	d->ls_end = ls_end;
-	d->N = N;
-	d->S = S;
-	d->Snodes = Snodes;
-	d->NewEdges = NewEdges;
-	d->xpr = xpr;
+	d->degmax	 = dmax;
+	d->ls_end	 = ls_end;
+	d->N		 = N;
+	d->S		 = S;
+	d->Snodes	 = Snodes;
+	d->NewEdges	 = NewEdges;
+	d->xpr		 = xpr;
 
 	free(degreeT);
 	free(degreeMax);
@@ -698,8 +698,8 @@ size_t choose_pivot(XPR* xpr, NeighborListEnd* N, size_t depth) {
 	size_t pmax;
 
 	for (size_t ip = xpr->beginX[depth]; ip < xpr->endP[depth]; ip++) {
-		size_t p = xpr->XPnode[ip];
-		size_t dp = 0;
+		size_t p   = xpr->XPnode[ip];
+		size_t dp  = 0;
 		size_t epR = xpr->timeEndRNode[depth][p];
 
 		// compter les noeuds à enlever
@@ -734,12 +734,12 @@ typedef struct {
 } MyCounter;
 
 MyCounter* alloc_MyCounter() {
-	MyCounter* mc = (MyCounter*)malloc(sizeof(MyCounter));
-	mc->maxCliqueSize = 0;
-	mc->nMaxCliques = 0;
+	MyCounter* mc		= (MyCounter*)malloc(sizeof(MyCounter));
+	mc->maxCliqueSize	= 0;
+	mc->nMaxCliques		= 0;
 	mc->nTimeMaxCliques = 0;
-	mc->nLeafBad = 0;
-	mc->nLeafGood = 0;
+	mc->nLeafBad		= 0;
+	mc->nLeafGood		= 0;
 	return mc;
 }
 
@@ -753,7 +753,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 	// Node of search tree
 	mc->nTimeMaxCliques++;
 
-	bool R_is_max = true;
+	bool R_is_max	   = true;
 	bool BK_not_called = true;
 
 	if (xpr->beginP[depth] < xpr->endP[depth]) {
@@ -763,7 +763,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 		size_t np = xpr->endP[depth];
 
 		// pivot
-		size_t p = choose_pivot(xpr, N, depth);
+		size_t p   = choose_pivot(xpr, N, depth);
 		size_t epR = xpr->timeEndRNode[depth][p];
 
 		// mettre les noeuds à enlever à la fin de P
@@ -802,7 +802,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 			// Calcul de P et X à depth+1
 			xpr->beginX[next_depth] = xpr->beginP[depth];
 			xpr->beginP[next_depth] = xpr->beginP[depth];
-			xpr->endP[next_depth] = xpr->beginP[depth];
+			xpr->endP[next_depth]	= xpr->beginP[depth];
 
 			for (size_t j = 0; j < N[u].n[depth]; j++) {
 				size_t v = N[u].node[j];
@@ -895,9 +895,9 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 
 		Clique c = {
 			.time_start = b,
-			.time_end = e,
-			.nb_nodes = xpr->R.size,
-			.nodes = malloc(xpr->R.size * sizeof(NodeId)),
+			.time_end	= e,
+			.nb_nodes	= xpr->R.size,
+			.nodes		= malloc(xpr->R.size * sizeof(NodeId)),
 		};
 		for (size_t i = 0; i < xpr->R.size; i++) {
 			c.nodes[i] = xpr->R.array[i];
@@ -919,7 +919,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 void MaxCliquesFromEdges(const size_tVector NewEdges, NeighborList* S, MySet* Snodes, size_t b, NeighborListEnd* N,
 						 XPR* xpr, MyCounter* mc, CliqueVector* cliques) {
 
-	const size_t depth = 0;
+	const size_t depth		= 0;
 	const size_t next_depth = depth + 1;
 
 	ASSERT(NewEdges.size % 3 == 0);
@@ -934,7 +934,7 @@ void MaxCliquesFromEdges(const size_tVector NewEdges, NeighborList* S, MySet* Sn
 		// Calculer X,P,R et faire l'appel récursif
 		xpr->beginX[next_depth] = 0;
 		xpr->beginP[next_depth] = 0;
-		xpr->endP[next_depth] = 0;
+		xpr->endP[next_depth]	= 0;
 
 		for (size_t iu = 0; iu < N[u].n[depth]; iu++) {
 			size_t w = N[u].node[iu];
@@ -984,12 +984,12 @@ void MaxCliquesFromEdges(const size_tVector NewEdges, NeighborList* S, MySet* Sn
 }
 
 CliqueVector cliques_sequential(const LinkPresenceStream* ls_end, Datastructure* d, MyCounter* mc) {
-	size_t old_b = SIZE_MAX;
-	NeighborListEnd* N = d->N;
-	NeighborList* S = d->S;
-	MySet* Snodes = d->Snodes;
-	XPR* xpr = d->xpr;
-	CliqueVector result = CliqueVector_with_capacity(100);
+	size_t old_b		= SIZE_MAX;
+	NeighborListEnd* N	= d->N;
+	NeighborList* S		= d->S;
+	MySet* Snodes		= d->Snodes;
+	XPR* xpr			= d->xpr;
+	CliqueVector result = CliqueVector_new();
 
 	for (size_t i = 0; i < ls_end->m; i++) {
 
@@ -1045,15 +1045,15 @@ CliqueVector cliques_sequential(const LinkPresenceStream* ls_end, Datastructure*
 }
 
 CliqueVector Stream_maximal_cliques(Stream* st) {
-	StreamFunctions funcs = STREAM_FUNCS(funcs, st);
+	StreamFunctions funcs	 = STREAM_FUNCS(funcs, st);
 	LinkPresenceVector links = LinkPresenceVector_new();
-	LinksIterator links_set = funcs.links_set(st->stream_data);
+	LinksIterator links_set	 = funcs.links_set(st->stream_data);
 	FOR_EACH_LINK(link_id, links_set) {
 		Link link = funcs.link_by_id(st->stream_data, link_id);
 		for (size_t i = 0; i < link.presence.nb_intervals; i++) {
 			LinkPresence l = (LinkPresence){
-				.start = link.presence.intervals[i].start,
-				.end = link.presence.intervals[i].end,
+				.start	  = link.presence.intervals[i].start,
+				.end	  = link.presence.intervals[i].end,
 				.nodes[0] = link.nodes[0],
 				.nodes[1] = link.nodes[1],
 			};
@@ -1063,8 +1063,8 @@ CliqueVector Stream_maximal_cliques(Stream* st) {
 
 	LinkPresenceVector_sort(&links);
 	Datastructure* d = allocDatastrucure_from_links(links);
-	MyCounter* mc = alloc_MyCounter();
-	CliqueVector v = cliques_sequential(d->ls_end, d, mc);
+	MyCounter* mc	 = alloc_MyCounter();
+	CliqueVector v	 = cliques_sequential(d->ls_end, d, mc);
 	LinkPresenceVector_destroy(links);
 	MyCounter_free(mc);
 	DataStructure_free(d);

@@ -145,14 +145,14 @@ String Walk_to_string(const Walk* walk) {
 	String_push(&str, '\n');
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream_data;
-	StreamGraph sg = *fsg->underlying_stream_graph;
+	StreamGraph sg		 = *fsg->underlying_stream_graph;
 
 	for (size_t i = 0; i < walk->steps.size; i++) {
 		WalkStep step = walk->steps.array[i];
 		sprintf(buf, "%zu", step.link);
 		String_push_str(&str, buf);
 		NodeId from = sg.links.links[step.link].nodes[0];
-		NodeId to = sg.links.links[step.link].nodes[1];
+		NodeId to	= sg.links.links[step.link].nodes[1];
 		sprintf(buf, " (%zu -> %zu)", from, to);
 		String_push_str(&str, buf);
 		String_push_str(&str, " @ ");
@@ -181,13 +181,13 @@ DefineVectorDeriveEquals(Walk);
 String WalkInfo_to_string(const WalkInfo* wi) {
 	if (wi->type == WALK) {
 		String walk_str = Walk_to_string(&wi->result.walk);
-		String str = String_from_duplicate("WalkInfo(WALK, ");
+		String str		= String_from_duplicate("WalkInfo(WALK, ");
 		String_concat_consume(&str, &walk_str);
 		String_push(&str, ')');
 		return str;
 	}
 	else {
-		String str = String_from_duplicate("WalkInfo(NO_WALK, ");
+		String str			= String_from_duplicate("WalkInfo(NO_WALK, ");
 		NoWalkReason reason = wi->result.no_walk_reason;
 		if (reason.type == NODE_DOESNT_EXIST) {
 			String interval_str = Interval_to_string(&reason.reason.node_not_present_between);
@@ -218,13 +218,13 @@ bool WalkInfo_equals(const WalkInfo* a, const WalkInfo* b) {
 WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
 											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId)) {
 	WalkInfoVector walks = WalkInfoVector_with_capacity(1);
-	TimeId current_time = 0;
-	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	TimeId current_time	 = 0;
+	StreamFunctions fns	 = STREAM_FUNCS(fns, stream);
 
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
 	while (current_time != max_lifespan) {
 		size_t previous_time = current_time;
-		WalkInfo optimal = fn(stream, from, to, current_time);
+		WalkInfo optimal	 = fn(stream, from, to, current_time);
 		WalkInfoVector_push(&walks, optimal);
 		if (optimal.type == NO_WALK) {
 			NoWalkReason error = optimal.result.no_walk_reason;
@@ -237,7 +237,7 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 		}
 		else if (optimal.type == WALK) {
 			Interval optimality = optimal.result.walk.optimality;
-			current_time = optimality.end;
+			current_time		= optimality.end;
 		}
 		if (current_time == previous_time) {
 			current_time++;
@@ -264,11 +264,11 @@ DefineVectorDeriveToString(WalkInfo);
 
 WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candidates, NodeId from) {
 	QueueInfo* current_walk = candidates;
-	WalkStepVector steps = WalkStepVector_with_capacity(candidates->previouses);
-	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	WalkStepVector steps	= WalkStepVector_with_capacity(candidates->previouses);
+	StreamFunctions fns		= STREAM_FUNCS(fns, stream);
 	while (current_walk != NULL) {
-		NodeId current_node = current_walk->node;
-		QueueInfo* previous = current_walk->previous;
+		NodeId current_node	 = current_walk->node;
+		QueueInfo* previous	 = current_walk->previous;
 		NodeId previous_node = previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
 		// TODO : make a function that does finds the link between two nodes for a given stream cause i use that a lot
@@ -302,29 +302,29 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 
 WalkInfo unreachable_after(TimeId after) {
 	NoWalkReason reason = {
-		.type = IMPOSSIBLE_TO_REACH,
+		.type							  = IMPOSSIBLE_TO_REACH,
 		.reason.impossible_to_reach_after = after, // TODO : rename impossible to reach to unreachable
 	};
 	return (WalkInfo){
-		.type = NO_WALK,
+		.type				   = NO_WALK,
 		.result.no_walk_reason = reason,
 	};
 }
 
 WalkInfo node_not_present_between(Interval interval) {
 	NoWalkReason reason = {
-		.type = NODE_DOESNT_EXIST,
+		.type							 = NODE_DOESNT_EXIST,
 		.reason.node_not_present_between = interval,
 	};
 	return (WalkInfo){
-		.type = NO_WALK,
+		.type				   = NO_WALK,
 		.result.no_walk_reason = reason,
 	};
 }
 
 WalkInfo walk_exists(Walk walk) {
 	return (WalkInfo){
-		.type = WALK,
+		.type		 = WALK,
 		.result.walk = walk,
 	};
 }
@@ -340,8 +340,8 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 
 	// Initialize the queue with the starting node
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL,
-					   .previouses = 0};
+	QueueInfo start		= {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL,
+						   .previouses = 0};
 	QueueInfoVector_push(queue, start);
 
 	NodeId current_candidate = from;
@@ -356,11 +356,11 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 		}
 		ExploredStateHashset_insert(explored, (ExploredState){current_info.node, current_info.time});
 		current_candidate = current_info.node;
-		current_time = current_info.time;
+		current_time	  = current_info.time;
 
 		// get for how long the node is present
 		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
-		Interval current_node_present = Interval_empty();
+		Interval current_node_present	 = Interval_empty();
 
 		FOR_EACH_TIME(interval, times_node_present) {
 			if (Interval_contains(interval, current_time)) {
@@ -388,14 +388,14 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 					interval.end = current_node_present.end;
 				}
 
-				bool can_cross_now = Interval_contains(interval, current_time);
+				bool can_cross_now	  = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					Link link = fns.link_by_id(stream->stream_data, link_id);
-					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					QueueInfo* previous = ArenaVector_alloc(arena, sizeof(QueueInfo));
-					*previous = current_info;
-					TimeId time_crossed = can_cross_now ? current_time : interval.start;
+					Link link				= fns.link_by_id(stream->stream_data, link_id);
+					NodeId neighbor_id		= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					QueueInfo* previous		= ArenaVector_alloc(arena, sizeof(QueueInfo));
+					*previous				= current_info;
+					TimeId time_crossed		= can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id, time_crossed, .interval_taken = interval,
 											   .previous = previous, .previouses = current_info.previouses + 1};
 
@@ -437,11 +437,11 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 
 	// Build the walk
 	Walk walk = {
-		.start = from,
-		.end = to,
+		.start		= from,
+		.end		= to,
 		.optimality = Interval_from(at, max_lifespan),
-		.stream = stream,
-		.steps = WalkStepVector_from_candidates(stream, &current_info, from),
+		.stream		= stream,
+		.steps		= WalkStepVector_from_candidates(stream, &current_info, from),
 	};
 
 	// OPTIMISE: dont look through them all and propagate, just do a regular min and cut when you have to wait
@@ -458,8 +458,8 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 // Minimal number of hops between two nodes
 WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at) {
 	WalkInfo result;
-	ArenaVector arena = ArenaVector_init();
-	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
+	ArenaVector arena			  = ArenaVector_init();
+	QueueInfoVector queue		  = QueueInfoVector_with_capacity(1);
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	Stream_shortest_walk_from_to_at_buffered(stream, from, to, at, &result, &arena, &queue, &explored);
 	QueueInfoVector_destroy(queue);
@@ -477,17 +477,17 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 
 	// Initialize the queue with the starting node
 	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
-	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start = {
-		from, current_time, 0, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL, .previouses = 0};
+	size_t max_lifespan	  = fns.lifespan(stream->stream_data).end;
+	QueueInfo start		  = {
+		  from, current_time, 0, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL, .previouses = 0};
 	QueueInfoVector_push(&queue, start);
 
 	NodeId current_candidate = from;
 	QueueInfo current_info;
 	size_t best_time_yet = SIZE_MAX;
 	QueueInfo best_yet;
-	bool found = false;
-	size_t depth_found = SIZE_MAX;
+	bool found					  = false;
+	size_t depth_found			  = SIZE_MAX;
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
 	while ((!QueueInfoVector_is_empty(queue)) && ((!found) || (current_info.depth <= depth_found))) {
 		// Get the next node from the queue
@@ -498,11 +498,11 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		ExploredStateHashset_insert(&explored, (ExploredState){current_info.node, current_info.time});
 
 		current_candidate = current_info.node;
-		current_time = current_info.time;
+		current_time	  = current_info.time;
 
 		// Get for how long the node is present
 		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
-		Interval current_node_present = Interval_empty();
+		Interval current_node_present	 = Interval_empty();
 		FOR_EACH_TIME(interval, times_node_present) {
 			if (Interval_contains(interval, current_time)) {
 				current_node_present = interval;
@@ -516,7 +516,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
-			Link link = fns.link_by_id(stream->stream_data, link_id);
+			Link link						 = fns.link_by_id(stream->stream_data, link_id);
 			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times_link_present) {
 
@@ -528,29 +528,29 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 					interval.end = current_node_present.end;
 				}
 
-				bool can_cross_now = Interval_contains(interval, current_time);
+				bool can_cross_now	  = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					QueueInfo* previous = ArenaVector_alloc(&arena, sizeof(QueueInfo));
-					*previous = current_info;
-					TimeId time_crossed = can_cross_now ? current_time : interval.start;
+					NodeId neighbor_id		= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					QueueInfo* previous		= ArenaVector_alloc(&arena, sizeof(QueueInfo));
+					*previous				= current_info;
+					TimeId time_crossed		= can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id,
 											   time_crossed,
 											   current_info.depth + 1,
 											   .interval_taken = interval,
-											   .previous = previous,
-											   .previouses = current_info.previouses + 1};
+											   .previous	   = previous,
+											   .previouses	   = current_info.previouses + 1};
 					QueueInfoVector_push(&queue, neighbor_info);
 				}
 			}
 		}
 		if (current_candidate == to) {
-			found = true;
+			found		= true;
 			depth_found = current_info.depth;
 			if (current_time < best_time_yet) {
 				best_time_yet = current_time;
-				best_yet = current_info;
+				best_yet	  = current_info;
 			}
 		}
 	}
@@ -562,11 +562,11 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 
 	// Build the walk
 	Walk walk = {
-		.start = from,
-		.end = to,
+		.start		= from,
+		.end		= to,
 		.optimality = Interval_from(at, max_lifespan),
-		.stream = stream,
-		.steps = WalkStepVector_from_candidates(stream, &best_yet, from),
+		.stream		= stream,
+		.steps		= WalkStepVector_from_candidates(stream, &best_yet, from),
 	};
 
 	// propagate the optimal intervals
@@ -694,7 +694,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	ArenaVector arena = ArenaVector_init();
 
 	// Initialize the queue with the starting node
-	BinaryHeap queue = BinaryHeap_init();
+	BinaryHeap queue	= BinaryHeap_init();
 	DijkstraState start = {from, at, 0, .previous = NULL};
 	BinaryHeap_push(&queue, start);
 
@@ -719,11 +719,11 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		DijkstraStateHashset_insert(&explored, (DijkstraState){current_info.node, current_info.time});
 
 		current_candidate = current_info.node;
-		current_time = current_info.time;
+		current_time	  = current_info.time;
 
 		// Get for how long the node is present
 		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
-		Interval current_node_present = Interval_empty();
+		Interval current_node_present	 = Interval_empty();
 		FOR_EACH_TIME(interval, times_node_present) {
 			if (Interval_contains(interval, current_time)) {
 				current_node_present = interval;
@@ -739,7 +739,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		// Get its neighbors
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
-			Link link = fns.link_by_id(stream->stream_data, link_id);
+			Link link						 = fns.link_by_id(stream->stream_data, link_id);
 			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times_link_present) {
 
@@ -751,13 +751,13 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 					interval.end = current_node_present.end;
 				}
 
-				bool can_cross_now = Interval_contains(interval, current_time);
+				bool can_cross_now	  = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					DijkstraState* previous = ArenaVector_alloc(&arena, sizeof(DijkstraState));
-					*previous = current_info;
-					TimeId time_crossed = can_cross_now ? current_time : interval.start;
+					NodeId neighbor_id			= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					DijkstraState* previous		= ArenaVector_alloc(&arena, sizeof(DijkstraState));
+					*previous					= current_info;
+					TimeId time_crossed			= can_cross_now ? current_time : interval.start;
 					DijkstraState neighbor_info = {neighbor_id, time_crossed, current_info.number_of_jumps + 1,
 												   .previous = previous};
 					BinaryHeap_push(&queue, neighbor_info);
@@ -774,7 +774,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		}*/
 		if (current_candidate == to && current_time < best_time_yet) {
 			best_time_yet = current_time;
-			best_yet = current_info;
+			best_yet	  = current_info;
 		}
 	}
 
@@ -785,11 +785,11 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 
 	// Build the walk
 	Walk walk = {
-		.start = from,
-		.end = to,
+		.start		= from,
+		.end		= to,
 		.optimality = Interval_from(at, best_time_yet),
-		.stream = stream,
-		.steps = WalkStepVector_with_capacity(1),
+		.stream		= stream,
+		.steps		= WalkStepVector_with_capacity(1),
 	};
 
 	// Build the steps
@@ -803,7 +803,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		// printf("Current walk : %s\n", str.data);
 		String_destroy(str);
 		DijkstraState* previous = current_walk->previous;
-		NodeId previous_node = previous == NULL ? from : previous->node;
+		NodeId previous_node	= previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
 		LinksIterator links = fns.links_set(stream->stream_data);
 		FOR_EACH_LINK(i, links) {
@@ -854,7 +854,7 @@ size_t Walk_duration(Walk* walk) {
 		return 0;
 	}
 	size_t start_time = walk->steps.array[0].time;
-	size_t end_time = walk->steps.array[walk->steps.size - 1].time;
+	size_t end_time	  = walk->steps.array[walk->steps.size - 1].time;
 	return end_time - start_time;
 }
 
@@ -865,9 +865,9 @@ size_t Walk_duration_integral_doubled(Walk* walk) {
 	// is ((d - t) * t) + (t^2 / 2), which can be simplified to (d * t) - (t^2 / 2)
 	// we double it instead to get back to integers
 	size_t optimality_begin = walk->optimality.start;
-	size_t optimality_end = walk->optimality.end;
-	size_t duration = Walk_duration(walk);
-	size_t time_frame = optimality_end - optimality_begin;
+	size_t optimality_end	= walk->optimality.end;
+	size_t duration			= Walk_duration(walk);
+	size_t time_frame		= optimality_end - optimality_begin;
 	// size_t integral = (duration * time_frame) - (time_frame * time_frame / 2);
 	size_t integral = (duration * time_frame * 2) - (time_frame * time_frame);
 	return integral;
@@ -879,9 +879,9 @@ size_t Walk_length_integral_doubled(Walk* walk) {
 	// is (length * t)
 	// we double it to match with the duration integral
 	size_t optimality_begin = walk->optimality.start;
-	size_t optimality_end = walk->optimality.end;
-	size_t length = Walk_length(walk);
-	size_t time_frame = optimality_end - optimality_begin;
+	size_t optimality_end	= walk->optimality.end;
+	size_t length			= Walk_length(walk);
+	size_t time_frame		= optimality_end - optimality_begin;
 	// size_t integral = length * time_frame;
 	size_t integral = length * time_frame * 2;
 	return integral;
@@ -889,9 +889,9 @@ size_t Walk_length_integral_doubled(Walk* walk) {
 
 bool Walk_involves_node_at_time(Walk* walk, NodeId node, double time) {
 	for (size_t i = 0; i < walk->steps.size; i++) {
-		WalkStep step = walk->steps.array[i];
+		WalkStep step		= walk->steps.array[i];
 		StreamFunctions fns = STREAM_FUNCS(fns, walk->stream);
-		Link link = fns.link_by_id(walk->stream->stream_data, step.link);
+		Link link			= fns.link_by_id(walk->stream->stream_data, step.link);
 		if (link.nodes[0] == node || link.nodes[1] == node) {
 			if ((double)step.time <= time && time <= (double)step.needs_to_arrive_before) {
 				return true;
@@ -907,7 +907,7 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 	// size_t number_of_walks = 0;
 	// size_t number_of_walks_involving_node = 0;
 	// Compute all the walks between all the nodes
-	double betweenness = 0.0;
+	double betweenness	= 0.0;
 	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(from, nodes) {
 		NodesIterator nodes2 = fns.nodes_set(stream->stream_data);
@@ -919,8 +919,8 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 					if (walk.type == WALK) {
 						// size_t walk_optimality =
 						// 	walk.result.walk.optimality.end - walk.result.walk.optimality.start;
-						size_t walk_optimality = 1;
-						size_t number_of_walks = walk_optimality;
+						size_t walk_optimality				  = 1;
+						size_t number_of_walks				  = walk_optimality;
 						size_t number_of_walks_involving_node = 0;
 						if (Walk_involves_node_at_time(&walk.result.walk, node, time)) {
 							number_of_walks_involving_node += walk_optimality;
@@ -990,11 +990,11 @@ double Walk_length_integral_1_over_x(Walk* walk) {
 double Stream_robustness_by_length(Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	size_t begin = fns.lifespan(stream->stream_data).start;
+	size_t begin		= fns.lifespan(stream->stream_data).start;
 	// ArenaVector arena = ArenaVector_init();
-	QueueInfoVector queue = QueueInfoVector_with_capacity(1);
+	QueueInfoVector queue		  = QueueInfoVector_with_capacity(1);
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
-	double robustness = 0.0;
+	double robustness			  = 0.0;
 
 	NodeIdVector nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
 
@@ -1004,7 +1004,7 @@ double Stream_robustness_by_length(Stream* stream) {
 		printf("From %zu\n", from);
 		for (size_t t = 0; t < nodes.size; t++) {
 			printf("To %zu\n", t);
-			NodeId to = nodes.array[t];
+			NodeId to				 = nodes.array[t];
 			double robustness_before = robustness;
 			if (from == to) {
 				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
@@ -1040,7 +1040,7 @@ double Stream_robustness_by_length(Stream* stream) {
 					}
 					else if (optimal.type == WALK) {
 						Interval optimality = optimal.result.walk.optimality;
-						current_time = optimality.end;
+						current_time		= optimality.end;
 					}
 					if (current_time == previous_time) {
 						current_time++;
@@ -1101,7 +1101,7 @@ bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
 
 	// Check the first node
 	NodeId first_node = va_arg(args, NodeId);
-	Link first_link = fns.link_by_id(stream.stream_data, walk->steps.array[0].link);
+	Link first_link	  = fns.link_by_id(stream.stream_data, walk->steps.array[0].link);
 	// printf("Checking first node %zu\n", first_node);
 	if (first_link.nodes[0] != first_node && first_link.nodes[1] != first_node) {
 		// printf("First node %zu FALSE\n", first_node);
@@ -1121,7 +1121,7 @@ bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
 
 	// Check the last node
 	NodeId last_node = va_arg(args, NodeId);
-	Link last_link = fns.link_by_id(stream.stream_data, walk->steps.array[nb_steps - 1].link);
+	Link last_link	 = fns.link_by_id(stream.stream_data, walk->steps.array[nb_steps - 1].link);
 	// printf("Checking last node %zu\n", last_node);
 	if (last_link.nodes[0] != last_node && last_link.nodes[1] != last_node) {
 		// printf("Last node %zu FALSE\n", last_node);

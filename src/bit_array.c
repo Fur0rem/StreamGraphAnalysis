@@ -86,7 +86,7 @@ void BitArray_destroy(BitArray array) {
 
 char* BitArray_to_string(BitArray array) {
 	size_t n_bits = array.nb_bits;
-	char* str = MALLOC((n_bits + 1) * sizeof(char));
+	char* str	  = MALLOC((n_bits + 1) * sizeof(char));
 	for (size_t i = 0; i < n_bits; i++) {
 		str[i] = BitArray_is_one(array, i) ? '1' : '0';
 	}

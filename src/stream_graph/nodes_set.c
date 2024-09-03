@@ -3,9 +3,10 @@
 #include <stddef.h>
 
 TemporalNodesSet TemporalNodesSet_alloc(size_t nb_nodes) {
-	TemporalNodesSet set;
-	set.nb_nodes = nb_nodes;
-	set.nodes = MALLOC(nb_nodes * sizeof(TemporalNode));
+	TemporalNodesSet set = {
+		.nb_nodes = nb_nodes,
+		.nodes	  = MALLOC(nb_nodes * sizeof(TemporalNode)),
+	};
 	return set;
 }
 

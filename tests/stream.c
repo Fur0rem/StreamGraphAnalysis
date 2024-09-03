@@ -14,7 +14,7 @@ bool load() {
 
 bool test_load_slices() {
 	StreamGraph sg = StreamGraph_from_file("data/S_multiple_slices.txt");
-	char* str = StreamGraph_to_string(&sg);
+	char* str	   = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
 	EXPECT(StreamGraph_lifespan_begin(&sg) == 0);
@@ -25,21 +25,21 @@ bool test_load_slices() {
 
 bool test_find_index_of_time() {
 	StreamGraph sg = StreamGraph_from_file("data/S.txt");
-	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 75);
+	size_t index   = KeyMomentsTable_find_time_index(&sg.key_moments, 75);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_in_slices() {
 	StreamGraph sg = StreamGraph_from_file("data/S_multiple_slices.txt");
-	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 750);
+	size_t index   = KeyMomentsTable_find_time_index(&sg.key_moments, 750);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_not_found() {
 	StreamGraph sg = StreamGraph_from_file("data/S.txt");
-	size_t index = KeyMomentsTable_find_time_index(&sg.key_moments, 999999);
+	size_t index   = KeyMomentsTable_find_time_index(&sg.key_moments, 999999);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, sg.events.nb_events);
 }
@@ -90,7 +90,7 @@ bool test_external_format() {
 
 bool test_from_external_format() {
 	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
-	char* str = StreamGraph_to_string(&sg);
+	char* str	   = StreamGraph_to_string(&sg);
 	printf("%s\n", str);
 	free(str);
 	StreamGraph_destroy(sg);
@@ -99,16 +99,15 @@ bool test_from_external_format() {
 
 int main() {
 	Test* tests[] = {
-		&(Test){"load",						 load							 },
-		&(Test){"load_slices",				   test_load_slices				   },
-		&(Test){"find_index_of_time",			  test_find_index_of_time			 },
-		&(Test){"find_index_of_time_in_slices", test_find_index_of_time_in_slices},
-		&(Test){"find_index_of_time_not_found", test_find_index_of_time_not_found},
-		&(Test){"init_events_table",			 test_init_events_table		   },
-		&(Test){"external_format",			   test_external_format			   },
-		&(Test){"from_external_format",			test_from_external_format		 },
-
-		NULL
+		TEST(load),
+		TEST(test_load_slices),
+		TEST(test_find_index_of_time),
+		TEST(test_find_index_of_time_in_slices),
+		TEST(test_find_index_of_time_not_found),
+		TEST(test_init_events_table),
+		TEST(test_external_format),
+		TEST(test_from_external_format),
+		NULL,
 	};
 
 	return test("StreamGraph", tests);

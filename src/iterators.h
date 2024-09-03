@@ -68,7 +68,7 @@ struct TimesIterator {
 																	(iterator).destroy(&(iterator));                   \
 																	0;                                                 \
 																});                                                    \
-		 (iterated) = (iterator).next(&(iterator)))
+		 (iterated)				= (iterator).next(&(iterator)))
 /** @endcond */
 
 /**

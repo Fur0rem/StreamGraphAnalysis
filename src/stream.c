@@ -43,7 +43,7 @@ char* get_to_header(const char* str, const char* header) {
 // TODO : turn these into functions
 #define NEXT_HEADER(section)                                                                                           \
 	current_header = "" #section "";                                                                                   \
-	(str) = get_to_header(str, current_header);
+	(str)		   = get_to_header(str, current_header);
 
 #define EXPECTED_NB_SCANNED(expected)                                                                                  \
 	if (nb_scanned != (expected)) {                                                                                    \
@@ -72,7 +72,7 @@ char* get_to_header(const char* str, const char* header) {
 
 #define PRINT_LINE(str)                                                                                                \
 	{                                                                                                                  \
-		char* end = strchr(str, '\n');                                                                                 \
+		char* end  = strchr(str, '\n');                                                                                \
 		char* line = (char*)malloc(end - (str) + 1);                                                                   \
 		strncpy(line, str, end - (str));                                                                               \
 		line[end - (str)] = '\0';                                                                                      \
@@ -98,7 +98,7 @@ char* get_to_header(const char* str, const char* header) {
 StreamGraph StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
-	int nb_scanned = -1;
+	int nb_scanned		 = -1;
 	char* current_header = NULL;
 
 	// Skip first line (version control)
@@ -137,8 +137,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	size_t* key_moments = (size_t*)malloc(nb_key_moments * sizeof(size_t));
 	// Allocate the stream graph
 	sg.key_moments = KeyMomentsTable_alloc(nb_slices);
-	sg.nodes = TemporalNodesSet_alloc(nb_nodes);
-	sg.links = LinksSet_alloc(nb_links);
+	sg.nodes	   = TemporalNodesSet_alloc(nb_nodes);
+	sg.links	   = LinksSet_alloc(nb_links);
 
 	// Parse the memory needed for the nodes
 	NEXT_HEADER([[Nodes]]);
@@ -151,7 +151,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		GO_TO_NEXT_LINE(str);
 		// Allocate the neighbours
 		sg.nodes.nodes[node].nb_neighbours = nb_neighbours;
-		sg.nodes.nodes[node].neighbours = (LinkId*)malloc(nb_neighbours * sizeof(LinkId));
+		sg.nodes.nodes[node].neighbours	   = (LinkId*)malloc(nb_neighbours * sizeof(LinkId));
 	}
 
 	NEXT_HEADER([[[NumberOfIntervals]]]);
@@ -162,7 +162,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		IntervalsSet presence		  = IntervalsSet_alloc(nb_intervals);
 		sg.nodes.nodes[node].presence = presence;
 	}
 
@@ -175,7 +175,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		EXPECTED_NB_SCANNED(1);
 		GO_TO_NEXT_LINE(str);
 		// Allocate the intervals
-		IntervalsSet presence = IntervalsSet_alloc(nb_intervals);
+		IntervalsSet presence		  = IntervalsSet_alloc(nb_intervals);
 		sg.links.links[link].presence = presence;
 	}
 
@@ -334,7 +334,7 @@ StreamGraph StreamGraph_from_file(const char* filename) {
 		exit(1);
 	}
 	fread(buffer, 1, size, file);
-	buffer[size] = '\0';
+	buffer[size]	 = '\0';
 	buffer[size + 1] = '\0';
 	fclose(file);
 
@@ -585,13 +585,13 @@ char* InternalFormat_from_External_str(const char* str) {
 	// EventTupleVector events = EventTupleVector_with_capacity(10);
 	EventTupleVectorVector events = EventTupleVectorVector_with_capacity(10);
 	// LinkHashset links = LinkHashset_with_capacity(10);
-	LinkInfoVector links = LinkInfoVector_with_capacity(10);
-	LinkInfoVector nodes = LinkInfoVector_with_capacity(10);
+	LinkInfoVector links   = LinkInfoVector_with_capacity(10);
+	LinkInfoVector nodes   = LinkInfoVector_with_capacity(10);
 	size_t biggest_node_id = 0;
 
 	// Parse the events
-	size_t nb_events = 0;
-	size_t current_vec = 0;
+	size_t nb_events			  = 0;
+	size_t current_vec			  = 0;
 	size_tVector number_of_slices = size_tVector_with_capacity(10);
 	// printf("parsing events\n");
 	while (strncmp(str, "[EndOfStream]", 11) != 0) {
@@ -901,8 +901,8 @@ char* InternalFormat_from_External_str(const char* str) {
 				LinkIdMap* og = LinkIdMapHashset_find(link_id_map, id);
 				size_t link_id = og->id;*/
 				EventTuple e = events.array[i].array[j];
-				size_t idx1 = e.id.node1;
-				size_t idx2 = e.id.node2;
+				size_t idx1	 = e.id.node1;
+				size_t idx2	 = e.id.node2;
 				// printf("idx1 : %zu, idx2 : %zu, idx2 - idx1 : %zu\n", idx1, idx2, idx2 - idx1);
 				size_t link_id = link_id_map[idx1 * (biggest_node_id + 1) + idx2];
 				// printf("link_id: %zu\n", link_id);
@@ -957,7 +957,7 @@ char* InternalFormat_from_External_str(const char* str) {
 }
 
 char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
-	charVector vec = charVector_new();
+	charVector vec	   = charVector_new();
 	TemporalNode* node = &sg->nodes.nodes[node_idx];
 	charVector_append(&vec, APPEND_CONST("\tNode "));
 	char number[50];
@@ -979,9 +979,9 @@ char* TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	charVector_append(&vec, APPEND_CONST("\t\tNeighbours={\n\t\t\t"));
 	for (size_t i = 0; i < node->nb_neighbours; i++) {
 		// get the names of the neighbours through the links
-		size_t link_idx = node->neighbours[i];
-		size_t node1 = sg->links.links[link_idx].nodes[0];
-		size_t node2 = sg->links.links[link_idx].nodes[1];
+		size_t link_idx		 = node->neighbours[i];
+		size_t node1		 = sg->links.links[link_idx].nodes[0];
+		size_t node2		 = sg->links.links[link_idx].nodes[1];
 		size_t neighbour_idx = (node1 == node_idx) ? node2 : node1;
 		sprintf(number, "N %zu", neighbour_idx);
 		charVector_append(&vec, number, strlen(number));
@@ -1232,8 +1232,8 @@ void init_events_table(StreamGraph* sg) {
 		// For each interval
 		for (size_t j = 0; j < node->presence.nb_intervals; j++) {
 			Interval interval = node->presence.intervals[j];
-			size_t start = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
-			size_t end = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			size_t start	  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
+			size_t end		  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
 			// Invalidate the bit of the presence mask
 			if (end < sg->events.node_events.disappearance_index) {
 				// printf("invalidating %zu\n", end);
@@ -1274,8 +1274,8 @@ void init_events_table(StreamGraph* sg) {
 		Link* link = &sg->links.links[i];
 		for (size_t j = 0; j < link->presence.nb_intervals; j++) {
 			Interval interval = link->presence.intervals[j];
-			size_t start = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
-			size_t end = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			size_t start	  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
+			size_t end		  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
 			if (end < sg->events.link_events.disappearance_index) {
 				BitArray_set_zero(sg->events.link_events.presence_mask, end);
 			}
@@ -1402,7 +1402,7 @@ StreamGraph StreamGraph_from_external(const char* filename) {
 
 	// Read the file into a buffer
 	char* buffer = (char*)malloc(file_size * sizeof(char) + 1);
-	size_t read = fread(buffer, sizeof(char), file_size, file);
+	size_t read	 = fread(buffer, sizeof(char), file_size, file);
 	if (read != file_size) {
 		fprintf(stderr, "Error: could not read the file %s\n", filename);
 		exit(1);

@@ -10,7 +10,7 @@
 bool test_maximal_cliques() {
 	// StreamGraph sg = StreamGraph_from_file("data/internal_cliques.txt");
 	StreamGraph sg = StreamGraph_from_external("data/cliques.txt");
-	Stream st = FullStreamGraph_from(&sg);
+	Stream st	   = FullStreamGraph_from(&sg);
 
 	CliqueVector cliques = Stream_maximal_cliques(&st);
 
@@ -46,9 +46,8 @@ bool test_maximal_cliques() {
 
 int main() {
 	Test* tests[] = {
-		&(Test){"maximal_cliques", test_maximal_cliques},
-
-		NULL
+		TEST(test_maximal_cliques),
+		NULL,
 	};
 
 	return test("Cliques", tests);
