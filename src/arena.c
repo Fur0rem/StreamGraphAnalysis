@@ -3,7 +3,7 @@
 #include "vector.h"
 
 void Arena_init(Arena* arena) {
-	arena->data = MALLOC(ARENA_SIZE);
+	arena->data		 = MALLOC(ARENA_SIZE);
 	arena->size_left = ARENA_SIZE;
 }
 

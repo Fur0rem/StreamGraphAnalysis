@@ -23,14 +23,14 @@ size_t Interval_size(Interval interval) {
 Interval Interval_from(TimeId start, TimeId end) {
 	Interval interval;
 	interval.start = start;
-	interval.end = end;
+	interval.end   = end;
 	return interval;
 }
 
 Interval Interval_intersection(Interval a, Interval b) {
 	Interval intersection;
 	intersection.start = a.start > b.start ? a.start : b.start;
-	intersection.end = a.end < b.end ? a.end : b.end;
+	intersection.end   = a.end < b.end ? a.end : b.end;
 	return intersection;
 }
 
@@ -45,7 +45,7 @@ size_t IntervalsSet_size(IntervalsSet intervals_set) {
 IntervalsSet IntervalsSet_alloc(size_t nb_intervals) {
 	IntervalsSet set;
 	set.nb_intervals = nb_intervals;
-	set.intervals = MALLOC(nb_intervals * sizeof(Interval));
+	set.intervals	 = MALLOC(nb_intervals * sizeof(Interval));
 	return set;
 }
 
@@ -73,7 +73,7 @@ void IntervalsSet_destroy(IntervalsSet intervals_set) {
 // TODO: Could probably be optimized
 void IntervalsSet_merge(IntervalsSet* intervals_set) {
 	IntervalVector merged = IntervalVector_with_capacity(intervals_set->nb_intervals);
-	Interval current = intervals_set->intervals[0];
+	Interval current	  = intervals_set->intervals[0];
 	for (size_t i = 1; i < intervals_set->nb_intervals; i++) {
 		Interval next = intervals_set->intervals[i];
 		if (current.start == next.start) {
@@ -109,8 +109,8 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b) {
 	IntervalVector intersection = IntervalVector_with_capacity(a.nb_intervals + b.nb_intervals);
 	for (size_t i = 0; i < a.nb_intervals; i++) {
 		for (size_t j = 0; j < b.nb_intervals; j++) {
-			Interval a_interval = a.intervals[i];
-			Interval b_interval = b.intervals[j];
+			Interval a_interval			   = a.intervals[i];
+			Interval b_interval			   = b.intervals[j];
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
 			if (Interval_size(intersection_interval) > 0) {
 				IntervalVector_push(&intersection, intersection_interval);

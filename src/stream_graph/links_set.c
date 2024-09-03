@@ -2,21 +2,27 @@
 #include "../utils.h"
 
 LinksSet LinksSet_alloc(size_t nb_links) {
-	LinksSet set;
-	set.nb_links = nb_links;
-	set.links = MALLOC(nb_links * sizeof(Link));
+	LinksSet set = {
+		.nb_links = nb_links,
+		.links	  = MALLOC(nb_links * sizeof(Link)),
+	};
 	return set;
 }
 
 String Link_to_string(const Link* link) {
-	char* str = MALLOC(9999);
-	snprintf(str, 9999, "		(%lu - %lu), Intervals : [", link->nodes[0], link->nodes[1]);
+	char link_str[100];
+	sprintf(link_str, "(%lu - %lu), Intervals : [", link->nodes[0], link->nodes[1]);
+	String str = String_from_duplicate(link_str);
+
 	for (size_t i = 0; i < link->presence.nb_intervals; i++) {
-		snprintf(str + strlen(str), 9999 - strlen(str), "[%lu, %lu[ U ", link->presence.intervals[i].start,
-				 link->presence.intervals[i].end);
+		String interval_str = Interval_to_string(&link->presence.intervals[i]);
+		String_concat_consume(&str, &interval_str);
+		String_push_str(&str, " U ");
 	}
-	snprintf(str + strlen(str) - 3, 9999 - strlen(str), "]\n");
-	return String_from_owned(str);
+
+	String_pop_n(&str, 3);
+	String_push_str(&str, "]\n");
+	return str;
 }
 
 bool Link_equals(const Link* a, const Link* b) {

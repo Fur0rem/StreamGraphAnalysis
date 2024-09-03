@@ -17,4 +17,4 @@ AllowShortBlocksOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: true
 AlignConsecutiveMacros: true
 IndentPPDirectives: AfterHash
-AlignArrayOfStructures: Left
+AlignConsecutiveAssignments: true

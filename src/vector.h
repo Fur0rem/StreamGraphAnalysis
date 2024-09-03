@@ -226,15 +226,15 @@
                                                                                                                        \
 	void type##Vector_reverse(type##Vector* vec) {                                                                     \
 		for (size_t i = 0; i < vec->size / 2; i++) {                                                                   \
-			type tmp = vec->array[i];                                                                                  \
-			vec->array[i] = vec->array[vec->size - i - 1];                                                             \
+			type tmp					  = vec->array[i];                                                             \
+			vec->array[i]				  = vec->array[vec->size - i - 1];                                             \
 			vec->array[vec->size - i - 1] = tmp;                                                                       \
 		}                                                                                                              \
 	}                                                                                                                  \
                                                                                                                        \
 	void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values) {                                \
 		if (vec->size + nb_values > vec->capacity) {                                                                   \
-			vec->capacity = vec->size + nb_values;                                                                     \
+			vec->capacity	= vec->size + nb_values;                                                                   \
 			type* new_array = (type*)malloc(sizeof(type) * vec->capacity);                                             \
 			memcpy(new_array, vec->array, sizeof(type) * vec->size);                                                   \
 			free(vec->array);                                                                                          \

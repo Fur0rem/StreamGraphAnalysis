@@ -119,4 +119,7 @@ int String_hash(const String* string);
 
 char* read_file(const char* filename);
 
+void String_pop_n(String* string, size_t n);
+void String_pop(String* string);
+
 #endif

@@ -73,24 +73,24 @@ void LinkStream_iter_destroy(NodesIterator* iterator) {
 
 // TRICK : kind of weird hack but it works ig?
 NodesIterator LinkStream_nodes_set(StreamData* stream_data) {
-	LinkStream* link_stream = (LinkStream*)stream_data;
-	FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
+	LinkStream* link_stream					   = (LinkStream*)stream_data;
+	FullStreamGraph* full_stream_graph		   = MALLOC(sizeof(FullStreamGraph));
 	full_stream_graph->underlying_stream_graph = link_stream->underlying_stream_graph;
-	NodesIterator n = FullStreamGraph_stream_functions.nodes_set(full_stream_graph);
+	NodesIterator n							   = FullStreamGraph_stream_functions.nodes_set(full_stream_graph);
 	free(n.iterator_data);
-	n.iterator_data = MALLOC(sizeof(LinkStreamNodesSetIteratorData));
+	n.iterator_data								  = MALLOC(sizeof(LinkStreamNodesSetIteratorData));
 	LinkStreamNodesSetIteratorData* iterator_data = (LinkStreamNodesSetIteratorData*)n.iterator_data;
-	iterator_data->fsg = full_stream_graph;
-	iterator_data->current_node = 0;
-	n.stream_graph.type = LINK_STREAM;
-	n.destroy = LinkStream_iter_destroy;
+	iterator_data->fsg							  = full_stream_graph;
+	iterator_data->current_node					  = 0;
+	n.stream_graph.type							  = LINK_STREAM;
+	n.destroy									  = LinkStream_iter_destroy;
 	return n;
 }
 
 LinksIterator LinkStream_links_set(StreamData* stream_data) {
-	LinkStream* link_stream = (LinkStream*)stream_data;
+	LinkStream* link_stream	 = (LinkStream*)stream_data;
 	Stream full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	FullStreamGraph* fsg = (FullStreamGraph*)full_stream_graph.stream_data;
+	FullStreamGraph* fsg	 = (FullStreamGraph*)full_stream_graph.stream_data;
 	return FullStreamGraph_stream_functions.links_set(fsg);
 }
 
@@ -106,16 +106,16 @@ size_t LinkStream_scaling(StreamData* stream_data) {
 }
 
 NodesIterator LinkStream_nodes_present_at_t(StreamData* stream_data, TimeId instant) {
-	LinkStream* link_stream = (LinkStream*)stream_data;
+	LinkStream* link_stream	 = (LinkStream*)stream_data;
 	Stream full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	FullStreamGraph* fsg = (FullStreamGraph*)full_stream_graph.stream_data;
+	FullStreamGraph* fsg	 = (FullStreamGraph*)full_stream_graph.stream_data;
 	return FullStreamGraph_stream_functions.nodes_set(fsg);
 }
 
 LinksIterator LinkStream_links_present_at_t(StreamData* stream_data, TimeId instant) {
-	LinkStream* link_stream = (LinkStream*)stream_data;
+	LinkStream* link_stream	 = (LinkStream*)stream_data;
 	Stream full_stream_graph = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	FullStreamGraph* fsg = (FullStreamGraph*)full_stream_graph.stream_data;
+	FullStreamGraph* fsg	 = (FullStreamGraph*)full_stream_graph.stream_data;
 	return FullStreamGraph_stream_functions.links_present_at_t(fsg, instant);
 }
 
@@ -126,7 +126,7 @@ typedef struct {
 
 Interval LinkStream_TimesNodePresent_next(TimesIterator* iter) {
 	TimesNodePresentIteratorData* times_iter_data = (TimesNodePresentIteratorData*)iter->iterator_data;
-	StreamGraph* stream_graph = iter->stream_graph.stream_data;
+	StreamGraph* stream_graph					  = iter->stream_graph.stream_data;
 	if (times_iter_data->has_been_called) {
 		return (Interval){.start = SIZE_MAX};
 	}
@@ -139,19 +139,19 @@ void LinkStream_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
 }
 
 TimesIterator LinkStream_times_node_present(StreamData* stream_data, NodeId node_id) {
-	LinkStream* link_stream = (LinkStream*)stream_data;
+	LinkStream* link_stream						= (LinkStream*)stream_data;
 	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = link_stream->underlying_stream_graph};
 	// Stream* stream = MALLOC(sizeof(Stream));
 	// stream->type = FULL_STREAM_GRAPH;
 	// stream->stream = link_stream->underlying_stream_graph;
 	iterator_data->has_been_called = false;
-	TimesIterator times_iterator = {
-		.stream_graph = stream,
-		.iterator_data = iterator_data,
-		.next = LinkStream_TimesNodePresent_next,
-		.destroy = LinkStream_TimesNodePresentIterator_destroy,
-	};
+	TimesIterator times_iterator   = {
+		  .stream_graph	 = stream,
+		  .iterator_data = iterator_data,
+		  .next			 = LinkStream_TimesNodePresent_next,
+		  .destroy		 = LinkStream_TimesNodePresentIterator_destroy,
+	  };
 	return times_iterator;
 }
 
@@ -162,9 +162,9 @@ TimesIterator LinkStream_times_link_present(StreamData* stream_data, LinkId link
 }
 
 Stream LS_from(StreamGraph* stream_graph) {
-	LinkStream* link_stream = MALLOC(sizeof(LinkStream));
+	LinkStream* link_stream				 = MALLOC(sizeof(LinkStream));
 	link_stream->underlying_stream_graph = stream_graph;
-	Stream stream = {.type = LINK_STREAM, .stream_data = link_stream};
+	Stream stream						 = {.type = LINK_STREAM, .stream_data = link_stream};
 	init_cache(&stream);
 	return stream;
 }
@@ -180,8 +180,8 @@ Link LinkStream_link_by_id(StreamData* stream_data, LinkId link_id) {
 
 LinksIterator LinkStream_neighbours_of_node(StreamData* stream_data, NodeId node_id) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
-	Stream st = FullStreamGraph_from(link_stream->underlying_stream_graph);
-	FullStreamGraph* fsg = (FullStreamGraph*)st.stream_data;
+	Stream st				= FullStreamGraph_from(link_stream->underlying_stream_graph);
+	FullStreamGraph* fsg	= (FullStreamGraph*)st.stream_data;
 	return FullStreamGraph_stream_functions.neighbours_of_node(fsg, node_id);
 }
 
@@ -191,14 +191,14 @@ TemporalNode LinkStream_node_by_id(StreamData* stream_data, NodeId node_id) {
 }
 
 LinkId LinkStream_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
-	TemporalNode n1 = LinkStream_node_by_id(stream_data, node_id);
-	TemporalNode n2 = LinkStream_node_by_id(stream_data, other_node_id);
+	TemporalNode n1			 = LinkStream_node_by_id(stream_data, node_id);
+	TemporalNode n2			 = LinkStream_node_by_id(stream_data, other_node_id);
 	TemporalNode to_research = n1.nb_neighbours < n2.nb_neighbours ? n1 : n2;
 	// Since the nodes are sorted, we can use a binary search
-	size_t left = 0;
+	size_t left	 = 0;
 	size_t right = to_research.nb_neighbours;
 	while (left < right) {
-		size_t mid = left + (right - left) / 2;
+		size_t mid		 = left + (right - left) / 2;
 		NodeId neighbour = to_research.neighbours[mid];
 		if (neighbour == other_node_id) {
 			return to_research.neighbours[mid];
@@ -214,15 +214,15 @@ LinkId LinkStream_links_between_nodes(StreamData* stream_data, NodeId node_id, N
 }
 
 const StreamFunctions LinkStream_stream_functions = {
-	.nodes_set = LinkStream_nodes_set,
-	.links_set = LinkStream_links_set,
-	.lifespan = LinkStream_lifespan,
-	.scaling = LinkStream_scaling,
+	.nodes_set			= LinkStream_nodes_set,
+	.links_set			= LinkStream_links_set,
+	.lifespan			= LinkStream_lifespan,
+	.scaling			= LinkStream_scaling,
 	.nodes_present_at_t = LinkStream_nodes_present_at_t,
 	.links_present_at_t = LinkStream_links_present_at_t,
 	.times_node_present = LinkStream_times_node_present,
 	.times_link_present = LinkStream_times_link_present,
-	.link_by_id = LinkStream_link_by_id,
+	.link_by_id			= LinkStream_link_by_id,
 	.neighbours_of_node = LinkStream_neighbours_of_node,
 };
 
@@ -232,15 +232,15 @@ double LS_coverage(Stream* stream_data) {
 
 size_t LS_cardinal_of_T(Stream* stream) {
 	LinkStream* ls = (LinkStream*)stream->stream_data;
-	size_t t = Interval_size(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
-										   StreamGraph_lifespan_end(ls->underlying_stream_graph)));
+	size_t t	   = Interval_size(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
+												 StreamGraph_lifespan_end(ls->underlying_stream_graph)));
 	UPDATE_CACHE(stream, cardinalOfT, t);
 	return t;
 }
 
 size_t LS_cardinal_of_V(Stream* stream) {
 	LinkStream* ls = (LinkStream*)stream->stream_data;
-	size_t v = ls->underlying_stream_graph->nodes.nb_nodes;
+	size_t v	   = ls->underlying_stream_graph->nodes.nb_nodes;
 	UPDATE_CACHE(stream, cardinalOfV, v);
 	return v;
 }
@@ -260,10 +260,10 @@ double density(Stream* stream) {
 }
 
 const MetricsFunctions LinkStream_metrics_functions = {
-	.coverage = LS_coverage,
-	.cardinalOfT = NULL,
-	.cardinalOfV = LS_cardinal_of_V,
-	.cardinalOfW = LS_cardinal_of_W,
+	.coverage	   = LS_coverage,
+	.cardinalOfT   = NULL,
+	.cardinalOfV   = LS_cardinal_of_V,
+	.cardinalOfW   = LS_cardinal_of_W,
 	.node_duration = NULL,
-	.density = density,
+	.density	   = density,
 };

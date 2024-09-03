@@ -41,22 +41,22 @@ bool test_doesnt_contain() {
 }
 
 bool test_intersection_1() {
-	Interval a = (Interval){.start = 5, .end = 10};
-	Interval b = (Interval){.start = 7, .end = 12};
+	Interval a			  = (Interval){.start = 5, .end = 10};
+	Interval b			  = (Interval){.start = 7, .end = 12};
 	Interval intersection = Interval_intersection(a, b);
 	return EXPECT_EQ(intersection.start, 7) && EXPECT_EQ(intersection.end, 10);
 }
 
 bool test_intersection_2() {
-	Interval a = (Interval){.start = 5, .end = 10};
-	Interval b = (Interval){.start = 10, .end = 12};
+	Interval a			  = (Interval){.start = 5, .end = 10};
+	Interval b			  = (Interval){.start = 10, .end = 12};
 	Interval intersection = Interval_intersection(a, b);
 	return EXPECT_EQ(intersection.start, 10) && EXPECT_EQ(intersection.end, 10);
 }
 
 bool test_intersection_none() {
-	Interval a = (Interval){.start = 5, .end = 10};
-	Interval b = (Interval){.start = 11, .end = 12};
+	Interval a			  = (Interval){.start = 5, .end = 10};
+	Interval b			  = (Interval){.start = 11, .end = 12};
 	Interval intersection = Interval_intersection(a, b);
 	return EXPECT_EQ(Interval_size(intersection), 0);
 }
@@ -95,11 +95,11 @@ bool test_intervals_set_merge_independent() {
 }
 
 bool test_intervals_set_union_overlap() {
-	IntervalsSet a = IntervalsSet_alloc(1);
-	a.intervals[0] = (Interval){.start = 0, .end = 10};
-	IntervalsSet b = IntervalsSet_alloc(2);
-	b.intervals[0] = (Interval){.start = 0, .end = 4};
-	b.intervals[1] = (Interval){.start = 5, .end = 10};
+	IntervalsSet a		  = IntervalsSet_alloc(1);
+	a.intervals[0]		  = (Interval){.start = 0, .end = 10};
+	IntervalsSet b		  = IntervalsSet_alloc(2);
+	b.intervals[0]		  = (Interval){.start = 0, .end = 4};
+	b.intervals[1]		  = (Interval){.start = 5, .end = 10};
 	IntervalsSet union_ab = IntervalsSet_union(a, b);
 	for (size_t i = 0; i < union_ab.nb_intervals; i++) {
 		printf("[%lu, %lu]\n", union_ab.intervals[i].start, union_ab.intervals[i].end);
@@ -110,22 +110,22 @@ bool test_intervals_set_union_overlap() {
 
 int main() {
 	Test* tests[] = {
-		&(Test){"size_1",						  test_size_1						 },
-		&(Test){"size_2",						  test_size_2						 },
-		&(Test){"size_none",						 test_size_none					   },
-		&(Test){"contains",						test_contains						 },
-		&(Test){"contains_start",				  test_contains_start				 },
-		&(Test){"doesnt_contains_end",			   test_doesnt_contains_end			   },
-		&(Test){"doesnt_contain",				  test_doesnt_contain				 },
-		&(Test){"intersection_1",				  test_intersection_1				 },
-		&(Test){"intersection_2",				  test_intersection_2				 },
-		&(Test){"intersection_none",				 test_intersection_none			   },
-		&(Test){"intervals_set_merge_contained",	 test_intervals_set_merge_contained  },
-		&(Test){"intervals_set_merge_overlap",	   test_intervals_set_merge_overlap	   },
-		&(Test){"intervals_set_merge_contiguous",  test_intervals_set_merge_contiguous },
-		&(Test){"intervals_set_merge_independent", test_intervals_set_merge_independent},
-		&(Test){"intervals_set_union_overlap",	   test_intervals_set_union_overlap	   },
-		NULL
+		TEST(test_size_1),
+		TEST(test_size_2),
+		TEST(test_size_none),
+		TEST(test_contains),
+		TEST(test_contains_start),
+		TEST(test_doesnt_contains_end),
+		TEST(test_doesnt_contain),
+		TEST(test_intersection_1),
+		TEST(test_intersection_2),
+		TEST(test_intersection_none),
+		TEST(test_intervals_set_merge_contained),
+		TEST(test_intervals_set_merge_overlap),
+		TEST(test_intervals_set_merge_contiguous),
+		TEST(test_intervals_set_merge_independent),
+		TEST(test_intervals_set_union_overlap),
+		NULL,
 	};
 
 	return test("Interval", tests);

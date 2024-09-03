@@ -18,10 +18,10 @@ size_t KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
 }
 
 void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment) {
-	size_t slice = key_moment / SLICE_SIZE;
+	size_t slice		   = key_moment / SLICE_SIZE;
 	size_t relative_moment = key_moment % SLICE_SIZE;
 	if (slice != kmt->fill_info.current_slice) {
-		kmt->fill_info.current_slice = slice;
+		kmt->fill_info.current_slice  = slice;
 		kmt->fill_info.current_moment = 0;
 	}
 	kmt->slices[slice].moments[kmt->fill_info.current_moment] = relative_moment;
@@ -29,17 +29,21 @@ void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment) {
 }
 
 KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices) {
-	KeyMomentsTable kmt;
-	kmt.nb_slices = nb_slices;
-	kmt.slices = (MomentsSlice*)MALLOC(nb_slices * sizeof(MomentsSlice));
-	kmt.fill_info.current_slice = 0;
-	kmt.fill_info.current_moment = 0;
+	KeyMomentsTable kmt = {
+		.nb_slices = nb_slices,
+		.slices	   = (MomentsSlice*)MALLOC(nb_slices * sizeof(MomentsSlice)),
+		.fill_info =
+			{
+						.current_slice	= 0,
+						.current_moment = 0,
+						},
+	};
 	return kmt;
 }
 
 void KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments) {
 	kmt->slices[slice].nb_moments = nb_moments;
-	kmt->slices[slice].moments = (RelativeMoment*)MALLOC(nb_moments * sizeof(RelativeMoment));
+	kmt->slices[slice].moments	  = (RelativeMoment*)MALLOC(nb_moments * sizeof(RelativeMoment));
 }
 
 size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt) {
@@ -55,25 +59,11 @@ size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt) {
 }
 
 size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
-	size_t last_slice_idx = kmt->nb_slices - 1;
+	size_t last_slice_idx  = kmt->nb_slices - 1;
 	size_t last_moment_idx = kmt->slices[last_slice_idx].nb_moments - 1;
-	size_t last_moment = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * SLICE_SIZE);
+	size_t last_moment	   = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * SLICE_SIZE);
 	return last_moment;
 }
-
-// DEFAULT_COMPARE(size_t2)
-// DEFAULT_TO_STRING(size_t2, "%zu")
-
-// size_t2Vector KeyMomentsTable_all_moments(KeyMomentsTable* kmt) {
-// 	size_t2Vector moments = size_t2Vector_with_capacity(100);
-// 	for (size_t i = 0; i < kmt->nb_slices; i++) {
-// 		for (size_t j = 0; j < kmt->slices[i].nb_moments; j++) {
-// 			size_t2Vector_push(&moments, kmt->slices[i].moments[j] + (i * SLICE_SIZE));
-// 		}
-// 	}
-// 	return moments;
-// }
-
 void KeyMomentsTable_destroy(KeyMomentsTable kmt) {
 	for (size_t i = 0; i < kmt.nb_slices; i++) {
 		free(kmt.slices[i].moments);
@@ -98,7 +88,7 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
 	// Then we find the index of the time in the slice
 	size_t relative_time = t % SLICE_SIZE;
 	// Recherche dichotomique
-	size_t left = 0;
+	size_t left	 = 0;
 	size_t right = kmt->slices[slice].nb_moments;
 	while (left < right) {
 		size_t mid = (left + right) / 2;

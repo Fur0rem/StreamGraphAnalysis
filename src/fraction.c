@@ -27,8 +27,8 @@ SGA_Fraction SGA_Fraction_simplify(SGA_Fraction a) {
 	size_t temp;
 	while (den != 0) {
 		temp = den;
-		den = num % den;
-		num = temp;
+		den	 = num % den;
+		num	 = temp;
 	}
 	return SGA_Fraction_from(a.num / num, a.den / num);
 }
