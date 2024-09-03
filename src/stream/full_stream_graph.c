@@ -268,20 +268,23 @@ TemporalNode FullStreamGraph_node_by_id(StreamData* stream_data, size_t node_id)
 LinkId FullStreamGraph_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
 	TemporalNode n1 = FullStreamGraph_node_by_id(stream_data, node_id);
 	TemporalNode n2 = FullStreamGraph_node_by_id(stream_data, other_node_id);
-
+	NodeId to_look_for = other_node_id;
 	// Optimisation: we iterate over the smallest neighbour list
 	if (n1.nb_neighbours > n2.nb_neighbours) {
 		TemporalNode tmp = n1;
 		n1 = n2;
 		n2 = tmp;
+		to_look_for = node_id;
 	}
 
 	for (size_t i = 0; i < n1.nb_neighbours; i++) {
 		Link link = FullStreamGraph_link_by_id(stream_data, n1.neighbours[i]);
-		if (link.nodes[0] == other_node_id || link.nodes[1] == other_node_id) {
+		if (link.nodes[0] == to_look_for || link.nodes[1] == to_look_for) {
 			return n1.neighbours[i];
 		}
 	}
+
+	// No link found
 	return SIZE_MAX;
 }
 

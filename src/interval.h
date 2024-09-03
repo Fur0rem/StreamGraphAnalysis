@@ -18,6 +18,7 @@ typedef struct {
 } IntervalsSet;
 
 bool Interval_contains(Interval interval, TimeId time);
+bool Interval_contains_interval(Interval a, Interval b);
 size_t Interval_size(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
 Interval Interval_intersection(Interval a, Interval b);

@@ -8,6 +8,10 @@ bool Interval_contains(Interval interval, TimeId time) {
 	return interval.start <= time && time < interval.end;
 }
 
+bool Interval_contains_interval(Interval a, Interval b) {
+	return a.start <= b.start && b.end <= a.end;
+}
+
 size_t Interval_size(Interval interval) {
 	if (interval.start > interval.end) {
 		return 0;

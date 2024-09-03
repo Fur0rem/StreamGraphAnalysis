@@ -13,7 +13,6 @@ bool test_create() {
 bool test_set_one() {
 	BitArray bit_array = BitArray_with_n_bits(10);
 	BitArray_set_one(bit_array, 5);
-	char* str = BitArray_to_string(bit_array);
 	return EXPECT(bit_array.bits[0] == (1 << 5));
 }
 
