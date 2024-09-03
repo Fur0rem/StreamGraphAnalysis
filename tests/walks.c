@@ -194,6 +194,35 @@ bool test_walk() {
 	return true;
 }
 
+bool test_walk_node_not_present() {
+	StreamGraph sg = StreamGraph_from_external("data/bridge.txt");
+	Stream st = FullStreamGraph_from(&sg);
+	printf("Loaded graph\n");
+	WalkInfo w = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
+	String str = WalkInfo_to_string(&w);
+	printf("Walk from 0 to 3 at 0 : %s\n", str.data);
+
+	StreamFunctions fns = FullStreamGraph_stream_functions;
+
+	bool correct = true;
+	correct &= EXPECT_EQ((int)w.type, (int)WALK);
+	Walk w1 = w.walk_or_reason.walk;
+	correct &= EXPECT_EQ(w1.steps.size, 3);
+
+	LinkId link_0_1 = fns.links_between_nodes(st.stream_data, 0, 1);
+	LinkId link_1_2 = fns.links_between_nodes(st.stream_data, 1, 2);
+	LinkId link_2_3 = fns.links_between_nodes(st.stream_data, 2, 3);
+
+	correct &= EXPECT(w1.steps.array[0].link == link_0_1);
+	correct &= EXPECT(w1.steps.array[1].link == link_1_2);
+	correct &= EXPECT(w1.steps.array[2].link == link_2_3);
+
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
+	WalkInfo_destroy(w);
+	return correct;
+}
+
 // NOTE: I realised the definition of betweenness is more complicated than I thought
 // So ignore these tests for now
 // bool test_betweenness_of_node_at_time() {
@@ -227,19 +256,20 @@ bool test_robustness() {
 	double robustness = Stream_robustness_by_length(&st);
 	bool success = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
 
-	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(st);
+	StreamGraph_destroy(sg);
 	return success;
 }
 
 int main() {
 	Test* tests[] = {
-		&(Test){"walk_a_c",			test_walk_a_c		 },
-		&(Test){"walk_optimal",		test_walk_optimal	 },
-		&(Test){"fastest_shortest", test_fastest_shortest},
-		&(Test){"fastest",		   test_fastest		   },
-		&(Test){"robustness",		  test_robustness		 },
-		&(Test){"walk",				test_walk			 },
+		&(Test){"walk_a_c",				test_walk_a_c			 },
+		&(Test){"walk_optimal",			test_walk_optimal		 },
+		&(Test){"fastest_shortest",		test_fastest_shortest	 },
+		&(Test){"fastest",			   test_fastest			   },
+		&(Test){"robustness",			  test_robustness			 },
+		&(Test){"walk",					test_walk				 },
+		&(Test){"walk_node_not_present", test_walk_node_not_present},
  // &(Test){"betweenness_of_node_at_time",   test_betweenness_of_node_at_time  },
 	// &(Test){"betweenness_of_node_at_time_2", test_betweenness_of_node_at_time_2},
 

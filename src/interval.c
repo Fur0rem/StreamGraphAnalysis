@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "vector.h"
 #include <stddef.h>
+#include <stdint.h>
 
 bool Interval_contains(Interval interval, TimeId time) {
 	return interval.start <= time && time < interval.end;
@@ -164,4 +165,13 @@ bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time) {
 		}
 	}
 	return false;
+}
+
+Interval Interval_empty() {
+	Interval interval = {SIZE_MAX, 0};
+	return interval;
+}
+
+bool Interval_is_empty(Interval interval) {
+	return interval.start >= interval.end;
 }
