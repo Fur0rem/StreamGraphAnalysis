@@ -27,6 +27,7 @@ var annotated_dup =
     [ "ExploredState", "structExploredState.html", null ],
     [ "FullStreamGraph", "structFullStreamGraph.html", "structFullStreamGraph" ],
     [ "InformationCache", "structInformationCache.html", null ],
+    [ "InnerArena", "structInnerArena.html", null ],
     [ "Interval", "structInterval.html", null ],
     [ "IntervalsIteratorData", "structIntervalsIteratorData.html", null ],
     [ "IntervalsSet", "structIntervalsSet.html", null ],

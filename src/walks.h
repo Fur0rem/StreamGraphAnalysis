@@ -60,12 +60,12 @@ typedef struct {
 
 typedef struct {
 	union {
-		Interval node_not_present_between;
-		TimeId impossible_to_reach_after;
+		Interval node_absent_between;
+		TimeId unreachable_after;
 	} reason;
 	enum {
-		NODE_DOESNT_EXIST,
-		IMPOSSIBLE_TO_REACH
+		NODE_ABSENT,
+		UNREACHABLE
 	} type;
 } NoWalkReason;
 

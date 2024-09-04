@@ -8,8 +8,8 @@ Collaboration diagram for No\+Walk\+Reason\+:
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{structNoWalkReason_a461d621245d4792f77f2a8252e6272ac}\label{structNoWalkReason_a461d621245d4792f77f2a8252e6272ac}} 
-enum \{ {\bfseries NODE\+\_\+\+DOESNT\+\_\+\+EXIST}
-, {\bfseries IMPOSSIBLE\+\_\+\+TO\+\_\+\+REACH}
+enum \{ {\bfseries NODE\+\_\+\+ABSENT}
+, {\bfseries UNREACHABLE}
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
@@ -19,8 +19,8 @@ enum \{ {\bfseries NODE\+\_\+\+DOESNT\+\_\+\+EXIST}
 \begin{tabbing}
 xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
 union \{\\
-\>\mbox{\hyperlink{structInterval}{Interval}} {\bfseries node\_not\_present\_between}\\
-\>TimeId {\bfseries impossible\_to\_reach\_after}\\
+\>\mbox{\hyperlink{structInterval}{Interval}} {\bfseries node\_absent\_between}\\
+\>TimeId {\bfseries unreachable\_after}\\
 \} {\bfseries reason}\\
 
 \end{tabbing}\item 

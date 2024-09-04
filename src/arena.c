@@ -2,61 +2,87 @@
 #include "utils.h"
 #include "vector.h"
 
-void Arena_init(Arena* arena) {
-	arena->data		 = MALLOC(ARENA_SIZE);
-	arena->size_left = ARENA_SIZE;
+InnerArena InnerArena_init() {
+	InnerArena arena = {
+		.memory	  = MALLOC(ARENA_SIZE),
+		.size	  = 0,
+		.capacity = ARENA_SIZE,
+	};
+	return arena;
 }
 
-void* Arena_alloc(Arena* arena, size_t size) {
-	if (size > arena->size_left) {
+void InnerArena_destroy(InnerArena arena) {
+	free(arena.memory);
+}
+
+void* InnerArena_alloc(InnerArena* arena, size_t size) {
+	if (arena->capacity - arena->size < size) {
 		return NULL;
 	}
-	void* ptr = arena->data + ARENA_SIZE - arena->size_left;
-	arena->size_left -= size;
+	void* ptr = arena->memory + arena->size;
+	arena->size += size;
 	return ptr;
+}
+
+Arena Arena_init() {
+	Arena arena = {
+		.arenas		  = MALLOC(sizeof(InnerArena) * 2),
+		.nb_arenas	  = 1,
+		.capacity	  = 2,
+		.nb_allocated = 1,
+	};
+	arena.arenas[0] = InnerArena_init();
+	return arena;
 }
 
 void Arena_destroy(Arena arena) {
-	free(arena.data);
-}
-
-String Arena_to_string(const Arena* arena) {
-	char* str = MALLOC(32);
-	snprintf(str, 32, "Arena(%p, %lu)", arena->data, arena->size_left);
-	return String_from_owned(str);
-}
-
-bool Arena_equals(const Arena* a, const Arena* b) {
-	return a->data == b->data && a->size_left == b->size_left;
-}
-
-ArenaVector ArenaVector_init() {
-	ArenaVector vector = ArenaVector_with_capacity(5);
-	Arena first;
-	Arena_init(&first);
-	ArenaVector_push(&vector, first);
-	return vector;
-}
-
-void* ArenaVector_alloc(ArenaVector* vector, size_t size) {
-	void* ptr = Arena_alloc(&vector->array[vector->size - 1], size);
-	if (ptr == NULL) {
-		Arena new_arena;
-		Arena_init(&new_arena);
-		ArenaVector_push(vector, new_arena);
-		ptr = Arena_alloc(&vector->array[vector->size - 1], size);
+	for (size_t i = 0; i < arena.nb_allocated; i++) {
+		free(arena.arenas[i].memory);
 	}
+	free(arena.arenas);
+}
+
+void Arena_clear(Arena* arena) {
+	for (size_t i = 0; i < arena->nb_arenas; i++) {
+		arena->arenas[i].size = 0;
+	}
+	arena->nb_arenas = 0;
+}
+
+void* Arena_alloc(Arena* arena, size_t size) {
+	// Use the first arena that has enough space
+	for (size_t i = 0; i < arena->nb_arenas; i++) {
+		if (arena->arenas[i].capacity - arena->arenas[i].size >= size) {
+			void* ptr = arena->arenas[i].memory + arena->arenas[i].size;
+			arena->arenas[i].size += size;
+			return ptr;
+		}
+	}
+
+	size_t index = arena->nb_arenas;
+	arena->nb_arenas++;
+
+	if (arena->nb_arenas > arena->capacity) {
+		arena->capacity *= 2;
+		arena->arenas = realloc(arena->arenas, sizeof(InnerArena) * arena->capacity);
+	}
+
+	if (arena->nb_arenas > arena->nb_allocated) {
+		// initialize the new arena
+		arena->arenas[index] = InnerArena_init();
+		arena->nb_allocated++;
+	}
+
+	void* ptr = NULL;
+	while (ptr == NULL) {
+		ptr = InnerArena_alloc(&arena->arenas[index], size);
+		if (ptr == NULL) {
+			index++;
+			if (index >= arena->nb_arenas) {
+				index = 0;
+			}
+		}
+	}
+
 	return ptr;
 }
-
-// TODO: kinda meh structure, cause then it can't use the old arenas
-void Arena_clear(ArenaVector* vector) {
-	for (size_t i = 0; i < vector->size; i++) {
-		vector->array[i].size_left = ARENA_SIZE;
-	}
-}
-
-DefineVector(Arena);
-DefineVectorDeriveRemove(Arena, Arena_destroy);
-DefineVectorDeriveEquals(Arena);
-DefineVectorDeriveToString(Arena);

@@ -9,29 +9,30 @@
 \DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}vector.h"{}}}
 \DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdbool.h>}}
 \DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{8 }
-\DoxyCodeLine{9 \textcolor{preprocessor}{\#define ARENA\_SIZE 1024}}
-\DoxyCodeLine{10 }
-\DoxyCodeLine{11 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{12     \textcolor{keywordtype}{void}* data;}
-\DoxyCodeLine{13     \textcolor{keywordtype}{size\_t} size\_left;}
-\DoxyCodeLine{14 \} \mbox{\hyperlink{structArena}{Arena}};}
-\DoxyCodeLine{15 }
-\DoxyCodeLine{16 \textcolor{keywordtype}{void} Arena\_init(\mbox{\hyperlink{structArena}{Arena}}* arena);}
-\DoxyCodeLine{17 \textcolor{keywordtype}{void} Arena\_destroy(\mbox{\hyperlink{structArena}{Arena}} arena);}
-\DoxyCodeLine{18 DeclareToString(\mbox{\hyperlink{structArena}{Arena}});}
-\DoxyCodeLine{19 DeclareEquals(\mbox{\hyperlink{structArena}{Arena}});}
-\DoxyCodeLine{20 }
-\DoxyCodeLine{21 DeclareVector(\mbox{\hyperlink{structArena}{Arena}});}
-\DoxyCodeLine{22 DeclareVectorDeriveRemove(\mbox{\hyperlink{structArena}{Arena}});}
-\DoxyCodeLine{23 DeclareVectorDeriveEquals(\mbox{\hyperlink{structArena}{Arena}});}
-\DoxyCodeLine{24 DeclareVectorDeriveToString(\mbox{\hyperlink{structArena}{Arena}});}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define ARENA\_SIZE 1024}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structInnerArena}{InnerArena}} \{}
+\DoxyCodeLine{13     uint8\_t* memory;}
+\DoxyCodeLine{14     \textcolor{keywordtype}{size\_t} size;}
+\DoxyCodeLine{15     \textcolor{keywordtype}{size\_t} capacity;}
+\DoxyCodeLine{16 \} \mbox{\hyperlink{structInnerArena}{InnerArena}};}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structArena}{Arena}} \mbox{\hyperlink{structArena}{Arena}};}
+\DoxyCodeLine{19 \textcolor{keyword}{struct }\mbox{\hyperlink{structArena}{Arena}} \{}
+\DoxyCodeLine{20     \mbox{\hyperlink{structInnerArena}{InnerArena}}* arenas;    \textcolor{comment}{// array of arenas}}
+\DoxyCodeLine{21     \textcolor{keywordtype}{size\_t} nb\_arenas;    \textcolor{comment}{// size of the arenas array}}
+\DoxyCodeLine{22     \textcolor{keywordtype}{size\_t} capacity;     \textcolor{comment}{// capacity of the arenas array (uninitialized inner arenas)}}
+\DoxyCodeLine{23     \textcolor{keywordtype}{size\_t} nb\_allocated; \textcolor{comment}{// number of inner arenas already allocated}}
+\DoxyCodeLine{24 \};}
 \DoxyCodeLine{25 }
-\DoxyCodeLine{26 \textcolor{keywordtype}{void}* ArenaVector\_alloc(ArenaVector* vector, \textcolor{keywordtype}{size\_t} size);}
-\DoxyCodeLine{27 ArenaVector ArenaVector\_init();}
-\DoxyCodeLine{28 }
-\DoxyCodeLine{29 \textcolor{keywordtype}{void} Arena\_clear(ArenaVector* vector);}
-\DoxyCodeLine{30 }
-\DoxyCodeLine{31 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// ARENA\_H}}
+\DoxyCodeLine{26 \mbox{\hyperlink{structArena}{Arena}} Arena\_init();}
+\DoxyCodeLine{27 \textcolor{keywordtype}{void} Arena\_destroy(\mbox{\hyperlink{structArena}{Arena}} arena);}
+\DoxyCodeLine{28 \textcolor{keywordtype}{void} Arena\_clear(\mbox{\hyperlink{structArena}{Arena}}* arena);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{keywordtype}{void}* Arena\_alloc(\mbox{\hyperlink{structArena}{Arena}}* arena, \textcolor{keywordtype}{size\_t} size);}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// ARENA\_H}}
 
 \end{DoxyCode}

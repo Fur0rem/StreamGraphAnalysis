@@ -93,31 +93,33 @@ $(document).ready(function(){initNavTree('arena_8h_source.html',''); initResizab
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;vector.h&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#define ARENA_SIZE 1024</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="structArena.html">   11</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordtype">void</span>* data;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keywordtype">size_t</span> size_left;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>} <a class="code hl_struct" href="structArena.html">Arena</a>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keywordtype">void</span> Arena_init(<a class="code hl_struct" href="structArena.html">Arena</a>* arena);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> Arena_destroy(<a class="code hl_struct" href="structArena.html">Arena</a> arena);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>DeclareToString(<a class="code hl_struct" href="structArena.html">Arena</a>);</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>DeclareEquals(<a class="code hl_struct" href="structArena.html">Arena</a>);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>DeclareVector(<a class="code hl_struct" href="structArena.html">Arena</a>);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>DeclareVectorDeriveRemove(<a class="code hl_struct" href="structArena.html">Arena</a>);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>DeclareVectorDeriveEquals(<a class="code hl_struct" href="structArena.html">Arena</a>);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>DeclareVectorDeriveToString(<a class="code hl_struct" href="structArena.html">Arena</a>);</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define ARENA_SIZE 1024</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="structInnerArena.html">   12</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structInnerArena.html">InnerArena</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    uint8_t* memory;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordtype">size_t</span> size;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">size_t</span> capacity;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>} <a class="code hl_struct" href="structInnerArena.html">InnerArena</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structArena.html">Arena</a> <a class="code hl_struct" href="structArena.html">Arena</a>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structArena.html">   19</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structArena.html">Arena</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_struct" href="structInnerArena.html">InnerArena</a>* arenas;  <span class="comment">// array of arenas</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">size_t</span> nb_arenas;    <span class="comment">// size of the arenas array</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">size_t</span> capacity;     <span class="comment">// capacity of the arenas array (uninitialized inner arenas)</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">size_t</span> nb_allocated; <span class="comment">// number of inner arenas already allocated</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keywordtype">void</span>* ArenaVector_alloc(ArenaVector* vector, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>ArenaVector ArenaVector_init();</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keywordtype">void</span> Arena_clear(ArenaVector* vector);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#endif </span><span class="comment">// ARENA_H</span></div>
-<div class="ttc" id="astructArena_html"><div class="ttname"><a href="structArena.html">Arena</a></div><div class="ttdef"><b>Definition:</b> arena.h:11</div></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><a class="code hl_struct" href="structArena.html">Arena</a> Arena_init();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keywordtype">void</span> Arena_destroy(<a class="code hl_struct" href="structArena.html">Arena</a> arena);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keywordtype">void</span> Arena_clear(<a class="code hl_struct" href="structArena.html">Arena</a>* arena);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keywordtype">void</span>* Arena_alloc(<a class="code hl_struct" href="structArena.html">Arena</a>* arena, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif </span><span class="comment">// ARENA_H</span></div>
+<div class="ttc" id="astructArena_html"><div class="ttname"><a href="structArena.html">Arena</a></div><div class="ttdef"><b>Definition:</b> arena.h:19</div></div>
+<div class="ttc" id="astructInnerArena_html"><div class="ttname"><a href="structInnerArena.html">InnerArena</a></div><div class="ttdef"><b>Definition:</b> arena.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -12,19 +12,19 @@ DONT_OPTIMISE void robustness_by_length() {
 
 int main() {
 	StreamGraph sg;
-	sg = StreamGraph_from_external("data/S_external.txt");
+	sg	   = StreamGraph_from_external("data/S_external.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length Figure_8", 1000);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("data/S_concat_L.txt");
+	sg	   = StreamGraph_from_external("data/S_concat_L.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length S_concat_L", 1000);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("data/LS_90.txt");
+	sg	   = StreamGraph_from_external("data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length LS_90", 1);
 	StreamGraph_destroy(sg);
