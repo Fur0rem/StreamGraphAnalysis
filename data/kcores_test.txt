@@ -1,0 +1,27 @@
+SGA External Format 1.0.0
+
+[General]
+Lifespan=(0 10)
+Scaling=1
+
+[Events]
+0 + N 0
+0 + N 1
+0 + N 2
+0 + N 3
+1 + L 0 2
+2 + L 2 3
+3 + L 1 3
+4 + L 0 1
+5 - L 0 1
+6 - L 0 2
+7 + L 1 2
+9 - L 1 2
+9 - L 2 3
+10 - L 1 3
+10 - N 0
+10 - N 1
+10 - N 2
+10 - N 3
+
+[EndOfStream]

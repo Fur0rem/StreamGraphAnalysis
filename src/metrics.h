@@ -15,6 +15,7 @@
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
+#include "vector.h"
 #include <stddef.h>
 
 /**
@@ -177,5 +178,16 @@ size_t cardinalOfE(Stream* stream);
 bool Stream_equals(const Stream* stream1, const Stream* stream2);
 
 String Stream_to_string(const Stream* stream);
+
+typedef struct {
+	size_t degree;
+	Interval time;
+} DegreeInInterval;
+DeclareVector(DegreeInInterval);
+DeclareVectorDeriveRemove(DegreeInInterval);
+DeclareVectorDeriveEquals(DegreeInInterval);
+DeclareVectorDeriveToString(DegreeInInterval);
+
+DegreeInIntervalVector Stream_evolution_of_node_degree(const Stream* stream, NodeId node_id);
 
 #endif // METRICS_H

@@ -13,6 +13,7 @@
 #include "stream_graph/nodes_set.h"
 #include "units.h"
 #include "utils.h"
+#include "vector.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -56,8 +57,8 @@
 size_t cardinalOfT(Stream* stream) {
 	FETCH_CACHE(stream, cardinalOfT);
 	CATCH_METRICS_IMPLEM(cardinalOfT, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	Interval lifespan				 = stream_functions.lifespan(stream->stream_data);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	Interval lifespan	= fns.lifespan(stream->stream_data);
 	UPDATE_CACHE(stream, cardinalOfT, Interval_size(lifespan));
 	return Interval_size(lifespan);
 }
@@ -65,9 +66,9 @@ size_t cardinalOfT(Stream* stream) {
 size_t cardinalOfV(Stream* stream) {
 	FETCH_CACHE(stream, cardinalOfV);
 	CATCH_METRICS_IMPLEM(cardinalOfV, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	NodesIterator nodes				 = stream_functions.nodes_set(stream->stream_data);
-	size_t count					 = COUNT_ITERATOR(nodes);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	size_t count		= COUNT_ITERATOR(nodes);
 	UPDATE_CACHE(stream, cardinalOfV, count);
 	return count;
 }
@@ -75,11 +76,11 @@ size_t cardinalOfV(Stream* stream) {
 size_t cardinalOfE(Stream* stream) {
 	// CATCH_METRICS_IMPLEM(cardinalOfE, stream);
 	FETCH_CACHE(stream, cardinalOfE);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	LinksIterator links				 = stream_functions.links_set(stream->stream_data);
-	size_t count					 = 0;
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	LinksIterator links = fns.links_set(stream->stream_data);
+	size_t count		= 0;
 	FOR_EACH_LINK(link_id, links) {
-		TimesIterator times = stream_functions.times_link_present(stream->stream_data, link_id);
+		TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
 		count += total_time_of(times);
 	}
 	UPDATE_CACHE(stream, cardinalOfE, count);
@@ -89,11 +90,11 @@ size_t cardinalOfE(Stream* stream) {
 size_t cardinalOfW(Stream* stream) {
 	FETCH_CACHE(stream, cardinalOfW);
 	CATCH_METRICS_IMPLEM(cardinalOfW, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	NodesIterator nodes				 = stream_functions.nodes_set(stream->stream_data);
-	size_t count					 = 0;
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	size_t count		= 0;
 	FOR_EACH_NODE(node_id, nodes) {
-		TimesIterator times = stream_functions.times_node_present(stream->stream_data, node_id);
+		TimesIterator times = fns.times_node_present(stream->stream_data, node_id);
 		count += total_time_of(times);
 	}
 	UPDATE_CACHE(stream, cardinalOfW, count);
@@ -111,28 +112,28 @@ double Stream_coverage(Stream* stream) {
 
 double Stream_node_duration(Stream* stream) {
 	CATCH_METRICS_IMPLEM(node_duration, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	size_t w						 = cardinalOfW(stream);
-	size_t v						 = cardinalOfV(stream);
-	size_t scaling					 = stream_functions.scaling(stream->stream_data);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t w			= cardinalOfW(stream);
+	size_t v			= cardinalOfV(stream);
+	size_t scaling		= fns.scaling(stream->stream_data);
 	return (double)w / (double)(v * scaling);
 }
 
 double Stream_contribution_of_node(Stream* stream, NodeId node_id) {
 	// CATCH_METRICS_IMPLEM(contribution_of_node, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	TimesIterator times				 = stream_functions.times_node_present(stream->stream_data, node_id);
-	size_t t_v						 = total_time_of(times);
-	size_t t						 = cardinalOfT(stream);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	TimesIterator times = fns.times_node_present(stream->stream_data, node_id);
+	size_t t_v			= total_time_of(times);
+	size_t t			= cardinalOfT(stream);
 	return (double)t_v / (double)t;
 }
 
 double Stream_contribution_of_link(Stream* stream, LinkId link_id) {
 	// CATCH_METRICS_IMPLEM(contribution_of_link, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	TimesIterator times				 = stream_functions.times_link_present(stream->stream_data, link_id);
-	size_t t_v						 = total_time_of(times);
-	size_t t						 = cardinalOfT(stream);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
+	size_t t_v			= total_time_of(times);
+	size_t t			= cardinalOfT(stream);
 	return (double)t_v / (double)(t);
 }
 
@@ -152,11 +153,11 @@ double Stream_number_of_links(Stream* stream) {
 
 double Stream_node_contribution_at_instant(Stream* stream, TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(node_contribution_at_time, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	NodesIterator nodes				 = stream_functions.nodes_present_at_t(stream->stream_data, time_id);
-	size_t v_t						 = COUNT_ITERATOR(nodes);
-	size_t scaling					 = stream_functions.scaling(stream->stream_data);
-	size_t v						 = cardinalOfV(stream);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	NodesIterator nodes = fns.nodes_present_at_t(stream->stream_data, time_id);
+	size_t v_t			= COUNT_ITERATOR(nodes);
+	size_t scaling		= fns.scaling(stream->stream_data);
+	size_t v			= cardinalOfV(stream);
 	return (double)v_t / (double)(v * scaling);
 }
 
@@ -166,44 +167,44 @@ size_t size_set_unordered_pairs_itself(size_t n) {
 
 double Stream_link_contribution_at_instant(Stream* stream, TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(link_contribution_at_time, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	LinksIterator links				 = stream_functions.links_present_at_t(stream->stream_data, time_id);
-	size_t e_t						 = COUNT_ITERATOR(links);
-	size_t scaling					 = stream_functions.scaling(stream->stream_data);
-	size_t v						 = cardinalOfV(stream);
-	size_t vxv						 = size_set_unordered_pairs_itself(v);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	LinksIterator links = fns.links_present_at_t(stream->stream_data, time_id);
+	size_t e_t			= COUNT_ITERATOR(links);
+	size_t scaling		= fns.scaling(stream->stream_data);
+	size_t v			= cardinalOfV(stream);
+	size_t vxv			= size_set_unordered_pairs_itself(v);
 	return (double)e_t / (double)(vxv * scaling);
 }
 
 double Stream_link_duration(Stream* stream) {
 	// CATCH_METRICS_IMPLEM(link_duration, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	size_t e						 = cardinalOfE(stream);
-	size_t v						 = cardinalOfV(stream);
-	size_t scaling					 = stream_functions.scaling(stream->stream_data);
-	size_t vxv						 = size_set_unordered_pairs_itself(v);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t e			= cardinalOfE(stream);
+	size_t v			= cardinalOfV(stream);
+	size_t scaling		= fns.scaling(stream->stream_data);
+	size_t vxv			= size_set_unordered_pairs_itself(v);
 	return (double)e / (double)(vxv * scaling);
 }
 
 double Stream_uniformity(Stream* stream) {
 	// CATCH_METRICS_IMPLEM(uniformity, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	size_t sum_num					 = 0;
-	size_t sum_den					 = 0;
-	NodesIterator nodes				 = stream_functions.nodes_set(stream->stream_data);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t sum_num		= 0;
+	size_t sum_den		= 0;
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(node_id, nodes) {
-		NodesIterator other_pair = stream_functions.nodes_set(stream->stream_data);
+		NodesIterator other_pair = fns.nodes_set(stream->stream_data);
 		FOR_EACH_NODE(other_node_id, other_pair) {
 			if (node_id >= other_node_id) {
 				continue;
 			}
-			TimesIterator times_node	   = stream_functions.times_node_present(stream->stream_data, node_id);
-			TimesIterator times_other_node = stream_functions.times_node_present(stream->stream_data, other_node_id);
+			TimesIterator times_node	   = fns.times_node_present(stream->stream_data, node_id);
+			TimesIterator times_other_node = fns.times_node_present(stream->stream_data, other_node_id);
 			TimesIterator times_union	   = TimesIterator_union(times_node, times_other_node);
 
 			size_t t_u						 = total_time_of(times_union);
-			times_node						 = stream_functions.times_node_present(stream->stream_data, node_id);
-			times_other_node				 = stream_functions.times_node_present(stream->stream_data, other_node_id);
+			times_node						 = fns.times_node_present(stream->stream_data, node_id);
+			times_other_node				 = fns.times_node_present(stream->stream_data, other_node_id);
 			TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
 			size_t t_i						 = total_time_of(times_intersection);
 
@@ -216,14 +217,14 @@ double Stream_uniformity(Stream* stream) {
 
 double Stream_uniformity_pair_nodes(Stream* stream, NodeId node1, NodeId node2) {
 	// CATCH_METRICS_IMPLEM(uniformity_pair_nodes, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	TimesIterator times_node1		 = stream_functions.times_node_present(stream->stream_data, node1);
-	TimesIterator times_node2		 = stream_functions.times_node_present(stream->stream_data, node2);
-	TimesIterator times_union		 = TimesIterator_union(times_node1, times_node2);
+	StreamFunctions fns		  = STREAM_FUNCS(fns, stream);
+	TimesIterator times_node1 = fns.times_node_present(stream->stream_data, node1);
+	TimesIterator times_node2 = fns.times_node_present(stream->stream_data, node2);
+	TimesIterator times_union = TimesIterator_union(times_node1, times_node2);
 
 	size_t t_u						 = total_time_of(times_union);
-	times_node1						 = stream_functions.times_node_present(stream->stream_data, node1);
-	times_node2						 = stream_functions.times_node_present(stream->stream_data, node2);
+	times_node1						 = fns.times_node_present(stream->stream_data, node1);
+	times_node2						 = fns.times_node_present(stream->stream_data, node2);
 	TimesIterator times_intersection = TimesIterator_intersection(times_node1, times_node2);
 	size_t t_i						 = total_time_of(times_intersection);
 
@@ -232,26 +233,26 @@ double Stream_uniformity_pair_nodes(Stream* stream, NodeId node1, NodeId node2) 
 
 double Stream_density(Stream* stream) {
 	CATCH_METRICS_IMPLEM(density, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	size_t sum_den					 = 0;
-	NodesIterator nodes				 = stream_functions.nodes_set(stream->stream_data);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t sum_den		= 0;
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(node_id, nodes) {
-		NodesIterator other_nodes = stream_functions.nodes_set(stream->stream_data);
+		NodesIterator other_nodes = fns.nodes_set(stream->stream_data);
 		FOR_EACH_NODE(other_node_id, other_nodes) {
 			if (node_id >= other_node_id) {
 				continue;
 			}
-			TimesIterator times_node		 = stream_functions.times_node_present(stream->stream_data, node_id);
-			TimesIterator times_other_node	 = stream_functions.times_node_present(stream->stream_data, other_node_id);
+			TimesIterator times_node		 = fns.times_node_present(stream->stream_data, node_id);
+			TimesIterator times_other_node	 = fns.times_node_present(stream->stream_data, other_node_id);
 			TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
 			sum_den += total_time_of(times_intersection);
 		}
 	}
 
 	size_t sum_num		= 0;
-	LinksIterator links = stream_functions.links_set(stream->stream_data);
+	LinksIterator links = fns.links_set(stream->stream_data);
 	FOR_EACH_LINK(link_id, links) {
-		TimesIterator times_link = stream_functions.times_link_present(stream->stream_data, link_id);
+		TimesIterator times_link = fns.times_link_present(stream->stream_data, link_id);
 		sum_num += total_time_of(times_link);
 	}
 
@@ -259,36 +260,36 @@ double Stream_density(Stream* stream) {
 }
 
 double Stream_density_of_link(Stream* stream, LinkId link_id) {
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	TimesIterator times_link		 = stream_functions.times_link_present(stream->stream_data, link_id);
-	size_t sum_num					 = total_time_of(times_link);
-	Link l							 = stream_functions.link_by_id(stream->stream_data, link_id);
-	TimesIterator t_u				 = stream_functions.times_node_present(stream->stream_data, l.nodes[0]);
-	TimesIterator t_v				 = stream_functions.times_node_present(stream->stream_data, l.nodes[1]);
-	TimesIterator t_i				 = TimesIterator_intersection(t_u, t_v);
-	size_t sum_den					 = total_time_of(t_i);
+	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
+	TimesIterator times_link = fns.times_link_present(stream->stream_data, link_id);
+	size_t sum_num			 = total_time_of(times_link);
+	Link l					 = fns.link_by_id(stream->stream_data, link_id);
+	TimesIterator t_u		 = fns.times_node_present(stream->stream_data, l.nodes[0]);
+	TimesIterator t_v		 = fns.times_node_present(stream->stream_data, l.nodes[1]);
+	TimesIterator t_i		 = TimesIterator_intersection(t_u, t_v);
+	size_t sum_den			 = total_time_of(t_i);
 
 	return (double)sum_num / (double)sum_den;
 }
 
 double Stream_density_of_node(Stream* stream, NodeId node_id) {
 	// CATCH_METRICS_IMPLEM(density_of_node, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	LinksIterator neighbours		 = stream_functions.neighbours_of_node(stream->stream_data, node_id);
-	size_t sum_num					 = 0;
-	size_t sum_den					 = 0;
+	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
+	LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, node_id);
+	size_t sum_num			 = 0;
+	size_t sum_den			 = 0;
 	FOR_EACH_LINK(link_id, neighbours) {
-		TimesIterator times_link = stream_functions.times_link_present(stream->stream_data, link_id);
+		TimesIterator times_link = fns.times_link_present(stream->stream_data, link_id);
 		sum_num += total_time_of(times_link);
 	}
 
-	NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(other_node_id, nodes) {
 		if (node_id == other_node_id) {
 			continue;
 		}
-		TimesIterator times_node		 = stream_functions.times_node_present(stream->stream_data, node_id);
-		TimesIterator times_other_node	 = stream_functions.times_node_present(stream->stream_data, other_node_id);
+		TimesIterator times_node		 = fns.times_node_present(stream->stream_data, node_id);
+		TimesIterator times_other_node	 = fns.times_node_present(stream->stream_data, other_node_id);
 		TimesIterator times_intersection = TimesIterator_intersection(times_node, times_other_node);
 		sum_den += total_time_of(times_intersection);
 	}
@@ -298,9 +299,9 @@ double Stream_density_of_node(Stream* stream, NodeId node_id) {
 
 double Stream_density_at_instant(Stream* stream, TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(density_at_instant, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	NodesIterator nodes_at_t		 = stream_functions.nodes_present_at_t(stream->stream_data, time_id);
-	LinksIterator links_at_t		 = stream_functions.links_present_at_t(stream->stream_data, time_id);
+	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
+	NodesIterator nodes_at_t = fns.nodes_present_at_t(stream->stream_data, time_id);
+	LinksIterator links_at_t = fns.links_present_at_t(stream->stream_data, time_id);
 	// size_t et = COUNT_ITERATOR(links_at_t);
 	size_t et = COUNT_ITERATOR(links_at_t);
 	size_t vt = COUNT_ITERATOR(nodes_at_t);
@@ -310,26 +311,26 @@ double Stream_density_at_instant(Stream* stream, TimeId time_id) {
 
 double Stream_degree_of_node(Stream* stream, NodeId node_id) {
 	// CATCH_METRICS_IMPLEM(degree_of_node, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	LinksIterator neighbours		 = stream_functions.neighbours_of_node(stream->stream_data, node_id);
-	size_t sum_num					 = 0;
+	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
+	LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, node_id);
+	size_t sum_num			 = 0;
 	FOR_EACH_LINK(link_id, neighbours) {
-		TimesIterator times_link = stream_functions.times_link_present(stream->stream_data, link_id);
+		TimesIterator times_link = fns.times_link_present(stream->stream_data, link_id);
 		sum_num += total_time_of(times_link);
 	}
-	size_t sum_den = Interval_size(stream_functions.lifespan(stream->stream_data));
+	size_t sum_den = Interval_size(fns.lifespan(stream->stream_data));
 	return (double)sum_num / (double)sum_den;
 }
 
 double Stream_average_node_degree(Stream* stream) {
 	// CATCH_METRICS_IMPLEM(average_node_degree, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	double sum						 = 0;
-	double w						 = (double)cardinalOfW(stream);
-	NodesIterator nodes				 = stream_functions.nodes_set(stream->stream_data);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	double sum			= 0;
+	double w			= (double)cardinalOfW(stream);
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(node_id, nodes) {
 		double degree = Stream_degree_of_node(stream, node_id);
-		size_t t_v	  = total_time_of(stream_functions.times_node_present(stream->stream_data, node_id));
+		size_t t_v	  = total_time_of(fns.times_node_present(stream->stream_data, node_id));
 		sum += degree * ((double)t_v / w);
 	}
 	return sum;
@@ -351,43 +352,43 @@ double Stream_average_expected_degree(Stream* stream) {
 }
 
 double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
-	NodeId v						 = node_id;
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
+	NodeId v			= node_id;
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
-	LinksIterator neighbours_of_v = stream_functions.neighbours_of_node(stream->stream_data, v);
+	LinksIterator neighbours_of_v = fns.neighbours_of_node(stream->stream_data, v);
 	size_t sum_den				  = 0;
 	size_t sum_num				  = 0;
 
 	FOR_EACH_LINK(uv, neighbours_of_v) {
-		LinksIterator neighbours_of_v_copy = stream_functions.neighbours_of_node(stream->stream_data, v);
+		LinksIterator neighbours_of_v_copy = fns.neighbours_of_node(stream->stream_data, v);
 		FOR_EACH_LINK(vw, neighbours_of_v_copy) {
-			Link vw_link = stream_functions.link_by_id(stream->stream_data, vw);
+			Link vw_link = fns.link_by_id(stream->stream_data, vw);
 			NodeId w	 = Link_get_other_node(&vw_link, v);
-			Link uv_link = stream_functions.link_by_id(stream->stream_data, uv);
+			Link uv_link = fns.link_by_id(stream->stream_data, uv);
 			NodeId u	 = Link_get_other_node(&uv_link, v);
 
 			if (u >= w) {
 				continue;
 			}
 
-			TimesIterator times_uv = stream_functions.times_link_present(stream->stream_data, uv);
-			TimesIterator times_vw = stream_functions.times_link_present(stream->stream_data, vw);
+			TimesIterator times_uv = fns.times_link_present(stream->stream_data, uv);
+			TimesIterator times_vw = fns.times_link_present(stream->stream_data, vw);
 
 			TimesIterator times_uv_vw = TimesIterator_intersection(times_uv, times_vw);
 			size_t t_uv_vw			  = total_time_of(times_uv_vw);
 			sum_den += t_uv_vw;
 
-			LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
+			LinkId uw = fns.links_between_nodes(stream->stream_data, u, w);
 			if (uw == SIZE_MAX) {
 				continue;
 			}
 
-			TimesIterator times_uw = stream_functions.times_link_present(stream->stream_data, uw);
+			TimesIterator times_uw = fns.times_link_present(stream->stream_data, uw);
 
 			// OPTIMISE : Reuse the first intersections
 			// reconstruct times_uv_vw
-			times_uv					 = stream_functions.times_link_present(stream->stream_data, uv);
-			times_vw					 = stream_functions.times_link_present(stream->stream_data, vw);
+			times_uv					 = fns.times_link_present(stream->stream_data, uv);
+			times_vw					 = fns.times_link_present(stream->stream_data, vw);
 			times_uv_vw					 = TimesIterator_intersection(times_uv, times_vw);
 			TimesIterator times_uw_uv_vw = TimesIterator_intersection(times_uw, times_uv_vw);
 			size_t t_uw_uv_vw			 = total_time_of(times_uw_uv_vw);
@@ -400,38 +401,34 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 
 double Stream_node_clustering_coeff(Stream* stream) {
 	// CATCH_METRICS_IMPLEM(node_clustering_coeff, stream);
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	double sum						 = 0;
-	NodesIterator nodes				 = stream_functions.nodes_set(stream->stream_data);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	double sum			= 0;
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(node_id, nodes) {
 		double clustering_coeff = Stream_clustering_coeff_of_node(stream, node_id);
-		size_t t_v				= total_time_of(stream_functions.times_node_present(stream->stream_data, node_id));
+		size_t t_v				= total_time_of(fns.times_node_present(stream->stream_data, node_id));
 		sum += clustering_coeff * ((double)t_v / (double)cardinalOfW(stream));
 	}
 	return sum;
 }
 
-typedef struct {
-	int u, v, w, t;
-} ExpectedTriplets;
-
 double Stream_transitivity_ratio(Stream* stream) {
 	// CATCH_METRICS_IMPLEM(transitivity_ratio, stream);
 
 	// Compute the number of triangles
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	size_t sum_num					 = 0;
-	size_t sum_den					 = 0;
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	size_t sum_num		= 0;
+	size_t sum_den		= 0;
 
-	NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(u, nodes) {
-		LinksIterator n_u = stream_functions.neighbours_of_node(stream->stream_data, u);
+		LinksIterator n_u = fns.neighbours_of_node(stream->stream_data, u);
 		FOR_EACH_LINK(uv, n_u) {
-			Link link_uv	  = stream_functions.link_by_id(stream->stream_data, uv);
+			Link link_uv	  = fns.link_by_id(stream->stream_data, uv);
 			NodeId v		  = Link_get_other_node(&link_uv, u);
-			LinksIterator n_v = stream_functions.neighbours_of_node(stream->stream_data, v);
+			LinksIterator n_v = fns.neighbours_of_node(stream->stream_data, v);
 			FOR_EACH_LINK(vw, n_v) {
-				Link link_vw = stream_functions.link_by_id(stream->stream_data, vw);
+				Link link_vw = fns.link_by_id(stream->stream_data, vw);
 				NodeId w	 = Link_get_other_node(&link_vw, v);
 
 				// If (u,v,w) is present, so is (w,v,u), and therefore half can be skipped.
@@ -439,19 +436,19 @@ double Stream_transitivity_ratio(Stream* stream) {
 					continue;
 				}
 
-				LinkId uw = stream_functions.links_between_nodes(stream->stream_data, u, w);
+				LinkId uw = fns.links_between_nodes(stream->stream_data, u, w);
 
-				TimesIterator times_uv		= stream_functions.times_link_present(stream->stream_data, uv);
-				TimesIterator times_vw		= stream_functions.times_link_present(stream->stream_data, vw);
+				TimesIterator times_uv		= fns.times_link_present(stream->stream_data, uv);
+				TimesIterator times_vw		= fns.times_link_present(stream->stream_data, vw);
 				TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
 
 				size_t time_of_triplet = total_time_of(times_uv_N_vw);
 				sum_den += time_of_triplet;
 
 				if (uw != SIZE_MAX) { // Triangle
-					TimesIterator times_uv			 = stream_functions.times_link_present(stream->stream_data, uv);
-					TimesIterator times_uw			 = stream_functions.times_link_present(stream->stream_data, uw);
-					TimesIterator times_vw			 = stream_functions.times_link_present(stream->stream_data, vw);
+					TimesIterator times_uv			 = fns.times_link_present(stream->stream_data, uv);
+					TimesIterator times_uw			 = fns.times_link_present(stream->stream_data, uw);
+					TimesIterator times_vw			 = fns.times_link_present(stream->stream_data, vw);
 					TimesIterator times_uv_N_uw		 = TimesIterator_intersection(times_uv, times_uw);
 					TimesIterator times_uv_N_uw_N_vw = TimesIterator_intersection(times_uv_N_uw, times_vw);
 
@@ -573,17 +570,17 @@ bool Stream_equals(const Stream* stream1, const Stream* stream2) {
 }
 
 String Stream_to_string(const Stream* stream) {
-	StreamFunctions stream_functions = STREAM_FUNCS(stream_functions, stream);
-	String str						 = String_from_duplicate("Stream {\n\tLifespan: ");
-	Interval lifespan				 = stream_functions.lifespan(stream->stream_data);
-	String interval_str				 = Interval_to_string(&lifespan);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+	String str			= String_from_duplicate("Stream {\n\tLifespan: ");
+	Interval lifespan	= fns.lifespan(stream->stream_data);
+	String interval_str = Interval_to_string(&lifespan);
 	String_concat_consume(&str, &interval_str);
 	// TODO : rename push_str to append
 	String_push_str(&str, "\n\tNodes:\n");
-	NodesIterator nodes = stream_functions.nodes_set(stream->stream_data);
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(node_id, nodes) {
 		String_append_formatted(&str, "\t\t%zu, Times : { ", node_id);
-		TimesIterator times = stream_functions.times_node_present(stream->stream_data, node_id);
+		TimesIterator times = fns.times_node_present(stream->stream_data, node_id);
 		FOR_EACH_TIME(interval, times) {
 			String_append_formatted(&str, "[%zu, %zu], ", interval.start, interval.end);
 		}
@@ -591,9 +588,9 @@ String Stream_to_string(const Stream* stream) {
 
 		// Neighbours
 		String_push_str(&str, "\t\tNeighbours: ");
-		LinksIterator neighbours = stream_functions.neighbours_of_node(stream->stream_data, node_id);
+		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, node_id);
 		FOR_EACH_LINK(link_id, neighbours) {
-			Link link		  = stream_functions.link_by_id(stream->stream_data, link_id);
+			Link link		  = fns.link_by_id(stream->stream_data, link_id);
 			NodeId other_node = Link_get_other_node(&link, node_id);
 			String_append_formatted(&str, "%zu, ", other_node);
 		}
@@ -602,11 +599,11 @@ String Stream_to_string(const Stream* stream) {
 	String_push_str(&str, "\n");
 
 	String_push_str(&str, "\tLinks: \n");
-	LinksIterator links = stream_functions.links_set(stream->stream_data);
+	LinksIterator links = fns.links_set(stream->stream_data);
 	FOR_EACH_LINK(link_id, links) {
-		Link link = stream_functions.link_by_id(stream->stream_data, link_id);
+		Link link = fns.link_by_id(stream->stream_data, link_id);
 		String_append_formatted(&str, "\t\t%zu-%zu, Times : { ", link.nodes[0], link.nodes[1]);
-		TimesIterator times = stream_functions.times_link_present(stream->stream_data, link_id);
+		TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
 		FOR_EACH_TIME(interval, times) {
 			String_append_formatted(&str, "[%zu, %zu], ", interval.start, interval.end);
 		}
@@ -616,4 +613,155 @@ String Stream_to_string(const Stream* stream) {
 
 	String_push_str(&str, "}\n");
 	return str;
+}
+
+int DegreeInInterval_compare(const void* a, const void* b) {
+	DegreeInInterval da = *(DegreeInInterval*)a;
+	DegreeInInterval db = *(DegreeInInterval*)b;
+
+	if (da.time.start < db.time.start) {
+		return -1;
+	}
+	if (da.time.start > db.time.start) {
+		return 1;
+	}
+	return 0;
+}
+
+bool DegreeInInterval_equals(const DegreeInInterval* a, const DegreeInInterval* b) {
+	return a->degree == b->degree && Interval_equals(&a->time, &b->time);
+}
+
+String DegreeInInterval_to_string(const DegreeInInterval* dii) {
+	String str			= String_new();
+	String interval_str = Interval_to_string(&dii->time);
+	String_append_formatted(&str, "%s : %zu", interval_str.data, dii->degree);
+	String_destroy(interval_str);
+	return str;
+}
+
+DefineVector(DegreeInInterval);
+DefineVectorDeriveRemove(DegreeInInterval, NO_FREE(DegreeInInterval));
+DefineVectorDeriveOrdered(DegreeInInterval);
+DefineVectorDeriveEquals(DegreeInInterval);
+DefineVectorDeriveToString(DegreeInInterval);
+
+void DegreeInIntervalVector_add(DegreeInIntervalVector* vec, Interval interval, size_t degree) {
+	// Find if there is already a degree for this interval
+	for (size_t i = 0; i < vec->size; i++) {
+		if (Interval_equals(&vec->array[i].time, &interval)) {
+			vec->array[i].degree += degree;
+			return;
+		}
+	}
+
+	// Find if there is an interval that contains this one
+	for (size_t i = 0; i < vec->size; i++) {
+		if (Interval_contains_interval(vec->array[i].time, interval)) {
+			// split the interval into 3
+			Interval one   = Interval_from(vec->array[i].time.start, interval.start);
+			Interval two   = Interval_from(interval.start, interval.end);
+			Interval three = Interval_from(interval.end, vec->array[i].time.end);
+
+			size_t old_degree = vec->array[i].degree;
+
+			// Remove the old interval
+			DegreeInIntervalVector_remove_and_swap(vec, i);
+
+			// Add the new intervals
+			if (!Interval_is_empty(one)) {
+				DegreeInIntervalVector_add(vec, one, old_degree);
+			}
+			if (!Interval_is_empty(two)) {
+				DegreeInIntervalVector_add(vec, two, old_degree + 1);
+			}
+			if (!Interval_is_empty(three)) {
+				DegreeInIntervalVector_add(vec, three, old_degree);
+			}
+
+			return;
+		}
+	}
+
+	// Find if this one contains an interval
+	for (size_t i = 0; i < vec->size; i++) {
+		if (Interval_contains_interval(interval, vec->array[i].time)) {
+			// split the interval into 3
+			Interval one   = Interval_from(interval.start, vec->array[i].time.start);
+			Interval two   = Interval_from(vec->array[i].time.start, vec->array[i].time.end);
+			Interval three = Interval_from(vec->array[i].time.end, interval.end);
+
+			size_t old_degree = vec->array[i].degree;
+
+			// Remove the old interval
+			DegreeInIntervalVector_remove_and_swap(vec, i);
+
+			// Add the new intervals
+			if (!Interval_is_empty(one)) {
+				DegreeInIntervalVector_add(vec, one, old_degree);
+			}
+			if (!Interval_is_empty(two)) {
+				DegreeInIntervalVector_add(vec, two, old_degree + 1);
+			}
+			if (!Interval_is_empty(three)) {
+				DegreeInIntervalVector_add(vec, three, old_degree);
+			}
+
+			return;
+		}
+	}
+
+	// Find if one interval overlaps the other
+	for (size_t i = 0; i < vec->size; i++) {
+		if (Interval_overlaps_interval(vec->array[i].time, interval)) {
+			// split the interval into 3
+			Interval inter		  = Interval_intersection(vec->array[i].time, interval);
+			Interval old_excluded = Interval_minus(vec->array[i].time, inter);
+			Interval new_excluded = Interval_minus(interval, inter);
+
+			size_t old_degree = vec->array[i].degree;
+
+			// Remove the old interval
+			DegreeInIntervalVector_remove_and_swap(vec, i);
+
+			// Add the new intervals
+			if (!Interval_is_empty(inter)) {
+				DegreeInIntervalVector_add(vec, inter, old_degree + 1);
+			}
+			if (!Interval_is_empty(old_excluded)) {
+				DegreeInIntervalVector_add(vec, old_excluded, old_degree);
+			}
+			if (!Interval_is_empty(new_excluded)) {
+				DegreeInIntervalVector_add(vec, new_excluded, old_degree);
+			}
+
+			return;
+		}
+	}
+
+	// Otherwise, just add the interval
+	DegreeInInterval new_degree = {degree, interval};
+	DegreeInIntervalVector_push(vec, new_degree);
+}
+
+// TODO : move that into an analysis file maybe ?
+DegreeInIntervalVector Stream_evolution_of_node_degree(const Stream* stream, NodeId node_id) {
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+
+	DegreeInIntervalVector degree_evol = DegreeInIntervalVector_new();
+	TimesIterator times_node		   = fns.times_node_present(stream->stream_data, node_id);
+	FOR_EACH_TIME(interval, times_node) {
+		DegreeInIntervalVector_add(&degree_evol, interval, 0);
+	}
+
+	LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, node_id);
+	FOR_EACH_LINK(link_id, neighbours) {
+		TimesIterator times_neigh_present = fns.times_link_present(stream->stream_data, link_id);
+		FOR_EACH_TIME(interval, times_neigh_present) {
+			DegreeInIntervalVector_add(&degree_evol, interval, 1);
+		}
+	}
+
+	DegreeInIntervalVector_sort(&degree_evol);
+	return degree_evol;
 }
