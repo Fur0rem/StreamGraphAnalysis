@@ -24,9 +24,7 @@ typedef struct {
 extern const StreamFunctions ChunkStreamSmall_stream_functions;
 extern const MetricsFunctions ChunkStreamSmall_metrics_functions;
 
-// TODO : change the signature of this function to not have to take 6 arguments
-Stream CSS_from(StreamGraph* stream_graph, NodeId* nodes, LinkId* links, Interval snapshot, size_t nb_nodes,
-				size_t nb_links);
+Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, LinkIdVector links, Interval snapshot);
 void ChunkStreamSmall_destroy(Stream stream);
 
 #endif // CHUNK_STREAM_SMALL_H

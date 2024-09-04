@@ -5,18 +5,20 @@
 bool load() {
 	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	printf("Loaded graph\n");
-	char* str = StreamGraph_to_string(&sg);
-	printf("%s\n", str);
-	free(str);
+	String str = StreamGraph_to_string(&sg);
+	String_push(&str, '\0');
+	printf("%s\n", str.data);
+	String_destroy(str);
 	StreamGraph_destroy(sg);
 	return true;
 }
 
 bool test_load_slices() {
 	StreamGraph sg = StreamGraph_from_file("data/S_multiple_slices.txt");
-	char* str	   = StreamGraph_to_string(&sg);
-	printf("%s\n", str);
-	free(str);
+	String str	   = StreamGraph_to_string(&sg);
+	String_push(&str, '\0');
+	printf("%s\n", str.data);
+	String_destroy(str);
 	EXPECT(StreamGraph_lifespan_begin(&sg) == 0);
 	EXPECT(StreamGraph_lifespan_end(&sg) == 1000);
 	StreamGraph_destroy(sg);
@@ -77,22 +79,19 @@ bool test_external_format() {
 
 	// Parse the buffer
 	char* internal_format = InternalFormat_from_External_str(buffer);
-	// printf("%s\n", internal_format);
-	StreamGraph sg = StreamGraph_from_string(internal_format);
+	StreamGraph sg		  = StreamGraph_from_string(internal_format);
 	free(internal_format);
-	char* external_format = StreamGraph_to_string(&sg);
-	// printf("%s\n", external_format);
 	StreamGraph_destroy(sg);
-	free(external_format);
 	free(buffer);
 	return true;
 }
 
 bool test_from_external_format() {
 	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
-	char* str	   = StreamGraph_to_string(&sg);
-	printf("%s\n", str);
-	free(str);
+	String str	   = StreamGraph_to_string(&sg);
+	String_push(&str, '\0');
+	printf("%s\n", str.data);
+	String_destroy(str);
 	StreamGraph_destroy(sg);
 	return true;
 }

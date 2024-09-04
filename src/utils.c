@@ -54,7 +54,7 @@ void String_concat_copy(String* a, const String* b) {
 		}
 		a->data = realloc(a->data, a->capacity);
 	}
-	memcpy(a->data + a->size, b->data, b->size + 1);
+	memcpy(a->data + a->size, b->data, b->size);
 	a->size += b->size;
 }
 
@@ -132,4 +132,12 @@ void String_pop(String* string) {
 	if (string->size > 0) {
 		string->size--;
 	}
+}
+
+String String_with_capacity(size_t capacity) {
+	return (String){
+		.size	  = 0,
+		.capacity = capacity,
+		.data	  = MALLOC(capacity),
+	};
 }

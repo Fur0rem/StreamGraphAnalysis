@@ -10,9 +10,8 @@ LinksSet LinksSet_alloc(size_t nb_links) {
 }
 
 String Link_to_string(const Link* link) {
-	char link_str[100];
-	sprintf(link_str, "(%lu - %lu), Intervals : [", link->nodes[0], link->nodes[1]);
-	String str = String_from_duplicate(link_str);
+	String str = String_with_capacity(100);
+	String_append_formatted(&str, "(%lu - %lu), Intervals : [", link->nodes[0], link->nodes[1]);
 
 	for (size_t i = 0; i < link->presence.nb_intervals; i++) {
 		String interval_str = Interval_to_string(&link->presence.intervals[i]);

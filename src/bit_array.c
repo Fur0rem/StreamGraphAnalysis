@@ -95,18 +95,18 @@ char* BitArray_to_string(BitArray array) {
 }
 
 // Returns the number of leading zeros in the bit array starting from the given index
-// TODO : optimise this function with clz (count leading zeros) instruction
+// OPTIMISE : native clz (count leading zeros) instruction
 size_t BitArray_leading_zeros_from(BitArray array, size_t index) {
-	/*while (index < array.nb_bits) {
-		size_t byte = byte_index(index);
-		size_t bit = bit_index(index);
-		size_t leading_zeros = __builtin_clz(array.bits[byte] << bit);
-		if (leading_zeros < BYTE_SIZE - bit) {
-			return leading_zeros;
-		}
-		index += BYTE_SIZE - bit;
-	}
-	return 0;*/
+	// while (index < array.nb_bits) {
+	// 	size_t byte = byte_index(index);
+	// 	size_t bit = bit_index(index);
+	// 	size_t leading_zeros = __builtin_clz(array.bits[byte] << bit);
+	// 	if (leading_zeros < BYTE_SIZE - bit) {
+	// 		return leading_zeros;
+	// 	}
+	// 	index += BYTE_SIZE - bit;
+	// }
+	// return 0;
 	size_t leading_zeros = 0;
 	while (index < array.nb_bits) {
 		if (BitArray_is_one(array, index)) {

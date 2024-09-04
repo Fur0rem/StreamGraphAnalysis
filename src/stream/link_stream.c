@@ -191,25 +191,26 @@ TemporalNode LinkStream_node_by_id(StreamData* stream_data, NodeId node_id) {
 }
 
 LinkId LinkStream_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
-	TemporalNode n1			 = LinkStream_node_by_id(stream_data, node_id);
-	TemporalNode n2			 = LinkStream_node_by_id(stream_data, other_node_id);
-	TemporalNode to_research = n1.nb_neighbours < n2.nb_neighbours ? n1 : n2;
-	// Since the nodes are sorted, we can use a binary search
-	size_t left	 = 0;
-	size_t right = to_research.nb_neighbours;
-	while (left < right) {
-		size_t mid		 = left + (right - left) / 2;
-		NodeId neighbour = to_research.neighbours[mid];
-		if (neighbour == other_node_id) {
-			return to_research.neighbours[mid];
-		}
-		else if (neighbour < other_node_id) {
-			left = mid + 1;
-		}
-		else {
-			right = mid;
+	ASSERT(node_id != other_node_id);
+	TemporalNode n1	   = LinkStream_node_by_id(stream_data, node_id);
+	TemporalNode n2	   = LinkStream_node_by_id(stream_data, other_node_id);
+	NodeId to_look_for = other_node_id;
+	// Optimisation: we iterate over the smallest neighbour list
+	if (n1.nb_neighbours > n2.nb_neighbours) {
+		TemporalNode tmp = n1;
+		n1				 = n2;
+		n2				 = tmp;
+		to_look_for		 = node_id;
+	}
+
+	for (size_t i = 0; i < n1.nb_neighbours; i++) {
+		Link link = FullStreamGraph_link_by_id(stream_data, n1.neighbours[i]);
+		if (link.nodes[0] == to_look_for || link.nodes[1] == to_look_for) {
+			return n1.neighbours[i];
 		}
 	}
+
+	// No link found
 	return SIZE_MAX;
 }
 
