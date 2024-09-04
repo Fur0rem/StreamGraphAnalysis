@@ -71,9 +71,10 @@
 // TODO : optionnal message
 #ifdef DEBUG
 #	define ASSERT(expr)                                                                                               \
-		if (!(expr)) {                                                                                                 \
+		bool __assert_result = (expr);                                                                                 \
+		if (!(__assert_result)) {                                                                                      \
 			fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", #expr, __FILE__, __LINE__);                    \
-			assert(expr);                                                                                              \
+			assert(__assert_result);                                                                                   \
 		}
 #else
 #	ifdef __clang__
@@ -96,6 +97,8 @@ typedef struct {
 String String_from_owned(char* str);
 String String_from_duplicate(const char* str);
 
+// TODO: mis namings between push and append
+// plus push str and append formatted can be merged
 void String_push(String* string, char c);
 void String_push_str(String* string, const char* str);
 void String_append_formatted(String* string, const char* format, ...);
@@ -121,5 +124,7 @@ char* read_file(const char* filename);
 
 void String_pop_n(String* string, size_t n);
 void String_pop(String* string);
+
+String String_with_capacity(size_t capacity);
 
 #endif

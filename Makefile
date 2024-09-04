@@ -1,7 +1,7 @@
 CC = gcc
 SRC_DIR = src
 BIN_DIR = bin
-DEBUG_FLAGS = -g -O0
+DEBUG_FLAGS = -g -O0 -DDEBUG
 RELEASE_FLAGS = -O3
 FLAGS = $(DEBUG_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x

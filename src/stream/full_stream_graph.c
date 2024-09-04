@@ -18,16 +18,6 @@ Stream FullStreamGraph_from(StreamGraph* stream_graph) {
 	return stream;
 }
 
-Stream* FSG_From(StreamGraph* stream_graph) {
-	FullStreamGraph* full_stream_graph		   = MALLOC(sizeof(FullStreamGraph));
-	full_stream_graph->underlying_stream_graph = stream_graph;
-	Stream* stream							   = MALLOC(sizeof(Stream));
-	stream->type							   = FULL_STREAM_GRAPH;
-	stream->stream_data						   = full_stream_graph;
-	init_cache(stream);
-	return stream;
-}
-
 void FullStreamGraph_destroy(Stream stream) {
 	free(stream.stream_data);
 }
@@ -266,6 +256,7 @@ TemporalNode FullStreamGraph_node_by_id(StreamData* stream_data, size_t node_id)
 }
 
 LinkId FullStreamGraph_links_between_nodes(StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
+	ASSERT(node_id != other_node_id);
 	TemporalNode n1	   = FullStreamGraph_node_by_id(stream_data, node_id);
 	TemporalNode n2	   = FullStreamGraph_node_by_id(stream_data, other_node_id);
 	NodeId to_look_for = other_node_id;

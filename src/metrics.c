@@ -17,28 +17,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-// TODO : Confirm this
-// I hope gcc or clang does this optimisation :
-// ```
-// int a = 0;
-// int b = 0;
-// if (condition) {
-//     a = 5;
-// }
-// if (condition) {
-//     b = 5;
-// }
-// ```
-// into
-// ```
-// int a = 0;
-// int b = 0;
-// if (condition) {
-//     a = 5;
-//     b = 5;
-// }
-// ```
-// Otherwise the performance is going to be baaaaaaaaaaaaaaaaaaaaad
 #define CATCH_METRICS_IMPLEM(function, stream)                                                                         \
 	switch (stream->type) {                                                                                            \
 		case FULL_STREAM_GRAPH: {                                                                                      \

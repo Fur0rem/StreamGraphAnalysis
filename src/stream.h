@@ -22,7 +22,7 @@ typedef struct {
 
 StreamGraph StreamGraph_from_string(const char* str);
 StreamGraph StreamGraph_from_file(const char* filename);
-char* StreamGraph_to_string(StreamGraph* sg);
+String StreamGraph_to_string(StreamGraph* sg);
 void StreamGraph_destroy(StreamGraph sg);
 size_t StreamGraph_lifespan_begin(StreamGraph* sg);
 size_t StreamGraph_lifespan_end(StreamGraph* sg);

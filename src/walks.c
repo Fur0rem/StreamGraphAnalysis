@@ -267,33 +267,21 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 	QueueInfo* current_walk = candidates;
 	WalkStepVector steps	= WalkStepVector_with_capacity(candidates->previouses);
 	StreamFunctions fns		= STREAM_FUNCS(fns, stream);
+
 	while (current_walk != NULL) {
 		NodeId current_node	 = current_walk->node;
 		QueueInfo* previous	 = current_walk->previous;
 		NodeId previous_node = previous == NULL ? from : previous->node;
-		// Find the link between the current node and the previous node
-		// TODO : make a function that does finds the link between two nodes for a given stream cause i use that a lot
-		/*for (size_t i = 0; i < sg.links.nb_links; i++) {
-			Link link = sg.links.links[i];*/
-		LinksIterator links = fns.links_set(stream->stream_data);
-		FOR_EACH_LINK(i, links) {
-			Link link = fns.link_by_id(stream->stream_data, i);
-			if ((link.nodes[0] == current_node && link.nodes[1] == previous_node) ||
-				(link.nodes[1] == current_node && link.nodes[0] == previous_node)) {
-				WalkStep step = {i, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
-				// SAFETY: we keep track of how many previouses there were in the function, and we preallocate the
-				// vector with that size
-				WalkStepVector_push_unchecked(&steps, step);
-				links.destroy(&links);
-				break;
-			}
+
+		if (current_node == previous_node) {
+			break;
 		}
-		// FIXME: for some reason this shit doesnt work.?.???
-		// LinkId link_id = fns.links_between_nodes(stream->stream_data, current_node, previous_node);
-		// if (link_id != SIZE_MAX) {
-		// 	WalkStep step = {link_id, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
-		// 	WalkStepVector_push(&steps, step);
-		// }
+
+		LinkId link_id = fns.links_between_nodes(stream->stream_data, current_node, previous_node);
+		if (link_id != SIZE_MAX) {
+			WalkStep step = {link_id, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
+			WalkStepVector_push(&steps, step);
+		}
 		current_walk = previous;
 	}
 
@@ -1073,10 +1061,12 @@ double Stream_robustness_by_length(Stream* stream) {
 bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
 
 	if (walk->steps.size != nb_steps) {
+		printf("Walk size %zu != nb_steps %zu\n", walk->steps.size, nb_steps);
 		return false;
 	}
 
 	if (nb_steps == 0) {
+		printf("Nb steps 0\n");
 		return true;
 	}
 
@@ -1087,19 +1077,19 @@ bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
 	// Check the first node
 	NodeId first_node = va_arg(args, NodeId);
 	Link first_link	  = fns.link_by_id(stream.stream_data, walk->steps.array[0].link);
-	// printf("Checking first node %zu\n", first_node);
+	printf("Checking first node %zu\n", first_node);
 	if (first_link.nodes[0] != first_node && first_link.nodes[1] != first_node) {
-		// printf("First node %zu FALSE\n", first_node);
+		printf("First node %zu FALSE\n", first_node);
 		return false;
 	}
 
 	// Check the intermediate nodes
 	for (size_t i = 1; i < nb_steps; i++) {
 		NodeId node = va_arg(args, NodeId);
-		// printf("Checking node %zu\n", node);
+		printf("Checking node %zu\n", node);
 		Link link = fns.link_by_id(stream.stream_data, walk->steps.array[i].link);
 		if (link.nodes[0] != node && link.nodes[1] != node) {
-			// printf("Node %zu FALSE\n", node);
+			printf("Node %zu FALSE\n", node);
 			return false;
 		}
 	}
@@ -1107,9 +1097,9 @@ bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...) {
 	// Check the last node
 	NodeId last_node = va_arg(args, NodeId);
 	Link last_link	 = fns.link_by_id(stream.stream_data, walk->steps.array[nb_steps - 1].link);
-	// printf("Checking last node %zu\n", last_node);
+	printf("Checking last node %zu\n", last_node);
 	if (last_link.nodes[0] != last_node && last_link.nodes[1] != last_node) {
-		// printf("Last node %zu FALSE\n", last_node);
+		printf("Last node %zu FALSE\n", last_node);
 		return false;
 	}
 

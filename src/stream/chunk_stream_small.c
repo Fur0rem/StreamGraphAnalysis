@@ -6,14 +6,13 @@
 #include "full_stream_graph.h"
 #include <stddef.h>
 
-Stream CSS_from(StreamGraph* stream_graph, NodeId* nodes, LinkId* links, Interval snapshot, size_t nb_nodes,
-				size_t nb_links) {
+Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, LinkIdVector links, Interval snapshot) {
 	ChunkStreamSmall* chunk_stream = MALLOC(sizeof(ChunkStreamSmall));
 	*chunk_stream				   = (ChunkStreamSmall){
-						 .nb_nodes				  = nb_nodes,
-						 .nodes_present			  = nodes,
-						 .nb_links				  = nb_links,
-						 .links_present			  = links,
+						 .nb_nodes				  = nodes.size,
+						 .nodes_present			  = nodes.array,
+						 .nb_links				  = links.size,
+						 .links_present			  = links.array,
 						 .underlying_stream_graph = stream_graph,
 						 .snapshot				  = snapshot,
 	 };
@@ -30,7 +29,7 @@ void ChunkStreamSmall_destroy(Stream stream) {
 	free(chunk_stream);
 }
 
-// OPTIMISE : use dichotomic search since the nodes are sorted
+// OPTIMISE : Maybe sort the nodes_present and links_present arrays before if we do a lot of lookups
 bool is_node_present(NodeId node, ChunkStreamSmall* chunk_stream) {
 	for (size_t i = 0; i < chunk_stream->nb_nodes; i++) {
 		if (chunk_stream->nodes_present[i] == node) {

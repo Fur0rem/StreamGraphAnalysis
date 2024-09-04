@@ -461,7 +461,7 @@ bool test_chunk_stream_small_nodes_set() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st				 = CSS_from(&sg, nodes.array, links.array, Interval_from(0, 100), nodes.size, links.size);
+	Stream st				 = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
 	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -491,7 +491,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st				 = CSS_from(&sg, nodes.array, links.array, Interval_from(0, 100), nodes.size, links.size);
+	Stream st				 = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
 	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -508,6 +508,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 	return true;
 }
 
+// TODO: why is this here ???
 bool test_chunk_stream_small_times_node_present() {
 	StreamGraph sg	   = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(3);
@@ -521,7 +522,7 @@ bool test_chunk_stream_small_times_node_present() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st				 = CSS_from(&sg, nodes.array, links.array, Interval_from(20, 80), nodes.size, links.size);
+	Stream st				 = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(20, 80));
 	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -550,17 +551,13 @@ bool test_chunk_stream_small_times_node_present() {
 
 bool test_clustering_coeff_of_node() {
 	StreamGraph sg = StreamGraph_from_external("data/Figure_8.txt");
-	char* str	   = StreamGraph_to_string(&sg);
-	printf("%s\n", str);
-	free(str);
-	Stream st				  = FullStreamGraph_from(&sg);
+	Stream st	   = FullStreamGraph_from(&sg);
+
 	double clustering_coeff_c = Stream_clustering_coeff_of_node(&st, 2);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(clustering_coeff_c, 3.0 / 5.0, 1e-6);
 }
-
-// TEST_METRIC_F(node_clustering_coeff, ?? / ??, Figure_8, FullStreamGraph)
 
 // TEST_METRIC_F(compactness, 26.0 / 40.0, S)
 
