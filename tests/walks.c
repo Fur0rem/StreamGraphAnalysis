@@ -146,8 +146,8 @@ bool test_fastest() {
 
 	WalkInfo w5 = Stream_fastest_walk(&st2, 0, 3, 9);
 	result &= EXPECT(w5.type == NO_WALK);
-	result &= EXPECT(w5.result.no_walk_reason.type == IMPOSSIBLE_TO_REACH);
-	result &= EXPECT_EQ(w5.result.no_walk_reason.reason.impossible_to_reach_after, 9);
+	result &= EXPECT(w5.result.no_walk_reason.type == UNREACHABLE);
+	result &= EXPECT_EQ(w5.result.no_walk_reason.reason.unreachable_after, 9);
 	WalkInfo_destroy(w5);
 
 	StreamGraph_destroy(sg2);

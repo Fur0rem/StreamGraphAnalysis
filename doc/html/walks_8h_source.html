@@ -148,12 +148,12 @@ $(document).ready(function(){initNavTree('walks_8h_source.html',''); initResizab
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structNoWalkReason.html">   61</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">union </span>{</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <a class="code hl_struct" href="structInterval.html">Interval</a> node_not_present_between;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        TimeId impossible_to_reach_after;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <a class="code hl_struct" href="structInterval.html">Interval</a> node_absent_between;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        TimeId unreachable_after;</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    } reason;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keyword">enum</span> {</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        NODE_DOESNT_EXIST,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        IMPOSSIBLE_TO_REACH</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        NODE_ABSENT,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        UNREACHABLE</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    } type;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>} <a class="code hl_struct" href="structNoWalkReason.html">NoWalkReason</a>;</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>

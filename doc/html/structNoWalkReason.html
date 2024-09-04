@@ -102,8 +102,8 @@ Collaboration diagram for NoWalkReason:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a461d621245d4792f77f2a8252e6272ac"><td class="memItemLeft" align="right" valign="top"><a id="a461d621245d4792f77f2a8252e6272ac" name="a461d621245d4792f77f2a8252e6272ac"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>NODE_DOESNT_EXIST</b>
-, <b>IMPOSSIBLE_TO_REACH</b>
+<tr class="memitem:a461d621245d4792f77f2a8252e6272ac"><td class="memItemLeft" align="right" valign="top"><a id="a461d621245d4792f77f2a8252e6272ac" name="a461d621245d4792f77f2a8252e6272ac"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>NODE_ABSENT</b>
+, <b>UNREACHABLE</b>
  }</td></tr>
 <tr class="separator:a461d621245d4792f77f2a8252e6272ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -111,12 +111,12 @@ Public Types</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a5062cd31c3928e06cda5764283864796"><td class="memItemLeft" ><a id="a5062cd31c3928e06cda5764283864796" name="a5062cd31c3928e06cda5764283864796"></a>
 union {</td></tr>
-<tr class="memitem:a2e0871aa9a11336ff7f8f9047f64b38c"><td class="memItemLeft" >
-&#160;&#160;&#160;<a class="el" href="structInterval.html">Interval</a>&#160;&#160;&#160;<b>node_not_present_between</b></td></tr>
-<tr class="separator:a2e0871aa9a11336ff7f8f9047f64b38c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc74485ed62c621967436c73ce4c85a4"><td class="memItemLeft" >
-&#160;&#160;&#160;TimeId&#160;&#160;&#160;<b>impossible_to_reach_after</b></td></tr>
-<tr class="separator:abc74485ed62c621967436c73ce4c85a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e555d09a55e49928ee617e5b9c5ecb4"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structInterval.html">Interval</a>&#160;&#160;&#160;<b>node_absent_between</b></td></tr>
+<tr class="separator:a8e555d09a55e49928ee617e5b9c5ecb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a869a8409f95cc052dc520ee553cf0a"><td class="memItemLeft" >
+&#160;&#160;&#160;TimeId&#160;&#160;&#160;<b>unreachable_after</b></td></tr>
+<tr class="separator:a2a869a8409f95cc052dc520ee553cf0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5062cd31c3928e06cda5764283864796"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><b>reason</b></td></tr>
 <tr class="separator:a5062cd31c3928e06cda5764283864796"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0fbbb170f4c1136d122e27359b35990"><td class="memItemLeft" align="right" valign="top"><a id="ac0fbbb170f4c1136d122e27359b35990" name="ac0fbbb170f4c1136d122e27359b35990"></a>

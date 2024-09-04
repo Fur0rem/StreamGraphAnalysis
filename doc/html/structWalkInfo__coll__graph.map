@@ -1,10 +1,10 @@
 <map id="WalkInfo" name="WalkInfo">
-<area shape="rect" id="node1" title=" " alt="" coords="114,407,193,433"/>
-<area shape="rect" id="node2" href="$structWalk.html" title=" " alt="" coords="215,317,270,344"/>
+<area shape="rect" id="node1" title=" " alt="" coords="106,407,185,433"/>
+<area shape="rect" id="node2" href="$structWalk.html" title=" " alt="" coords="199,317,254,344"/>
 <area shape="rect" id="node3" href="$structInterval.html" title=" " alt="" coords="100,228,172,255"/>
 <area shape="rect" id="node8" href="$structNoWalkReason.html" title=" " alt="" coords="5,317,125,344"/>
-<area shape="rect" id="node4" href="$structStream.html" title=" " alt="" coords="311,228,380,255"/>
-<area shape="rect" id="node5" href="$structStreamData.html" title=" " alt="" coords="230,139,330,165"/>
-<area shape="rect" id="node6" href="$structInformationCache.html" title=" " alt="" coords="355,139,493,165"/>
-<area shape="rect" id="node7" href="$structOptionalSizeT.html" title=" " alt="" coords="368,5,480,32"/>
+<area shape="rect" id="node4" href="$structStream.html" title=" " alt="" coords="295,228,364,255"/>
+<area shape="rect" id="node5" href="$structStreamData.html" title=" " alt="" coords="214,139,314,165"/>
+<area shape="rect" id="node6" href="$structInformationCache.html" title=" " alt="" coords="339,139,477,165"/>
+<area shape="rect" id="node7" href="$structOptionalSizeT.html" title=" " alt="" coords="352,5,464,32"/>
 </map>

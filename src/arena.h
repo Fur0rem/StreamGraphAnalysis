@@ -5,27 +5,28 @@
 #include "vector.h"
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #define ARENA_SIZE 1024
 
-typedef struct {
-	void* data;
-	size_t size_left;
-} Arena;
+typedef struct InnerArena {
+	uint8_t* memory;
+	size_t size;
+	size_t capacity;
+} InnerArena;
 
-void Arena_init(Arena* arena);
+typedef struct Arena Arena;
+struct Arena {
+	InnerArena* arenas;	 // array of arenas
+	size_t nb_arenas;	 // size of the arenas array
+	size_t capacity;	 // capacity of the arenas array (uninitialized inner arenas)
+	size_t nb_allocated; // number of inner arenas already allocated
+};
+
+Arena Arena_init();
 void Arena_destroy(Arena arena);
-DeclareToString(Arena);
-DeclareEquals(Arena);
+void Arena_clear(Arena* arena);
 
-DeclareVector(Arena);
-DeclareVectorDeriveRemove(Arena);
-DeclareVectorDeriveEquals(Arena);
-DeclareVectorDeriveToString(Arena);
-
-void* ArenaVector_alloc(ArenaVector* vector, size_t size);
-ArenaVector ArenaVector_init();
-
-void Arena_clear(ArenaVector* vector);
+void* Arena_alloc(Arena* arena, size_t size);
 
 #endif // ARENA_H

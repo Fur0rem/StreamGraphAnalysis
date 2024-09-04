@@ -229,15 +229,15 @@
 \DoxyCodeLine{226 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
 \DoxyCodeLine{227 \textcolor{preprocessor}{    void type\#\#Vector\_reverse(type\#\#Vector* vec) \{                                                                     \(\backslash\)}}
 \DoxyCodeLine{228 \textcolor{preprocessor}{        for (size\_t i = 0; i < vec-\/>size / 2; i++) \{                                                                   \(\backslash\)}}
-\DoxyCodeLine{229 \textcolor{preprocessor}{            type tmp = vec-\/>array[i];                                                                                  \(\backslash\)}}
-\DoxyCodeLine{230 \textcolor{preprocessor}{            vec-\/>array[i] = vec-\/>array[vec-\/>size -\/ i -\/ 1];                                                             \(\backslash\)}}
+\DoxyCodeLine{229 \textcolor{preprocessor}{            type tmp                      = vec-\/>array[i];                                                             \(\backslash\)}}
+\DoxyCodeLine{230 \textcolor{preprocessor}{            vec-\/>array[i]                 = vec-\/>array[vec-\/>size -\/ i -\/ 1];                                             \(\backslash\)}}
 \DoxyCodeLine{231 \textcolor{preprocessor}{            vec-\/>array[vec-\/>size -\/ i -\/ 1] = tmp;                                                                       \(\backslash\)}}
 \DoxyCodeLine{232 \textcolor{preprocessor}{        \}                                                                                                              \(\backslash\)}}
 \DoxyCodeLine{233 \textcolor{preprocessor}{    \}                                                                                                                  \(\backslash\)}}
 \DoxyCodeLine{234 \textcolor{preprocessor}{                                                                                                                       \(\backslash\)}}
 \DoxyCodeLine{235 \textcolor{preprocessor}{    void type\#\#Vector\_append(type\#\#Vector* vec, const type* values, size\_t nb\_values) \{                                \(\backslash\)}}
 \DoxyCodeLine{236 \textcolor{preprocessor}{        if (vec-\/>size + nb\_values > vec-\/>capacity) \{                                                                   \(\backslash\)}}
-\DoxyCodeLine{237 \textcolor{preprocessor}{            vec-\/>capacity = vec-\/>size + nb\_values;                                                                     \(\backslash\)}}
+\DoxyCodeLine{237 \textcolor{preprocessor}{            vec-\/>capacity   = vec-\/>size + nb\_values;                                                                   \(\backslash\)}}
 \DoxyCodeLine{238 \textcolor{preprocessor}{            type* new\_array = (type*)malloc(sizeof(type) * vec-\/>capacity);                                             \(\backslash\)}}
 \DoxyCodeLine{239 \textcolor{preprocessor}{            memcpy(new\_array, vec-\/>array, sizeof(type) * vec-\/>size);                                                   \(\backslash\)}}
 \DoxyCodeLine{240 \textcolor{preprocessor}{            free(vec-\/>array);                                                                                          \(\backslash\)}}
