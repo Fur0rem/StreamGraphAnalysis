@@ -141,3 +141,7 @@ String String_with_capacity(size_t capacity) {
 		.data	  = MALLOC(capacity),
 	};
 }
+
+String String_new() {
+	return String_with_capacity(10);
+}

@@ -563,6 +563,23 @@ bool test_clustering_coeff_of_node() {
 
 TEST_METRIC_F(transitivity_ratio, 9.0 / 17.0, Figure_8, FullStreamGraph)
 
+bool test_evolution_of_degree() {
+	StreamGraph sg		= StreamGraph_from_external("data/kcores_test.txt");
+	Stream st			= FullStreamGraph_from(&sg);
+	StreamFunctions fns = STREAM_FUNCS(fns, &st);
+
+	NodesIterator nodes = fns.nodes_set(st.stream_data);
+	FOR_EACH_NODE(node_id, nodes) {
+		DegreeInIntervalVector degrees = Stream_evolution_of_node_degree(&st, node_id);
+		String str					   = DegreeInIntervalVector_to_string(&degrees);
+		printf("Node %zu : %s\n", node_id, str.data);
+		String_destroy(str);
+		DegreeInIntervalVector_destroy(degrees);
+	}
+
+	return true;
+}
+
 int main() {
 
 	Test* tests[] = {
@@ -598,6 +615,7 @@ int main() {
 		TEST(test_chunk_stream_small_times_node_present),
 		TEST(test_clustering_coeff_of_node),
 		TEST(test_transitivity_ratio),
+		TEST(test_evolution_of_degree),
 		NULL,
 	};
 

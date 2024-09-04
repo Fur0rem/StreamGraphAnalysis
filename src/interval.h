@@ -17,11 +17,15 @@ typedef struct {
 	Interval* intervals;
 } IntervalsSet;
 
+// TODO: maybe change the name of contains ?
 bool Interval_contains(Interval interval, TimeId time);
 bool Interval_contains_interval(Interval a, Interval b);
+bool Interval_overlaps_interval(Interval a, Interval b);
+
 size_t Interval_size(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
 Interval Interval_intersection(Interval a, Interval b);
+Interval Interval_minus(Interval a, Interval b);
 
 DeclareToString(Interval);
 DeclareEquals(Interval);

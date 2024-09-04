@@ -175,3 +175,25 @@ Interval Interval_empty() {
 bool Interval_is_empty(Interval interval) {
 	return interval.start >= interval.end;
 }
+
+bool Interval_overlaps_interval(Interval a, Interval b) {
+	return a.start < b.end && b.start < a.end;
+}
+
+Interval Interval_minus(Interval a, Interval b) {
+	if (a.start >= b.end || b.start >= a.end) {
+		return a;
+	}
+	if (a.start < b.start && a.end > b.end) {
+		Interval one = Interval_from(a.start, b.start);
+		Interval two = Interval_from(b.end, a.end);
+		return one;
+	}
+	if (a.start < b.start) {
+		return Interval_from(a.start, b.start);
+	}
+	if (a.end > b.end) {
+		return Interval_from(b.end, a.end);
+	}
+	return Interval_empty();
+}

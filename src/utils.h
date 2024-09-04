@@ -126,5 +126,6 @@ void String_pop_n(String* string, size_t n);
 void String_pop(String* string);
 
 String String_with_capacity(size_t capacity);
+String String_new();
 
 #endif

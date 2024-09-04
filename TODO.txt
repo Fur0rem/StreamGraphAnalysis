@@ -19,6 +19,7 @@
 - Verify catch implementations for all functions
 - const qualifier when needed
 - Version control for formats
+- Add format B where it's node by node instead of event by event
 
 - Read all the TODOs in the code
 
