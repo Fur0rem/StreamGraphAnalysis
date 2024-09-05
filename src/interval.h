@@ -46,6 +46,8 @@ void IntervalsSet_destroy(IntervalsSet intervals_set);
 Interval IntervalsSet_last(IntervalsSet* intervals_set);
 bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time);
 
+void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t index);
+
 Interval Interval_empty();
 bool Interval_is_empty(Interval interval);
 #endif // INTERVAL_H

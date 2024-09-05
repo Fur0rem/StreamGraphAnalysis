@@ -189,5 +189,6 @@ DeclareVectorDeriveEquals(DegreeInInterval);
 DeclareVectorDeriveToString(DegreeInInterval);
 
 DegreeInIntervalVector Stream_evolution_of_node_degree(const Stream* stream, NodeId node_id);
+void Stream_k_cores(const Stream* stream);
 
 #endif // METRICS_H
