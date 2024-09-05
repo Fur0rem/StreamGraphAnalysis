@@ -71,11 +71,14 @@
 // TODO : optionnal message
 #ifdef DEBUG
 #	define ASSERT(expr)                                                                                               \
-		bool __assert_result = (expr);                                                                                 \
-		if (!(__assert_result)) {                                                                                      \
-			fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", #expr, __FILE__, __LINE__);                    \
-			assert(__assert_result);                                                                                   \
-		}
+		({                                                                                                             \
+			bool __assert_result = (expr);                                                                             \
+			if (!(__assert_result)) {                                                                                  \
+				fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", #expr, __FILE__, __LINE__);                \
+				assert(__assert_result);                                                                               \
+			}                                                                                                          \
+		})
+
 #else
 #	ifdef __clang__
 #		define ASSERT(expr) __builtin_expect((expr), 1)

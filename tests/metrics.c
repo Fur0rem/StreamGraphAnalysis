@@ -580,6 +580,15 @@ bool test_evolution_of_degree() {
 	return true;
 }
 
+bool test_k_cores() {
+	StreamGraph sg = StreamGraph_from_external("data/kcores_test.txt");
+	Stream st	   = FullStreamGraph_from(&sg);
+
+	Stream_k_cores(&st);
+
+	return true;
+}
+
 int main() {
 
 	Test* tests[] = {
@@ -616,6 +625,7 @@ int main() {
 		TEST(test_clustering_coeff_of_node),
 		TEST(test_transitivity_ratio),
 		TEST(test_evolution_of_degree),
+		TEST(test_k_cores),
 		NULL,
 	};
 

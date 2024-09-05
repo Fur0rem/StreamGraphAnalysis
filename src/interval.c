@@ -197,3 +197,7 @@ Interval Interval_minus(Interval a, Interval b) {
 	}
 	return Interval_empty();
 }
+
+void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t index) {
+	intervals_set->intervals[index] = interval;
+}
