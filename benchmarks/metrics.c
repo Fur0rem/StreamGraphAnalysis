@@ -70,7 +70,19 @@ int main() {
 
 	sg	   = StreamGraph_from_external("data/kcores_test.txt");
 	stream = FullStreamGraph_from(&sg);
-	benchmark(kcores, "kcores kcores_test", 1);
+	benchmark(kcores, "kcores kcores_test", 1000);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
+
+	sg	   = StreamGraph_from_external("data/S_concat_L.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(kcores, "kcores S_concat_L", 100);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
+
+	sg	   = StreamGraph_from_external("data/LS_90.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(kcores, "kcores LS_90", 1);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
