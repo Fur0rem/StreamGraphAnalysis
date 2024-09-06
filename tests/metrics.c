@@ -619,19 +619,19 @@ bool test_k_cores() {
 
 	KCore expected_kcore_3 = {NodePresenceVector_new()};
 
-	String str_1 = KCore_to_string(&kcore_1);
-	printf("Kcore 1 : %s\n", str_1.data);
-	String_destroy(str_1);
-	String str_1_expected = KCore_to_string(&expected_kcore_1);
-	printf("Expected Kcore 1 : %s\n", str_1_expected.data);
-	String_destroy(str_1_expected);
+	// String str_1 = KCore_to_string(&kcore_1);
+	// printf("Kcore 1 : %s\n", str_1.data);
+	// String_destroy(str_1);
+	// String str_1_expected = KCore_to_string(&expected_kcore_1);
+	// printf("Expected Kcore 1 : %s\n", str_1_expected.data);
+	// String_destroy(str_1_expected);
 
-	String str_2 = KCore_to_string(&kcore_2);
-	printf("Kcore 2 : %s\n", str_2.data);
-	String_destroy(str_2);
-	String str_2_expected = KCore_to_string(&expected_kcore_2);
-	printf("Expected Kcore 2 : %s\n", str_2_expected.data);
-	String_destroy(str_2_expected);
+	// String str_2 = KCore_to_string(&kcore_2);
+	// printf("Kcore 2 : %s\n", str_2.data);
+	// String_destroy(str_2);
+	// String str_2_expected = KCore_to_string(&expected_kcore_2);
+	// printf("Expected Kcore 2 : %s\n", str_2_expected.data);
+	// String_destroy(str_2_expected);
 
 	bool result = true;
 	result &= EXPECT(KCore_equals(&kcore_1, &expected_kcore_1));

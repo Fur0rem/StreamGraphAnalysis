@@ -23,8 +23,10 @@ DONT_OPTIMISE void transitivity_ratio() {
 }
 
 DONT_OPTIMISE void kcores() {
-	Stream_k_cores(&stream, 1);
-	Stream_k_cores(&stream, 2);
+	for (size_t i = 0; i < 10; i++) {
+		KCore kcore = Stream_k_cores(&stream, i);
+		KCore_destroy(kcore);
+	}
 }
 
 int main() {
@@ -85,6 +87,12 @@ int main() {
 	benchmark(kcores, "kcores LS_90", 1);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
+
+	// sg	   = StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
+	// stream = FullStreamGraph_from(&sg);
+	// benchmark(kcores, "kcores primaryschool", 1);
+	// StreamGraph_destroy(sg);
+	// FullStreamGraph_destroy(stream);
 
 	return 0;
 }
