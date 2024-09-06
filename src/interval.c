@@ -117,6 +117,13 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b) {
 			}
 		}
 	}
+	if (intersection.size == 0) {
+		return (IntervalsSet){
+			.nb_intervals = 0,
+			.intervals	  = NULL,
+		};
+	}
+
 	IntervalsSet result = IntervalsSet_alloc(intersection.size);
 	for (size_t i = 0; i < intersection.size; i++) {
 		result.intervals[i] = intersection.array[i];
