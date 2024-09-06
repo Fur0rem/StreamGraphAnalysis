@@ -189,6 +189,22 @@ DeclareVectorDeriveEquals(DegreeInInterval);
 DeclareVectorDeriveToString(DegreeInInterval);
 
 DegreeInIntervalVector Stream_evolution_of_node_degree(const Stream* stream, NodeId node_id);
-void Stream_k_cores(const Stream* stream);
+
+typedef struct {
+	NodeId node_id;
+	IntervalVector presence;
+} NodePresence;
+
+DeclareVector(NodePresence);
+
+typedef struct {
+	NodePresenceVector nodes;
+} KCore;
+
+String KCore_to_string(const KCore* k_core);
+bool KCore_equals(const KCore* a, const KCore* b);
+
+KCore Stream_k_cores(const Stream* stream, size_t k);
+void KCore_clean_up(KCore* k_core);
 
 #endif // METRICS_H
