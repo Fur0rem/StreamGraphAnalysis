@@ -833,11 +833,9 @@ void KCore_destroy(KCore k_core) {
 }
 
 void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId neigh) {
-	// Find if the node is already in the vector
+	// Find if the node is already in the vector and with the same interval
 	for (size_t i = 0; i < k_cores->size; i++) {
 		if (k_cores->array[i].node_id == og_node && Interval_equals(&k_cores->array[i].time, &time)) {
-			// printf("CASE 0\n");
-			// printf("adding = [%zu, %zu] with neigh = %zu\n", time.start, time.end, neigh);
 			NodeIdVector_push(&k_cores->array[i].neighbours, neigh);
 			return;
 		}
@@ -846,8 +844,6 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 	// Find if there exists an interval that contains this one
 	for (size_t i = 0; i < k_cores->size; i++) {
 		if (k_cores->array[i].node_id == og_node && Interval_contains_interval(k_cores->array[i].time, time)) {
-			// printf("CASE 1\n");
-			// split the interval into 3
 			Interval one   = Interval_from(k_cores->array[i].time.start, time.start);
 			Interval two   = Interval_from(time.start, time.end);
 			Interval three = Interval_from(time.end, k_cores->array[i].time.end);
@@ -864,30 +860,19 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 			// Add the new intervals
 			if (!Interval_is_empty(one)) {
 				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
 					KCores_add(k_cores, og_node, one, old_neigh.array[i]);
 				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
-				// KCores_add(k_cores, og_node, one, neigh);
 			}
 			if (!Interval_is_empty(two)) {
 				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
 					KCores_add(k_cores, og_node, two, old_neigh.array[i]);
 				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
 				KCores_add(k_cores, og_node, two, neigh);
 			}
 			if (!Interval_is_empty(three)) {
 				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
 					KCores_add(k_cores, og_node, three, old_neigh.array[i]);
 				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
-				// KCores_add(k_cores, og_node, three, neigh);
 			}
 
 			NodeIdVector_destroy(old_neigh);
@@ -898,8 +883,6 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 	// Find if there exists an interval that is contained by this one
 	for (size_t i = 0; i < k_cores->size; i++) {
 		if (k_cores->array[i].node_id == og_node && Interval_contains_interval(time, k_cores->array[i].time)) {
-			// printf("CASE 2\n");
-			// printf("adding = [%zu, %zu] with neigh = %zu\n", time.start, time.end, neigh);
 			// split the interval into 3
 			Interval one   = Interval_from(time.start, k_cores->array[i].time.start);
 			Interval two   = Interval_from(k_cores->array[i].time.start, k_cores->array[i].time.end);
@@ -911,43 +894,20 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 				NodeIdVector_push(&old_neigh, old_neigh_backup.array[i]);
 			}
 
-			// printf("to old [%zu, %zu] with neigh = ", k_cores->array[i].time.start, k_cores->array[i].time.end);
-			// for (size_t i = 0; i < old_neigh.size; i++) {
-			// 	printf("%zu, ", old_neigh.array[i]);
-			// }
-			// printf("\n");
-
-			// printf("one = [%zu, %zu], two = [%zu, %zu], three = [%zu, %zu]\n", one.start, one.end, two.start,
-			// two.end, 	   three.start, three.end);
-
 			// Remove the old interval
 			KCoreDataVector_remove_and_swap(k_cores, i);
 
 			// Add the new intervals
 			if (!Interval_is_empty(one)) {
-				// for (size_t i = 0; i < old_neigh.size; i++) {
-				// 	NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
-				// }
-
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
 				KCores_add(k_cores, og_node, one, neigh);
 			}
 			if (!Interval_is_empty(two)) {
 				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
 					KCores_add(k_cores, og_node, two, old_neigh.array[i]);
 				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
 				KCores_add(k_cores, og_node, two, neigh);
 			}
 			if (!Interval_is_empty(three)) {
-				// for (size_t i = 0; i < old_neigh.size; i++) {
-				// 	NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
-				// }
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
 				KCores_add(k_cores, og_node, three, neigh);
 			}
 
@@ -960,21 +920,10 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 	// Find if one interval overlaps the other
 	for (size_t i = 0; i < k_cores->size; i++) {
 		if (k_cores->array[i].node_id == og_node && Interval_overlaps_interval(k_cores->array[i].time, time)) {
-			// printf("CASE 3\n");
-			// printf("adding = [%zu, %zu] with neigh = %zu\n", time.start, time.end, neigh);
-			// printf("Overlapping with [%zu, %zu]\n", k_cores->array[i].time.start, k_cores->array[i].time.end);
-
 			// split the interval into 3
 			Interval inter		  = Interval_intersection(k_cores->array[i].time, time);
 			Interval old_excluded = Interval_minus(k_cores->array[i].time, inter);
 			Interval new_excluded = Interval_minus(time, inter);
-
-			// if (old_excluded.start > new_excluded.start) {
-			// 	printf("CASE 3.1\n");
-			// 	Interval tmp = old_excluded;
-			// 	old_excluded = new_excluded;
-			// 	new_excluded = tmp;
-			// }
 
 			NodeIdVector old_neigh_backup = k_cores->array[i].neighbours;
 			NodeIdVector old_neigh		  = NodeIdVector_new();
@@ -982,57 +931,25 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 				NodeIdVector_push(&old_neigh, old_neigh_backup.array[i]);
 			}
 
-			// printf("to old [%zu, %zu] with neigh = ", k_cores->array[i].time.start, k_cores->array[i].time.end);
-			// for (size_t i = 0; i < old_neigh.size; i++) {
-			// 	printf("%zu, ", old_neigh.array[i]);
-			// }
-			// printf("\n");
-
-			// printf("one = [%zu, %zu], two = [%zu, %zu], three = [%zu, %zu]\n", old_excluded.start, old_excluded.end,
-			// 	   inter.start, inter.end, new_excluded.start, new_excluded.end);
-
 			// Remove the old interval
 			KCoreDataVector_remove_and_swap(k_cores, i);
 
 			// Add the new intervals
 			if (!Interval_is_empty(inter)) {
 				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
-					// printf("Adding inter [%zu, %zu] with neigh = %zu\n", inter.start, inter.end, old_neigh.array[i]);
 					KCores_add(k_cores, og_node, inter, old_neigh.array[i]);
 				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
-				// printf("Adding inter [%zu, %zu] with neigh = %zu\n", inter.start, inter.end, neigh);
 				KCores_add(k_cores, og_node, inter, neigh);
 			}
 
 			if (!Interval_is_empty(new_excluded)) {
-				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
-					// printf("Adding new_excluded [%zu, %zu] with neigh = %zu\n", new_excluded.start, new_excluded.end,
-					// 	   old_neigh.array[i]);
-					// KCores_add(k_cores, og_node, new_excluded, old_neigh.array[i]);
-				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
-				// printf("Adding new_excluded [%zu, %zu] with neigh = %zu\n", new_excluded.start, new_excluded.end,
-				//    neigh);
 				KCores_add(k_cores, og_node, new_excluded, neigh);
 			}
 
 			if (!Interval_is_empty(old_excluded)) {
 				for (size_t i = 0; i < old_neigh.size; i++) {
-					// NodeIdVector_push(&new_data.neighbours, old_neigh.array[i]);
-					// printf("Adding old_excluded [%zu, %zu] with neigh = %zu\n", old_excluded.start, old_excluded.end,
-					//    old_neigh.array[i]);
 					KCores_add(k_cores, og_node, old_excluded, old_neigh.array[i]);
 				}
-				// NodeIdVector_push(&new_data.neighbours, neigh);
-				// KCoreDataVector_push(k_cores, new_data);
-				// printf("Adding old_excluded [%zu, %zu] with neigh = %zu\n", old_excluded.start, old_excluded.end,
-				//    neigh);
-				// KCores_add(k_cores, og_node, old_excluded, neigh);
 			}
 			NodeIdVector_destroy(old_neigh);
 
@@ -1041,8 +958,6 @@ void KCores_add(KCoreDataVector* k_cores, NodeId og_node, Interval time, NodeId 
 	}
 
 	// Otherwise, add the node
-	// printf("CASE 4\n");
-	// printf("adding = [%zu, %zu] with neigh = %zu\n", time.start, time.end, neigh);
 	KCoreData new_data = {og_node, time, NodeIdVector_new()};
 	NodeIdVector_push(&new_data.neighbours, neigh);
 	KCoreDataVector_push(k_cores, new_data);
@@ -1064,159 +979,6 @@ DeclareVector(KCoreToRemove);
 DefineVector(KCoreToRemove);
 DefineVectorDeriveRemove(KCoreToRemove, NO_FREE(KCoreToRemove));
 DefineVectorDeriveToString(KCoreToRemove);
-
-/*void KCores_find_nodes_with_inferior_degree(KCoreDataVector* k_cores, size_t degree, const Stream* stream) {
-	int ie = 0;
-	while (true) {
-		printf("Nodes with inferior degree\n");
-		printf("Before remove : %s\n", KCoreDataVector_to_string(k_cores).data);
-
-		KCoreDataVector new_k_cores = KCoreDataVector_new();
-		for (size_t i = 0; i < k_cores->size; i++) {
-			if (k_cores->array[i].neighbours.size >= degree) {
-				for (size_t j = 0; j < k_cores->array[i].neighbours.size; j++) {
-					// check if the neighbour still exists by the time
-
-					KCoreData new_data = {k_cores->array[i].node_id, k_cores->array[i].time, NodeIdVector_new()};
-					NodeIdVector_push(&new_data.neighbours, k_cores->array[i].neighbours.array[j]);
-					KCores_add(&new_k_cores, new_data.node_id, new_data.time, new_data.neighbours.array[0]);
-				}
-			}
-		}
-
-		k_cores = &new_k_cores;
-
-		StreamFunctions fns = STREAM_FUNCS(fns, stream);
-		NodesIterator nodes = fns.nodes_set(stream->stream_data);
-		size_t nb_nodes		= count_nodes(nodes);
-
-		size_t* nb_intervals = MALLOC(sizeof(size_t) * nb_nodes);
-		for (size_t i = 0; i < nb_nodes; i++) {
-			nb_intervals[i] = 0;
-		}
-
-		for (size_t i = 0; i < k_cores->size; i++) {
-			nb_intervals[k_cores->array[i].node_id]++;
-		}
-
-		printf("nb_intervals : \n");
-		for (size_t i = 0; i < nb_nodes; i++) {
-			printf("%zu : %zu,\n", i, nb_intervals[i]);
-		}
-
-		IntervalsSet* intervals = MALLOC(sizeof(IntervalsSet) * nb_nodes);
-		for (size_t i = 0; i < nb_nodes; i++) {
-			intervals[i] = IntervalsSet_alloc(nb_intervals[i]);
-		}
-
-		int* nb_added = MALLOC(sizeof(int) * nb_nodes);
-		for (size_t i = 0; i < nb_nodes; i++) {
-			nb_added[i] = 0;
-		}
-
-		for (size_t i = 0; i < k_cores->size; i++) {
-			IntervalsSet_add_at(&intervals[k_cores->array[i].node_id], k_cores->array[i].time,
-								nb_added[k_cores->array[i].node_id]);
-			nb_added[k_cores->array[i].node_id]++;
-		}
-
-		printf("After remove : %s\n", KCoreDataVector_to_string(&new_k_cores).data);
-
-		KCoreDataVector newer_k_cores = KCoreDataVector_new();
-		for (size_t i = 0; i < k_cores->size; i++) {
-			if (k_cores->array[i].neighbours.size >= degree) {
-				for (size_t j = 0; j < k_cores->array[i].neighbours.size; j++) {
-
-					printf("i = %zu, j = %zu\n", i, j);
-					printf("interval = %s\n", Interval_to_string(&k_cores->array[i].time).data);
-					// check if the neighbour still exists by the time
-					IntervalsSet e = IntervalsSet_alloc(1);
-					IntervalsSet_add_at(&e, k_cores->array[i].time, 0);
-
-					printf("e[%zu] = %s\n", e.nb_intervals, Interval_to_string(&e.intervals[0]).data);
-
-					IntervalsSet inter = IntervalsSet_intersection(intervals[k_cores->array[i].neighbours.array[j]],
-e); if (inter.nb_intervals == 0) { continue;
-					}
-
-					// KCoreData new_data = {k_cores->array[i].node_id, k_cores->array[i].time, NodeIdVector_new()};
-					// NodeIdVector_push(&new_data.neighbours, k_cores->array[i].neighbours.array[j]);
-					// KCores_add(&newer_k_cores, new_data.node_id, new_data.time, new_data.neighbours.array[0]);
-					printf("old intervals : %s & %s\n",
-						   Interval_to_string(&intervals[k_cores->array[i].neighbours.array[j]].intervals[0]).data,
-						   Interval_to_string(&k_cores->array[i].time).data);
-					for (size_t k = 0; k < inter.nb_intervals; k++) {
-						printf("new interval : %s\n", Interval_to_string(&inter.intervals[k]).data);
-						KCoreData new_data = {k_cores->array[i].node_id, inter.intervals[k], NodeIdVector_new()};
-						NodeIdVector_push(&new_data.neighbours, k_cores->array[i].neighbours.array[j]);
-						KCores_add(&newer_k_cores, new_data.node_id, new_data.time, new_data.neighbours.array[0]);
-					}
-				}
-			}
-		}
-		printf("After EEE remove %d : %s\n", ie, KCoreDataVector_to_string(&newer_k_cores).data);
-
-		if (KCoreDataVector_equals(k_cores, &newer_k_cores)) {
-			break;
-		}
-
-		k_cores = &newer_k_cores;
-		ie++;
-	}
-}
-
-void Stream_k_cores(const Stream* stream) {
-	StreamFunctions fns = STREAM_FUNCS(fns, stream);
-
-	KCoreDataVector k_cores = KCoreDataVector_new();
-	NodesIterator nodes		= fns.nodes_set(stream->stream_data);
-	FOR_EACH_NODE(node_id, nodes) {
-		// Find the neighbours of the node
-		NodeIdVector neighbours = NodeIdVector_new();
-		LinksIterator links		= fns.neighbours_of_node(stream->stream_data, node_id);
-
-		FOR_EACH_LINK(link_id, links) {
-			Link link			= fns.link_by_id(stream->stream_data, link_id);
-			NodeId other_node	= Link_get_other_node(&link, node_id);
-			TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
-			FOR_EACH_TIME(interval, times) {
-				String str = KCoreDataVector_to_string(&k_cores);
-				printf("Before adding %zu->%zu [%zu, %zu[ : \n%s\n", node_id, other_node, interval.start,
-interval.end, str.data); String_destroy(str); KCores_add(&k_cores, node_id, interval, other_node); str =
-KCoreDataVector_to_string(&k_cores); printf("After adding %zu->%zu, [%zu, %zu[ : \n%s\n", node_id, other_node,
-interval.start, interval.end, str.data); String_destroy(str);
-			}
-		}
-	}
-
-	KCoreDataVector_sort(&k_cores);
-	String str = KCoreDataVector_to_string(&k_cores);
-	printf("%s\n", str.data);
-	String_destroy(str);
-
-	printf("Nodes with inferior degree\n");
-
-	KCores_find_nodes_with_inferior_degree(&k_cores, 2, stream);
-	// str = KCoreDataVector_to_string(&k_cores);
-	// printf("%s\n", str.data);
-	// String_destroy(str);
-
-	str = KCoreDataVector_to_string(&k_cores);
-	printf("after remove : %s\n", str.data);
-	String_destroy(str);
-	DegreeInIntervalVector degree_evol_0 = Stream_evolution_of_node_degree(stream, 0);
-	String str0							 = DegreeInIntervalVector_to_string(&degree_evol_0);
-	printf("%s\n", str0.data);
-	DegreeInIntervalVector degree_evol_1 = Stream_evolution_of_node_degree(stream, 1);
-	String str1							 = DegreeInIntervalVector_to_string(&degree_evol_1);
-	printf("%s\n", str1.data);
-	DegreeInIntervalVector degree_evol_2 = Stream_evolution_of_node_degree(stream, 2);
-	String str2							 = DegreeInIntervalVector_to_string(&degree_evol_2);
-	printf("%s\n", str2.data);
-	DegreeInIntervalVector degree_evol_3 = Stream_evolution_of_node_degree(stream, 3);
-	String str3							 = DegreeInIntervalVector_to_string(&degree_evol_3);
-	printf("%s\n", str3.data);
-}*/
 
 void KCoreDataVector_merge(KCoreDataVector* vec) {
 
@@ -1242,9 +1004,6 @@ void KCoreDataVector_merge(KCoreDataVector* vec) {
 
 	// see for each element in the vector that if the next one is the same except for the interval, merge them
 	for (size_t i = 0; i < vec->size - 1; i++) {
-		// printf("Element %zu : %s", i, KCoreData_to_string(&vec->array[i]).data);
-		// printf("Element %zu : %s", i + 1, KCoreData_to_string(&vec->array[i + 1]).data);
-		// bool merge = false;
 		if (vec->array[i].node_id == vec->array[i + 1].node_id &&
 			NodeIdVector_equals(&vec->array[i].neighbours, &vec->array[i + 1].neighbours)) {
 			Interval i1 = vec->array[i].time;
@@ -1252,12 +1011,10 @@ void KCoreDataVector_merge(KCoreDataVector* vec) {
 			if (i1.end == i2.start) {
 				Interval new_interval = Interval_from(i1.start, i2.end);
 				vec->array[i].time	  = new_interval;
-				KCoreDataVector_remove(vec, i + 1);
-				// merge = true;
+				KCoreDataVector_remove_and_swap(vec, i + 1);
 				i--;
 			}
 		}
-		// printf("merged? %d\n", merge);
 	}
 
 	KCoreDataVector_sort(vec);
@@ -1289,6 +1046,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	size_t nb_nodes = count_nodes(fns.nodes_set(stream->stream_data));
 
 	// Then, remove iteratively the nodes with degree < k until the k-cores are stable
+	size_t iteration = 0;
 	while (true) {
 
 		// KCoreDataVector_merge(&k_cores);
@@ -1360,6 +1118,9 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 		KCoreDataVector_destroy(k_cores);
 		k_cores = newer_k_cores;
+
+		printf(TEXT_BOLD "Iteration %zu\n" TEXT_RESET, iteration);
+		iteration++;
 	}
 
 	// Then, extract the k-core
@@ -1394,10 +1155,6 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 			IntervalVector_push(&kcore.nodes.array[cur_idx_to_push - 1].presence, k_cores.array[i].time);
 		}
 	}
-
-	// String str = KCore_to_string(&kcore);
-	// printf("%s\n", str.data);
-	// String_destroy(str);
 
 	KCoreDataVector_destroy(k_cores);
 
