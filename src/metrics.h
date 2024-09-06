@@ -203,6 +203,7 @@ typedef struct {
 
 String KCore_to_string(const KCore* k_core);
 bool KCore_equals(const KCore* a, const KCore* b);
+void KCore_destroy(KCore k_core);
 
 KCore Stream_k_cores(const Stream* stream, size_t k);
 void KCore_clean_up(KCore* k_core);
