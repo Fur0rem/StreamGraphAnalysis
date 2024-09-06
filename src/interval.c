@@ -201,3 +201,18 @@ Interval Interval_minus(Interval a, Interval b) {
 void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t index) {
 	intervals_set->intervals[index] = interval;
 }
+
+IntervalsSet IntervalsSet_from_interval_vector(IntervalVector intervals) {
+	return (IntervalsSet){
+		.nb_intervals = intervals.size,
+		.intervals	  = intervals.array,
+	};
+}
+
+IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set) {
+	return (IntervalVector){
+		.size	  = intervals_set.nb_intervals,
+		.capacity = intervals_set.nb_intervals,
+		.array	  = intervals_set.intervals,
+	};
+}

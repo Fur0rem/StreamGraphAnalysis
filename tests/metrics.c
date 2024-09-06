@@ -584,9 +584,66 @@ bool test_k_cores() {
 	StreamGraph sg = StreamGraph_from_external("data/kcores_test.txt");
 	Stream st	   = FullStreamGraph_from(&sg);
 
-	Stream_k_cores(&st);
+	KCore kcore_0 = Stream_k_cores(&st, 0);
+	KCore_clean_up(&kcore_0);
+	KCore kcore_1 = Stream_k_cores(&st, 1);
+	KCore_clean_up(&kcore_1);
+	KCore kcore_2 = Stream_k_cores(&st, 2);
+	KCore_clean_up(&kcore_2);
 
-	return true;
+#define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                  \
+	NodePresenceVector_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalVector_new()});      \
+	IntervalVector_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
+
+	KCore expected_kcore_0 = {NodePresenceVector_new()};
+	PUSH_SINGLE_INTERVAL(expected_kcore_0, 0, 0, 10);
+	PUSH_SINGLE_INTERVAL(expected_kcore_0, 1, 0, 10);
+	PUSH_SINGLE_INTERVAL(expected_kcore_0, 2, 0, 10);
+	PUSH_SINGLE_INTERVAL(expected_kcore_0, 3, 0, 10);
+
+	KCore expected_kcore_1 = {NodePresenceVector_new()};
+	PUSH_SINGLE_INTERVAL(expected_kcore_1, 0, 1, 6);
+	PUSH_SINGLE_INTERVAL(expected_kcore_1, 1, 3, 10);
+	PUSH_SINGLE_INTERVAL(expected_kcore_1, 2, 1, 9);
+	PUSH_SINGLE_INTERVAL(expected_kcore_1, 3, 2, 10);
+
+	KCore expected_kcore_2 = {NodePresenceVector_new()};
+	PUSH_SINGLE_INTERVAL(expected_kcore_2, 0, 4, 5);
+	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = IntervalVector_new()});
+	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(4, 5));
+	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(7, 9));
+	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = IntervalVector_new()});
+	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(4, 5));
+	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(7, 9));
+	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = IntervalVector_new()});
+	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
+	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
+
+	String str = KCore_to_string(&kcore_0);
+	printf("Kcore 0 : %s\n", str.data);
+	String_destroy(str);
+	str = KCore_to_string(&expected_kcore_0);
+	printf("Expected Kcore 0 : %s\n", str.data);
+	String_destroy(str);
+
+	String str_1 = KCore_to_string(&kcore_1);
+	printf("Kcore 1 : %s\n", str_1.data);
+	String_destroy(str_1);
+	String str_1_expected = KCore_to_string(&expected_kcore_1);
+	printf("Expected Kcore 1 : %s\n", str_1_expected.data);
+	String_destroy(str_1_expected);
+
+	String str_2 = KCore_to_string(&kcore_2);
+	printf("Kcore 2 : %s\n", str_2.data);
+	String_destroy(str_2);
+	String str_2_expected = KCore_to_string(&expected_kcore_2);
+	printf("Expected Kcore 2 : %s\n", str_2_expected.data);
+	String_destroy(str_2_expected);
+
+	bool result = EXPECT(KCore_equals(&kcore_0, &expected_kcore_0));
+	result &= EXPECT(KCore_equals(&kcore_1, &expected_kcore_1));
+	result &= EXPECT(KCore_equals(&kcore_2, &expected_kcore_2));
+	return result;
 }
 
 int main() {

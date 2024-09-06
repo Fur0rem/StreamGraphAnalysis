@@ -48,6 +48,11 @@ bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time);
 
 void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t index);
 
+IntervalsSet IntervalsSet_from_interval_vector(IntervalVector intervals);
+IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set);
+
+void IntervalsSet_sort(IntervalsSet* intervals_set);
+
 Interval Interval_empty();
 bool Interval_is_empty(Interval interval);
 #endif // INTERVAL_H
