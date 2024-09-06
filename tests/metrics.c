@@ -563,6 +563,7 @@ bool test_clustering_coeff_of_node() {
 
 TEST_METRIC_F(transitivity_ratio, 9.0 / 17.0, Figure_8, FullStreamGraph)
 
+// TODO: not a very useful function or test
 bool test_evolution_of_degree() {
 	StreamGraph sg		= StreamGraph_from_external("data/kcores_test.txt");
 	Stream st			= FullStreamGraph_from(&sg);
@@ -577,6 +578,9 @@ bool test_evolution_of_degree() {
 		DegreeInIntervalVector_destroy(degrees);
 	}
 
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
+
 	return true;
 }
 
@@ -588,6 +592,8 @@ bool test_k_cores() {
 	KCore_clean_up(&kcore_1);
 	KCore kcore_2 = Stream_k_cores(&st, 2);
 	KCore_clean_up(&kcore_2);
+	KCore kcore_3 = Stream_k_cores(&st, 3);
+	KCore_clean_up(&kcore_3);
 
 #define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                  \
 	NodePresenceVector_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalVector_new()});      \
@@ -611,23 +617,37 @@ bool test_k_cores() {
 	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
 	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
 
-	String str_1 = KCore_to_string(&kcore_1);
-	printf("Kcore 1 : %s\n", str_1.data);
-	String_destroy(str_1);
-	String str_1_expected = KCore_to_string(&expected_kcore_1);
-	printf("Expected Kcore 1 : %s\n", str_1_expected.data);
-	String_destroy(str_1_expected);
+	KCore expected_kcore_3 = {NodePresenceVector_new()};
 
-	String str_2 = KCore_to_string(&kcore_2);
-	printf("Kcore 2 : %s\n", str_2.data);
-	String_destroy(str_2);
-	String str_2_expected = KCore_to_string(&expected_kcore_2);
-	printf("Expected Kcore 2 : %s\n", str_2_expected.data);
-	String_destroy(str_2_expected);
+	// String str_1 = KCore_to_string(&kcore_1);
+	// printf("Kcore 1 : %s\n", str_1.data);
+	// String_destroy(str_1);
+	// String str_1_expected = KCore_to_string(&expected_kcore_1);
+	// printf("Expected Kcore 1 : %s\n", str_1_expected.data);
+	// String_destroy(str_1_expected);
+
+	// String str_2 = KCore_to_string(&kcore_2);
+	// printf("Kcore 2 : %s\n", str_2.data);
+	// String_destroy(str_2);
+	// String str_2_expected = KCore_to_string(&expected_kcore_2);
+	// printf("Expected Kcore 2 : %s\n", str_2_expected.data);
+	// String_destroy(str_2_expected);
 
 	bool result = true;
 	result &= EXPECT(KCore_equals(&kcore_1, &expected_kcore_1));
 	result &= EXPECT(KCore_equals(&kcore_2, &expected_kcore_2));
+	result &= EXPECT(KCore_equals(&kcore_3, &expected_kcore_3));
+
+	KCore_destroy(kcore_1);
+	KCore_destroy(kcore_2);
+	KCore_destroy(kcore_3);
+	KCore_destroy(expected_kcore_1);
+	KCore_destroy(expected_kcore_2);
+	KCore_destroy(expected_kcore_3);
+
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
+
 	return result;
 }
 

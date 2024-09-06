@@ -45,7 +45,12 @@ size_t IntervalsSet_size(IntervalsSet intervals_set) {
 IntervalsSet IntervalsSet_alloc(size_t nb_intervals) {
 	IntervalsSet set;
 	set.nb_intervals = nb_intervals;
-	set.intervals	 = MALLOC(nb_intervals * sizeof(Interval));
+	if (nb_intervals == 0) {
+		set.intervals = NULL;
+	}
+	else {
+		set.intervals = MALLOC(nb_intervals * sizeof(Interval));
+	}
 	return set;
 }
 
@@ -194,7 +199,13 @@ Interval Interval_minus(Interval a, Interval b) {
 	if (a.start < b.start && a.end > b.end) {
 		Interval one = Interval_from(a.start, b.start);
 		Interval two = Interval_from(b.end, a.end);
-		return one;
+		ASSERT(Interval_is_empty(one) || Interval_is_empty(two));
+		if (Interval_is_empty(one)) {
+			return two;
+		}
+		else {
+			return one;
+		}
 	}
 	if (a.start < b.start) {
 		return Interval_from(a.start, b.start);

@@ -71,6 +71,7 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	return times;
 }
 
+// FIXME: apparently this leaks memory
 TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	// Build an array of intervals
 	IntervalVector intervals = IntervalVector_new();

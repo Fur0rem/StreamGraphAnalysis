@@ -18,6 +18,8 @@
 	({                                                                                                                 \
 		if (size == 0) {                                                                                               \
 			fprintf(stderr, "Memory allocation with size 0 at %s:%d\n", __FILE__, __LINE__);                           \
+			int* ptr = NULL;                                                                                           \
+			*ptr	 = 0;                                                                                              \
 		}                                                                                                              \
 		void* ptr = malloc(size);                                                                                      \
 		if (ptr == NULL) {                                                                                             \
