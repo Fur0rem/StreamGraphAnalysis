@@ -13,10 +13,11 @@
 #define TEXT_RESET "\033[0m"
 
 // Malloc with error handling
+// TODO : print stack trace maybe?
 #define MALLOC_CHECK(size)                                                                                             \
 	({                                                                                                                 \
 		if (size == 0) {                                                                                               \
-			fprintf(stderr, "Memory allocation with size 0\n");                                                        \
+			fprintf(stderr, "Memory allocation with size 0 at %s:%d\n", __FILE__, __LINE__);                           \
 		}                                                                                                              \
 		void* ptr = malloc(size);                                                                                      \
 		if (ptr == NULL) {                                                                                             \

@@ -22,6 +22,11 @@ DONT_OPTIMISE void transitivity_ratio() {
 	Stream_transitivity_ratio(&stream);
 }
 
+DONT_OPTIMISE void kcores() {
+	Stream_k_cores(&stream, 1);
+	Stream_k_cores(&stream, 2);
+}
+
 int main() {
 	StreamGraph sg;
 	/*sg = StreamGraph_from_external("data/LS_90.txt");
@@ -51,15 +56,21 @@ int main() {
 	file_name = "data/facebooklike_1_transformed.txt";
 	benchmark(load, "load facebooklike", 10);*/
 
-	sg = StreamGraph_from_external("data/Figure_8.txt");
+	sg	   = StreamGraph_from_external("data/Figure_8.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(transitivity_ratio, "transitivity_ratio Figure_8", 10000);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	sg = StreamGraph_from_external("data/LS_90.txt");
+	sg	   = StreamGraph_from_external("data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
 	benchmark(transitivity_ratio, "transitivity_ratio LS_90", 1);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
+
+	sg	   = StreamGraph_from_external("data/kcores_test.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(kcores, "kcores kcores_test", 1);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
