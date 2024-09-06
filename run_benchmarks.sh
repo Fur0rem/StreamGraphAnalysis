@@ -46,7 +46,7 @@ if [ $# -eq 1 ]; then
     if [ $valgrind -ne 1 ]; then
         $BIN_DIR/benchmark_$filename
     else
-        valgrind --tool=callgrind $BIN_DIR/benchmark_$filename
+        valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
     fi
     # Check the return code
     if [ $? -ne 0 ]; then
@@ -103,7 +103,9 @@ for file in $benchmark_DIR/*.c; do
     fi
 
 
-    $BIN_DIR/benchmark_$filename
+    # $BIN_DIR/benchmark_$filename
+    valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
+
     # Check the return code
     if [ $? -ne 0 ]; then
         every_benchmark_that_failed="$every_benchmark_that_failed $filename"

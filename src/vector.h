@@ -28,7 +28,9 @@
 	void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values);                                 \
 	void type##Vector_reverse(type##Vector* vec);                                                                      \
 	type type##Vector_pop_first(type##Vector* vec);                                                                    \
-	type type##Vector_pop_last(type##Vector* vec);
+	type type##Vector_pop_last(type##Vector* vec);                                                                     \
+	type type##Vector_pop_nth(type##Vector* vec, size_t idx);                                                          \
+	type type##Vector_pop_nth_swap(type##Vector* vec, size_t idx);
 
 #define DefineVector(type)                                                                                             \
                                                                                                                        \
@@ -106,6 +108,24 @@
 		ASSERT(vec->size > 0);                                                                                         \
 		vec->size--;                                                                                                   \
 		return vec->array[vec->size];                                                                                  \
+	}                                                                                                                  \
+                                                                                                                       \
+	type type##Vector_pop_nth(type##Vector* vec, size_t idx) {                                                         \
+		ASSERT(idx < vec->size);                                                                                       \
+		type value = vec->array[idx];                                                                                  \
+		for (size_t i = idx; i < vec->size - 1; i++) {                                                                 \
+			vec->array[i] = vec->array[i + 1];                                                                         \
+		}                                                                                                              \
+		vec->size--;                                                                                                   \
+		return value;                                                                                                  \
+	}                                                                                                                  \
+                                                                                                                       \
+	type type##Vector_pop_nth_swap(type##Vector* vec, size_t idx) {                                                    \
+		ASSERT(idx < vec->size);                                                                                       \
+		type value		= vec->array[idx];                                                                             \
+		vec->array[idx] = vec->array[vec->size - 1];                                                                   \
+		vec->size--;                                                                                                   \
+		return value;                                                                                                  \
 	}
 
 /// Derives functions to the vector to remove elements, given a way to free the elements
