@@ -88,11 +88,17 @@ int main() {
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
 
-	// sg	   = StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
-	// stream = FullStreamGraph_from(&sg);
-	// benchmark(kcores, "kcores primaryschool", 1);
-	// StreamGraph_destroy(sg);
-	// FullStreamGraph_destroy(stream);
+	sg	   = StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(kcores, "kcores primaryschool", 1);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
+
+	sg	   = StreamGraph_from_external("data/facebooklike_1_transformed.txt");
+	stream = FullStreamGraph_from(&sg);
+	benchmark(kcores, "kcores facebooklike", 1);
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(stream);
 
 	return 0;
 }

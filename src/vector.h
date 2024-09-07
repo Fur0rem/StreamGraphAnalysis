@@ -9,6 +9,7 @@
 // TODO: maybe change push to push_back and array to data?
 // TODO: add macro for elem in array?
 // TODO: len or size for vectors?
+// TODO: pointers or no?
 
 /// Declare a vector of a given type, no other functions are defined
 #define DeclareVector(type)                                                                                            \
@@ -22,9 +23,9 @@
 	type##Vector type##Vector_new();                                                                                   \
 	void type##Vector_push(type##Vector* vec, type value);                                                             \
 	void type##Vector_push_unchecked(type##Vector* vec, type value);                                                   \
-	type* type##Vector_get(type##Vector* vec, size_t idx);                                                             \
-	size_t type##Vector_len(type##Vector* vec);                                                                        \
-	bool type##Vector_is_empty(type##Vector vec);                                                                      \
+	type* type##Vector_get(const type##Vector* vec, size_t idx);                                                       \
+	size_t type##Vector_len(const type##Vector* vec);                                                                  \
+	bool type##Vector_is_empty(const type##Vector vec);                                                                \
 	void type##Vector_append(type##Vector* vec, const type* values, size_t nb_values);                                 \
 	void type##Vector_reverse(type##Vector* vec);                                                                      \
 	type type##Vector_pop_first(type##Vector* vec);                                                                    \
@@ -61,16 +62,16 @@
 		vec->size++;                                                                                                   \
 	}                                                                                                                  \
                                                                                                                        \
-	type* type##Vector_get(type##Vector* vec, size_t idx) {                                                            \
+	type* type##Vector_get(const type##Vector* vec, size_t idx) {                                                      \
 		ASSERT(idx < vec->size);                                                                                       \
 		return &vec->array[idx];                                                                                       \
 	}                                                                                                                  \
                                                                                                                        \
-	size_t type##Vector_len(type##Vector* vec) {                                                                       \
+	size_t type##Vector_len(const type##Vector* vec) {                                                                 \
 		return vec->size;                                                                                              \
 	}                                                                                                                  \
                                                                                                                        \
-	bool type##Vector_is_empty(type##Vector vec) {                                                                     \
+	bool type##Vector_is_empty(const type##Vector vec) {                                                               \
 		return vec.size == 0;                                                                                          \
 	}                                                                                                                  \
                                                                                                                        \
@@ -176,13 +177,13 @@
 /// Derives functions to the vector, if the elements can be said equal or not equal
 /// You should prefer using VectorDeriveCompare if all of the elements can be full ordered
 #define DeclareVectorDeriveEquals(type)                                                                                \
-	bool type##Vector_equals(type##Vector* vec1, type##Vector* vec2);                                                  \
-	size_t type##Vector_find(type##Vector vec, type value);                                                            \
-	bool type##Vector_contains(type##Vector vec, type value);
+	bool type##Vector_equals(const type##Vector* vec1, const type##Vector* vec2);                                      \
+	size_t type##Vector_find(const type##Vector vec, type value);                                                      \
+	bool type##Vector_contains(const type##Vector vec, type value);
 
 #define DefineVectorDeriveEquals(type)                                                                                 \
                                                                                                                        \
-	bool type##Vector_equals(type##Vector* vec1, type##Vector* vec2) {                                                 \
+	bool type##Vector_equals(const type##Vector* vec1, const type##Vector* vec2) {                                     \
 		if (vec1->size != vec2->size) {                                                                                \
 			return false;                                                                                              \
 		}                                                                                                              \
@@ -194,7 +195,7 @@
 		return true;                                                                                                   \
 	}                                                                                                                  \
                                                                                                                        \
-	size_t type##Vector_find(type##Vector vec, type value) {                                                           \
+	size_t type##Vector_find(const type##Vector vec, type value) {                                                     \
 		for (size_t i = 0; i < vec.size; i++) {                                                                        \
 			if (type##_equals(&vec.array[i], &value)) {                                                                \
 				return i;                                                                                              \
@@ -203,7 +204,7 @@
 		return vec.size;                                                                                               \
 	}                                                                                                                  \
                                                                                                                        \
-	bool type##Vector_contains(type##Vector vec, type value) {                                                         \
+	bool type##Vector_contains(const type##Vector vec, type value) {                                                   \
 		return type##Vector_find(vec, value) < vec.size;                                                               \
 	}
 
@@ -216,10 +217,10 @@
 		qsort(vec->array, vec->size, sizeof(type), (int (*)(const void*, const void*))type##_compare);                 \
 	}
 
-#define DeclareVectorDeriveToString(type) String type##Vector_to_string(type##Vector* vec);
+#define DeclareVectorDeriveToString(type) String type##Vector_to_string(const type##Vector* vec);
 
 #define DefineVectorDeriveToString(type)                                                                               \
-	String type##Vector_to_string(type##Vector* vec) {                                                                 \
+	String type##Vector_to_string(const type##Vector* vec) {                                                           \
 		String str = String_from_duplicate("[ ");                                                                      \
 		for (size_t i = 0; i < vec->size; i++) {                                                                       \
 			String elem_str = type##_to_string(&vec->array[i]);                                                        \

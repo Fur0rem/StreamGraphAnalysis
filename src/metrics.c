@@ -1086,10 +1086,13 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 				if (k_cores_datas[i].array[j].neighbours.size >= degree) {
 					for (size_t k = 0; k < k_cores_datas[i].array[j].neighbours.size; k++) {
 						// See if a node that's a neighbour of the current node has been removed
-						IntervalsSet current = IntervalsSet_alloc(1);
-						IntervalsSet_add_at(&current, k_cores_datas[i].array[j].time, 0);
-						IntervalsSet inter = IntervalsSet_intersection(
-							intervals[k_cores_datas[i].array[j].neighbours.array[k]], current);
+						// IntervalsSet current = IntervalsSet_alloc(1);
+						// IntervalsSet_add_at(&current, k_cores_datas[i].array[j].time, 0);
+						// IntervalsSet inter = IntervalsSet_intersection(
+						// 	intervals[k_cores_datas[i].array[j].neighbours.array[k]], current);
+
+						IntervalsSet inter = IntervalsSet_intersection_with_single(
+							intervals[k_cores_datas[i].array[j].neighbours.array[k]], k_cores_datas[i].array[j].time);
 
 						for (size_t l = 0; l < inter.nb_intervals; l++) {
 							KCores_add(&newer_k_cores_datas[i], inter.intervals[l],
@@ -1097,7 +1100,6 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 						}
 
 						IntervalsSet_destroy(inter);
-						IntervalsSet_destroy(current);
 					}
 				}
 			}

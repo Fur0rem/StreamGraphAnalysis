@@ -353,7 +353,7 @@ typedef struct {
 	size_t* end;  // list of end time of neighbors
 } NeighborListEnd;
 
-NeighborListEnd alloc_NeighborListEnd(size_t degreeMax, size_t depthMax) {
+NeighborListEnd alloc_NeighborListEnd(size_t degreeMax) {
 	NeighborListEnd Nle;
 	Nle.n	 = MALLOC(degreeMax * sizeof(size_t));
 	Nle.n[0] = 0;
@@ -638,7 +638,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceVector links) {
 	dsum = 0;
 	for (size_t u = 0; u <= n; u++) {
 		if (degreeMax[u] > 0) {
-			N[u] = alloc_NeighborListEnd(degreeMax[u], degreeMax[u]);
+			N[u] = alloc_NeighborListEnd(degreeMax[u]);
 			S[u] = alloc_NeighborList(degreeMax[u], degreeMax[u]);
 			dsum += degreeMax[u];
 			nreal += 1;

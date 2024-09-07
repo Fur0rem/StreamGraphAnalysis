@@ -137,6 +137,66 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b) {
 	return result;
 }
 
+bool is_sorted(const Interval* intervals, size_t nb_intervals) {
+	for (size_t i = 1; i < nb_intervals; i++) {
+		if (intervals[i - 1].start > intervals[i].start) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval) {
+	for (size_t i = 0; i < intervals_set->nb_intervals; i++) {
+		Interval intersection_interval = Interval_intersection(intervals_set->intervals[i], interval);
+		if (Interval_size(intersection_interval) > 0) {
+			intervals_set->intervals[i] = intersection_interval;
+		}
+		else {
+			intervals_set->intervals[i] = Interval_empty();
+		}
+	}
+
+	// swap empty intervals to the end
+	size_t empty_intervals = 0;
+	for (size_t i = 0; i < intervals_set->nb_intervals; i++) {
+		if (Interval_is_empty(intervals_set->intervals[i])) {
+			empty_intervals++;
+		}
+		else {
+			if (empty_intervals > 0) {
+				intervals_set->intervals[i - empty_intervals] = intervals_set->intervals[i];
+				intervals_set->intervals[i]					  = Interval_empty();
+			}
+		}
+	}
+	intervals_set->nb_intervals -= empty_intervals;
+}
+
+IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet a, Interval b) {
+	IntervalVector intersection = IntervalVector_with_capacity(a.nb_intervals);
+	for (size_t i = 0; i < a.nb_intervals; i++) {
+		Interval a_interval			   = a.intervals[i];
+		Interval intersection_interval = Interval_intersection(a_interval, b);
+		if (Interval_size(intersection_interval) > 0) {
+			IntervalVector_push(&intersection, intersection_interval);
+		}
+	}
+	if (intersection.size == 0) {
+		return (IntervalsSet){
+			.nb_intervals = 0,
+			.intervals	  = NULL,
+		};
+	}
+
+	IntervalsSet result = IntervalsSet_alloc(intersection.size);
+	for (size_t i = 0; i < intersection.size; i++) {
+		result.intervals[i] = intersection.array[i];
+	}
+	IntervalVector_destroy(intersection);
+	return result;
+}
+
 int Interval_starts_before(const void* a, const void* b) {
 	Interval* interval_a = (Interval*)a;
 	Interval* interval_b = (Interval*)b;
