@@ -49,6 +49,9 @@ typedef struct {
 				(variable) = SnapshotStream_stream_functions;                                                          \
 				break;                                                                                                 \
 			}                                                                                                          \
+			default: {                                                                                                 \
+				UNREACHABLE_CODE;                                                                                      \
+			}                                                                                                          \
 		}                                                                                                              \
 		(variable);                                                                                                    \
 	})

@@ -899,7 +899,6 @@ bool Walk_involves_node_at_time(Walk* walk, NodeId node, double time) {
 
 double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
-	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
 	// size_t number_of_walks = 0;
 	// size_t number_of_walks_involving_node = 0;
 	// Compute all the walks between all the nodes

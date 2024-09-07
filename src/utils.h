@@ -81,13 +81,22 @@
 				assert(__assert_result);                                                                               \
 			}                                                                                                          \
 		})
-
 #else
 #	ifdef __clang__
 #		define ASSERT(expr) __builtin_expect((expr), 1)
 #	elif defined(__GNUC__)
 #		define ASSERT(expr) __attribute__((assume(expr)))
 #	endif
+#endif
+
+#ifdef DEBUG
+#	define UNREACHABLE_CODE                                                                                           \
+		({                                                                                                             \
+			fprintf(stderr, "Unreachable code reached at %s:%d\n", __FILE__, __LINE__);                                \
+			assert(false);                                                                                             \
+		})
+#else
+#	define UNREACHABLE_CODE __builtin_unreachable()
 #endif
 
 typedef struct {
