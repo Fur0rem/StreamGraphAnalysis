@@ -1,0 +1,91 @@
+\hypertarget{full__stream__graph_8h}{}\doxysection{src/stream/full\+\_\+stream\+\_\+graph.h File Reference}
+\label{full__stream__graph_8h}\index{src/stream/full\_stream\_graph.h@{src/stream/full\_stream\_graph.h}}
+
+
+\doxysubsection{Detailed Description}
+A wrapper around a \mbox{\hyperlink{structStreamGraph}{Stream\+Graph}} to use it as a \mbox{\hyperlink{structStream}{Stream}}. It does not do any transformation on the \mbox{\hyperlink{structStreamGraph}{Stream\+Graph}}. 
+
+{\ttfamily \#include \char`\"{}../metrics.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../stream.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../stream\+\_\+functions.\+h\char`\"{}}\newline
+Include dependency graph for full\+\_\+stream\+\_\+graph.\+h\+:
+% FIG 0
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}
+\begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}} structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structStream}{Stream}} \mbox{\hyperlink{full__stream__graph_8h_a92422b4cede73e1cf604d5b159c57dbb}{Full\+Stream\+Graph\+\_\+from}} (\mbox{\hyperlink{structStreamGraph}{Stream\+Graph}} $\ast$stream\+\_\+graph)
+\begin{DoxyCompactList}\small\item\em Creates a \mbox{\hyperlink{structStream}{Stream}} of a \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}} from a \mbox{\hyperlink{structStreamGraph}{Stream\+Graph}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{full__stream__graph_8h_aa486294dfad92536a7f5bdb3ff29da82}{Full\+Stream\+Graph\+\_\+destroy}} (\mbox{\hyperlink{structStream}{Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroys a \mbox{\hyperlink{structStream}{Stream}} of a \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structLink}{Link}} \mbox{\hyperlink{full__stream__graph_8h_a7113afa8886864fe1c5c9a2df61a4fab}{Full\+Stream\+Graph\+\_\+link\+\_\+by\+\_\+id}} (\mbox{\hyperlink{structStreamData}{Stream\+Data}} $\ast$stream\+\_\+data, Link\+Id link\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Returns the link corresponding to the given link id in the \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{full__stream__graph_8h_a0d712467b2ae1d18ccadce0f3bdc9321}\label{full__stream__graph_8h_a0d712467b2ae1d18ccadce0f3bdc9321}} 
+const \mbox{\hyperlink{structStreamFunctions}{Stream\+Functions}} {\bfseries Full\+Stream\+Graph\+\_\+stream\+\_\+functions}
+\begin{DoxyCompactList}\small\item\em The necessary functions to use a \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}} as a \mbox{\hyperlink{structStream}{Stream}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{full__stream__graph_8h_acb4be3a126b46ffe76e6157019653f3e}\label{full__stream__graph_8h_acb4be3a126b46ffe76e6157019653f3e}} 
+const \mbox{\hyperlink{structMetricsFunctions}{Metrics\+Functions}} {\bfseries Full\+Stream\+Graph\+\_\+metrics\+\_\+functions}
+\begin{DoxyCompactList}\small\item\em Some specialisation of the metrics functions for \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{full__stream__graph_8h_aa486294dfad92536a7f5bdb3ff29da82}\label{full__stream__graph_8h_aa486294dfad92536a7f5bdb3ff29da82}} 
+\index{full\_stream\_graph.h@{full\_stream\_graph.h}!FullStreamGraph\_destroy@{FullStreamGraph\_destroy}}
+\index{FullStreamGraph\_destroy@{FullStreamGraph\_destroy}!full\_stream\_graph.h@{full\_stream\_graph.h}}
+\doxysubsubsection{\texorpdfstring{FullStreamGraph\_destroy()}{FullStreamGraph\_destroy()}}
+{\footnotesize\ttfamily void Full\+Stream\+Graph\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}}}]{stream }\end{DoxyParamCaption})}
+
+
+
+Destroys a \mbox{\hyperlink{structStream}{Stream}} of a \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{full__stream__graph_8h_a92422b4cede73e1cf604d5b159c57dbb}\label{full__stream__graph_8h_a92422b4cede73e1cf604d5b159c57dbb}} 
+\index{full\_stream\_graph.h@{full\_stream\_graph.h}!FullStreamGraph\_from@{FullStreamGraph\_from}}
+\index{FullStreamGraph\_from@{FullStreamGraph\_from}!full\_stream\_graph.h@{full\_stream\_graph.h}}
+\doxysubsubsection{\texorpdfstring{FullStreamGraph\_from()}{FullStreamGraph\_from()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structStream}{Stream}} Full\+Stream\+Graph\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStreamGraph}{Stream\+Graph}} $\ast$}]{stream\+\_\+graph }\end{DoxyParamCaption})}
+
+
+
+Creates a \mbox{\hyperlink{structStream}{Stream}} of a \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}} from a \mbox{\hyperlink{structStreamGraph}{Stream\+Graph}}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The \mbox{\hyperlink{structStreamGraph}{Stream\+Graph}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{full__stream__graph_8h_a7113afa8886864fe1c5c9a2df61a4fab}\label{full__stream__graph_8h_a7113afa8886864fe1c5c9a2df61a4fab}} 
+\index{full\_stream\_graph.h@{full\_stream\_graph.h}!FullStreamGraph\_link\_by\_id@{FullStreamGraph\_link\_by\_id}}
+\index{FullStreamGraph\_link\_by\_id@{FullStreamGraph\_link\_by\_id}!full\_stream\_graph.h@{full\_stream\_graph.h}}
+\doxysubsubsection{\texorpdfstring{FullStreamGraph\_link\_by\_id()}{FullStreamGraph\_link\_by\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structLink}{Link}} Full\+Stream\+Graph\+\_\+link\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStreamData}{Stream\+Data}} $\ast$}]{stream\+\_\+data,  }\item[{Link\+Id}]{link\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Returns the link corresponding to the given link id in the \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em full\+\_\+stream\+\_\+graph} & The \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em link\+\_\+id} & The link id. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The link corresponding to the given link id in the \mbox{\hyperlink{structFullStreamGraph}{Full\+Stream\+Graph}}. 
+\end{DoxyReturn}

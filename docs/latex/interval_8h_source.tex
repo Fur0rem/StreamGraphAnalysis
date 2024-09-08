@@ -1,0 +1,66 @@
+\hypertarget{interval_8h_source}{}\doxysection{interval.\+h}
+\label{interval_8h_source}\index{src/interval.h@{src/interval.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef INTERVAL\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define INTERVAL\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}units.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}vector.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{11     TimeId start;}
+\DoxyCodeLine{12     TimeId end;}
+\DoxyCodeLine{13 \} \mbox{\hyperlink{structInterval}{Interval}};}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{16     \textcolor{keywordtype}{size\_t} nb\_intervals;}
+\DoxyCodeLine{17     \mbox{\hyperlink{structInterval}{Interval}}* intervals;}
+\DoxyCodeLine{18 \} \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{// TODO: maybe change the name of contains ?}}
+\DoxyCodeLine{21 \textcolor{keywordtype}{bool} Interval\_contains(\mbox{\hyperlink{structInterval}{Interval}} interval, TimeId time);}
+\DoxyCodeLine{22 \textcolor{keywordtype}{bool} Interval\_contains\_interval(\mbox{\hyperlink{structInterval}{Interval}} a, \mbox{\hyperlink{structInterval}{Interval}} b);}
+\DoxyCodeLine{23 \textcolor{keywordtype}{bool} Interval\_overlaps\_interval(\mbox{\hyperlink{structInterval}{Interval}} a, \mbox{\hyperlink{structInterval}{Interval}} b);}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keywordtype}{size\_t} Interval\_size(\mbox{\hyperlink{structInterval}{Interval}} interval);}
+\DoxyCodeLine{26 \mbox{\hyperlink{structInterval}{Interval}} Interval\_from(TimeId start, TimeId end);}
+\DoxyCodeLine{27 \mbox{\hyperlink{structInterval}{Interval}} Interval\_intersection(\mbox{\hyperlink{structInterval}{Interval}} a, \mbox{\hyperlink{structInterval}{Interval}} b);}
+\DoxyCodeLine{28 \mbox{\hyperlink{structInterval}{Interval}} Interval\_minus(\mbox{\hyperlink{structInterval}{Interval}} a, \mbox{\hyperlink{structInterval}{Interval}} b);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 DeclareToString(\mbox{\hyperlink{structInterval}{Interval}});}
+\DoxyCodeLine{31 DeclareEquals(\mbox{\hyperlink{structInterval}{Interval}});}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 DeclareVector(\mbox{\hyperlink{structInterval}{Interval}});}
+\DoxyCodeLine{34 DeclareVectorDeriveRemove(\mbox{\hyperlink{structInterval}{Interval}});}
+\DoxyCodeLine{35 DeclareVectorDeriveEquals(\mbox{\hyperlink{structInterval}{Interval}});}
+\DoxyCodeLine{36 DeclareVectorDeriveToString(\mbox{\hyperlink{structInterval}{Interval}});}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{comment}{// int Interval\_starts\_before(const void* a, const void* b);}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{keywordtype}{size\_t} IntervalsSet\_size(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} intervals\_set);}
+\DoxyCodeLine{41 \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} IntervalsSet\_alloc(\textcolor{keywordtype}{size\_t} nb\_intervals);}
+\DoxyCodeLine{42 \textcolor{keywordtype}{void} IntervalsSet\_merge(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}* intervals\_set);}
+\DoxyCodeLine{43 \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} IntervalsSet\_intersection(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} a, \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} b);}
+\DoxyCodeLine{44 \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} IntervalsSet\_intersection\_with\_single(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} a, \mbox{\hyperlink{structInterval}{Interval}} interval);}
+\DoxyCodeLine{45 \textcolor{keywordtype}{void} IntervalsSet\_self\_intersection\_with\_single(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}* intervals\_set, \mbox{\hyperlink{structInterval}{Interval}} interval);}
+\DoxyCodeLine{46 \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} IntervalsSet\_union(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} a, \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} b);}
+\DoxyCodeLine{47 \textcolor{keywordtype}{void} IntervalsSet\_destroy(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} intervals\_set);}
+\DoxyCodeLine{48 \mbox{\hyperlink{structInterval}{Interval}} IntervalsSet\_last(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}* intervals\_set);}
+\DoxyCodeLine{49 \textcolor{keywordtype}{bool} IntervalsSet\_contains(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} intervals\_set, TimeId time);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{keywordtype}{void} IntervalsSet\_add\_at(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}* intervals\_set, \mbox{\hyperlink{structInterval}{Interval}} interval, \textcolor{keywordtype}{size\_t} index);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} IntervalsSet\_from\_interval\_vector(IntervalVector intervals);}
+\DoxyCodeLine{54 IntervalVector IntervalVector\_from\_intervals\_set(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} intervals\_set);}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{keywordtype}{void} IntervalsSet\_sort(\mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}* intervals\_set);}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \mbox{\hyperlink{structInterval}{Interval}} Interval\_empty();}
+\DoxyCodeLine{59 \textcolor{keywordtype}{bool} Interval\_is\_empty(\mbox{\hyperlink{structInterval}{Interval}} interval);}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// INTERVAL\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,14 @@
+<map id="src/bit_array.h" name="src/bit_array.h">
+<area shape="rect" id="node1" title="A variable length array of bits and functions to manipulate it." alt="" coords="376,5,489,32"/>
+<area shape="rect" id="node2" href="$stream_8h_source.html" title=" " alt="" coords="381,169,484,196"/>
+<area shape="rect" id="node12" href="$events__table_8h_source.html" title=" " alt="" coords="407,80,589,121"/>
+<area shape="rect" id="node3" href="$induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="263,319,415,345"/>
+<area shape="rect" id="node4" href="$iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="377,244,489,271"/>
+<area shape="rect" id="node5" href="$metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="634,319,741,345"/>
+<area shape="rect" id="node6" href="$chunk__stream_8h_source.html" title=" " alt="" coords="5,401,204,427"/>
+<area shape="rect" id="node7" href="$chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="229,393,415,435"/>
+<area shape="rect" id="node8" href="$full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="440,393,609,435"/>
+<area shape="rect" id="node9" href="$link__stream_8h_source.html" title=" " alt="" coords="634,401,818,427"/>
+<area shape="rect" id="node10" href="$snapshot__stream_8h_source.html" title=" " alt="" coords="842,393,997,435"/>
+<area shape="rect" id="node11" href="$stream__functions_8h_source.html" title=" " alt="" coords="439,319,610,345"/>
+</map>
