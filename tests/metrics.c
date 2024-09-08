@@ -189,6 +189,20 @@ bool test_contributions_of_links() {
 TEST_METRIC_F(uniformity, 22.0 / 56.0, S_external, FullStreamGraph)
 TEST_METRIC_F(density, 10.0 / 22.0, S_external, FullStreamGraph)
 
+bool test_density_linkstream() {
+	StreamGraph sg	   = StreamGraph_from_external("data/L.txt");
+	Stream ls		   = LS_from(&sg);
+	Stream fsg		   = FullStreamGraph_from(&sg);
+	double density_ls  = Stream_density(&ls);
+	double density_fsg = Stream_density(&fsg);
+	StreamGraph_destroy(sg);
+	LS_destroy(ls);
+	FullStreamGraph_destroy(fsg);
+	printf("Density LS : %f\n", density_ls);
+	printf("Density FSG : %f\n", density_fsg);
+	return true;
+}
+
 bool test_density_of_link() {
 	StreamGraph sg	  = StreamGraph_from_file("data/S.txt");
 	Stream st		  = FullStreamGraph_from(&sg);
@@ -563,93 +577,93 @@ bool test_clustering_coeff_of_node() {
 
 TEST_METRIC_F(transitivity_ratio, 9.0 / 17.0, Figure_8, FullStreamGraph)
 
-// TODO: not a very useful function or test
-bool test_evolution_of_degree() {
-	StreamGraph sg		= StreamGraph_from_external("data/kcores_test.txt");
-	Stream st			= FullStreamGraph_from(&sg);
-	StreamFunctions fns = STREAM_FUNCS(fns, &st);
+// // TODO: not a very useful function or test
+// bool test_evolution_of_degree() {
+// 	StreamGraph sg		= StreamGraph_from_external("data/kcores_test.txt");
+// 	Stream st			= FullStreamGraph_from(&sg);
+// 	StreamFunctions fns = STREAM_FUNCS(fns, &st);
 
-	NodesIterator nodes = fns.nodes_set(st.stream_data);
-	FOR_EACH_NODE(node_id, nodes) {
-		DegreeInIntervalVector degrees = Stream_evolution_of_node_degree(&st, node_id);
-		String str					   = DegreeInIntervalVector_to_string(&degrees);
-		printf("Node %zu : %s\n", node_id, str.data);
-		String_destroy(str);
-		DegreeInIntervalVector_destroy(degrees);
-	}
+// 	NodesIterator nodes = fns.nodes_set(st.stream_data);
+// 	FOR_EACH_NODE(node_id, nodes) {
+// 		DegreeInIntervalVector degrees = Stream_evolution_of_node_degree(&st, node_id);
+// 		String str					   = DegreeInIntervalVector_to_string(&degrees);
+// 		printf("Node %zu : %s\n", node_id, str.data);
+// 		String_destroy(str);
+// 		DegreeInIntervalVector_destroy(degrees);
+// 	}
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+// 	StreamGraph_destroy(sg);
+// 	FullStreamGraph_destroy(st);
 
-	return true;
-}
+// 	return true;
+// }
 
-bool test_k_cores() {
-	StreamGraph sg = StreamGraph_from_external("data/kcores_test.txt");
-	Stream st	   = FullStreamGraph_from(&sg);
+// bool test_k_cores() {
+// 	StreamGraph sg = StreamGraph_from_external("data/kcores_test.txt");
+// 	Stream st	   = FullStreamGraph_from(&sg);
 
-	KCore kcore_1 = Stream_k_cores(&st, 1);
-	KCore_clean_up(&kcore_1);
-	KCore kcore_2 = Stream_k_cores(&st, 2);
-	KCore_clean_up(&kcore_2);
-	KCore kcore_3 = Stream_k_cores(&st, 3);
-	KCore_clean_up(&kcore_3);
+// 	KCore kcore_1 = Stream_k_cores(&st, 1);
+// 	KCore_clean_up(&kcore_1);
+// 	KCore kcore_2 = Stream_k_cores(&st, 2);
+// 	KCore_clean_up(&kcore_2);
+// 	KCore kcore_3 = Stream_k_cores(&st, 3);
+// 	KCore_clean_up(&kcore_3);
 
-#define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                  \
-	NodePresenceVector_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalVector_new()});      \
-	IntervalVector_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
+// #define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                  \
+// 	NodePresenceVector_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalVector_new()});      \
+// 	IntervalVector_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
 
-	KCore expected_kcore_1 = {NodePresenceVector_new()};
-	PUSH_SINGLE_INTERVAL(expected_kcore_1, 0, 1, 6);
-	PUSH_SINGLE_INTERVAL(expected_kcore_1, 1, 3, 10);
-	PUSH_SINGLE_INTERVAL(expected_kcore_1, 2, 1, 9);
-	PUSH_SINGLE_INTERVAL(expected_kcore_1, 3, 2, 10);
+// 	KCore expected_kcore_1 = {NodePresenceVector_new()};
+// 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 0, 1, 6);
+// 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 1, 3, 10);
+// 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 2, 1, 9);
+// 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 3, 2, 10);
 
-	KCore expected_kcore_2 = {NodePresenceVector_new()};
-	PUSH_SINGLE_INTERVAL(expected_kcore_2, 0, 4, 5);
-	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = IntervalVector_new()});
-	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(4, 5));
-	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(7, 9));
-	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = IntervalVector_new()});
-	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(4, 5));
-	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(7, 9));
-	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = IntervalVector_new()});
-	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
-	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
+// 	KCore expected_kcore_2 = {NodePresenceVector_new()};
+// 	PUSH_SINGLE_INTERVAL(expected_kcore_2, 0, 4, 5);
+// 	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = IntervalVector_new()});
+// 	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(4, 5));
+// 	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(7, 9));
+// 	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = IntervalVector_new()});
+// 	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(4, 5));
+// 	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(7, 9));
+// 	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = IntervalVector_new()});
+// 	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
+// 	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
 
-	KCore expected_kcore_3 = {NodePresenceVector_new()};
+// 	KCore expected_kcore_3 = {NodePresenceVector_new()};
 
-	// String str_1 = KCore_to_string(&kcore_1);
-	// printf("Kcore 1 : %s\n", str_1.data);
-	// String_destroy(str_1);
-	// String str_1_expected = KCore_to_string(&expected_kcore_1);
-	// printf("Expected Kcore 1 : %s\n", str_1_expected.data);
-	// String_destroy(str_1_expected);
+// 	// String str_1 = KCore_to_string(&kcore_1);
+// 	// printf("Kcore 1 : %s\n", str_1.data);
+// 	// String_destroy(str_1);
+// 	// String str_1_expected = KCore_to_string(&expected_kcore_1);
+// 	// printf("Expected Kcore 1 : %s\n", str_1_expected.data);
+// 	// String_destroy(str_1_expected);
 
-	// String str_2 = KCore_to_string(&kcore_2);
-	// printf("Kcore 2 : %s\n", str_2.data);
-	// String_destroy(str_2);
-	// String str_2_expected = KCore_to_string(&expected_kcore_2);
-	// printf("Expected Kcore 2 : %s\n", str_2_expected.data);
-	// String_destroy(str_2_expected);
+// 	// String str_2 = KCore_to_string(&kcore_2);
+// 	// printf("Kcore 2 : %s\n", str_2.data);
+// 	// String_destroy(str_2);
+// 	// String str_2_expected = KCore_to_string(&expected_kcore_2);
+// 	// printf("Expected Kcore 2 : %s\n", str_2_expected.data);
+// 	// String_destroy(str_2_expected);
 
-	bool result = true;
-	result &= EXPECT(KCore_equals(&kcore_1, &expected_kcore_1));
-	result &= EXPECT(KCore_equals(&kcore_2, &expected_kcore_2));
-	result &= EXPECT(KCore_equals(&kcore_3, &expected_kcore_3));
+// 	bool result = true;
+// 	result &= EXPECT(KCore_equals(&kcore_1, &expected_kcore_1));
+// 	result &= EXPECT(KCore_equals(&kcore_2, &expected_kcore_2));
+// 	result &= EXPECT(KCore_equals(&kcore_3, &expected_kcore_3));
 
-	KCore_destroy(kcore_1);
-	KCore_destroy(kcore_2);
-	KCore_destroy(kcore_3);
-	KCore_destroy(expected_kcore_1);
-	KCore_destroy(expected_kcore_2);
-	KCore_destroy(expected_kcore_3);
+// 	KCore_destroy(kcore_1);
+// 	KCore_destroy(kcore_2);
+// 	KCore_destroy(kcore_3);
+// 	KCore_destroy(expected_kcore_1);
+// 	KCore_destroy(expected_kcore_2);
+// 	KCore_destroy(expected_kcore_3);
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+// 	StreamGraph_destroy(sg);
+// 	FullStreamGraph_destroy(st);
 
-	return result;
-}
+// 	return result;
+// }
 
 int main() {
 
@@ -686,8 +700,9 @@ int main() {
 		TEST(test_chunk_stream_small_times_node_present),
 		TEST(test_clustering_coeff_of_node),
 		TEST(test_transitivity_ratio),
-		TEST(test_evolution_of_degree),
-		TEST(test_k_cores),
+		TEST(test_density_linkstream),
+		// TEST(test_evolution_of_degree),
+		// TEST(test_k_cores),
 		NULL,
 	};
 

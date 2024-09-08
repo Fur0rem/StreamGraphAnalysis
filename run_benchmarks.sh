@@ -32,16 +32,17 @@ if [ $# -eq 1 ]; then
     rm -f $BIN_DIR/$filename.a
     rm -f $BIN_DIR/$filename.o
     # If the src file.c does not exist, compile the benchmark file into an executable (header only library)
-    if [ ! -f $SRC_DIR/$filename.c ]; then
-        $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/benchmark.o
-    else
+    #if [ ! -f $SRC_DIR/$filename.c ]; then
+        #$CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/benchmark.o
+    #else
+    # TODO: check if the file is a header only library
         make $filename
         if [ -f $BIN_DIR/$filename.a ]; then
-            $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/$filename.a $BIN_DIR/benchmark.o
+            $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
         else
             $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
         fi
-    fi
+    #fi
 
     if [ $valgrind -ne 1 ]; then
         $BIN_DIR/benchmark_$filename
@@ -76,17 +77,17 @@ for file in $benchmark_DIR/*.c; do
     # Remove old benchmark file
     rm -f $BIN_DIR/benchmark_$filename
     # If the src file.c does not exist, compile the benchmark file into an executable
-    if [ ! -f $SRC_DIR/$filename.c ]; then
-        $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/benchmark.o
-    else
+    # if [ ! -f $SRC_DIR/$filename.c ]; then
+    #     $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/benchmark.o
+    # else
         make $filename
         # If the compilation produced a .a file, use it instead of the .o file
         if [ -f $BIN_DIR/$filename.a ]; then
-            $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/$filename.a $BIN_DIR/benchmark.o
+            $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
         else
             $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
         fi
-    fi
+    # fi
 
     # If the file is present but not the benchmark, the compilation of the benchmark failed
     # If neither are present, the compilation of the file failed
@@ -104,7 +105,12 @@ for file in $benchmark_DIR/*.c; do
 
 
     # $BIN_DIR/benchmark_$filename
-    valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
+    # Check if the --valgrind flag is present
+    if [ $valgrind -ne 1 ]; then
+        $BIN_DIR/benchmark_$filename
+    else
+        valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
+    fi
 
     # Check the return code
     if [ $? -ne 0 ]; then
