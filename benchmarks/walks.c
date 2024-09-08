@@ -1,4 +1,4 @@
-#include "../src/walks.h"
+#include "../src/analysis/walks.h"
 #include "../src/metrics.h"
 #include "../src/stream.h"
 #include "../src/stream/full_stream_graph.h"

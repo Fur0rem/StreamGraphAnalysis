@@ -247,16 +247,30 @@ size_t LS_cardinal_of_V(Stream* stream) {
 }
 
 size_t LS_cardinal_of_W(Stream* stream) {
-	size_t v = cardinalOfT(stream);
-	size_t t = cardinalOfW(stream);
+	size_t v = LS_cardinal_of_V(stream);
+	size_t t = LS_cardinal_of_T(stream);
 	size_t w = v * t;
 	UPDATE_CACHE(stream, cardinalOfW, w);
 	return w;
 }
 
+size_t LS_cardinal_of_E(Stream* stream) {
+	LinkStream* ls = (LinkStream*)stream->stream_data;
+	size_t e	   = 0;
+	for (size_t i = 0; i < ls->underlying_stream_graph->links.nb_links; i++) {
+		Link link = ls->underlying_stream_graph->links.links[i];
+		for (size_t j = 0; j < link.presence.nb_intervals; j++) {
+			e += Interval_size(link.presence.intervals[j]);
+		}
+	}
+	UPDATE_CACHE(stream, cardinalOfE, e);
+	return e;
+}
+
 double density(Stream* stream) {
 	size_t n = LS_cardinal_of_V(stream);
-	double m = Stream_number_of_links(stream);
+	// we multiply by 2 here because it's faster to double an integer than to double a float
+	double m = (double)(2 * LS_cardinal_of_E(stream)) / (double)LS_cardinal_of_T(stream);
 	return m / (double)(n * (n - 1));
 }
 

@@ -1,11 +1,11 @@
 #ifndef WALK_H
 #define WALK_H
 
-#include "interval.h"
-#include "stream.h"
-#include "units.h"
-#include "utils.h"
-#include "vector.h"
+#include "../interval.h"
+#include "../stream.h"
+#include "../units.h"
+#include "../utils.h"
+#include "../vector.h"
 #include <stdbool.h>
 #include <stddef.h>
 

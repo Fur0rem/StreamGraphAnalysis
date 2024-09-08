@@ -1,4 +1,4 @@
-#include "../src/cliques.h"
+#include "../src/analysis/cliques.h"
 #include "../src/induced_graph.h"
 #include "../src/stream.h"
 #include "../src/stream/full_stream_graph.h"

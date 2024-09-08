@@ -1,3 +1,7 @@
+#include "src/analysis/cliques.h"
+#include "src/analysis/kcores.h"
+#include "src/analysis/walks.h"
+#include "src/metrics.h"
 #include "src/stream.h"
 #include "src/stream/chunk_stream.h"
 #include "src/stream/chunk_stream_small.h"
@@ -6,4 +10,3 @@
 #include "src/stream/snapshot_stream.h"
 #include "src/stream_functions.h"
 #include "src/utils.h"
-#include "src/walks.h"

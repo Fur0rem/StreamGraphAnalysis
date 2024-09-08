@@ -379,7 +379,21 @@ String EventTuple_to_string(EventTuple* tuple) {
 }
 
 bool EventTuple_equals(EventTuple tuple1, EventTuple tuple2) {
-	return true;
+	if (tuple1.moment != tuple2.moment) {
+		return false;
+	}
+	if (tuple1.sign != tuple2.sign) {
+		return false;
+	}
+	if (tuple1.letter != tuple2.letter) {
+		return false;
+	}
+	if (tuple1.letter == 'N') {
+		return tuple1.id.node == tuple2.id.node;
+	}
+	else {
+		return tuple1.id.node1 == tuple2.id.node1 && tuple1.id.node2 == tuple2.id.node2;
+	}
 }
 
 DeclareVector(EventTuple);
@@ -663,11 +677,9 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	// printf("parsing events 2\n");
 	for (size_t i = 0; i < events.size; i++) {
-		char buffer[50000]; // FIXME : make this dynamic or this shit can overflow
 		// sprintf(buffer, "%zu=(", events.array[i].array[0].moment);
 		String_append_formatted(&out_str, "%zu=(", events.array[i].array[0].moment);
 		for (size_t j = 0; j < events.array[i].size; j++) {
-			char tuple_str[50];
 			if (events.array[i].array[j].letter == 'L') {
 				EventTuple e = events.array[i].array[j];
 				size_t idx1	 = e.id.node1;

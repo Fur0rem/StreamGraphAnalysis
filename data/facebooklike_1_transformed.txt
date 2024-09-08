@@ -1,7 +1,7 @@
 SGA External Format 1.0.0
 
 [General]
-Lifespan=(9186961 25923143)
+Lifespan=(0 25923143)
 Scaling=1
 
 [Events]
