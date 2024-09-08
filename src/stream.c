@@ -133,7 +133,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	EXPECTED_NB_SCANNED(1);
 	GO_TO_NEXT_LINE(str);
 
-	size_t* key_moments = (size_t*)malloc(nb_key_moments * sizeof(size_t));
+	size_t* key_moments = MALLOC(nb_key_moments * sizeof(size_t));
 	// Allocate the stream graph
 	sg.key_moments = KeyMomentsTable_alloc(nb_slices);
 	sg.nodes	   = TemporalNodesSet_alloc(nb_nodes);
@@ -144,22 +144,41 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	NEXT_HEADER([[[NumberOfNeighbours]]]);
 	for (size_t node = 0; node < nb_nodes; node++) {
 		// Parse the node
-		size_t nb_neighbours;
-		nb_scanned = sscanf(str, "%zu\n", &nb_neighbours);
-		EXPECTED_NB_SCANNED(1);
-		GO_TO_NEXT_LINE(str);
+		// size_t nb_neighbours;
+		// nb_scanned = sscanf(str, "%zu\n", &nb_neighbours);
+		// EXPECTED_NB_SCANNED(1);
+		// GO_TO_NEXT_LINE(str);
+
+		char* new_ptr;
+		size_t nb_neighbours = strtol(str, &new_ptr, 10);
+		// printf("nb_neighbours 1 : %zu\n", nb_neighbours);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the number of neighbours\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str = new_ptr + 1;
 		// Allocate the neighbours
 		sg.nodes.nodes[node].nb_neighbours = nb_neighbours;
-		sg.nodes.nodes[node].neighbours	   = (LinkId*)malloc(nb_neighbours * sizeof(LinkId));
+		sg.nodes.nodes[node].neighbours	   = MALLOC(nb_neighbours * sizeof(LinkId));
 	}
 
 	NEXT_HEADER([[[NumberOfIntervals]]]);
 	for (size_t node = 0; node < nb_nodes; node++) {
 		// Parse the node
-		size_t nb_intervals;
-		nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
-		EXPECTED_NB_SCANNED(1);
-		GO_TO_NEXT_LINE(str);
+		// size_t nb_intervals;
+		// nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
+		// EXPECTED_NB_SCANNED(1);
+		// GO_TO_NEXT_LINE(str);
+		char* new_ptr;
+		size_t nb_intervals = strtol(str, &new_ptr, 10);
+		// printf("nb_neighbours 2 : %zu\n", nb_intervals);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the number of intervals\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str = new_ptr + 1;
 		// Allocate the intervals
 		IntervalsSet presence		  = IntervalsSet_alloc(nb_intervals);
 		sg.nodes.nodes[node].presence = presence;
@@ -169,22 +188,40 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	NEXT_HEADER([[[NumberOfIntervals]]]);
 	for (size_t link = 0; link < nb_links; link++) {
 		// Parse the edge
-		size_t nb_intervals;
-		nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
-		EXPECTED_NB_SCANNED(1);
-		GO_TO_NEXT_LINE(str);
+		// size_t nb_intervals;
+		// nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
+		// EXPECTED_NB_SCANNED(1);
+		// GO_TO_NEXT_LINE(str);
+		char* new_ptr;
+		size_t nb_intervals = strtol(str, &new_ptr, 10);
+		// printf("nb_neighbours 3 : %zu\n", nb_intervals);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the number of intervals\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str = new_ptr + 1;
 		// Allocate the intervals
 		IntervalsSet presence		  = IntervalsSet_alloc(nb_intervals);
 		sg.links.links[link].presence = presence;
 	}
 
 	NEXT_HEADER([[[NumberOfSlices]]]);
-	size_t moments_in_slice;
 	for (size_t i = 0; i < nb_slices; i++) {
-		nb_scanned = sscanf(str, "%zu\n", &moments_in_slice);
-		EXPECTED_NB_SCANNED(1);
+		// nb_scanned = sscanf(str, "%zu\n", &moments_in_slice);
+		// EXPECTED_NB_SCANNED(1);
+		// GO_TO_NEXT_LINE(str);
+
+		char* new_ptr;
+		size_t moments_in_slice = strtol(str, &new_ptr, 10);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the number of moments_in_slice\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str = new_ptr + 1;
+
 		KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
-		GO_TO_NEXT_LINE(str);
 	}
 
 	NEXT_HEADER([Data]);
@@ -194,10 +231,20 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	for (size_t node = 0; node < nb_nodes; node++) {
 		str = strchr(str, '(') + 1;
 		for (size_t j = 0; j < sg.nodes.nodes[node].nb_neighbours; j++) {
-			size_t link;
-			nb_scanned = sscanf(str, "%zu", &link);
-			EXPECTED_NB_SCANNED(1);
+			// size_t link;
+			// nb_scanned = sscanf(str, "%zu", &link);
+			// EXPECTED_NB_SCANNED(1);
+			// sg.nodes.nodes[node].neighbours[j] = link;
+			char* end;
+			size_t link = strtol(str, &end, 10);
+			if (end == str) {
+				fprintf(stderr, "Could not parse the link\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
 			sg.nodes.nodes[node].neighbours[j] = link;
+
+			str = end;
 			while ((*str != '(') && (*str != ' ') && (*str != '\n')) {
 				str++;
 			}
@@ -207,8 +254,26 @@ StreamGraph StreamGraph_from_string(const char* str) {
 
 	NEXT_HEADER([[[LinksToNodes]]]);
 	for (size_t link = 0; link < nb_links; link++) {
-		size_t node1, node2;
-		sscanf(str, "(%zu %zu)", &node1, &node2);
+		// size_t node1, node2;
+		// sscanf(str, "(%zu %zu)", &node1, &node2);
+		str++;
+		char* end;
+
+		size_t node1 = strtol(str, &end, 10);
+		if (end == str) {
+			fprintf(stderr, "Could not parse the first node\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+
+		str = end + 1;
+
+		size_t node2 = strtol(str, &end, 10);
+		if (end == str) {
+			fprintf(stderr, "Could not parse the second node\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
 		sg.links.links[link].nodes[0] = node1;
 		sg.links.links[link].nodes[1] = node2;
 		GO_TO_NEXT_LINE(str);
@@ -216,26 +281,63 @@ StreamGraph StreamGraph_from_string(const char* str) {
 
 	NEXT_HEADER([[Events]]);
 	// Parse all the tuples afterwards
-	int* nb_pushed_for_nodes = malloc(nb_nodes * sizeof(int));
-	int* nb_pushed_for_links = malloc(nb_links * sizeof(int));
-	for (size_t i = 0; i < nb_nodes; i++) {
-		nb_pushed_for_nodes[i] = 0;
-	}
-	for (size_t i = 0; i < nb_links; i++) {
-		nb_pushed_for_links[i] = 0;
-	}
+	int* buffer				 = calloc(nb_nodes + nb_links, sizeof(int));
+	int* nb_pushed_for_nodes = buffer;
+	int* nb_pushed_for_links = buffer + nb_nodes;
+	// for (size_t i = 0; i < nb_nodes; i++) {
+	// 	nb_pushed_for_nodes[i] = 0;
+	// }
+	// for (size_t i = 0; i < nb_links; i++) {
+	// 	nb_pushed_for_links[i] = 0;
+	// }
 
 	for (size_t i = 0; i < nb_key_moments; i++) {
-		size_t key_moment;
-		nb_scanned = sscanf(str, "%zu=", &key_moment);
-		EXPECTED_NB_SCANNED(1);
-		str = strchr(str, '(') + 1;
+		// size_t key_moment;
+		// nb_scanned = sscanf(str, "%zu=", &key_moment);
+		// EXPECTED_NB_SCANNED(1);
+		// str = strchr(str, '(') + 1;
+		// PRINT_LINE(str);
+
+		char* new_ptr;
+		size_t key_moment = strtol(str, &new_ptr, 10);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the key moment\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		// PRINT_LINE(str);
 		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
+		str = new_ptr + 2;
+
 		while (*str != '\n') {
-			char letter, sign;
+			// char letter, sign;
+			// size_t id;
+			// nb_scanned = sscanf(str, "(%c %c %zu)", &sign, &letter, &id);
+			// EXPECTED_NB_SCANNED(3);
+			str++;
+
+			char* new_ptr;
+			char sign;
+			char letter;
 			size_t id;
-			nb_scanned = sscanf(str, "(%c %c %zu)", &sign, &letter, &id);
-			EXPECTED_NB_SCANNED(3);
+			sign = *str;
+			if (sign != '+' && sign != '-') {
+				fprintf(stderr, "Could not parse the sign %c\n", sign);
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str += 2;
+			letter = *str;
+			str += 2;
+			id = strtol(str, &new_ptr, 10);
+			// printf("sign: %c, letter: %c, id: %zu\n", sign, letter, id);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the id\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+
+			str = new_ptr + 2;
 			// TODO : refactor this
 			if (letter == 'N') {
 				if (nb_pushed_for_nodes[id] % 2 == 0) {
@@ -280,7 +382,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 				fprintf(stderr, "Could not parse the letter %c\n", letter);
 				exit(1);
 			}
-			NEXT_TUPLE(str);
+			// NEXT_TUPLE(str);
+			// str++;
 		}
 		GO_TO_NEXT_LINE(str);
 	}
@@ -306,8 +409,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		}
 	}
 
-	free(nb_pushed_for_nodes);
-	free(nb_pushed_for_links);
+	free(buffer);
 
 	return sg;
 }
@@ -838,8 +940,9 @@ void events_table_write(StreamGraph* sg, size_tVector* node_events, size_tVector
 
 // TODO : refactor this because the code for nodes and links is the same
 // TODO : probably not very efficient either (presence mask propagation lookup is slow)
+// TODO: actually it's quite fast so maybe init by default instead of on demand
 void init_events_table(StreamGraph* sg) {
-	printf("initializing events table\n");
+	// printf("initializing events table\n");
 	// only the number of events is known and node and link presence intervals are known
 
 	// Find the index of the last time a node appears
