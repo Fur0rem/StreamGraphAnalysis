@@ -99,6 +99,14 @@
 #	define UNREACHABLE_CODE __builtin_unreachable()
 #endif
 
+#if defined(__clang__) || defined(__GNUC__)
+#	define LIKELY(x)	(__builtin_expect(!!(x), 1))
+#	define UNLIKELY(x) (__builtin_expect(!!(x), 0))
+#else
+#	define LIKELY(x)	(x)
+#	define UNLIKELY(x) (x)
+#endif
+
 typedef struct {
 	size_t size;
 	size_t capacity;

@@ -93,7 +93,38 @@ char* get_to_header(const char* str, const char* header) {
 		}                                                                                                              \
 	}
 
+#define EXPECT_AND_MOVE(str, character)                                                                                \
+	if UNLIKELY ((str)[0] != (character)) {                                                                            \
+		fprintf(stderr, "Expected %c\n", character);                                                                   \
+		PRINT_LINE(str);                                                                                               \
+		fprintf(stderr, "Current header: %s\n", current_header);                                                       \
+		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                         \
+		exit(1);                                                                                                       \
+	}                                                                                                                  \
+	(str) += 1;
+
+#define EXPECT_OR_MOVE(str, character1, character2)                                                                    \
+	if UNLIKELY ((str)[0] != (character1) && (str)[0] != (character2)) {                                               \
+		fprintf(stderr, "Expected %c or %c\n", character1, character2);                                                \
+		PRINT_LINE(str);                                                                                               \
+		fprintf(stderr, "Current header: %s\n", current_header);                                                       \
+		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                         \
+		exit(1);                                                                                                       \
+	}                                                                                                                  \
+	(str) += 1;
+
+#define EXPECT_SEQ_AND_MOVE(str, sequence)                                                                             \
+	if UNLIKELY (strncmp(str, sequence, strlen(sequence)) != 0) {                                                      \
+		fprintf(stderr, "Expected %s\n", sequence);                                                                    \
+		PRINT_LINE(str);                                                                                               \
+		fprintf(stderr, "Current header: %s\n", current_header);                                                       \
+		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                         \
+		exit(1);                                                                                                       \
+	}                                                                                                                  \
+	(str) += strlen(sequence);
+
 // TODO : Make the code better and less unreadable copy pasted code
+// TODO : More explicit and helpful (with context and expected values) error messages
 StreamGraph StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
@@ -103,16 +134,49 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	// Skip first line (version control)
 	NEXT_HEADER([General]);
 
-	size_t lifespan_start;
-	size_t lifespan_end;
-	nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
-	EXPECTED_NB_SCANNED(2);
-	GO_TO_NEXT_LINE(str);
-	size_t scaling;
-	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	// size_t lifespan_start;
+	// size_t lifespan_end;
+	// nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
+	// EXPECTED_NB_SCANNED(2);
+	// GO_TO_NEXT_LINE(str);
+	// size_t scaling;
+	// nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	// sg.scaling = scaling;
+	// EXPECTED_NB_SCANNED(1);
+	// GO_TO_NEXT_LINE(str);
+
+	EXPECT_SEQ_AND_MOVE(str, "Lifespan=(");
+	char* new_ptr;
+	size_t lifespan_start = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the start of the lifespan\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, ' ');
+	str = new_ptr;
+
+	size_t lifespan_end = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the end of the lifespan\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, ')');
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
+	EXPECT_SEQ_AND_MOVE(str, "Scaling=");
+	size_t scaling = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the scaling\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
 	sg.scaling = scaling;
-	EXPECTED_NB_SCANNED(1);
-	GO_TO_NEXT_LINE(str);
 
 	// Parse the Memory section
 	NEXT_HEADER([Memory]);
@@ -120,18 +184,48 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	size_t nb_slices = (lifespan_end / SLICE_SIZE) + 1;
 
 	// Parse the memory header
-	size_t nb_nodes;
-	nb_scanned = sscanf(str, "NumberOfNodes=%zu\n", &nb_nodes);
-	EXPECTED_NB_SCANNED(1);
-	GO_TO_NEXT_LINE(str);
-	size_t nb_links;
-	nb_scanned = sscanf(str, "NumberOfLinks=%zu\n", &nb_links);
-	EXPECTED_NB_SCANNED(1);
-	GO_TO_NEXT_LINE(str);
-	size_t nb_key_moments;
-	nb_scanned = sscanf(str, "NumberOfKeyMoments=%zu\n", &nb_key_moments);
-	EXPECTED_NB_SCANNED(1);
-	GO_TO_NEXT_LINE(str);
+	// size_t nb_nodes;
+	// nb_scanned = sscanf(str, "NumberOfNodes=%zu\n", &nb_nodes);
+	// EXPECTED_NB_SCANNED(1);
+	// GO_TO_NEXT_LINE(str);
+	// size_t nb_links;
+	// nb_scanned = sscanf(str, "NumberOfLinks=%zu\n", &nb_links);
+	// EXPECTED_NB_SCANNED(1);
+	// GO_TO_NEXT_LINE(str);
+	// size_t nb_key_moments;
+	// nb_scanned = sscanf(str, "NumberOfKeyMoments=%zu\n", &nb_key_moments);
+	// EXPECTED_NB_SCANNED(1);
+	// GO_TO_NEXT_LINE(str);
+
+	EXPECT_SEQ_AND_MOVE(str, "NumberOfNodes=");
+	size_t nb_nodes = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the number of nodes\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
+	EXPECT_SEQ_AND_MOVE(str, "NumberOfLinks=");
+	size_t nb_links = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the number of links\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
+	EXPECT_SEQ_AND_MOVE(str, "NumberOfKeyMoments=");
+	size_t nb_key_moments = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the number of key moments\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
 
 	size_t* key_moments = MALLOC(nb_key_moments * sizeof(size_t));
 	// Allocate the stream graph
@@ -157,7 +251,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 			PRINT_LINE(str);
 			exit(1);
 		}
-		str = new_ptr + 1;
+		EXPECT_AND_MOVE(new_ptr, '\n');
+		str = new_ptr;
 		// Allocate the neighbours
 		sg.nodes.nodes[node].nb_neighbours = nb_neighbours;
 		sg.nodes.nodes[node].neighbours	   = MALLOC(nb_neighbours * sizeof(LinkId));
@@ -219,7 +314,9 @@ StreamGraph StreamGraph_from_string(const char* str) {
 			PRINT_LINE(str);
 			exit(1);
 		}
-		str = new_ptr + 1;
+		// str = new_ptr + 1;
+		EXPECT_AND_MOVE(new_ptr, '\n');
+		str = new_ptr;
 
 		KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
 	}
@@ -256,7 +353,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	for (size_t link = 0; link < nb_links; link++) {
 		// size_t node1, node2;
 		// sscanf(str, "(%zu %zu)", &node1, &node2);
-		str++;
+		EXPECT_AND_MOVE(str, '(');
 		char* end;
 
 		size_t node1 = strtol(str, &end, 10);
@@ -265,8 +362,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 			PRINT_LINE(str);
 			exit(1);
 		}
-
-		str = end + 1;
+		EXPECT_AND_MOVE(end, ' ');
+		str = end;
 
 		size_t node2 = strtol(str, &end, 10);
 		if (end == str) {
@@ -276,7 +373,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		}
 		sg.links.links[link].nodes[0] = node1;
 		sg.links.links[link].nodes[1] = node2;
-		GO_TO_NEXT_LINE(str);
+		EXPECT_SEQ_AND_MOVE(end, ")\n");
+		str = end;
 	}
 
 	NEXT_HEADER([[Events]]);
@@ -307,28 +405,40 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		}
 		// PRINT_LINE(str);
 		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		str = new_ptr + 2;
+		EXPECT_SEQ_AND_MOVE(new_ptr, "=(");
+		str = new_ptr;
 
 		while (*str != '\n') {
 			// char letter, sign;
 			// size_t id;
 			// nb_scanned = sscanf(str, "(%c %c %zu)", &sign, &letter, &id);
 			// EXPECTED_NB_SCANNED(3);
-			str++;
+			EXPECT_AND_MOVE(str, '(');
 
 			char* new_ptr;
 			char sign;
 			char letter;
 			size_t id;
+
 			sign = *str;
 			if (sign != '+' && sign != '-') {
 				fprintf(stderr, "Could not parse the sign %c\n", sign);
 				PRINT_LINE(str);
 				exit(1);
 			}
-			str += 2;
+			str++;
+
+			EXPECT_AND_MOVE(str, ' ');
+
 			letter = *str;
-			str += 2;
+			if (letter != 'N' && letter != 'L') {
+				fprintf(stderr, "Could not parse the letter %c\n", letter);
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str++;
+
+			EXPECT_AND_MOVE(str, ' ');
 			id = strtol(str, &new_ptr, 10);
 			// printf("sign: %c, letter: %c, id: %zu\n", sign, letter, id);
 			if (new_ptr == str) {
@@ -337,7 +447,13 @@ StreamGraph StreamGraph_from_string(const char* str) {
 				exit(1);
 			}
 
-			str = new_ptr + 2;
+			// str = new_ptr + 2;
+			// EXPECT_SEQ_AND_MOVE(new_ptr, ")");
+			// EXPECT_AND_MOVE(new_ptr, ')');
+			// new_ptr++;
+			EXPECT_AND_MOVE(new_ptr, ')');
+			EXPECT_OR_MOVE(new_ptr, ')', ' ');
+			str = new_ptr;
 			// TODO : refactor this
 			if (letter == 'N') {
 				if (nb_pushed_for_nodes[id] % 2 == 0) {
@@ -357,7 +473,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 					nb_pushed_for_nodes[id]++;
 				}
 			}
-			else if (letter == 'L') {
+			else { // letter equals 'L'
 				if (nb_pushed_for_links[id] % 2 == 0) {
 					if (sign != '+') {
 						fprintf(stderr, "Link %zu added twice without being removed\n", id);
@@ -378,14 +494,11 @@ StreamGraph StreamGraph_from_string(const char* str) {
 					nb_pushed_for_links[id]++;
 				}
 			}
-			else {
-				fprintf(stderr, "Could not parse the letter %c\n", letter);
-				exit(1);
-			}
 			// NEXT_TUPLE(str);
 			// str++;
 		}
-		GO_TO_NEXT_LINE(str);
+		// GO_TO_NEXT_LINE(str);
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
 	sg.events.nb_events = nb_key_moments;
@@ -551,6 +664,24 @@ DefineHashset(LinkIdMap);
 DefineVectorDeriveRemove(size_tHashset, size_tHashset_destroy);
 DefineVectorDeriveRemove(LinkInfo, NO_FREE(LinkInfo));
 
+size_t nb_characters_needed(size_t number) {
+	size_t nb_chars = 1;
+	while (number >= 10) {
+		number /= 10;
+		nb_chars++;
+	}
+	return nb_chars;
+}
+
+double percentage_of_error(size_t a, size_t b) {
+	if (a > b) {
+		return 100.0 * ((a - b) / a);
+	}
+	else {
+		return 100.0 * ((b - a) / b);
+	}
+}
+
 // Transforms an external format to an internal format
 char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
@@ -561,16 +692,47 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	size_tHashsetVector node_neighbours = size_tHashsetVector_with_capacity(10);
 
-	size_t lifespan_start;
-	size_t lifespan_end;
-	nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
-	EXPECTED_NB_SCANNED(2);
-	GO_TO_NEXT_LINE(str);
+	// size_t lifespan_start;
+	// size_t lifespan_end;
+	// nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
+	// EXPECTED_NB_SCANNED(2);
+	// GO_TO_NEXT_LINE(str);
 
-	// Parse the general section
-	size_t scaling;
-	nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
-	EXPECTED_NB_SCANNED(1);
+	// // Parse the general section
+	// size_t scaling;
+	// nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	// EXPECTED_NB_SCANNED(1);
+
+	EXPECT_SEQ_AND_MOVE(str, "Lifespan=(");
+	char* new_ptr;
+	size_t lifespan_start = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the start of the lifespan\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, ' ');
+	str = new_ptr;
+
+	size_t lifespan_end = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the end of the lifespan\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, ')');
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
+	EXPECT_SEQ_AND_MOVE(str, "Scaling=");
+	size_t scaling = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the scaling\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
 
 	// Skip to events section
 	str = get_to_header(str, "[Events]");
@@ -584,23 +746,64 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t nb_events			  = 0;
 	size_t current_vec			  = 0;
 	size_tVector number_of_slices = size_tVector_with_capacity(10);
-	while (strncmp(str, "[EndOfStream]", 11) != 0) {
+	const char* end_of_stream	  = "[EndOfStream]";
+	while (strncmp(str, end_of_stream, strlen(end_of_stream)) != 0) {
 		// if the line is empty, skip it
 		if (*str == '\n') {
 			break;
 		}
-		size_t key_moment;
-		char sign;
-		char letter;
 		size_t one, two;
 		EventTuple tuple;
-		nb_scanned = sscanf(str, "%zu %c %c", &key_moment, &sign, &letter);
-		EXPECTED_NB_SCANNED(3);
-		if (letter == 'N') {
-			nb_scanned = sscanf(str, "%zu %c %c %zu", &key_moment, &sign, &letter, &one);
-			EXPECTED_NB_SCANNED(4);
-			tuple = (EventTuple){key_moment, sign, letter, .id.node = one};
+		// nb_scanned = sscanf(str, "%zu %c %c", &key_moment, &sign, &letter);
+		// EXPECTED_NB_SCANNED(3);
 
+		size_t key_moment = strtol(str, &new_ptr, 10);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the key moment\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str = new_ptr;
+		EXPECT_AND_MOVE(str, ' ');
+
+		char sign = *str;
+		if (sign != '+' && sign != '-') {
+			fprintf(stderr, "Could not parse the sign %c\n", sign);
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str++;
+
+		EXPECT_AND_MOVE(str, ' ');
+
+		char letter = *str;
+		if (letter != 'N' && letter != 'L') {
+			fprintf(stderr, "Could not parse the letter %c\n", letter);
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str++;
+
+		EXPECT_AND_MOVE(str, ' ');
+
+		if (letter == 'N') {
+			// nb_scanned = sscanf(str, "%zu %c %c %zu", &key_moment, &sign, &letter, &one);
+			// EXPECTED_NB_SCANNED(4);
+			// tuple = (EventTuple){key_moment, sign, letter, .id.node = one};
+
+			one = strtol(str, &new_ptr, 10);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the node\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str	  = new_ptr;
+			tuple = (EventTuple){
+				.moment	 = key_moment,
+				.sign	 = sign,
+				.letter	 = letter,
+				.id.node = one,
+			};
 			// push the neighbours
 			if (one > biggest_node_id) {
 				biggest_node_id = one;
@@ -629,14 +832,38 @@ char* InternalFormat_from_External_str(const char* str) {
 			}
 		}
 		else {
-			nb_scanned = sscanf(str, "%zu %c %c %zu %zu", &key_moment, &sign, &letter, &one, &two);
-			EXPECTED_NB_SCANNED(5);
+			// nb_scanned = sscanf(str, "%zu %c %c %zu %zu", &key_moment, &sign, &letter, &one, &two);
+			// EXPECTED_NB_SCANNED(5);
+			// tuple = (EventTuple){
+			// 	key_moment,
+			// 	sign,
+			// 	letter,
+			// 	.id = {.node1 = one, .node2 = two},
+			// };
+
+			one = strtol(str, &new_ptr, 10);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the first node\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str = new_ptr;
+			EXPECT_AND_MOVE(str, ' ');
+			two = strtol(str, &new_ptr, 10);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the second node\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str	  = new_ptr;
 			tuple = (EventTuple){
-				key_moment,
-				sign,
-				letter,
-				.id = {.node1 = one, .node2 = two},
+				.moment	  = key_moment,
+				.sign	  = sign,
+				.letter	  = letter,
+				.id.node1 = one,
+				.id.node2 = two,
 			};
+
 			// push the neighbours
 			if (one > biggest_node_id) {
 				biggest_node_id = one;
@@ -688,7 +915,7 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		nb_events++;
 
-		GO_TO_NEXT_LINE(str);
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
 	for (size_t i = 0; i < events.size; i++) {
@@ -700,7 +927,52 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		number_of_slices.array[slice_id]++;
 	}
-	String out_str = String_from_duplicate("SGA Internal version 1.0.0\n\n");
+
+	// size_t last_event = events.array[events.size - 1].array[0].moment;
+
+	// size_t size_prediction = 300 + ((nb_events * 25) + (last_event / nb_events) + ((nodes.size + links.size) * 5)
+	// + 								(node_neighbours.size * 3));
+
+	size_t headers_size =
+		strlen("[General]\nLifespan=(%zu "
+			   "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%zu\n\n[["
+			   "Nodes]"
+			   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
+			   "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]\n") +
+		100;
+
+	size_t neighbours_per_node_prediction		   = links.size / nodes.size;
+	size_t number_of_intervals_per_node_prediction = nb_events / nodes.size;
+	size_t number_of_intervals_per_link_prediction = nb_events / links.size;
+
+	size_t neighbours_nodes_to_links_size =
+		((nb_characters_needed(links.size) - 1) * neighbours_per_node_prediction + 4) * nodes.size;
+	size_t neighbours_links_to_nodes_size = (((nb_characters_needed(biggest_node_id) - 1) * 2) + 5) * links.size;
+
+	size_t events_size_prediction =
+		nb_events * 12; // nb_events * (8 + ((nb_characters_needed(biggest_node_id) - 1) * nodes.size +
+						//			  (nb_characters_needed(links.size) - 1) * links.size + 10));
+
+	size_t size_prediction = headers_size + (neighbours_per_node_prediction * nodes.size * 2) +
+							 (number_of_intervals_per_node_prediction * nodes.size * 2) +
+							 (number_of_intervals_per_link_prediction * links.size * 2) +
+							 neighbours_nodes_to_links_size + neighbours_links_to_nodes_size + events_size_prediction;
+
+	printf("size_prediction : %zu\n", size_prediction);
+	printf("biggest_node_id : %zu, nodes.size : %zu, links.size : %zu, node_neighbours.size : %zu\n", biggest_node_id,
+		   nodes.size, links.size, node_neighbours.size);
+	String out_str = String_with_capacity(size_prediction);
+
+	size_t actual_headers_size							  = 0;
+	size_t actual_neighbours_per_node_prediction		  = 0;
+	size_t actual_number_of_intervals_per_node_prediction = 0;
+	size_t actual_number_of_intervals_per_link_prediction = 0;
+	size_t actual_neighbours_nodes_to_links_size		  = 0;
+	size_t actual_neighbours_links_to_nodes_size		  = 0;
+	size_t actual_events_size_prediction				  = 0;
+
+	size_t actual_size = 0;
+	String_push_str(&out_str, "SGA Internal version 1.0.0\n\n");
 
 	String_push_str(&out_str, "[General]\n");
 	String_append_formatted(&out_str, "Lifespan=(%zu %zu)\n", lifespan_start, lifespan_end);
@@ -714,20 +986,31 @@ char* InternalFormat_from_External_str(const char* str) {
 	String_push_str(&out_str, "[[Nodes]]\n");
 
 	String_push_str(&out_str, "[[[NumberOfNeighbours]]]\n");
+	actual_headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 	for (size_t i = 0; i <= biggest_node_id; i++) {
 		String_append_formatted(&out_str, "%zu\n", size_tHashset_nb_elems(&node_neighbours.array[i]));
 	}
+	actual_neighbours_per_node_prediction += out_str.size - actual_size;
+	actual_size = out_str.size;
 	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
 	for (size_t i = 0; i <= biggest_node_id; i++) {
 		String_append_formatted(&out_str, "%zu\n", nodes.array[i].nb_intervals / 2);
 	}
+	actual_number_of_intervals_per_node_prediction += out_str.size - actual_size;
+	actual_size = out_str.size;
 
 	String_push_str(&out_str, "[[Links]]\n");
 
 	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
+	actual_headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
+
 	for (size_t i = 0; i < LinkInfoVector_len(&links); i++) {
 		String_append_formatted(&out_str, "%zu\n", links.array[i].nb_intervals / 2);
 	}
+	actual_number_of_intervals_per_link_prediction += out_str.size - actual_size;
+	actual_size = out_str.size;
 	String_push_str(&out_str, "[[[NumberOfSlices]]]\n");
 	for (size_t i = 0; i < number_of_slices.size; i++) {
 		String_append_formatted(&out_str, "%zu\n", number_of_slices.array[i]);
@@ -737,6 +1020,8 @@ char* InternalFormat_from_External_str(const char* str) {
 	String_push_str(&out_str, "[[Neighbours]]\n");
 
 	String_push_str(&out_str, "[[[NodesToLinks]]]\n");
+	actual_headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 
 	for (size_t i = 0; i < nodes.size; i++) {
 		String_push_str(&out_str, "(");
@@ -763,15 +1048,24 @@ char* InternalFormat_from_External_str(const char* str) {
 		String_pop(&out_str);
 		String_push_str(&out_str, ")\n");
 	}
+	actual_neighbours_nodes_to_links_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 
 	String_push_str(&out_str, "[[[LinksToNodes]]]\n");
+	actual_headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
+
 	for (size_t i = 0; i < links.size; i++) {
 		String_append_formatted(&out_str, "(%zu %zu)\n", links.array[i].nodes[0], links.array[i].nodes[1]);
 	}
+	actual_neighbours_links_to_nodes_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 
 	String_push_str(&out_str, "[[Events]]\n");
+	actual_headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 
-	size_t* link_id_map = (size_t*)malloc((biggest_node_id + 1) * (biggest_node_id + 1) * sizeof(size_t));
+	size_t* link_id_map = MALLOC((biggest_node_id + 1) * (biggest_node_id + 1) * sizeof(size_t));
 	for (size_t i = 0; i < links.size; i++) {
 		link_id_map[links.array[i].nodes[0] * (biggest_node_id + 1) + links.array[i].nodes[1]] = i;
 		link_id_map[links.array[i].nodes[1] * (biggest_node_id + 1) + links.array[i].nodes[0]] = i;
@@ -789,14 +1083,14 @@ char* InternalFormat_from_External_str(const char* str) {
 				// printf("idx1 : %zu, idx2 : %zu, idx2 - idx1 : %zu\n", idx1, idx2, idx2 - idx1);
 				size_t link_id = link_id_map[idx1 * (biggest_node_id + 1) + idx2];
 				// printf("link_id: %zu\n", link_id);
-				// sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter,
-				// 		link_id);
+				// sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign,
+				// events.array[i].array[j].letter, 		link_id);
 				String_append_formatted(&out_str, "(%c %c %zu) ", events.array[i].array[j].sign,
 										events.array[i].array[j].letter, link_id);
 			}
 			else {
-				// sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter,
-				// 		events.array[i].array[j].id.node);
+				// sprintf(tuple_str, "(%c %c %zu) ", events.array[i].array[j].sign,
+				// events.array[i].array[j].letter, 		events.array[i].array[j].id.node);
 				String_append_formatted(&out_str, "(%c %c %zu) ", events.array[i].array[j].sign,
 										events.array[i].array[j].letter, events.array[i].array[j].id.node);
 			}
@@ -808,6 +1102,9 @@ char* InternalFormat_from_External_str(const char* str) {
 		String_pop(&out_str);
 		String_push_str(&out_str, ")\n");
 	}
+	actual_events_size_prediction += out_str.size - actual_size;
+	actual_size = out_str.size;
+
 	size_t sum_events = 0;
 	for (size_t i = 0; i < events.size; i++) {
 		sum_events += events.array[i].size;
@@ -816,12 +1113,57 @@ char* InternalFormat_from_External_str(const char* str) {
 	free(link_id_map);
 	String_push_str(&out_str, "[EndOfStream]\n");
 	String_push_str(&out_str, "\0");
+	actual_headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 
 	size_tHashsetVector_destroy(node_neighbours);
 	EventTupleVectorVector_destroy(events);
 	LinkInfoVector_destroy(links);
 	LinkInfoVector_destroy(nodes);
 	size_tVector_destroy(number_of_slices);
+
+	printf("real size : %zu\n", out_str.size);
+
+	if (out_str.size > size_prediction) {
+		printf(TEXT_RED TEXT_BOLD "Size prediction underestimated by %zu\n" TEXT_RESET, out_str.size - size_prediction);
+	}
+	else {
+		printf(TEXT_GREEN TEXT_BOLD "Size prediction overestimated by %zu\n" TEXT_RESET,
+			   size_prediction - out_str.size);
+	}
+
+	double ratio;
+	if (size_prediction > out_str.size) {
+		ratio = (double)(size_prediction - out_str.size) / size_prediction;
+	}
+	else {
+		ratio = (double)(out_str.size - size_prediction) / size_prediction;
+	}
+
+	printf(TEXT_BOLD "Percentage of error : %f%%\n" TEXT_RESET, ratio * 100);
+
+	printf(TEXT_BOLD "\nDifference in prediction and actual size : \n" TEXT_RESET);
+	printf("Headers : (prediction : %zu, actual : %zu, difference : %f)\n", headers_size, actual_headers_size,
+		   percentage_of_error(headers_size, actual_headers_size));
+	printf("Neighbours per node : (prediction : %zu, actual : %zu, difference : %f)\n", neighbours_per_node_prediction,
+		   actual_neighbours_per_node_prediction,
+		   percentage_of_error(neighbours_per_node_prediction, actual_neighbours_per_node_prediction));
+	printf(
+		"Number of intervals per node : (prediction : %zu, actual : %zu, difference : %f)\n",
+		number_of_intervals_per_node_prediction, actual_number_of_intervals_per_node_prediction,
+		percentage_of_error(number_of_intervals_per_node_prediction, actual_number_of_intervals_per_node_prediction));
+	printf(
+		"Number of intervals per link : (prediction : %zu, actual : %zu, difference : %f)\n",
+		number_of_intervals_per_link_prediction, actual_number_of_intervals_per_link_prediction,
+		percentage_of_error(number_of_intervals_per_link_prediction, actual_number_of_intervals_per_link_prediction));
+	printf("Neighbours nodes to links : (prediction : %zu, actual : %zu, difference : %f)\n",
+		   neighbours_nodes_to_links_size, actual_neighbours_nodes_to_links_size,
+		   percentage_of_error(neighbours_nodes_to_links_size, actual_neighbours_nodes_to_links_size));
+	printf("Neighbours links to nodes : (prediction : %zu, actual : %zu, difference : %f)\n",
+		   neighbours_links_to_nodes_size, actual_neighbours_links_to_nodes_size,
+		   percentage_of_error(neighbours_links_to_nodes_size, actual_neighbours_links_to_nodes_size));
+	printf("Events : (prediction : %zu, actual : %zu, difference : %f)\n", events_size_prediction,
+		   actual_events_size_prediction, percentage_of_error(events_size_prediction, actual_events_size_prediction));
 
 	return out_str.data;
 }
