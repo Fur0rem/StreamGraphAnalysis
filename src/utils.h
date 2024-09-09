@@ -100,11 +100,11 @@
 #endif
 
 #if defined(__clang__) || defined(__GNUC__)
-#	define LIKELY(x)	(__builtin_expect(!!(x), 1))
-#	define UNLIKELY(x) (__builtin_expect(!!(x), 0))
+#	define LIKELY(cond)   (__builtin_expect(!!(cond), 1))
+#	define UNLIKELY(cond) (__builtin_expect(!!(cond), 0))
 #else
-#	define LIKELY(x)	(x)
-#	define UNLIKELY(x) (x)
+#	define LIKELY(cond)   (cond)
+#	define UNLIKELY(cond) (cond)
 #endif
 
 #ifdef __clang__
