@@ -29,7 +29,7 @@ The library is designed to process and analyse continuous undirected unweighted 
 \begin{DoxyItemize}
 \item The library was made for only reading stream graphs, and therefore the data structure doesn\textquotesingle{}t allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.
 \item The data structure was made to have 3 very efficient primitives \+: Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.
-\item There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-\/computed base elements, and double-\/layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a \mbox{\hyperlink{structLinkStream}{Link\+Stream}} can hijack the computation of the coverage which is always 1.
+\item There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-\/computed base elements, and double-\/layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a Link\+Stream can hijack the computation of the coverage which is always 1.
 \end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysubsection{What it can do}\label{index_autotoc_md7}
 
 \begin{DoxyItemize}
@@ -61,7 +61,7 @@ The src/ directory contains the entire source code of the library. The source co
 \item utils, which contains utility functions used by the other parts, such as generic dynamic arrays and hash tables
 \end{DoxyItemize}
 
-The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. You can run them using the run\+\_\+tests.\+sh script in the main directory.\hypertarget{index_autotoc_md11}{}\doxysubsection{Supported metrics (\+In order of first mention in the paper)}\label{index_autotoc_md11}
+The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. You can run them using the run\+\_\+tests.\+sh script in the main directory.\hypertarget{index_autotoc_md11}{}\doxysubsection{Supported metrics and analysis (\+In order of first mention in the paper)}\label{index_autotoc_md11}
 
 \begin{DoxyItemize}
 \item Coverage \+: Section 3
@@ -77,10 +77,13 @@ The tests/ directory contains the tests for the library, which are written using
 \item Density of link \+: Section 5
 \item Density of node \+: Section 5
 \item Density of time \+: Section 5
+\item Maximal cliques enumeration \+: Section 7
 \item Degree of a node \+: Section 8
 \item Average node degree \+: Section 8
 \item Clustering coefficient of a node \+: Section 9
 \item Node clustering coefficient \+: Section 9
+\item K-\/cores \+: Section 13
+\item Paths and distances \+: Section 14
 \item Robustness by length \+: Outside of the paper
 \end{DoxyItemize}
 

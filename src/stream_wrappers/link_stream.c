@@ -22,7 +22,7 @@ LinkStream LinkStream_from(StreamGraph* stream_graph) {
 }
 
 size_t LS_cardinal_of_T(LinkStream* ls) {
-	return Interval_size(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
+	return Interval_duration(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
 									   StreamGraph_lifespan_end(ls->underlying_stream_graph)));
 }
 
@@ -233,8 +233,8 @@ double LS_coverage(Stream* stream_data) {
 
 size_t LS_cardinal_of_T(Stream* stream) {
 	LinkStream* ls = (LinkStream*)stream->stream_data;
-	size_t t	   = Interval_size(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
-												 StreamGraph_lifespan_end(ls->underlying_stream_graph)));
+	size_t t	   = Interval_duration(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
+													 StreamGraph_lifespan_end(ls->underlying_stream_graph)));
 	UPDATE_CACHE(stream, cardinalOfT, t);
 	return t;
 }
@@ -260,7 +260,7 @@ size_t LS_cardinal_of_E(Stream* stream) {
 	for (size_t i = 0; i < ls->underlying_stream_graph->links.nb_links; i++) {
 		Link link = ls->underlying_stream_graph->links.links[i];
 		for (size_t j = 0; j < link.presence.nb_intervals; j++) {
-			e += Interval_size(link.presence.intervals[j]);
+			e += Interval_duration(link.presence.intervals[j]);
 		}
 	}
 	UPDATE_CACHE(stream, cardinalOfE, e);

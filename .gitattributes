@@ -1,1 +1,7 @@
+# .gitattributes file
+
+# Ignore lines of code and lines of commits for the docs/ folder
+docs/* linguist-generated
+# Ignore lines of code and lines of commits for the data/ folder
+data/* linguist-generated
 data/benchmarks/event_dense.sga filter=lfs diff=lfs merge=lfs -text

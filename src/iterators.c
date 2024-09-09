@@ -5,7 +5,7 @@
 size_t total_time_of(TimesIterator times) {
 	size_t total_time = 0;
 	FOR_EACH_TIME(interval, times) {
-		total_time += Interval_size(interval);
+		total_time += Interval_duration(interval);
 	}
 	return total_time;
 }

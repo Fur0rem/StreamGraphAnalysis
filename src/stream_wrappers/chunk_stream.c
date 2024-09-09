@@ -213,18 +213,6 @@ typedef struct {
 	size_t current_id;
 } CS_TimesIdPresentAtIteratorData;
 
-void filter_interval(Interval* interval, Interval snapshot) {
-	if (interval->start < snapshot.start) {
-		interval->start = snapshot.start;
-	}
-	if (interval->end > snapshot.end) {
-		interval->end = snapshot.end;
-	}
-	if (interval->start >= interval->end) {
-		*interval = Interval_from(SIZE_MAX, SIZE_MAX);
-	}
-}
-
 Interval CS_TimesNodePresentAt_next(TimesIterator* iter) {
 	CS_TimesIdPresentAtIteratorData* times_iter_data = (CS_TimesIdPresentAtIteratorData*)iter->iterator_data;
 	ChunkStream* chunk_stream						 = (ChunkStream*)iter->stream_graph.stream_data;
@@ -234,7 +222,8 @@ Interval CS_TimesNodePresentAt_next(TimesIterator* iter) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
 	Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
-	filter_interval(&nth_time, chunk_stream->snapshot);
+	nth_time		  = Interval_intersection(nth_time, chunk_stream->snapshot);
+
 	times_iter_data->current_time++;
 	return nth_time;
 }
@@ -279,7 +268,7 @@ Interval CS_TimesLinkPresentAt_next(TimesIterator* iter) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
 	Interval nth_time = stream_graph->links.links[link].presence.intervals[times_iter_data->current_time];
-	filter_interval(&nth_time, chunk_stream->snapshot);
+	nth_time		  = Interval_intersection(nth_time, chunk_stream->snapshot);
 	times_iter_data->current_time++;
 	return nth_time;
 }

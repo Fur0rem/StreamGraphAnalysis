@@ -100,7 +100,7 @@ Interval SSS_TimesNodePresentAt_next(TimesIterator* iter) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
 	Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
-	filter_interval(&nth_time, snapshot_stream->snapshot);
+	nth_time		  = Interval_intersection(nth_time, snapshot_stream->snapshot);
 	times_iter_data->current_time++;
 	return nth_time;
 }
@@ -145,7 +145,7 @@ Interval SSS_TimesLinkPresentAt_next(TimesIterator* iter) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
 	Interval nth_time = stream_graph->links.links[link].presence.intervals[times_iter_data->current_time];
-	filter_interval(&nth_time, snapshot_stream->snapshot);
+	nth_time		  = Interval_intersection(nth_time, snapshot_stream->snapshot);
 	times_iter_data->current_time++;
 	return nth_time;
 }

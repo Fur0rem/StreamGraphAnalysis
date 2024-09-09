@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['neighboursofnodeiteratordata_0',['NeighboursOfNodeIteratorData',['../structNeighboursOfNodeIteratorData.html',1,'']]],
-  ['nodesiterator_1',['NodesIterator',['../structNodesIterator.html',1,'']]],
-  ['nodespresentattiterator_2',['NodesPresentAtTIterator',['../structNodesPresentAtTIterator.html',1,'']]],
-  ['nodessetiteratordata_3',['NodesSetIteratorData',['../structNodesSetIteratorData.html',1,'']]]
+  ['sga_5ffraction_0',['SGA_Fraction',['../structSGA__Fraction.html',1,'']]],
+  ['stream_1',['Stream',['../structStream.html',1,'']]],
+  ['streamdata_2',['StreamData',['../structStreamData.html',1,'']]],
+  ['streamfunctions_3',['StreamFunctions',['../structStreamFunctions.html',1,'']]],
+  ['streamgraph_4',['StreamGraph',['../structStreamGraph.html',1,'']]],
+  ['string_5',['String',['../structString.html',1,'']]]
 ];

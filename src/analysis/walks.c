@@ -9,11 +9,7 @@
 
 // For STREAM_FUNCS
 #include "../metrics.h"
-#include "../stream/chunk_stream.h"
-#include "../stream/chunk_stream_small.h"
-#include "../stream/full_stream_graph.h"
-#include "../stream/link_stream.h"
-#include "../stream/snapshot_stream.h"
+#include "../stream_wrappers.h"
 #include "../units.h"
 #include "../utils.h"
 #include "../vector.h"

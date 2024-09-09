@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['informationcache_0',['InformationCache',['../structInformationCache.html',1,'']]],
-  ['innerarena_1',['InnerArena',['../structInnerArena.html',1,'']]],
-  ['interval_2',['Interval',['../structInterval.html',1,'']]],
-  ['intervalsiteratordata_3',['IntervalsIteratorData',['../structIntervalsIteratorData.html',1,'']]],
-  ['intervalsset_4',['IntervalsSet',['../structIntervalsSet.html',1,'']]]
+  ['link_0',['Link',['../structLink.html',1,'']]],
+  ['linkidmap_1',['LinkIdMap',['../structLinkIdMap.html',1,'']]],
+  ['linkinfo_2',['LinkInfo',['../structLinkInfo.html',1,'']]],
+  ['linksiterator_3',['LinksIterator',['../structLinksIterator.html',1,'']]],
+  ['linkspresentattiterator_4',['LinksPresentAtTIterator',['../structLinksPresentAtTIterator.html',1,'']]],
+  ['linksset_5',['LinksSet',['../structLinksSet.html',1,'']]]
 ];

@@ -1,10 +1,6 @@
 #include "kcores.h"
-#include "../stream/chunk_stream.h"
-#include "../stream/chunk_stream_small.h"
-#include "../stream/full_stream_graph.h"
-#include "../stream/link_stream.h"
-#include "../stream/snapshot_stream.h"
 #include "../stream_functions.h"
+#include "../stream_wrappers.h"
 #include <stdint.h>
 
 int DegreeInInterval_compare(const void* a, const void* b) {

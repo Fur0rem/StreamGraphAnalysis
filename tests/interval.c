@@ -7,17 +7,17 @@
 
 bool test_size_1() {
 	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT_EQ(Interval_size(i), 5);
+	return EXPECT_EQ(Interval_duration(i), 5);
 }
 
 bool test_size_2() {
 	Interval i = (Interval){.start = 0, .end = 0};
-	return EXPECT_EQ(Interval_size(i), 0);
+	return EXPECT_EQ(Interval_duration(i), 0);
 }
 
 bool test_size_none() {
 	Interval i = (Interval){.start = SIZE_MAX, .end = 0};
-	return EXPECT_EQ(Interval_size(i), 0);
+	return EXPECT_EQ(Interval_duration(i), 0);
 }
 
 bool test_contains() {
@@ -58,7 +58,7 @@ bool test_intersection_none() {
 	Interval a			  = (Interval){.start = 5, .end = 10};
 	Interval b			  = (Interval){.start = 11, .end = 12};
 	Interval intersection = Interval_intersection(a, b);
-	return EXPECT_EQ(Interval_size(intersection), 0);
+	return EXPECT_EQ(Interval_duration(intersection), 0);
 }
 
 bool test_intervals_set_merge_contained() {

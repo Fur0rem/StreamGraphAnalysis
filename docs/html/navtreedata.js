@@ -36,7 +36,7 @@ var NAVTREE =
       [ "What it cannot do", "index.html#autotoc_md8", null ],
       [ "Specifications of the stream graph data", "index.html#autotoc_md9", null ],
       [ "Project guidelines and organisation", "index.html#autotoc_md10", null ],
-      [ "Supported metrics (In order of first mention in the paper)", "index.html#autotoc_md11", null ]
+      [ "Supported metrics and analysis (In order of first mention in the paper)", "index.html#autotoc_md11", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -51,7 +51,6 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]

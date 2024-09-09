@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('interval_8h_source.html',''); initResi
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">bool</span> Interval_contains_interval(<a class="code hl_struct" href="structInterval.html">Interval</a> a, <a class="code hl_struct" href="structInterval.html">Interval</a> b);</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keywordtype">bool</span> Interval_overlaps_interval(<a class="code hl_struct" href="structInterval.html">Interval</a> a, <a class="code hl_struct" href="structInterval.html">Interval</a> b);</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keywordtype">size_t</span> Interval_size(<a class="code hl_struct" href="structInterval.html">Interval</a> interval);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keywordtype">size_t</span> Interval_duration(<a class="code hl_struct" href="structInterval.html">Interval</a> interval);</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><a class="code hl_struct" href="structInterval.html">Interval</a> Interval_from(TimeId start, TimeId end);</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><a class="code hl_struct" href="structInterval.html">Interval</a> Interval_intersection(<a class="code hl_struct" href="structInterval.html">Interval</a> a, <a class="code hl_struct" href="structInterval.html">Interval</a> b);</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><a class="code hl_struct" href="structInterval.html">Interval</a> Interval_minus(<a class="code hl_struct" href="structInterval.html">Interval</a> a, <a class="code hl_struct" href="structInterval.html">Interval</a> b);</div>
@@ -135,17 +135,18 @@ $(document).ready(function(){initNavTree('interval_8h_source.html',''); initResi
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keywordtype">void</span> IntervalsSet_destroy(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> intervals_set);</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><a class="code hl_struct" href="structInterval.html">Interval</a> IntervalsSet_last(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a>* intervals_set);</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">bool</span> IntervalsSet_contains(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> intervals_set, TimeId time);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">void</span> IntervalsSet_add_at(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a>* intervals_set, <a class="code hl_struct" href="structInterval.html">Interval</a> interval, <span class="keywordtype">size_t</span> index);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> IntervalsSet_from_interval_vector(IntervalVector intervals);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>IntervalVector IntervalVector_from_intervals_set(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> intervals_set);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keywordtype">void</span> IntervalsSet_sort(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a>* intervals_set);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><a class="code hl_struct" href="structInterval.html">Interval</a> Interval_empty();</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">bool</span> Interval_is_empty(<a class="code hl_struct" href="structInterval.html">Interval</a> interval);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#endif </span><span class="comment">// INTERVAL_H</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keywordtype">bool</span> IntervalsSet_contains_sorted(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> intervals_set, TimeId time);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keywordtype">void</span> IntervalsSet_add_at(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a>* intervals_set, <a class="code hl_struct" href="structInterval.html">Interval</a> interval, <span class="keywordtype">size_t</span> index);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> IntervalsSet_from_interval_vector(IntervalVector intervals);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>IntervalVector IntervalVector_from_intervals_set(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> intervals_set);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keywordtype">void</span> IntervalsSet_sort(<a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a>* intervals_set);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><a class="code hl_struct" href="structInterval.html">Interval</a> Interval_empty();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">bool</span> Interval_is_empty(<a class="code hl_struct" href="structInterval.html">Interval</a> interval);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif </span><span class="comment">// INTERVAL_H</span></div>
 <div class="ttc" id="astructInterval_html"><div class="ttname"><a href="structInterval.html">Interval</a></div><div class="ttdef"><b>Definition:</b> interval.h:10</div></div>
 <div class="ttc" id="astructIntervalsSet_html"><div class="ttname"><a href="structIntervalsSet.html">IntervalsSet</a></div><div class="ttdef"><b>Definition:</b> interval.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->

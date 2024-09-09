@@ -5,6 +5,7 @@
 \doxysubsection{Detailed Description}
 A variable length array of bits and functions to manipulate it. 
 
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 Include dependency graph for bit\+\_\+array.\+h\+:
@@ -16,7 +17,18 @@ This graph shows which files directly or indirectly include this file\+:
 \item 
 struct \mbox{\hyperlink{structBitArray}{Bit\+Array}}
 \begin{DoxyCompactList}\small\item\em The structure of a variable length array of bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{bit__array_8h_a8fd2c29904b96e71471c8d6d01aaf467}\label{bit__array_8h_a8fd2c29904b96e71471c8d6d01aaf467}} 
+typedef size\+\_\+t {\bfseries Bit\+Array\+Slice}
+\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{bit__array_8h_a7ab36fd6d4cc0b030c9fd056a0d27b2e}\label{bit__array_8h_a7ab36fd6d4cc0b030c9fd056a0d27b2e}} 
+size\+\_\+t {\bfseries Bit\+Array\+\_\+count\+\_\+ones} (const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$array)
+\end{DoxyCompactItemize}
 \begin{Indent}\textbf{ Creation and destruction functions}\par
 {\em Functions to create and destroy a \mbox{\hyperlink{structBitArray}{Bit\+Array}}. }\begin{DoxyCompactItemize}
 \item 
@@ -66,8 +78,10 @@ size\+\_\+t \mbox{\hyperlink{bit__array_8h_ae336bb24993e5ba5cd864eaf5acec4db}{Bi
 \begin{Indent}\textbf{ Miscellanous functions}\par
 \begin{DoxyCompactItemize}
 \item 
-char $\ast$ \mbox{\hyperlink{bit__array_8h_a0db413990df11cb80b2893c42142f3f4}{Bit\+Array\+\_\+to\+\_\+string}} (\mbox{\hyperlink{structBitArray}{Bit\+Array}} array)
-\begin{DoxyCompactList}\small\item\em Converts the \mbox{\hyperlink{structBitArray}{Bit\+Array}} to a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\mbox{\hyperlink{structString}{String}} \mbox{\hyperlink{bit__array_8h_a32be734b960c9210108a9090c011e143}{Bit\+Array\+\_\+to\+\_\+string}} (const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$array)
+\begin{DoxyCompactList}\small\item\em Converts the \mbox{\hyperlink{structBitArray}{Bit\+Array}} to a string. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{bit__array_8h_aec8a9d3641ca8fd53820c4dc1558650d}{Bit\+Array\+\_\+equals}} (const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$a, const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$b)
+\begin{DoxyCompactList}\small\item\em Compares two Bit\+Arrays. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \end{Indent}
 
 
@@ -147,6 +161,26 @@ Destroys the given \mbox{\hyperlink{structBitArray}{Bit\+Array}}.
 \mbox{\texttt{ in}}  & {\em array} & The \mbox{\hyperlink{structBitArray}{Bit\+Array}} to destroy. \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8h_aec8a9d3641ca8fd53820c4dc1558650d}\label{bit__array_8h_aec8a9d3641ca8fd53820c4dc1558650d}} 
+\index{bit\_array.h@{bit\_array.h}!BitArray\_equals@{BitArray\_equals}}
+\index{BitArray\_equals@{BitArray\_equals}!bit\_array.h@{bit\_array.h}}
+\doxysubsubsection{\texorpdfstring{BitArray\_equals()}{BitArray\_equals()}}
+{\footnotesize\ttfamily bool Bit\+Array\+\_\+equals (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$}]{a,  }\item[{const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$}]{b }\end{DoxyParamCaption})}
+
+
+
+Compares two Bit\+Arrays. 
+
+Returns true if the two Bit\+Arrays are equal, false otherwise. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a} & The first \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em b} & The second \mbox{\hyperlink{structBitArray}{Bit\+Array}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Whether the two Bit\+Arrays are equal. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{bit__array_8h_a414eeef9d566db7a3e74cabdbb5c7653}\label{bit__array_8h_a414eeef9d566db7a3e74cabdbb5c7653}} 
 \index{bit\_array.h@{bit\_array.h}!BitArray\_is\_one@{BitArray\_is\_one}}
 \index{BitArray\_is\_one@{BitArray\_is\_one}!bit\_array.h@{bit\_array.h}}
@@ -240,11 +274,11 @@ Sets the bit at the given index to 1.
 \doxysubsubsection{\texorpdfstring{BitArray\_set\_zero()}{BitArray\_set\_zero()}}
 {\footnotesize\ttfamily void Bit\+Array\+\_\+set\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
 
-Like Bit\+Array\+\_\+set\+\_\+one but sets the bit to 0. \mbox{\Hypertarget{bit__array_8h_a0db413990df11cb80b2893c42142f3f4}\label{bit__array_8h_a0db413990df11cb80b2893c42142f3f4}} 
+Like Bit\+Array\+\_\+set\+\_\+one but sets the bit to 0. \mbox{\Hypertarget{bit__array_8h_a32be734b960c9210108a9090c011e143}\label{bit__array_8h_a32be734b960c9210108a9090c011e143}} 
 \index{bit\_array.h@{bit\_array.h}!BitArray\_to\_string@{BitArray\_to\_string}}
 \index{BitArray\_to\_string@{BitArray\_to\_string}!bit\_array.h@{bit\_array.h}}
 \doxysubsubsection{\texorpdfstring{BitArray\_to\_string()}{BitArray\_to\_string()}}
-{\footnotesize\ttfamily char $\ast$ Bit\+Array\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBitArray}{Bit\+Array}}}]{array }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{structString}{String}} Bit\+Array\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structBitArray}{Bit\+Array}} $\ast$}]{array }\end{DoxyParamCaption})}
 
 
 

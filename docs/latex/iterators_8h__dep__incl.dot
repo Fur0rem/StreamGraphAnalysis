@@ -8,21 +8,6 @@ digraph "src/iterators.h"
   Node2 [label="src/induced_graph.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$induced__graph_8h.html",tooltip="Functions to get the nodes and links present at a given time in a StreamGraph."];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node3 [label="src/metrics.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$metrics_8h.html",tooltip="Functions to compute metrics on a Stream."];
-  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node4 [label="src/stream/chunk_stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$chunk__stream_8h_source.html",tooltip=" "];
-  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node5 [label="src/stream/chunk_stream\l_small.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$chunk__stream__small_8h.html",tooltip="Like ChunkStream's, but with a memory representation more efficient for small chunks of the StreamGra..."];
-  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node6 [label="src/stream/full_stream\l_graph.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$full__stream__graph_8h.html",tooltip="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..."];
-  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node7 [label="src/stream/link_stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$link__stream_8h_source.html",tooltip=" "];
-  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node8 [label="src/stream/snapshot\l_stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$snapshot__stream_8h_source.html",tooltip=" "];
-  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node9 [label="src/stream_functions.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$stream__functions_8h_source.html",tooltip=" "];
-  Node9 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node9 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node9 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node9 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
-  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="src/stream_functions.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$stream__functions_8h_source.html",tooltip=" "];
 }

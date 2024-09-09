@@ -3,14 +3,10 @@
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
-#include "stream/chunk_stream.h"
-#include "stream/chunk_stream_small.h"
-#include "stream/full_stream_graph.h"
-#include "stream/link_stream.h"
-#include "stream/snapshot_stream.h"
 #include "stream_functions.h"
 #include "stream_graph/links_set.h"
 #include "stream_graph/nodes_set.h"
+#include "stream_wrappers.h"
 #include "units.h"
 #include "utils.h"
 #include "vector.h"
@@ -60,8 +56,8 @@ size_t cardinalOfT(Stream* stream) {
 	CATCH_METRICS_IMPLEM(cardinalOfT, stream);
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	Interval lifespan	= fns.lifespan(stream->stream_data);
-	UPDATE_CACHE(stream, cardinalOfT, Interval_size(lifespan));
-	return Interval_size(lifespan);
+	UPDATE_CACHE(stream, cardinalOfT, Interval_duration(lifespan));
+	return Interval_duration(lifespan);
 }
 
 size_t cardinalOfV(Stream* stream) {
@@ -319,7 +315,7 @@ double Stream_degree_of_node(Stream* stream, NodeId node_id) {
 		TimesIterator times_link = fns.times_link_present(stream->stream_data, link_id);
 		sum_num += total_time_of(times_link);
 	}
-	size_t sum_den = Interval_size(fns.lifespan(stream->stream_data));
+	size_t sum_den = Interval_duration(fns.lifespan(stream->stream_data));
 	return (double)sum_num / (double)sum_den;
 }
 

@@ -20,8 +20,6 @@ Stream CS_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* 
 				  size_t time_end);
 void CS_destroy(Stream stream);
 
-void filter_interval(Interval* interval, Interval snapshot);
-
 extern const StreamFunctions ChunkStream_stream_functions;
 extern const MetricsFunctions ChunkStream_metrics_functions;
 

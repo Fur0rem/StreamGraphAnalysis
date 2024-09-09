@@ -1,8 +1,5 @@
 #include "../src/analysis/walks.h"
-#include "../src/stream/chunk_stream.h"
-#include "../src/stream/chunk_stream_small.h"
-#include "../src/stream/full_stream_graph.h"
-#include "../src/stream/link_stream.h"
+#include "../src/stream_wrappers.h"
 #include "test.h"
 #include <stddef.h>
 #include <stdio.h>

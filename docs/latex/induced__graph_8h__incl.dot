@@ -49,6 +49,7 @@ digraph "src/induced_graph.h"
   Node16 [label="stream.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$stream_8h_source.html",tooltip=" "];
   Node16 -> Node17 [color="midnightblue",fontsize="10",style="solid"];
   Node17 [label="bit_array.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$bit__array_8h.html",tooltip="A variable length array of bits and functions to manipulate it."];
+  Node17 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
   Node17 -> Node10 [color="midnightblue",fontsize="10",style="solid"];
   Node17 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
   Node16 -> Node3 [color="midnightblue",fontsize="10",style="solid"];

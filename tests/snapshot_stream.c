@@ -1,8 +1,7 @@
-#include "../src/stream/snapshot_stream.h"
 #include "../src/interval.h"
 #include "../src/metrics.h"
 #include "../src/stream.h"
-#include "../src/stream/full_stream_graph.h"
+#include "../src/stream_wrappers.h"
 #include "../src/units.h"
 #include "test.h"
 #include <stddef.h>

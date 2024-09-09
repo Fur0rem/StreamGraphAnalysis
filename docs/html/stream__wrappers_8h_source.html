@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.4"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>StreamGraphAnalysis: BitArray Struct Reference</title>
+<title>StreamGraphAnalysis: src/stream_wrappers.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('structBitArray.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('stream__wrappers_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -83,65 +83,20 @@ $(document).ready(function(){initNavTree('structBitArray.html',''); initResizabl
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="structBitArray-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">BitArray Struct Reference</div></div>
+  <div class="headertitle"><div class="title">stream_wrappers.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >The structure of a variable length array of bits. </p>
-<p >It contains the number of bits present in the array and the array of bits. The bits are stored in an array of int's. I used an array of int to have less computations to do when oring or anding two arrays. It is not possible to go higher than an int otherwise some functions will not work. </p>
-</div>
-<p><code>#include &lt;<a class="el" href="bit__array_8h_source.html">bit_array.h</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ac24ea25e981a8997edf3b8f1d422ab5d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBitArray.html#ac24ea25e981a8997edf3b8f1d422ab5d">nb_bits</a></td></tr>
-<tr class="separator:ac24ea25e981a8997edf3b8f1d422ab5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5898b55f85eeb18ff29cd27c608c63bc"><td class="memItemLeft" align="right" valign="top">BitArraySlice *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBitArray.html#a5898b55f85eeb18ff29cd27c608c63bc">bits</a></td></tr>
-<tr class="separator:a5898b55f85eeb18ff29cd27c608c63bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a5898b55f85eeb18ff29cd27c608c63bc" name="a5898b55f85eeb18ff29cd27c608c63bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5898b55f85eeb18ff29cd27c608c63bc">&#9670;&nbsp;</a></span>bits</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BitArraySlice* BitArray::bits</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >The array of bits. </p>
-
-</div>
-</div>
-<a id="ac24ea25e981a8997edf3b8f1d422ab5d" name="ac24ea25e981a8997edf3b8f1d422ab5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac24ea25e981a8997edf3b8f1d422ab5d">&#9670;&nbsp;</a></span>nb_bits</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t BitArray::nb_bits</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >The number of bits in the array. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/<a class="el" href="bit__array_8h_source.html">bit_array.h</a></li>
-</ul>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;stream_wrappers/chunk_stream.h&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;stream_wrappers/chunk_stream_small.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;stream_wrappers/full_stream_graph.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;stream_wrappers/link_stream.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;stream_wrappers/snapshot_stream.h&quot;</span></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structBitArray.html">BitArray</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><b>stream_wrappers.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4 </li>
   </ul>
 </div>
