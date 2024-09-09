@@ -670,10 +670,15 @@ size_t nb_characters_needed(size_t number) {
 		number /= 10;
 		nb_chars++;
 	}
+	if (nb_chars == 1) {
+		return 2;
+	}
 	return nb_chars;
 }
 
-double percentage_of_error(size_t a, size_t b) {
+double percentage_of_error(size_t aa, size_t bb) {
+	double a = (double)aa;
+	double b = (double)bb;
 	if (a > b) {
 		return 100.0 * ((a - b) / a);
 	}
@@ -683,7 +688,8 @@ double percentage_of_error(size_t a, size_t b) {
 }
 
 // Transforms an external format to an internal format
-char* InternalFormat_from_External_str(const char* str) {
+// EXTREMELY VERBOSE VERSION FOR PREDICTION OF SIZE
+/*char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
 	int nb_scanned;
 
@@ -939,37 +945,42 @@ char* InternalFormat_from_External_str(const char* str) {
 			   "Nodes]"
 			   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
 			   "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]\n") +
-		100;
+		100 + (number_of_slices.size * (nb_characters_needed(nb_events / number_of_slices.size)));
 
-	size_t neighbours_per_node_prediction		   = links.size / nodes.size;
-	size_t number_of_intervals_per_node_prediction = nb_events / nodes.size;
-	size_t number_of_intervals_per_link_prediction = nb_events / links.size;
+	size_t neighbours_per_node_prediction = (links.size + links.size / 2) / nodes.size;
+	size_t number_of_intervals			  = ((nb_characters_needed(nb_events / 8) + 1) * (nodes.size + links.size)) / 2;
 
 	size_t neighbours_nodes_to_links_size =
-		((nb_characters_needed(links.size) - 1) * neighbours_per_node_prediction + 4) * nodes.size;
-	size_t neighbours_links_to_nodes_size = (((nb_characters_needed(biggest_node_id) - 1) * 2) + 5) * links.size;
+		((nb_characters_needed(links.size) + 2) * neighbours_per_node_prediction + 3) * nodes.size;
+	size_t neighbours_links_to_nodes_size =
+		(4 + (((nb_characters_needed(biggest_node_id) - 1) * 2) + nb_characters_needed(links.size) - 1)) * links.size;
 
-	size_t events_size_prediction =
-		nb_events * 12; // nb_events * (8 + ((nb_characters_needed(biggest_node_id) - 1) * nodes.size +
-						//			  (nb_characters_needed(links.size) - 1) * links.size + 10));
-
-	size_t size_prediction = headers_size + (neighbours_per_node_prediction * nodes.size * 2) +
-							 (number_of_intervals_per_node_prediction * nodes.size * 2) +
-							 (number_of_intervals_per_link_prediction * links.size * 2) +
+	TimeId last_event		   = events.array[events.size - 1].array[0].moment;
+	size_t nb_events_per_slice = (nb_events + nb_events / 2) / number_of_slices.size;
+	size_t chars_per_event =
+		nb_characters_needed((biggest_node_id > links.size) ? biggest_node_id : links.size) + strlen(" (X X X)");
+	chars_per_event += 2; // for the space and the sign
+	size_t events_size_prediction		   = ((nb_characters_needed(last_event) - 1 + chars_per_event) * nb_events);
+	size_t number_of_neighbours_prediction = (nb_characters_needed(neighbours_per_node_prediction) + 1) * nodes.size;
+	size_t size_prediction				   = headers_size + (number_of_neighbours_prediction) + number_of_intervals +
 							 neighbours_nodes_to_links_size + neighbours_links_to_nodes_size + events_size_prediction;
 
-	printf("size_prediction : %zu\n", size_prediction);
-	printf("biggest_node_id : %zu, nodes.size : %zu, links.size : %zu, node_neighbours.size : %zu\n", biggest_node_id,
-		   nodes.size, links.size, node_neighbours.size);
+	printf("biggest_node_id : %zu, nodes.size : %zu, links.size : %zu, node_neighbours.size : %zu, %zu, nb_events : "
+		   "%zu, number_of_slices.size : %zu, last_event : %zu, nb_events_per_slice : %zu, nb_neighbours_per_node : "
+		   "%zu, number_of_interval : %zu, neighbours_nodes_to_links_size "
+		   ": %zu, neighbours_links_to_nodes_size : %zu\n",
+		   biggest_node_id, nodes.size, links.size, node_neighbours.size, events.size, nb_events, number_of_slices.size,
+		   last_event, nb_events_per_slice, neighbours_per_node_prediction, number_of_intervals,
+		   neighbours_nodes_to_links_size, neighbours_links_to_nodes_size);
+
 	String out_str = String_with_capacity(size_prediction);
 
-	size_t actual_headers_size							  = 0;
-	size_t actual_neighbours_per_node_prediction		  = 0;
-	size_t actual_number_of_intervals_per_node_prediction = 0;
-	size_t actual_number_of_intervals_per_link_prediction = 0;
-	size_t actual_neighbours_nodes_to_links_size		  = 0;
-	size_t actual_neighbours_links_to_nodes_size		  = 0;
-	size_t actual_events_size_prediction				  = 0;
+	size_t actual_headers_size					 = 0;
+	size_t actual_neighbours_per_node_prediction = 0;
+	size_t actual_number_of_intervals			 = 0;
+	size_t actual_neighbours_nodes_to_links_size = 0;
+	size_t actual_neighbours_links_to_nodes_size = 0;
+	size_t actual_events_size_prediction		 = 0;
 
 	size_t actual_size = 0;
 	String_push_str(&out_str, "SGA Internal version 1.0.0\n\n");
@@ -987,6 +998,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	String_push_str(&out_str, "[[[NumberOfNeighbours]]]\n");
 	actual_headers_size += out_str.size - actual_size;
+	printf("actual_headers_size 1 : %zu\n", actual_headers_size);
 	actual_size = out_str.size;
 	for (size_t i = 0; i <= biggest_node_id; i++) {
 		String_append_formatted(&out_str, "%zu\n", size_tHashset_nb_elems(&node_neighbours.array[i]));
@@ -994,22 +1006,25 @@ char* InternalFormat_from_External_str(const char* str) {
 	actual_neighbours_per_node_prediction += out_str.size - actual_size;
 	actual_size = out_str.size;
 	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
+	headers_size += out_str.size - actual_size;
+	actual_size = out_str.size;
 	for (size_t i = 0; i <= biggest_node_id; i++) {
 		String_append_formatted(&out_str, "%zu\n", nodes.array[i].nb_intervals / 2);
 	}
-	actual_number_of_intervals_per_node_prediction += out_str.size - actual_size;
+	actual_number_of_intervals += out_str.size - actual_size;
 	actual_size = out_str.size;
 
 	String_push_str(&out_str, "[[Links]]\n");
 
 	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
 	actual_headers_size += out_str.size - actual_size;
+	printf("actual_headers_size 2 : %zu\n", actual_headers_size);
 	actual_size = out_str.size;
 
 	for (size_t i = 0; i < LinkInfoVector_len(&links); i++) {
 		String_append_formatted(&out_str, "%zu\n", links.array[i].nb_intervals / 2);
 	}
-	actual_number_of_intervals_per_link_prediction += out_str.size - actual_size;
+	actual_number_of_intervals += out_str.size - actual_size;
 	actual_size = out_str.size;
 	String_push_str(&out_str, "[[[NumberOfSlices]]]\n");
 	for (size_t i = 0; i < number_of_slices.size; i++) {
@@ -1021,6 +1036,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	String_push_str(&out_str, "[[[NodesToLinks]]]\n");
 	actual_headers_size += out_str.size - actual_size;
+	printf("actual_headers_size 3 : %zu\n", actual_headers_size);
 	actual_size = out_str.size;
 
 	for (size_t i = 0; i < nodes.size; i++) {
@@ -1053,6 +1069,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	String_push_str(&out_str, "[[[LinksToNodes]]]\n");
 	actual_headers_size += out_str.size - actual_size;
+	printf("actual_headers_size 4 : %zu\n", actual_headers_size);
 	actual_size = out_str.size;
 
 	for (size_t i = 0; i < links.size; i++) {
@@ -1063,6 +1080,7 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	String_push_str(&out_str, "[[Events]]\n");
 	actual_headers_size += out_str.size - actual_size;
+	printf("actual_headers_size 5 : %zu\n", actual_headers_size);
 	actual_size = out_str.size;
 
 	size_t* link_id_map = MALLOC((biggest_node_id + 1) * (biggest_node_id + 1) * sizeof(size_t));
@@ -1111,9 +1129,9 @@ char* InternalFormat_from_External_str(const char* str) {
 	}
 
 	free(link_id_map);
-	String_push_str(&out_str, "[EndOfStream]\n");
-	String_push_str(&out_str, "\0");
+	String_push_str(&out_str, "\n[EndOfStream]\0");
 	actual_headers_size += out_str.size - actual_size;
+	printf("actual_headers_size 6 : %zu\n", actual_headers_size);
 	actual_size = out_str.size;
 
 	size_tHashsetVector_destroy(node_neighbours);
@@ -1122,7 +1140,39 @@ char* InternalFormat_from_External_str(const char* str) {
 	LinkInfoVector_destroy(nodes);
 	size_tVector_destroy(number_of_slices);
 
-	printf("real size : %zu\n", out_str.size);
+	printf(TEXT_BOLD "Difference in prediction and actual size : \n" TEXT_RESET);
+
+	printf("Headers : (prediction : %zu, actual : %zu, %s difference : %f)\n" TEXT_RESET, headers_size,
+		   actual_headers_size, (headers_size >= actual_headers_size) ? TEXT_GREEN : TEXT_RED,
+		   percentage_of_error(headers_size, actual_headers_size));
+
+	printf("NumberOfNeighbours : (prediction : %zu, actual : %zu, %s difference : %f)\n" TEXT_RESET,
+		   number_of_neighbours_prediction, actual_neighbours_per_node_prediction,
+		   (number_of_neighbours_prediction >= actual_neighbours_per_node_prediction) ? TEXT_GREEN : TEXT_RED,
+		   percentage_of_error(number_of_neighbours_prediction, actual_neighbours_per_node_prediction));
+
+	printf("Number of intervals: (prediction : %zu, actual : %zu, %s difference : %f)\n" TEXT_RESET,
+		   number_of_intervals, actual_number_of_intervals,
+		   (number_of_intervals >= actual_number_of_intervals) ? TEXT_GREEN : TEXT_RED,
+		   percentage_of_error(number_of_intervals, actual_number_of_intervals));
+
+	printf("Neighbours nodes to links : (prediction : %zu, actual : %zu, %s difference : %f)\n" TEXT_RESET,
+		   neighbours_nodes_to_links_size, actual_neighbours_nodes_to_links_size,
+		   (neighbours_nodes_to_links_size >= actual_neighbours_nodes_to_links_size) ? TEXT_GREEN : TEXT_RED,
+		   percentage_of_error(neighbours_nodes_to_links_size, actual_neighbours_nodes_to_links_size));
+
+	printf("Neighbours links to nodes : (prediction : %zu, actual : %zu, %s difference : %f)\n" TEXT_RESET,
+		   neighbours_links_to_nodes_size, actual_neighbours_links_to_nodes_size,
+		   (neighbours_links_to_nodes_size >= actual_neighbours_links_to_nodes_size) ? TEXT_GREEN : TEXT_RED,
+		   percentage_of_error(neighbours_links_to_nodes_size, actual_neighbours_links_to_nodes_size));
+
+	printf("Events : (prediction : %zu, actual : %zu, %s difference : %f)\n" TEXT_RESET, events_size_prediction,
+		   actual_events_size_prediction,
+		   (events_size_prediction >= actual_events_size_prediction) ? TEXT_GREEN : TEXT_RED,
+		   percentage_of_error(events_size_prediction, actual_events_size_prediction));
+
+	printf("SIZE PREDICTION : %zu\n", size_prediction);
+	printf("REAL SIZE : %zu\n", out_str.size);
 
 	if (out_str.size > size_prediction) {
 		printf(TEXT_RED TEXT_BOLD "Size prediction underestimated by %zu\n" TEXT_RESET, out_str.size - size_prediction);
@@ -1132,38 +1182,390 @@ char* InternalFormat_from_External_str(const char* str) {
 			   size_prediction - out_str.size);
 	}
 
-	double ratio;
-	if (size_prediction > out_str.size) {
-		ratio = (double)(size_prediction - out_str.size) / size_prediction;
+	double ratio = percentage_of_error(size_prediction, out_str.size);
+
+	printf(TEXT_BOLD "Percentage of error : %f%%\n" TEXT_RESET, ratio);
+
+	printf("\n\n");
+	return out_str.data;
+}*/
+
+char* InternalFormat_from_External_str(const char* str) {
+	char* current_header = "None";
+	int nb_scanned;
+
+	// Skip to general section
+	str = get_to_header(str, "[General]");
+
+	size_tHashsetVector node_neighbours = size_tHashsetVector_with_capacity(10);
+
+	// size_t lifespan_start;
+	// size_t lifespan_end;
+	// nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
+	// EXPECTED_NB_SCANNED(2);
+	// GO_TO_NEXT_LINE(str);
+
+	// // Parse the general section
+	// size_t scaling;
+	// nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	// EXPECTED_NB_SCANNED(1);
+
+	EXPECT_SEQ_AND_MOVE(str, "Lifespan=(");
+	char* new_ptr;
+	size_t lifespan_start = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the start of the lifespan\n");
+		PRINT_LINE(str);
+		exit(1);
 	}
-	else {
-		ratio = (double)(out_str.size - size_prediction) / size_prediction;
+	EXPECT_AND_MOVE(new_ptr, ' ');
+	str = new_ptr;
+
+	size_t lifespan_end = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the end of the lifespan\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, ')');
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
+	EXPECT_SEQ_AND_MOVE(str, "Scaling=");
+	size_t scaling = strtol(str, &new_ptr, 10);
+	if (new_ptr == str) {
+		fprintf(stderr, "Could not parse the scaling\n");
+		PRINT_LINE(str);
+		exit(1);
+	}
+	EXPECT_AND_MOVE(new_ptr, '\n');
+	str = new_ptr;
+
+	// Skip to events section
+	str = get_to_header(str, "[Events]");
+
+	EventTupleVectorVector events = EventTupleVectorVector_with_capacity(10);
+	LinkInfoVector links		  = LinkInfoVector_with_capacity(10);
+	LinkInfoVector nodes		  = LinkInfoVector_with_capacity(10);
+	size_t biggest_node_id		  = 0;
+
+	// Parse the events
+	size_t nb_events			  = 0;
+	size_t current_vec			  = 0;
+	size_tVector number_of_slices = size_tVector_with_capacity(10);
+	const char* end_of_stream	  = "[EndOfStream]";
+	while (strncmp(str, end_of_stream, strlen(end_of_stream)) != 0) {
+		// if the line is empty, skip it
+		if (*str == '\n') {
+			break;
+		}
+		EventTuple tuple;
+		size_t key_moment = strtol(str, &new_ptr, 10);
+		if (new_ptr == str) {
+			fprintf(stderr, "Could not parse the key moment\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str = new_ptr;
+		EXPECT_AND_MOVE(str, ' ');
+
+		char sign = *str;
+		if (sign != '+' && sign != '-') {
+			fprintf(stderr, "Could not parse the sign %c\n", sign);
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str++;
+
+		EXPECT_AND_MOVE(str, ' ');
+
+		char letter = *str;
+		if (letter != 'N' && letter != 'L') {
+			fprintf(stderr, "Could not parse the letter %c\n", letter);
+			PRINT_LINE(str);
+			exit(1);
+		}
+		str++;
+
+		EXPECT_AND_MOVE(str, ' ');
+
+		if (letter == 'N') {
+			size_t node_id = strtol(str, &new_ptr, 10);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the node\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str	  = new_ptr;
+			tuple = (EventTuple){
+				.moment	 = key_moment,
+				.sign	 = sign,
+				.letter	 = letter,
+				.id.node = node_id,
+			};
+			// push the neighbours
+			if (node_id > biggest_node_id) {
+				biggest_node_id = node_id;
+			}
+			if (biggest_node_id >= node_neighbours.size) {
+				for (size_t i = node_neighbours.size; i <= biggest_node_id; i++) {
+					size_tHashsetVector_push(&node_neighbours, size_tHashset_with_capacity(10));
+				}
+			}
+
+			LinkInfo info = {
+				.nodes = {node_id, node_id},
+					 .nb_intervals = 1
+			  };
+
+			bool found = false;
+			for (size_t i = 0; i < nodes.size; i++) {
+				if (nodes.array[i].nodes[0] == info.nodes[0] && nodes.array[i].nodes[1] == info.nodes[1]) {
+					nodes.array[i].nb_intervals++;
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				LinkInfoVector_push(&nodes, info);
+			}
+		}
+		else {
+			size_t node_one = strtol(str, &new_ptr, 10);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the first node\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str = new_ptr;
+			EXPECT_AND_MOVE(str, ' ');
+			size_t node_two = strtol(str, &new_ptr, 10);
+			if (new_ptr == str) {
+				fprintf(stderr, "Could not parse the second node\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
+			str	  = new_ptr;
+			tuple = (EventTuple){
+				.moment	  = key_moment,
+				.sign	  = sign,
+				.letter	  = letter,
+				.id.node1 = node_one,
+				.id.node2 = node_two,
+			};
+
+			// push the neighbours
+			if (node_one > biggest_node_id) {
+				biggest_node_id = node_one;
+			}
+			if (node_two > biggest_node_id) {
+				biggest_node_id = node_two;
+			}
+			if (biggest_node_id >= node_neighbours.size) {
+				for (size_t i = node_neighbours.size; i <= biggest_node_id; i++) {
+					size_tHashsetVector_push(&node_neighbours, size_tHashset_with_capacity(10));
+				}
+			}
+			size_tHashset_insert(&node_neighbours.array[node_one], node_two);
+			size_tHashset_insert(&node_neighbours.array[node_two], node_one);
+
+			LinkInfo info = {
+				.nodes = {node_one, node_two},
+				   .nb_intervals = 1
+			};
+
+			bool found = false;
+			for (size_t i = 0; i < links.size; i++) {
+				if ((links.array[i].nodes[0] == info.nodes[0] && links.array[i].nodes[1] == info.nodes[1]) ||
+					(links.array[i].nodes[0] == info.nodes[1] && links.array[i].nodes[1] == info.nodes[0])) {
+					links.array[i].nb_intervals++;
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				LinkInfoVector_push(&links, info);
+			}
+		}
+		if (nb_events == 0) {
+			EventTupleVector events_vec = EventTupleVector_with_capacity(10);
+			EventTupleVector_push(&events_vec, tuple);
+			EventTupleVectorVector_push(&events, events_vec);
+		}
+		else {
+			if (key_moment == events.array[current_vec].array[0].moment) {
+				EventTupleVector_push(&events.array[current_vec], tuple);
+			}
+			else {
+				EventTupleVector events_vec = EventTupleVector_with_capacity(10);
+				EventTupleVector_push(&events_vec, tuple);
+				EventTupleVectorVector_push(&events, events_vec);
+				current_vec++;
+			}
+		}
+		nb_events++;
+
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	printf(TEXT_BOLD "Percentage of error : %f%%\n" TEXT_RESET, ratio * 100);
+	for (size_t i = 0; i < events.size; i++) {
+		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
+		if (slice_id >= number_of_slices.size) {
+			for (size_t j = number_of_slices.size; j <= slice_id; j++) {
+				size_tVector_push(&number_of_slices, 0);
+			}
+		}
+		number_of_slices.array[slice_id]++;
+	}
 
-	printf(TEXT_BOLD "\nDifference in prediction and actual size : \n" TEXT_RESET);
-	printf("Headers : (prediction : %zu, actual : %zu, difference : %f)\n", headers_size, actual_headers_size,
-		   percentage_of_error(headers_size, actual_headers_size));
-	printf("Neighbours per node : (prediction : %zu, actual : %zu, difference : %f)\n", neighbours_per_node_prediction,
-		   actual_neighbours_per_node_prediction,
-		   percentage_of_error(neighbours_per_node_prediction, actual_neighbours_per_node_prediction));
-	printf(
-		"Number of intervals per node : (prediction : %zu, actual : %zu, difference : %f)\n",
-		number_of_intervals_per_node_prediction, actual_number_of_intervals_per_node_prediction,
-		percentage_of_error(number_of_intervals_per_node_prediction, actual_number_of_intervals_per_node_prediction));
-	printf(
-		"Number of intervals per link : (prediction : %zu, actual : %zu, difference : %f)\n",
-		number_of_intervals_per_link_prediction, actual_number_of_intervals_per_link_prediction,
-		percentage_of_error(number_of_intervals_per_link_prediction, actual_number_of_intervals_per_link_prediction));
-	printf("Neighbours nodes to links : (prediction : %zu, actual : %zu, difference : %f)\n",
-		   neighbours_nodes_to_links_size, actual_neighbours_nodes_to_links_size,
-		   percentage_of_error(neighbours_nodes_to_links_size, actual_neighbours_nodes_to_links_size));
-	printf("Neighbours links to nodes : (prediction : %zu, actual : %zu, difference : %f)\n",
-		   neighbours_links_to_nodes_size, actual_neighbours_links_to_nodes_size,
-		   percentage_of_error(neighbours_links_to_nodes_size, actual_neighbours_links_to_nodes_size));
-	printf("Events : (prediction : %zu, actual : %zu, difference : %f)\n", events_size_prediction,
-		   actual_events_size_prediction, percentage_of_error(events_size_prediction, actual_events_size_prediction));
+	// An estimation of the size of the output string (slightly overestimated in case)
+	// Most of these are magic functions with some trial and error on a few examples
+	// I had between ~2% and ~30% of error on the size estimation
+	// The additions with random 2's, 3's, 4's are to account for the space, newline, and parenthesis
+
+	// The headers + the number of events in each slice * the number of slices
+	size_t headers_size =
+		strlen("[General]\nLifespan=(%zu "
+			   "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%zu\n\n[["
+			   "Nodes]"
+			   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
+			   "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]\n") +
+		100 + (number_of_slices.size * (nb_characters_needed(nb_events / number_of_slices.size)));
+
+	// The number of neighbours for each node
+	size_t neighbours_per_node_prediction = (links.size + links.size / 2) / nodes.size;
+
+	// The number of intervals for each node and link (appearance + disappearance) = 1 interval
+	size_t number_of_intervals = ((nb_characters_needed(nb_events / 8) + 1) * (nodes.size + links.size)) / 2;
+
+	// The number of neighbours for each node to links and links to nodes
+	size_t neighbours_nodes_to_links_size =
+		((nb_characters_needed(links.size) + 2) * neighbours_per_node_prediction + 3) * nodes.size;
+	size_t neighbours_links_to_nodes_size =
+		(4 + (((nb_characters_needed(biggest_node_id) - 1) * 2) + nb_characters_needed(links.size) - 1)) * links.size;
+
+	TimeId last_event = events.array[events.size - 1].array[0].moment;
+
+	// The size of the events with (sign letter link_id) or (sign letter node_id)
+	size_t chars_per_event = (1 + nb_characters_needed((biggest_node_id > links.size) ? biggest_node_id : links.size)) +
+							 strlen(" (X X X)") + 2;
+	size_t events_size_prediction		   = ((nb_characters_needed(last_event) - 1 + chars_per_event) * nb_events);
+	size_t number_of_neighbours_prediction = (nb_characters_needed(neighbours_per_node_prediction) + 1) * nodes.size;
+
+	// Sum of everything
+	size_t size_prediction = headers_size + (number_of_neighbours_prediction) + number_of_intervals +
+							 neighbours_nodes_to_links_size + neighbours_links_to_nodes_size + events_size_prediction;
+
+	String out_str = String_with_capacity(size_prediction);
+
+	String_push_str(&out_str, "SGA Internal version 1.0.0\n\n");
+
+	String_push_str(&out_str, "[General]\n");
+	String_append_formatted(&out_str, "Lifespan=(%zu %zu)\n", lifespan_start, lifespan_end);
+	String_append_formatted(&out_str, "Scaling=%zu\n\n", scaling);
+
+	String_push_str(&out_str, "[Memory]\n");
+	String_append_formatted(&out_str, "NumberOfNodes=%zu\n", biggest_node_id + 1);
+	String_append_formatted(&out_str, "NumberOfLinks=%zu\n", LinkInfoVector_len(&links));
+	String_append_formatted(&out_str, "NumberOfKeyMoments=%zu\n\n", EventTupleVectorVector_len(&events));
+
+	String_push_str(&out_str, "[[Nodes]]\n");
+
+	String_push_str(&out_str, "[[[NumberOfNeighbours]]]\n");
+	for (size_t i = 0; i <= biggest_node_id; i++) {
+		String_append_formatted(&out_str, "%zu\n", size_tHashset_nb_elems(&node_neighbours.array[i]));
+	}
+	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
+	for (size_t i = 0; i <= biggest_node_id; i++) {
+		String_append_formatted(&out_str, "%zu\n", nodes.array[i].nb_intervals / 2);
+	}
+
+	String_push_str(&out_str, "[[Links]]\n");
+
+	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
+
+	for (size_t i = 0; i < LinkInfoVector_len(&links); i++) {
+		String_append_formatted(&out_str, "%zu\n", links.array[i].nb_intervals / 2);
+	}
+	String_push_str(&out_str, "[[[NumberOfSlices]]]\n");
+	for (size_t i = 0; i < number_of_slices.size; i++) {
+		String_append_formatted(&out_str, "%zu\n", number_of_slices.array[i]);
+	}
+
+	String_push_str(&out_str, "[Data]\n");
+	String_push_str(&out_str, "[[Neighbours]]\n");
+
+	String_push_str(&out_str, "[[[NodesToLinks]]]\n");
+
+	for (size_t i = 0; i < nodes.size; i++) {
+		String_push_str(&out_str, "(");
+		size_tHashset neighs = node_neighbours.array[i];
+		for (size_t j = 0; j < neighs.capacity; j++) {
+			for (size_t k = 0; k < neighs.buckets[j].size; k++) {
+				size_t neighbour = neighs.buckets[j].array[k];
+				// Find the id of the link with the neighbour
+				size_t link_id = SIZE_MAX;
+				for (size_t l = 0; l < links.size; l++) {
+					if ((links.array[l].nodes[0] == i && links.array[l].nodes[1] == neighbour) ||
+						(links.array[l].nodes[0] == neighbour && links.array[l].nodes[1] == i)) {
+						link_id = l;
+						break;
+					}
+				}
+				if (link_id == SIZE_MAX) {
+					fprintf(stderr, "Could not find link with nodes %zu and %zu\n", i, neighbour);
+					exit(1);
+				}
+				String_append_formatted(&out_str, "%zu ", link_id);
+			}
+		}
+		String_pop(&out_str);
+		String_push_str(&out_str, ")\n");
+	}
+
+	String_push_str(&out_str, "[[[LinksToNodes]]]\n");
+
+	for (size_t i = 0; i < links.size; i++) {
+		String_append_formatted(&out_str, "(%zu %zu)\n", links.array[i].nodes[0], links.array[i].nodes[1]);
+	}
+
+	String_push_str(&out_str, "[[Events]]\n");
+
+	size_t* link_id_map = MALLOC((biggest_node_id + 1) * (biggest_node_id + 1) * sizeof(size_t));
+	for (size_t i = 0; i < links.size; i++) {
+		link_id_map[links.array[i].nodes[0] * (biggest_node_id + 1) + links.array[i].nodes[1]] = i;
+		link_id_map[links.array[i].nodes[1] * (biggest_node_id + 1) + links.array[i].nodes[0]] = i;
+	}
+
+	// printf("parsing events 2\n");
+	for (size_t i = 0; i < events.size; i++) {
+		String_append_formatted(&out_str, "%zu=(", events.array[i].array[0].moment);
+		for (size_t j = 0; j < events.array[i].size; j++) {
+			if (events.array[i].array[j].letter == 'L') {
+				EventTuple e   = events.array[i].array[j];
+				size_t idx1	   = e.id.node1;
+				size_t idx2	   = e.id.node2;
+				size_t link_id = link_id_map[idx1 * (biggest_node_id + 1) + idx2];
+				String_append_formatted(&out_str, "(%c %c %zu) ", events.array[i].array[j].sign,
+										events.array[i].array[j].letter, link_id);
+			}
+			else {
+				String_append_formatted(&out_str, "(%c %c %zu) ", events.array[i].array[j].sign,
+										events.array[i].array[j].letter, events.array[i].array[j].id.node);
+			}
+		}
+		String_pop(&out_str);
+		String_push_str(&out_str, ")\n");
+	}
+
+	free(link_id_map);
+	String_push_str(&out_str, "\n[EndOfStream]\0");
+
+	size_tHashsetVector_destroy(node_neighbours);
+	EventTupleVectorVector_destroy(events);
+	LinkInfoVector_destroy(links);
+	LinkInfoVector_destroy(nodes);
+	size_tVector_destroy(number_of_slices);
 
 	return out_str.data;
 }
