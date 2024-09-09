@@ -322,3 +322,7 @@ IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set) {
 		.array	  = intervals_set.intervals,
 	};
 }
+
+size_t Interval_duration(Interval interval) {
+	return interval.end - interval.start;
+}

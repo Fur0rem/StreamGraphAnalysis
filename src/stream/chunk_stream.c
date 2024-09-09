@@ -420,10 +420,27 @@ const StreamFunctions ChunkStream_stream_functions = {
 	.neighbours_of_node = ChunkStream_neighbours_of_node,
 };
 
+size_t ChunkStream_cardinal_of_v(Stream* stream) {
+	FETCH_CACHE(stream, cardinalOfV);
+
+	StreamData* stream_data	  = stream->stream_data;
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
+	size_t v				  = BitArray_count_ones(&chunk_stream->nodes_present);
+
+	UPDATE_CACHE(stream, cardinalOfV, v);
+	return v;
+}
+
+size_t ChunkStream_cardinal_of_t(Stream* stream) {
+	StreamData* stream_data	  = stream->stream_data;
+	ChunkStream* chunk_stream = (ChunkStream*)stream_data;
+	return Interval_duration(chunk_stream->snapshot);
+}
+
 const MetricsFunctions ChunkStream_metrics_functions = {
 	.cardinalOfW   = NULL,
 	.cardinalOfT   = NULL,
-	.cardinalOfV   = NULL,
+	.cardinalOfV   = ChunkStream_cardinal_of_v,
 	.coverage	   = NULL,
 	.node_duration = NULL,
 };

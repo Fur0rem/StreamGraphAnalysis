@@ -157,4 +157,6 @@ bool BitArray_equals(const BitArray* a, const BitArray* b);
 
 /** @} */
 
+size_t BitArray_count_ones(const BitArray* array);
+
 #endif // BIT_ARRAY_H

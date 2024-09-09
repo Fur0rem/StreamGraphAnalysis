@@ -1,3 +1,6 @@
+// TODO : honestly is this needed ? maybe just use the chunk stream and don't care about memory optimisation for small
+// chunks
+
 #include "chunk_stream_small.h"
 
 #include "../interval.h"
@@ -7,6 +10,7 @@
 #include <stddef.h>
 
 Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, LinkIdVector links, Interval snapshot) {
+	// TODO : remove links of deleted nodes
 	ChunkStreamSmall* chunk_stream = MALLOC(sizeof(ChunkStreamSmall));
 	*chunk_stream				   = (ChunkStreamSmall){
 						 .nb_nodes				  = nodes.size,
