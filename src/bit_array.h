@@ -6,8 +6,11 @@
  * @brief A variable length array of bits and functions to manipulate it.
  */
 
+#include "utils.h"
 #include <stdbool.h>
 #include <stddef.h>
+
+typedef size_t BitArraySlice;
 
 /**
  * @brief The structure of a variable length array of bits.
@@ -18,8 +21,8 @@
  * It is not possible to go higher than an int otherwise some functions will not work.
  */
 typedef struct {
-	size_t nb_bits; /**< The number of bits in the array. */
-	int* bits;		/**< The array of bits. */
+	size_t nb_bits;		 /**< The number of bits in the array. */
+	BitArraySlice* bits; /**< The array of bits. */
 } BitArray;
 
 /**
@@ -140,7 +143,17 @@ size_t BitArray_leading_zeros_from(BitArray array, size_t index);
  * @param[in] array The BitArray.
  * @return The string representation of the BitArray.
  */
-char* BitArray_to_string(BitArray array);
+String BitArray_to_string(const BitArray* array);
+
+/**
+ * @brief Compares two BitArrays.
+ *
+ * Returns true if the two BitArrays are equal, false otherwise.
+ * @param[in] a The first BitArray.
+ * @param[in] b The second BitArray.
+ * @return Whether the two BitArrays are equal.
+ */
+bool BitArray_equals(const BitArray* a, const BitArray* b);
 
 /** @} */
 

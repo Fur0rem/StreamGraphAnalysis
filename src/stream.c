@@ -1878,6 +1878,7 @@ void init_events_table(StreamGraph* sg) {
 						for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals; l++) {
 							x = sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l].start;
 						}
+						x;
 
 						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
 														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
@@ -1904,6 +1905,7 @@ void init_events_table(StreamGraph* sg) {
 						for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals; l++) {
 							x = sg->links.links[link_events[j].array[k]].presence.intervals[l].start;
 						}
+						x;
 
 						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
 														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {

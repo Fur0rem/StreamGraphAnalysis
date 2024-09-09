@@ -11,13 +11,13 @@ bool test_create() {
 }
 
 bool test_set_one() {
-	BitArray bit_array = BitArray_with_n_bits(10);
+	BitArray bit_array = BitArray_n_zeros(10);
 	BitArray_set_one(bit_array, 5);
 	return EXPECT(bit_array.bits[0] == (1 << 5));
 }
 
 bool test_set_zero() {
-	BitArray bit_array = BitArray_with_n_bits(10);
+	BitArray bit_array = BitArray_n_zeros(10);
 	BitArray_set_one(bit_array, 5);
 	BitArray_set_zero(bit_array, 5);
 	return EXPECT(bit_array.bits[0] == 0);
@@ -30,7 +30,7 @@ bool test_is_one() {
 }
 
 bool test_is_zero() {
-	BitArray bit_array = BitArray_with_n_bits(10);
+	BitArray bit_array = BitArray_n_zeros(10);
 	return EXPECT(!BitArray_is_one(bit_array, 5));
 }
 
@@ -74,6 +74,39 @@ bool test_all_ones_big() {
 	for (size_t i = 0; i < 90; i++) {
 		result &= EXPECT(BitArray_is_one(bit_array, i));
 	}
+
+	return result;
+}
+
+bool test_to_string() {
+	bool result = true;
+
+	BitArray bit_array = BitArray_n_zeros(5);
+	String str		   = BitArray_to_string(&bit_array);
+	result &= EXPECT(strcmp(str.data, "00000") == 0);
+	String_destroy(str);
+
+	bit_array = BitArray_n_ones(100);
+	str		  = BitArray_to_string(&bit_array);
+	char expected[101];
+	for (size_t i = 0; i < 100; i++) {
+		expected[i] = '1';
+	}
+	expected[100] = '\0';
+	result &= EXPECT(strcmp(str.data, expected) == 0);
+	String_destroy(str);
+
+	bit_array = BitArray_n_ones(1 << 27);
+	str		  = BitArray_to_string(&bit_array);
+
+	char* expected2 = malloc(1 << 27 + 1);
+	for (size_t i = 0; i < (1 << 27); i++) {
+		expected2[i] = '1';
+	}
+	expected2[1 << 27] = '\0';
+	result &= EXPECT(strcmp(str.data, expected2) == 0);
+	String_destroy(str);
+	free(expected2);
 
 	return result;
 }
@@ -176,6 +209,7 @@ int main() {
 		TEST(test_leading_zeros_big_zeros),
 		TEST(test_leading_zeros_big_ones),
 		TEST(test_leading_zeros_big_1),
+		TEST(test_to_string),
 		NULL,
 	};
 

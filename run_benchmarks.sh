@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS="-Wall -Wextra -g -Wno-unused-function"
+CFLAGS="-Wall -Wextra -Wno-unused-function -O4"
 
 SRC_DIR=src
 benchmark_DIR=benchmarks
