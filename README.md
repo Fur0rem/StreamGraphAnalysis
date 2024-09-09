@@ -90,7 +90,7 @@ The tests/ directory contains the tests for the library, which are written using
 One test exists per source file, and each test must have the same name as the source file it tests.
 You can run them using the run_tests.sh script in the main directory.
 
-Supported metrics (In order of first mention in the paper)
+Supported metrics and analysis (In order of first mention in the paper)
 -----------------------------------------------------------
 
 - Coverage : Section 3
@@ -106,10 +106,13 @@ Supported metrics (In order of first mention in the paper)
 - Density of link : Section 5
 - Density of node : Section 5
 - Density of time : Section 5
+- Maximal cliques enumeration : Section 7
 - Degree of a node : Section 8
 - Average node degree : Section 8
 - Clustering coefficient of a node : Section 9
 - Node clustering coefficient : Section 9
+- K-cores : Section 13
+- Paths and distances : Section 14
 - Robustness by length : Outside of the paper
 
 (These were implemented in previous commits but have not been ported for generic streams yet)
