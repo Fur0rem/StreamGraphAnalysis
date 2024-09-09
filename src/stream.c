@@ -128,7 +128,6 @@ char* get_to_header(const char* str, const char* header) {
 StreamGraph StreamGraph_from_string(const char* str) {
 
 	StreamGraph sg;
-	int nb_scanned		 = -1;
 	char* current_header = NULL;
 
 	// Skip first line (version control)
@@ -1874,17 +1873,11 @@ void init_events_table(StreamGraph* sg) {
 				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < node_events[j].size; k++) {
 
-						// Doing this check to avoid overflows during the next section
-						if (sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals == 0) {
-							continue;
+						// TRICK : Doing these volatile stores make the code faster, no idea why or how
+						volatile size_t x;
+						for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals; l++) {
+							x = sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l].start;
 						}
-
-						// TRICK : Doing these 3 volatile stores make the code faster, no idea why or how
-						IntervalsSet presence = sg->nodes.nodes[node_events[j].array[k]].presence;
-						volatile Interval interval;
-						interval = presence.intervals[0];
-						interval = presence.intervals[presence.nb_intervals / 2];
-						interval = presence.intervals[presence.nb_intervals - 1];
 
 						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
 														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
@@ -1906,17 +1899,11 @@ void init_events_table(StreamGraph* sg) {
 				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < link_events[j].size; k++) {
 
-						// Doing this check to avoid overflows during the next section
-						if (sg->links.links[link_events[j].array[k]].presence.nb_intervals == 0) {
-							continue;
+						// TRICK : Doing these volatile stores make the code faster, no idea why or how
+						volatile size_t x;
+						for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals; l++) {
+							x = sg->links.links[link_events[j].array[k]].presence.intervals[l].start;
 						}
-
-						// TRICK : Doing these 3 volatile stores make the code faster, no idea why or how
-						IntervalsSet presence = sg->links.links[link_events[j].array[k]].presence;
-						volatile Interval interval;
-						interval = presence.intervals[0];
-						interval = presence.intervals[presence.nb_intervals / 2];
-						interval = presence.intervals[presence.nb_intervals - 1];
 
 						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
 														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
