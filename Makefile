@@ -2,7 +2,7 @@ CC = gcc
 SRC_DIR = src
 BIN_DIR = bin
 DEBUG_FLAGS = -g -O0 -DDEBUG
-RELEASE_FLAGS = -O3
+RELEASE_FLAGS = -O3 -lto -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
 FLAGS = $(RELEASE_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
@@ -23,8 +23,9 @@ units: $(SRC_DIR)/units.c defaults | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/units.c -o $(BIN_DIR)/units.o
 	ar rcs $(BIN_DIR)/units.a $(BIN_DIR)/units.o $(BIN_DIR)/defaults.a
 
-bit_array: $(SRC_DIR)/bit_array.c | $(BIN_DIR)
+bit_array: $(SRC_DIR)/bit_array.c utils | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $(BIN_DIR)/bit_array.o
+	ar rcs $(BIN_DIR)/bit_array.a $(BIN_DIR)/bit_array.o $(BIN_DIR)/utils.o
 
 interval: $(SRC_DIR)/interval.c defaults utils | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/interval.c -o $(BIN_DIR)/interval.o
