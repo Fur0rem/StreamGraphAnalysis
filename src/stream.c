@@ -1194,21 +1194,9 @@ char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
 	int nb_scanned;
 
-	// Skip to general section
 	str = get_to_header(str, "[General]");
 
 	size_tHashsetVector node_neighbours = size_tHashsetVector_with_capacity(10);
-
-	// size_t lifespan_start;
-	// size_t lifespan_end;
-	// nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
-	// EXPECTED_NB_SCANNED(2);
-	// GO_TO_NEXT_LINE(str);
-
-	// // Parse the general section
-	// size_t scaling;
-	// nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
-	// EXPECTED_NB_SCANNED(1);
 
 	EXPECT_SEQ_AND_MOVE(str, "Lifespan=(");
 	char* new_ptr;
@@ -1605,7 +1593,6 @@ String TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	return str;
 }
 
-// TODO: SWITCH TO STRINGS GOD DAMN IT I HATE PAST ME
 String StreamGraph_to_string(StreamGraph* sg) {
 	String str = String_from_duplicate("StreamGraph {\n");
 	String_append_formatted(&str, "\tLifespan=[%zu %zu[\n", StreamGraph_lifespan_begin(sg),
@@ -1799,13 +1786,31 @@ void init_events_table(StreamGraph* sg) {
 	// For each event before the disappearence index, if it has deletions, you recopy from the left until you find
 	// another deletion
 
-	for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
+	/*for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
 		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {
 			for (int j = i - 2; j >= 0; j--) {
 				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < node_events[j].size; k++) {
-						if (IntervalsSet_contains(sg->nodes.nodes[node_events[j].array[k]].presence,
-												  KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+
+						// bool is_sorted = true;
+						// for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals - 1;
+						// 	 l++) {
+						// 	if (sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l].end >
+						// 		sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l + 1].start) {
+						// 		is_sorted = false;
+						// 	}
+						// }
+						// if (!is_sorted) {
+						// 	printf("Node %zu is not sorted\n", node_events[j].array[k]);
+						// }
+
+						volatile Interval interval;
+						for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals; l++) {
+							interval = sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l];
+						}
+
+						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
+														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tVector_push(&node_events[i], node_events[j].array[k]);
 						}
 					}
@@ -1817,18 +1822,74 @@ void init_events_table(StreamGraph* sg) {
 		}
 	}
 
-	// print all the node events
-	/*char* str;
-	printf("After propagation (nodes)\n");
-	char* mask_str_nodes = BitArray_to_string(sg->events.node_events.presence_mask);
-	printf("node presence mask: %s\n", mask_str_nodes);
-	free(mask_str_nodes);
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
-		str = size_tVector_to_string(node_events[i]);
-		printf("%s\n", str);
-		free(str);
+	// Do the same for links
+	for (size_t i = 1; i < sg->events.link_events.disappearance_index; i++) {
+		if (BitArray_is_zero(sg->events.link_events.presence_mask, i - 1)) {
+			for (int j = i - 2; j >= 0; j--) {
+				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
+					for (size_t k = 0; k < link_events[j].size; k++) {
+
+						// bool is_sorted = true;
+						// for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals -
+						// 1; 	 l++) { 	if (sg->links.links[link_events[j].array[k]].presence.intervals[l].end >
+						// 		sg->links.links[link_events[j].array[k]].presence.intervals[l + 1].start) {
+						// 		is_sorted = false;
+						// 	}
+						// }
+
+						// if (!is_sorted) {
+						// 	printf("Link %zu is not sorted\n", link_events[j].array[k]);
+						// }
+
+						volatile Interval interval;
+						for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals; l++) {
+							volatile Interval interval = sg->links.links[link_events[j].array[k]].presence.intervals[l];
+						}
+
+						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
+														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+							size_tVector_push(&link_events[i], link_events[j].array[k]);
+						}
+					}
+				}
+				else {
+					break;
+				}
+			}
+			// printf("done\n");
+		}
 	}*/
+
+	for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
+		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {
+			for (int j = i - 2; j >= 0; j--) {
+				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
+					for (size_t k = 0; k < node_events[j].size; k++) {
+
+						// Doing this check to avoid overflows during the next section
+						if (sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals == 0) {
+							continue;
+						}
+
+						// TRICK : Doing these 3 volatile stores make the code faster, no idea why or how
+						IntervalsSet presence = sg->nodes.nodes[node_events[j].array[k]].presence;
+						volatile Interval interval;
+						interval = presence.intervals[0];
+						interval = presence.intervals[presence.nb_intervals / 2];
+						interval = presence.intervals[presence.nb_intervals - 1];
+
+						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
+														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+							size_tVector_push(&node_events[i], node_events[j].array[k]);
+						}
+					}
+				}
+				else {
+					break;
+				}
+			}
+		}
+	}
 
 	// Do the same for links
 	for (size_t i = 1; i < sg->events.link_events.disappearance_index; i++) {
@@ -1836,8 +1897,21 @@ void init_events_table(StreamGraph* sg) {
 			for (int j = i - 2; j >= 0; j--) {
 				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < link_events[j].size; k++) {
-						if (IntervalsSet_contains(sg->links.links[link_events[j].array[k]].presence,
-												  KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+
+						// Doing this check to avoid overflows during the next section
+						if (sg->links.links[link_events[j].array[k]].presence.nb_intervals == 0) {
+							continue;
+						}
+
+						// TRICK : Doing these 3 volatile stores make the code faster, no idea why or how
+						IntervalsSet presence = sg->links.links[link_events[j].array[k]].presence;
+						volatile Interval interval;
+						interval = presence.intervals[0];
+						interval = presence.intervals[presence.nb_intervals / 2];
+						interval = presence.intervals[presence.nb_intervals - 1];
+
+						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
+														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tVector_push(&link_events[i], link_events[j].array[k]);
 						}
 					}
