@@ -1190,6 +1190,47 @@ double percentage_of_error(size_t aa, size_t bb) {
 	return out_str.data;
 }*/
 
+// An estimation of the size of the output string for a stream internal format (slightly overestimated most of the time)
+size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, TimeId last_event, size_t nb_events,
+									 size_tVector nb_events_per_slice) {
+	// Most of these are magic functions with some trial and error on a few examples
+	// I had between ~2% and ~30% of error on the size estimation
+	// The additions with random 2's, 3's, 4's are to account for the space, newline, and parenthesis
+
+	// The headers + the number of events in each slice * the number of slices
+	size_t headers_size =
+		strlen("[General]\nLifespan=(%zu "
+			   "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%zu\n\n[["
+			   "Nodes]"
+			   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
+			   "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]\n") +
+		100 + (nb_events_per_slice.size * (nb_characters_needed(nb_events / nb_events_per_slice.size)));
+
+	// The number of neighbours for each node
+	size_t neighbours_per_node_prediction = (nb_links + nb_links / 2) / nb_nodes;
+
+	// The number of intervals for each node and link (appearance + disappearance) = 1 interval
+	size_t number_of_intervals = ((nb_characters_needed(nb_events / 8) + 1) * (nb_nodes + nb_links)) / 2;
+
+	// The number of neighbours for each node to links and links to nodes
+	size_t neighbours_nodes_to_links_size =
+		((nb_characters_needed(nb_links) + 2) * neighbours_per_node_prediction + 3) * nb_nodes;
+	size_t neighbours_links_to_nodes_size =
+		(4 + (((nb_characters_needed(nb_nodes) - 1) * 2) + nb_characters_needed(nb_links) - 1)) * nb_links;
+
+	// The size of the events with (sign letter link_id) or (sign letter node_id)
+	size_t chars_per_event =
+		(1 + nb_characters_needed((nb_nodes > nb_links) ? nb_nodes : nb_links)) + strlen(" (X X X)") + 2;
+	size_t events_size_prediction		   = ((nb_characters_needed(last_event) - 1 + chars_per_event) * nb_events);
+	size_t number_of_neighbours_prediction = (nb_characters_needed(neighbours_per_node_prediction) + 1) * nb_nodes;
+
+	// Sum of everything
+	size_t size_prediction = headers_size + (number_of_neighbours_prediction) + number_of_intervals +
+							 neighbours_nodes_to_links_size + neighbours_links_to_nodes_size + events_size_prediction;
+
+	return size_prediction;
+}
+
 char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
 	int nb_scanned;
@@ -1238,10 +1279,10 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t biggest_node_id		  = 0;
 
 	// Parse the events
-	size_t nb_events			  = 0;
-	size_t current_vec			  = 0;
-	size_tVector number_of_slices = size_tVector_with_capacity(10);
-	const char* end_of_stream	  = "[EndOfStream]";
+	size_t nb_events				 = 0;
+	size_t current_vec				 = 0;
+	size_tVector nb_events_per_slice = size_tVector_with_capacity(10);
+	const char* end_of_stream		 = "[EndOfStream]";
 	while (strncmp(str, end_of_stream, strlen(end_of_stream)) != 0) {
 		// if the line is empty, skip it
 		if (*str == '\n') {
@@ -1398,51 +1439,18 @@ char* InternalFormat_from_External_str(const char* str) {
 
 	for (size_t i = 0; i < events.size; i++) {
 		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
-		if (slice_id >= number_of_slices.size) {
-			for (size_t j = number_of_slices.size; j <= slice_id; j++) {
-				size_tVector_push(&number_of_slices, 0);
+		if (slice_id >= nb_events_per_slice.size) {
+			for (size_t j = nb_events_per_slice.size; j <= slice_id; j++) {
+				size_tVector_push(&nb_events_per_slice, 0);
 			}
 		}
-		number_of_slices.array[slice_id]++;
+		nb_events_per_slice.array[slice_id]++;
 	}
-
-	// An estimation of the size of the output string (slightly overestimated in case)
-	// Most of these are magic functions with some trial and error on a few examples
-	// I had between ~2% and ~30% of error on the size estimation
-	// The additions with random 2's, 3's, 4's are to account for the space, newline, and parenthesis
-
-	// The headers + the number of events in each slice * the number of slices
-	size_t headers_size =
-		strlen("[General]\nLifespan=(%zu "
-			   "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%zu\n\n[["
-			   "Nodes]"
-			   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
-			   "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]\n") +
-		100 + (number_of_slices.size * (nb_characters_needed(nb_events / number_of_slices.size)));
-
-	// The number of neighbours for each node
-	size_t neighbours_per_node_prediction = (links.size + links.size / 2) / nodes.size;
-
-	// The number of intervals for each node and link (appearance + disappearance) = 1 interval
-	size_t number_of_intervals = ((nb_characters_needed(nb_events / 8) + 1) * (nodes.size + links.size)) / 2;
-
-	// The number of neighbours for each node to links and links to nodes
-	size_t neighbours_nodes_to_links_size =
-		((nb_characters_needed(links.size) + 2) * neighbours_per_node_prediction + 3) * nodes.size;
-	size_t neighbours_links_to_nodes_size =
-		(4 + (((nb_characters_needed(biggest_node_id) - 1) * 2) + nb_characters_needed(links.size) - 1)) * links.size;
 
 	TimeId last_event = events.array[events.size - 1].array[0].moment;
 
-	// The size of the events with (sign letter link_id) or (sign letter node_id)
-	size_t chars_per_event = (1 + nb_characters_needed((biggest_node_id > links.size) ? biggest_node_id : links.size)) +
-							 strlen(" (X X X)") + 2;
-	size_t events_size_prediction		   = ((nb_characters_needed(last_event) - 1 + chars_per_event) * nb_events);
-	size_t number_of_neighbours_prediction = (nb_characters_needed(neighbours_per_node_prediction) + 1) * nodes.size;
-
-	// Sum of everything
-	size_t size_prediction = headers_size + (number_of_neighbours_prediction) + number_of_intervals +
-							 neighbours_nodes_to_links_size + neighbours_links_to_nodes_size + events_size_prediction;
+	size_t size_prediction =
+		estimate_internal_format_size(nodes.size, links.size, last_event, nb_events, nb_events_per_slice);
 
 	String out_str = String_with_capacity(size_prediction);
 
@@ -1476,8 +1484,8 @@ char* InternalFormat_from_External_str(const char* str) {
 		String_append_formatted(&out_str, "%zu\n", links.array[i].nb_intervals / 2);
 	}
 	String_push_str(&out_str, "[[[NumberOfSlices]]]\n");
-	for (size_t i = 0; i < number_of_slices.size; i++) {
-		String_append_formatted(&out_str, "%zu\n", number_of_slices.array[i]);
+	for (size_t i = 0; i < nb_events_per_slice.size; i++) {
+		String_append_formatted(&out_str, "%zu\n", nb_events_per_slice.array[i]);
 	}
 
 	String_push_str(&out_str, "[Data]\n");
@@ -1553,7 +1561,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	EventTupleVectorVector_destroy(events);
 	LinkInfoVector_destroy(links);
 	LinkInfoVector_destroy(nodes);
-	size_tVector_destroy(number_of_slices);
+	size_tVector_destroy(nb_events_per_slice);
 
 	return out_str.data;
 }
