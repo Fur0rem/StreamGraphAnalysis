@@ -1,4 +1,4 @@
-#include "../src/stream/link_stream.h"
+#include "../src/stream_wrappers/link_stream.h"
 #include "../src/interval.h"
 #include "../src/stream.h"
 #include "../src/units.h"

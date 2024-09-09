@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['event_0',['Event',['../structEvent.html',1,'']]],
-  ['events_1',['Events',['../structEvents.html',1,'']]],
-  ['eventstable_2',['EventsTable',['../structEventsTable.html',1,'']]],
-  ['eventtuple_3',['EventTuple',['../structEventTuple.html',1,'']]]
+  ['informationcache_0',['InformationCache',['../structInformationCache.html',1,'']]],
+  ['innerarena_1',['InnerArena',['../structInnerArena.html',1,'']]],
+  ['interval_2',['Interval',['../structInterval.html',1,'']]],
+  ['intervalsiteratordata_3',['IntervalsIteratorData',['../structIntervalsIteratorData.html',1,'']]],
+  ['intervalsset_4',['IntervalsSet',['../structIntervalsSet.html',1,'']]]
 ];

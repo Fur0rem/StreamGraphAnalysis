@@ -1,5 +1,10 @@
 <map id="src/bit_array.h" name="src/bit_array.h">
-<area shape="rect" id="node1" title="A variable length array of bits and functions to manipulate it." alt="" coords="41,5,154,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,88,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="112,80,187,107"/>
+<area shape="rect" id="node1" title="A variable length array of bits and functions to manipulate it." alt="" coords="235,5,349,32"/>
+<area shape="rect" id="node2" href="$utils_8h_source.html" title=" " alt="" coords="261,80,323,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,155,88,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="493,155,568,181"/>
+<area shape="rect" id="node3" title=" " alt="" coords="112,155,187,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="211,155,279,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="303,155,374,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="398,155,469,181"/>
 </map>

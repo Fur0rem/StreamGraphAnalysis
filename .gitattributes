@@ -1,0 +1,7 @@
+# .gitattributes file
+
+# Ignore lines of code and lines of commits for the docs/ folder
+docs/* linguist-generated
+
+# Ignore lines of code and lines of commits for the data/ folder
+data/* linguist-generated

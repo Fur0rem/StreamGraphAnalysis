@@ -10,7 +10,6 @@
 #include <stddef.h>
 
 Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, LinkIdVector links, Interval snapshot) {
-	// TODO : remove links of deleted nodes
 	ChunkStreamSmall* chunk_stream = MALLOC(sizeof(ChunkStreamSmall));
 	*chunk_stream				   = (ChunkStreamSmall){
 						 .nb_nodes				  = nodes.size,
@@ -20,6 +19,18 @@ Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, Link
 						 .underlying_stream_graph = stream_graph,
 						 .snapshot				  = snapshot,
 	 };
+
+	// Remove links whose nodes are not present
+	for (size_t i = 0; i < chunk_stream->nb_links; i++) {
+		Link link	 = stream_graph->links.links[links.array[i]];
+		NodeId node1 = link.nodes[0];
+		NodeId node2 = link.nodes[1];
+		if (!NodeIdVector_contains(nodes, node1) || !NodeIdVector_contains(nodes, node2)) {
+			LinkIdVector_remove_and_swap(&links, i);
+			i--;
+		}
+	}
+
 	return (Stream){
 		.type		 = CHUNK_STREAM_SMALL,
 		.stream_data = chunk_stream,
@@ -274,7 +285,8 @@ Interval CSS_TimesNodePresentAt_next(TimesIterator* iter) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
 	Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
-	filter_interval(&nth_time, chunk_stream->snapshot);
+	nth_time		  = Interval_intersection(nth_time, chunk_stream->snapshot);
+
 	times_iter_data->current_time++;
 	return nth_time;
 }
@@ -319,7 +331,8 @@ Interval CSS_TimesLinkPresentAt_next(TimesIterator* iter) {
 		return Interval_from(SIZE_MAX, SIZE_MAX);
 	}
 	Interval nth_time = stream_graph->links.links[link].presence.intervals[times_iter_data->current_time];
-	filter_interval(&nth_time, chunk_stream->snapshot);
+	nth_time		  = Interval_intersection(nth_time, chunk_stream->snapshot);
+
 	times_iter_data->current_time++;
 	return nth_time;
 }
@@ -367,10 +380,20 @@ const StreamFunctions ChunkStreamSmall_stream_functions = {
 	.neighbours_of_node = ChunkStreamSmall_neighbours_of_node,
 };
 
+size_t ChunkStreamSmall_cardinal_of_v(Stream* stream) {
+	ChunkStreamSmall* chunk_stream = (ChunkStreamSmall*)stream->stream_data;
+	return chunk_stream->nb_nodes;
+}
+
+size_t ChunkStreamSmall_cardinal_of_t(Stream* stream) {
+	ChunkStreamSmall* chunk_stream = (ChunkStreamSmall*)stream->stream_data;
+	return Interval_duration(chunk_stream->snapshot);
+}
+
 const MetricsFunctions ChunkStreamSmall_metrics_functions = {
 	.cardinalOfW   = NULL,
-	.cardinalOfT   = NULL,
-	.cardinalOfV   = NULL,
+	.cardinalOfT   = ChunkStreamSmall_cardinal_of_t,
+	.cardinalOfV   = ChunkStreamSmall_cardinal_of_v,
 	.coverage	   = NULL,
 	.node_duration = NULL,
 };

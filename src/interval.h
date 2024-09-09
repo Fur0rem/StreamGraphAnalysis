@@ -22,7 +22,7 @@ bool Interval_contains(Interval interval, TimeId time);
 bool Interval_contains_interval(Interval a, Interval b);
 bool Interval_overlaps_interval(Interval a, Interval b);
 
-size_t Interval_size(Interval interval);
+size_t Interval_duration(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
 Interval Interval_intersection(Interval a, Interval b);
 Interval Interval_minus(Interval a, Interval b);
@@ -58,5 +58,4 @@ void IntervalsSet_sort(IntervalsSet* intervals_set);
 
 Interval Interval_empty();
 bool Interval_is_empty(Interval interval);
-size_t Interval_duration(Interval interval);
 #endif // INTERVAL_H

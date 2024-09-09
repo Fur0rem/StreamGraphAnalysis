@@ -84,22 +84,30 @@ $(document).ready(function(){initNavTree('bit__array_8h.html',''); initResizable
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">bit_array.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A variable length array of bits and functions to manipulate it. </p>
-</div><div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+</div><div class="textblock"><code>#include &quot;utils.h&quot;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for bit_array.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="bit__array_8h__incl.png" border="0" usemap="#asrc_2bit__array_8h" alt=""/></div>
 <map name="asrc_2bit__array_8h" id="asrc_2bit__array_8h">
-<area shape="rect" title="A variable length array of bits and functions to manipulate it." alt="" coords="41,5,154,32"/>
-<area shape="rect" title=" " alt="" coords="5,80,88,107"/>
-<area shape="rect" title=" " alt="" coords="112,80,187,107"/>
+<area shape="rect" title="A variable length array of bits and functions to manipulate it." alt="" coords="235,5,349,32"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="261,80,323,107"/>
+<area shape="rect" title=" " alt="" coords="5,155,88,181"/>
+<area shape="rect" title=" " alt="" coords="493,155,568,181"/>
+<area shape="rect" title=" " alt="" coords="112,155,187,181"/>
+<area shape="rect" title=" " alt="" coords="211,155,279,181"/>
+<area shape="rect" title=" " alt="" coords="303,155,374,181"/>
+<area shape="rect" title=" " alt="" coords="398,155,469,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -107,18 +115,13 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="bit__array_8h__dep__incl.png" border="0" usemap="#asrc_2bit__array_8hdep" alt=""/></div>
 <map name="asrc_2bit__array_8hdep" id="asrc_2bit__array_8hdep">
-<area shape="rect" title="A variable length array of bits and functions to manipulate it." alt="" coords="376,5,489,32"/>
-<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="381,169,484,196"/>
-<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="407,80,589,121"/>
-<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="263,319,415,345"/>
-<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="377,244,489,271"/>
-<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="634,319,741,345"/>
-<area shape="rect" href="chunk__stream_8h_source.html" title=" " alt="" coords="5,401,204,427"/>
-<area shape="rect" href="chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="229,393,415,435"/>
-<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="440,393,609,435"/>
-<area shape="rect" href="link__stream_8h_source.html" title=" " alt="" coords="634,401,818,427"/>
-<area shape="rect" href="snapshot__stream_8h_source.html" title=" " alt="" coords="842,393,997,435"/>
-<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="439,319,610,345"/>
+<area shape="rect" title="A variable length array of bits and functions to manipulate it." alt="" coords="209,5,322,32"/>
+<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="214,169,317,196"/>
+<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="239,80,422,121"/>
+<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="5,319,157,345"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="163,244,275,271"/>
+<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="181,319,288,345"/>
+<area shape="rect" href="stream__functions_8h_source.html" title=" " alt="" coords="312,319,483,345"/>
 </map>
 </div>
 </div>
@@ -130,8 +133,17 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure of a variable length array of bits.  <a href="structBitArray.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a8fd2c29904b96e71471c8d6d01aaf467"><td class="memItemLeft" align="right" valign="top"><a id="a8fd2c29904b96e71471c8d6d01aaf467" name="a8fd2c29904b96e71471c8d6d01aaf467"></a>
+typedef size_t&#160;</td><td class="memItemRight" valign="bottom"><b>BitArraySlice</b></td></tr>
+<tr class="separator:a8fd2c29904b96e71471c8d6d01aaf467"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a7ab36fd6d4cc0b030c9fd056a0d27b2e"><td class="memItemLeft" align="right" valign="top"><a id="a7ab36fd6d4cc0b030c9fd056a0d27b2e" name="a7ab36fd6d4cc0b030c9fd056a0d27b2e"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>BitArray_count_ones</b> (const <a class="el" href="structBitArray.html">BitArray</a> *array)</td></tr>
+<tr class="separator:a7ab36fd6d4cc0b030c9fd056a0d27b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Creation and destruction functions</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p >Functions to create and destroy a <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a>. </p>
 </div></td></tr>
@@ -183,9 +195,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae336bb24993e5ba5cd864eaf5acec4db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of leading zeros in the <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a> starting from the given index.  <a href="bit__array_8h.html#ae336bb24993e5ba5cd864eaf5acec4db">More...</a><br /></td></tr>
 <tr class="separator:ae336bb24993e5ba5cd864eaf5acec4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Miscellanous functions</div></td></tr>
-<tr class="memitem:a0db413990df11cb80b2893c42142f3f4"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#a0db413990df11cb80b2893c42142f3f4">BitArray_to_string</a> (<a class="el" href="structBitArray.html">BitArray</a> array)</td></tr>
-<tr class="memdesc:a0db413990df11cb80b2893c42142f3f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a> to a string.  <a href="bit__array_8h.html#a0db413990df11cb80b2893c42142f3f4">More...</a><br /></td></tr>
-<tr class="separator:a0db413990df11cb80b2893c42142f3f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32be734b960c9210108a9090c011e143"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structString.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#a32be734b960c9210108a9090c011e143">BitArray_to_string</a> (const <a class="el" href="structBitArray.html">BitArray</a> *array)</td></tr>
+<tr class="memdesc:a32be734b960c9210108a9090c011e143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a> to a string.  <a href="bit__array_8h.html#a32be734b960c9210108a9090c011e143">More...</a><br /></td></tr>
+<tr class="separator:a32be734b960c9210108a9090c011e143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec8a9d3641ca8fd53820c4dc1558650d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8h.html#aec8a9d3641ca8fd53820c4dc1558650d">BitArray_equals</a> (const <a class="el" href="structBitArray.html">BitArray</a> *a, const <a class="el" href="structBitArray.html">BitArray</a> *b)</td></tr>
+<tr class="memdesc:aec8a9d3641ca8fd53820c4dc1558650d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two BitArrays.  <a href="bit__array_8h.html#aec8a9d3641ca8fd53820c4dc1558650d">More...</a><br /></td></tr>
+<tr class="separator:aec8a9d3641ca8fd53820c4dc1558650d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a0a6b465196254ea81c9bfa809a687a4f" name="a0a6b465196254ea81c9bfa809a687a4f"></a>
@@ -338,6 +353,44 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aec8a9d3641ca8fd53820c4dc1558650d" name="aec8a9d3641ca8fd53820c4dc1558650d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec8a9d3641ca8fd53820c4dc1558650d">&#9670;&nbsp;</a></span>BitArray_equals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BitArray_equals </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structBitArray.html">BitArray</a> *&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structBitArray.html">BitArray</a> *&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compares two BitArrays. </p>
+<p >Returns true if the two BitArrays are equal, false otherwise. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The first <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The second <a class="el" href="structBitArray.html" title="The structure of a variable length array of bits.">BitArray</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the two BitArrays are equal. </dd></dl>
 
 </div>
 </div>
@@ -614,16 +667,16 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0db413990df11cb80b2893c42142f3f4" name="a0db413990df11cb80b2893c42142f3f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0db413990df11cb80b2893c42142f3f4">&#9670;&nbsp;</a></span>BitArray_to_string()</h2>
+<a id="a32be734b960c9210108a9090c011e143" name="a32be734b960c9210108a9090c011e143"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32be734b960c9210108a9090c011e143">&#9670;&nbsp;</a></span>BitArray_to_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char * BitArray_to_string </td>
+          <td class="memname"><a class="el" href="structString.html">String</a> BitArray_to_string </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structBitArray.html">BitArray</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structBitArray.html">BitArray</a> *&#160;</td>
           <td class="paramname"><em>array</em></td><td>)</td>
           <td></td>
         </tr>

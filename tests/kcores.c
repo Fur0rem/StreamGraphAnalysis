@@ -1,7 +1,6 @@
 #include "../src/analysis/kcores.h"
 #include "../src/stream.h"
-#include "../src/stream/chunk_stream.h"
-#include "../src/stream/full_stream_graph.h"
+#include "../src/stream_wrappers.h"
 #include "test.h"
 
 bool test_k_cores() {

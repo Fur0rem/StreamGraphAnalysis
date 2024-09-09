@@ -4,7 +4,7 @@ StreamGraphAnalysis : A C library for processing and analysing undirected unweig
 
 Current state of the Project
 ----------------------------
-This is only a prototype, so the library is not usable at all for now. I'm still experimenting with how I approach the problem for now.
+Quite usable, but not fully fleshed out yet.
 
 How to use the library
 ----------------------
@@ -71,6 +71,21 @@ Specifications of the stream graph data
 - The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[
 - If a link is present at time t, the nodes u and v must be present at time t
 
+Stream wrappers
+---------------
+
+The library supports analysing substreams of the stream graph, which are called (for now) stream wrappers.
+You need to wrap your stream graph in one of these to compute metrics on it.
+
+The stream wrappers are :
+- FullStreamGraph : The entire stream graph, no modifications
+- LinkStream : All nodes are present at all times, and the links are the only thing that changes
+- SnapshotStream : Study the stream graph only on a subset of the interval it is defined on, doesn't change nodes or links present
+- ChunkStream and ChunkStreamSmall : Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. ChunkStream is optimised for when you have a lot of nodes and links, and ChunkStreamSmall is optimised for more sparse chunks with a small portion of the nodes and links.
+
+I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.
+
+
 Project guidelines and organisation
 --------------------
 - Guidelines :
@@ -81,11 +96,6 @@ Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro
 - Organisation :
 
 The src/ directory contains the entire source code of the library.
-The source code is divided into 3 parts :
-  - stream_graph, which contains the base data structure and functions to read a stream graph from a file
-  - metrics, which contains the functions to compute the metrics
-  - utils, which contains utility functions used by the other parts, such as generic dynamic arrays and hash tables
-
 The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework.
 One test exists per source file, and each test must have the same name as the source file it tests.
 You can run them using the run_tests.sh script in the main directory.

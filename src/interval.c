@@ -13,7 +13,7 @@ bool Interval_contains_interval(Interval a, Interval b) {
 	return a.start <= b.start && b.end <= a.end;
 }
 
-size_t Interval_size(Interval interval) {
+size_t Interval_duration(Interval interval) {
 	if (interval.start > interval.end) {
 		return 0;
 	}
@@ -37,7 +37,7 @@ Interval Interval_intersection(Interval a, Interval b) {
 size_t IntervalsSet_size(IntervalsSet intervals_set) {
 	size_t size = 0;
 	for (size_t i = 0; i < intervals_set.nb_intervals; i++) {
-		size += Interval_size(intervals_set.intervals[i]);
+		size += Interval_duration(intervals_set.intervals[i]);
 	}
 	return size;
 }
@@ -117,7 +117,7 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b) {
 			Interval a_interval			   = a.intervals[i];
 			Interval b_interval			   = b.intervals[j];
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
-			if (Interval_size(intersection_interval) > 0) {
+			if (Interval_duration(intersection_interval) > 0) {
 				IntervalVector_push(&intersection, intersection_interval);
 			}
 		}
@@ -149,7 +149,7 @@ bool is_sorted(const Interval* intervals, size_t nb_intervals) {
 void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval) {
 	for (size_t i = 0; i < intervals_set->nb_intervals; i++) {
 		Interval intersection_interval = Interval_intersection(intervals_set->intervals[i], interval);
-		if (Interval_size(intersection_interval) > 0) {
+		if (Interval_duration(intersection_interval) > 0) {
 			intervals_set->intervals[i] = intersection_interval;
 		}
 		else {
@@ -178,7 +178,7 @@ IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet a, Interval b) {
 	for (size_t i = 0; i < a.nb_intervals; i++) {
 		Interval a_interval			   = a.intervals[i];
 		Interval intersection_interval = Interval_intersection(a_interval, b);
-		if (Interval_size(intersection_interval) > 0) {
+		if (Interval_duration(intersection_interval) > 0) {
 			IntervalVector_push(&intersection, intersection_interval);
 		}
 	}
@@ -321,8 +321,4 @@ IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set) {
 		.capacity = intervals_set.nb_intervals,
 		.array	  = intervals_set.intervals,
 	};
-}
-
-size_t Interval_duration(Interval interval) {
-	return interval.end - interval.start;
 }
