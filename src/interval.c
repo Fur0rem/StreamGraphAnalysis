@@ -239,6 +239,34 @@ bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time) {
 	return false;
 }
 
+bool IntervalsSet_contains_sorted(IntervalsSet intervals_set, TimeId time) {
+	// for (size_t i = 0; i < intervals_set.nb_intervals; i++) {
+	// 	if (intervals_set.intervals[i].start > time) {
+	// 		return false;
+	// 	}
+	// 	if (Interval_contains(intervals_set.intervals[i], time)) {
+	// 		return true;
+	// 	}
+	// }
+	// return false;
+
+	size_t left	 = 0;
+	size_t right = intervals_set.nb_intervals;
+	while (left < right) {
+		size_t mid = left + (right - left) / 2;
+		if (Interval_contains(intervals_set.intervals[mid], time)) {
+			return true;
+		}
+		if (intervals_set.intervals[mid].start > time) {
+			right = mid;
+		}
+		else {
+			left = mid + 1;
+		}
+	}
+	return false;
+}
+
 Interval Interval_empty() {
 	Interval interval = {SIZE_MAX, 0};
 	return interval;

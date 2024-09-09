@@ -107,6 +107,14 @@
 #	define UNLIKELY(x) (x)
 #endif
 
+#ifdef __clang__
+#	define DONT_OPTIMISE __attribute__((optnone))
+#elif defined(__GNUC__)
+#	define DONT_OPTIMISE __attribute__((optimize("O0")))
+#else
+#	define DONT_OPTIMISE
+#endif
+
 typedef struct {
 	size_t size;
 	size_t capacity;
