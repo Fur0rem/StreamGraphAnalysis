@@ -176,3 +176,14 @@ void BitArray_all_to_zero(BitArray array) {
 		array.bits[i] = _0;
 	}
 }
+
+// OPTIMISE: pop count instruction
+size_t BitArray_count_ones(const BitArray* array) {
+	size_t nb_ones = 0;
+	for (size_t i = 0; i < array->nb_bits; i++) {
+		if (BitArray_is_one(*array, i)) {
+			nb_ones++;
+		}
+	}
+	return nb_ones;
+}

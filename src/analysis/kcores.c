@@ -5,6 +5,7 @@
 #include "../stream/link_stream.h"
 #include "../stream/snapshot_stream.h"
 #include "../stream_functions.h"
+#include <stdint.h>
 
 int DegreeInInterval_compare(const void* a, const void* b) {
 	DegreeInInterval da = *(DegreeInInterval*)a;
@@ -379,15 +380,26 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
-	// KCoreDataVector k_cores = KCoreDataVector_new();
-	size_t nb_nodes				   = count_nodes(fns.nodes_set(stream->stream_data));
-	KCoreDataVector* k_cores_datas = MALLOC(sizeof(KCoreDataVector) * nb_nodes);
-	for (size_t i = 0; i < nb_nodes; i++) {
+	NodesIterator nodes	   = fns.nodes_set(stream->stream_data);
+	size_t nb_nodes		   = 0;
+	size_t biggest_node_id = 0;
+	FOR_EACH_NODE(node_id, nodes) {
+		nb_nodes++;
+		if (node_id > biggest_node_id) {
+			biggest_node_id = node_id;
+		}
+	}
+	// TODO: switch (biggest_node_id++, int i=0; i<biggest_node_id_;i++) to (int i=0; i<=biggest_node_id; i++) cause its
+	// more coherent
+	biggest_node_id++; // OPTIMISE: memory waste, maybe do a node_id to index mapping
+
+	KCoreDataVector* k_cores_datas = MALLOC(sizeof(KCoreDataVector) * biggest_node_id);
+	for (size_t i = 0; i < biggest_node_id; i++) {
 		k_cores_datas[i] = KCoreDataVector_new();
 	}
 
 	// Add all the stream data at the beginning (0-core)
-	NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	nodes = fns.nodes_set(stream->stream_data);
 	FOR_EACH_NODE(node_id, nodes) {
 		LinksIterator links = fns.neighbours_of_node(stream->stream_data, node_id);
 		FOR_EACH_LINK(link_id, links) {
@@ -402,8 +414,8 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 	// Then, remove iteratively the nodes with degree < k until the k-cores are stable
 	// size_t iteration = 0;
-	size_t* nb_intervals	= MALLOC(sizeof(size_t) * nb_nodes);
-	IntervalsSet* intervals = MALLOC(sizeof(IntervalsSet) * nb_nodes);
+	size_t* nb_intervals	= MALLOC(sizeof(size_t) * biggest_node_id);
+	IntervalsSet* intervals = MALLOC(sizeof(IntervalsSet) * biggest_node_id);
 
 	while (true) {
 
@@ -418,11 +430,11 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		// for (size_t i = 0; i < k_cores.size; i++) {
 		// 	nb_intervals[k_cores.array[i].node_id]++;
 		// }
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			nb_intervals[i] = k_cores_datas[i].size;
 		}
 
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			intervals[i] = IntervalsSet_alloc(nb_intervals[i]);
 		}
 
@@ -436,15 +448,15 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		// 					nb_added[k_cores.array[i].node_id]);
 		// nb_added[k_cores.array[i].node_id]++;
 		// }
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			for (size_t j = 0; j < k_cores_datas[i].size; j++) {
 				IntervalsSet_add_at(&intervals[i], k_cores_datas[i].array[j].time, j);
 				// nb_added[i]++;
 			}
 		}
 
-		KCoreDataVector* newer_k_cores_datas = MALLOC(sizeof(KCoreDataVector) * nb_nodes);
-		for (size_t i = 0; i < nb_nodes; i++) {
+		KCoreDataVector* newer_k_cores_datas = MALLOC(sizeof(KCoreDataVector) * biggest_node_id);
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			newer_k_cores_datas[i] = KCoreDataVector_new();
 		}
 
@@ -468,7 +480,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		// 	}
 		// }
 
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			for (size_t j = 0; j < k_cores_datas[i].size; j++) {
 				if (k_cores_datas[i].array[j].neighbours.size >= degree) {
 					for (size_t k = 0; k < k_cores_datas[i].array[j].neighbours.size; k++) {
@@ -493,7 +505,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		}
 
 		// free(nb_added);
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			IntervalsSet_destroy(intervals[i]);
 		}
 
@@ -506,14 +518,14 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		// 	break;
 		// }
 
-		// for (size_t i = 0; i < nb_nodes; i++) {
+		// for (size_t i = 0; i < biggest_node_id; i++) {
 		// 	KCoreDataVector_merge(&newer_k_cores_datas[i]);
 		// }
 
 		// Stop if the k-cores are stable
 		bool stable				  = true;
 		size_t stopped_merging_at = 0;
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			KCoreDataVector_merge(&newer_k_cores_datas[i]);
 			if (!KCoreDataVector_equals(&k_cores_datas[i], &newer_k_cores_datas[i])) {
 				stable			   = false;
@@ -523,19 +535,19 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		}
 
 		if (stable) {
-			for (size_t i = 0; i < nb_nodes; i++) {
+			for (size_t i = 0; i < biggest_node_id; i++) {
 				KCoreDataVector_destroy(newer_k_cores_datas[i]);
 			}
 			free(newer_k_cores_datas);
 			break;
 		}
 		else {
-			for (size_t i = stopped_merging_at + 1; i < nb_nodes; i++) {
+			for (size_t i = stopped_merging_at + 1; i < biggest_node_id; i++) {
 				KCoreDataVector_merge(&newer_k_cores_datas[i]);
 			}
 		}
 
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			KCoreDataVector_destroy(k_cores_datas[i]);
 		}
 		free(k_cores_datas);
@@ -546,7 +558,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		// k_cores = newer_k_cores;
 
 		// printf(TEXT_BOLD "Iteration %zu\n" TEXT_RESET, iteration);
-		// for (size_t i = 0; i < nb_nodes; i++) {
+		// for (size_t i = 0; i < biggest_node_id; i++) {
 		// 	printf("Node %zu : %s\n", i, KCoreDataVector_to_string(&k_cores_datas[i]).data);
 		// }
 		// iteration++;
@@ -557,7 +569,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	// Then, extract the k-core
 
 	// printf("RESULT\n");
-	// for (size_t i = 0; i < nb_nodes; i++) {
+	// for (size_t i = 0; i < biggest_node_id; i++) {
 	// 	printf("Node %zu : %s\n", i, KCoreDataVector_to_string(&k_cores_datas[i]).data);
 	// }
 
@@ -572,13 +584,13 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 	// Edge case : empty k-core
 	size_t total_size = 0;
-	for (size_t i = 0; i < nb_nodes; i++) {
+	for (size_t i = 0; i < biggest_node_id; i++) {
 		total_size += k_cores_datas[i].size;
 	}
 	if (total_size == 0) {
 
 		// free the mem
-		for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t i = 0; i < biggest_node_id; i++) {
 			KCoreDataVector_destroy(k_cores_datas[i]);
 		}
 		free(k_cores_datas);
@@ -608,7 +620,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	// 	}
 	// }
 
-	for (size_t i = 0; i < nb_nodes; i++) {
+	for (size_t i = 0; i < biggest_node_id; i++) {
 		for (size_t j = 0; j < k_cores_datas[i].size; j++) {
 			if (i != cur_node) {
 				NodePresence n = {
@@ -628,10 +640,12 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 	// KCoreDataVector_destroy(k_cores);
 
-	for (size_t i = 0; i < nb_nodes; i++) {
+	for (size_t i = 0; i < biggest_node_id; i++) {
 		KCoreDataVector_destroy(k_cores_datas[i]);
 	}
 	free(k_cores_datas);
+
+	KCore_clean_up(&kcore);
 
 	return kcore;
 }

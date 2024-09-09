@@ -58,4 +58,5 @@ void IntervalsSet_sort(IntervalsSet* intervals_set);
 
 Interval Interval_empty();
 bool Interval_is_empty(Interval interval);
+size_t Interval_duration(Interval interval);
 #endif // INTERVAL_H
