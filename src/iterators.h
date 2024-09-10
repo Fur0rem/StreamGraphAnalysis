@@ -71,6 +71,10 @@ struct TimesIterator {
 		 (iterated)				= (iterator).next(&(iterator)))
 /** @endcond */
 
+#define TIMES_ITERATOR_END ((Interval){.start = SIZE_MAX, .end = SIZE_MAX})
+#define NODES_ITERATOR_END SIZE_MAX
+#define LINKS_ITERATOR_END SIZE_MAX
+
 /**
  * @name Iteration macros
  * @brief Macros to iterate over nodes, links and times.
@@ -79,8 +83,8 @@ struct TimesIterator {
  * Consumes the iterator.
  * @{
  */
-#define FOR_EACH_NODE(iterated, iterator) FOR_EACH(size_t, iterated, iterator, (iterated) != SIZE_MAX)
-#define FOR_EACH_LINK(iterated, iterator) FOR_EACH(size_t, iterated, iterator, (iterated) != SIZE_MAX)
+#define FOR_EACH_NODE(iterated, iterator) FOR_EACH(size_t, iterated, iterator, (iterated) != NODES_ITERATOR_END)
+#define FOR_EACH_LINK(iterated, iterator) FOR_EACH(size_t, iterated, iterator, (iterated) != LINKS_ITERATOR_END)
 #define FOR_EACH_TIME(iterated, iterator) FOR_EACH(Interval, iterated, iterator, (iterated).start != SIZE_MAX)
 /** @} */
 

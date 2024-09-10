@@ -1,5 +1,4 @@
-#include "../src/analysis/walks.h"
-#include "../src/stream_wrappers.h"
+#include "../StreamGraphAnalysis.h"
 #include "test.h"
 #include <stddef.h>
 #include <stdio.h>

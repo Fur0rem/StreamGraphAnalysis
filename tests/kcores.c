@@ -1,6 +1,4 @@
-#include "../src/analysis/kcores.h"
-#include "../src/stream.h"
-#include "../src/stream_wrappers.h"
+#include "../StreamGraphAnalysis.h"
 #include "test.h"
 
 bool test_k_cores() {

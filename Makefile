@@ -2,7 +2,7 @@ CC = gcc
 DEBUG_FLAGS = -g -O0 -DDEBUG
 RELEASE_FLAGS = -O4 -lto -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
-FLAGS = $(RELEASE_FLAGS)
+FLAGS = $(DEBUG_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
 LDFLAGS = -lm
 
@@ -109,6 +109,10 @@ cliques: src/analysis/cliques.c stream interval defaults utils full_stream_graph
 kcores: src/analysis/kcores.c stream interval defaults utils full_stream_graph link_stream chunk_stream chunk_stream_small bit_array nodes_set links_set events_table key_moments_table induced_graph interval iterators units snapshot_stream metrics | bin
 	$(CC) $(CFLAGS) -c src/analysis/kcores.c -o bin/kcores.o
 	ar rcs bin/kcores.a bin/kcores.o bin/stream.o bin/interval.o bin/defaults.o bin/utils.o bin/full_stream_graph.o bin/link_stream.o bin/chunk_stream.o bin/chunk_stream_small.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/events_table.o bin/key_moments_table.o bin/induced_graph.o bin/interval.o bin/iterators.o bin/defaults.o bin/utils.o bin/units.o bin/snapshot_stream.o bin/metrics.o
+
+isomorphism: src/analysis/isomorphism.c stream interval defaults utils full_stream_graph link_stream chunk_stream chunk_stream_small bit_array nodes_set links_set events_table key_moments_table induced_graph interval iterators units snapshot_stream metrics | bin
+	$(CC) $(CFLAGS) -c src/analysis/isomorphism.c -o bin/isomorphism.o
+	ar rcs bin/isomorphism.a bin/isomorphism.o bin/stream.o bin/interval.o bin/defaults.o bin/utils.o bin/full_stream_graph.o bin/link_stream.o bin/chunk_stream.o bin/chunk_stream_small.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/events_table.o bin/key_moments_table.o bin/induced_graph.o bin/interval.o bin/iterators.o bin/defaults.o bin/utils.o bin/units.o bin/snapshot_stream.o bin/metrics.o
 
 clean:
 	rm -f bin/*

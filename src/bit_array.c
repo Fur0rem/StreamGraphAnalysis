@@ -96,6 +96,19 @@ const char HEXA_TO_BIN_CHARS[16][sizeof(uint32_t) + 1] = {
 
 String BitArray_to_string(const BitArray* array) {
 
+	if (nb_slices(array->nb_bits) <= 1) {
+		char* str = MALLOC(array->nb_bits + 1);
+		for (size_t i = 0; i < array->nb_bits; i++) {
+			str[i] = BitArray_is_one(*array, i) ? '1' : '0';
+		}
+		str[array->nb_bits] = '\0';
+		return (String){
+			.data	  = str,
+			.size	  = array->nb_bits,
+			.capacity = array->nb_bits + 1,
+		};
+	}
+
 	const size_t copy_step = sizeof(uint32_t);
 	const size_t capacity  = (nb_slices(array->nb_bits) * BYTE_SIZE) + 1;
 	const size_t size	   = array->nb_bits + 1;

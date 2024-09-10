@@ -1,8 +1,4 @@
-#include "../src/interval.h"
-#include "../src/metrics.h"
-#include "../src/stream.h"
-#include "../src/stream_wrappers.h"
-#include "../src/units.h"
+#include "../StreamGraphAnalysis.h"
 #include "test.h"
 #include <stddef.h>
 #include <stdio.h>

@@ -86,6 +86,14 @@ bool test_to_string() {
 	result &= EXPECT(strcmp(str.data, "00000") == 0);
 	String_destroy(str);
 
+	BitArray_set_one(bit_array, 1);
+	BitArray_set_one(bit_array, 3);
+	str = BitArray_to_string(&bit_array);
+	result &= EXPECT(strcmp(str.data, "01010") == 0);
+	String_destroy(str);
+
+	BitArray_destroy(bit_array);
+
 	bit_array = BitArray_n_ones(100);
 	str		  = BitArray_to_string(&bit_array);
 	char expected[101];
@@ -94,6 +102,13 @@ bool test_to_string() {
 	}
 	expected[100] = '\0';
 	result &= EXPECT(strcmp(str.data, expected) == 0);
+	String_destroy(str);
+
+	BitArray_set_zero(bit_array, 99);
+	str			 = BitArray_to_string(&bit_array);
+	expected[99] = '0';
+	result &= EXPECT(strcmp(str.data, expected) == 0);
+	printf("%s\n", str.data);
 	String_destroy(str);
 
 	bit_array = BitArray_n_ones(1 << 27);

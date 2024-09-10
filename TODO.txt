@@ -20,6 +20,7 @@
 - const qualifier when needed
 - Version control for formats
 - Add format B where it's node by node instead of event by event
+- Crashes when node ids not sorted in the input file
 
 - Read all the TODOs in the code
 
