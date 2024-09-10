@@ -124,6 +124,7 @@ Supported metrics and analysis (In order of first mention in the paper)
 - K-cores : Section 13
 - Paths and distances : Section 14
 - Robustness by length : Outside of the paper
+- Isomorphism : Outside of the paper
 
 (These were implemented in previous commits but have not been ported for generic streams yet)
 - Compactness : Section 4
