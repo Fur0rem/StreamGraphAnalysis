@@ -119,6 +119,23 @@ bool test_isomorphic_ids_scrambled() {
 	return result;
 }
 
+bool test_isomorphism_different_node_times() {
+	StreamGraph sg1 = StreamGraph_from_external("data/S_external.txt");
+	Stream stream1	= FullStreamGraph_from(&sg1);
+
+	StreamGraph sg2 = StreamGraph_from_external("data/S_external_different_node_time.txt");
+	Stream stream2	= FullStreamGraph_from(&sg2);
+
+	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+
+	StreamGraph_destroy(sg1);
+	StreamGraph_destroy(sg2);
+	FullStreamGraph_destroy(stream1);
+	FullStreamGraph_destroy(stream2);
+
+	return result;
+}
+
 int main() {
 	Test* tests[] = {
 		TEST(test_equals),
@@ -127,6 +144,7 @@ int main() {
 		TEST(test_not_isomorphic_stretched),
 		TEST(test_isomorphism_offset),
 		TEST(test_isomorphic_ids_scrambled),
+		TEST(test_isomorphism_different_node_times),
 		NULL,
 	};
 

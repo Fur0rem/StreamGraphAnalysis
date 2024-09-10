@@ -75,6 +75,8 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 	return false;
 }
 
+// TODO: check isomorphism for times of nodes
+
 void print_adjacency_matrix(size_t n, IntervalVector** graph) {
 	printf("[");
 	for (int i = 0; i < n; i++) {
