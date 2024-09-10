@@ -23,6 +23,10 @@ ChunkStream ChunkStream_with(StreamGraph* stream_graph, NodeIdVector* nodes, Lin
 			BitArray_set_one(chunk_stream.links_present, links->array[i]);
 		}
 	}
+	String nodes_str = BitArray_to_string(&chunk_stream.nodes_present);
+	String links_str = BitArray_to_string(&chunk_stream.links_present);
+	printf("Nodes present : %s\n", nodes_str.data);
+	printf("Links present : %s\n", links_str.data);
 	return chunk_stream;
 }
 
@@ -54,6 +58,10 @@ ChunkStream ChunkStream_without(StreamGraph* stream_graph, NodeIdVector* nodes, 
 			BitArray_set_zero(chunk_stream.links_present, links->array[i]);
 		}
 	}
+	String nodes_str = BitArray_to_string(&chunk_stream.nodes_present);
+	String links_str = BitArray_to_string(&chunk_stream.links_present);
+	printf("Nodes present : %s\n", nodes_str.data);
+	printf("Links present : %s\n", links_str.data);
 	return chunk_stream;
 }
 

@@ -12,6 +12,7 @@
 
 #include "hashset.h"
 #include "interval.h"
+#include "stream_functions.h"
 #include "stream_graph/events_table.h"
 #include "stream_graph/links_set.h"
 #include "units.h"
@@ -71,10 +72,15 @@ char* get_to_header(const char* str, const char* header) {
 
 #define PRINT_LINE(str)                                                                                                \
 	{                                                                                                                  \
-		char* end  = strchr(str, '\n');                                                                                \
-		char* line = (char*)malloc(end - (str) + 1);                                                                   \
-		strncpy(line, str, end - (str));                                                                               \
-		line[end - (str)] = '\0';                                                                                      \
+		char* begin = (str);                                                                                           \
+		while (*begin != '\n') {                                                                                       \
+			begin--;                                                                                                   \
+		}                                                                                                              \
+		begin++;                                                                                                       \
+		char* end  = strchr(begin, '\n');                                                                              \
+		char* line = (char*)malloc(end - begin + 1);                                                                   \
+		strncpy(line, begin, end - begin);                                                                             \
+		line[end - begin] = '\0';                                                                                      \
 		printf("line: %s\n", line);                                                                                    \
 		free(line);                                                                                                    \
 	}
@@ -376,6 +382,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		str = end;
 	}
 
+	size_t last_event_parsed = lifespan_start;
+
 	NEXT_HEADER([[Events]]);
 	// Parse all the tuples afterwards
 	int* buffer				 = calloc(nb_nodes + nb_links, sizeof(int));
@@ -402,6 +410,12 @@ StreamGraph StreamGraph_from_string(const char* str) {
 			PRINT_LINE(str);
 			exit(1);
 		}
+		if ((key_moment <= last_event_parsed) && (key_moment != lifespan_start)) {
+			fprintf(stderr, TEXT_RED "Key moments are not in increasing order\n" TEXT_RESET);
+			PRINT_LINE(str);
+			exit(1);
+		}
+		last_event_parsed = key_moment;
 		// PRINT_LINE(str);
 		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
 		EXPECT_SEQ_AND_MOVE(new_ptr, "=(");
@@ -446,6 +460,12 @@ StreamGraph StreamGraph_from_string(const char* str) {
 				exit(1);
 			}
 
+			if (id >= (letter == 'N' ? nb_nodes : nb_links)) {
+				fprintf(stderr, "Id %zu is out of bounds\n", id);
+				PRINT_LINE(str);
+				exit(1);
+			}
+
 			// str = new_ptr + 2;
 			// EXPECT_SEQ_AND_MOVE(new_ptr, ")");
 			// EXPECT_AND_MOVE(new_ptr, ')');
@@ -479,7 +499,8 @@ StreamGraph StreamGraph_from_string(const char* str) {
 						exit(1);
 					}
 					nb_pushed_for_links[id]++;
-					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start = key_moment;
+					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start =
+						key_moment; // FIXME: crashes if link not found (for example link 1 - 1)
 				}
 				else {
 					if (sign != '-') {
@@ -1262,7 +1283,7 @@ char* InternalFormat_from_External_str(const char* str) {
 	EXPECT_SEQ_AND_MOVE(str, "Scaling=");
 	size_t scaling = strtol(str, &new_ptr, 10);
 	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the scaling\n");
+		fprintf(stderr, TEXT_RED "Could not parse the scaling\n" TEXT_RESET);
 		PRINT_LINE(str);
 		exit(1);
 	}
@@ -1281,7 +1302,9 @@ char* InternalFormat_from_External_str(const char* str) {
 	size_t nb_events				 = 0;
 	size_t current_vec				 = 0;
 	size_tVector nb_events_per_slice = size_tVector_with_capacity(10);
-	const char* end_of_stream		 = "[EndOfStream]";
+	// checking if the events are in order
+	size_t last_event_parsed  = lifespan_start;
+	const char* end_of_stream = "[EndOfStream]";
 	while (strncmp(str, end_of_stream, strlen(end_of_stream)) != 0) {
 		// if the line is empty, skip it
 		if (*str == '\n') {
@@ -1291,6 +1314,11 @@ char* InternalFormat_from_External_str(const char* str) {
 		size_t key_moment = strtol(str, &new_ptr, 10);
 		if (new_ptr == str) {
 			fprintf(stderr, "Could not parse the key moment\n");
+			PRINT_LINE(str);
+			exit(1);
+		}
+		if (key_moment < last_event_parsed) {
+			fprintf(stderr, "Events are not sorted\n");
 			PRINT_LINE(str);
 			exit(1);
 		}
@@ -1373,6 +1401,11 @@ char* InternalFormat_from_External_str(const char* str) {
 				PRINT_LINE(str);
 				exit(1);
 			}
+			if (node_one == node_two) {
+				fprintf(stderr, "Nodes are the same\n");
+				PRINT_LINE(str);
+				exit(1);
+			}
 			str	  = new_ptr;
 			tuple = (EventTuple){
 				.moment	  = key_moment,
@@ -1432,6 +1465,7 @@ char* InternalFormat_from_External_str(const char* str) {
 			}
 		}
 		nb_events++;
+		last_event_parsed = key_moment;
 
 		EXPECT_AND_MOVE(str, '\n');
 	}
@@ -1780,92 +1814,6 @@ void init_events_table(StreamGraph* sg) {
 			}
 		}
 	}
-
-	// print all the link events
-	/*for (size_t i = 0; i < sg->events.nb_events; i++) {
-		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
-		str = size_tVector_to_string(link_events[i]);
-		printf("%s\n", str);
-		free(str);
-	}*/
-
-	// Propagate the events
-	// For each event before the disappearence index, if it has deletions, you recopy from the left until you find
-	// another deletion
-
-	/*for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
-		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {
-			for (int j = i - 2; j >= 0; j--) {
-				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
-					for (size_t k = 0; k < node_events[j].size; k++) {
-
-						// bool is_sorted = true;
-						// for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals - 1;
-						// 	 l++) {
-						// 	if (sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l].end >
-						// 		sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l + 1].start) {
-						// 		is_sorted = false;
-						// 	}
-						// }
-						// if (!is_sorted) {
-						// 	printf("Node %zu is not sorted\n", node_events[j].array[k]);
-						// }
-
-						volatile Interval interval;
-						for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals; l++) {
-							interval = sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l];
-						}
-
-						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
-														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
-							size_tVector_push(&node_events[i], node_events[j].array[k]);
-						}
-					}
-				}
-				else {
-					break;
-				}
-			}
-		}
-	}
-
-	// Do the same for links
-	for (size_t i = 1; i < sg->events.link_events.disappearance_index; i++) {
-		if (BitArray_is_zero(sg->events.link_events.presence_mask, i - 1)) {
-			for (int j = i - 2; j >= 0; j--) {
-				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
-					for (size_t k = 0; k < link_events[j].size; k++) {
-
-						// bool is_sorted = true;
-						// for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals -
-						// 1; 	 l++) { 	if (sg->links.links[link_events[j].array[k]].presence.intervals[l].end >
-						// 		sg->links.links[link_events[j].array[k]].presence.intervals[l + 1].start) {
-						// 		is_sorted = false;
-						// 	}
-						// }
-
-						// if (!is_sorted) {
-						// 	printf("Link %zu is not sorted\n", link_events[j].array[k]);
-						// }
-
-						volatile Interval interval;
-						for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals; l++) {
-							volatile Interval interval = sg->links.links[link_events[j].array[k]].presence.intervals[l];
-						}
-
-						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
-														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
-							size_tVector_push(&link_events[i], link_events[j].array[k]);
-						}
-					}
-				}
-				else {
-					break;
-				}
-			}
-			// printf("done\n");
-		}
-	}*/
 
 	for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
 		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {

@@ -1,4 +1,4 @@
-#include "../src/stream_wrappers/chunk_stream.h"
+#include "../StreamGraphAnalysis.h"
 #include "test.h"
 
 bool test_chunk_stream_nodes_set() {

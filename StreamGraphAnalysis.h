@@ -1,4 +1,5 @@
 #include "src/analysis/cliques.h"
+#include "src/analysis/isomorphism.h"
 #include "src/analysis/kcores.h"
 #include "src/analysis/walks.h"
 #include "src/metrics.h"
