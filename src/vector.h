@@ -10,6 +10,7 @@
 // TODO: add macro for elem in array?
 // TODO: len or size for vectors?
 // TODO: pointers or no?
+// TODO: rename vector to something less stupid
 
 /// Declare a vector of a given type, no other functions are defined
 #define DeclareVector(type)                                                                                            \

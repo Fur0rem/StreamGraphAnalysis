@@ -2,8 +2,10 @@
 #include "../src/utils.h"
 #include "test.h"
 
+#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <time.h>
 
 bool test_create() {
 	BitArray bit_array = BitArray_with_n_bits(10);
@@ -83,13 +85,15 @@ bool test_to_string() {
 
 	BitArray bit_array = BitArray_n_zeros(5);
 	String str		   = BitArray_to_string(&bit_array);
-	result &= EXPECT(strcmp(str.data, "00000") == 0);
+	result &= EXPECT_EQ(str.data, "00000");
+	EXPECT(strcmp(str.data, "00000") == 0);
 	String_destroy(str);
 
 	BitArray_set_one(bit_array, 1);
 	BitArray_set_one(bit_array, 3);
 	str = BitArray_to_string(&bit_array);
-	result &= EXPECT(strcmp(str.data, "01010") == 0);
+	result &= EXPECT_EQ(str.data, "01010");
+	EXPECT(strcmp(str.data, "01010") == 0);
 	String_destroy(str);
 
 	BitArray_destroy(bit_array);
@@ -101,27 +105,93 @@ bool test_to_string() {
 		expected[i] = '1';
 	}
 	expected[100] = '\0';
-	result &= EXPECT(strcmp(str.data, expected) == 0);
+	result &= EXPECT_EQ(str.data, expected);
+	EXPECT(strcmp(str.data, expected) == 0);
 	String_destroy(str);
 
 	BitArray_set_zero(bit_array, 99);
 	str			 = BitArray_to_string(&bit_array);
 	expected[99] = '0';
-	result &= EXPECT(strcmp(str.data, expected) == 0);
-	printf("%s\n", str.data);
+	result &= EXPECT_EQ(str.data, expected);
+	EXPECT(strcmp(str.data, expected) == 0);
 	String_destroy(str);
 
-	bit_array = BitArray_n_ones(1 << 27);
-	str		  = BitArray_to_string(&bit_array);
+	return result;
+}
 
-	char* expected2 = malloc(1 << 27 + 1);
+bool test_to_string_big() {
+	bool result = true;
+
+	BitArray bit_array = BitArray_n_ones(1 << 27);
+	String str		   = BitArray_to_string(&bit_array);
+
+	char* expected2 = malloc((1 << 27) + 1);
 	for (size_t i = 0; i < (1 << 27); i++) {
 		expected2[i] = '1';
 	}
 	expected2[1 << 27] = '\0';
-	result &= EXPECT(strcmp(str.data, expected2) == 0);
+	result &= EXPECT_EQ(str.data, expected2);
+	EXPECT(strcmp(str.data, expected2) == 0);
 	String_destroy(str);
 	free(expected2);
+
+	BitArray_destroy(bit_array);
+
+	return result;
+}
+
+bool test_to_string2() {
+	bool result = true;
+
+	BitArray bit_array = BitArray_n_zeros(8);
+	BitArray_set_one(bit_array, 0);
+	BitArray_set_one(bit_array, 2);
+	BitArray_set_one(bit_array, 4);
+	BitArray_set_one(bit_array, 6);
+	String str = BitArray_to_string(&bit_array);
+	result &= EXPECT_EQ(str.data, "10101010");
+	String_destroy(str);
+	BitArray_destroy(bit_array);
+
+	bit_array = BitArray_n_zeros(10);
+	BitArray_set_one(bit_array, 2);
+	BitArray_set_one(bit_array, 4);
+	BitArray_set_one(bit_array, 5);
+	BitArray_set_one(bit_array, 6);
+	BitArray_set_one(bit_array, 9);
+	str = BitArray_to_string(&bit_array);
+	result &= EXPECT_EQ(str.data, "0010111001");
+	BitArray_destroy(bit_array);
+	String_destroy(str);
+
+	return result;
+}
+
+bool test_random_string() {
+	bool result = true;
+
+	const size_t str_size = 200;
+	char* expected		  = malloc(str_size + 1);
+	for (size_t i = 0; i < str_size; i++) {
+		expected[i] = '0';
+	}
+	expected[str_size] = '\0';
+
+	BitArray bit_array = BitArray_n_zeros(str_size);
+	srand(time(NULL));
+	for (size_t i = 0; i < str_size; i++) {
+		if (rand() % 2) {
+			printf("Setting one at %zu\n", i);
+			BitArray_set_one(bit_array, i);
+			expected[i] = '1';
+		}
+	}
+
+	String str = BitArray_to_string(&bit_array);
+	result &= EXPECT_EQ(str.data, expected);
+	String_destroy(str);
+	free(expected);
+	BitArray_destroy(bit_array);
 
 	return result;
 }
@@ -225,6 +295,9 @@ int main() {
 		TEST(test_leading_zeros_big_ones),
 		TEST(test_leading_zeros_big_1),
 		TEST(test_to_string),
+		TEST(test_to_string2),
+		TEST(test_random_string),
+		// TEST(test_to_string_big),
 		NULL,
 	};
 

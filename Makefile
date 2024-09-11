@@ -2,7 +2,7 @@ CC = gcc
 DEBUG_FLAGS = -g -O0 -DDEBUG
 RELEASE_FLAGS = -O4 -lto -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
-FLAGS = $(DEBUG_FLAGS)
+FLAGS = $(RELEASE_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -Wno-unused-function -std=c2x
 LDFLAGS = -lm
 
@@ -71,21 +71,21 @@ link_stream: src/stream_wrappers/link_stream.c interval stream defaults units in
 	$(CC) $(CFLAGS) -c src/stream_wrappers/snapshot_stream.c -o bin/snapshot_stream.o
 	ar rcs bin/link_stream.a bin/link_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o bin/chunk_stream.o bin/chunk_stream_small.o bin/snapshot_stream.o
 
-chunk_stream: src/stream_wrappers/chunk_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array full_stream_graph | bin
+chunk_stream: src/stream_wrappers/chunk_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array full_stream_graph iterators | bin
 	$(CC) $(CFLAGS) -c src/stream_wrappers/chunk_stream.c -o bin/chunk_stream.o
-	ar rcs bin/chunk_stream.a bin/chunk_stream.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/full_stream_graph.o
+	ar rcs bin/chunk_stream.a bin/chunk_stream.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/full_stream_graph.o bin/iterators.o
 
-chunk_stream_small: src/stream_wrappers/chunk_stream_small.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array full_stream_graph | bin
+chunk_stream_small: src/stream_wrappers/chunk_stream_small.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array full_stream_graph iterators | bin
 	$(CC) $(CFLAGS) -c src/stream_wrappers/chunk_stream_small.c -o bin/chunk_stream_small.o
-	ar rcs bin/chunk_stream_small.a bin/chunk_stream_small.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/full_stream_graph.o
+	ar rcs bin/chunk_stream_small.a bin/chunk_stream_small.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/full_stream_graph.o bin/iterators.o
 
-snapshot_stream: src/stream_wrappers/snapshot_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array iterators full_stream_graph | bin
+snapshot_stream: src/stream_wrappers/snapshot_stream.c interval stream defaults units induced_graph events_table key_moments_table links_set nodes_set utils bit_array iterators full_stream_graph iterators | bin
 	$(CC) $(CFLAGS) -c src/stream_wrappers/snapshot_stream.c -o bin/snapshot_stream.o
 	$(CC) $(CFLAGS) -c src/metrics.c -o bin/metrics.o
 	$(CC) $(CFLAGS) -c src/stream_wrappers/chunk_stream.c -o bin/chunk_stream.o
 	$(CC) $(CFLAGS) -c src/stream_wrappers/chunk_stream_small.c -o bin/chunk_stream_small.o
 	$(CC) $(CFLAGS) -c src/stream_wrappers/link_stream.c -o bin/link_stream.o
-	ar rcs bin/snapshot_stream.a bin/snapshot_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o bin/chunk_stream.o bin/chunk_stream_small.o bin/interval.o bin/link_stream.o
+	ar rcs bin/snapshot_stream.a bin/snapshot_stream.o bin/metrics.o bin/events_table.o bin/stream.o bin/key_moments_table.o bin/interval.o bin/utils.o bin/bit_array.o bin/nodes_set.o bin/links_set.o bin/defaults.o bin/induced_graph.o bin/events_table.o bin/stream.o bin/units.o bin/iterators.o bin/full_stream_graph.o bin/chunk_stream.o bin/chunk_stream_small.o bin/interval.o bin/link_stream.o bin/iterators.o
 
 iterators: src/iterators.c | bin
 	$(CC) $(CFLAGS) -c $< -o bin/iterators.o

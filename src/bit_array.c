@@ -7,13 +7,18 @@
 // Using an int because it is the biggest type that can be used with bitwise shifting operations that doesn't fuck up
 const size_t SLICE_SIZE_IN_BYTES = sizeof(BitArraySlice);
 const size_t BYTE_SIZE			 = 8;
+const size_t SLICE_SIZE_IN_BITS	 = SLICE_SIZE_IN_BYTES * BYTE_SIZE;
 
 #define _1	   ((BitArraySlice)1)
 #define _0	   ((BitArraySlice)0)
 #define ALL_1s (~((BitArraySlice)0))
 
 size_t nb_slices(size_t nb_bits) {
-	return (nb_bits / (SLICE_SIZE_IN_BYTES)) + 1;
+	return (nb_bits / (SLICE_SIZE_IN_BYTES * BYTE_SIZE)) + 1;
+}
+
+size_t nb_bytes(size_t nb_bits) {
+	return (nb_bits / SLICE_SIZE_IN_BYTES) + 1;
 }
 
 BitArray BitArray_with_n_bits(size_t nb_bits) {
@@ -90,48 +95,57 @@ void BitArray_destroy(BitArray array) {
 }
 
 const char HEXA_TO_BIN_CHARS[16][sizeof(uint32_t) + 1] = {
-	"0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111",
-	"1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111",
+	"0000", "1000", "0100", "1100", "0010", "1010", "0110", "1110",
+	"0001", "1001", "0101", "1101", "0011", "1011", "0111", "1111",
 };
 
 String BitArray_to_string(const BitArray* array) {
 
-	if (nb_slices(array->nb_bits) <= 1) {
-		char* str = MALLOC(array->nb_bits + 1);
-		for (size_t i = 0; i < array->nb_bits; i++) {
-			str[i] = BitArray_is_one(*array, i) ? '1' : '0';
-		}
-		str[array->nb_bits] = '\0';
-		return (String){
-			.data	  = str,
-			.size	  = array->nb_bits,
-			.capacity = array->nb_bits + 1,
-		};
-	}
-
 	const size_t copy_step = sizeof(uint32_t);
-	const size_t capacity  = (nb_slices(array->nb_bits) * BYTE_SIZE) + 1;
-	const size_t size	   = array->nb_bits + 1;
-	char* str			   = aligned_alloc(copy_step, capacity); // Aligned to the copy size
-	for (size_t i = 0; i < nb_slices(array->nb_bits); i++) {
+
+	// TODO: Add arch verification functions
+	ASSERT((SLICE_SIZE_IN_BITS / copy_step) == 16);
+	ASSERT((int)true == 1);
+	ASSERT((int)false == 0);
+	ASSERT(('0' + 1) == '1');
+
+	const size_t capacity = (nb_slices(array->nb_bits) * SLICE_SIZE_IN_BITS) + 1;
+
+	// NOTE: Valgrind doesn't support aligned_alloc but I tried with malloc and it works
+	// And we need to align the memory to have it aligned on uint32_t to copy 4 bytes at once
+	char* str = aligned_alloc(copy_step, capacity);
+
+	for (size_t i = 0; i < nb_slices(array->nb_bits) - 1; i++) {
 		// gcc t'es con MASK_SIZE c'est sizeof(BitArraySlice) mais il veut pas sinon "VaRiABle LeNGtH ArRAyS" meme si
 		// MASK_SIZE est const
-		const unsigned char bytes[sizeof(BitArraySlice)] = {
-			(array->bits[i] >> 28) & 0xF, (array->bits[i] >> 24) & 0xF, (array->bits[i] >> 20) & 0xF,
-			(array->bits[i] >> 16) & 0xF, (array->bits[i] >> 12) & 0xF, (array->bits[i] >> 8) & 0xF,
-			(array->bits[i] >> 4) & 0xF,  array->bits[i] & 0xF,
+		//[SLICE_SIZE_IN_BITS / copy_step];
+		const unsigned char bytes[16] = {
+			array->bits[i] & 0xF,		  (array->bits[i] >> 4) & 0xF,	(array->bits[i] >> 8) & 0xF,
+			(array->bits[i] >> 12) & 0xF, (array->bits[i] >> 16) & 0xF, (array->bits[i] >> 20) & 0xF,
+			(array->bits[i] >> 24) & 0xF, (array->bits[i] >> 28) & 0xF, (array->bits[i] >> 32) & 0xF,
+			(array->bits[i] >> 36) & 0xF, (array->bits[i] >> 40) & 0xF, (array->bits[i] >> 44) & 0xF,
+			(array->bits[i] >> 48) & 0xF, (array->bits[i] >> 52) & 0xF, (array->bits[i] >> 56) & 0xF,
+			(array->bits[i] >> 60) & 0xF,
 		};
-		for (size_t j = 0; j < SLICE_SIZE_IN_BYTES; j += copy_step) {
-			size_t offset = i * SLICE_SIZE_IN_BYTES + j;
-			// Copy the 4 bytes at once
+
+		for (size_t j = 0; j < SLICE_SIZE_IN_BITS / copy_step; j++) {
+			size_t offset = i * SLICE_SIZE_IN_BITS + j * copy_step;
 			uint32_t* ptr = (uint32_t*)(str + offset);
 			*ptr		  = *(uint32_t*)HEXA_TO_BIN_CHARS[bytes[j]];
 		}
 	}
-	str[size - 1] = '\0';
+
+	// Do the last slice
+	const size_t left_off = ((nb_slices(array->nb_bits) - 1) * SLICE_SIZE_IN_BITS);
+	for (size_t i = left_off; i < array->nb_bits; i++) {
+		str[i] = (char)(BitArray_is_one(*array, i) + '0');
+	}
+
+	str[array->nb_bits] = '\0';
+
 	return (String){
 		.data	  = str,
-		.size	  = size,
+		.size	  = array->nb_bits,
 		.capacity = capacity,
 	};
 }
