@@ -8,9 +8,9 @@
 #include <stdio.h>
 
 bool areIsomorphic(size_t n, IntervalVector** graph1, IntervalVector** graph2, const Stream* s1, const Stream* s2,
-				   NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2);
+				   NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2, size_t universal_offset);
 bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2, int* mapping, bool* visited,
-					  int vertex);
+					  int vertex, size_t universal_offset);
 
 // FIXME: leakkkkkkks
 // TODO: switch to Laszlo Babai's algorithm
@@ -20,7 +20,8 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 // https://algorist.com/problems/Graph_Isomorphism.html
 
 bool check_node_times(const Stream* s1, const Stream* s2, IntervalVector** graph1, IntervalVector** graph2, size_t n,
-					  int* mapping, NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2) {
+					  int* mapping, NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2,
+					  size_t universal_offset) {
 	StreamFunctions fns1 = STREAM_FUNCS(fns1, s1);
 	StreamFunctions fns2 = STREAM_FUNCS(fns2, s2);
 
@@ -119,31 +120,31 @@ bool check_node_times(const Stream* s1, const Stream* s2, IntervalVector** graph
 	return true;
 }
 bool areIsomorphic(size_t n, IntervalVector** graph1, IntervalVector** graph2, const Stream* s1, const Stream* s2,
-				   NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2) {
+				   NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2, size_t universal_offset) {
 	int* mapping  = malloc(n * sizeof(int));
 	bool* visited = malloc(n * sizeof(bool));
 	for (int i = 0; i < n; i++) {
 		visited[i] = false;
 	}
 
-	bool result = isIsomorphicUtil(n, graph1, graph2, mapping, visited, 0);
+	bool result = isIsomorphicUtil(n, graph1, graph2, mapping, visited, 0, universal_offset);
 	if (!result) {
 		return false;
 	}
 	// check node times
-	return check_node_times(s1, s2, graph1, graph2, n, mapping, node_to_id_map1, node_to_id_map2);
+	return check_node_times(s1, s2, graph1, graph2, n, mapping, node_to_id_map1, node_to_id_map2, universal_offset);
 }
 
 bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2, int* mapping, bool* visited,
-					  int vertex) {
+					  int vertex, size_t universal_offset) {
 	if (vertex == n) {
 		// Check if the mapping preserves adjacency
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				// String str1 = IntervalVector_to_string(&graph1[i][j]);
 				// String str2 = IntervalVector_to_string(&graph2[mapping[i]][mapping[j]]);
-				// printf("\ngraph1[%d][%d] = %s, graph2[%d][%d] = %s  ", i, j, str1.data, mapping[i], mapping[j],
-				// 	   str2.data);
+				// printf("\ngraph1[%d][%d] = %s, graph2[%d][%d] = %s  ", i, j, str1.data, mapping[i],
+				// mapping[j], 	   str2.data);
 				SGA_Offset offset = IntervalVector_offset_of(&graph1[i][j], &graph2[mapping[i]][mapping[j]]);
 				// if (offset == SIZE_MAX) {
 				// 	// printf("Different\n");
@@ -151,6 +152,15 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 				// }
 				if (SGA_Offset_is_not_matching(offset)) {
 					// printf("Different\n");
+					return false;
+				}
+				if (SGA_Offset_is_empty(offset)) {
+					// printf("Same because empty\n");
+					continue;
+				}
+				size_t offset_ok = SGA_Offset_unwrap(offset);
+				if (universal_offset != offset_ok) {
+					// printf("Different by offset : %zu != %zu\n", universal_offset, offset_ok);
 					return false;
 				}
 				// printf("offset = %zu\n", offset);
@@ -167,8 +177,8 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 				// 		return false;
 				// 	}
 				// 	const size_t offset = graph2[mapping[i]][mapping[j]].array[0].start -
-				// graph1[i][j].array[0].start; 	for (size_t k = 0; k < graph1[i][j].size; k++) { 		size_t
-				// offset_k = graph2[mapping[i]][mapping[j]].array[k].start - graph1[i][j].array[k].start; 		if
+				// graph1[i][j].array[0].start; 	for (size_t k = 0; k < graph1[i][j].size; k++) { size_t
+				// offset_k = graph2[mapping[i]][mapping[j]].array[k].start - graph1[i][j].array[k].start; if
 				// (offset_k != offset) {
 				// 			// printf("Different by offset : %zu != %zu\n", offset_k, offset);
 				// 			return false;
@@ -181,7 +191,8 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 				// 	}
 				// 	// printf("Same\n");
 				// }
-				// // if (IntervalVector_offset_of(&graph1[i][j], &graph2[mapping[i]][mapping[j]]) == SIZE_MAX) {
+				// // if (IntervalVector_offset_of(&graph1[i][j], &graph2[mapping[i]][mapping[j]]) == SIZE_MAX)
+				// {
 				// // return false;
 				// // }
 
@@ -196,7 +207,7 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 			visited[i]		= true;
 			mapping[vertex] = i;
 
-			if (isIsomorphicUtil(n, graph1, graph2, mapping, visited, vertex + 1)) {
+			if (isIsomorphicUtil(n, graph1, graph2, mapping, visited, vertex + 1, universal_offset)) {
 				return true;
 			}
 
@@ -328,10 +339,24 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 		streamgraph2[v][u]				 = vec;
 	}
 
+	Interval lifespan_g1 = fns1.lifespan(s1->stream_data);
+	Interval lifespan_g2 = fns2.lifespan(s2->stream_data);
+
+	SGA_Offset offset_result = Interval_offset_of(&lifespan_g1, &lifespan_g2);
+	if (SGA_Offset_is_not_matching(offset_result)) {
+		printf("Different lifespans\n");
+		return false;
+	}
+
+	size_t universal_offset = SGA_Offset_unwrap(offset_result);
+	printf("Universal offset = %zu\n", universal_offset);
+
 	// print_adjacency_matrix(nb_nodes_1, streamgraph1);
 	// print_adjacency_matrix(nb_nodes_2, streamgraph2);
 
-	if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2)) {
+	// TODO: better name than universal_offset
+	if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2,
+					  universal_offset)) {
 		// printf("The graphs are isomorphic.\n");
 		return true;
 	}

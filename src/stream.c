@@ -167,6 +167,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		PRINT_LINE(str);
 		exit(1);
 	}
+	sg.lifespan = Interval_from(lifespan_start, lifespan_end);
 	EXPECT_AND_MOVE(new_ptr, ')');
 	EXPECT_AND_MOVE(new_ptr, '\n');
 	str = new_ptr;
@@ -1469,6 +1470,19 @@ char* InternalFormat_from_External_str(const char* str) {
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
+	// Push the lifespan end event if it is not the last event
+	TimeId last_event = events.array[events.size - 1].array[0].moment;
+	if (last_event != lifespan_end) {
+		last_event		= lifespan_end;
+		size_t slice_id = last_event / SLICE_SIZE;
+		if (slice_id >= nb_events_per_slice.size) {
+			for (size_t j = nb_events_per_slice.size; j <= slice_id; j++) {
+				size_tVector_push(&nb_events_per_slice, 0);
+			}
+		}
+		nb_events_per_slice.array[slice_id]++;
+	}
+
 	for (size_t i = 0; i < events.size; i++) {
 		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
 		if (slice_id >= nb_events_per_slice.size) {
@@ -1478,8 +1492,6 @@ char* InternalFormat_from_External_str(const char* str) {
 		}
 		nb_events_per_slice.array[slice_id]++;
 	}
-
-	TimeId last_event = events.array[events.size - 1].array[0].moment;
 
 	size_t size_prediction =
 		estimate_internal_format_size(nodes.size, links.size, last_event, nb_events, nb_events_per_slice);
@@ -1956,4 +1968,8 @@ void reset_cache(Stream* stream) {
 	stream->cache.cardinalOfT.present = false;
 	stream->cache.cardinalOfE.present = false;
 	stream->cache.cardinalOfV.present = false;
+}
+
+Interval StreamGraph_lifespan(StreamGraph* sg) {
+	return sg->lifespan;
 }

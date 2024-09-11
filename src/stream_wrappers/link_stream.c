@@ -96,8 +96,7 @@ LinksIterator LinkStream_links_set(StreamData* stream_data) {
 
 Interval LinkStream_lifespan(StreamData* stream_data) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
-	return Interval_from(StreamGraph_lifespan_begin(link_stream->underlying_stream_graph),
-						 StreamGraph_lifespan_end(link_stream->underlying_stream_graph));
+	return StreamGraph_lifespan(link_stream->underlying_stream_graph);
 }
 
 size_t LinkStream_scaling(StreamData* stream_data) {
@@ -126,12 +125,12 @@ typedef struct {
 
 Interval LinkStream_TimesNodePresent_next(TimesIterator* iter) {
 	TimesNodePresentIteratorData* times_iter_data = (TimesNodePresentIteratorData*)iter->iterator_data;
-	StreamGraph* stream_graph					  = iter->stream_graph.stream_data;
+	LinkStream* ls								  = iter->stream_graph.stream_data;
 	if (times_iter_data->has_been_called) {
 		return (Interval){.start = SIZE_MAX};
 	}
 	times_iter_data->has_been_called = true;
-	return Interval_from(StreamGraph_lifespan_begin(stream_graph), StreamGraph_lifespan_end(stream_graph));
+	return StreamGraph_lifespan(ls->underlying_stream_graph);
 }
 
 void LinkStream_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
@@ -233,8 +232,7 @@ double LS_coverage(Stream* stream_data) {
 
 size_t LS_cardinal_of_T(Stream* stream) {
 	LinkStream* ls = (LinkStream*)stream->stream_data;
-	size_t t	   = Interval_duration(Interval_from(StreamGraph_lifespan_begin(ls->underlying_stream_graph),
-													 StreamGraph_lifespan_end(ls->underlying_stream_graph)));
+	size_t t	   = Interval_duration(StreamGraph_lifespan(ls->underlying_stream_graph));
 	UPDATE_CACHE(stream, cardinalOfT, t);
 	return t;
 }

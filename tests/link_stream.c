@@ -32,7 +32,7 @@ bool test_nodes_present() {
 
 	NodeIdVector nodes_expected = SGA_collect_node_ids(funcs.nodes_set(ls.stream_data));
 	bool nodes_present			= true;
-	for (TimeId t = 0; t < StreamGraph_lifespan_end(&sg); t++) {
+	for (TimeId t = 0; t < StreamGraph_lifespan(&sg).end; t++) {
 		NodeIdVector nodes_present_at_t = SGA_collect_node_ids(funcs.nodes_present_at_t(ls.stream_data, t));
 		nodes_present &= EXPECT(NodeIdVector_equals(&nodes_present_at_t, &nodes_expected));
 		NodeIdVector_destroy(nodes_present_at_t);
@@ -50,7 +50,7 @@ bool test_nodes_presence() {
 	Stream ls			  = LS_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
-	Interval interval		 = Interval_from(StreamGraph_lifespan_begin(&sg), StreamGraph_lifespan_end(&sg));
+	Interval interval		 = StreamGraph_lifespan(&sg);
 	IntervalVector intervals = IntervalVector_with_capacity(1);
 	IntervalVector_push(&intervals, interval);
 

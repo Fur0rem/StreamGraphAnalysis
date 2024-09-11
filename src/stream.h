@@ -17,6 +17,7 @@ typedef struct {
 	TemporalNodesSet nodes;
 	LinksSet links;
 	EventsTable events;
+	Interval lifespan;
 	size_t scaling;
 } StreamGraph;
 
@@ -24,8 +25,9 @@ StreamGraph StreamGraph_from_string(const char* str);
 StreamGraph StreamGraph_from_file(const char* filename);
 String StreamGraph_to_string(StreamGraph* sg);
 void StreamGraph_destroy(StreamGraph sg);
-size_t StreamGraph_lifespan_begin(StreamGraph* sg);
-size_t StreamGraph_lifespan_end(StreamGraph* sg);
+// size_t StreamGraph_lifespan_begin(StreamGraph* sg);
+// size_t StreamGraph_lifespan_end(StreamGraph* sg);
+Interval StreamGraph_lifespan(StreamGraph* sg);
 void init_events_table(StreamGraph* sg);
 void events_destroy(StreamGraph* sg);
 char* InternalFormat_from_External_str(const char* str);

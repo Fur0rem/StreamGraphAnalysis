@@ -96,10 +96,7 @@ LinksIterator FullStreamGraph_links_set(StreamData* stream_data) {
 
 Interval FullStreamGraph_lifespan(StreamData* stream_data) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
-	return (Interval){
-		.start = StreamGraph_lifespan_begin(full_stream_graph->underlying_stream_graph),
-		.end   = StreamGraph_lifespan_end(full_stream_graph->underlying_stream_graph),
-	};
+	return full_stream_graph->underlying_stream_graph->lifespan;
 }
 
 size_t FullStreamGraph_scaling(StreamData* stream_data) {
