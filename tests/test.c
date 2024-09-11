@@ -61,7 +61,7 @@ EXPECT_EQ_DEFAULT(ptr, "%p")
 bool EXPECT_EQ_String(char* a, char* b) {
 	bool result = EXPECT(strcmp(a, b) == 0);
 	if (!result) {
-		printf("\t\t" TEXT_RED "Expected %s to be equal to %s" TEXT_RESET "\n", a, b);
+		printf("\t\t" TEXT_RED "Expected (Got) %s to be equal to (Expected) %s" TEXT_RESET "\n", a, b);
 	}
 	return result;
 }

@@ -72,7 +72,7 @@ char* get_to_header(const char* str, const char* header) {
 
 #define PRINT_LINE(str)                                                                                                \
 	{                                                                                                                  \
-		char* begin = (str);                                                                                           \
+		const char* begin = (str);                                                                                     \
 		while (*begin != '\n') {                                                                                       \
 			begin--;                                                                                                   \
 		}                                                                                                              \
@@ -1253,7 +1253,6 @@ size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, TimeId la
 
 char* InternalFormat_from_External_str(const char* str) {
 	char* current_header = "None";
-	int nb_scanned;
 
 	str = get_to_header(str, "[General]");
 

@@ -26,7 +26,8 @@ bool test(const char* suite_name, Test** tests);
 	bool EXPECT_EQ_##type(type a, type b) {                                                                            \
 		bool result = EXPECT((a) == (b));                                                                              \
 		if (!result) {                                                                                                 \
-			printf("\t\t" TEXT_RED "Expected " format " to be equal to " format TEXT_RESET "\n", a, b);                \
+			printf("\t\t" TEXT_RED "Expected (Got) " format " to be equal to (Expected) " format TEXT_RESET "\n", a,   \
+				   b);                                                                                                 \
 		}                                                                                                              \
 		return result;                                                                                                 \
 	}
@@ -35,7 +36,7 @@ bool test(const char* suite_name, Test** tests);
 	({                                                                                                                 \
 		bool result = EXPECT(F_EQUALS_APPROX(got, expected, eps));                                                     \
 		if (!result) {                                                                                                 \
-			printf("\t\t" TEXT_RED "Expected %f to be ~equal to %f" TEXT_RESET "\n", got, expected);                   \
+			printf("\t\t" TEXT_RED "Expected (Got) %f to be ~equal to (Expected) %f" TEXT_RESET "\n", got, expected);  \
 		}                                                                                                              \
 		else {                                                                                                         \
 			printf("\t\t" TEXT_GREEN "%f is ~equal to %f" TEXT_RESET "\n", got, expected);                             \

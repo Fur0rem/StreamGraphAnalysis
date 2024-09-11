@@ -1,7 +1,9 @@
 #include "../StreamGraphAnalysis.h"
 #include "test.h"
+#include <stdint.h>
 
-bool test_chunk_stream_nodes_set() {
+bool test_chunk_stream_nodes_and_links_set() {
+	bool result		   = true;
 	StreamGraph sg	   = StreamGraph_from_file("data/S.txt");
 	NodeIdVector nodes = NodeIdVector_with_capacity(2);
 	NodeIdVector_push(&nodes, 0);
@@ -13,23 +15,27 @@ bool test_chunk_stream_nodes_set() {
 	LinkIdVector_push(&links, 2);
 	LinkIdVector_push(&links, 3);
 
-	Stream st				 = CS_with(&sg, &nodes, &links, 0, 100);
-	StreamFunctions funcs	 = ChunkStream_stream_functions;
+	Stream st			  = CS_with(&sg, &nodes, &links, 0, 100);
+	StreamFunctions funcs = ChunkStream_stream_functions;
+
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
-	FOR_EACH_NODE(node_id, nodes_iter) {
-		printf("NODE %zu\n", node_id);
-	}
+	NodeIdVector nodes_vec	 = SGA_collect_node_ids(nodes_iter);
 
 	LinksIterator links_iter = funcs.links_set(st.stream_data);
-	FOR_EACH_LINK(link_id, links_iter) {
-		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
-	}
+	LinkIdVector links_vec	 = SGA_collect_link_ids(links_iter);
+
+	result &= EXPECT(NodeIdVector_len(&nodes_vec) == 2) && EXPECT(LinkIdVector_len(&links_vec) == 1);
+	result &= EXPECT(nodes_vec.array[0] == 0) && EXPECT(nodes_vec.array[1] == 2);
+	result &= EXPECT(EXPECT(sg.links.links[links_vec.array[0]].nodes[0] == 0) &&
+					 EXPECT(sg.links.links[links_vec.array[0]].nodes[1] == 2)) ||
+			  (EXPECT(sg.links.links[links_vec.array[0]].nodes[0] == 2) &&
+			   EXPECT(sg.links.links[links_vec.array[0]].nodes[1] == 0));
 
 	CS_destroy(st);
 	StreamGraph_destroy(sg);
 	NodeIdVector_destroy(nodes);
 	LinkIdVector_destroy(links);
-	return true;
+	return result;
 }
 
 bool test_neighbours_of_node_chunk_stream() {
@@ -202,7 +208,7 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_chunk_stream_nodes_set),
+		TEST(test_chunk_stream_nodes_and_links_set),
 		TEST(test_neighbours_of_node_chunk_stream),
 		TEST(test_times_node_present_chunk_stream),
 		TEST(test_times_node_present_chunk_stream_2),
