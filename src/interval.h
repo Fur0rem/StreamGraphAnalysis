@@ -58,4 +58,23 @@ void IntervalsSet_sort(IntervalsSet* intervals_set);
 
 Interval Interval_empty();
 bool Interval_is_empty(Interval interval);
+
+typedef struct {
+	enum {
+		OK,
+		EMPTY_INTERVALSET,
+		NO_MATCHING_OFFSET,
+	} result;
+	size_t offset;
+} SGA_Offset;
+
+SGA_Offset IntervalVector_offset_of(const IntervalVector* self, const IntervalVector* other);
+
+bool SGA_Offset_is_ok(SGA_Offset offset);
+
+bool SGA_Offset_is_empty(SGA_Offset offset);
+
+bool SGA_Offset_is_not_matching(SGA_Offset offset);
+
+size_t SGA_Offset_unwrap(SGA_Offset offset);
 #endif // INTERVAL_H

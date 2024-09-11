@@ -7,19 +7,131 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool areIsomorphic(size_t n, IntervalVector** graph1, IntervalVector** graph2);
+bool areIsomorphic(size_t n, IntervalVector** graph1, IntervalVector** graph2, const Stream* s1, const Stream* s2,
+				   NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2);
 bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2, int* mapping, bool* visited,
 					  int vertex);
 
 // FIXME: leakkkkkkks
-bool areIsomorphic(size_t n, IntervalVector** graph1, IntervalVector** graph2) {
+// TODO: switch to Laszlo Babai's algorithm
+// or VF2++ (https://blog.scientific-python.org/networkx/vf2pp/graph-iso-vf2pp/)
+// or Nauty (https://www3.cs.stonybrook.edu/~algorith/implement/nauty/implement.shtml)
+// https://mivia.unisa.it/wp-content/uploads/2013/05/foggia01.pdf
+// https://algorist.com/problems/Graph_Isomorphism.html
+
+bool check_node_times(const Stream* s1, const Stream* s2, IntervalVector** graph1, IntervalVector** graph2, size_t n,
+					  int* mapping, NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2) {
+	StreamFunctions fns1 = STREAM_FUNCS(fns1, s1);
+	StreamFunctions fns2 = STREAM_FUNCS(fns2, s2);
+
+	size_t global_offset = SIZE_MAX;
+
+	// For each link in the graph, check if the time is offset by a constant
+	for (size_t i = 0; i < n; i++) {
+		for (size_t j = 0; j < n; j++) {
+			if (i == j) {
+				continue;
+			}
+
+			IntervalVector* iv_og	  = &graph1[i][j];
+			IntervalVector* iv_mapped = &graph2[mapping[i]][mapping[j]];
+			SGA_Offset offset_res	  = IntervalVector_offset_of(iv_og, iv_mapped);
+
+			if (SGA_Offset_is_not_matching(offset_res)) {
+				printf("Link between node %zu and %zu have different times\n", i, j);
+				return false;
+			}
+			if (!SGA_Offset_is_empty(offset_res)) {
+				size_t offset = SGA_Offset_unwrap(offset_res);
+				if (global_offset == SIZE_MAX) {
+					global_offset = offset;
+				}
+				else if (global_offset != offset) {
+					printf("Link between node %zu and %zu have a different offset %zu\n", i, j, offset);
+					return false;
+				}
+				printf("Link between node %zu and %zu have offset %zu\n", i, j, offset);
+			}
+
+			size_t real_node_id_1 = node_to_id_map1.array[i];
+			size_t real_node_id_2 = node_to_id_map2.array[mapping[i]];
+
+			TimesIterator times_iter1 = fns1.times_node_present(s1->stream_data, real_node_id_1);
+			TimesIterator times_iter2 = fns2.times_node_present(s2->stream_data, real_node_id_2);
+
+			IntervalVector iv1 = SGA_collect_times(times_iter1);
+			IntervalVector iv2 = SGA_collect_times(times_iter2);
+
+			offset_res = IntervalVector_offset_of(&iv1, &iv2);
+			if (SGA_Offset_is_not_matching(offset_res)) {
+				printf("Times for node %zu and mapped %zu have different times\n", real_node_id_1, real_node_id_2);
+				return false;
+			}
+			if (!SGA_Offset_is_empty(offset_res)) {
+				size_t offset = SGA_Offset_unwrap(offset_res);
+				if (global_offset == SIZE_MAX) {
+					global_offset = offset;
+				}
+				else if (global_offset != offset) {
+					printf("Times for node %zu and mapped %zu have a different offset %zu\n", real_node_id_1,
+						   real_node_id_2, offset);
+					return false;
+				}
+				printf("Times for node %zu and mapped %zu have offset %zu\n", real_node_id_1, real_node_id_2, offset);
+			}
+		}
+	}
+
+	// Same offset for all nodes
+	// for (size_t i = 0; i < n; i++) {
+	// 	NodeId n1				  = n;
+	// 	NodeId n2				  = mapping[i];
+	// 	TimesIterator times_iter1 = fns1.times_node_present(s1->stream_data, n1);
+	// 	TimesIterator times_iter2 = fns2.times_node_present(s2->stream_data, n2);
+
+	// 	printf("Original times for node %zu : ", n1);
+	// 	FOR_EACH_TIME(interval, times_iter1) {
+	// 		printf("[%lu, %lu] ", interval.start, interval.end);
+	// 	}
+	// 	printf("\n");
+	// 	printf("Mapped times for node %zu : ", n2);
+	// 	FOR_EACH_TIME(interval, times_iter2) {
+	// 		printf("[%lu, %lu] ", interval.start, interval.end);
+	// 	}
+
+	// 	times_iter1		   = fns1.times_node_present(s1->stream_data, n1);
+	// 	times_iter2		   = fns2.times_node_present(s2->stream_data, n2);
+	// 	IntervalVector iv1 = SGA_collect_times(times_iter1);
+	// 	IntervalVector iv2 = SGA_collect_times(times_iter2);
+
+	// 	size_t offset = IntervalVector_offset_of(&iv1, &iv2);
+	// 	if (offset == SIZE_MAX) {
+	// 		return false;
+	// 	}
+	// 	else if (global_offset == SIZE_MAX) {
+	// 		global_offset = offset;
+	// 	}
+	// 	else if (global_offset != offset) {
+	// 		return false;
+	// 	}
+	// }
+
+	return true;
+}
+bool areIsomorphic(size_t n, IntervalVector** graph1, IntervalVector** graph2, const Stream* s1, const Stream* s2,
+				   NodeIdVector node_to_id_map1, NodeIdVector node_to_id_map2) {
 	int* mapping  = malloc(n * sizeof(int));
 	bool* visited = malloc(n * sizeof(bool));
 	for (int i = 0; i < n; i++) {
 		visited[i] = false;
 	}
 
-	return isIsomorphicUtil(n, graph1, graph2, mapping, visited, 0);
+	bool result = isIsomorphicUtil(n, graph1, graph2, mapping, visited, 0);
+	if (!result) {
+		return false;
+	}
+	// check node times
+	return check_node_times(s1, s2, graph1, graph2, n, mapping, node_to_id_map1, node_to_id_map2);
 }
 
 bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2, int* mapping, bool* visited,
@@ -30,30 +142,50 @@ bool isIsomorphicUtil(size_t n, IntervalVector** graph1, IntervalVector** graph2
 			for (int j = 0; j < n; j++) {
 				// String str1 = IntervalVector_to_string(&graph1[i][j]);
 				// String str2 = IntervalVector_to_string(&graph2[mapping[i]][mapping[j]]);
-				// printf("graph1[%d][%d] = %s, graph2[%d][%d] = %s  ", i, j, str1.data, mapping[i], mapping[j],
+				// printf("\ngraph1[%d][%d] = %s, graph2[%d][%d] = %s  ", i, j, str1.data, mapping[i], mapping[j],
 				// 	   str2.data);
-				if (IntervalVector_equals(&graph1[i][j], &graph2[mapping[i]][mapping[j]])) {
-					// printf("Same\n");
-					// return false;
-					continue;
+				SGA_Offset offset = IntervalVector_offset_of(&graph1[i][j], &graph2[mapping[i]][mapping[j]]);
+				// if (offset == SIZE_MAX) {
+				// 	// printf("Different\n");
+				// 	return false;
+				// }
+				if (SGA_Offset_is_not_matching(offset)) {
+					// printf("Different\n");
+					return false;
 				}
-				else {
-					// compare whether they are the same but offset by a constant
-					if (graph1[i][j].size != graph2[mapping[i]][mapping[j]].size) {
-						// printf("Different\n");
-						return false;
-					}
-					const size_t offset = graph2[mapping[i]][mapping[j]].array[0].start - graph1[i][j].array[0].start;
-					for (size_t k = 0; k < graph1[i][j].size; k++) {
-						size_t offset_k = graph2[mapping[i]][mapping[j]].array[k].start - graph1[i][j].array[k].start;
-						if (offset_k != offset) {
-							// printf("Different by offset : %zu != %zu\n", offset_k, offset);
-							return false;
-						}
-					}
-					// printf("Same\n");
-				}
-				// printf("Same\n");
+				// printf("offset = %zu\n", offset);
+				// if (IntervalVector_equals(&graph1[i][j], &graph2[mapping[i]][mapping[j]])) {
+				// 	// printf("Same\n");
+				// 	// return false;
+				// 	printf("Same because equals\n");
+				// 	continue;
+				// }
+				// else {
+				// 	// compare whether they are the same but offset by a constant
+				// 	if (graph1[i][j].size != graph2[mapping[i]][mapping[j]].size) {
+				// 		// printf("Different\n");
+				// 		return false;
+				// 	}
+				// 	const size_t offset = graph2[mapping[i]][mapping[j]].array[0].start -
+				// graph1[i][j].array[0].start; 	for (size_t k = 0; k < graph1[i][j].size; k++) { 		size_t
+				// offset_k = graph2[mapping[i]][mapping[j]].array[k].start - graph1[i][j].array[k].start; 		if
+				// (offset_k != offset) {
+				// 			// printf("Different by offset : %zu != %zu\n", offset_k, offset);
+				// 			return false;
+				// 		}
+				// 		size_t offset_k_end = graph2[mapping[i]][mapping[j]].array[k].end -
+				// graph1[i][j].array[k].end; 		if (offset_k_end != offset) {
+				// 			// printf("Different by offset end : %zu != %zu\n", offset_k_end, offset);
+				// 			return false;
+				// 		}
+				// 	}
+				// 	// printf("Same\n");
+				// }
+				// // if (IntervalVector_offset_of(&graph1[i][j], &graph2[mapping[i]][mapping[j]]) == SIZE_MAX) {
+				// // return false;
+				// // }
+
+				// printf("Same because good offset : %zu\n", offset);
 			}
 		}
 		return true;
@@ -199,7 +331,7 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 	// print_adjacency_matrix(nb_nodes_1, streamgraph1);
 	// print_adjacency_matrix(nb_nodes_2, streamgraph2);
 
-	if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2)) {
+	if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2)) {
 		// printf("The graphs are isomorphic.\n");
 		return true;
 	}
