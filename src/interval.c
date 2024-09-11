@@ -359,6 +359,7 @@ size_t SGA_Offset_unwrap(SGA_Offset offset) {
 		return offset.offset;
 	}
 	else {
+		// TODO: print stack trace
 		ASSERT(false);
 		return 0;
 	}
@@ -383,4 +384,27 @@ SGA_Offset IntervalVector_offset_of(const IntervalVector* self, const IntervalVe
 	}
 	// printf("we gud offset = %lu\n", offset);
 	return SGA_Offset_ok(offset);
+}
+
+SGA_Offset Interval_offset_of(const Interval* self, const Interval* other) {
+
+	bool self_is_empty	= Interval_is_empty(*self);
+	bool other_is_empty = Interval_is_empty(*other);
+	if (self_is_empty && other_is_empty) {
+		return SGA_Offset_empty();
+	}
+	// If one is empty and the other is not
+	else if (self_is_empty ^ other_is_empty) {
+		return SGA_Offset_does_not_match();
+	}
+
+	size_t offset_start = other->start - self->start;
+	size_t offset_end	= other->end - self->end;
+	printf("self = [%lu, %lu[, other = [%lu, %lu[\n", self->start, self->end, other->start, other->end);
+	printf("offset_start = %zu, offset_end = %zu\n", offset_start, offset_end);
+
+	if (offset_start != offset_end) {
+		return SGA_Offset_does_not_match();
+	}
+	return SGA_Offset_ok(offset_start);
 }

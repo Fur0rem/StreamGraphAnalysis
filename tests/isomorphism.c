@@ -136,6 +136,40 @@ bool test_isomorphism_different_node_times() {
 	return result;
 }
 
+bool test_isomorphism_not_constant_offset() {
+	StreamGraph sg1 = StreamGraph_from_external("data/L.txt");
+	Stream stream1	= FullStreamGraph_from(&sg1);
+
+	StreamGraph sg2 = StreamGraph_from_external("data/L_offset_but_one.txt");
+	Stream stream2	= FullStreamGraph_from(&sg2);
+
+	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+
+	StreamGraph_destroy(sg1);
+	StreamGraph_destroy(sg2);
+	FullStreamGraph_destroy(stream1);
+	FullStreamGraph_destroy(stream2);
+
+	return result;
+}
+
+bool test_different_lifespans() {
+	StreamGraph sg1 = StreamGraph_from_external("data/S_external.txt");
+	Stream stream1	= FullStreamGraph_from(&sg1);
+
+	StreamGraph sg2 = StreamGraph_from_external("data/S_external_different_lifespan.txt");
+	Stream stream2	= FullStreamGraph_from(&sg2);
+
+	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+
+	StreamGraph_destroy(sg1);
+	StreamGraph_destroy(sg2);
+	FullStreamGraph_destroy(stream1);
+	FullStreamGraph_destroy(stream2);
+
+	return result;
+}
+
 int main() {
 	Test* tests[] = {
 		TEST(test_equals),
@@ -145,6 +179,8 @@ int main() {
 		TEST(test_isomorphism_offset),
 		TEST(test_isomorphic_ids_scrambled),
 		TEST(test_isomorphism_different_node_times),
+		TEST(test_isomorphism_not_constant_offset),
+		TEST(test_different_lifespans),
 		NULL,
 	};
 
