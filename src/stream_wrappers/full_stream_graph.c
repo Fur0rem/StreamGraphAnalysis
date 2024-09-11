@@ -125,6 +125,7 @@ typedef struct {
 Interval FSG_TimesNodePresent_next(TimesIterator* iter) {
 	TimesNodePresentIteratorData* times_iter_data = (TimesNodePresentIteratorData*)iter->iterator_data;
 	TemporalNode* node							  = times_iter_data->node;
+	// printf("node : %p\n", node);
 	if (times_iter_data->current_interval >= node->presence.nb_intervals) {
 		return (Interval){.start = SIZE_MAX, .end = SIZE_MAX};
 	}
@@ -138,7 +139,12 @@ void FSG_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
 }
 
 TimesIterator FullStreamGraph_times_node_present(StreamData* stream_data, NodeId node_id) {
-	FullStreamGraph* full_stream_graph			= (FullStreamGraph*)stream_data;
+
+	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
+	if (node_id >= full_stream_graph->underlying_stream_graph->nodes.nb_nodes) {
+		fprintf(stderr, "Node %zu does not exist in the stream graph\n", node_id);
+	}
+
 	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	iterator_data->current_interval				= 0;
 	iterator_data->node							= &full_stream_graph->underlying_stream_graph->nodes.nodes[node_id];

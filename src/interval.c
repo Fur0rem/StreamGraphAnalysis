@@ -322,3 +322,65 @@ IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set) {
 		.array	  = intervals_set.intervals,
 	};
 }
+
+SGA_Offset SGA_Offset_does_not_match() {
+	return (SGA_Offset){
+		.result = NO_MATCHING_OFFSET,
+	};
+}
+
+SGA_Offset SGA_Offset_ok(size_t offset) {
+	return (SGA_Offset){
+		.result = OK,
+		.offset = offset,
+	};
+}
+
+SGA_Offset SGA_Offset_empty() {
+	return (SGA_Offset){
+		.result = EMPTY_INTERVALSET,
+	};
+}
+
+bool SGA_Offset_is_ok(SGA_Offset offset) {
+	return offset.result == OK;
+}
+
+bool SGA_Offset_is_empty(SGA_Offset offset) {
+	return offset.result == EMPTY_INTERVALSET;
+}
+
+bool SGA_Offset_is_not_matching(SGA_Offset offset) {
+	return offset.result == NO_MATCHING_OFFSET;
+}
+
+size_t SGA_Offset_unwrap(SGA_Offset offset) {
+	if (SGA_Offset_is_ok(offset)) {
+		return offset.offset;
+	}
+	else {
+		ASSERT(false);
+		return 0;
+	}
+}
+
+SGA_Offset IntervalVector_offset_of(const IntervalVector* self, const IntervalVector* other) {
+	if (self->size != other->size) {
+		return SGA_Offset_does_not_match();
+	}
+	if (self->size == 0) {
+		return SGA_Offset_empty();
+	}
+	size_t offset = other->array[0].start - self->array[0].start;
+	for (size_t i = 1; i < self->size; i++) {
+		// printf("offset = %lu\n", offset);
+		if ((other->array[i].start - self->array[i].start != offset) ||
+			(other->array[i].end - self->array[i].end != offset)) {
+			// printf("offset mismatch, found %zu || %zu\n", other->array[i].start - self->array[i].start,
+			//    other->array[i].end - self->array[i].end);
+			return SGA_Offset_does_not_match();
+		}
+	}
+	// printf("we gud offset = %lu\n", offset);
+	return SGA_Offset_ok(offset);
+}
