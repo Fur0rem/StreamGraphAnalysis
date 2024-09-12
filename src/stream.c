@@ -10,14 +10,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hashset.h"
+#include "generic_data_structures/hashset.h"
+#include "generic_data_structures/vector.h"
 #include "interval.h"
 #include "stream_functions.h"
 #include "stream_graph/events_table.h"
 #include "stream_graph/links_set.h"
 #include "units.h"
 #include "utils.h"
-#include "vector.h"
 
 char* get_to_header(const char* str, const char* header) {
 	if (str == NULL) {

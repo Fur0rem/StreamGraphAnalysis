@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include "utils.h"
+#include "../utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +32,8 @@
 	type type##Vector_pop_first(type##Vector* vec);                                                                    \
 	type type##Vector_pop_last(type##Vector* vec);                                                                     \
 	type type##Vector_pop_nth(type##Vector* vec, size_t idx);                                                          \
-	type type##Vector_pop_nth_swap(type##Vector* vec, size_t idx);
+	type type##Vector_pop_nth_swap(type##Vector* vec, size_t idx);                                                     \
+	void type##Vector_swap(type##Vector* vec, size_t idx1, size_t idx2);
 
 #define DefineVector(type)                                                                                             \
                                                                                                                        \
@@ -128,6 +129,14 @@
 		vec->array[idx] = vec->array[vec->size - 1];                                                                   \
 		vec->size--;                                                                                                   \
 		return value;                                                                                                  \
+	}                                                                                                                  \
+                                                                                                                       \
+	void type##Vector_swap(type##Vector* vec, size_t idx1, size_t idx2) {                                              \
+		ASSERT(idx1 < vec->size);                                                                                      \
+		ASSERT(idx2 < vec->size);                                                                                      \
+		type tmp		 = vec->array[idx1];                                                                           \
+		vec->array[idx1] = vec->array[idx2];                                                                           \
+		vec->array[idx2] = tmp;                                                                                        \
 	}
 
 /// Derives functions to the vector to remove elements, given a way to free the elements

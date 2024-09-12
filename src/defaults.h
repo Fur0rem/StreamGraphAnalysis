@@ -1,9 +1,10 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
-#include "hashset.h"
+#include "generic_data_structures/binary_heap.h"
+#include "generic_data_structures/hashset.h"
+#include "generic_data_structures/vector.h"
 #include "utils.h"
-#include "vector.h"
 #include <stddef.h>
 
 #define DeclareFullDerivedVector(T)                                                                                    \
@@ -36,10 +37,12 @@ DeclareCompare(size_t);
 DeclareToString(size_t);
 DeclareFullDerivedVector(size_t);
 DeclareFullDerivedHashset(size_t);
+DeclareBinaryHeap(size_t);
 
 DeclareCompare(int);
 DeclareToString(int);
 DeclareFullDerivedVector(int);
 DeclareFullDerivedHashset(int);
+DeclareBinaryHeap(int);
 
 #endif // DEFAULTS_H

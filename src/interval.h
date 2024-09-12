@@ -1,9 +1,9 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
+#include "generic_data_structures/vector.h"
 #include "units.h"
 #include "utils.h"
-#include "vector.h"
 #include <stdbool.h>
 #include <stddef.h>
 

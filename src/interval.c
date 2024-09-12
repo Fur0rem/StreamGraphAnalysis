@@ -1,7 +1,7 @@
 #include "interval.h"
 #include "defaults.h"
+#include "generic_data_structures/vector.h"
 #include "utils.h"
-#include "vector.h"
 #include <stddef.h>
 #include <stdint.h>
 

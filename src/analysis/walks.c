@@ -1,18 +1,18 @@
 #include "walks.h"
 #include "../arena.h"
 #include "../defaults.h"
-#include "../hashset.h"
+#include "../generic_data_structures/hashset.h"
 #include "../interval.h"
 #include "../iterators.h"
 #include "../stream.h"
 #include "../stream_functions.h"
 
 // For STREAM_FUNCS
+#include "../generic_data_structures/vector.h"
 #include "../metrics.h"
 #include "../stream_wrappers.h"
 #include "../units.h"
 #include "../utils.h"
-#include "../vector.h"
 
 #include <stdarg.h>
 #include <stdbool.h>

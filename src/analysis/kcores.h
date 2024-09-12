@@ -1,10 +1,10 @@
 #ifndef K_CORES_H
 #define K_CORES_H
 
+#include "../generic_data_structures/vector.h"
 #include "../interval.h"
 #include "../stream.h"
 #include "../utils.h"
-#include "../vector.h"
 #include "stddef.h"
 
 typedef struct {
