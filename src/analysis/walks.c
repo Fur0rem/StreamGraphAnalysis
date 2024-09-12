@@ -8,6 +8,7 @@
 #include "../stream_functions.h"
 
 // For STREAM_FUNCS
+#include "../generic_data_structures/binary_heap.h"
 #include "../generic_data_structures/vector.h"
 #include "../metrics.h"
 #include "../stream_wrappers.h"
@@ -218,9 +219,11 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
 	while (current_time != max_lifespan) {
+		printf("Current time in func: %zu\n", current_time);
 		size_t previous_time = current_time;
 		WalkInfo optimal	 = fn(stream, from, to, current_time);
 		WalkInfoVector_push(&walks, optimal);
+		printf("Optimal walk type: %s\n", WalkInfo_to_string(&optimal).data);
 		if (optimal.type == NO_WALK) {
 			NoWalkReason error = optimal.result.no_walk_reason;
 			if (error.type == NODE_ABSENT) {
@@ -231,8 +234,10 @@ WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, Node
 			}
 		}
 		else if (optimal.type == WALK) {
+			printf("Optimal walk found : %s\n", Walk_to_string(&optimal.result.walk).data);
 			Interval optimality = optimal.result.walk.optimality;
-			current_time		= optimality.end;
+			printf("Optimality: %zu -> %zu\n", optimality.start, optimality.end);
+			current_time = optimality.end;
 		}
 		if (current_time == previous_time) {
 			current_time++;
@@ -306,6 +311,26 @@ WalkInfo walk_exists(Walk walk) {
 	};
 }
 
+void node_can_still_appear(Stream* stream, NodeId node, TimeId current_time, Interval* current_node_present,
+						   Interval* next_appearance, bool* can_still_appear) {
+	StreamFunctions fns				 = STREAM_FUNCS(fns, stream);
+	TimesIterator times_node_present = fns.times_node_present(stream->stream_data, node);
+	*can_still_appear				 = false;
+
+	FOR_EACH_TIME(interval, times_node_present) {
+		if (Interval_contains(interval, current_time)) {
+			*current_node_present = interval;
+			*can_still_appear	  = true;
+			BREAK_ITER(times_node_present);
+		}
+		else if (interval.start > current_time) {
+			*next_appearance  = interval;
+			*can_still_appear = true;
+			BREAK_ITER(times_node_present);
+		}
+	}
+}
+
 // Minimal number of hops between two nodes
 // Uses buffering to avoid reallocating memory
 void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeId to, TimeId at, WalkInfo* result,
@@ -335,7 +360,7 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 		current_time	  = current_info.time;
 
 		// get for how long the node is present
-		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
+		/*TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
 		Interval current_node_present	 = Interval_empty();
 		Interval next_appearance		 = Interval_from(current_time, max_lifespan);
 		bool can_still_appear			 = false;
@@ -352,6 +377,22 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 				BREAK_ITER(times_node_present);
 			}
 		}
+
+		if (!can_still_appear) {
+			*result = node_absent_between(Interval_from(current_time, max_lifespan));
+			return;
+		}
+
+		if (Interval_is_empty(current_node_present)) {
+			*result = node_absent_between(Interval_from(current_time, next_appearance.start));
+			return;
+		}*/
+
+		Interval current_node_present = Interval_empty();
+		Interval next_appearance	  = Interval_from(current_time, max_lifespan);
+		bool can_still_appear		  = false;
+		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance,
+							  &can_still_appear);
 
 		if (!can_still_appear) {
 			*result = node_absent_between(Interval_from(current_time, max_lifespan));
@@ -490,17 +531,20 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		current_time	  = current_info.time;
 
 		// Get for how long the node is present
-		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
-		Interval current_node_present	 = Interval_empty();
-		FOR_EACH_TIME(interval, times_node_present) {
-			if (Interval_contains(interval, current_time)) {
-				current_node_present = interval;
-				BREAK_ITER(times_node_present);
-			}
+		Interval current_node_present = Interval_empty();
+		Interval next_appearance	  = Interval_from(current_time, max_lifespan);
+		bool can_still_appear		  = false;
+		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance,
+							  &can_still_appear);
+
+		if (!can_still_appear) {
+			result = node_absent_between(Interval_from(current_time, max_lifespan));
+			return result;
 		}
+
 		if (Interval_is_empty(current_node_present)) {
-			result = node_absent_between(current_node_present);
-			goto cleanup_and_return;
+			result = node_absent_between(Interval_from(current_time, next_appearance.start));
+			return result;
 		}
 
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
@@ -594,7 +638,7 @@ struct DijkstraState {
 };
 
 bool DijkstraState_equals(DijkstraState* a, DijkstraState* b) {
-	return a->node == b->node && a->time == b->time && a->number_of_jumps == b->number_of_jumps;
+	return a->node == b->node && a->time == b->time;
 }
 
 String DijkstraState_to_string(DijkstraState* state) {
@@ -637,56 +681,63 @@ DefineHashsetDeriveRemove(DijkstraState, NO_FREE(DijkstraState));
 DefineHashsetDeriveEquals(DijkstraState);
 DefineHashsetDeriveToString(DijkstraState);
 
-typedef struct {
-	DijkstraStateVector nodes;
-} BinaryHeap;
+// typedef struct {
+// 	DijkstraStateVector nodes;
+// } BinaryHeap;
 
-BinaryHeap BinaryHeap_init() {
-	return (BinaryHeap){
-		.nodes = DijkstraStateVector_with_capacity(1),
-	};
-}
+// BinaryHeap BinaryHeap_init() {
+// 	return (BinaryHeap){
+// 		.nodes = DijkstraStateVector_with_capacity(1),
+// 	};
+// }
 
 // OPTIMISE: do an actual heap dumbass
-void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
-	DijkstraStateVector_push(&heap->nodes, state);
-	// sort the heap
-	DijkstraStateVector_sort(&heap->nodes);
-}
+// void BinaryHeap_push(BinaryHeap* heap, DijkstraState state) {
+// 	DijkstraStateVector_push(&heap->nodes, state);
+// 	// sort the heap
+// 	DijkstraStateVector_sort(&heap->nodes);
+// }
 
-DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
-	DijkstraState result = heap->nodes.array[0];
-	DijkstraStateVector_remove(&heap->nodes, 0);
-	return result;
-}
+// DijkstraState BinaryHeap_pop(BinaryHeap* heap) {
+// 	DijkstraState result = heap->nodes.array[0];
+// 	DijkstraStateVector_remove(&heap->nodes, 0);
+// 	return result;
+// }
 
-bool BinaryHeap_is_empty(BinaryHeap* heap) {
-	return heap->nodes.size == 0;
-}
+// bool BinaryHeap_is_empty(BinaryHeap* heap) {
+// 	return heap->nodes.size == 0;
+// }
 
-void BinaryHeap_destroy(BinaryHeap heap) {
-	DijkstraStateVector_destroy(heap.nodes);
-}
+// void BinaryHeap_destroy(BinaryHeap heap) {
+// 	DijkstraStateVector_destroy(heap.nodes);
+// }
 
-String BinaryHeap_to_string(BinaryHeap* heap) {
-	return DijkstraStateVector_to_string(&heap->nodes);
-}
+// String BinaryHeap_to_string(BinaryHeap* heap) {
+// 	return DijkstraStateVector_to_string(&heap->nodes);
+// }
+
+DeclareBinaryHeap(DijkstraState);
+DefineBinaryHeap(DijkstraState);
 
 // Dijkstra's algorithm to find the minimum delay between two nodes
 // Its also the shortest fastest
 // OPTIMISE: preallocated memory of previouses like the other funcs
 WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) {
+	ASSERT(from != to);
+
 	WalkInfo result;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
+
+	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
 
 	// ArenaVector arena = ArenaVector_init();
 	Arena arena = Arena_init();
 
 	// Initialize the queue with the starting node
-	BinaryHeap queue	= BinaryHeap_init();
-	DijkstraState start = {from, at, 0, .previous = NULL};
-	BinaryHeap_push(&queue, start);
+	DijkstraStateBinaryHeap queue = DijkstraStateBinaryHeap_with_capacity(10);
+	DijkstraState start			  = {from, at, 0, .previous = NULL};
+	DijkstraStateBinaryHeap_insert(&queue, start);
 
 	NodeId current_candidate = from;
 	DijkstraState current_info;
@@ -696,36 +747,43 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	// size_t depth_found = SIZE_MAX;
 	DijkstraStateHashset explored = DijkstraStateHashset_with_capacity(50);
 
-	while ((!BinaryHeap_is_empty(&queue)) && (current_candidate != to)) {
-		// Get the next node from the queue
-		String heap_str = BinaryHeap_to_string(&queue);
-		// printf("Heap : %s\n", heap_str.data);
-		String_destroy(heap_str);
+	while ((!DijkstraStateBinaryHeap_is_empty(&queue)) && (current_candidate != to)) {
 
-		current_info = BinaryHeap_pop(&queue);
-		if (DijkstraStateHashset_contains(explored, (DijkstraState){current_info.node, current_info.time})) {
+		current_info = DijkstraStateBinaryHeap_pop(&queue);
+
+		// printf("Current info : %s\n", DijkstraState_to_string(&current_info).data);
+
+		bool inserted =
+			DijkstraStateHashset_insert(&explored, (DijkstraState){.node			= current_info.node,
+																   .number_of_jumps = current_info.number_of_jumps,
+																   .time			= current_info.time});
+
+		if (!inserted) {
 			continue;
 		}
-		DijkstraStateHashset_insert(&explored, (DijkstraState){current_info.node, current_info.time});
+		// printf("Inserted : %d\n", inserted);
+		// printf("Inserting %s\n", DijkstraState_to_string(&current_info).data);
+		// printf("Explored : %s\n", DijkstraStateHashset_to_string(&explored).data);
 
 		current_candidate = current_info.node;
 		current_time	  = current_info.time;
 
 		// Get for how long the node is present
-		TimesIterator times_node_present = fns.times_node_present(stream->stream_data, current_candidate);
-		Interval current_node_present	 = Interval_empty();
-		FOR_EACH_TIME(interval, times_node_present) {
-			if (Interval_contains(interval, current_time)) {
-				current_node_present = interval;
-				BREAK_ITER(times_node_present);
-			}
-		}
+		Interval current_node_present = Interval_empty();
+		Interval next_appearance	  = Interval_from(current_time, max_lifespan);
+		bool can_still_appear		  = false;
+		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance,
+							  &can_still_appear);
 
-		if (Interval_is_empty(current_node_present)) {
-			result = node_absent_between(current_node_present);
+		if (!can_still_appear) {
+			result = node_absent_between(Interval_from(current_time, max_lifespan));
 			goto cleanup_and_return;
 		}
 
+		if (Interval_is_empty(current_node_present)) {
+			result = node_absent_between(Interval_from(current_time, next_appearance.start));
+			goto cleanup_and_return;
+		}
 		// Get its neighbors
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
@@ -750,7 +808,8 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 					TimeId time_crossed			= can_cross_now ? current_time : interval.start;
 					DijkstraState neighbor_info = {neighbor_id, time_crossed, current_info.number_of_jumps + 1,
 												   .previous = previous};
-					BinaryHeap_push(&queue, neighbor_info);
+					DijkstraStateBinaryHeap_insert(&queue, neighbor_info);
+					// printf("Inserting neighbor info : %s\n", DijkstraState_to_string(&neighbor_info).data);
 				}
 			}
 		}
@@ -768,7 +827,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		}
 	}
 
-	if (BinaryHeap_is_empty(&queue)) {
+	if (DijkstraStateBinaryHeap_is_empty(&queue)) {
 		result = unreachable_after(at);
 		goto cleanup_and_return;
 	}
@@ -789,9 +848,9 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		// char* str = DijkstraState_to_string(current_walk);
 		// printf("Current walk : %s\n", str);
 		// free(str);
-		String str = DijkstraState_to_string(current_walk);
+		// String str = DijkstraState_to_string(current_walk);
 		// printf("Current walk : %s\n", str.data);
-		String_destroy(str);
+		// String_destroy(str);
 		DijkstraState* previous = current_walk->previous;
 		NodeId previous_node	= previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
@@ -829,7 +888,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 	// printf("Walk : %s\n", Walk_to_string(&result.result.walk).data);
 
 cleanup_and_return:
-	BinaryHeap_destroy(queue);
+	DijkstraStateBinaryHeap_destroy(queue);
 	DijkstraStateHashset_destroy(explored);
 	Arena_destroy(arena);
 	return result;

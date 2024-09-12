@@ -9,6 +9,21 @@ DONT_OPTIMISE void robustness_by_length() {
 	Stream_robustness_by_length(&stream);
 }
 
+DONT_OPTIMISE void fastest() {
+	MetricsFunctions fns = FullStreamGraph_metrics_functions;
+	size_t nb_nodes		 = fns.cardinalOfV(&stream);
+	for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t j = 0; j < nb_nodes; j++) {
+			if (i == j) {
+				continue;
+			}
+			printf("Optimal walks between %zu and %zu\n", i, j);
+			WalkInfoVector optimal_walks = optimal_walks_between_two_nodes(&stream, i, j, Stream_fastest_walk);
+			WalkInfoVector_destroy(optimal_walks);
+		}
+	}
+}
+
 int main() {
 	StreamGraph sg;
 	sg	   = StreamGraph_from_external("data/S_external.txt");
@@ -25,6 +40,7 @@ int main() {
 
 	sg	   = StreamGraph_from_external("data/LS_90.txt");
 	stream = FullStreamGraph_from(&sg);
+	benchmark(fastest, "fastest LS_90", 1);
 	benchmark(robustness_by_length, "robustness_by_length LS_90", 1);
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(stream);
