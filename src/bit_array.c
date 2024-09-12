@@ -111,9 +111,13 @@ String BitArray_to_string(const BitArray* array) {
 
 	const size_t capacity = (nb_slices(array->nb_bits) * SLICE_SIZE_IN_BITS) + 1;
 
-	// NOTE: Valgrind doesn't support aligned_alloc but I tried with malloc and it works
-	// And we need to align the memory to have it aligned on uint32_t to copy 4 bytes at once
+// NOTE: Valgrind doesn't support aligned_alloc but I tried with malloc and it works
+// And we need to align the memory to have it aligned on uint32_t to copy 4 bytes at once
+#ifdef DEBUG
+	char* str = MALLOC(capacity);
+#else
 	char* str = aligned_alloc(copy_step, capacity);
+#endif
 
 	for (size_t i = 0; i < nb_slices(array->nb_bits) - 1; i++) {
 		// gcc t'es con MASK_SIZE c'est sizeof(BitArraySlice) mais il veut pas sinon "VaRiABle LeNGtH ArRAyS" meme si
@@ -130,8 +134,12 @@ String BitArray_to_string(const BitArray* array) {
 
 		for (size_t j = 0; j < SLICE_SIZE_IN_BITS / copy_step; j++) {
 			size_t offset = i * SLICE_SIZE_IN_BITS + j * copy_step;
+#ifdef DEBUG
+			memcpy(str + offset, HEXA_TO_BIN_CHARS[bytes[j]], copy_step);
+#else
 			uint32_t* ptr = (uint32_t*)(str + offset);
 			*ptr		  = *(uint32_t*)HEXA_TO_BIN_CHARS[bytes[j]];
+#endif
 		}
 	}
 
