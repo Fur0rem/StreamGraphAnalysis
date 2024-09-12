@@ -390,8 +390,10 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	biggest_node_id++; // OPTIMISE: memory waste, maybe do a node_id to index mapping
 
 	KCoreDataVector* k_cores_datas = MALLOC(sizeof(KCoreDataVector) * biggest_node_id);
+	KCoreDataVector* next_k_cores  = MALLOC(sizeof(KCoreDataVector) * biggest_node_id);
 	for (size_t i = 0; i < biggest_node_id; i++) {
 		k_cores_datas[i] = KCoreDataVector_new();
+		next_k_cores[i]	 = KCoreDataVector_new();
 	}
 
 	// Add all the stream data at the beginning (0-core)
@@ -451,11 +453,6 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 			}
 		}
 
-		KCoreDataVector* newer_k_cores_datas = MALLOC(sizeof(KCoreDataVector) * biggest_node_id);
-		for (size_t i = 0; i < biggest_node_id; i++) {
-			newer_k_cores_datas[i] = KCoreDataVector_new();
-		}
-
 		// for (size_t i = 0; i < k_cores.size; i++) {
 		// 	if (k_cores.array[i].neighbours.size >= degree) {
 		// 		for (size_t j = 0; j < k_cores.array[i].neighbours.size; j++) {
@@ -490,7 +487,7 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 							intervals[k_cores_datas[i].array[j].neighbours.array[k]], k_cores_datas[i].array[j].time);
 
 						for (size_t l = 0; l < inter.nb_intervals; l++) {
-							KCores_add(&newer_k_cores_datas[i], inter.intervals[l],
+							KCores_add(&next_k_cores[i], inter.intervals[l],
 									   k_cores_datas[i].array[j].neighbours.array[k]);
 						}
 
@@ -522,8 +519,8 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		bool stable				  = true;
 		size_t stopped_merging_at = 0;
 		for (size_t i = 0; i < biggest_node_id; i++) {
-			KCoreDataVector_merge(&newer_k_cores_datas[i]);
-			if (!KCoreDataVector_equals(&k_cores_datas[i], &newer_k_cores_datas[i])) {
+			KCoreDataVector_merge(&next_k_cores[i]);
+			if (!KCoreDataVector_equals(&k_cores_datas[i], &next_k_cores[i])) {
 				stable			   = false;
 				stopped_merging_at = i;
 				break;
@@ -532,23 +529,30 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 		if (stable) {
 			for (size_t i = 0; i < biggest_node_id; i++) {
-				KCoreDataVector_destroy(newer_k_cores_datas[i]);
+				KCoreDataVector_destroy(next_k_cores[i]);
 			}
-			free(newer_k_cores_datas);
+			free(next_k_cores);
 			break;
 		}
 		else {
 			for (size_t i = stopped_merging_at + 1; i < biggest_node_id; i++) {
-				KCoreDataVector_merge(&newer_k_cores_datas[i]);
+				KCoreDataVector_merge(&next_k_cores[i]);
 			}
 		}
 
-		for (size_t i = 0; i < biggest_node_id; i++) {
-			KCoreDataVector_destroy(k_cores_datas[i]);
-		}
-		free(k_cores_datas);
+		// for (size_t i = 0; i < biggest_node_id; i++) {
+		// 	KCoreDataVector_destroy(k_cores_datas[i]);
+		// }
+		// free(k_cores_datas);
 
-		k_cores_datas = newer_k_cores_datas;
+		// k_cores_datas = newer_k_cores_datas;
+
+		for (size_t i = 0; i < biggest_node_id; i++) {
+			KCoreDataVector_clear(&k_cores_datas[i]);
+		}
+		KCoreDataVector* tmp = k_cores_datas;
+		k_cores_datas		 = next_k_cores;
+		next_k_cores		 = tmp;
 
 		// KCoreDataVector_destroy(k_cores);
 		// k_cores = newer_k_cores;

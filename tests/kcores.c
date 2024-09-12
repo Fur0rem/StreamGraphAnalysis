@@ -81,10 +81,6 @@ bool test_k_cores_chunk() {
 	og_kcore_2.nodes.array[1].node_id = 2;
 	og_kcore_2.nodes.array[2].node_id = 4;
 	og_kcore_2.nodes.array[3].node_id = 6;
-	og_kcore_3.nodes.array[0].node_id = 0;
-	og_kcore_3.nodes.array[1].node_id = 2;
-	og_kcore_3.nodes.array[2].node_id = 4;
-	og_kcore_3.nodes.array[3].node_id = 6;
 
 	bool result = true;
 	result &= EXPECT(KCore_equals(&kcore_1, &og_kcore_1));

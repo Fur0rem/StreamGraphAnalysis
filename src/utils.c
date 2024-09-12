@@ -113,7 +113,7 @@ void String_append_formatted(String* string, const char* format, ...) {
 	va_start(args, format);
 	size_t len = vsnprintf(NULL, 0, format, args);
 	va_end(args);
-	char* buffer = malloc(len + 1);
+	char* buffer = MALLOC(len + 1);
 	va_start(args, format);
 	vsnprintf(buffer, len + 1, format, args);
 	va_end(args);
