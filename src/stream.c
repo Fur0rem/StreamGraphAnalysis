@@ -324,6 +324,7 @@ StreamGraph StreamGraph_from_string(const char* str) {
 		EXPECT_AND_MOVE(new_ptr, '\n');
 		str = new_ptr;
 
+		// printf("moments_in_slice : %zu\n", moments_in_slice);
 		KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
 	}
 
@@ -680,6 +681,13 @@ bool LinkIdMap_equals(LinkIdMap* map1, LinkIdMap* map2) {
 DeclareVector(LinkIdMap);
 DefineVector(LinkIdMap);
 DeclareHashset(LinkIdMap);
+
+String LinkIdMap_to_string(LinkIdMap* map) {
+	char* str = (char*)malloc(50);
+	sprintf(str, "(%zu %zu) %zu", map->nodes[0], map->nodes[1], map->id);
+	return String_from_owned(str);
+}
+
 DefineHashset(LinkIdMap);
 
 DefineVectorDeriveRemove(size_tHashset, size_tHashset_destroy);
