@@ -148,3 +148,41 @@ LinkIdVector SGA_collect_link_ids(LinksIterator links) {
 	}
 	return link_ids;
 }
+
+typedef struct {
+	NodesIterator* iter;
+	bool (*predicate)(NodeId);
+} FilteredNodesIteratorData;
+
+NodeId NodesIterator_filtered_next(NodesIterator* iter) {
+	FilteredNodesIteratorData* data = (FilteredNodesIteratorData*)iter->iterator_data;
+	NodeId node						= data->iter->next(data->iter);
+	while (node != NODES_ITERATOR_END) {
+		if (data->predicate(node)) {
+			return node;
+		}
+		node = data->iter->next(data->iter);
+	}
+	return NODES_ITERATOR_END;
+}
+
+void NodesIterator_filtered_destroy(NodesIterator* iter) {
+	FilteredNodesIteratorData* data = (FilteredNodesIteratorData*)iter->iterator_data;
+	data->iter->destroy(data->iter);
+	free(data);
+}
+
+NodesIterator NodesIterator_filtered(NodesIterator iter, bool (*predicate)(NodeId)) {
+	FilteredNodesIteratorData* data = MALLOC(sizeof(FilteredNodesIteratorData));
+	data->iter						= &iter;
+	data->predicate					= predicate;
+
+	NodesIterator filtered = {
+		.stream_graph  = iter.stream_graph,
+		.iterator_data = data,
+		.next		   = NodesIterator_filtered_next,
+		.destroy	   = NodesIterator_filtered_destroy,
+	};
+
+	return filtered;
+}

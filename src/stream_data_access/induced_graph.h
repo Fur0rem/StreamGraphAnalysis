@@ -6,8 +6,8 @@
  * @brief Functions to get the nodes and links present at a given time in a StreamGraph.
  */
 
-#include "iterators.h"
-#include "stream.h"
+#include "../iterators.h"
+#include "../stream.h"
 #include <stddef.h>
 
 /**
@@ -16,7 +16,7 @@
  * @param[in] t The time.
  * @return An iterator over the nodes present at the given time in the given StreamGraph.
  */
-NodesIterator get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t);
+NodesIterator StreamGraph_nodes_present_at(StreamGraph* stream_graph, TimeId t);
 
 /**
  * @brief The data of the iterator over the nodes present at a given time in a StreamGraph.
@@ -32,7 +32,7 @@ typedef struct {
  * @param[in] t The time.
  * @return An iterator over the links present at the given time in the given StreamGraph.
  */
-LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t);
+LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t);
 
 /**
  * @brief The data of the iterator over the links present at a given time in a StreamGraph.

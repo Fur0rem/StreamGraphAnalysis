@@ -23,7 +23,7 @@ typedef struct {
 
 	LinksIterator (*neighbours_of_node)(StreamData*, NodeId);
 	// TODO: rename to link_between_nodes (singular)
-	LinkId (*links_between_nodes)(StreamData*, NodeId, NodeId);
+	LinkId (*link_between_nodes)(StreamData*, NodeId, NodeId);
 } StreamFunctions;
 
 #define STREAM_FUNCS(variable, stream_var)                                                                             \
@@ -74,6 +74,6 @@ Link Stream_link_by_id(Stream* stream, size_t link_id);
 TemporalNode Stream_node_by_id(Stream* stream, size_t node_id);
 
 LinksIterator Stream_neighbours_of_node(Stream* stream, NodeId node_id);
-LinkId Stream_links_between_nodes(Stream* stream, NodeId node_id, NodeId other_node_id);
+LinkId Stream_link_between_nodes(Stream* stream, NodeId node_id, NodeId other_node_id);
 
 #endif // STREAM_FUNCTIONS_H

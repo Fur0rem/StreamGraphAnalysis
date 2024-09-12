@@ -1,5 +1,4 @@
 #include "metrics.h"
-#include "induced_graph.h"
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
@@ -375,7 +374,7 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 			size_t t_uv_vw			  = total_time_of(times_uv_vw);
 			sum_den += t_uv_vw;
 
-			LinkId uw = fns.links_between_nodes(stream->stream_data, u, w);
+			LinkId uw = fns.link_between_nodes(stream->stream_data, u, w);
 			if (uw == SIZE_MAX) {
 				continue;
 			}
@@ -433,7 +432,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 					continue;
 				}
 
-				LinkId uw = fns.links_between_nodes(stream->stream_data, u, w);
+				LinkId uw = fns.link_between_nodes(stream->stream_data, u, w);
 
 				TimesIterator times_uv		= fns.times_link_present(stream->stream_data, uv);
 				TimesIterator times_vw		= fns.times_link_present(stream->stream_data, vw);

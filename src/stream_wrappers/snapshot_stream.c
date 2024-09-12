@@ -2,6 +2,10 @@
 #include "chunk_stream.h"
 #include "full_stream_graph.h" // TODO : switch with interval for interval filtering
 
+#include "../stream_data_access/induced_graph.h"
+#include "../stream_data_access/link_access.h"
+#include "../stream_data_access/node_access.h"
+
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -36,17 +40,15 @@ typedef struct {
 
 // TODO: this leaks memory from the allocated streamgraph
 NodesIterator SnapshotStream_nodes_set(StreamData* stream_data) {
-	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	Stream full_stream_graph		= FullStreamGraph_from(snapshot_stream->underlying_stream_graph);
-	FullStreamGraph* fsg			= (FullStreamGraph*)full_stream_graph.stream_data;
-	return FullStreamGraph_stream_functions.nodes_set(fsg);
+	SnapshotStream* snap	  = (SnapshotStream*)stream_data;
+	StreamGraph* stream_graph = snap->underlying_stream_graph;
+	return StreamGraph_nodes_set(stream_graph);
 }
 
 LinksIterator SnapshotStream_links_set(StreamData* stream_data) {
-	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	Stream full_stream_graph		= FullStreamGraph_from(snapshot_stream->underlying_stream_graph);
-	FullStreamGraph* fsg			= (FullStreamGraph*)full_stream_graph.stream_data;
-	return FullStreamGraph_stream_functions.links_set(fsg);
+	SnapshotStream* snap	  = (SnapshotStream*)stream_data;
+	StreamGraph* stream_graph = snap->underlying_stream_graph;
+	return StreamGraph_links_set(stream_graph);
 }
 
 Interval SnapshotStream_lifespan(StreamData* stream_data) {
@@ -56,36 +58,37 @@ Interval SnapshotStream_lifespan(StreamData* stream_data) {
 
 size_t SnapshotStream_scaling(StreamData* stream_data) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	return snapshot_stream->underlying_stream_graph->scaling;
+	return StreamGraph_scaling(snapshot_stream->underlying_stream_graph);
 }
-
-typedef struct {
-	NodeId node_to_get_neighbours;
-	NodeId current_neighbour;
-} SSS_NeighboursOfNodeIteratorData;
 
 NodesIterator SnapshotStream_nodes_present_at_t(StreamData* stream_data, TimeId instant) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	Stream full_stream_graph		= FullStreamGraph_from(snapshot_stream->underlying_stream_graph);
-	FullStreamGraph* fsg			= (FullStreamGraph*)full_stream_graph.stream_data;
-	return FullStreamGraph_stream_functions.nodes_present_at_t(fsg, instant);
+	StreamGraph* stream_graph		= snapshot_stream->underlying_stream_graph;
+
+	ASSERT(Interval_contains(snapshot_stream->snapshot, instant));
+
+	return StreamGraph_nodes_present_at(stream_graph, instant);
 }
 
 LinksIterator SnapshotStream_links_present_at_t(StreamData* stream_data, TimeId instant) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	Stream full_stream_graph		= FullStreamGraph_from(snapshot_stream->underlying_stream_graph);
-	FullStreamGraph* fsg			= (FullStreamGraph*)full_stream_graph.stream_data;
-	return FullStreamGraph_stream_functions.links_present_at_t(fsg, instant);
+	StreamGraph* stream_graph		= snapshot_stream->underlying_stream_graph;
+
+	ASSERT(Interval_contains(snapshot_stream->snapshot, instant));
+
+	return StreamGraph_links_present_at(stream_graph, instant);
 }
 
 LinksIterator SnapshotStream_neighbours_of_node(StreamData* stream_data, NodeId node) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	Stream full_stream_graph		= FullStreamGraph_from(snapshot_stream->underlying_stream_graph);
-	FullStreamGraph* fsg			= (FullStreamGraph*)full_stream_graph.stream_data;
-	LinksIterator links_iterator	= FullStreamGraph_stream_functions.neighbours_of_node(fsg, node);
-	return links_iterator;
+	StreamGraph* stream_graph		= snapshot_stream->underlying_stream_graph;
+
+	ASSERT(node < stream_graph->nodes.nb_nodes);
+
+	return StreamGraph_neighbours_of_node(stream_graph, node);
 }
 
+// TODO: maybe switch to map and filter when those are done?
 typedef struct {
 	size_t current_time;
 	size_t current_id;
@@ -178,7 +181,7 @@ TimesIterator SnapshotStream_times_link_present(StreamData* stream_data, LinkId 
 
 Link SnapshotStream_link_by_id(StreamData* stream_data, size_t link_id) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
-	return snapshot_stream->underlying_stream_graph->links.links[link_id];
+	return StreamGraph_link_by_id(snapshot_stream->underlying_stream_graph, link_id);
 }
 
 const StreamFunctions SnapshotStream_stream_functions = {

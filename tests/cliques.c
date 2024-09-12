@@ -1,5 +1,4 @@
 #include "../src/analysis/cliques.h"
-#include "../src/induced_graph.h"
 #include "../src/stream.h"
 #include "../src/stream_wrappers.h"
 #include "../src/units.h"
