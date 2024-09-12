@@ -1,6 +1,6 @@
 #include "arena.h"
+#include "generic_data_structures/vector.h"
 #include "utils.h"
-#include "vector.h"
 
 InnerArena InnerArena_init() {
 	InnerArena arena = {

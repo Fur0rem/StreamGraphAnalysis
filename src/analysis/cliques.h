@@ -1,11 +1,11 @@
 #ifndef CLIQUES_H
 #define CLIQUES_H
 
+#include "../generic_data_structures/vector.h"
 #include "../stream.h"
 #include "../stream_graph/links_set.h"
 #include "../units.h"
 #include "../utils.h"
-#include "../vector.h"
 #include <stdbool.h>
 
 typedef struct Clique Clique;

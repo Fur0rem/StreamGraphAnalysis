@@ -12,10 +12,10 @@
  * The metrics documentation have been split per section of the paper and ordered in the same order as in the paper.
  */
 
+#include "generic_data_structures/vector.h"
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
-#include "vector.h"
 #include <stddef.h>
 
 /**

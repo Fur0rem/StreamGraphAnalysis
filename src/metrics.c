@@ -1,4 +1,5 @@
 #include "metrics.h"
+#include "generic_data_structures/vector.h"
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
@@ -8,7 +9,6 @@
 #include "stream_wrappers.h"
 #include "units.h"
 #include "utils.h"
-#include "vector.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>

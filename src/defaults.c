@@ -1,7 +1,6 @@
 #include "defaults.h"
-#include "hashset.h"
+#include "generic_data_structures/binary_heap.h"
 #include "utils.h"
-#include "vector.h"
 #include <stddef.h>
 
 DEFAULT_COMPARE(size_t);
@@ -14,6 +13,7 @@ size_t size_t_hash(size_t* value) {
 }
 
 DefineFullDerivedHashset(size_t, NO_FREE(size_t));
+DefineBinaryHeap(size_t);
 
 DEFAULT_COMPARE(int);
 DEFAULT_EQUALS(int);
@@ -25,3 +25,4 @@ size_t int_hash(int* value) {
 }
 
 DefineFullDerivedHashset(int, NO_FREE(int));
+DefineBinaryHeap(int);

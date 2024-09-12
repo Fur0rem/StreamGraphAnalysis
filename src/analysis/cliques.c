@@ -1,7 +1,8 @@
 #include "cliques.h"
 #include "../bit_array.h"
 #include "../defaults.h"
-#include "../hashset.h"
+#include "../generic_data_structures/hashset.h"
+#include "../generic_data_structures/vector.h"
 #include "../interval.h"
 #include "../iterators.h"
 #include "../stream.h"
@@ -10,7 +11,6 @@
 #include "../stream_wrappers.h"
 #include "../units.h"
 #include "../utils.h"
-#include "../vector.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>

@@ -13,22 +13,23 @@ const size_t SLICE_SIZE_IN_BITS	 = SLICE_SIZE_IN_BYTES * BYTE_SIZE;
 #define _0	   ((BitArraySlice)0)
 #define ALL_1s (~((BitArraySlice)0))
 
-size_t nb_slices(size_t nb_bits) {
+size_t BitArray_nb_slices(size_t nb_bits) {
 	return (nb_bits / (SLICE_SIZE_IN_BYTES * BYTE_SIZE)) + 1;
 }
 
-size_t nb_bytes(size_t nb_bits) {
+size_t BitArray_nb_bytes(size_t nb_bits) {
 	return (nb_bits / SLICE_SIZE_IN_BYTES) + 1;
 }
 
 BitArray BitArray_with_n_bits(size_t nb_bits) {
-	BitArray bit_array = (BitArray){.nb_bits = nb_bits, .bits = MALLOC(nb_slices(nb_bits) * SLICE_SIZE_IN_BYTES)};
+	BitArray bit_array =
+		(BitArray){.nb_bits = nb_bits, .bits = MALLOC(BitArray_nb_slices(nb_bits) * SLICE_SIZE_IN_BYTES)};
 	return bit_array;
 }
 
 BitArray BitArray_n_zeros(size_t nb_bits) {
 	BitArray bit_array = BitArray_with_n_bits(nb_bits);
-	for (size_t i = 0; i < nb_slices(nb_bits); i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(nb_bits); i++) {
 		bit_array.bits[i] = _0;
 	}
 	return bit_array;
@@ -36,7 +37,7 @@ BitArray BitArray_n_zeros(size_t nb_bits) {
 
 BitArray BitArray_n_ones(size_t nb_bits) {
 	BitArray bit_array = BitArray_with_n_bits(nb_bits);
-	for (size_t i = 0; i < nb_slices(nb_bits); i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(nb_bits); i++) {
 		bit_array.bits[i] = ALL_1s;
 	}
 	return bit_array;
@@ -76,7 +77,7 @@ void BitArray_or_bit(BitArray array, size_t index, int value) {
 
 BitArray BitArray_and_array(BitArray array1, BitArray array2) {
 	BitArray result = BitArray_with_n_bits(array1.nb_bits);
-	for (size_t i = 0; i < nb_slices(array1.nb_bits); i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(array1.nb_bits); i++) {
 		result.bits[i] = array1.bits[i] & array2.bits[i];
 	}
 	return result;
@@ -84,7 +85,7 @@ BitArray BitArray_and_array(BitArray array1, BitArray array2) {
 
 BitArray BitArray_or_array(BitArray array1, BitArray array2) {
 	BitArray result = BitArray_with_n_bits(array1.nb_bits);
-	for (size_t i = 0; i < nb_slices(array1.nb_bits); i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(array1.nb_bits); i++) {
 		result.bits[i] = array1.bits[i] | array2.bits[i];
 	}
 	return result;
@@ -109,7 +110,7 @@ String BitArray_to_string(const BitArray* array) {
 	ASSERT((int)false == 0);
 	ASSERT(('0' + 1) == '1');
 
-	const size_t capacity = (nb_slices(array->nb_bits) * SLICE_SIZE_IN_BITS) + 1;
+	const size_t capacity = (BitArray_nb_slices(array->nb_bits) * SLICE_SIZE_IN_BITS) + 1;
 
 // NOTE: Valgrind doesn't support aligned_alloc but I tried with malloc and it works
 // And we need to align the memory to have it aligned on uint32_t to copy 4 bytes at once
@@ -119,7 +120,7 @@ String BitArray_to_string(const BitArray* array) {
 	char* str = aligned_alloc(copy_step, capacity);
 #endif
 
-	for (size_t i = 0; i < nb_slices(array->nb_bits) - 1; i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(array->nb_bits) - 1; i++) {
 		// gcc t'es con MASK_SIZE c'est sizeof(BitArraySlice) mais il veut pas sinon "VaRiABle LeNGtH ArRAyS" meme si
 		// MASK_SIZE est const
 		//[SLICE_SIZE_IN_BITS / copy_step];
@@ -144,7 +145,7 @@ String BitArray_to_string(const BitArray* array) {
 	}
 
 	// Do the last slice
-	const size_t left_off = ((nb_slices(array->nb_bits) - 1) * SLICE_SIZE_IN_BITS);
+	const size_t left_off = ((BitArray_nb_slices(array->nb_bits) - 1) * SLICE_SIZE_IN_BITS);
 	for (size_t i = left_off; i < array->nb_bits; i++) {
 		str[i] = (char)(BitArray_is_one(*array, i) + '0');
 	}
@@ -164,13 +165,14 @@ bool BitArray_equals(const BitArray* a, const BitArray* b) {
 	}
 
 	// Compare all slices except the last one
-	if (nb_slices(a->nb_bits) > 1) {
-		for (size_t i = 0; i < nb_slices(a->nb_bits) - 1; i++) {
+	size_t nb_slices = BitArray_nb_slices(a->nb_bits);
+	if (nb_slices > 1) {
+		for (size_t i = 0; i < nb_slices - 1; i++) {
 			if (a->bits[i] != b->bits[i]) {
 				return false;
 			}
 		}
-		for (size_t i = (nb_slices(a->nb_bits) - 1) * SLICE_SIZE_IN_BYTES; i < a->nb_bits; i++) {
+		for (size_t i = (nb_slices - 1) * SLICE_SIZE_IN_BYTES; i < a->nb_bits; i++) {
 			if (BitArray_is_one(*a, i) != BitArray_is_one(*b, i)) {
 				return false;
 			}
@@ -201,13 +203,13 @@ size_t BitArray_leading_zeros_from(BitArray array, size_t index) {
 }
 
 void BitArray_all_to_one(BitArray array) {
-	for (size_t i = 0; i < nb_slices(array.nb_bits); i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(array.nb_bits); i++) {
 		array.bits[i] = ALL_1s;
 	}
 }
 
 void BitArray_all_to_zero(BitArray array) {
-	for (size_t i = 0; i < nb_slices(array.nb_bits); i++) {
+	for (size_t i = 0; i < BitArray_nb_slices(array.nb_bits); i++) {
 		array.bits[i] = _0;
 	}
 }

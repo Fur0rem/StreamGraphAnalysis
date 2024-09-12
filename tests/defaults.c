@@ -1,7 +1,10 @@
 #include "../src/defaults.h"
+#include "../src/generic_data_structures/binary_heap.h"
+#include "../src/generic_data_structures/hashset.h"
+#include "../src/generic_data_structures/vector.h"
 #include "../src/utils.h"
-#include "../src/vector.h"
 #include "test.h"
+#include <stdbool.h>
 
 bool test_create() {
 	size_tVector v = size_tVector_with_capacity(5);
@@ -113,6 +116,19 @@ bool test_remove_not_present() {
 	return EXPECT(!StringHashset_remove(&s, str));
 }
 
+bool test_binary_heap() {
+	int array[10]	   = {5, 3, 7, 1, 2, 9, 4, 6, 8, 0};
+	intBinaryHeap heap = intBinaryHeap_with_capacity(10);
+	for (size_t i = 0; i < 10; i++) {
+		intBinaryHeap_insert(&heap, array[i]);
+	}
+	bool success = true;
+	for (size_t i = 0; i < 10; i++) {
+		success &= EXPECT_EQ(intBinaryHeap_pop(&heap), i);
+	}
+	return success;
+}
+
 int main() {
 	Test* tests[] = {
 		TEST(test_create), TEST(test_push_1), TEST(test_push_2), TEST(test_destroy), TEST(test_remove_and_swap), NULL,
@@ -130,5 +146,11 @@ int main() {
 	};
 	bool hash = test("Hashset", tests2);
 
-	return vec && hash;
+	Test* tests3[] = {
+		TEST(test_binary_heap),
+		NULL,
+	};
+	bool heap = test("Binary Heap", tests3);
+
+	return vec && hash && heap;
 }
