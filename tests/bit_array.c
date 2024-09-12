@@ -181,7 +181,6 @@ bool test_random_string() {
 	srand(time(NULL));
 	for (size_t i = 0; i < str_size; i++) {
 		if (rand() % 2) {
-			printf("Setting one at %zu\n", i);
 			BitArray_set_one(bit_array, i);
 			expected[i] = '1';
 		}

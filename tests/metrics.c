@@ -90,14 +90,14 @@ bool test_cardinal_of_W_S() {
 
 bool test_cardinal_of_W_L() {
 	StreamGraph sg			 = StreamGraph_from_file("data/S.txt");
-	Stream st				 = LS_from(&sg);
+	Stream st				 = LinkStream_from(&sg);
 	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	size_t cardinal			 = 0;
 	FOR_EACH_NODE(node_id, nodes_iter) {
 		cardinal += total_time_of(funcs.times_node_present(st.stream_data, node_id));
 	}
-	LS_destroy(st);
+	LinkStream_destroy(st);
 	StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 400);
 }
@@ -113,9 +113,8 @@ bool test_coverage_S() {
 
 bool test_coverage_L() {
 	StreamGraph sg	= StreamGraph_from_file("data/S.txt");
-	LinkStream ls	= LinkStream_from(&sg);
-	Stream st		= (Stream){.type = LINK_STREAM, .stream_data = &ls}; // TODO : switch to LS_from
-	double coverage = Stream_coverage(&st);
+	Stream ls		= LinkStream_from(&sg);
+	double coverage = Stream_coverage(&ls);
 	StreamGraph_destroy(sg);
 	return EXPECT_F_APPROX_EQ(coverage, 1.0, 1e-6);
 }
@@ -186,12 +185,12 @@ TEST_METRIC_F(density, 10.0 / 22.0, S_external, FullStreamGraph)
 
 bool test_density_linkstream() {
 	StreamGraph sg	   = StreamGraph_from_external("data/L.txt");
-	Stream ls		   = LS_from(&sg);
+	Stream ls		   = LinkStream_from(&sg);
 	Stream fsg		   = FullStreamGraph_from(&sg);
 	double density_ls  = Stream_density(&ls);
 	double density_fsg = Stream_density(&fsg);
 	StreamGraph_destroy(sg);
-	LS_destroy(ls);
+	LinkStream_destroy(ls);
 	FullStreamGraph_destroy(fsg);
 	printf("Density LS : %f\n", density_ls);
 	printf("Density FSG : %f\n", density_fsg);
@@ -251,7 +250,12 @@ bool test_cache() {
 	Stream st			  = FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 	size_t t			  = cardinalOfT(&st);
-	return st.cache.cardinalOfT.present && st.cache.cardinalOfT.data == t;
+	bool result			  = st.cache.cardinalOfT.present && st.cache.cardinalOfT.data == t;
+
+	FullStreamGraph_destroy(st);
+	StreamGraph_destroy(sg);
+
+	return result;
 }
 
 bool test_clustering_coeff_of_node() {

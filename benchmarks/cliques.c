@@ -1,7 +1,6 @@
 #include "../src/analysis/cliques.h"
 #include "../src/stream.h"
-#include "../src/stream/full_stream_graph.h"
-#include "../src/stream/link_stream.h"
+#include "../src/stream_wrappers.h"
 #include "benchmark.h"
 
 Stream st;
@@ -50,6 +49,14 @@ int main() {
 	}
 
 	benchmark(benchmark_maximal_cliques, "maximal_cliques", 10);*/
+
+	sg = StreamGraph_from_external("data/facebooklike_1_transformed.txt");
+	st = FullStreamGraph_from(&sg);
+
+	benchmark(benchmark_maximal_cliques, "maximal_cliques facebooklike", 10);
+
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(st);
 
 	return 0;
 }

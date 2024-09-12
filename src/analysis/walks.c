@@ -271,7 +271,7 @@ WalkStepVector WalkStepVector_from_candidates(Stream* stream, QueueInfo* candida
 			break;
 		}
 
-		LinkId link_id = fns.links_between_nodes(stream->stream_data, current_node, previous_node);
+		LinkId link_id = fns.link_between_nodes(stream->stream_data, current_node, previous_node);
 		if (link_id != SIZE_MAX) {
 			WalkStep step = {link_id, current_walk->time, .needs_to_arrive_before = current_walk->interval_taken.end};
 			WalkStepVector_push(&steps, step);

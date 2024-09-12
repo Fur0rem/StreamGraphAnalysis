@@ -8,7 +8,7 @@
 bool test_links_at_time_8() {
 	StreamGraph sg = StreamGraph_from_external("data/L.txt");
 	init_events_table(&sg);
-	Stream ls			  = LS_from(&sg);
+	Stream ls			  = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	LinkIdVector links	  = SGA_collect_link_ids(funcs.links_present_at_t(ls.stream_data, 8));
@@ -20,14 +20,14 @@ bool test_links_at_time_8() {
 	LinkIdVector_destroy(expected);
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
-	LS_destroy(ls);
+	LinkStream_destroy(ls);
 	return true;
 }
 
 bool test_nodes_present() {
 	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
 	init_events_table(&sg);
-	Stream ls			  = LS_from(&sg);
+	Stream ls			  = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	NodeIdVector nodes_expected = SGA_collect_node_ids(funcs.nodes_set(ls.stream_data));
@@ -41,13 +41,13 @@ bool test_nodes_present() {
 	NodeIdVector_destroy(nodes_expected);
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
-	LS_destroy(ls);
+	LinkStream_destroy(ls);
 	return nodes_present;
 }
 
 bool test_nodes_presence() {
 	StreamGraph sg		  = StreamGraph_from_external("data/S_external.txt");
-	Stream ls			  = LS_from(&sg);
+	Stream ls			  = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	Interval interval		 = StreamGraph_lifespan(&sg);
@@ -64,14 +64,14 @@ bool test_nodes_presence() {
 
 	IntervalVector_destroy(intervals);
 	StreamGraph_destroy(sg);
-	LS_destroy(ls);
+	LinkStream_destroy(ls);
 
 	return nodes_always_present;
 }
 
 bool test_neighbours_of_node() {
 	StreamGraph sg		  = StreamGraph_from_external("data/S_external.txt");
-	Stream ls			  = LS_from(&sg);
+	Stream ls			  = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	LinkIdVector neighbours_of_0 = LinkIdVector_new();
@@ -111,7 +111,7 @@ bool test_neighbours_of_node() {
 		LinkIdVector_destroy(neighbours[i]);
 	}
 	StreamGraph_destroy(sg);
-	LS_destroy(ls);
+	LinkStream_destroy(ls);
 
 	return has_right_neighbours;
 }

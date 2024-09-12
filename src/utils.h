@@ -89,6 +89,9 @@
 #	endif
 #endif
 
+// TODO: add message to signal it's my fault and not the user's
+#define DEV_ASSERT(expr) ASSERT(expr)
+
 #ifdef DEBUG
 #	define UNREACHABLE_CODE                                                                                           \
 		({                                                                                                             \

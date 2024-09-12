@@ -71,6 +71,7 @@ struct TimesIterator {
 		 (iterated)				= (iterator).next(&(iterator)))
 /** @endcond */
 
+// TODO: rename to IntervalIterator probably
 #define TIMES_ITERATOR_END ((Interval){.start = SIZE_MAX, .end = SIZE_MAX})
 #define NODES_ITERATOR_END SIZE_MAX
 #define LINKS_ITERATOR_END SIZE_MAX

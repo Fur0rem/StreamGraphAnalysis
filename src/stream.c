@@ -1831,14 +1831,6 @@ void init_events_table(StreamGraph* sg) {
 			for (int j = i - 2; j >= 0; j--) {
 				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < node_events[j].size; k++) {
-
-						// TRICK : Doing these volatile stores make the code faster, no idea why or how
-						volatile size_t x;
-						for (size_t l = 0; l < sg->nodes.nodes[node_events[j].array[k]].presence.nb_intervals; l++) {
-							x = sg->nodes.nodes[node_events[j].array[k]].presence.intervals[l].start;
-						}
-						x;
-
 						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
 														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tVector_push(&node_events[i], node_events[j].array[k]);
@@ -1859,13 +1851,7 @@ void init_events_table(StreamGraph* sg) {
 				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < link_events[j].size; k++) {
 
-						// TRICK : Doing these volatile stores make the code faster, no idea why or how
-						volatile size_t x;
-						for (size_t l = 0; l < sg->links.links[link_events[j].array[k]].presence.nb_intervals; l++) {
-							x = sg->links.links[link_events[j].array[k]].presence.intervals[l].start;
-						}
-						x;
-
+						// FIXME: WHY DO I HAVE TO COMPILE TWICE TO HAVE THE PERFORMANCE BOOST?
 						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
 														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tVector_push(&link_events[i], link_events[j].array[k]);
@@ -1972,4 +1958,8 @@ void reset_cache(Stream* stream) {
 
 Interval StreamGraph_lifespan(StreamGraph* sg) {
 	return sg->lifespan;
+}
+
+size_t StreamGraph_scaling(StreamGraph* sg) {
+	return sg->scaling;
 }

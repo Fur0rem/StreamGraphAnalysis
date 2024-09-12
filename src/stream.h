@@ -27,7 +27,10 @@ String StreamGraph_to_string(StreamGraph* sg);
 void StreamGraph_destroy(StreamGraph sg);
 // size_t StreamGraph_lifespan_begin(StreamGraph* sg);
 // size_t StreamGraph_lifespan_end(StreamGraph* sg);
+
+// TODO: why are these here and not in stream_data_access/... ?
 Interval StreamGraph_lifespan(StreamGraph* sg);
+size_t StreamGraph_scaling(StreamGraph* sg);
 void init_events_table(StreamGraph* sg);
 void events_destroy(StreamGraph* sg);
 char* InternalFormat_from_External_str(const char* str);

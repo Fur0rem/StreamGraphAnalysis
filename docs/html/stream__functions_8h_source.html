@@ -111,7 +111,7 @@ $(document).ready(function(){initNavTree('stream__functions_8h_source.html','');
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_typedef" href="iterators_8h.html#a7cf998d549a9dbc3e839cb6df96ec48b">LinksIterator</a> (*neighbours_of_node)(<a class="code hl_struct" href="structStreamData.html">StreamData</a>*, NodeId);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// TODO: rename to link_between_nodes (singular)</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    LinkId (*links_between_nodes)(<a class="code hl_struct" href="structStreamData.html">StreamData</a>*, NodeId, NodeId);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    LinkId (*link_between_nodes)(<a class="code hl_struct" href="structStreamData.html">StreamData</a>*, NodeId, NodeId);</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <a class="code hl_struct" href="structStreamFunctions.html">StreamFunctions</a>;</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define STREAM_FUNCS(variable, stream_var)                                                                             \</span></div>
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('stream__functions_8h_source.html','');
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><a class="code hl_struct" href="structTemporalNode.html">TemporalNode</a> Stream_node_by_id(<a class="code hl_struct" href="structStream.html">Stream</a>* stream, <span class="keywordtype">size_t</span> node_id);</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><a class="code hl_struct" href="structLinksIterator.html">LinksIterator</a> Stream_neighbours_of_node(<a class="code hl_struct" href="structStream.html">Stream</a>* stream, NodeId node_id);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>LinkId Stream_links_between_nodes(<a class="code hl_struct" href="structStream.html">Stream</a>* stream, NodeId node_id, NodeId other_node_id);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>LinkId Stream_link_between_nodes(<a class="code hl_struct" href="structStream.html">Stream</a>* stream, NodeId node_id, NodeId other_node_id);</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif </span><span class="comment">// STREAM_FUNCTIONS_H</span></div>
 <div class="ttc" id="aiterators_8h_html"><div class="ttname"><a href="iterators_8h.html">iterators.h</a></div><div class="ttdoc">Iterators over nodes, links and time intervals.</div></div>

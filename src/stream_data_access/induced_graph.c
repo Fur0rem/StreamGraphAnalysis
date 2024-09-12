@@ -1,5 +1,5 @@
 #include "induced_graph.h"
-#include "utils.h"
+#include "../utils.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -9,6 +9,7 @@
 // unreadable
 // TODO : Links work fully (tested in the extreme cases such as 0 links present), so use those as a reference for the
 // nodes
+// TODO : Maybe merge all the data access files into one, since they're all quite similar and small
 
 size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 
@@ -93,7 +94,9 @@ void LinksPresentAtTIterator_destroy(LinksIterator* links_iter) {
 	free(links_iter->iterator_data);
 }
 
-LinksIterator get_links_present_at_t(StreamGraph* stream_graph, TimeId t) {
+LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t) {
+	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
+
 	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
 
 	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
@@ -213,7 +216,9 @@ void NodesPresentAtTIterator_destroy(NodesIterator* nodes_iter) {
 	free(nodes_iter->iterator_data);
 }
 
-NodesIterator get_nodes_present_at_t(StreamGraph* stream_graph, TimeId t) {
+NodesIterator StreamGraph_nodes_present_at(StreamGraph* stream_graph, TimeId t) {
+	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
+
 	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
 
 	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event

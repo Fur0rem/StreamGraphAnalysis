@@ -1,7 +1,6 @@
 #include "../src/analysis/kcores.h"
 #include "../src/stream.h"
-#include "../src/stream/full_stream_graph.h"
-#include "../src/stream/link_stream.h"
+#include "../src/stream_wrappers.h"
 #include "benchmark.h"
 
 Stream stream;
