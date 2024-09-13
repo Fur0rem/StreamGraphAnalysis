@@ -19,8 +19,11 @@ bool test_load_slices() {
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
 	String_destroy(str);
-	EXPECT(StreamGraph_lifespan_begin(&sg) == 0);
-	EXPECT(StreamGraph_lifespan_end(&sg) == 1000);
+	// EXPECT(StreamGraph_lifespan_begin(&sg) == 0);
+	// EXPECT(StreamGraph_lifespan_end(&sg) == 1000);
+	Interval lifespan = StreamGraph_lifespan(&sg);
+	EXPECT_EQ(lifespan.start, 0);
+	EXPECT_EQ(lifespan.end, 1000);
 	StreamGraph_destroy(sg);
 	return true;
 }
