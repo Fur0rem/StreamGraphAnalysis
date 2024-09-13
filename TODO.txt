@@ -1,8 +1,8 @@
+- Clean up walks source code cause it is soooooo ugly
 - Skip n for iterators
 - Name coherency between FSG/FullStreamGraph ect...
 - Name guard for different iterators of the different stream types
 - Check for data coherence in the input file
-- Automatic translation for scaling by the number of digits after the comma you see in the input file at max
 - Automate tests and formatting using GitHub actions
 - Choose between calling nodes temporal nodes or nodes
 - Rename test files (?)
@@ -15,7 +15,6 @@
 - Document the code
 - Find a name for |V|
 - Debug for use of uninitialised table of events
-- Separate the metrics into different files
 - Verify catch implementations for all functions
 - const qualifier when needed
 - Version control for formats
