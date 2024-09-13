@@ -21,5 +21,6 @@ DeclareVector(TimeId);
 DeclareVectorDeriveEquals(TimeId);
 DeclareVectorDeriveRemove(TimeId);
 DeclareVectorDeriveToString(TimeId);
+DeclareVectorDeriveOrdered(TimeId);
 
 #endif // UNITS_H

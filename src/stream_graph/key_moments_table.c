@@ -34,9 +34,9 @@ KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices) {
 		.slices	   = (MomentsSlice*)MALLOC(nb_slices * sizeof(MomentsSlice)),
 		.fill_info =
 			{
-						.current_slice	= 0,
-						.current_moment = 0,
-						},
+				.current_slice	= 0,
+				.current_moment = 0,
+			},
 	};
 	return kmt;
 }

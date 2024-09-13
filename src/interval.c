@@ -9,8 +9,8 @@ bool Interval_contains(Interval interval, TimeId time) {
 	return interval.start <= time && time < interval.end;
 }
 
-bool Interval_contains_interval(Interval a, Interval b) {
-	return a.start <= b.start && b.end <= a.end;
+bool Interval_contains_interval(Interval container, Interval contained) {
+	return container.start <= contained.start && contained.end <= container.end;
 }
 
 size_t Interval_duration(Interval interval) {
@@ -27,10 +27,10 @@ Interval Interval_from(TimeId start, TimeId end) {
 	return interval;
 }
 
-Interval Interval_intersection(Interval a, Interval b) {
+Interval Interval_intersection(Interval left, Interval right) {
 	Interval intersection;
-	intersection.start = a.start > b.start ? a.start : b.start;
-	intersection.end   = a.end < b.end ? a.end : b.end;
+	intersection.start = left.start > right.start ? left.start : right.start;
+	intersection.end   = left.end < right.end ? left.end : right.end;
 	return intersection;
 }
 
@@ -60,8 +60,8 @@ String Interval_to_string(const Interval* interval) {
 	return string;
 }
 
-bool Interval_equals(const Interval* a, const Interval* b) {
-	return a->start == b->start && a->end == b->end;
+bool Interval_equals(const Interval* left, const Interval* right) {
+	return left->start == right->start && left->end == right->end;
 }
 
 DefineVector(Interval);
@@ -108,14 +108,14 @@ void IntervalsSet_merge(IntervalsSet* intervals_set) {
 	IntervalVector_destroy(merged);
 }
 
-// TODO: Not very efficient, but it works for now (O(n^2)) when we could iterate over the intervals in parallel since
-// they are sorted
-IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b) {
-	IntervalVector intersection = IntervalVector_with_capacity(a.nb_intervals + b.nb_intervals);
-	for (size_t i = 0; i < a.nb_intervals; i++) {
-		for (size_t j = 0; j < b.nb_intervals; j++) {
-			Interval a_interval			   = a.intervals[i];
-			Interval b_interval			   = b.intervals[j];
+// TODO: Not very efficient, but it works for now (O(n^2)) when we could iterate over the intervals in
+// parallel since they are sorted
+IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
+	IntervalVector intersection = IntervalVector_with_capacity(left.nb_intervals + right.nb_intervals);
+	for (size_t i = 0; i < left.nb_intervals; i++) {
+		for (size_t j = 0; j < right.nb_intervals; j++) {
+			Interval a_interval			   = left.intervals[i];
+			Interval b_interval			   = right.intervals[j];
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
 			if (Interval_duration(intersection_interval) > 0) {
 				IntervalVector_push(&intersection, intersection_interval);
@@ -207,7 +207,8 @@ void IntervalsSet_sort(IntervalsSet* intervals_set) {
 	qsort(intervals_set->intervals, intervals_set->nb_intervals, sizeof(Interval), Interval_starts_before);
 }
 
-// TODO: Not very efficient either, but i prefer to focus on actually important stuff and come back to this later
+// TODO: Not very efficient either, but i prefer to focus on actually important stuff and come back to this
+// later
 IntervalsSet IntervalsSet_union(IntervalsSet a, IntervalsSet b) {
 	IntervalVector union_intervals = IntervalVector_with_capacity(a.nb_intervals + b.nb_intervals);
 	for (size_t i = 0; i < a.nb_intervals; i++) {

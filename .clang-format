@@ -5,10 +5,17 @@ BasedOnStyle: LLVM
 PointerAlignment: Left
 SpaceAfterCStyleCast: false
 BreakBeforeBraces: Custom
-AlignArrayOfStructures: Left
+AlignArrayOfStructures: None
 BraceWrapping:
+  AfterStruct: false
+  AfterUnion: false
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterExternBlock: false
   BeforeElse: true
-ColumnLimit: 120
+  AfterStruct: false
+ColumnLimit: 110
 IndentCaseLabels: true
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
@@ -18,3 +25,6 @@ AllowShortIfStatementsOnASingleLine: true
 AlignConsecutiveMacros: true
 IndentPPDirectives: AfterHash
 AlignConsecutiveAssignments: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+BinPackArguments: false
+SortIncludes: true

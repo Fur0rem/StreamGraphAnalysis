@@ -16,7 +16,7 @@
 // TODO : print stack trace maybe?
 #define MALLOC_CHECK(size)                                                                                             \
 	({                                                                                                                 \
-		if (size == 0) {                                                                                               \
+		if ((size) == 0) {                                                                                             \
 			fprintf(stderr, "Memory allocation with size 0 at %s:%d\n", __FILE__, __LINE__);                           \
 		}                                                                                                              \
 		void* ptr = malloc(size);                                                                                      \
@@ -34,39 +34,30 @@
 #endif
 
 // Floating point comparison
-#define EPS						   1e-9
-#define F_EQUALS(a, b)			   (fabs((a) - (b)) < EPS)
-#define F_EQUALS_APPROX(a, b, eps) (fabs((a) - (b)) < eps)
+#define F_EQUALS(left, right)			  (fabs((left) - (right)) < 1e-9)
+#define F_EQUALS_APPROX(left, right, eps) (fabs((left) - (right)) < (eps))
 
 #define NO_FREE(type) ((void (*)(type))NULL)
 #define DEFAULT_EQUALS(type)                                                                                           \
-	bool type##_equals(type* a, type* b) {                                                                             \
-		return *a == *b;                                                                                               \
+	bool type##_equals(const type* left, const type* right) {                                                          \
+		return *left == *right;                                                                                        \
 	}
 #define DEFAULT_COMPARE(type)                                                                                          \
-	int type##_compare(const type* a, const type* b) {                                                                 \
-		type a_val = *(type*)a;                                                                                        \
-		type b_val = *(type*)b;                                                                                        \
-		if (a_val < b_val) {                                                                                           \
-			return -1;                                                                                                 \
-		}                                                                                                              \
-		else if (a_val > b_val) {                                                                                      \
-			return 1;                                                                                                  \
-		}                                                                                                              \
-		else {                                                                                                         \
-			return 0;                                                                                                  \
-		}                                                                                                              \
+	int type##_compare(const type* left, const type* right) {                                                          \
+		return *left - *right;                                                                                         \
 	}
 
-#define DeclareEquals(type)	 bool type##_equals(const type* a, const type* b);
-#define DeclareCompare(type) int type##_compare(const type* a, const type* b);
+#define DeclareEquals(type)	 bool type##_equals(const type* left, const type* right);
+#define DeclareCompare(type) int type##_compare(const type* left, const type* right);
+#define DeclareDestroy(type) void type##_destroy(type self);
+#define DeclareHash(type)	 int type##_hash(const type* self);
 
 #define DEFAULT_MIN_MAX(type)                                                                                          \
-	type type##_min(type a, type b) {                                                                                  \
-		return a < b ? a : b;                                                                                          \
+	type type##_min(type left, type right) {                                                                           \
+		return left < right ? left : right;                                                                            \
 	}                                                                                                                  \
-	type type##_max(type a, type b) {                                                                                  \
-		return a > b ? a : b;                                                                                          \
+	type type##_max(type left, type right) {                                                                           \
+		return left > right ? left : right;                                                                            \
 	}
 
 // TODO : optionnal message
@@ -131,33 +122,31 @@ String String_from_duplicate(const char* str);
 
 // TODO: mis namings between push and append
 // plus push str and append formatted can be merged
-void String_push(String* string, char c);
-void String_push_str(String* string, const char* str);
-void String_append_formatted(String* string, const char* format, ...);
-void String_concat_copy(String* a, const String* b);
-void String_concat_consume(String* string, String* b);
+void String_push(String* self, char character);
+void String_push_str(String* self, const char* str);
+void String_append_formatted(String* self, const char* format, ...);
+void String_concat_copy(String* self, const String* with);
+void String_concat_consume(String* self, String* with);
 
-void String_destroy(String string);
-bool String_equals(const String* a, const String* b);
+DeclareDestroy(String);
+DeclareEquals(String);
+DeclareCompare(String);
+DeclareHash(String);
 
-int String_compare(const void* a, const void* b);
-int String_hash(const String* string);
-
-#define DeclareToString(type) String type##_to_string(const type* value);
+#define DeclareToString(type) String type##_to_string(const type* self);
 
 #define DEFAULT_TO_STRING(type, format)                                                                                \
-	String type##_to_string(const type* value) {                                                                       \
+	String type##_to_string(const type* self) {                                                                        \
 		char* str = MALLOC(100);                                                                                       \
-		sprintf(str, format, *value);                                                                                  \
+		sprintf(str, format, *self);                                                                                   \
 		return String_from_owned(str);                                                                                 \
 	}
 
 char* read_file(const char* filename);
 
-void String_pop_n(String* string, size_t n);
-void String_pop(String* string);
+void String_pop_n(String* self, size_t n);
+void String_pop(String* self);
 
 String String_with_capacity(size_t capacity);
-String String_new();
 
 #endif

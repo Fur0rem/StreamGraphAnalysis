@@ -14,6 +14,15 @@ String String_from_owned(char* str) {
 	return string;
 }
 
+void String_reserve_extra(String* self, size_t extra) {
+	if (self->size + extra >= self->capacity) {
+		while (self->size + extra >= self->capacity) {
+			self->capacity += (self->capacity + 2) / 2;
+		}
+		self->data = realloc(self->data, self->capacity);
+	}
+}
+
 String String_from_duplicate(const char* str) {
 	size_t len = strlen(str);
 	char* data = MALLOC(len + 1);
@@ -26,60 +35,49 @@ String String_from_duplicate(const char* str) {
 	return string;
 }
 
-void String_push(String* string, char c) {
-	if (string->size + 1 >= string->capacity) {
-		string->capacity *= 2;
-		string->data = realloc(string->data, string->capacity);
-	}
-	string->data[string->size++] = c;
-	string->data[string->size]	 = '\0';
+void String_push(String* self, char character) {
+	String_reserve_extra(self, 1);
+	self->data[self->size] = character;
+	self->size++;
+	self->data[self->size] = '\0';
 }
 
-void String_push_str(String* string, const char* str) {
+void String_push_str(String* self, const char* str) {
 	size_t len = strlen(str);
-	if (string->size + len >= string->capacity) {
-		while (string->size + len >= string->capacity) {
-			string->capacity *= 2;
-		}
-		string->data = realloc(string->data, string->capacity);
-	}
-	memcpy(string->data + string->size, str, len + 1);
-	string->size += len;
+	String_reserve_extra(self, len);
+	memcpy(self->data + self->size, str, len + 1);
+	self->size += len;
 }
 
-void String_concat_copy(String* a, const String* b) {
-	if (a->size + b->size >= a->capacity) {
-		while (a->size + b->size >= a->capacity) {
-			a->capacity *= 2;
-		}
-		a->data = realloc(a->data, a->capacity);
-	}
-	memcpy(a->data + a->size, b->data, b->size);
-	a->size += b->size;
+void String_concat_copy(String* self, const String* with) {
+	String_reserve_extra(self, with->size);
+	memcpy(self->data + self->size, with->data, with->size);
+	self->size += with->size;
 }
 
-void String_concat_consume(String* string, String* b) {
-	String_concat_copy(string, b);
-	String_destroy(*b);
+void String_concat_consume(String* self, String* with) {
+	String_concat_copy(self, with);
+	String_destroy(*with);
 }
 
-void String_destroy(String string) {
-	free(string.data);
+void String_destroy(String self) {
+	free(self.data);
 }
 
-bool String_equals(const String* a, const String* b) {
-	return strcmp(a->data, b->data) == 0;
+bool String_equals(const String* left, const String* right) {
+	return strcmp(left->data, right->data) == 0;
 }
 
-int String_compare(const void* a, const void* b) {
-	return strcmp(((String*)a)->data, ((String*)b)->data);
+int String_compare(const String* left, const String* right) {
+	return strcmp(left->data, right->data);
 }
 
-int String_hash(const String* string) {
+// FIXME: slow hash function
+int String_hash(const String* self) {
 	int hash  = 0;
-	char* str = string->data;
-	for (size_t i = 0; i < string->size; i++) {
-		hash = ((hash * 31) + str[i]) ^ (str[i / 2] | str[i / 4]);
+	char* str = self->data;
+	for (size_t i = 0; i < self->size; i++) {
+		hash = ((hash * 32) + str[i]) ^ (str[i / 2] | str[i / 4]);
 	}
 	return hash;
 }
@@ -108,7 +106,7 @@ char* read_file(const char* filename) {
 	return buffer;
 }
 
-void String_append_formatted(String* string, const char* format, ...) {
+void String_append_formatted(String* self, const char* format, ...) {
 	va_list args;
 	va_start(args, format);
 	size_t len = vsnprintf(NULL, 0, format, args);
@@ -117,31 +115,27 @@ void String_append_formatted(String* string, const char* format, ...) {
 	va_start(args, format);
 	vsnprintf(buffer, len + 1, format, args);
 	va_end(args);
-	String_push_str(string, buffer);
+	String_push_str(self, buffer);
 	free(buffer);
 }
 
-void String_pop_n(String* string, size_t n) {
-	if (n > string->size) {
-		n = string->size;
+void String_pop_n(String* self, size_t n) {
+	if (n > self->size) {
+		n = self->size;
 	}
-	string->size -= n;
+	self->size -= n;
 }
 
-void String_pop(String* string) {
-	if (string->size > 0) {
-		string->size--;
-	}
+void String_pop(String* self) {
+	ASSERT(self->size > 0);
+	self->size--;
 }
 
 String String_with_capacity(size_t capacity) {
+	ASSERT(capacity > 0);
 	return (String){
 		.size	  = 0,
 		.capacity = capacity,
 		.data	  = MALLOC(capacity),
 	};
-}
-
-String String_new() {
-	return String_with_capacity(10);
 }

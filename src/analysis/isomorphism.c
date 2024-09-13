@@ -74,8 +74,10 @@ bool check_node_times(const Stream* s1, const Stream* s2, IntervalVector** graph
 					global_offset = offset;
 				}
 				else if (global_offset != offset) {
-					printf("Times for node %zu and mapped %zu have a different offset %zu\n", real_node_id_1,
-						   real_node_id_2, offset);
+					printf("Times for node %zu and mapped %zu have a different offset %zu\n",
+						   real_node_id_1,
+						   real_node_id_2,
+						   offset);
 					return false;
 				}
 				printf("Times for node %zu and mapped %zu have offset %zu\n", real_node_id_1, real_node_id_2, offset);
@@ -355,8 +357,8 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 	// print_adjacency_matrix(nb_nodes_2, streamgraph2);
 
 	// TODO: better name than universal_offset
-	if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2,
-					  universal_offset)) {
+	if (areIsomorphic(
+			nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2, universal_offset)) {
 		// printf("The graphs are isomorphic.\n");
 		return true;
 	}

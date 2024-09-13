@@ -19,13 +19,13 @@ typedef struct {
 
 // TODO: maybe change the name of contains ?
 bool Interval_contains(Interval interval, TimeId time);
-bool Interval_contains_interval(Interval a, Interval b);
-bool Interval_overlaps_interval(Interval a, Interval b);
+bool Interval_contains_interval(Interval container, Interval contained);
+bool Interval_overlaps_interval(Interval left, Interval right);
 
 size_t Interval_duration(Interval interval);
 Interval Interval_from(TimeId start, TimeId end);
-Interval Interval_intersection(Interval a, Interval b);
-Interval Interval_minus(Interval a, Interval b);
+Interval Interval_intersection(Interval left, Interval right);
+Interval Interval_minus(Interval left, Interval right);
 
 DeclareToString(Interval);
 DeclareEquals(Interval);
@@ -40,10 +40,10 @@ DeclareVectorDeriveToString(Interval);
 size_t IntervalsSet_size(IntervalsSet intervals_set);
 IntervalsSet IntervalsSet_alloc(size_t nb_intervals);
 void IntervalsSet_merge(IntervalsSet* intervals_set);
-IntervalsSet IntervalsSet_intersection(IntervalsSet a, IntervalsSet b);
-IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet a, Interval interval);
+IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right);
+IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet set, Interval interval);
 void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval);
-IntervalsSet IntervalsSet_union(IntervalsSet a, IntervalsSet b);
+IntervalsSet IntervalsSet_union(IntervalsSet left, IntervalsSet right);
 void IntervalsSet_destroy(IntervalsSet intervals_set);
 Interval IntervalsSet_last(IntervalsSet* intervals_set);
 bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time);
