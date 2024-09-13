@@ -14,11 +14,13 @@ bool test_walk_a_c() {
 	WalkInfo w1	 = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
 	Walk w1_walk = WalkInfo_unwrap_checked(w1);
 	result &= EXPECT(Walk_goes_through(&w1_walk, st, 2, 0, 1, 3));
+	printf("w1 %s\n", Walk_to_string(&w1_walk).data);
 	WalkInfo_destroy(w1);
 
 	WalkInfo w2	 = Stream_shortest_walk_from_to_at(&st, 0, 3, 5);
 	Walk w2_walk = WalkInfo_unwrap_checked(w2);
 	result &= EXPECT(Walk_goes_through(&w2_walk, st, 2, 0, 1, 3));
+	printf("w2 %s\n", Walk_to_string(&w2_walk).data);
 	WalkInfo_destroy(w2);
 
 	StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
@@ -27,11 +29,13 @@ bool test_walk_a_c() {
 	WalkInfo w3	 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
 	Walk w3_walk = WalkInfo_unwrap_checked(w3);
 	result &= EXPECT(Walk_goes_through(&w3_walk, st2, 2, 0, 1, 3));
+	printf("w3 %s\n", Walk_to_string(&w3_walk).data);
 	WalkInfo_destroy(w3);
 
 	WalkInfo w4	 = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
 	Walk w4_walk = WalkInfo_unwrap_checked(w4);
 	result &= EXPECT(Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
+	printf("w4 %s\n", Walk_to_string(&w4_walk).data);
 	WalkInfo_destroy(w4);
 
 	StreamGraph_destroy(sg);
@@ -114,18 +118,21 @@ bool test_fastest() {
 	Walk w1_walk = WalkInfo_unwrap_checked(w1);
 	result &= EXPECT(Walk_goes_through(&w1_walk, st, 2, 0, 2, 3));
 	result &= EXPECT_EQ(Walk_arrives_at(&w1_walk), 6);
+	printf("w1 %s\n", Walk_to_string(&w1_walk).data);
 	WalkInfo_destroy(w1);
 
 	WalkInfo w2	 = Stream_fastest_walk(&st, 0, 3, 4);
 	Walk w2_walk = WalkInfo_unwrap_checked(w2);
 	result &= EXPECT(Walk_goes_through(&w2_walk, st, 2, 0, 2, 3));
 	result &= EXPECT_EQ(Walk_arrives_at(&w2_walk), 6);
+	printf("w2 %s\n", Walk_to_string(&w2_walk).data);
 	WalkInfo_destroy(w2);
 
 	WalkInfo w3	 = Stream_fastest_walk(&st, 0, 3, 5);
 	Walk w3_walk = WalkInfo_unwrap_checked(w3);
 	result &= EXPECT(Walk_goes_through(&w3_walk, st, 3, 0, 1, 2, 3));
 	result &= EXPECT_EQ(Walk_arrives_at(&w3_walk), 6);
+	printf("w3 %s\n", Walk_to_string(&w3_walk).data);
 	WalkInfo_destroy(w3);
 
 	StreamGraph_destroy(sg);
@@ -193,11 +200,23 @@ bool test_walk_node_not_present() {
 // 	return one && two;
 // }
 
-bool test_robustness_of_1() {
+bool test_robustness_length_of_1() {
 	StreamGraph sg = StreamGraph_from_external("data/robustness_1.txt");
 	Stream st	   = FullStreamGraph_from(&sg);
 
 	double robustness = Stream_robustness_by_length(&st);
+	bool success	  = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
+
+	FullStreamGraph_destroy(st);
+	StreamGraph_destroy(sg);
+	return success;
+}
+
+bool test_robustness_duration_of_1() {
+	StreamGraph sg = StreamGraph_from_external("data/robustness_1.txt");
+	Stream st	   = FullStreamGraph_from(&sg);
+
+	double robustness = Stream_robustness_by_duration(&st);
 	bool success	  = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
 
 	FullStreamGraph_destroy(st);
@@ -211,7 +230,8 @@ int main() {
 		TEST(test_walk_optimal),
 		TEST(test_fastest_shortest),
 		TEST(test_fastest),
-		TEST(test_robustness_of_1),
+		TEST(test_robustness_length_of_1),
+		TEST(test_robustness_duration_of_1),
 		TEST(test_walk_node_not_present),
 		NULL,
 	};

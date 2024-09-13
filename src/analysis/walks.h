@@ -39,7 +39,7 @@ TreeNode exploration_tree_from_stream(Stream* stream);
 typedef struct {
 	LinkId link;
 	size_t time;
-	size_t needs_to_arrive_before;
+	Interval interval_taken;
 } WalkStep;
 
 DeclareToString(WalkStep);
@@ -108,5 +108,7 @@ Walk WalkInfo_unwrap_checked(WalkInfo info);
 Walk WalkInfo_unwrap_unchecked(WalkInfo info);
 
 TimeId Walk_arrives_at(Walk* walk);
+
+double Stream_robustness_by_duration(Stream* stream);
 
 #endif // WALK_H
