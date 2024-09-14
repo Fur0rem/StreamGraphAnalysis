@@ -296,11 +296,23 @@ double Stream_density_of_node(Stream* stream, NodeId node_id) {
 double Stream_density_at_instant(Stream* stream, TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(density_at_instant, stream);
 	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
-	NodesIterator nodes_at_t = fns.nodes_present_at_t(stream->stream_data, time_id);
 	LinksIterator links_at_t = fns.links_present_at_t(stream->stream_data, time_id);
+	// printf("got links present at t\n");
+	size_t et = 0;
+	FOR_EACH_LINK(link_id, links_at_t) {
+		// printf("link_id = %zu\n", link_id);
+		et++;
+	}
+	NodesIterator nodes_at_t = fns.nodes_present_at_t(stream->stream_data, time_id);
+	// printf("got nodes present at t\n");
+	size_t vt = 0;
+	FOR_EACH_NODE(node_id, nodes_at_t) {
+		// printf("node_id = %zu\n", node_id);
+		vt++;
+	}
 	// size_t et = COUNT_ITERATOR(links_at_t);
-	size_t et = COUNT_ITERATOR(links_at_t);
-	size_t vt = COUNT_ITERATOR(nodes_at_t);
+	// size_t et = COUNT_ITERATOR(links_at_t);
+	// size_t vt = COUNT_ITERATOR(nodes_at_t);
 	// printf("et = %zu, vt = %zu\n", et, vt);
 	return (double)et / (double)(size_set_unordered_pairs_itself(vt));
 }
@@ -496,120 +508,12 @@ double Stream_transitivity_ratio(Stream* stream) {
 	return (double)sum_num / (double)sum_den;
 }
 
-// TODO: move out of here
-bool Stream_equals(const Stream* stream1, const Stream* stream2) {
-	StreamFunctions fn1 = STREAM_FUNCS(fn1, stream1);
-	StreamFunctions fn2 = STREAM_FUNCS(fn2, stream2);
-
-	NodeIdVector nodes_set_1 = SGA_collect_node_ids(fn1.nodes_set(stream1->stream_data));
-	NodeIdVector nodes_set_2 = SGA_collect_node_ids(fn2.nodes_set(stream2->stream_data));
-
-	if (!NodeIdVector_equals(&nodes_set_1, &nodes_set_2)) {
-		NodeIdVector_destroy(nodes_set_1);
-		NodeIdVector_destroy(nodes_set_2);
-		printf("Nodes set are different\n");
-		return false;
-	}
-
-	for (size_t n = 0; n < nodes_set_1.size; n++) {
-		NodeId node = nodes_set_1.array[n];
-
-		// Compare their presence
-		IntervalVector times_n1 = SGA_collect_times(fn1.times_node_present(stream1->stream_data, node));
-		IntervalVector times_n2 = SGA_collect_times(fn2.times_node_present(stream2->stream_data, node));
-		if (!IntervalVector_equals(&times_n1, &times_n2)) {
-			IntervalVector_destroy(times_n1);
-			IntervalVector_destroy(times_n2);
-			// TODO: remove repetition of destroy
-			NodeIdVector_destroy(nodes_set_1);
-			NodeIdVector_destroy(nodes_set_2);
-			printf("Times of node %zu are different\n", node);
-			return false;
-		}
-		IntervalVector_destroy(times_n1);
-		IntervalVector_destroy(times_n2);
-
-		// Compare their neighbours
-		LinkIdVector neighbours_n1 = SGA_collect_link_ids(fn1.neighbours_of_node(stream1->stream_data, node));
-		LinkIdVector neighbours_n2 = SGA_collect_link_ids(fn2.neighbours_of_node(stream2->stream_data, node));
-
-		if (neighbours_n1.size != neighbours_n2.size) {
-			LinkIdVector_destroy(neighbours_n1);
-			LinkIdVector_destroy(neighbours_n2);
-			NodeIdVector_destroy(nodes_set_1);
-			NodeIdVector_destroy(nodes_set_2);
-			printf("Neighbours of node %zu are different\n", node);
-			return false;
-		}
-
-		// Double inclusion (since a link is defined by 2 nodes, their ID doesn't matter)
-		LinkIdVector links_vectors[2] = {neighbours_n1, neighbours_n2};
-		for (size_t i = 0; i < 2; i++) {
-
-			for (size_t l = 0; l < neighbours_n1.size; l++) {
-				LinkId lid	  = neighbours_n1.array[l];
-				Link l1		  = fn1.link_by_id(stream1->stream_data, lid);
-				NodeId neigh1 = Link_get_other_node(&l1, node);
-
-				// Find the matching link in the other stream (by the other node)
-				bool found = false;
-				for (size_t l2 = 0; l2 < neighbours_n2.size; l2++) {
-					LinkId lid2	  = neighbours_n2.array[l2];
-					Link l2		  = fn2.link_by_id(stream2->stream_data, lid2);
-					NodeId neigh2 = Link_get_other_node(&l2, node);
-
-					if (neigh1 == neigh2) { // We found the same neighbour
-						// Compare their presence
-						IntervalVector times_l1 = SGA_collect_times(fn1.times_link_present(stream1->stream_data, lid));
-						IntervalVector times_l2 = SGA_collect_times(fn2.times_link_present(stream2->stream_data, lid2));
-						if (!IntervalVector_equals(&times_l1, &times_l2)) {
-							IntervalVector_destroy(times_l1);
-							IntervalVector_destroy(times_l2);
-							NodeIdVector_destroy(nodes_set_1);
-							NodeIdVector_destroy(nodes_set_2);
-							LinkIdVector_destroy(neighbours_n1);
-							LinkIdVector_destroy(neighbours_n2);
-							printf("Times of link %zu are different\n", lid);
-							return false;
-						}
-						IntervalVector_destroy(times_l1);
-						IntervalVector_destroy(times_l2);
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
-					LinkIdVector_destroy(neighbours_n1);
-					LinkIdVector_destroy(neighbours_n2);
-					NodeIdVector_destroy(nodes_set_1);
-					NodeIdVector_destroy(nodes_set_2);
-					printf("Neighbours of node %zu are different\n", node);
-					return false;
-				}
-			}
-
-			// Swap the vectors
-			LinkIdVector tmp = links_vectors[0];
-			links_vectors[0] = links_vectors[1];
-			links_vectors[1] = tmp;
-		}
-
-		LinkIdVector_destroy(neighbours_n2);
-		LinkIdVector_destroy(neighbours_n1);
-	}
-
-	NodeIdVector_destroy(nodes_set_1);
-	NodeIdVector_destroy(nodes_set_2);
-	return true;
-}
-
 String Stream_to_string(const Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	String str			= String_from_duplicate("Stream {\n\tLifespan: ");
 	Interval lifespan	= fns.lifespan(stream->stream_data);
 	String interval_str = Interval_to_string(&lifespan);
-	String_concat_consume(&str, &interval_str);
+	String_concat_consume(&str, interval_str);
 	// TODO : rename push_str to append
 	String_push_str(&str, "\n\tNodes:\n");
 	NodesIterator nodes = fns.nodes_set(stream->stream_data);

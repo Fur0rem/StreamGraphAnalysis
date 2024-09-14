@@ -1,5 +1,6 @@
 - Clean up walks source code cause it is soooooo ugly
 - Skip n for iterators
+- Better error messages
 - Name coherency between FSG/FullStreamGraph ect...
 - Name guard for different iterators of the different stream types
 - Check for data coherence in the input file
@@ -14,7 +15,6 @@
 - Make sure the .h files are included in the .c files
 - Document the code
 - Find a name for |V|
-- Debug for use of uninitialised table of events
 - Verify catch implementations for all functions
 - const qualifier when needed
 - Version control for formats

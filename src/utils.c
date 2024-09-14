@@ -55,9 +55,9 @@ void String_concat_copy(String* self, const String* with) {
 	self->size += with->size;
 }
 
-void String_concat_consume(String* self, String* with) {
-	String_concat_copy(self, with);
-	String_destroy(*with);
+void String_concat_consume(String* self, String with) {
+	String_concat_copy(self, &with);
+	String_destroy(with);
 }
 
 void String_destroy(String self) {

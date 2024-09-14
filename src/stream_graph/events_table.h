@@ -24,5 +24,6 @@ typedef struct {
 } EventsTable;
 
 EventsTable EventsTable_alloc(size_t nb_node_regular_key_moments, size_t nb_node_removal_only_key_moments);
+String EventsTable_to_string(EventsTable* events_table);
 
 #endif

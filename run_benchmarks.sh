@@ -23,6 +23,12 @@ if [ "$1" == "--valgrind" ]; then
     shift
 fi
 
+callgrind=0
+if [ "$1" == "--callgrind" ]; then
+    callgrind=1
+    shift
+fi
+
 # If you have only one argument : run that benchmark only
 if [ $# -eq 1 ]; then
     filename=$1
@@ -44,11 +50,22 @@ if [ $# -eq 1 ]; then
         fi
     #fi
 
-    if [ $valgrind -ne 1 ]; then
-        $BIN_DIR/benchmark_$filename
-    else
+    # if [ $valgrind -ne 1 ]; then
+    #     $BIN_DIR/benchmark_$filename
+    # else
+    #     valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
+    # fi
+
+    if [ $callgrind -eq 1 ]; then
         valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
+    else 
+        if [ $valgrind -eq 1 ]; then
+            valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes $BIN_DIR/benchmark_$filename
+        else
+            $BIN_DIR/benchmark_$filename
+        fi
     fi
+
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1

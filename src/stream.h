@@ -19,6 +19,9 @@ typedef struct {
 	EventsTable events;
 	Interval lifespan;
 	size_t scaling;
+#ifdef DEBUG
+	bool events_inited;
+#endif
 } StreamGraph;
 
 StreamGraph StreamGraph_from_string(const char* str);
@@ -69,13 +72,13 @@ typedef struct {
 
 void init_cache(Stream* stream);
 
-#define FETCH_CACHE(stream, field)                                                                                     \
-	if ((stream)->cache.field.present) {                                                                               \
-		return (stream)->cache.field.data;                                                                             \
+#define FETCH_CACHE(stream, field)                                                                                                         \
+	if ((stream)->cache.field.present) {                                                                                                   \
+		return (stream)->cache.field.data;                                                                                                 \
 	}
 
-#define UPDATE_CACHE(stream, field, value)                                                                             \
-	(stream)->cache.field.present = true;                                                                              \
+#define UPDATE_CACHE(stream, field, value)                                                                                                 \
+	(stream)->cache.field.present = true;                                                                                                  \
 	(stream)->cache.field.data	  = value;
 
 void reset_cache(Stream* stream);

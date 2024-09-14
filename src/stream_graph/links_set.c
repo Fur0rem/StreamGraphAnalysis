@@ -15,7 +15,7 @@ String Link_to_string(const Link* link) {
 
 	for (size_t i = 0; i < link->presence.nb_intervals; i++) {
 		String interval_str = Interval_to_string(&link->presence.intervals[i]);
-		String_concat_consume(&str, &interval_str);
+		String_concat_consume(&str, interval_str);
 		String_push_str(&str, " U ");
 	}
 
