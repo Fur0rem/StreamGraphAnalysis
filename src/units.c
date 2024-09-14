@@ -1,28 +1,31 @@
 #include "units.h"
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "utils.h"
 
 DEFAULT_EQUALS(NodeId);
-
-DefineVector(NodeId);
-DefineVectorDeriveEquals(NodeId);
-DefineVectorDeriveRemove(NodeId, NO_FREE(NodeId));
+NO_FREE(NodeId);
+DefineArrayList(NodeId);
+DefineArrayListDeriveEquals(NodeId);
+DefineArrayListDeriveRemove(NodeId);
 DEFAULT_TO_STRING(NodeId, "%zu");
-DefineVectorDeriveToString(NodeId);
+DefineArrayListDeriveToString(NodeId);
 
 DEFAULT_EQUALS(LinkId);
 
-DefineVector(LinkId);
-DefineVectorDeriveEquals(LinkId);
-DefineVectorDeriveRemove(LinkId, NO_FREE(LinkId));
+NO_FREE(LinkId);
+DefineArrayList(LinkId);
+DefineArrayListDeriveEquals(LinkId);
+DefineArrayListDeriveRemove(LinkId);
 DEFAULT_TO_STRING(LinkId, "%zu");
-DefineVectorDeriveToString(LinkId);
+DefineArrayListDeriveToString(LinkId);
 
+// TODO: rename to instant
+NO_FREE(TimeId);
 DEFAULT_EQUALS(TimeId);
 DEFAULT_COMPARE(TimeId);
-DefineVector(TimeId);
-DefineVectorDeriveEquals(TimeId);
-DefineVectorDeriveRemove(TimeId, NO_FREE(TimeId));
-DefineVectorDeriveOrdered(TimeId);
+DefineArrayList(TimeId);
+DefineArrayListDeriveEquals(TimeId);
+DefineArrayListDeriveRemove(TimeId);
+DefineArrayListDeriveOrdered(TimeId);
 DEFAULT_TO_STRING(TimeId, "%zu");
-DefineVectorDeriveToString(TimeId);
+DefineArrayListDeriveToString(TimeId);

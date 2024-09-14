@@ -1,7 +1,7 @@
 \hypertarget{index_autotoc_md0}{}\doxysection{@anchor md\+\_\+\+README}\label{index_autotoc_md0}
 \hypertarget{index_autotoc_md1}{}\doxysection{Stream\+Graph\+Analysis \+: A C library for processing and analysing undirected unweighted stream graphs}\label{index_autotoc_md1}
 \hypertarget{index_autotoc_md2}{}\doxysubsection{Current state of the Project}\label{index_autotoc_md2}
-This is only a prototype, so the library is not usable at all for now. I\textquotesingle{}m still experimenting with how I approach the problem for now.\hypertarget{index_autotoc_md3}{}\doxysubsection{How to use the library}\label{index_autotoc_md3}
+Quite usable, but not fully fleshed out yet.\hypertarget{index_autotoc_md3}{}\doxysubsection{How to use the library}\label{index_autotoc_md3}
 Clone the repository, and then run make lib\+SGA to compile the library. You will have a lib\+SGA.\+a file in the bin/ directory, which you can link to your project to use the library. There is a header Stream\+Graph\+Analysis.\+h in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the doc/ directory.\hypertarget{index_autotoc_md4}{}\doxysubsection{Data format}\label{index_autotoc_md4}
 You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write, but the internal format is more efficient to read. So it\textquotesingle{}s recommended to write your data in the external format, and then convert it to the internal format using the Internal\+Format\+\_\+from\+\_\+\+External\+\_\+str function, and save that for future use.
 
@@ -47,21 +47,25 @@ The library is designed to process and analyse continuous undirected unweighted 
 \item The stream graph cannot have instantaneous links, i.\+e. a link must last at least one time unit
 \item The stream graph uses closed on the left intervals, i.\+e. a link (u, v) is active at time t if and only if t is in \mbox{[}t\+\_\+start, t\+\_\+end\mbox{[}
 \item If a link is present at time t, the nodes u and v must be present at time t
-\end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysubsection{Project guidelines and organisation}\label{index_autotoc_md10}
+\end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysubsection{Stream wrappers}\label{index_autotoc_md10}
+The library supports analysing substreams of the stream graph, which are called (for now) stream wrappers. You need to wrap your stream graph in one of these to compute metrics on it.
+
+The stream wrappers are \+:
+\begin{DoxyItemize}
+\item Full\+Stream\+Graph \+: The entire stream graph, no modifications
+\item Link\+Stream \+: All nodes are present at all times, and the links are the only thing that changes
+\item Snapshot\+Stream \+: Study the stream graph only on a subset of the interval it is defined on, doesn\textquotesingle{}t change nodes or links present
+\item Chunk\+Stream and Chunk\+Stream\+Small \+: Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. Chunk\+Stream is optimised for when you have a lot of nodes and links, and Chunk\+Stream\+Small is optimised for more sparse chunks with a small portion of the nodes and links.
+\end{DoxyItemize}
+
+I plan to add Delta\+Stream\+Graph, to support delta-\/analysis of the stream graph, and maybe a few others.\hypertarget{index_autotoc_md11}{}\doxysubsection{Project guidelines and organisation}\label{index_autotoc_md11}
 
 \begin{DoxyItemize}
 \item Guidelines \+: None for now, I\textquotesingle{}m focusing on having something that works first, rather than something that is perfect but with no results. Things I\textquotesingle{}m considering for guidelines are namespacing to work with other libraries. Maybe I could make it standardised like ISO C, or C99, but I\textquotesingle{}m doing weird macro magic for the genericity specified above, so I\textquotesingle{}m not sure how to do that.
 \item Organisation \+:
 \end{DoxyItemize}
 
-The src/ directory contains the entire source code of the library. The source code is divided into 3 parts \+:
-\begin{DoxyItemize}
-\item stream\+\_\+graph, which contains the base data structure and functions to read a stream graph from a file
-\item metrics, which contains the functions to compute the metrics
-\item utils, which contains utility functions used by the other parts, such as generic dynamic arrays and hash tables
-\end{DoxyItemize}
-
-The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. You can run them using the run\+\_\+tests.\+sh script in the main directory.\hypertarget{index_autotoc_md11}{}\doxysubsection{Supported metrics and analysis (\+In order of first mention in the paper)}\label{index_autotoc_md11}
+The src/ directory contains the entire source code of the library. The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. You can run them using the run\+\_\+tests.\+sh script in the main directory.\hypertarget{index_autotoc_md12}{}\doxysubsection{Supported metrics and analysis (\+In order of first mention in the paper)}\label{index_autotoc_md12}
 
 \begin{DoxyItemize}
 \item Coverage \+: Section 3
@@ -85,6 +89,7 @@ The tests/ directory contains the tests for the library, which are written using
 \item K-\/cores \+: Section 13
 \item Paths and distances \+: Section 14
 \item Robustness by length \+: Outside of the paper
+\item Isomorphism \+: Outside of the paper
 \end{DoxyItemize}
 
 (These were implemented in previous commits but have not been ported for generic streams yet)

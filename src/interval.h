@@ -1,7 +1,7 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "units.h"
 #include "utils.h"
 #include <stdbool.h>
@@ -30,10 +30,10 @@ Interval Interval_minus(Interval left, Interval right);
 DeclareToString(Interval);
 DeclareEquals(Interval);
 
-DeclareVector(Interval);
-DeclareVectorDeriveRemove(Interval);
-DeclareVectorDeriveEquals(Interval);
-DeclareVectorDeriveToString(Interval);
+DeclareArrayList(Interval);
+DeclareArrayListDeriveRemove(Interval);
+DeclareArrayListDeriveEquals(Interval);
+DeclareArrayListDeriveToString(Interval);
 
 // int Interval_starts_before(const void* a, const void* b);
 
@@ -41,7 +41,7 @@ size_t IntervalsSet_size(IntervalsSet intervals_set);
 IntervalsSet IntervalsSet_alloc(size_t nb_intervals);
 void IntervalsSet_merge(IntervalsSet* intervals_set);
 IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right);
-IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector* right);
+IntervalArrayList IntervalArrayList_intersection(IntervalArrayList* left, IntervalArrayList* right);
 IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet set, Interval interval);
 void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval);
 IntervalsSet IntervalsSet_union(IntervalsSet left, IntervalsSet right);
@@ -52,8 +52,8 @@ bool IntervalsSet_contains_sorted(IntervalsSet intervals_set, TimeId time);
 
 void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t index);
 
-IntervalsSet IntervalsSet_from_interval_vector(IntervalVector intervals);
-IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set);
+IntervalsSet IntervalsSet_from_interval_arraylist(IntervalArrayList intervals);
+IntervalArrayList IntervalArrayList_from_intervals_set(IntervalsSet intervals_set);
 
 void IntervalsSet_sort(IntervalsSet* intervals_set);
 
@@ -69,7 +69,7 @@ typedef struct {
 	size_t offset;
 } SGA_Offset;
 
-SGA_Offset IntervalVector_offset_of(const IntervalVector* self, const IntervalVector* other);
+SGA_Offset IntervalArrayList_offset_of(const IntervalArrayList* self, const IntervalArrayList* other);
 SGA_Offset Interval_offset_of(const Interval* self, const Interval* other);
 
 bool SGA_Offset_is_ok(SGA_Offset offset);

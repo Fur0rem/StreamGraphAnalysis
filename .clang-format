@@ -18,10 +18,11 @@ BraceWrapping:
 ColumnLimit: 140
 IndentCaseLabels: true
 AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: false
-AllowShortBlocksOnASingleLine: false
-AllowShortIfStatementsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Empty
+# AllowShortIfStatementsOnASingleLine: false
+# AllowShortCaseExpressionOnASingleLine: false
 AlignConsecutiveMacros: true
 IndentPPDirectives: AfterHash
 AlignConsecutiveAssignments: true

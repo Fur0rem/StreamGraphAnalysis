@@ -35,8 +35,9 @@ var NAVTREE =
       [ "What it can do", "index.html#autotoc_md7", null ],
       [ "What it cannot do", "index.html#autotoc_md8", null ],
       [ "Specifications of the stream graph data", "index.html#autotoc_md9", null ],
-      [ "Project guidelines and organisation", "index.html#autotoc_md10", null ],
-      [ "Supported metrics and analysis (In order of first mention in the paper)", "index.html#autotoc_md11", null ]
+      [ "Stream wrappers", "index.html#autotoc_md10", null ],
+      [ "Project guidelines and organisation", "index.html#autotoc_md11", null ],
+      [ "Supported metrics and analysis (In order of first mention in the paper)", "index.html#autotoc_md12", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

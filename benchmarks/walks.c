@@ -22,8 +22,8 @@ DONT_OPTIMISE void fastest() {
 				continue;
 			}
 			printf("Optimal walks between %zu and %zu\n", i, j);
-			WalkInfoVector optimal_walks = optimal_walks_between_two_nodes(&stream, i, j, Stream_fastest_walk);
-			WalkInfoVector_destroy(optimal_walks);
+			WalkInfoArrayList optimal_walks = optimal_walks_between_two_nodes(&stream, i, j, Stream_fastest_walk);
+			WalkInfoArrayList_destroy(optimal_walks);
 		}
 	}
 }

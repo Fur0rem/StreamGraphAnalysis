@@ -5,47 +5,50 @@
 \DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef DEFAULTS\_H}}
 \DoxyCodeLine{2 \textcolor{preprocessor}{\#define DEFAULTS\_H}}
 \DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}hashset.h"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}vector.h"{}}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{8 }
-\DoxyCodeLine{9 \textcolor{preprocessor}{\#define DeclareFullDerivedVector(T)                                                                                    \(\backslash\)}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{    DeclareVector(T);                                                                                                  \(\backslash\)}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{    DeclareVectorDeriveRemove(T);                                                                                      \(\backslash\)}}
-\DoxyCodeLine{12 \textcolor{preprocessor}{    DeclareVectorDeriveEquals(T);                                                                                      \(\backslash\)}}
-\DoxyCodeLine{13 \textcolor{preprocessor}{    DeclareVectorDeriveOrdered(T);                                                                                     \(\backslash\)}}
-\DoxyCodeLine{14 \textcolor{preprocessor}{    DeclareVectorDeriveToString(T);}}
-\DoxyCodeLine{15 }
-\DoxyCodeLine{16 \textcolor{preprocessor}{\#define DefineFullDerivedVector(T, free\_func)                                                                          \(\backslash\)}}
-\DoxyCodeLine{17 \textcolor{preprocessor}{    DefineVector(T);                                                                                                   \(\backslash\)}}
-\DoxyCodeLine{18 \textcolor{preprocessor}{    DefineVectorDeriveRemove(T, free\_func);                                                                            \(\backslash\)}}
-\DoxyCodeLine{19 \textcolor{preprocessor}{    DefineVectorDeriveEquals(T);                                                                                       \(\backslash\)}}
-\DoxyCodeLine{20 \textcolor{preprocessor}{    DefineVectorDeriveOrdered(T);                                                                                      \(\backslash\)}}
-\DoxyCodeLine{21 \textcolor{preprocessor}{    DefineVectorDeriveToString(T);}}
-\DoxyCodeLine{22 }
-\DoxyCodeLine{23 \textcolor{preprocessor}{\#define DeclareFullDerivedHashset(T)                                                                                   \(\backslash\)}}
-\DoxyCodeLine{24 \textcolor{preprocessor}{    DeclareHashset(T);                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{25 \textcolor{preprocessor}{    DeclareHashsetDeriveRemove(T);                                                                                     \(\backslash\)}}
-\DoxyCodeLine{26 \textcolor{preprocessor}{    DeclareHashsetDeriveToString(T);                                                                                   \(\backslash\)}}
-\DoxyCodeLine{27 \textcolor{preprocessor}{    DeclareHashsetDeriveEquals(T);}}
-\DoxyCodeLine{28 }
-\DoxyCodeLine{29 \textcolor{preprocessor}{\#define DefineFullDerivedHashset(T, free\_func)                                                                         \(\backslash\)}}
-\DoxyCodeLine{30 \textcolor{preprocessor}{    DefineHashset(T);                                                                                                  \(\backslash\)}}
-\DoxyCodeLine{31 \textcolor{preprocessor}{    DefineHashsetDeriveRemove(T, free\_func);                                                                           \(\backslash\)}}
-\DoxyCodeLine{32 \textcolor{preprocessor}{    DefineHashsetDeriveToString(T);                                                                                    \(\backslash\)}}
-\DoxyCodeLine{33 \textcolor{preprocessor}{    DefineHashsetDeriveEquals(T);}}
-\DoxyCodeLine{34 }
-\DoxyCodeLine{35 DeclareCompare(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{36 DeclareToString(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{37 DeclareFullDerivedVector(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{38 DeclareFullDerivedHashset(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{39 }
-\DoxyCodeLine{40 DeclareCompare(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{41 DeclareToString(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{42 DeclareFullDerivedVector(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{43 DeclareFullDerivedHashset(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{44 }
-\DoxyCodeLine{45 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// DEFAULTS\_H}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}generic\_data\_structures/binary\_heap.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}generic\_data\_structures/hashset.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define DeclareFullDerivedArrayList(T)                                                                                                     \(\backslash\)}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{    DeclareArrayList(T);                                                                                                                   \(\backslash\)}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{    DeclareArrayListDeriveRemove(T);                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{    DeclareArrayListDeriveEquals(T);                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{    DeclareArrayListDeriveOrdered(T);                                                                                                      \(\backslash\)}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{    DeclareArrayListDeriveToString(T);}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define DefineFullDerivedArrayList(T)                                                                                                      \(\backslash\)}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{    DefineArrayList(T);                                                                                                                    \(\backslash\)}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{    DefineArrayListDeriveRemove(T);                                                                                                        \(\backslash\)}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{    DefineArrayListDeriveEquals(T);                                                                                                        \(\backslash\)}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{    DefineArrayListDeriveOrdered(T);                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{    DefineArrayListDeriveToString(T);}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define DeclareFullDerivedHashset(T)                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{    DeclareHashset(T);                                                                                                                     \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{    DeclareHashsetDeriveRemove(T);                                                                                                         \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{    DeclareHashsetDeriveToString(T);                                                                                                       \(\backslash\)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{    DeclareHashsetDeriveEquals(T);}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define DefineFullDerivedHashset(T)                                                                                                        \(\backslash\)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{    DefineHashset(T);                                                                                                                      \(\backslash\)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{    DefineHashsetDeriveRemove(T);                                                                                                          \(\backslash\)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{    DefineHashsetDeriveToString(T);                                                                                                        \(\backslash\)}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{    DefineHashsetDeriveEquals(T);}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 DeclareCompare(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{37 DeclareToString(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{38 DeclareFullDerivedArrayList(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{39 DeclareFullDerivedHashset(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{40 DeclareBinaryHeap(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 DeclareCompare(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{43 DeclareToString(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{44 DeclareFullDerivedArrayList(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{45 DeclareFullDerivedHashset(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{46 DeclareBinaryHeap(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// DEFAULTS\_H}}
 
 \end{DoxyCode}

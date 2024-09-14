@@ -1,7 +1,7 @@
 #ifndef K_CORES_H
 #define K_CORES_H
 
-#include "../generic_data_structures/vector.h"
+#include "../generic_data_structures/arraylist.h"
 #include "../interval.h"
 #include "../stream.h"
 #include "../utils.h"
@@ -9,13 +9,13 @@
 
 typedef struct {
 	NodeId node_id;
-	IntervalVector presence;
+	IntervalArrayList presence;
 } NodePresence;
 
-DeclareVector(NodePresence);
+DeclareArrayList(NodePresence);
 
 typedef struct {
-	NodePresenceVector nodes;
+	NodePresenceArrayList nodes;
 } KCore;
 
 DeclareToString(KCore);

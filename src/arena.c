@@ -1,5 +1,5 @@
 #include "arena.h"
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "utils.h"
 
 InnerArena InnerArena_init() {

@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-ChunkStream ChunkStream_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+ChunkStream ChunkStream_with(StreamGraph* stream_graph, NodeIdArrayList* nodes, LinkIdArrayList* links, size_t time_start,
 							 size_t time_end) {
 	ChunkStream chunk_stream = (ChunkStream){
 		.underlying_stream_graph = stream_graph,
@@ -12,14 +12,13 @@ ChunkStream ChunkStream_with(StreamGraph* stream_graph, NodeIdVector* nodes, Lin
 		.nodes_present			 = BitArray_n_zeros(stream_graph->nodes.nb_nodes),
 		.links_present			 = BitArray_n_zeros(stream_graph->links.nb_links),
 	};
-	for (size_t i = 0; i < nodes->size; i++) {
+	for (size_t i = 0; i < nodes->length; i++) {
 		BitArray_set_one(chunk_stream.nodes_present, nodes->array[i]);
 	}
-	for (size_t i = 0; i < links->size; i++) {
+	for (size_t i = 0; i < links->length; i++) {
 		// If the two nodes are not present in the chunk stream, then the link is not present
 		Link link = stream_graph->links.links[links->array[i]];
-		if (BitArray_is_one(chunk_stream.nodes_present, link.nodes[0]) &&
-			BitArray_is_one(chunk_stream.nodes_present, link.nodes[1])) {
+		if (BitArray_is_one(chunk_stream.nodes_present, link.nodes[0]) && BitArray_is_one(chunk_stream.nodes_present, link.nodes[1])) {
 			BitArray_set_one(chunk_stream.links_present, links->array[i]);
 		}
 	}
@@ -30,8 +29,7 @@ ChunkStream ChunkStream_with(StreamGraph* stream_graph, NodeIdVector* nodes, Lin
 	return chunk_stream;
 }
 
-Stream CS_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
-			   size_t time_end) {
+Stream CS_with(StreamGraph* stream_graph, NodeIdArrayList* nodes, LinkIdArrayList* links, size_t time_start, size_t time_end) {
 	ChunkStream* chunk_stream = MALLOC(sizeof(ChunkStream));
 	*chunk_stream			  = ChunkStream_with(stream_graph, nodes, links, time_start, time_end);
 	Stream stream			  = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
@@ -39,7 +37,7 @@ Stream CS_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* lin
 	return stream;
 }
 
-ChunkStream ChunkStream_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
+ChunkStream ChunkStream_without(StreamGraph* stream_graph, NodeIdArrayList* nodes, LinkIdArrayList* links, size_t time_start,
 								size_t time_end) {
 	ChunkStream chunk_stream = (ChunkStream){
 		.underlying_stream_graph = stream_graph,
@@ -47,14 +45,13 @@ ChunkStream ChunkStream_without(StreamGraph* stream_graph, NodeIdVector* nodes, 
 		.nodes_present			 = BitArray_n_ones(stream_graph->nodes.nb_nodes),
 		.links_present			 = BitArray_n_ones(stream_graph->links.nb_links),
 	};
-	for (size_t i = 0; i < nodes->size; i++) {
+	for (size_t i = 0; i < nodes->length; i++) {
 		BitArray_set_zero(chunk_stream.nodes_present, nodes->array[i]);
 	}
-	for (size_t i = 0; i < links->size; i++) {
+	for (size_t i = 0; i < links->length; i++) {
 		// If the two nodes are not present in the chunk stream, then the link is not present
 		Link link = stream_graph->links.links[links->array[i]];
-		if (BitArray_is_zero(chunk_stream.nodes_present, link.nodes[0]) ||
-			BitArray_is_zero(chunk_stream.nodes_present, link.nodes[1])) {
+		if (BitArray_is_zero(chunk_stream.nodes_present, link.nodes[0]) || BitArray_is_zero(chunk_stream.nodes_present, link.nodes[1])) {
 			BitArray_set_zero(chunk_stream.links_present, links->array[i]);
 		}
 	}
@@ -65,8 +62,7 @@ ChunkStream ChunkStream_without(StreamGraph* stream_graph, NodeIdVector* nodes, 
 	return chunk_stream;
 }
 
-Stream CS_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
-				  size_t time_end) {
+Stream CS_without(StreamGraph* stream_graph, NodeIdArrayList* nodes, LinkIdArrayList* links, size_t time_start, size_t time_end) {
 	ChunkStream* chunk_stream = MALLOC(sizeof(ChunkStream));
 	*chunk_stream			  = ChunkStream_without(stream_graph, nodes, links, time_start, time_end);
 	Stream stream			  = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
@@ -183,8 +179,7 @@ size_t ChunkStream_NeighboursOfNode_next(LinksIterator* iter) {
 	if (neighbours_iter_data->current_neighbour >= stream_graph->nodes.nodes[node].nb_neighbours) {
 		return SIZE_MAX;
 	}
-	size_t return_val =
-		chunk_stream->underlying_stream_graph->nodes.nodes[node].neighbours[neighbours_iter_data->current_neighbour];
+	size_t return_val = chunk_stream->underlying_stream_graph->nodes.nodes[node].neighbours[neighbours_iter_data->current_neighbour];
 	neighbours_iter_data->current_neighbour++;
 	if (BitArray_is_zero(chunk_stream->links_present, return_val)) {
 		return ChunkStream_NeighboursOfNode_next(iter);
@@ -245,8 +240,7 @@ TimesIterator ChunkStream_times_node_present(StreamData* stream_data, NodeId nod
 	CS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CS_TimesIdPresentAtIteratorData));
 	size_t nb_skips								   = 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.nb_intervals &&
-		   chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end <
-			   chunk_stream->snapshot.start) {
+		   chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end < chunk_stream->snapshot.start) {
 		nb_skips++;
 	}
 	*iterator_data = (CS_TimesIdPresentAtIteratorData){
@@ -286,8 +280,7 @@ TimesIterator ChunkStream_times_link_present(StreamData* stream_data, LinkId lin
 	CS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CS_TimesIdPresentAtIteratorData));
 	size_t nb_skips								   = 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->links.links[link].presence.nb_intervals &&
-		   chunk_stream->underlying_stream_graph->links.links[link].presence.intervals[nb_skips].end <
-			   chunk_stream->snapshot.start) {
+		   chunk_stream->underlying_stream_graph->links.links[link].presence.intervals[nb_skips].end < chunk_stream->snapshot.start) {
 		nb_skips++;
 	}
 	*iterator_data = (CS_TimesIdPresentAtIteratorData){
@@ -342,9 +335,9 @@ NodesIterator ChunkStream_nodes_present_at_t(StreamData* stream_data, TimeId ins
 	ChunkStreamNPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamNPATIterData));
 	/*FullStreamGraph* full_stream_graph = MALLOC(sizeof(FullStreamGraph));
 	 *full_stream_graph = FullStreamGraph_from(chunk_stream->underlying_stream_graph);*/
-	Stream fsg						   = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
-	FullStreamGraph* full_stream_graph = (FullStreamGraph*)fsg.stream_data;
-	iterator_data->nodes_iterator_fsg = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, instant);
+	Stream fsg							   = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
+	FullStreamGraph* full_stream_graph	   = (FullStreamGraph*)fsg.stream_data;
+	iterator_data->nodes_iterator_fsg	   = FullStreamGraph_stream_functions.nodes_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 
 	Stream stream = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
@@ -389,7 +382,7 @@ LinksIterator ChunkStream_links_present_at_t(StreamData* stream_data, TimeId ins
 	ChunkStreamLPATIterData* iterator_data = MALLOC(sizeof(ChunkStreamLPATIterData));
 	Stream fsg							   = FullStreamGraph_from(chunk_stream->underlying_stream_graph);
 	FullStreamGraph* full_stream_graph	   = (FullStreamGraph*)fsg.stream_data;
-	iterator_data->links_iterator_fsg = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, instant);
+	iterator_data->links_iterator_fsg	   = FullStreamGraph_stream_functions.links_present_at_t(full_stream_graph, instant);
 	iterator_data->underlying_stream_graph = full_stream_graph;
 	Stream stream						   = {.type = CHUNK_STREAM, .stream_data = chunk_stream};
 	// Stream* stream = MALLOC(sizeof(Stream));

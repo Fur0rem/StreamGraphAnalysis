@@ -37,7 +37,8 @@
 #define F_EQUALS(left, right)			  (fabs((left) - (right)) < 1e-9)
 #define F_EQUALS_APPROX(left, right, eps) (fabs((left) - (right)) < (eps))
 
-#define NO_FREE(type) ((void (*)(type))NULL)
+#define NO_FREE(type)                                                                                                                      \
+	void type##_destroy(type self) {}
 #define DEFAULT_EQUALS(type)                                                                                                               \
 	bool type##_equals(const type* left, const type* right) {                                                                              \
 		return *left == *right;                                                                                                            \
@@ -108,6 +109,7 @@
 #endif
 
 typedef struct {
+	// TODO: rename those to the same as arraylist
 	size_t size;
 	size_t capacity;
 	char* data;

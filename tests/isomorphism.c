@@ -22,17 +22,17 @@ bool test_isomorphism_chunk() {
 	StreamGraph sg			= StreamGraph_from_external("data/kcores_with_L.txt");
 	StreamGraph kcores_only = StreamGraph_from_external("data/kcores_test.txt");
 
-	LinkIdVector links = LinkIdVector_new();
+	LinkIdArrayList links = LinkIdArrayList_new();
 	for (size_t i = 0; i < sg.links.nb_links; i++) {
-		LinkIdVector_push(&links, i);
+		LinkIdArrayList_push(&links, i);
 		printf("Link %zu (%zu, %zu)\n", i, sg.links.links[i].nodes[0], sg.links.links[i].nodes[1]);
 	}
 
-	NodeIdVector nodes = NodeIdVector_new();
-	NodeIdVector_push(&nodes, 0);
-	NodeIdVector_push(&nodes, 2);
-	NodeIdVector_push(&nodes, 4);
-	NodeIdVector_push(&nodes, 6);
+	NodeIdArrayList nodes = NodeIdArrayList_new();
+	NodeIdArrayList_push(&nodes, 0);
+	NodeIdArrayList_push(&nodes, 2);
+	NodeIdArrayList_push(&nodes, 4);
+	NodeIdArrayList_push(&nodes, 6);
 
 	Interval snapshot = Interval_from(0, 10);
 	Stream st		  = CS_with(&sg, &nodes, &links, snapshot.start, snapshot.end);
