@@ -32,22 +32,22 @@ void IntervalsIterator_destroy(TimesIterator* iter) {
 // TODO : very unoptimized implementation
 TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	// Build an array of intervals
-	IntervalVector intervals = IntervalVector_new();
+	IntervalArrayList intervals = IntervalArrayList_new();
 	FOR_EACH_TIME(interval, a) {
-		IntervalVector_push(&intervals, interval);
+		IntervalArrayList_push(&intervals, interval);
 	}
-	IntervalsSet intervals_set_a = IntervalsSet_alloc(intervals.size);
-	for (size_t i = 0; i < intervals.size; i++) {
+	IntervalsSet intervals_set_a = IntervalsSet_alloc(intervals.length);
+	for (size_t i = 0; i < intervals.length; i++) {
 		intervals_set_a.intervals[i] = intervals.array[i];
 	}
-	IntervalVector_destroy(intervals);
+	IntervalArrayList_destroy(intervals);
 
-	intervals = IntervalVector_new();
+	intervals = IntervalArrayList_new();
 	FOR_EACH_TIME(interval, b) {
-		IntervalVector_push(&intervals, interval);
+		IntervalArrayList_push(&intervals, interval);
 	}
-	IntervalsSet intervals_set_b = IntervalsSet_alloc(intervals.size);
-	for (size_t i = 0; i < intervals.size; i++) {
+	IntervalsSet intervals_set_b = IntervalsSet_alloc(intervals.length);
+	for (size_t i = 0; i < intervals.length; i++) {
 		intervals_set_b.intervals[i] = intervals.array[i];
 	}
 
@@ -64,7 +64,7 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 		.destroy	   = IntervalsIterator_destroy,
 	};
 
-	IntervalVector_destroy(intervals);
+	IntervalArrayList_destroy(intervals);
 	IntervalsSet_destroy(intervals_set_a);
 	IntervalsSet_destroy(intervals_set_b);
 
@@ -74,22 +74,22 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 // FIXME: apparently this leaks memory
 TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	// Build an array of intervals
-	IntervalVector intervals = IntervalVector_new();
+	IntervalArrayList intervals = IntervalArrayList_new();
 	FOR_EACH_TIME(interval, a) {
-		IntervalVector_push(&intervals, interval);
+		IntervalArrayList_push(&intervals, interval);
 	}
-	IntervalsSet intervals_set_a = IntervalsSet_alloc(intervals.size);
-	for (size_t i = 0; i < intervals.size; i++) {
+	IntervalsSet intervals_set_a = IntervalsSet_alloc(intervals.length);
+	for (size_t i = 0; i < intervals.length; i++) {
 		intervals_set_a.intervals[i] = intervals.array[i];
 	}
-	IntervalVector_destroy(intervals);
+	IntervalArrayList_destroy(intervals);
 
-	intervals = IntervalVector_new();
+	intervals = IntervalArrayList_new();
 	FOR_EACH_TIME(interval, b) {
-		IntervalVector_push(&intervals, interval);
+		IntervalArrayList_push(&intervals, interval);
 	}
-	IntervalsSet intervals_set_b = IntervalsSet_alloc(intervals.size);
-	for (size_t i = 0; i < intervals.size; i++) {
+	IntervalsSet intervals_set_b = IntervalsSet_alloc(intervals.length);
+	for (size_t i = 0; i < intervals.length; i++) {
 		intervals_set_b.intervals[i] = intervals.array[i];
 	}
 
@@ -106,7 +106,7 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	data->intervals				= intersected;
 	data->current_interval		= 0;
 
-	IntervalVector_destroy(intervals);
+	IntervalArrayList_destroy(intervals);
 	IntervalsSet_destroy(intervals_set_a);
 	IntervalsSet_destroy(intervals_set_b);
 
@@ -125,26 +125,26 @@ size_t count_times(TimesIterator times) {
 	return _COUNT_ITERATOR(Interval, interval, times, interval.start != SIZE_MAX);
 }
 
-IntervalVector SGA_collect_times(TimesIterator times) {
-	IntervalVector intervals = IntervalVector_new();
+IntervalArrayList SGA_collect_times(TimesIterator times) {
+	IntervalArrayList intervals = IntervalArrayList_new();
 	FOR_EACH_TIME(interval, times) {
-		IntervalVector_push(&intervals, interval);
+		IntervalArrayList_push(&intervals, interval);
 	}
 	return intervals;
 }
 
-NodeIdVector SGA_collect_node_ids(NodesIterator nodes) {
-	NodeIdVector node_ids = NodeIdVector_new();
+NodeIdArrayList SGA_collect_node_ids(NodesIterator nodes) {
+	NodeIdArrayList node_ids = NodeIdArrayList_new();
 	FOR_EACH_NODE(node, nodes) {
-		NodeIdVector_push(&node_ids, node);
+		NodeIdArrayList_push(&node_ids, node);
 	}
 	return node_ids;
 }
 
-LinkIdVector SGA_collect_link_ids(LinksIterator links) {
-	LinkIdVector link_ids = LinkIdVector_new();
+LinkIdArrayList SGA_collect_link_ids(LinksIterator links) {
+	LinkIdArrayList link_ids = LinkIdArrayList_new();
 	FOR_EACH_LINK(link, links) {
-		LinkIdVector_push(&link_ids, link);
+		LinkIdArrayList_push(&link_ids, link);
 	}
 	return link_ids;
 }

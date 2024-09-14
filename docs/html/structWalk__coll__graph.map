@@ -1,8 +1,0 @@
-<map id="Walk" name="Walk">
-<area shape="rect" id="node1" title=" " alt="" coords="65,317,119,344"/>
-<area shape="rect" id="node2" href="$structInterval.html" title=" " alt="" coords="5,228,77,255"/>
-<area shape="rect" id="node3" href="$structStream.html" title=" " alt="" coords="109,228,179,255"/>
-<area shape="rect" id="node4" href="$structStreamData.html" title=" " alt="" coords="29,139,129,165"/>
-<area shape="rect" id="node5" href="$structInformationCache.html" title=" " alt="" coords="153,139,292,165"/>
-<area shape="rect" id="node6" href="$structOptionalSizeT.html" title=" " alt="" coords="167,5,279,32"/>
-</map>

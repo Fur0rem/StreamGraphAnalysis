@@ -93,38 +93,38 @@ $(document).ready(function(){initNavTree('metrics_8h.html',''); initResizable();
 <div class="textblock"><p >Functions to compute metrics on a <a class="el" href="structStream.html">Stream</a>. </p>
 <p >The metrics are defined in the paper. I encourage you to read it to understand the metrics as explaining them here would be redundant. Most of the functions have been named the same way, but some have been renamed to be more coherent with the implementation, if I changed the name, I will give the name of the metric in the paper. <br  />
  The metrics documentation have been split per section of the paper and ordered in the same order as in the paper. </p>
-</div><div class="textblock"><code>#include &quot;interval.h&quot;</code><br />
+</div><div class="textblock"><code>#include &quot;generic_data_structures/arraylist.h&quot;</code><br />
+<code>#include &quot;interval.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="iterators_8h_source.html">iterators.h</a>&quot;</code><br />
 <code>#include &quot;stream.h&quot;</code><br />
-<code>#include &quot;vector.h&quot;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for metrics.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="metrics_8h__incl.png" border="0" usemap="#asrc_2metrics_8h" alt=""/></div>
 <map name="asrc_2metrics_8h" id="asrc_2metrics_8h">
-<area shape="rect" title="Functions to compute metrics on a Stream." alt="" coords="641,5,748,32"/>
-<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="1017,326,1101,353"/>
-<area shape="rect" title=" " alt="" coords="584,781,659,808"/>
-<area shape="rect" href="vector_8h_source.html" title=" " alt="" coords="1216,632,1291,659"/>
-<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="650,80,739,107"/>
-<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="499,155,579,181"/>
-<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="760,408,827,435"/>
-<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="1023,707,1086,733"/>
-<area shape="rect" title=" " alt="" coords="183,781,265,808"/>
-<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="963,483,1050,509"/>
-<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="1115,557,1200,584"/>
-<area shape="rect" title=" " alt="" coords="1140,707,1207,733"/>
-<area shape="rect" title=" " alt="" coords="928,781,1003,808"/>
-<area shape="rect" title=" " alt="" coords="1027,781,1095,808"/>
-<area shape="rect" title=" " alt="" coords="1145,781,1215,808"/>
-<area shape="rect" title=" " alt="" coords="1253,781,1323,808"/>
-<area shape="rect" title=" " alt="" coords="481,408,551,435"/>
-<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="144,632,235,659"/>
-<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="195,319,355,360"/>
-<area shape="rect" href="key__moments__table_8h_source.html" title=" " alt="" coords="632,319,840,360"/>
-<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="752,229,899,271"/>
-<area shape="rect" href="nodes__set_8h_source.html" title=" " alt="" coords="429,229,584,271"/>
+<area shape="rect" title="Functions to compute metrics on a Stream." alt="" coords="976,5,1083,32"/>
+<area shape="rect" title=" " alt="" coords="1029,557,1208,599"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="937,326,1021,353"/>
+<area shape="rect" title=" " alt="" coords="423,647,497,673"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="722,80,811,107"/>
+<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="727,155,807,181"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="841,408,908,435"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="1334,565,1397,591"/>
+<area shape="rect" title=" " alt="" coords="1493,647,1576,673"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="825,483,911,509"/>
+<area shape="rect" title=" " alt="" coords="573,557,752,599"/>
+<area shape="rect" title=" " alt="" coords="776,557,955,599"/>
+<area shape="rect" title=" " alt="" coords="1301,647,1376,673"/>
+<area shape="rect" title=" " alt="" coords="1401,647,1469,673"/>
+<area shape="rect" title=" " alt="" coords="1111,647,1182,673"/>
+<area shape="rect" title=" " alt="" coords="1206,647,1277,673"/>
+<area shape="rect" title=" " alt="" coords="225,408,295,435"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="1168,483,1259,509"/>
+<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="579,319,739,360"/>
+<area shape="rect" href="key__moments__table_8h_source.html" title=" " alt="" coords="347,319,555,360"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="693,229,840,271"/>
+<area shape="rect" href="nodes__set_8h_source.html" title=" " alt="" coords="249,229,404,271"/>
 </map>
 </div>
 </div>

@@ -1,7 +1,7 @@
 #ifndef ARENA_H
 #define ARENA_H
 
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "utils.h"
 #include <stdbool.h>
 #include <stddef.h>

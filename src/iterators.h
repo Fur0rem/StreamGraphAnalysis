@@ -63,11 +63,11 @@ struct TimesIterator {
 // TRICK : The || ({ x.destroy(&x); 0; }) executes the destroy function of the iterator when it ends
 // The destroy function is only called when the previous condition is false, and then evaluates to 0 (false)
 // This uses the GNU extension of "Statement Expressions"
-#define FOR_EACH(type_iterated, iterated, iterator, end_cond)                                                          \
-	for (type_iterated iterated = (iterator).next(&(iterator)); (end_cond) || ({                                       \
-																	(iterator).destroy(&(iterator));                   \
-																	0;                                                 \
-																});                                                    \
+#define FOR_EACH(type_iterated, iterated, iterator, end_cond)                                                                              \
+	for (type_iterated iterated = (iterator).next(&(iterator)); (end_cond) || ({                                                           \
+																	(iterator).destroy(&(iterator));                                       \
+																	0;                                                                     \
+																});                                                                        \
 		 (iterated)				= (iterator).next(&(iterator)))
 /** @endcond */
 
@@ -99,13 +99,13 @@ struct TimesIterator {
 size_t total_time_of(TimesIterator times);
 
 /** @cond */
-#define _COUNT_ITERATOR(type, iterated, iterator, end_cond)                                                            \
-	({                                                                                                                 \
-		size_t count = 0;                                                                                              \
-		FOR_EACH(type, iterated, iterator, end_cond) {                                                                 \
-			count++;                                                                                                   \
-		}                                                                                                              \
-		count;                                                                                                         \
+#define _COUNT_ITERATOR(type, iterated, iterator, end_cond)                                                                                \
+	({                                                                                                                                     \
+		size_t count = 0;                                                                                                                  \
+		FOR_EACH(type, iterated, iterator, end_cond) {                                                                                     \
+			count++;                                                                                                                       \
+		}                                                                                                                                  \
+		count;                                                                                                                             \
 	})
 size_t count_nodes(NodesIterator nodes);
 size_t count_links(LinksIterator links);
@@ -119,7 +119,7 @@ size_t count_times(TimesIterator times);
  * @param iterator The iterator to count.
  * @return The number of elements in the iterator.
  */
-#define COUNT_ITERATOR(iterator)                                                                                       \
+#define COUNT_ITERATOR(iterator)                                                                                                           \
 	_Generic((iterator), NodesIterator: count_nodes, LinksIterator: count_links, TimesIterator: count_times)(iterator)
 
 /**
@@ -143,36 +143,36 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b);
 TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b);
 
 /**
- * @brief Collects all the time intervals of the given iterator into a vector.
+ * @brief Collects all the time intervals of the given iterator into a arraylist.
 
  * Consumes the iterator.
  * @param times The iterator over time intervals.
- * @return A vector containing all the time intervals of the iterator.
+ * @return A arraylist containing all the time intervals of the iterator.
  */
-IntervalVector SGA_collect_times(TimesIterator times);
+IntervalArrayList SGA_collect_times(TimesIterator times);
 
 /**
- * @brief Collects all the nodes of the given iterator into a vector.
+ * @brief Collects all the nodes of the given iterator into a arraylist.
 
  * Consumes the iterator.
  * @param nodes The iterator over nodes.
- * @return A vector containing all the node ids of the iterator.
+ * @return A arraylist containing all the node ids of the iterator.
  */
-NodeIdVector SGA_collect_node_ids(NodesIterator nodes);
+NodeIdArrayList SGA_collect_node_ids(NodesIterator nodes);
 
 /**
- * @brief Collects all the links of the given iterator into a vector.
+ * @brief Collects all the links of the given iterator into a arraylist.
 
  * Consumes the iterator.
  * @param links The iterator over links.
- * @return A vector containing all the link ids of the iterator.
+ * @return A arraylist containing all the link ids of the iterator.
  */
-LinkIdVector SGA_collect_link_ids(LinksIterator links);
+LinkIdArrayList SGA_collect_link_ids(LinksIterator links);
 
-#define BREAK_ITER(iterator)                                                                                           \
-	({                                                                                                                 \
-		(iterator).destroy(&(iterator));                                                                               \
-		break;                                                                                                         \
+#define BREAK_ITER(iterator)                                                                                                               \
+	({                                                                                                                                     \
+		(iterator).destroy(&(iterator));                                                                                                   \
+		break;                                                                                                                             \
 	})
 
 #endif // ITERATORS_H

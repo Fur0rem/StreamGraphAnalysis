@@ -1,6 +1,6 @@
 #include "interval.h"
 #include "defaults.h"
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "utils.h"
 #include <stddef.h>
 #include <stdint.h>
@@ -64,10 +64,11 @@ bool Interval_equals(const Interval* left, const Interval* right) {
 	return left->start == right->start && left->end == right->end;
 }
 
-DefineVector(Interval);
-DefineVectorDeriveRemove(Interval, NO_FREE(Interval));
-DefineVectorDeriveEquals(Interval);
-DefineVectorDeriveToString(Interval);
+DefineArrayList(Interval);
+NO_FREE(Interval);
+DefineArrayListDeriveRemove(Interval);
+DefineArrayListDeriveEquals(Interval);
+DefineArrayListDeriveToString(Interval);
 
 void IntervalsSet_destroy(IntervalsSet intervals_set) {
 	free(intervals_set.intervals);
@@ -77,8 +78,8 @@ void IntervalsSet_destroy(IntervalsSet intervals_set) {
 // Assumes the intervals are sorted
 // TODO: Could probably be optimized
 void IntervalsSet_merge(IntervalsSet* intervals_set) {
-	IntervalVector merged = IntervalVector_with_capacity(intervals_set->nb_intervals);
-	Interval current	  = intervals_set->intervals[0];
+	IntervalArrayList merged = IntervalArrayList_with_capacity(intervals_set->nb_intervals);
+	Interval current		 = intervals_set->intervals[0];
 	for (size_t i = 1; i < intervals_set->nb_intervals; i++) {
 		Interval next = intervals_set->intervals[i];
 		if (current.start == next.start) {
@@ -95,57 +96,57 @@ void IntervalsSet_merge(IntervalsSet* intervals_set) {
 			current.end = next.end;
 		}
 		else {
-			IntervalVector_push(&merged, current);
+			IntervalArrayList_push(&merged, current);
 			current = next;
 		}
 	}
-	IntervalVector_push(&merged, current);
+	IntervalArrayList_push(&merged, current);
 	IntervalsSet_destroy(*intervals_set);
-	*intervals_set = IntervalsSet_alloc(merged.size);
-	for (size_t i = 0; i < merged.size; i++) {
+	*intervals_set = IntervalsSet_alloc(merged.length);
+	for (size_t i = 0; i < merged.length; i++) {
 		intervals_set->intervals[i] = merged.array[i];
 	}
-	IntervalVector_destroy(merged);
+	IntervalArrayList_destroy(merged);
 }
 
 // TODO: Not very efficient, but it works for now (O(n^2)) when we could iterate over the intervals in
 // parallel since they are sorted
 IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
-	IntervalVector intersection = IntervalVector_with_capacity(left.nb_intervals + right.nb_intervals);
+	IntervalArrayList intersection = IntervalArrayList_with_capacity(left.nb_intervals + right.nb_intervals);
 	for (size_t i = 0; i < left.nb_intervals; i++) {
 		for (size_t j = 0; j < right.nb_intervals; j++) {
 			Interval a_interval			   = left.intervals[i];
 			Interval b_interval			   = right.intervals[j];
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
 			if (Interval_duration(intersection_interval) > 0) {
-				IntervalVector_push(&intersection, intersection_interval);
+				IntervalArrayList_push(&intersection, intersection_interval);
 			}
 		}
 	}
-	if (intersection.size == 0) {
-		IntervalVector_destroy(intersection);
+	if (intersection.length == 0) {
+		IntervalArrayList_destroy(intersection);
 		return (IntervalsSet){
 			.nb_intervals = 0,
 			.intervals	  = NULL,
 		};
 	}
 
-	IntervalsSet result = IntervalsSet_alloc(intersection.size);
-	for (size_t i = 0; i < intersection.size; i++) {
+	IntervalsSet result = IntervalsSet_alloc(intersection.length);
+	for (size_t i = 0; i < intersection.length; i++) {
 		result.intervals[i] = intersection.array[i];
 	}
-	IntervalVector_destroy(intersection);
+	IntervalArrayList_destroy(intersection);
 	return result;
 }
 
 // Doesn't consume the input
-IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector* right) {
-	IntervalVector intersection = IntervalVector_with_capacity((left->size > right->size) ? left->size : right->size);
-	size_t min_at_encountered	= 0;
-	for (size_t i = 0; i < left->size; i++) {
+IntervalArrayList IntervalArrayList_intersection(IntervalArrayList* left, IntervalArrayList* right) {
+	IntervalArrayList intersection = IntervalArrayList_with_capacity((left->length > right->length) ? left->length : right->length);
+	size_t min_at_encountered	   = 0;
+	for (size_t i = 0; i < left->length; i++) {
 		size_t start	   = min_at_encountered; // we keep track of when at the previous iteration we started finding intersections
 		min_at_encountered = SIZE_MAX;
-		for (size_t j = start; j < right->size; j++) {
+		for (size_t j = start; j < right->length; j++) {
 			Interval a_interval = left->array[i];
 			Interval b_interval = right->array[j];
 			if (a_interval.end <= b_interval.start) {
@@ -153,7 +154,7 @@ IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector*
 			}
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
 			if (Interval_duration(intersection_interval) > 0) {
-				IntervalVector_push(&intersection, intersection_interval);
+				IntervalArrayList_push(&intersection, intersection_interval);
 				if (min_at_encountered == SIZE_MAX) {
 					min_at_encountered = j;
 				}
@@ -214,20 +215,20 @@ void IntervalsSet_sort(IntervalsSet* intervals_set) {
 // TODO: Not very efficient either, but i prefer to focus on actually important stuff and come back to this
 // later
 IntervalsSet IntervalsSet_union(IntervalsSet a, IntervalsSet b) {
-	IntervalVector union_intervals = IntervalVector_with_capacity(a.nb_intervals + b.nb_intervals);
+	IntervalArrayList union_intervals = IntervalArrayList_with_capacity(a.nb_intervals + b.nb_intervals);
 	for (size_t i = 0; i < a.nb_intervals; i++) {
-		IntervalVector_push(&union_intervals, a.intervals[i]);
+		IntervalArrayList_push(&union_intervals, a.intervals[i]);
 	}
 	for (size_t i = 0; i < b.nb_intervals; i++) {
-		IntervalVector_push(&union_intervals, b.intervals[i]);
+		IntervalArrayList_push(&union_intervals, b.intervals[i]);
 	}
-	IntervalsSet result = IntervalsSet_alloc(union_intervals.size);
-	for (size_t i = 0; i < union_intervals.size; i++) {
+	IntervalsSet result = IntervalsSet_alloc(union_intervals.length);
+	for (size_t i = 0; i < union_intervals.length; i++) {
 		result.intervals[i] = union_intervals.array[i];
 	}
 	IntervalsSet_sort(&result);
 	IntervalsSet_merge(&result);
-	IntervalVector_destroy(union_intervals);
+	IntervalArrayList_destroy(union_intervals);
 	return result;
 }
 
@@ -313,16 +314,16 @@ void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t 
 	intervals_set->intervals[index] = interval;
 }
 
-IntervalsSet IntervalsSet_from_interval_vector(IntervalVector intervals) {
+IntervalsSet IntervalsSet_from_interval_arraylist(IntervalArrayList intervals) {
 	return (IntervalsSet){
-		.nb_intervals = intervals.size,
+		.nb_intervals = intervals.length,
 		.intervals	  = intervals.array,
 	};
 }
 
-IntervalVector IntervalVector_from_intervals_set(IntervalsSet intervals_set) {
-	return (IntervalVector){
-		.size	  = intervals_set.nb_intervals,
+IntervalArrayList IntervalArrayList_from_intervals_set(IntervalsSet intervals_set) {
+	return (IntervalArrayList){
+		.length	  = intervals_set.nb_intervals,
 		.capacity = intervals_set.nb_intervals,
 		.array	  = intervals_set.intervals,
 	};
@@ -370,15 +371,15 @@ size_t SGA_Offset_unwrap(SGA_Offset offset) {
 	}
 }
 
-SGA_Offset IntervalVector_offset_of(const IntervalVector* self, const IntervalVector* other) {
-	if (self->size != other->size) {
+SGA_Offset IntervalArrayList_offset_of(const IntervalArrayList* self, const IntervalArrayList* other) {
+	if (self->length != other->length) {
 		return SGA_Offset_does_not_match();
 	}
-	if (self->size == 0) {
+	if (self->length == 0) {
 		return SGA_Offset_empty();
 	}
 	size_t offset = other->array[0].start - self->array[0].start;
-	for (size_t i = 1; i < self->size; i++) {
+	for (size_t i = 1; i < self->length; i++) {
 		// printf("offset = %lu\n", offset);
 		if ((other->array[i].start - self->array[i].start != offset) || (other->array[i].end - self->array[i].end != offset)) {
 			// printf("offset mismatch, found %zu || %zu\n", other->array[i].start - self->array[i].start,

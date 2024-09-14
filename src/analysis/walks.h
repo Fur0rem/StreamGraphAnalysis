@@ -1,7 +1,7 @@
 #ifndef WALK_H
 #define WALK_H
 
-#include "../generic_data_structures/vector.h"
+#include "../generic_data_structures/arraylist.h"
 #include "../interval.h"
 #include "../stream.h"
 #include "../units.h"
@@ -21,15 +21,15 @@ typedef struct {
 DeclareToString(TreeEdge);
 DeclareEquals(TreeEdge);
 
-DeclareVector(TreeEdge);
-DeclareVectorDeriveEquals(TreeEdge);
-DeclareVectorDeriveToString(TreeEdge);
-DeclareVectorDeriveRemove(TreeEdge);
+DeclareArrayList(TreeEdge);
+DeclareArrayListDeriveEquals(TreeEdge);
+DeclareArrayListDeriveToString(TreeEdge);
+DeclareArrayListDeriveRemove(TreeEdge);
 
 // Now fully define TreeNode, after TreeEdge has been defined.
 struct TreeNode {
 	size_t id;
-	TreeEdgeVector children; // Assuming TreeEdgeVector is defined by DefVector macro.
+	TreeEdgeArrayList children; // Assuming TreeEdgeArrayList is defined by DefArrayList macro.
 };
 
 TreeNode TreeNode_with_id(size_t id);
@@ -45,17 +45,17 @@ typedef struct {
 DeclareToString(WalkStep);
 DeclareEquals(WalkStep);
 
-DeclareVector(WalkStep);
-DeclareVectorDeriveEquals(WalkStep);
-DeclareVectorDeriveToString(WalkStep);
-DeclareVectorDeriveRemove(WalkStep);
+DeclareArrayList(WalkStep);
+DeclareArrayListDeriveEquals(WalkStep);
+DeclareArrayListDeriveToString(WalkStep);
+DeclareArrayListDeriveRemove(WalkStep);
 
 typedef struct {
 	NodeId start;
 	NodeId end;
 	Interval optimality;
 	Stream* stream;
-	WalkStepVector steps;
+	WalkStepArrayList steps;
 } Walk;
 
 typedef struct {
@@ -88,13 +88,12 @@ DeclareToString(WalkInfo);
 DeclareEquals(WalkInfo);
 void Walk_destroy(Walk walk);
 void WalkInfo_destroy(WalkInfo wi);
-DeclareVector(WalkInfo);
-DeclareVectorDeriveEquals(WalkInfo);
-DeclareVectorDeriveToString(WalkInfo);
-DeclareVectorDeriveRemove(WalkInfo);
+DeclareArrayList(WalkInfo);
+DeclareArrayListDeriveEquals(WalkInfo);
+DeclareArrayListDeriveToString(WalkInfo);
+DeclareArrayListDeriveRemove(WalkInfo);
 
-WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
-											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
+WalkInfoArrayList optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to, WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
 WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
 
 size_t Walk_length(Walk* walk);

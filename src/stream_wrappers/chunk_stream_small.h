@@ -24,7 +24,7 @@ typedef struct {
 extern const StreamFunctions ChunkStreamSmall_stream_functions;
 extern const MetricsFunctions ChunkStreamSmall_metrics_functions;
 
-Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, LinkIdVector links, Interval snapshot);
+Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdArrayList nodes, LinkIdArrayList links, Interval snapshot);
 void ChunkStreamSmall_destroy(Stream stream);
 
 #endif // CHUNK_STREAM_SMALL_H

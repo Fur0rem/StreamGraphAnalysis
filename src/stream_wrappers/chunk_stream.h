@@ -15,9 +15,8 @@ typedef struct {
 	BitArray links_present;
 } ChunkStream;
 
-Stream CS_with(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start, size_t time_end);
-Stream CS_without(StreamGraph* stream_graph, NodeIdVector* nodes, LinkIdVector* links, size_t time_start,
-				  size_t time_end);
+Stream CS_with(StreamGraph* stream_graph, NodeIdArrayList* nodes, LinkIdArrayList* links, size_t time_start, size_t time_end);
+Stream CS_without(StreamGraph* stream_graph, NodeIdArrayList* nodes, LinkIdArrayList* links, size_t time_start, size_t time_end);
 void CS_destroy(Stream stream);
 
 extern const StreamFunctions ChunkStream_stream_functions;

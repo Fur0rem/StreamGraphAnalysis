@@ -20,10 +20,10 @@ LinksSet LinksSet_alloc(size_t nb_links);
 DeclareToString(Link);
 DeclareEquals(Link);
 
-DeclareVector(Link);
-DeclareVectorDeriveEquals(Link);
-DeclareVectorDeriveToString(Link);
-DeclareVectorDeriveRemove(Link);
+DeclareArrayList(Link);
+DeclareArrayListDeriveEquals(Link);
+DeclareArrayListDeriveToString(Link);
+DeclareArrayListDeriveRemove(Link);
 
 NodeId Link_get_other_node(const Link* link, NodeId node_id);
 

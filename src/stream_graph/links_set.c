@@ -28,10 +28,11 @@ bool Link_equals(const Link* a, const Link* b) {
 	return a->nodes[0] == b->nodes[0] && a->nodes[1] == b->nodes[1];
 }
 
-DefineVector(Link);
-DefineVectorDeriveEquals(Link);
-DefineVectorDeriveToString(Link);
-DefineVectorDeriveRemove(Link, NO_FREE(Link));
+DefineArrayList(Link);
+DefineArrayListDeriveEquals(Link);
+DefineArrayListDeriveToString(Link);
+NO_FREE(Link);
+DefineArrayListDeriveRemove(Link);
 
 NodeId Link_get_other_node(const Link* link, NodeId node_id) {
 	if (link->nodes[0] == node_id) {

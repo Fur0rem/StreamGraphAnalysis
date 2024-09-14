@@ -1,7 +1,7 @@
 #ifndef CLIQUES_H
 #define CLIQUES_H
 
-#include "../generic_data_structures/vector.h"
+#include "../generic_data_structures/arraylist.h"
 #include "../stream.h"
 #include "../stream_graph/links_set.h"
 #include "../units.h"
@@ -19,11 +19,11 @@ struct Clique {
 DeclareToString(Clique);
 DeclareEquals(Clique);
 
-DeclareVector(Clique);
-DeclareVectorDeriveEquals(Clique);
-DeclareVectorDeriveToString(Clique);
-DeclareVectorDeriveRemove(Clique);
+DeclareArrayList(Clique);
+DeclareArrayListDeriveEquals(Clique);
+DeclareArrayListDeriveToString(Clique);
+DeclareArrayListDeriveRemove(Clique);
 
-CliqueVector Stream_maximal_cliques(Stream* st);
+CliqueArrayList Stream_maximal_cliques(Stream* st);
 
 #endif // CLIQUES_H

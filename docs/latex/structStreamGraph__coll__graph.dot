@@ -31,4 +31,5 @@ digraph "StreamGraph"
   Node13 [label="Event",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structEvent.html",tooltip=" "];
   Node14 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" presence_mask" ];
   Node14 [label="BitArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structBitArray.html",tooltip="The structure of a variable length array of bits."];
+  Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lifespan" ];
 }

@@ -9,29 +9,29 @@ bool test_k_cores() {
 	KCore kcore_2 = Stream_k_cores(&st, 2);
 	KCore kcore_3 = Stream_k_cores(&st, 3);
 
-#define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                  \
-	NodePresenceVector_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalVector_new()});      \
-	IntervalVector_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
+#define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                                      \
+	NodePresenceArrayList_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalArrayList_new()});                    \
+	IntervalArrayList_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
 
-	KCore expected_kcore_1 = {NodePresenceVector_new()};
+	KCore expected_kcore_1 = {NodePresenceArrayList_new()};
 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 0, 1, 6);
 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 1, 3, 10);
 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 2, 1, 9);
 	PUSH_SINGLE_INTERVAL(expected_kcore_1, 3, 2, 10);
 
-	KCore expected_kcore_2 = {NodePresenceVector_new()};
+	KCore expected_kcore_2 = {NodePresenceArrayList_new()};
 	PUSH_SINGLE_INTERVAL(expected_kcore_2, 0, 4, 5);
-	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = IntervalVector_new()});
-	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(4, 5));
-	IntervalVector_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(7, 9));
-	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = IntervalVector_new()});
-	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(4, 5));
-	IntervalVector_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(7, 9));
-	NodePresenceVector_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = IntervalVector_new()});
-	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
-	IntervalVector_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
+	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = IntervalArrayList_new()});
+	IntervalArrayList_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(4, 5));
+	IntervalArrayList_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(7, 9));
+	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = IntervalArrayList_new()});
+	IntervalArrayList_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(4, 5));
+	IntervalArrayList_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(7, 9));
+	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = IntervalArrayList_new()});
+	IntervalArrayList_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
+	IntervalArrayList_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
 
-	KCore expected_kcore_3 = {NodePresenceVector_new()};
+	KCore expected_kcore_3 = {NodePresenceArrayList_new()};
 
 	bool result = true;
 	result &= EXPECT(KCore_equals(&kcore_1, &expected_kcore_1));
@@ -55,12 +55,12 @@ bool test_k_cores_chunk() {
 	StreamGraph sg			= StreamGraph_from_external("data/kcores_with_L.txt");
 	StreamGraph kcores_only = StreamGraph_from_external("data/kcores_test.txt");
 
-	LinkIdVector links = LinkIdVector_new();
-	NodeIdVector nodes = NodeIdVector_new();
-	NodeIdVector_push(&nodes, 1);
-	NodeIdVector_push(&nodes, 3);
-	NodeIdVector_push(&nodes, 5);
-	NodeIdVector_push(&nodes, 7);
+	LinkIdArrayList links = LinkIdArrayList_new();
+	NodeIdArrayList nodes = NodeIdArrayList_new();
+	NodeIdArrayList_push(&nodes, 1);
+	NodeIdArrayList_push(&nodes, 3);
+	NodeIdArrayList_push(&nodes, 5);
+	NodeIdArrayList_push(&nodes, 7);
 
 	Interval snapshot = Interval_from(0, 10);
 	Stream st		  = CS_without(&sg, &nodes, &links, snapshot.start, snapshot.end);

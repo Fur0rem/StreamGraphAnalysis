@@ -9,12 +9,12 @@
 #include "full_stream_graph.h"
 #include <stddef.h>
 
-Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, LinkIdVector links, Interval snapshot) {
+Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdArrayList nodes, LinkIdArrayList links, Interval snapshot) {
 	ChunkStreamSmall* chunk_stream = MALLOC(sizeof(ChunkStreamSmall));
 	*chunk_stream				   = (ChunkStreamSmall){
-						 .nb_nodes				  = nodes.size,
+						 .nb_nodes				  = nodes.length,
 						 .nodes_present			  = nodes.array,
-						 .nb_links				  = links.size,
+						 .nb_links				  = links.length,
 						 .links_present			  = links.array,
 						 .underlying_stream_graph = stream_graph,
 						 .snapshot				  = snapshot,
@@ -25,8 +25,8 @@ Stream ChunkStreamSmall_from(StreamGraph* stream_graph, NodeIdVector nodes, Link
 		Link link	 = stream_graph->links.links[links.array[i]];
 		NodeId node1 = link.nodes[0];
 		NodeId node2 = link.nodes[1];
-		if (!NodeIdVector_contains(nodes, node1) || !NodeIdVector_contains(nodes, node2)) {
-			LinkIdVector_remove_and_swap(&links, i);
+		if (!NodeIdArrayList_contains(nodes, node1) || !NodeIdArrayList_contains(nodes, node2)) {
+			LinkIdArrayList_remove_and_swap(&links, i);
 			i--;
 		}
 	}

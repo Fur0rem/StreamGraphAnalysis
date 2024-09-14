@@ -35,7 +35,7 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);
 // typedef size_t size_t2;
 // bool size_t2_equals(size_t2 a, size_t2 b);
 // char* size_t2_to_string(const size_t2* a);
-// DefVector(size_t2, NO_FREE(size_t2));
+// DefArrayList(size_t2, NO_FREE(size_t2));
 
-// size_t2Vector KeyMomentsTable_all_moments(KeyMomentsTable* kmt);
+// size_t2ArrayList KeyMomentsTable_all_moments(KeyMomentsTable* kmt);
 void print_key_moments_table(KeyMomentsTable* kmt);

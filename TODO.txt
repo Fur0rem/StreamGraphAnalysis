@@ -7,6 +7,7 @@
 - Automate tests and formatting using GitHub actions
 - Choose between calling nodes temporal nodes or nodes
 - Rename test files (?)
+- Put NO_FREE next to its related structures and also have one name for destroy/free
 - Benchmarking framework
 - Change mallocs to the safe macro MALLOC defined in utils.h
 - Add a config file for changing the default values and types used (for example slices, to fine tune the memory usage)

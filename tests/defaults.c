@@ -1,69 +1,77 @@
 #include "../src/defaults.h"
+#include "../src/generic_data_structures/arraylist.h"
 #include "../src/generic_data_structures/binary_heap.h"
 #include "../src/generic_data_structures/hashset.h"
-#include "../src/generic_data_structures/vector.h"
 #include "../src/utils.h"
 #include "test.h"
 #include <stdbool.h>
 
 bool test_create() {
-	size_tVector v = size_tVector_with_capacity(5);
-	return EXPECT_EQ(v.size, 0) && EXPECT_EQ(v.capacity, 5);
+	size_tArrayList v = size_tArrayList_with_capacity(5);
+	return EXPECT_EQ(v.length, 0) && EXPECT_EQ(v.capacity, 5);
 }
 
 bool test_push_1() {
-	size_tVector v = size_tVector_with_capacity(5);
-	size_tVector_push(&v, 1);
-	size_tVector_push(&v, 2);
-	size_tVector_push(&v, 3);
-	size_tVector_push(&v, 4);
-	size_tVector_push(&v, 5);
-	return EXPECT_ALL(EXPECT_EQ(v.size, 5), EXPECT_EQ(v.capacity, 5), EXPECT_EQ(v.array[0], 1),
-					  EXPECT_EQ(v.array[1], 2), EXPECT_EQ(v.array[2], 3), EXPECT_EQ(v.array[3], 4),
+	size_tArrayList v = size_tArrayList_with_capacity(5);
+	size_tArrayList_push(&v, 1);
+	size_tArrayList_push(&v, 2);
+	size_tArrayList_push(&v, 3);
+	size_tArrayList_push(&v, 4);
+	size_tArrayList_push(&v, 5);
+	return EXPECT_ALL(EXPECT_EQ(v.length, 5),
+					  EXPECT_EQ(v.capacity, 5),
+					  EXPECT_EQ(v.array[0], 1),
+					  EXPECT_EQ(v.array[1], 2),
+					  EXPECT_EQ(v.array[2], 3),
+					  EXPECT_EQ(v.array[3], 4),
 					  EXPECT_EQ(v.array[4], 5));
 }
 
 bool test_push_2() {
-	size_tVector v = size_tVector_with_capacity(5);
-	size_tVector_push(&v, 1);
-	size_tVector_push(&v, 2);
-	size_tVector_push(&v, 3);
-	size_tVector_push(&v, 4);
-	size_tVector_push(&v, 5);
-	size_tVector_push(&v, 6);
-	return v.size == 6 && v.capacity == 10 && v.array[0] == 1 && v.array[1] == 2 && v.array[2] == 3 &&
-		   v.array[3] == 4 && v.array[4] == 5 && v.array[5] == 6;
+	size_tArrayList v = size_tArrayList_with_capacity(5);
+	size_tArrayList_push(&v, 1);
+	size_tArrayList_push(&v, 2);
+	size_tArrayList_push(&v, 3);
+	size_tArrayList_push(&v, 4);
+	size_tArrayList_push(&v, 5);
+	size_tArrayList_push(&v, 6);
+	return v.length == 6 && v.capacity == 10 && v.array[0] == 1 && v.array[1] == 2 && v.array[2] == 3 && v.array[3] == 4 &&
+		   v.array[4] == 5 && v.array[5] == 6;
 }
 
 bool test_destroy() {
-	size_tVector v = size_tVector_with_capacity(5);
-	size_tVector_push(&v, 1);
-	size_tVector_push(&v, 2);
-	size_tVector_push(&v, 3);
-	size_tVector_push(&v, 4);
-	size_tVector_push(&v, 5);
-	size_tVector_destroy(v);
+	size_tArrayList v = size_tArrayList_with_capacity(5);
+	size_tArrayList_push(&v, 1);
+	size_tArrayList_push(&v, 2);
+	size_tArrayList_push(&v, 3);
+	size_tArrayList_push(&v, 4);
+	size_tArrayList_push(&v, 5);
+	size_tArrayList_destroy(v);
 	return true;
 }
 
 bool test_remove_and_swap() {
-	size_tVector v = size_tVector_with_capacity(5);
-	size_tVector_push(&v, 1);
-	size_tVector_push(&v, 2);
-	size_tVector_push(&v, 3);
-	size_tVector_push(&v, 4);
-	size_tVector_push(&v, 5);
-	size_tVector_remove_and_swap(&v, 2);
-	return EXPECT_ALL(EXPECT_EQ(v.size, 4), EXPECT_EQ(v.capacity, 5), EXPECT_EQ(v.array[0], 1),
-					  EXPECT_EQ(v.array[1], 2), EXPECT_EQ(v.array[2], 5), EXPECT_EQ(v.array[3], 4));
+	size_tArrayList v = size_tArrayList_with_capacity(5);
+	size_tArrayList_push(&v, 1);
+	size_tArrayList_push(&v, 2);
+	size_tArrayList_push(&v, 3);
+	size_tArrayList_push(&v, 4);
+	size_tArrayList_push(&v, 5);
+	size_tArrayList_remove_and_swap(&v, 2);
+	return EXPECT_ALL(EXPECT_EQ(v.length, 4),
+					  EXPECT_EQ(v.capacity, 5),
+					  EXPECT_EQ(v.array[0], 1),
+					  EXPECT_EQ(v.array[1], 2),
+					  EXPECT_EQ(v.array[2], 5),
+					  EXPECT_EQ(v.array[3], 4));
 }
 
-DeclareVector(String);
-DefineVector(String);
+DeclareArrayList(String);
+DefineArrayList(String);
 DeclareHashset(String);
 DefineHashset(String);
-DefineVectorDeriveRemove(String, String_destroy);
-DefineHashsetDeriveRemove(String, String_destroy);
+DefineArrayListDeriveRemove(String);
+DefineHashsetDeriveRemove(String);
 
 bool test_insert() {
 	StringHashset s = StringHashset_with_capacity(10);
@@ -131,9 +139,14 @@ bool test_binary_heap() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_create), TEST(test_push_1), TEST(test_push_2), TEST(test_destroy), TEST(test_remove_and_swap), NULL,
+		TEST(test_create),
+		TEST(test_push_1),
+		TEST(test_push_2),
+		TEST(test_destroy),
+		TEST(test_remove_and_swap),
+		NULL,
 	};
-	bool vec = test("Vector", tests);
+	bool vec = test("ArrayList", tests);
 
 	Test* tests2[] = {
 		TEST(test_insert),

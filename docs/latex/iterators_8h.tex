@@ -28,6 +28,15 @@ struct \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{iterators_8h_aeac2ddc01397f2363066aa8e7e70fbca}\label{iterators_8h_aeac2ddc01397f2363066aa8e7e70fbca}} 
+\#define {\bfseries TIMES\+\_\+\+ITERATOR\+\_\+\+END}~((\mbox{\hyperlink{structInterval}{Interval}})\{.start = SIZE\+\_\+\+MAX, .end = SIZE\+\_\+\+MAX\})
+\item 
+\mbox{\Hypertarget{iterators_8h_aa588fc3fc26b4a08b01bce3ca5916fe6}\label{iterators_8h_aa588fc3fc26b4a08b01bce3ca5916fe6}} 
+\#define {\bfseries NODES\+\_\+\+ITERATOR\+\_\+\+END}~SIZE\+\_\+\+MAX
+\item 
+\mbox{\Hypertarget{iterators_8h_ad4f6507ed54cbc249c7ae2e127af4e81}\label{iterators_8h_ad4f6507ed54cbc249c7ae2e127af4e81}} 
+\#define {\bfseries LINKS\+\_\+\+ITERATOR\+\_\+\+END}~SIZE\+\_\+\+MAX
+\item 
 \#define \mbox{\hyperlink{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}{COUNT\+\_\+\+ITERATOR}}(iterator)~ \+\_\+\+Generic((iterator), Nodes\+Iterator\+: count\+\_\+nodes, Links\+Iterator\+: count\+\_\+links, Times\+Iterator\+: count\+\_\+times)(iterator)
 \begin{DoxyCompactList}\small\item\em Counts the number of elements in the given iterator. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854}{BREAK\+\_\+\+ITER}}(iterator)
@@ -38,10 +47,10 @@ struct \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}
 The iterated variable becomes before the iterator in the macro call to mimic a for elem in list syntax. Consumes the iterator. }\begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63}\label{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63}} 
-\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+NODE}(iterated,  iterator)~FOR\+\_\+\+EACH(size\+\_\+t, iterated, iterator, (iterated) != SIZE\+\_\+\+MAX)
+\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+NODE}(iterated,  iterator)~FOR\+\_\+\+EACH(size\+\_\+t, iterated, iterator, (iterated) != NODES\+\_\+\+ITERATOR\+\_\+\+END)
 \item 
 \mbox{\Hypertarget{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21}\label{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21}} 
-\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+LINK}(iterated,  iterator)~FOR\+\_\+\+EACH(size\+\_\+t, iterated, iterator, (iterated) != SIZE\+\_\+\+MAX)
+\#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+LINK}(iterated,  iterator)~FOR\+\_\+\+EACH(size\+\_\+t, iterated, iterator, (iterated) != LINKS\+\_\+\+ITERATOR\+\_\+\+END)
 \item 
 \mbox{\Hypertarget{iterators_8h_ad486d9e1b33cf495255724764aa03e7c}\label{iterators_8h_ad486d9e1b33cf495255724764aa03e7c}} 
 \#define {\bfseries FOR\+\_\+\+EACH\+\_\+\+TIME}(iterated,  iterator)~FOR\+\_\+\+EACH(\mbox{\hyperlink{structInterval}{Interval}}, iterated, iterator, (iterated).start != SIZE\+\_\+\+MAX)
@@ -68,12 +77,12 @@ size\+\_\+t \mbox{\hyperlink{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}{tot
 \begin{DoxyCompactList}\small\item\em Creates an iterator over the union of two sets of time intervals. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} \mbox{\hyperlink{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}{Times\+Iterator\+\_\+intersection}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} a, \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} b)
 \begin{DoxyCompactList}\small\item\em Creates an iterator over the intersection of two sets of time intervals. \end{DoxyCompactList}\item 
-Interval\+Vector \mbox{\hyperlink{iterators_8h_aa2ad3490d499e44ad3f75c0e49e4cba9}{SGA\+\_\+collect\+\_\+times}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} times)
-\begin{DoxyCompactList}\small\item\em Collects all the time intervals of the given iterator into a vector. \end{DoxyCompactList}\item 
-Node\+Id\+Vector \mbox{\hyperlink{iterators_8h_ab23b03c8a1b1d64539ad2b3f5546eb68}{SGA\+\_\+collect\+\_\+node\+\_\+ids}} (\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}} nodes)
-\begin{DoxyCompactList}\small\item\em Collects all the nodes of the given iterator into a vector. \end{DoxyCompactList}\item 
-Link\+Id\+Vector \mbox{\hyperlink{iterators_8h_a493c5348e5c6ccae6ec395e159694a16}{SGA\+\_\+collect\+\_\+link\+\_\+ids}} (\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}} links)
-\begin{DoxyCompactList}\small\item\em Collects all the links of the given iterator into a vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+Interval\+Array\+List \mbox{\hyperlink{iterators_8h_a69faa5c141ed72b11aeec1f1dbc8385c}{SGA\+\_\+collect\+\_\+times}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} times)
+\begin{DoxyCompactList}\small\item\em Collects all the time intervals of the given iterator into a arraylist. \end{DoxyCompactList}\item 
+Node\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_aaa6b52b21eac2fd2e781f38e340dc42a}{SGA\+\_\+collect\+\_\+node\+\_\+ids}} (\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}} nodes)
+\begin{DoxyCompactList}\small\item\em Collects all the nodes of the given iterator into a arraylist. \end{DoxyCompactList}\item 
+Link\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_ac7dc4788ae462fd75f8c5dd125d7534f}{SGA\+\_\+collect\+\_\+link\+\_\+ids}} (\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}} links)
+\begin{DoxyCompactList}\small\item\em Collects all the links of the given iterator into a arraylist. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -85,9 +94,9 @@ Link\+Id\+Vector \mbox{\hyperlink{iterators_8h_a493c5348e5c6ccae6ec395e159694a16
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{    (\{                                                                                                                 \(\backslash\)}
-\DoxyCodeLine{        (iterator).destroy(\&(iterator));                                                                               \(\backslash\)}
-\DoxyCodeLine{        break;                                                                                                         \(\backslash\)}
+\DoxyCodeLine{    (\{                                                                                                                                     \(\backslash\)}
+\DoxyCodeLine{        (iterator).destroy(\&(iterator));                                                                                                   \(\backslash\)}
+\DoxyCodeLine{        break;                                                                                                                             \(\backslash\)}
 \DoxyCodeLine{    \})}
 
 \end{DoxyCode}
@@ -112,15 +121,15 @@ The number of elements in the iterator.
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{iterators_8h_a493c5348e5c6ccae6ec395e159694a16}\label{iterators_8h_a493c5348e5c6ccae6ec395e159694a16}} 
+\mbox{\Hypertarget{iterators_8h_ac7dc4788ae462fd75f8c5dd125d7534f}\label{iterators_8h_ac7dc4788ae462fd75f8c5dd125d7534f}} 
 \index{iterators.h@{iterators.h}!SGA\_collect\_link\_ids@{SGA\_collect\_link\_ids}}
 \index{SGA\_collect\_link\_ids@{SGA\_collect\_link\_ids}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_collect\_link\_ids()}{SGA\_collect\_link\_ids()}}
-{\footnotesize\ttfamily Link\+Id\+Vector SGA\+\_\+collect\+\_\+link\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}}]{links }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Link\+Id\+Array\+List SGA\+\_\+collect\+\_\+link\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}}]{links }\end{DoxyParamCaption})}
 
 
 
-Collects all the links of the given iterator into a vector. 
+Collects all the links of the given iterator into a arraylist. 
 
 Consumes the iterator. 
 \begin{DoxyParams}{Parameters}
@@ -128,17 +137,17 @@ Consumes the iterator.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A vector containing all the link ids of the iterator. 
+A arraylist containing all the link ids of the iterator. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{iterators_8h_ab23b03c8a1b1d64539ad2b3f5546eb68}\label{iterators_8h_ab23b03c8a1b1d64539ad2b3f5546eb68}} 
+\mbox{\Hypertarget{iterators_8h_aaa6b52b21eac2fd2e781f38e340dc42a}\label{iterators_8h_aaa6b52b21eac2fd2e781f38e340dc42a}} 
 \index{iterators.h@{iterators.h}!SGA\_collect\_node\_ids@{SGA\_collect\_node\_ids}}
 \index{SGA\_collect\_node\_ids@{SGA\_collect\_node\_ids}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_collect\_node\_ids()}{SGA\_collect\_node\_ids()}}
-{\footnotesize\ttfamily Node\+Id\+Vector SGA\+\_\+collect\+\_\+node\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}}]{nodes }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Node\+Id\+Array\+List SGA\+\_\+collect\+\_\+node\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}}]{nodes }\end{DoxyParamCaption})}
 
 
 
-Collects all the nodes of the given iterator into a vector. 
+Collects all the nodes of the given iterator into a arraylist. 
 
 Consumes the iterator. 
 \begin{DoxyParams}{Parameters}
@@ -146,17 +155,17 @@ Consumes the iterator.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A vector containing all the node ids of the iterator. 
+A arraylist containing all the node ids of the iterator. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{iterators_8h_aa2ad3490d499e44ad3f75c0e49e4cba9}\label{iterators_8h_aa2ad3490d499e44ad3f75c0e49e4cba9}} 
+\mbox{\Hypertarget{iterators_8h_a69faa5c141ed72b11aeec1f1dbc8385c}\label{iterators_8h_a69faa5c141ed72b11aeec1f1dbc8385c}} 
 \index{iterators.h@{iterators.h}!SGA\_collect\_times@{SGA\_collect\_times}}
 \index{SGA\_collect\_times@{SGA\_collect\_times}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_collect\_times()}{SGA\_collect\_times()}}
-{\footnotesize\ttfamily Interval\+Vector SGA\+\_\+collect\+\_\+times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{times }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Interval\+Array\+List SGA\+\_\+collect\+\_\+times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{times }\end{DoxyParamCaption})}
 
 
 
-Collects all the time intervals of the given iterator into a vector. 
+Collects all the time intervals of the given iterator into a arraylist. 
 
 Consumes the iterator. 
 \begin{DoxyParams}{Parameters}
@@ -164,7 +173,7 @@ Consumes the iterator.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A vector containing all the time intervals of the iterator. 
+A arraylist containing all the time intervals of the iterator. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}\label{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}} 
 \index{iterators.h@{iterators.h}!TimesIterator\_intersection@{TimesIterator\_intersection}}

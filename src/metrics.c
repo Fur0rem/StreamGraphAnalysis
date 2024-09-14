@@ -1,5 +1,5 @@
 #include "metrics.h"
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
@@ -384,30 +384,30 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 				continue;
 			}
 
-			IntervalVector times_uv		  = SGA_collect_times(fns.times_link_present(stream->stream_data, uv));
-			IntervalVector times_vw		  = SGA_collect_times(fns.times_link_present(stream->stream_data, vw));
-			IntervalVector times_uv_vw	  = IntervalVector_intersection(&times_uv, &times_vw);
-			IntervalVector times_uw		  = SGA_collect_times(fns.times_link_present(stream->stream_data, uw));
-			IntervalVector times_uw_uv_vw = IntervalVector_intersection(&times_uw, &times_uv_vw);
+			IntervalArrayList times_uv		 = SGA_collect_times(fns.times_link_present(stream->stream_data, uv));
+			IntervalArrayList times_vw		 = SGA_collect_times(fns.times_link_present(stream->stream_data, vw));
+			IntervalArrayList times_uv_vw	 = IntervalArrayList_intersection(&times_uv, &times_vw);
+			IntervalArrayList times_uw		 = SGA_collect_times(fns.times_link_present(stream->stream_data, uw));
+			IntervalArrayList times_uw_uv_vw = IntervalArrayList_intersection(&times_uw, &times_uv_vw);
 
 			size_t t_uv_vw = 0;
-			for (size_t i = 0; i < times_uv_vw.size; i++) {
+			for (size_t i = 0; i < times_uv_vw.length; i++) {
 				t_uv_vw += Interval_duration(times_uv_vw.array[i]);
 			}
 
 			size_t t_uw_uv_vw = 0;
-			for (size_t i = 0; i < times_uw_uv_vw.size; i++) {
+			for (size_t i = 0; i < times_uw_uv_vw.length; i++) {
 				t_uw_uv_vw += Interval_duration(times_uw_uv_vw.array[i]);
 			}
 
 			sum_den += t_uv_vw;
 			sum_num += t_uw_uv_vw;
 
-			IntervalVector_destroy(times_uv);
-			IntervalVector_destroy(times_vw);
-			IntervalVector_destroy(times_uv_vw);
-			IntervalVector_destroy(times_uw);
-			IntervalVector_destroy(times_uw_uv_vw);
+			IntervalArrayList_destroy(times_uv);
+			IntervalArrayList_destroy(times_vw);
+			IntervalArrayList_destroy(times_uv_vw);
+			IntervalArrayList_destroy(times_uw);
+			IntervalArrayList_destroy(times_uw_uv_vw);
 		}
 	}
 
@@ -472,35 +472,35 @@ double Stream_transitivity_ratio(Stream* stream) {
 				// 	sum_num += time_of_triangle;
 				// }
 
-				IntervalVector times_uv		 = SGA_collect_times(fns.times_link_present(stream->stream_data, uv));
-				IntervalVector times_vw		 = SGA_collect_times(fns.times_link_present(stream->stream_data, vw));
-				IntervalVector times_uv_N_vw = IntervalVector_intersection(&times_uv, &times_vw);
+				IntervalArrayList times_uv		= SGA_collect_times(fns.times_link_present(stream->stream_data, uv));
+				IntervalArrayList times_vw		= SGA_collect_times(fns.times_link_present(stream->stream_data, vw));
+				IntervalArrayList times_uv_N_vw = IntervalArrayList_intersection(&times_uv, &times_vw);
 
 				size_t time_of_triplet = 0;
-				for (size_t i = 0; i < times_uv_N_vw.size; i++) {
+				for (size_t i = 0; i < times_uv_N_vw.length; i++) {
 					time_of_triplet += Interval_duration(times_uv_N_vw.array[i]);
 				}
 				sum_den += time_of_triplet;
 
 				if (uw != SIZE_MAX) { // Triangle
-					IntervalVector times_uw			  = SGA_collect_times(fns.times_link_present(stream->stream_data, uw));
-					IntervalVector times_uv_N_uw	  = IntervalVector_intersection(&times_uv, &times_uw);
-					IntervalVector times_uv_N_uw_N_vw = IntervalVector_intersection(&times_uv_N_uw, &times_vw);
+					IntervalArrayList times_uw			 = SGA_collect_times(fns.times_link_present(stream->stream_data, uw));
+					IntervalArrayList times_uv_N_uw		 = IntervalArrayList_intersection(&times_uv, &times_uw);
+					IntervalArrayList times_uv_N_uw_N_vw = IntervalArrayList_intersection(&times_uv_N_uw, &times_vw);
 
 					size_t time_of_triangle = 0;
-					for (size_t i = 0; i < times_uv_N_uw_N_vw.size; i++) {
+					for (size_t i = 0; i < times_uv_N_uw_N_vw.length; i++) {
 						time_of_triangle += Interval_duration(times_uv_N_uw_N_vw.array[i]);
 					}
 					sum_num += time_of_triangle;
 
-					IntervalVector_destroy(times_uw);
-					IntervalVector_destroy(times_uv_N_uw);
-					IntervalVector_destroy(times_uv_N_uw_N_vw);
+					IntervalArrayList_destroy(times_uw);
+					IntervalArrayList_destroy(times_uv_N_uw);
+					IntervalArrayList_destroy(times_uv_N_uw_N_vw);
 				}
 
-				IntervalVector_destroy(times_uv);
-				IntervalVector_destroy(times_vw);
-				IntervalVector_destroy(times_uv_N_vw);
+				IntervalArrayList_destroy(times_uv);
+				IntervalArrayList_destroy(times_vw);
+				IntervalArrayList_destroy(times_uv_N_vw);
 			}
 		}
 	}

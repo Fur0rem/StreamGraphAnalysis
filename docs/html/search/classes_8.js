@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['optionalsizet_0',['OptionalSizeT',['../structOptionalSizeT.html',1,'']]]
+  ['nodesiterator_0',['NodesIterator',['../structNodesIterator.html',1,'']]]
 ];

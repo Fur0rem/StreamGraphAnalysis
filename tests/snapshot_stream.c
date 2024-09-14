@@ -65,19 +65,19 @@ bool test_same_nodes() {
 	Stream split_second = SnapshotStream_from(&S, Interval_from(50, 100));
 	Stream full			= FullStreamGraph_from(&S);
 
-	StreamFunctions fns			   = SnapshotStream_stream_functions;
-	NodeIdVector nodes_iter_first  = SGA_collect_node_ids(fns.nodes_set(split_first.stream_data));
-	NodeIdVector nodes_iter_second = SGA_collect_node_ids(fns.nodes_set(split_second.stream_data));
+	StreamFunctions fns				  = SnapshotStream_stream_functions;
+	NodeIdArrayList nodes_iter_first  = SGA_collect_node_ids(fns.nodes_set(split_first.stream_data));
+	NodeIdArrayList nodes_iter_second = SGA_collect_node_ids(fns.nodes_set(split_second.stream_data));
 
-	StreamFunctions fns_full	 = FullStreamGraph_stream_functions;
-	NodeIdVector nodes_iter_full = SGA_collect_node_ids(fns_full.nodes_set(full.stream_data));
+	StreamFunctions fns_full		= FullStreamGraph_stream_functions;
+	NodeIdArrayList nodes_iter_full = SGA_collect_node_ids(fns_full.nodes_set(full.stream_data));
 
-	bool okay = EXPECT(NodeIdVector_equals(&nodes_iter_first, &nodes_iter_full));
-	okay &= EXPECT(NodeIdVector_equals(&nodes_iter_second, &nodes_iter_full));
+	bool okay = EXPECT(NodeIdArrayList_equals(&nodes_iter_first, &nodes_iter_full));
+	okay &= EXPECT(NodeIdArrayList_equals(&nodes_iter_second, &nodes_iter_full));
 
-	NodeIdVector_destroy(nodes_iter_first);
-	NodeIdVector_destroy(nodes_iter_second);
-	NodeIdVector_destroy(nodes_iter_full);
+	NodeIdArrayList_destroy(nodes_iter_first);
+	NodeIdArrayList_destroy(nodes_iter_second);
+	NodeIdArrayList_destroy(nodes_iter_full);
 	SnapshotStream_destroy(split_first);
 	SnapshotStream_destroy(split_second);
 	FullStreamGraph_destroy(full);

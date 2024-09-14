@@ -59,9 +59,9 @@ bool test_walk_optimal() {
 	Stream st	   = FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
-	WalkInfoVector walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
+	WalkInfoArrayList walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
 	printf("Optimal walks between 0 and 3\n");
-	for (size_t i = 0; i < walks.size; i++) {
+	for (size_t i = 0; i < walks.length; i++) {
 		String str = WalkInfo_to_string(&walks.array[i]);
 		printf("%s\n", str.data);
 		String_destroy(str);
@@ -69,7 +69,7 @@ bool test_walk_optimal() {
 
 	StreamGraph_destroy(sg);
 	FullStreamGraph_destroy(st);
-	WalkInfoVector_destroy(walks);
+	WalkInfoArrayList_destroy(walks);
 
 	return true;
 }

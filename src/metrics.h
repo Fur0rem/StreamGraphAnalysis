@@ -12,7 +12,7 @@
  * The metrics documentation have been split per section of the paper and ordered in the same order as in the paper.
  */
 
-#include "generic_data_structures/vector.h"
+#include "generic_data_structures/arraylist.h"
 #include "interval.h"
 #include "iterators.h"
 #include "stream.h"
