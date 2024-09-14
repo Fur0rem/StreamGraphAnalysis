@@ -1,8 +1,8 @@
 CC = gcc
-DEBUG_FLAGS = -g -O0 -DDEBUG
+DEBUG_FLAGS = -g -O0
 RELEASE_FLAGS = -O4 -lto -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
-FLAGS = $(RELEASE_FLAGS)
+FLAGS = $(DEBUG_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -std=c2x
 LDFLAGS = -lm
 

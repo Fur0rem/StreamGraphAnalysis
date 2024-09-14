@@ -70,11 +70,7 @@ String QueueInfo_to_string(const QueueInfo* info) {
 
 String WalkStep_to_string(const WalkStep* step) {
 	char* str = MALLOC(100);
-	sprintf(str,
-			"WalkStep(link:%zu, time:%zu, interval taken:%s)",
-			step->link,
-			step->time,
-			Interval_to_string(&step->interval_taken).data);
+	sprintf(str, "WalkStep(link:%zu, time:%zu, interval taken:%s)", step->link, step->time, Interval_to_string(&step->interval_taken).data);
 	return String_from_owned(str);
 }
 
@@ -144,7 +140,7 @@ String Walk_to_string(const Walk* walk) {
 	String_push_str(&str, buf);
 	String time_str = Interval_to_string(&walk->optimality);
 	String_push_str(&str, " | Optimal at ");
-	String_concat_consume(&str, &time_str);
+	String_concat_consume(&str, time_str);
 	String_push(&str, '\n');
 
 	FullStreamGraph* fsg = (FullStreamGraph*)walk->stream->stream_data;
@@ -164,7 +160,7 @@ String Walk_to_string(const Walk* walk) {
 		Interval interval	= step.interval_taken;
 		String interval_str = Interval_to_string(&interval);
 		String_push_str(&str, " | ");
-		String_concat_consume(&str, &interval_str);
+		String_concat_consume(&str, interval_str);
 		String_push(&str, '\n');
 	}
 	return str;
@@ -189,7 +185,7 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 	if (wi->type == WALK) {
 		String walk_str = Walk_to_string(&wi->result.walk);
 		String str		= String_from_duplicate("WalkInfo(WALK, ");
-		String_concat_consume(&str, &walk_str);
+		String_concat_consume(&str, walk_str);
 		String_push(&str, ')');
 		return str;
 	}
@@ -222,8 +218,7 @@ bool WalkInfo_equals(const WalkInfo* a, const WalkInfo* b) {
 	}
 }
 
-WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to,
-											   WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId)) {
+WalkInfoVector optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to, WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId)) {
 	WalkInfoVector walks = WalkInfoVector_with_capacity(1);
 	StreamFunctions fns	 = STREAM_FUNCS(fns, stream);
 
@@ -324,8 +319,8 @@ WalkInfo walk_exists(Walk walk) {
 	};
 }
 
-void node_can_still_appear(Stream* stream, NodeId node, TimeId current_time, Interval* current_node_present,
-						   Interval* next_appearance, bool* can_still_appear) {
+void node_can_still_appear(Stream* stream, NodeId node, TimeId current_time, Interval* current_node_present, Interval* next_appearance,
+						   bool* can_still_appear) {
 	StreamFunctions fns				 = STREAM_FUNCS(fns, stream);
 	TimesIterator times_node_present = fns.times_node_present(stream->stream_data, node);
 	*can_still_appear				 = false;
@@ -346,20 +341,15 @@ void node_can_still_appear(Stream* stream, NodeId node, TimeId current_time, Int
 
 // Minimal number of hops between two nodes
 // Uses buffering to avoid reallocating memory
-void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeId to, TimeId at,
-											  WalkInfo* result, Arena* arena, QueueInfoVector* queue,
-											  ExploredStateHashset* explored) {
+void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeId to, TimeId at, WalkInfo* result, Arena* arena,
+											  QueueInfoVector* queue, ExploredStateHashset* explored) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
 
 	// Initialize the queue with the starting node
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start		= {from,
-						   current_time,
-						   .interval_taken = Interval_from(at, max_lifespan),
-						   .previous	   = NULL,
-						   .previouses	   = 0};
+	QueueInfo start		= {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL, .previouses = 0};
 	QueueInfoVector_push(queue, start);
 
 	NodeId current_candidate = from;
@@ -408,12 +398,7 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 		Interval current_node_present = Interval_empty();
 		Interval next_appearance	  = Interval_from(current_time, max_lifespan);
 		bool can_still_appear		  = false;
-		node_can_still_appear(stream,
-							  current_candidate,
-							  current_time,
-							  &current_node_present,
-							  &next_appearance,
-							  &can_still_appear);
+		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance, &can_still_appear);
 
 		if (!can_still_appear) {
 			*result = node_absent_between(Interval_from(current_time, max_lifespan));
@@ -427,8 +412,7 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 
 		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
 		FOR_EACH_LINK(link_id, neighbours) {
-			IntervalVector intervals =
-				SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
+			IntervalVector intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
 			for (size_t j = intervals.size; j-- > 0;) { // TODO: c'est quoi cette boucle de merde ??????
 				Interval interval = intervals.array[j];
 
@@ -443,11 +427,11 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 				bool can_cross_now	  = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					Link link			= fns.link_by_id(stream->stream_data, link_id);
-					NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					QueueInfo* previous = Arena_alloc(arena, sizeof(QueueInfo));
-					*previous			= current_info;
-					TimeId time_crossed = can_cross_now ? current_time : interval.start;
+					Link link				= fns.link_by_id(stream->stream_data, link_id);
+					NodeId neighbor_id		= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					QueueInfo* previous		= Arena_alloc(arena, sizeof(QueueInfo));
+					*previous				= current_info;
+					TimeId time_crossed		= can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id,
 											   time_crossed,
 											   .interval_taken = interval,
@@ -456,8 +440,7 @@ void Stream_shortest_walk_from_to_at_buffered(Stream* stream, NodeId from, NodeI
 
 					// try to find if the neighbor is already in the queue
 					bool found = false;
-					if (ExploredStateHashset_contains(
-							*explored, (ExploredState){neighbor_info.node, neighbor_info.time})) {
+					if (ExploredStateHashset_contains(*explored, (ExploredState){neighbor_info.node, neighbor_info.time})) {
 						continue;
 					}
 					for (size_t i = 0; i < queue->size; i++) {
@@ -570,12 +553,7 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 		Interval current_node_present = Interval_empty();
 		Interval next_appearance	  = Interval_from(current_time, max_lifespan);
 		bool can_still_appear		  = false;
-		node_can_still_appear(stream,
-							  current_candidate,
-							  current_time,
-							  &current_node_present,
-							  &next_appearance,
-							  &can_still_appear);
+		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance, &can_still_appear);
 
 		if (!can_still_appear) {
 			result = node_absent_between(Interval_from(current_time, max_lifespan));
@@ -604,10 +582,10 @@ WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, Ti
 				bool can_cross_now	  = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
-					QueueInfo* previous = Arena_alloc(&arena, sizeof(QueueInfo));
-					*previous			= current_info;
-					TimeId time_crossed = can_cross_now ? current_time : interval.start;
+					NodeId neighbor_id		= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					QueueInfo* previous		= Arena_alloc(&arena, sizeof(QueueInfo));
+					*previous				= current_info;
+					TimeId time_crossed		= can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {
 						neighbor_id,
 						time_crossed,
@@ -747,7 +725,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 
 	// Initialize the queue with the starting node
 	DijkstraStateBinaryHeap queue = DijkstraStateBinaryHeap_with_capacity(10);
-	DijkstraState start = {from, at, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
+	DijkstraState start			  = {from, at, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
 	DijkstraStateBinaryHeap_insert(&queue, start);
 
 	NodeId current_candidate = from;
@@ -764,11 +742,9 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 
 		// printf("Current info : %s\n", DijkstraState_to_string(&current_info).data);
 
-		bool inserted =
-			DijkstraStateHashset_insert(&explored,
-										(DijkstraState){.node			 = current_info.node,
-														.number_of_jumps = current_info.number_of_jumps,
-														.time			 = current_info.time});
+		bool inserted = DijkstraStateHashset_insert(
+			&explored,
+			(DijkstraState){.node = current_info.node, .number_of_jumps = current_info.number_of_jumps, .time = current_info.time});
 
 		if (!inserted) {
 			continue;
@@ -784,12 +760,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 		Interval current_node_present = Interval_empty();
 		Interval next_appearance	  = Interval_from(current_time, max_lifespan);
 		bool can_still_appear		  = false;
-		node_can_still_appear(stream,
-							  current_candidate,
-							  current_time,
-							  &current_node_present,
-							  &next_appearance,
-							  &can_still_appear);
+		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance, &can_still_appear);
 
 		if (!can_still_appear) {
 			result = node_absent_between(Interval_from(current_time, max_lifespan));
@@ -818,7 +789,7 @@ WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at) 
 				bool can_cross_now	  = Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					NodeId neighbor_id = link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					NodeId neighbor_id		= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					DijkstraState* previous = Arena_alloc(&arena, sizeof(DijkstraState));
 					*previous				= current_info;
 					TimeId time_crossed		= can_cross_now ? current_time : interval.start;
@@ -972,9 +943,8 @@ double Walk_duration_integral_1_over_x(Walk* walk) {
 	if (stopped_waiting > walk->optimality.end) {
 		stopped_waiting = walk->optimality.end;
 	}
-	return Walk_duration_integral(Interval_from(walk->optimality.start, stopped_waiting),
-								  Interval_from(stopped_waiting, walk->optimality.end),
-								  reached_at);
+	return Walk_duration_integral(
+		Interval_from(walk->optimality.start, stopped_waiting), Interval_from(stopped_waiting, walk->optimality.end), reached_at);
 }
 
 size_t Walk_length_integral_doubled(Walk* walk) {
@@ -1019,8 +989,7 @@ double betweenness_of_node_at_time(Stream* stream, NodeId node, double time) {
 		NodesIterator nodes2 = fns.nodes_set(stream->stream_data);
 		FOR_EACH_NODE(to, nodes2) {
 			if (from != to) {
-				WalkInfoVector optimal_walks =
-					optimal_walks_between_two_nodes(stream, from, to, Stream_fastest_walk);
+				WalkInfoVector optimal_walks = optimal_walks_between_two_nodes(stream, from, to, Stream_fastest_walk);
 				for (size_t i = 0; i < optimal_walks.size; i++) {
 					WalkInfo walk = optimal_walks.array[i];
 					if (walk.type == WALK) {
@@ -1087,8 +1056,7 @@ double Stream_robustness_by_length(Stream* stream) {
 					// ArenaVector_clear(&arena);
 					QueueInfoVector_clear(&queue);
 					ExploredStateHashset_clear(&explored);
-					Stream_shortest_walk_from_to_at_buffered(
-						stream, from, to, current_time, &optimal, &arena, &queue, &explored);
+					Stream_shortest_walk_from_to_at_buffered(stream, from, to, current_time, &optimal, &arena, &queue, &explored);
 					size_t previous_time = current_time;
 					if (optimal.type == NO_WALK) {
 						NoWalkReason error = optimal.result.no_walk_reason;
@@ -1105,8 +1073,7 @@ double Stream_robustness_by_length(Stream* stream) {
 					else if (optimal.type == WALK) {
 						Interval optimality = optimal.result.walk.optimality;
 						current_time		= optimality.end;
-						robustness += (double)Interval_duration(optimality) /
-									  Walk_length_integral(&optimal.result.walk);
+						robustness += (double)Interval_duration(optimality) / Walk_length_integral(&optimal.result.walk);
 					}
 					if (current_time == previous_time) {
 						current_time++;
@@ -1182,8 +1149,8 @@ double Stream_robustness_by_duration(Stream* stream) {
 					else if (optimal.type == WALK) {
 						Interval optimality = optimal.result.walk.optimality;
 						current_time		= optimality.end;
-						robustness += (double)(Interval_duration(optimality)) /
-									  (1.0 + Walk_duration_integral_1_over_x(&optimal.result.walk));
+						robustness +=
+							(double)(Interval_duration(optimality)) / (1.0 + Walk_duration_integral_1_over_x(&optimal.result.walk));
 					}
 					if (current_time == previous_time) {
 						current_time++;

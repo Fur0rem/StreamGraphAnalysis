@@ -9,7 +9,11 @@ size_t KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
 	for (size_t i = 0; i < kmt->nb_slices; i++) {
 		// printf("slice %zu, nb_moments %zu\n", i, kmt->slices[i].nb_moments);
 		// printf("n %zu\n", n);
+		// printf("n %zu\n", n);
+		// printf("kmt->slices %p\n", kmt->slices);
+		// printf("kmt->slices[i].nb_moments %zu\n", kmt->slices[i].nb_moments);
 		if (n < kmt->slices[i].nb_moments) {
+			// printf("returning %zu\n", kmt->slices[i].moments[n] + (i * SLICE_SIZE));
 			return kmt->slices[i].moments[n] + (i * SLICE_SIZE);
 		}
 		n -= kmt->slices[i].nb_moments;
@@ -43,7 +47,13 @@ KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices) {
 
 void KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments) {
 	kmt->slices[slice].nb_moments = nb_moments;
-	kmt->slices[slice].moments	  = (RelativeMoment*)MALLOC(nb_moments * sizeof(RelativeMoment));
+	// kmt->slices[slice].moments	  = (RelativeMoment*)MALLOC(nb_moments * sizeof(RelativeMoment));
+	if (nb_moments == 0) {
+		kmt->slices[slice].moments = NULL;
+	}
+	else {
+		kmt->slices[slice].moments = (RelativeMoment*)MALLOC(nb_moments * sizeof(RelativeMoment));
+	}
 }
 
 size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt) {
@@ -66,7 +76,9 @@ size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
 }
 void KeyMomentsTable_destroy(KeyMomentsTable kmt) {
 	for (size_t i = 0; i < kmt.nb_slices; i++) {
-		free(kmt.slices[i].moments);
+		if (kmt.slices[i].moments != NULL) {
+			free(kmt.slices[i].moments);
+		}
 	}
 	free(kmt.slices);
 }
@@ -107,4 +119,15 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
 
 	// return the index where the time should be inserted
 	return index + left;
+}
+
+void print_key_moments_table(KeyMomentsTable* kmt) {
+	printf("Key moments table\n");
+	for (size_t i = 0; i < kmt->nb_slices; i++) {
+		printf("Slice %zu\n", i);
+		for (size_t j = 0; j < kmt->slices[i].nb_moments; j++) {
+			printf("%zu ", kmt->slices[i].moments[j] + (i * SLICE_SIZE));
+		}
+		printf("\n");
+	}
 }

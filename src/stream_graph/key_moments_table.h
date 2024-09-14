@@ -38,3 +38,4 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);
 // DefVector(size_t2, NO_FREE(size_t2));
 
 // size_t2Vector KeyMomentsTable_all_moments(KeyMomentsTable* kmt);
+void print_key_moments_table(KeyMomentsTable* kmt);

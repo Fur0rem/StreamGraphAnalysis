@@ -147,7 +147,7 @@ typedef struct {
 
 NodeId ChunkStreamSmallNodesPresentAtTIterator_next(NodesIterator* it) {
 	ChunkStreamSmallNPATIterData* iterator_data = it->iterator_data;
-	NodeId node_id = iterator_data->nodes_iterator_fsg.next(&iterator_data->nodes_iterator_fsg);
+	NodeId node_id								= iterator_data->nodes_iterator_fsg.next(&iterator_data->nodes_iterator_fsg);
 	if (node_id == SIZE_MAX) {
 		return SIZE_MAX;
 	}
@@ -188,7 +188,7 @@ typedef struct {
 
 LinkId ChunkStreamSmallLinksPresentAtTIterator_next(LinksIterator* it) {
 	ChunkStreamSmallLPATIterData* iterator_data = it->iterator_data;
-	LinkId link_id = iterator_data->links_iterator_fsg.next(&iterator_data->links_iterator_fsg);
+	LinkId link_id								= iterator_data->links_iterator_fsg.next(&iterator_data->links_iterator_fsg);
 	if (link_id == SIZE_MAX) {
 		return SIZE_MAX;
 	}
@@ -237,8 +237,7 @@ size_t ChunkStreamSmall_NeighboursOfNode_next(LinksIterator* iter) {
 	if (neighbours_iter_data->current_neighbour >= stream_graph->nodes.nodes[node].nb_neighbours) {
 		return SIZE_MAX;
 	}
-	size_t return_val =
-		chunk_stream->underlying_stream_graph->nodes.nodes[node].neighbours[neighbours_iter_data->current_neighbour];
+	size_t return_val = chunk_stream->underlying_stream_graph->nodes.nodes[node].neighbours[neighbours_iter_data->current_neighbour];
 	neighbours_iter_data->current_neighbour++;
 	/*if (BitArray_is_zero(chunk_stream->links_present, return_val)) {
 		return ChunkStreamSmall_NeighboursOfNode_next(iter);
@@ -300,8 +299,7 @@ TimesIterator ChunkStreamSmall_times_node_present(StreamData* stream_data, NodeI
 	CSS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CSS_TimesIdPresentAtIteratorData));
 	size_t nb_skips									= 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.nb_intervals &&
-		   chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end <
-			   chunk_stream->snapshot.start) {
+		   chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end < chunk_stream->snapshot.start) {
 		nb_skips++;
 	}
 	*iterator_data = (CSS_TimesIdPresentAtIteratorData){
@@ -342,8 +340,7 @@ TimesIterator ChunkStreamSmall_times_link_present(StreamData* stream_data, LinkI
 	CSS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CSS_TimesIdPresentAtIteratorData));
 	size_t nb_skips									= 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->links.links[link].presence.nb_intervals &&
-		   chunk_stream->underlying_stream_graph->links.links[link].presence.intervals[nb_skips].end <
-			   chunk_stream->snapshot.start) {
+		   chunk_stream->underlying_stream_graph->links.links[link].presence.intervals[nb_skips].end < chunk_stream->snapshot.start) {
 		nb_skips++;
 	}
 	*iterator_data = (CSS_TimesIdPresentAtIteratorData){

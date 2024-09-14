@@ -33,8 +33,7 @@ size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 	}
 	// If you're the last link of the event
 	size_t return_val;
-	if (links_iter_data->current_link ==
-		stream_graph->events.link_events.events[links_iter_data->current_event].nb_info) {
+	if (links_iter_data->current_link == stream_graph->events.link_events.events[links_iter_data->current_event].nb_info) {
 		// If you're the last event
 		if (links_iter_data->current_event >= stream_graph->events.nb_events - 1) {
 			return SIZE_MAX;
@@ -46,8 +45,7 @@ size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 	if (stream_graph->events.link_events.events[links_iter_data->current_event].nb_info == 0) {
 		return SIZE_MAX;
 	}
-	return_val =
-		stream_graph->events.link_events.events[links_iter_data->current_event].events[links_iter_data->current_link];
+	return_val = stream_graph->events.link_events.events[links_iter_data->current_event].events[links_iter_data->current_link];
 	links_iter_data->current_link++;
 	return return_val;
 }
@@ -60,8 +58,7 @@ size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
 
 	// If you're the last link of the event
 	size_t return_val;
-	if (links_iter_data->current_link ==
-		stream_graph->events.link_events.events[links_iter_data->current_event].nb_info) {
+	if (links_iter_data->current_link == stream_graph->events.link_events.events[links_iter_data->current_event].nb_info) {
 		// If you're the first event
 		if (links_iter_data->current_event == 0) {
 			return SIZE_MAX;
@@ -84,8 +81,7 @@ size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
 		links_iter_data->current_event--;
 		links_iter_data->current_link = 0;
 	}
-	return_val =
-		stream_graph->events.link_events.events[links_iter_data->current_event].events[links_iter_data->current_link];
+	return_val = stream_graph->events.link_events.events[links_iter_data->current_event].events[links_iter_data->current_link];
 	links_iter_data->current_link++;
 	return return_val;
 }
@@ -97,13 +93,22 @@ void LinksPresentAtTIterator_destroy(LinksIterator* links_iter) {
 LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t) {
 	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
 
+#ifdef DEBUG
+	printf("Events inited: %d\n", stream_graph->events_inited);
+	if (!stream_graph->events_inited) {
+		fprintf(stderr, "Events table not initialized\n");
+		exit(1);
+	}
+#endif
+
 	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
 
 	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
-	if (t >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments,
-											stream_graph->events.link_events.disappearance_index)) {
+	if (t >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.link_events.disappearance_index)) {
 		current_event++;
 	}
+
+	// printf("Current event: %zu\n", current_event);
 
 	LinksPresentAtTIterator* links_iter_data = MALLOC(sizeof(LinksPresentAtTIterator));
 	links_iter_data->current_event			 = current_event;
@@ -155,8 +160,7 @@ size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 	}
 	// If you're the last node of the event
 	size_t return_val;
-	if (nodes_iter_data->current_node ==
-		stream_graph->events.node_events.events[nodes_iter_data->current_event].nb_info) {
+	if (nodes_iter_data->current_node == stream_graph->events.node_events.events[nodes_iter_data->current_event].nb_info) {
 		// If you're the last event
 		if (nodes_iter_data->current_event >= stream_graph->events.nb_events - 1) {
 			return SIZE_MAX;
@@ -168,8 +172,7 @@ size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 	if (stream_graph->events.node_events.events[nodes_iter_data->current_event].nb_info == 0) {
 		return SIZE_MAX;
 	}
-	return_val =
-		stream_graph->events.node_events.events[nodes_iter_data->current_event].events[nodes_iter_data->current_node];
+	return_val = stream_graph->events.node_events.events[nodes_iter_data->current_event].events[nodes_iter_data->current_node];
 	nodes_iter_data->current_node++;
 	return return_val;
 }
@@ -182,8 +185,7 @@ size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
 
 	// If you're the last node of the event
 	size_t return_val;
-	if (nodes_iter_data->current_node ==
-		stream_graph->events.node_events.events[nodes_iter_data->current_event].nb_info) {
+	if (nodes_iter_data->current_node == stream_graph->events.node_events.events[nodes_iter_data->current_event].nb_info) {
 		// If you're the first event
 		if (nodes_iter_data->current_event == 0) {
 			return SIZE_MAX;
@@ -206,8 +208,7 @@ size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
 		nodes_iter_data->current_event--;
 		nodes_iter_data->current_node = 0;
 	}
-	return_val =
-		stream_graph->events.node_events.events[nodes_iter_data->current_event].events[nodes_iter_data->current_node];
+	return_val = stream_graph->events.node_events.events[nodes_iter_data->current_event].events[nodes_iter_data->current_node];
 	nodes_iter_data->current_node++;
 	return return_val;
 }
@@ -217,15 +218,22 @@ void NodesPresentAtTIterator_destroy(NodesIterator* nodes_iter) {
 }
 
 NodesIterator StreamGraph_nodes_present_at(StreamGraph* stream_graph, TimeId t) {
+#ifdef DEBUG
+	if (!stream_graph->events_inited) {
+		fprintf(stderr, "Events table not initialized\n");
+		exit(1);
+	}
+#endif
 	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
 
 	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
 
 	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
-	if (t >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments,
-											stream_graph->events.node_events.disappearance_index)) {
+	if (t >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.node_events.disappearance_index)) {
 		current_event++;
 	}
+
+	// printf("Current event: %zu\n", current_event);
 
 	Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
 	// Stream* stream = MALLOC(sizeof(Stream));

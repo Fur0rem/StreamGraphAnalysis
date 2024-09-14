@@ -41,96 +41,93 @@ char* get_to_header(const char* str, const char* header) {
 	return str2;
 }
 
-#define NEXT_HEADER(section)                                                                                 \
-	current_header = "" #section "";                                                                         \
+#define NEXT_HEADER(section)                                                                                                               \
+	current_header = "" #section "";                                                                                                       \
 	(str)		   = get_to_header(str, current_header);
 
-#define EXPECTED_NB_SCANNED(expected)                                                                        \
-	if (nb_scanned != (expected)) {                                                                          \
-		fprintf(stderr,                                                                                      \
-				TEXT_RED TEXT_BOLD "Could not parse the header " TEXT_RESET "%s\nError at line %d\n",        \
-				current_header,                                                                              \
-				__LINE__);                                                                                   \
-		fprintf(stderr, "Number of scanned elements: %d, expected: %d\n", nb_scanned, expected);             \
-		fprintf(stderr, "Current line:");                                                                    \
-		PRINT_LINE(str);                                                                                     \
-		exit(1);                                                                                             \
+#define EXPECTED_NB_SCANNED(expected)                                                                                                      \
+	if (nb_scanned != (expected)) {                                                                                                        \
+		fprintf(stderr, TEXT_RED TEXT_BOLD "Could not parse the header " TEXT_RESET "%s\nError at line %d\n", current_header, __LINE__);   \
+		fprintf(stderr, "Number of scanned elements: %d, expected: %d\n", nb_scanned, expected);                                           \
+		fprintf(stderr, "Current line:");                                                                                                  \
+		PRINT_LINE(str);                                                                                                                   \
+		exit(1);                                                                                                                           \
 	}
 
-#define GO_TO_NEXT_LINE(str)                                                                                 \
-	if (*(str) != '\0') {                                                                                    \
-		(str) = strchr((str), '\n');                                                                         \
-		if ((str) == NULL) {                                                                                 \
-			fprintf(stderr,                                                                                  \
-					TEXT_BOLD TEXT_RED "End of file was reached prematurely while trying "                   \
-									   "to find next line \n" TEXT_RESET);                                   \
-			exit(1);                                                                                         \
-		}                                                                                                    \
-		(str)++;                                                                                             \
-	}                                                                                                        \
-	else {                                                                                                   \
-		fprintf(stderr, "End of file was reached prematurely while trying to find next line \n");            \
-		exit(1);                                                                                             \
+#define GO_TO_NEXT_LINE(str)                                                                                                               \
+	if (*(str) != '\0') {                                                                                                                  \
+		(str) = strchr((str), '\n');                                                                                                       \
+		if ((str) == NULL) {                                                                                                               \
+			fprintf(stderr,                                                                                                                \
+					TEXT_BOLD TEXT_RED "End of file was reached prematurely while trying "                                                 \
+									   "to find next line \n" TEXT_RESET);                                                                 \
+			exit(1);                                                                                                                       \
+		}                                                                                                                                  \
+		(str)++;                                                                                                                           \
+	}                                                                                                                                      \
+	else {                                                                                                                                 \
+		fprintf(stderr, "End of file was reached prematurely while trying to find next line \n");                                          \
+		exit(1);                                                                                                                           \
 	}
 
-#define PRINT_LINE(str)                                                                                      \
-	{                                                                                                        \
-		const char* begin = (str);                                                                           \
-		while (*begin != '\n') {                                                                             \
-			begin--;                                                                                         \
-		}                                                                                                    \
-		begin++;                                                                                             \
-		char* end  = strchr(begin, '\n');                                                                    \
-		char* line = (char*)MALLOC(end - begin + 1);                                                         \
-		strncpy(line, begin, end - begin);                                                                   \
-		line[end - begin] = '\0';                                                                            \
-		printf("line: %s\n", line);                                                                          \
-		free(line);                                                                                          \
+#define PRINT_LINE(str)                                                                                                                    \
+	{                                                                                                                                      \
+		const char* begin = (str);                                                                                                         \
+		while (*begin != '\n') {                                                                                                           \
+			begin--;                                                                                                                       \
+		}                                                                                                                                  \
+		begin++;                                                                                                                           \
+		char* end  = strchr(begin, '\n');                                                                                                  \
+		char* line = (char*)MALLOC(end - begin + 1);                                                                                       \
+		strncpy(line, begin, end - begin);                                                                                                 \
+		line[end - begin] = '\0';                                                                                                          \
+		printf("line: %s\n", line);                                                                                                        \
+		free(line);                                                                                                                        \
 	}
 
-#define NEXT_TUPLE(str)                                                                                      \
-	{                                                                                                        \
-		if (*(str) == '\0') {                                                                                \
-			fprintf(stderr,                                                                                  \
-					TEXT_RED TEXT_BOLD "End of file was reached prematurely while trying "                   \
-									   "to find next tuple \n" TEXT_RESET);                                  \
-			exit(1);                                                                                         \
-		}                                                                                                    \
-                                                                                                             \
-		(str)++;                                                                                             \
-		while ((*(str) != '(') && (*(str) != '\n') && (*(str) != '\0')) {                                    \
-			(str)++;                                                                                         \
-		}                                                                                                    \
+#define NEXT_TUPLE(str)                                                                                                                    \
+	{                                                                                                                                      \
+		if (*(str) == '\0') {                                                                                                              \
+			fprintf(stderr,                                                                                                                \
+					TEXT_RED TEXT_BOLD "End of file was reached prematurely while trying "                                                 \
+									   "to find next tuple \n" TEXT_RESET);                                                                \
+			exit(1);                                                                                                                       \
+		}                                                                                                                                  \
+                                                                                                                                           \
+		(str)++;                                                                                                                           \
+		while ((*(str) != '(') && (*(str) != '\n') && (*(str) != '\0')) {                                                                  \
+			(str)++;                                                                                                                       \
+		}                                                                                                                                  \
 	}
 
-#define EXPECT_AND_MOVE(str, character)                                                                      \
-	if UNLIKELY ((str)[0] != (character)) {                                                                  \
-		fprintf(stderr, "Expected %c\n", character);                                                         \
-		PRINT_LINE(str);                                                                                     \
-		fprintf(stderr, "Current header: %s\n", current_header);                                             \
-		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                               \
-		exit(1);                                                                                             \
-	}                                                                                                        \
+#define EXPECT_AND_MOVE(str, character)                                                                                                    \
+	if UNLIKELY ((str)[0] != (character)) {                                                                                                \
+		fprintf(stderr, "Expected %c\n", character);                                                                                       \
+		PRINT_LINE(str);                                                                                                                   \
+		fprintf(stderr, "Current header: %s\n", current_header);                                                                           \
+		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                                             \
+		exit(1);                                                                                                                           \
+	}                                                                                                                                      \
 	(str) += 1;
 
-#define EXPECT_OR_MOVE(str, character1, character2)                                                          \
-	if UNLIKELY ((str)[0] != (character1) && (str)[0] != (character2)) {                                     \
-		fprintf(stderr, "Expected %c or %c\n", character1, character2);                                      \
-		PRINT_LINE(str);                                                                                     \
-		fprintf(stderr, "Current header: %s\n", current_header);                                             \
-		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                               \
-		exit(1);                                                                                             \
-	}                                                                                                        \
+#define EXPECT_OR_MOVE(str, character1, character2)                                                                                        \
+	if UNLIKELY ((str)[0] != (character1) && (str)[0] != (character2)) {                                                                   \
+		fprintf(stderr, "Expected %c or %c\n", character1, character2);                                                                    \
+		PRINT_LINE(str);                                                                                                                   \
+		fprintf(stderr, "Current header: %s\n", current_header);                                                                           \
+		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                                             \
+		exit(1);                                                                                                                           \
+	}                                                                                                                                      \
 	(str) += 1;
 
-#define EXPECT_SEQ_AND_MOVE(str, sequence)                                                                   \
-	if UNLIKELY (strncmp(str, sequence, strlen(sequence)) != 0) {                                            \
-		fprintf(stderr, "Expected %s\n", sequence);                                                          \
-		PRINT_LINE(str);                                                                                     \
-		fprintf(stderr, "Current header: %s\n", current_header);                                             \
-		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                               \
-		exit(1);                                                                                             \
-	}                                                                                                        \
+#define EXPECT_SEQ_AND_MOVE(str, sequence)                                                                                                 \
+	if UNLIKELY (strncmp(str, sequence, strlen(sequence)) != 0) {                                                                          \
+		fprintf(stderr, "Expected %s\n", sequence);                                                                                        \
+		PRINT_LINE(str);                                                                                                                   \
+		fprintf(stderr, "Current header: %s\n", current_header);                                                                           \
+		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                                             \
+		exit(1);                                                                                                                           \
+	}                                                                                                                                      \
 	(str) += strlen(sequence);
 
 // TODO : Make the code better and less unreadable copy pasted code
@@ -187,6 +184,10 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	str = new_ptr;
 
 	sg.scaling = scaling;
+
+#ifdef DEBUG
+	sg.events_inited = false;
+#endif
 
 	// Parse the Memory section
 	NEXT_HEADER([Memory]);
@@ -540,18 +541,12 @@ StreamGraph StreamGraph_from_string(const char* str) {
 	// TODO : better checking and error messages
 	for (size_t i = 0; i < nb_nodes; i++) {
 		if (nb_pushed_for_nodes[i] % 2 != 0) {
-			fprintf(stderr,
-					TEXT_RED TEXT_BOLD "Node %zu was pushed/removed %d times\n" TEXT_RESET,
-					i,
-					nb_pushed_for_nodes[i]);
+			fprintf(stderr, TEXT_RED TEXT_BOLD "Node %zu was pushed/removed %d times\n" TEXT_RESET, i, nb_pushed_for_nodes[i]);
 		}
 	}
 	for (size_t i = 0; i < nb_links; i++) {
 		if (nb_pushed_for_links[i] % 2 != 0) {
-			fprintf(stderr,
-					TEXT_RED TEXT_BOLD "Link %zu was pushed/removed %d times\n" TEXT_RESET,
-					i,
-					nb_pushed_for_links[i]);
+			fprintf(stderr, TEXT_RED TEXT_BOLD "Link %zu was pushed/removed %d times\n" TEXT_RESET, i, nb_pushed_for_links[i]);
 		}
 	}
 
@@ -613,18 +608,12 @@ String EventTuple_to_string(EventTuple* tuple) {
 	String str = String_with_capacity(50);
 	switch (tuple->letter) {
 		case 'N': {
-			String_append_formatted(
-				&str, "(%zu %c %c %zu)", tuple->moment, tuple->sign, tuple->letter, tuple->id.node);
+			String_append_formatted(&str, "(%zu %c %c %zu)", tuple->moment, tuple->sign, tuple->letter, tuple->id.node);
 			break;
 		}
 		case 'L': {
-			String_append_formatted(&str,
-									"(%zu %c %c %zu %zu)",
-									tuple->moment,
-									tuple->sign,
-									tuple->letter,
-									tuple->id.node1,
-									tuple->id.node2);
+			String_append_formatted(
+				&str, "(%zu %c %c %zu %zu)", tuple->moment, tuple->sign, tuple->letter, tuple->id.node1, tuple->id.node2);
 			break;
 		}
 		default: {
@@ -695,12 +684,14 @@ DefineVectorDeriveRemove(size_tHashset, size_tHashset_destroy);
 DefineVectorDeriveRemove(LinkInfo, NO_FREE(LinkInfo));
 
 size_t nb_characters_needed(size_t number) {
-	const int BASE	= 10;
+	const size_t BASE = 10;
+
 	size_t nb_chars = 1;
 	while (number >= BASE) {
 		number /= BASE;
 		nb_chars++;
 	}
+
 	if (nb_chars == 1) {
 		return 2;
 	}
@@ -1226,15 +1217,14 @@ size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, TimeId la
 	// The additions with random 2's, 3's, 4's are to account for the space, newline, and parenthesis
 
 	// The headers + the number of events in each slice * the number of slices
-	size_t headers_size =
-		strlen("[General]\nLifespan=(%zu "
-			   "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
-			   "zu\n\n[["
-			   "Nodes]"
-			   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
-			   "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]"
-			   "\n") +
-		100 + (nb_events_per_slice.size * (nb_characters_needed(nb_events / nb_events_per_slice.size)));
+	size_t headers_size = strlen("[General]\nLifespan=(%zu "
+								 "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
+								 "zu\n\n[["
+								 "Nodes]"
+								 "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
+								 "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]"
+								 "\n") +
+						  100 + (nb_events_per_slice.size * (nb_characters_needed(nb_events / nb_events_per_slice.size)));
 
 	// The number of neighbours for each node
 	size_t neighbours_per_node_prediction = (nb_links + nb_links / 2) / nb_nodes;
@@ -1243,22 +1233,18 @@ size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, TimeId la
 	size_t number_of_intervals = ((nb_characters_needed(nb_events / 8) + 1) * (nb_nodes + nb_links)) / 2;
 
 	// The number of neighbours for each node to links and links to nodes
-	size_t neighbours_nodes_to_links_size =
-		((nb_characters_needed(nb_links) + 2) * neighbours_per_node_prediction + 3) * nb_nodes;
+	size_t neighbours_nodes_to_links_size = ((nb_characters_needed(nb_links) + 2) * neighbours_per_node_prediction + 3) * nb_nodes;
 	size_t neighbours_links_to_nodes_size =
 		(4 + (((nb_characters_needed(nb_nodes) - 1) * 2) + nb_characters_needed(nb_links) - 1)) * nb_links;
 
 	// The size of the events with (sign letter link_id) or (sign letter node_id)
-	size_t chars_per_event =
-		(1 + nb_characters_needed((nb_nodes > nb_links) ? nb_nodes : nb_links)) + strlen(" (X X X)") + 2;
+	size_t chars_per_event		  = (1 + nb_characters_needed((nb_nodes > nb_links) ? nb_nodes : nb_links)) + strlen(" (X X X)") + 2;
 	size_t events_size_prediction = ((nb_characters_needed(last_event) - 1 + chars_per_event) * nb_events);
-	size_t number_of_neighbours_prediction =
-		(nb_characters_needed(neighbours_per_node_prediction) + 1) * nb_nodes;
+	size_t number_of_neighbours_prediction = (nb_characters_needed(neighbours_per_node_prediction) + 1) * nb_nodes;
 
 	// Sum of everything
-	size_t size_prediction = headers_size + (number_of_neighbours_prediction) + number_of_intervals +
-							 neighbours_nodes_to_links_size + neighbours_links_to_nodes_size +
-							 events_size_prediction;
+	size_t size_prediction = headers_size + (number_of_neighbours_prediction) + number_of_intervals + neighbours_nodes_to_links_size +
+							 neighbours_links_to_nodes_size + events_size_prediction;
 
 	return size_prediction;
 }
@@ -1498,8 +1484,7 @@ char* InternalFormat_from_External_str(const char* str) {
 		nb_events_per_slice.array[slice_id]++;
 	}
 
-	size_t size_prediction =
-		estimate_internal_format_size(nodes.size, links.size, last_event, nb_events, nb_events_per_slice);
+	size_t size_prediction = estimate_internal_format_size(nodes.size, links.size, last_event, nb_events, nb_events_per_slice);
 
 	String out_str = String_with_capacity(size_prediction);
 
@@ -1591,11 +1576,7 @@ char* InternalFormat_from_External_str(const char* str) {
 				size_t idx1	   = e.id.node1;
 				size_t idx2	   = e.id.node2;
 				size_t link_id = link_id_map[idx1 * (biggest_node_id + 1) + idx2];
-				String_append_formatted(&out_str,
-										"(%c %c %zu) ",
-										events.array[i].array[j].sign,
-										events.array[i].array[j].letter,
-										link_id);
+				String_append_formatted(&out_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter, link_id);
 			}
 			else {
 				String_append_formatted(&out_str,
@@ -1618,6 +1599,15 @@ char* InternalFormat_from_External_str(const char* str) {
 	LinkInfoVector_destroy(nodes);
 	size_tVector_destroy(nb_events_per_slice);
 
+	// write data to file
+	FILE* file = fopen("internal_format.txt", "w");
+	if (file == NULL) {
+		fprintf(stderr, "Could not open file\n");
+		exit(1);
+	}
+	fwrite(out_str.data, 1, out_str.size, file);
+	fclose(file);
+
 	return out_str.data;
 }
 
@@ -1633,13 +1623,13 @@ String TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 	// Append the first interval
 	String_push_str(&str, "\t\t");
 	String interval_str = Interval_to_string(&node->presence.intervals[0]);
-	String_concat_consume(&str, &interval_str);
+	String_concat_consume(&str, interval_str);
 
 	// Append the other intervals
 	for (size_t i = 1; i < node->presence.nb_intervals; i++) {
 		String_push_str(&str, " U ");
 		interval_str = Interval_to_string(&node->presence.intervals[i]);
-		String_concat_consume(&str, &interval_str);
+		String_concat_consume(&str, interval_str);
 	}
 	String_push_str(&str, "\n\t]\n");
 	String_push_str(&str, "\tNeighbours={\n\t\t");
@@ -1658,14 +1648,13 @@ String TemporalNode_to_string(StreamGraph* sg, size_t node_idx) {
 
 String StreamGraph_to_string(StreamGraph* sg) {
 	String str = String_from_duplicate("StreamGraph {\n");
-	String_append_formatted(
-		&str, "\tLifespan=[%zu %zu[\n", StreamGraph_lifespan_begin(sg), StreamGraph_lifespan_end(sg));
+	String_append_formatted(&str, "\tLifespan=[%zu %zu[\n", StreamGraph_lifespan_begin(sg), StreamGraph_lifespan_end(sg));
 
 	// Nodes
 	String_push_str(&str, "\tNodes=[\n");
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
 		String node_str = TemporalNode_to_string(sg, i);
-		String_concat_consume(&str, &node_str);
+		String_concat_consume(&str, node_str);
 	}
 	String_push_str(&str, "\t]\n");
 
@@ -1673,7 +1662,7 @@ String StreamGraph_to_string(StreamGraph* sg) {
 	String_push_str(&str, "\tLinks=[\n");
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
 		String link_str = Link_to_string(&sg->links.links[i]);
-		String_concat_consume(&str, &link_str);
+		String_concat_consume(&str, link_str);
 	}
 	String_push_str(&str, "\t]\n");
 
@@ -1736,6 +1725,15 @@ void events_table_write(StreamGraph* sg, size_tVector* node_events, size_tVector
 // TODO : probably not very efficient either (presence mask propagation lookup is slow)
 // TODO: actually it's quite fast so maybe init by default instead of on demand
 void init_events_table(StreamGraph* sg) {
+#ifdef DEBUG
+	printf("initializing events table of stream graph %p\n", sg);
+	printf("events_inited: %d\n", sg->events_inited);
+	if (sg->events_inited) {
+		fprintf(stderr, "Events table already initialized\n");
+		exit(1);
+	}
+	sg->events_inited = true;
+#endif
 	// printf("initializing events table\n");
 	// only the number of events is known and node and link presence intervals are known
 
@@ -1756,10 +1754,8 @@ void init_events_table(StreamGraph* sg) {
 		}
 	}
 
-	size_t index_of_last_node_addition =
-		KeyMomentsTable_find_time_index(&sg->key_moments, last_node_addition);
-	size_t index_of_last_link_addition =
-		KeyMomentsTable_find_time_index(&sg->key_moments, last_link_addition);
+	size_t index_of_last_node_addition = KeyMomentsTable_find_time_index(&sg->key_moments, last_node_addition);
+	size_t index_of_last_link_addition = KeyMomentsTable_find_time_index(&sg->key_moments, last_link_addition);
 
 	// printf("last_node_addition: %zu\n", last_node_addition);
 	// printf("last_link_addition: %zu\n", last_link_addition);
@@ -1844,9 +1840,8 @@ void init_events_table(StreamGraph* sg) {
 			for (int j = i - 2; j >= 0; j--) {
 				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < node_events[j].size; k++) {
-						if (IntervalsSet_contains_sorted(
-								sg->nodes.nodes[node_events[j].array[k]].presence,
-								KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
+														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tVector_push(&node_events[i], node_events[j].array[k]);
 						}
 					}
@@ -1866,9 +1861,8 @@ void init_events_table(StreamGraph* sg) {
 					for (size_t k = 0; k < link_events[j].size; k++) {
 
 						// FIXME: WHY DO I HAVE TO COMPILE TWICE TO HAVE THE PERFORMANCE BOOST?
-						if (IntervalsSet_contains_sorted(
-								sg->links.links[link_events[j].array[k]].presence,
-								KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
+														 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tVector_push(&link_events[i], link_events[j].array[k]);
 						}
 					}
@@ -1904,6 +1898,12 @@ void init_events_table(StreamGraph* sg) {
 }
 
 void events_destroy(StreamGraph* sg) {
+#ifdef DEBUG
+	if (!sg->events_inited) {
+		fprintf(stderr, "Events table not initialized\n");
+		exit(1);
+	}
+#endif
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
 		if (sg->events.node_events.events[i].events != NULL) {
 			free(sg->events.node_events.events[i].events);
