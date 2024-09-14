@@ -104,8 +104,7 @@ bool test_intervals_set_union_overlap() {
 	for (size_t i = 0; i < union_ab.nb_intervals; i++) {
 		printf("[%lu, %lu]\n", union_ab.intervals[i].start, union_ab.intervals[i].end);
 	}
-	return EXPECT_EQ(union_ab.nb_intervals, 1) && EXPECT_EQ(union_ab.intervals[0].start, 0) &&
-		   EXPECT_EQ(union_ab.intervals[0].end, 10);
+	return EXPECT_EQ(union_ab.nb_intervals, 1) && EXPECT_EQ(union_ab.intervals[0].start, 0) && EXPECT_EQ(union_ab.intervals[0].end, 10);
 }
 
 int main() {

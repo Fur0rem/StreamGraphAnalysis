@@ -138,6 +138,25 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
 	return result;
 }
 
+// Doesn't consume the input
+IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector* right) {
+	IntervalVector intersection = IntervalVector_with_capacity((left->size > right->size) ? left->size : right->size);
+	for (size_t i = 0; i < left->size; i++) {
+		for (size_t j = 0; j < right->size; j++) {
+			Interval a_interval = left->array[i];
+			Interval b_interval = right->array[j];
+			if (a_interval.end <= b_interval.start) {
+				break;
+			}
+			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
+			if (Interval_duration(intersection_interval) > 0) {
+				IntervalVector_push(&intersection, intersection_interval);
+			}
+		}
+	}
+	return intersection;
+}
+
 bool is_sorted(const Interval* intervals, size_t nb_intervals) {
 	for (size_t i = 1; i < nb_intervals; i++) {
 		if (intervals[i - 1].start > intervals[i].start) {

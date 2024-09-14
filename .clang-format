@@ -15,7 +15,7 @@ BraceWrapping:
   AfterExternBlock: false
   BeforeElse: true
   AfterStruct: false
-ColumnLimit: 110
+ColumnLimit: 140
 IndentCaseLabels: true
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None

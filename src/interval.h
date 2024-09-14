@@ -41,6 +41,7 @@ size_t IntervalsSet_size(IntervalsSet intervals_set);
 IntervalsSet IntervalsSet_alloc(size_t nb_intervals);
 void IntervalsSet_merge(IntervalsSet* intervals_set);
 IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right);
+IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector* right);
 IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet set, Interval interval);
 void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval);
 IntervalsSet IntervalsSet_union(IntervalsSet left, IntervalsSet right);

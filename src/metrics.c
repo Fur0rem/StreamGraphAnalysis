@@ -13,38 +13,38 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#define CATCH_METRICS_IMPLEM(function, stream)                                                                         \
-	switch (stream->type) {                                                                                            \
-		case FULL_STREAM_GRAPH: {                                                                                      \
-			if (FullStreamGraph_metrics_functions.function != NULL) {                                                  \
-				return FullStreamGraph_metrics_functions.function(stream);                                             \
-			}                                                                                                          \
-			break;                                                                                                     \
-		}                                                                                                              \
-		case LINK_STREAM: {                                                                                            \
-			if (LinkStream_metrics_functions.function != NULL) {                                                       \
-				return LinkStream_metrics_functions.function(stream);                                                  \
-			}                                                                                                          \
-			break;                                                                                                     \
-		}                                                                                                              \
-		case CHUNK_STREAM: {                                                                                           \
-			if (ChunkStream_metrics_functions.function != NULL) {                                                      \
-				return ChunkStream_metrics_functions.function(stream);                                                 \
-			}                                                                                                          \
-			break;                                                                                                     \
-		}                                                                                                              \
-		case CHUNK_STREAM_SMALL: {                                                                                     \
-			if (ChunkStreamSmall_metrics_functions.function != NULL) {                                                 \
-				return ChunkStreamSmall_metrics_functions.function(stream);                                            \
-			}                                                                                                          \
-			break;                                                                                                     \
-		}                                                                                                              \
-		case SNAPSHOT_STREAM: {                                                                                        \
-			if (SnapshotStream_metrics_functions.function != NULL) {                                                   \
-				return SnapshotStream_metrics_functions.function(stream);                                              \
-			}                                                                                                          \
-			break;                                                                                                     \
-		}                                                                                                              \
+#define CATCH_METRICS_IMPLEM(function, stream)                                                                                             \
+	switch (stream->type) {                                                                                                                \
+		case FULL_STREAM_GRAPH: {                                                                                                          \
+			if (FullStreamGraph_metrics_functions.function != NULL) {                                                                      \
+				return FullStreamGraph_metrics_functions.function(stream);                                                                 \
+			}                                                                                                                              \
+			break;                                                                                                                         \
+		}                                                                                                                                  \
+		case LINK_STREAM: {                                                                                                                \
+			if (LinkStream_metrics_functions.function != NULL) {                                                                           \
+				return LinkStream_metrics_functions.function(stream);                                                                      \
+			}                                                                                                                              \
+			break;                                                                                                                         \
+		}                                                                                                                                  \
+		case CHUNK_STREAM: {                                                                                                               \
+			if (ChunkStream_metrics_functions.function != NULL) {                                                                          \
+				return ChunkStream_metrics_functions.function(stream);                                                                     \
+			}                                                                                                                              \
+			break;                                                                                                                         \
+		}                                                                                                                                  \
+		case CHUNK_STREAM_SMALL: {                                                                                                         \
+			if (ChunkStreamSmall_metrics_functions.function != NULL) {                                                                     \
+				return ChunkStreamSmall_metrics_functions.function(stream);                                                                \
+			}                                                                                                                              \
+			break;                                                                                                                         \
+		}                                                                                                                                  \
+		case SNAPSHOT_STREAM: {                                                                                                            \
+			if (SnapshotStream_metrics_functions.function != NULL) {                                                                       \
+				return SnapshotStream_metrics_functions.function(stream);                                                                  \
+			}                                                                                                                              \
+			break;                                                                                                                         \
+		}                                                                                                                                  \
 	}
 
 // TODO : rename the functions to be more explicit
@@ -367,28 +367,35 @@ double Stream_clustering_coeff_of_node(Stream* stream, NodeId node_id) {
 				continue;
 			}
 
-			TimesIterator times_uv = fns.times_link_present(stream->stream_data, uv);
-			TimesIterator times_vw = fns.times_link_present(stream->stream_data, vw);
-
-			TimesIterator times_uv_vw = TimesIterator_intersection(times_uv, times_vw);
-			size_t t_uv_vw			  = total_time_of(times_uv_vw);
-			sum_den += t_uv_vw;
-
 			LinkId uw = fns.link_between_nodes(stream->stream_data, u, w);
 			if (uw == SIZE_MAX) {
 				continue;
 			}
 
-			TimesIterator times_uw = fns.times_link_present(stream->stream_data, uw);
+			IntervalVector times_uv		  = SGA_collect_times(fns.times_link_present(stream->stream_data, uv));
+			IntervalVector times_vw		  = SGA_collect_times(fns.times_link_present(stream->stream_data, vw));
+			IntervalVector times_uv_vw	  = IntervalVector_intersection(&times_uv, &times_vw);
+			IntervalVector times_uw		  = SGA_collect_times(fns.times_link_present(stream->stream_data, uw));
+			IntervalVector times_uw_uv_vw = IntervalVector_intersection(&times_uw, &times_uv_vw);
 
-			// OPTIMISE : Reuse the first intersections
-			// reconstruct times_uv_vw
-			times_uv					 = fns.times_link_present(stream->stream_data, uv);
-			times_vw					 = fns.times_link_present(stream->stream_data, vw);
-			times_uv_vw					 = TimesIterator_intersection(times_uv, times_vw);
-			TimesIterator times_uw_uv_vw = TimesIterator_intersection(times_uw, times_uv_vw);
-			size_t t_uw_uv_vw			 = total_time_of(times_uw_uv_vw);
+			size_t t_uv_vw = 0;
+			for (size_t i = 0; i < times_uv_vw.size; i++) {
+				t_uv_vw += Interval_duration(times_uv_vw.array[i]);
+			}
+
+			size_t t_uw_uv_vw = 0;
+			for (size_t i = 0; i < times_uw_uv_vw.size; i++) {
+				t_uw_uv_vw += Interval_duration(times_uw_uv_vw.array[i]);
+			}
+
+			sum_den += t_uv_vw;
 			sum_num += t_uw_uv_vw;
+
+			IntervalVector_destroy(times_uv);
+			IntervalVector_destroy(times_vw);
+			IntervalVector_destroy(times_uv_vw);
+			IntervalVector_destroy(times_uw);
+			IntervalVector_destroy(times_uw_uv_vw);
 		}
 	}
 
@@ -400,10 +407,11 @@ double Stream_node_clustering_coeff(Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	double sum			= 0;
 	NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	double w			= (double)cardinalOfW(stream);
 	FOR_EACH_NODE(node_id, nodes) {
 		double clustering_coeff = Stream_clustering_coeff_of_node(stream, node_id);
 		size_t t_v				= total_time_of(fns.times_node_present(stream->stream_data, node_id));
-		sum += clustering_coeff * ((double)t_v / (double)cardinalOfW(stream));
+		sum += clustering_coeff * ((double)t_v / w);
 	}
 	return sum;
 }
@@ -434,23 +442,52 @@ double Stream_transitivity_ratio(Stream* stream) {
 
 				LinkId uw = fns.link_between_nodes(stream->stream_data, u, w);
 
-				TimesIterator times_uv		= fns.times_link_present(stream->stream_data, uv);
-				TimesIterator times_vw		= fns.times_link_present(stream->stream_data, vw);
-				TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
+				// TimesIterator times_uv		= fns.times_link_present(stream->stream_data, uv);
+				// TimesIterator times_vw		= fns.times_link_present(stream->stream_data, vw);
+				// TimesIterator times_uv_N_vw = TimesIterator_intersection(times_uv, times_vw);
 
-				size_t time_of_triplet = total_time_of(times_uv_N_vw);
+				// size_t time_of_triplet = total_time_of(times_uv_N_vw);
+				// sum_den += time_of_triplet;
+
+				// if (uw != SIZE_MAX) { // Triangle
+				// 	TimesIterator times_uv			 = fns.times_link_present(stream->stream_data, uv);
+				// 	TimesIterator times_uw			 = fns.times_link_present(stream->stream_data, uw);
+				// 	TimesIterator times_vw			 = fns.times_link_present(stream->stream_data, vw);
+				// 	TimesIterator times_uv_N_uw		 = TimesIterator_intersection(times_uv, times_uw);
+				// 	TimesIterator times_uv_N_uw_N_vw = TimesIterator_intersection(times_uv_N_uw, times_vw);
+
+				// 	size_t time_of_triangle = total_time_of(times_uv_N_uw_N_vw);
+				// 	sum_num += time_of_triangle;
+				// }
+
+				IntervalVector times_uv		 = SGA_collect_times(fns.times_link_present(stream->stream_data, uv));
+				IntervalVector times_vw		 = SGA_collect_times(fns.times_link_present(stream->stream_data, vw));
+				IntervalVector times_uv_N_vw = IntervalVector_intersection(&times_uv, &times_vw);
+
+				size_t time_of_triplet = 0;
+				for (size_t i = 0; i < times_uv_N_vw.size; i++) {
+					time_of_triplet += Interval_duration(times_uv_N_vw.array[i]);
+				}
 				sum_den += time_of_triplet;
 
 				if (uw != SIZE_MAX) { // Triangle
-					TimesIterator times_uv			 = fns.times_link_present(stream->stream_data, uv);
-					TimesIterator times_uw			 = fns.times_link_present(stream->stream_data, uw);
-					TimesIterator times_vw			 = fns.times_link_present(stream->stream_data, vw);
-					TimesIterator times_uv_N_uw		 = TimesIterator_intersection(times_uv, times_uw);
-					TimesIterator times_uv_N_uw_N_vw = TimesIterator_intersection(times_uv_N_uw, times_vw);
+					IntervalVector times_uw			  = SGA_collect_times(fns.times_link_present(stream->stream_data, uw));
+					IntervalVector times_uv_N_uw	  = IntervalVector_intersection(&times_uv, &times_uw);
+					IntervalVector times_uv_N_uw_N_vw = IntervalVector_intersection(&times_uv_N_uw, &times_vw);
 
-					size_t time_of_triangle = total_time_of(times_uv_N_uw_N_vw);
-					sum_num += time_of_triangle;
+					size_t time_of_triangle = 0;
+					for (size_t i = 0; i < times_uv_N_uw_N_vw.size; i++) {
+						time_of_triangle += Interval_duration(times_uv_N_uw_N_vw.array[i]);
+					}
+
+					IntervalVector_destroy(times_uw);
+					IntervalVector_destroy(times_uv_N_uw);
+					IntervalVector_destroy(times_uv_N_uw_N_vw);
 				}
+
+				IntervalVector_destroy(times_uv);
+				IntervalVector_destroy(times_vw);
+				IntervalVector_destroy(times_uv_N_vw);
 			}
 		}
 	}
