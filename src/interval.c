@@ -123,6 +123,7 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
 		}
 	}
 	if (intersection.size == 0) {
+		IntervalVector_destroy(intersection);
 		return (IntervalsSet){
 			.nb_intervals = 0,
 			.intervals	  = NULL,

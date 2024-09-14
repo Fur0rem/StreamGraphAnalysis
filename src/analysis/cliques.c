@@ -28,7 +28,8 @@ DefineVector(LinkPresence);
 DefineVectorDeriveRemove(LinkPresence, NO_FREE(LinkPresence));
 
 bool LinkPresence_equals(LinkPresence* l1, LinkPresence* l2) {
-	return l1->start == l2->start && l1->end == l2->end && l1->nodes[0] == l2->nodes[0] && l1->nodes[1] == l2->nodes[1];
+	return l1->start == l2->start && l1->end == l2->end && l1->nodes[0] == l2->nodes[0] &&
+		   l1->nodes[1] == l2->nodes[1];
 }
 DefineVectorDeriveEquals(LinkPresence);
 
@@ -743,8 +744,8 @@ void MyCounter_free(MyCounter* mc) {
 	free(mc);
 }
 
-void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* S, MyCounter* mc, size_t depth,
-				CliqueVector* cliques) {
+void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* S, MyCounter* mc,
+				size_t depth, CliqueVector* cliques) {
 
 	// Node of search tree
 	mc->nTimeMaxCliques++;
@@ -912,8 +913,8 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 	}
 }
 
-void MaxCliquesFromEdges(const size_tVector NewEdges, NeighborList* S, MySet* Snodes, size_t b, NeighborListEnd* N,
-						 XPR* xpr, MyCounter* mc, CliqueVector* cliques) {
+void MaxCliquesFromEdges(const size_tVector NewEdges, NeighborList* S, MySet* Snodes, size_t b,
+						 NeighborListEnd* N, XPR* xpr, MyCounter* mc, CliqueVector* cliques) {
 
 	const size_t depth		= 0;
 	const size_t next_depth = depth + 1;
@@ -1057,7 +1058,7 @@ CliqueVector Stream_maximal_cliques(Stream* st) {
 		}
 	}
 
-	LinkPresenceVector_sort(&links);
+	LinkPresenceVector_sort_unstable(&links);
 	Datastructure* d = allocDatastrucure_from_links(links);
 	MyCounter* mc	 = alloc_MyCounter();
 	CliqueVector v	 = cliques_sequential(d->ls_end, d, mc);
