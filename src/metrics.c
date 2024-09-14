@@ -479,6 +479,7 @@ double Stream_transitivity_ratio(Stream* stream) {
 					for (size_t i = 0; i < times_uv_N_uw_N_vw.size; i++) {
 						time_of_triangle += Interval_duration(times_uv_N_uw_N_vw.array[i]);
 					}
+					sum_num += time_of_triangle;
 
 					IntervalVector_destroy(times_uw);
 					IntervalVector_destroy(times_uv_N_uw);
