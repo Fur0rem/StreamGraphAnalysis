@@ -222,10 +222,11 @@
 
 /// Derives functions to the vector, if the elements can be compared
 /// This is a superset of VectorDeriveEquals, so you should prefer this one if you need both
-#define DeclareVectorDeriveOrdered(type) void type##Vector_sort(type##Vector* vec);
+#define DeclareVectorDeriveOrdered(type) void type##Vector_sort_unstable(type##Vector* vec);
 
+// TODO: inline a faster version of this
 #define DefineVectorDeriveOrdered(type)                                                                      \
-	void type##Vector_sort(type##Vector* vec) {                                                              \
+	void type##Vector_sort_unstable(type##Vector* vec) {                                                     \
 		qsort(vec->array, vec->size, sizeof(type), (int (*)(const void*, const void*))type##_compare);       \
 	}
 

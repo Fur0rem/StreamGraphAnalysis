@@ -78,7 +78,10 @@ bool test_cardinal_of_W_S() {
 		TemporalNode node = sg.nodes.nodes[node_id];
 		// for each interval of presence of the node
 		for (size_t i = 0; i < node.presence.nb_intervals; i++) {
-			printf("Interval %zu : [%lu, %lu]\n", i, node.presence.intervals[i].start, node.presence.intervals[i].end);
+			printf("Interval %zu : [%lu, %lu]\n",
+				   i,
+				   node.presence.intervals[i].start,
+				   node.presence.intervals[i].end);
 		}
 		cardinal += total_time_of(funcs.times_node_present(st.stream_data, node_id));
 		printf("Cardinal : %zu\n", cardinal - before);
@@ -116,6 +119,7 @@ bool test_coverage_L() {
 	Stream ls		= LinkStream_from(&sg);
 	double coverage = Stream_coverage(&ls);
 	StreamGraph_destroy(sg);
+	LinkStream_destroy(ls);
 	return EXPECT_F_APPROX_EQ(coverage, 1.0, 1e-6);
 }
 
@@ -128,24 +132,24 @@ bool test_node_duration_S() {
 	return EXPECT_F_APPROX_EQ(duration, 6.5, 1e-6);
 }
 
-#define TEST_METRIC_F(name, value, graph, type)                                                                        \
-	bool test_##name() {                                                                                               \
-		StreamGraph sg = StreamGraph_from_external("data/" #graph ".txt");                                             \
-		Stream st	   = type##_from(&sg);                                                                             \
-		bool result	   = EXPECT_F_APPROX_EQ(Stream_##name(&st), value, 1e-5);                                          \
-		StreamGraph_destroy(sg);                                                                                       \
-		type##_destroy(st);                                                                                            \
-		return result;                                                                                                 \
+#define TEST_METRIC_F(name, value, graph, type)                                                              \
+	bool test_##name() {                                                                                     \
+		StreamGraph sg = StreamGraph_from_external("data/" #graph ".txt");                                   \
+		Stream st	   = type##_from(&sg);                                                                   \
+		bool result	   = EXPECT_F_APPROX_EQ(Stream_##name(&st), value, 1e-5);                                \
+		StreamGraph_destroy(sg);                                                                             \
+		type##_destroy(st);                                                                                  \
+		return result;                                                                                       \
 	}
 
-#define TEST_METRIC_I(name, value, graph, type)                                                                        \
-	bool test_##name() {                                                                                               \
-		StreamGraph sg = StreamGraph_from_external("data/" #graph ".txt");                                             \
-		Stream st	   = type##_from(&sg);                                                                             \
-		bool result	   = EXPECT_EQ(Stream_##name(st), value);                                                          \
-		StreamGraph_destroy(sg);                                                                                       \
-		type##_destroy(st);                                                                                            \
-		return result;                                                                                                 \
+#define TEST_METRIC_I(name, value, graph, type)                                                              \
+	bool test_##name() {                                                                                     \
+		StreamGraph sg = StreamGraph_from_external("data/" #graph ".txt");                                   \
+		Stream st	   = type##_from(&sg);                                                                   \
+		bool result	   = EXPECT_EQ(Stream_##name(st), value);                                                \
+		StreamGraph_destroy(sg);                                                                             \
+		type##_destroy(st);                                                                                  \
+		return result;                                                                                       \
 	}
 
 TEST_METRIC_F(coverage, 0.65, S_external, FullStreamGraph)

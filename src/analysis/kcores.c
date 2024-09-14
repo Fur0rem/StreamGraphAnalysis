@@ -182,7 +182,7 @@ void KCoreDataVector_merge(KCoreDataVector* vec) {
 		return;
 	}
 
-	KCoreDataVector_sort(vec);
+	KCoreDataVector_sort_unstable(vec);
 
 	// for each node
 	for (size_t i = 0; i < vec->size; i++) {
@@ -212,7 +212,7 @@ void KCoreDataVector_merge(KCoreDataVector* vec) {
 		}
 	}
 
-	KCoreDataVector_sort(vec);
+	KCoreDataVector_sort_unstable(vec);
 }
 
 /// Doesn't work with 0 but who cares about 0-core cause it's the same as the initial graph
