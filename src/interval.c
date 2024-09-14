@@ -141,8 +141,11 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
 // Doesn't consume the input
 IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector* right) {
 	IntervalVector intersection = IntervalVector_with_capacity((left->size > right->size) ? left->size : right->size);
+	size_t min_at_encountered	= 0;
 	for (size_t i = 0; i < left->size; i++) {
-		for (size_t j = 0; j < right->size; j++) {
+		size_t start	   = min_at_encountered; // we keep track of when at the previous iteration we started finding intersections
+		min_at_encountered = SIZE_MAX;
+		for (size_t j = start; j < right->size; j++) {
 			Interval a_interval = left->array[i];
 			Interval b_interval = right->array[j];
 			if (a_interval.end <= b_interval.start) {
@@ -151,9 +154,13 @@ IntervalVector IntervalVector_intersection(IntervalVector* left, IntervalVector*
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
 			if (Interval_duration(intersection_interval) > 0) {
 				IntervalVector_push(&intersection, intersection_interval);
+				if (min_at_encountered == SIZE_MAX) {
+					min_at_encountered = j;
+				}
 			}
 		}
 	}
+
 	return intersection;
 }
 
@@ -167,53 +174,30 @@ bool is_sorted(const Interval* intervals, size_t nb_intervals) {
 }
 
 void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval) {
+	size_t nb_empty_intervals = 0;
 	for (size_t i = 0; i < intervals_set->nb_intervals; i++) {
 		Interval intersection_interval = Interval_intersection(intervals_set->intervals[i], interval);
-		if (Interval_duration(intersection_interval) > 0) {
+		/*if (Interval_duration(intersection_interval) > 0) {
 			intervals_set->intervals[i] = intersection_interval;
 		}
 		else {
 			intervals_set->intervals[i] = Interval_empty();
+		}*/
+		if (Interval_duration(intersection_interval) > 0) {
+			intervals_set->intervals[i - nb_empty_intervals] = intersection_interval;
+		}
+		else {
+			nb_empty_intervals++;
 		}
 	}
 
-	// swap empty intervals to the end
-	size_t empty_intervals = 0;
-	for (size_t i = 0; i < intervals_set->nb_intervals; i++) {
-		if (Interval_is_empty(intervals_set->intervals[i])) {
-			empty_intervals++;
-		}
-		else {
-			if (empty_intervals > 0) {
-				intervals_set->intervals[i - empty_intervals] = intervals_set->intervals[i];
-				intervals_set->intervals[i]					  = Interval_empty();
-			}
-		}
-	}
-	intervals_set->nb_intervals -= empty_intervals;
+	intervals_set->nb_intervals -= nb_empty_intervals;
 }
 
 IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet a, Interval b) {
-	IntervalVector intersection = IntervalVector_with_capacity(a.nb_intervals);
-	for (size_t i = 0; i < a.nb_intervals; i++) {
-		Interval a_interval			   = a.intervals[i];
-		Interval intersection_interval = Interval_intersection(a_interval, b);
-		if (Interval_duration(intersection_interval) > 0) {
-			IntervalVector_push(&intersection, intersection_interval);
-		}
-	}
-	if (intersection.size == 0) {
-		return (IntervalsSet){
-			.nb_intervals = 0,
-			.intervals	  = NULL,
-		};
-	}
-
-	IntervalsSet result = IntervalsSet_alloc(intersection.size);
-	for (size_t i = 0; i < intersection.size; i++) {
-		result.intervals[i] = intersection.array[i];
-	}
-	IntervalVector_destroy(intersection);
+	IntervalsSet result = IntervalsSet_alloc(a.nb_intervals);
+	memcpy(result.intervals, a.intervals, a.nb_intervals * sizeof(Interval));
+	IntervalsSet_self_intersection_with_single(&result, b);
 	return result;
 }
 
@@ -396,8 +380,7 @@ SGA_Offset IntervalVector_offset_of(const IntervalVector* self, const IntervalVe
 	size_t offset = other->array[0].start - self->array[0].start;
 	for (size_t i = 1; i < self->size; i++) {
 		// printf("offset = %lu\n", offset);
-		if ((other->array[i].start - self->array[i].start != offset) ||
-			(other->array[i].end - self->array[i].end != offset)) {
+		if ((other->array[i].start - self->array[i].start != offset) || (other->array[i].end - self->array[i].end != offset)) {
 			// printf("offset mismatch, found %zu || %zu\n", other->array[i].start - self->array[i].start,
 			//    other->array[i].end - self->array[i].end);
 			return SGA_Offset_does_not_match();
