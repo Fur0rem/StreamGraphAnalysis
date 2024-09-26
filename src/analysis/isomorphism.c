@@ -170,12 +170,12 @@ bool isIsomorphicUtil(size_t n, IntervalArrayList** graph1, IntervalArrayList** 
 				// }
 				// else {
 				// 	// compare whether they are the same but offset by a constant
-				// 	if (graph1[i][j].size != graph2[mapping[i]][mapping[j]].size) {
+				// 	if (graph1[i][j].length != graph2[mapping[i]][mapping[j]].length) {
 				// 		// printf("Different\n");
 				// 		return false;
 				// 	}
 				// 	const size_t offset = graph2[mapping[i]][mapping[j]].array[0].start -
-				// graph1[i][j].array[0].start; 	for (size_t k = 0; k < graph1[i][j].size; k++) { size_t
+				// graph1[i][j].array[0].start; 	for (size_t k = 0; k < graph1[i][j].length; k++) { size_t
 				// offset_k = graph2[mapping[i]][mapping[j]].array[k].start - graph1[i][j].array[k].start; if
 				// (offset_k != offset) {
 				// 			// printf("Different by offset : %zu != %zu\n", offset_k, offset);
@@ -283,7 +283,7 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 	nodes1 = fns1.nodes_set(s1->stream_data);
 	FOR_EACH_NODE(node_id, nodes1) {
 		NodeIdArrayList_push(&nodes_mapping_1, node_id);
-		size_t size_after	 = nodes_mapping_1.size;
+		size_t size_after	 = nodes_mapping_1.length;
 		nodes_map_1[node_id] = size_after - 1;
 	}
 	// printf("nodes_map_1 = ");
@@ -300,7 +300,7 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 	nodes2 = fns2.nodes_set(s2->stream_data);
 	FOR_EACH_NODE(node_id, nodes2) {
 		NodeIdArrayList_push(&nodes_mapping_2, node_id);
-		size_t size_after	 = nodes_mapping_2.size;
+		size_t size_after	 = nodes_mapping_2.length;
 		nodes_map_2[node_id] = size_after - 1;
 	}
 	// printf("nodes_map_2 = ");
