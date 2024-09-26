@@ -1,11 +1,12 @@
-#include "isomorphism.h"
 #include "../metrics.h"
 #include "../stream.h"
 #include "../stream_functions.h"
 #include "../stream_wrappers.h"
+#include "isomorphism.h"
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 bool areIsomorphic(size_t n, IntervalArrayList** graph1, IntervalArrayList** graph2, const Stream* s1, const Stream* s2,
 				   NodeIdArrayList node_to_id_map1, NodeIdArrayList node_to_id_map2, size_t universal_offset);
@@ -63,6 +64,8 @@ bool check_node_times(const Stream* s1, const Stream* s2, IntervalArrayList** gr
 			IntervalArrayList iv2 = SGA_collect_times(times_iter2);
 
 			offset_res = IntervalArrayList_offset_of(&iv1, &iv2);
+			IntervalArrayList_destroy(iv1);
+			IntervalArrayList_destroy(iv2);
 			if (SGA_Offset_is_not_matching(offset_res)) {
 				printf("Times for node %zu and mapped %zu have different times\n", real_node_id_1, real_node_id_2);
 				return false;
@@ -127,10 +130,15 @@ bool areIsomorphic(size_t n, IntervalArrayList** graph1, IntervalArrayList** gra
 
 	bool result = isIsomorphicUtil(n, graph1, graph2, mapping, visited, 0, universal_offset);
 	if (!result) {
+		free(mapping);
+		free(visited);
 		return false;
 	}
 	// check node times
-	return check_node_times(s1, s2, graph1, graph2, n, mapping, node_to_id_map1, node_to_id_map2, universal_offset);
+	result = check_node_times(s1, s2, graph1, graph2, n, mapping, node_to_id_map1, node_to_id_map2, universal_offset);
+	free(mapping);
+	free(visited);
+	return result;
 }
 
 bool isIsomorphicUtil(size_t n, IntervalArrayList** graph1, IntervalArrayList** graph2, int* mapping, bool* visited, int vertex,
@@ -286,11 +294,6 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 		size_t size_after	 = nodes_mapping_1.length;
 		nodes_map_1[node_id] = size_after - 1;
 	}
-	// printf("nodes_map_1 = ");
-	// for (size_t i = 0; i < max_node_index_1 + 1; i++) {
-	// 	printf("%zu ", nodes_map_1[i]);
-	// }
-	// printf("\n");
 
 	NodeIdArrayList nodes_mapping_2 = NodeIdArrayList_with_capacity(max_node_index_2 + 1);
 	size_t* nodes_map_2				= malloc((max_node_index_2 + 1) * sizeof(size_t));
@@ -303,14 +306,6 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 		size_t size_after	 = nodes_mapping_2.length;
 		nodes_map_2[node_id] = size_after - 1;
 	}
-	// printf("nodes_map_2 = ");
-	// for (size_t i = 0; i < max_node_index_2 + 1; i++) {
-	// 	printf("%zu ", nodes_map_2[i]);
-	// }
-	// printf("\n");
-
-	// printf("nb_nodes_1 = %zu, nb_nodes_2 = %zu\n", nb_nodes_1, nb_nodes_2);
-	// printf("max_node_index_1 = %zu, max_node_index_2 = %zu\n", max_node_index_1, max_node_index_2);
 
 	// Fill the adjacency matrix
 	LinksIterator links1 = fns1.links_set(s1->stream_data);
@@ -342,25 +337,50 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 
 	SGA_Offset offset_result = Interval_offset_of(&lifespan_g1, &lifespan_g2);
 	if (SGA_Offset_is_not_matching(offset_result)) {
-		printf("Different lifespans\n");
+		// printf("Different lifespans\n");
+		// TODO: merge cleanup
+		for (int i = 0; i < cardinalOfV1; i++) {
+			for (int j = 0; j < cardinalOfV1; j++) {
+				// IntervalArrayList_destroy(streamgraph1[i][j]);
+			}
+			free(streamgraph1[i]);
+			free(streamgraph2[i]);
+		}
+		free(streamgraph1);
+		free(streamgraph2);
+		free(nodes_map_1);
+		free(nodes_map_2);
+		NodeIdArrayList_destroy(nodes_mapping_1);
+		NodeIdArrayList_destroy(nodes_mapping_2);
 		return false;
 	}
 
 	size_t universal_offset = SGA_Offset_unwrap(offset_result);
 	printf("Universal offset = %zu\n", universal_offset);
 
-	// print_adjacency_matrix(nb_nodes_1, streamgraph1);
-	// print_adjacency_matrix(nb_nodes_2, streamgraph2);
-
 	// TODO: better name than universal_offset
-	if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2, universal_offset)) {
-		// printf("The graphs are isomorphic.\n");
+	/*if (areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2, universal_offset)) {
 		return true;
 	}
 	else {
-		// printf("The graphs are not isomorphic.\n");
 		return false;
+	}*/
+	bool are_isomorphic = areIsomorphic(nb_nodes_1, streamgraph1, streamgraph2, s1, s2, nodes_mapping_1, nodes_mapping_2, universal_offset);
+	for (int i = 0; i < cardinalOfV1; i++) {
+		for (int j = 0; j < cardinalOfV1; j++) {
+			// IntervalArrayList_destroy(streamgraph1[i][j]);
+		}
+		free(streamgraph1[i]);
+		free(streamgraph2[i]);
 	}
+	free(streamgraph1);
+	free(streamgraph2);
+	NodeIdArrayList_destroy(nodes_mapping_1);
+	NodeIdArrayList_destroy(nodes_mapping_2);
+	free(nodes_map_1);
+	free(nodes_map_2);
+
+	return are_isomorphic;
 }
 
 #define COMPARE_METRIC(fn, s1, s2)                                                                                                         \
