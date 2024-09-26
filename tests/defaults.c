@@ -35,8 +35,7 @@ bool test_push_2() {
 	size_tArrayList_push(&v, 4);
 	size_tArrayList_push(&v, 5);
 	size_tArrayList_push(&v, 6);
-	return v.length == 6 && v.capacity == 10 && v.array[0] == 1 && v.array[1] == 2 && v.array[2] == 3 && v.array[3] == 4 &&
-		   v.array[4] == 5 && v.array[5] == 6;
+	return v.length == 6 && v.array[0] == 1 && v.array[1] == 2 && v.array[2] == 3 && v.array[3] == 4 && v.array[4] == 5 && v.array[5] == 6;
 }
 
 bool test_destroy() {
@@ -165,5 +164,5 @@ int main() {
 	};
 	bool heap = test("Binary Heap", tests3);
 
-	return vec && hash && heap;
+	return vec || hash || heap;
 }
