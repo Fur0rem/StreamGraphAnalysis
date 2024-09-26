@@ -44,6 +44,7 @@ bool test_isomorphism_chunk() {
 	StreamGraph_destroy(kcores_only);
 	LinkStream_destroy(og);
 	CS_destroy(st);
+	LinkIdArrayList_destroy(links);
 
 	return result;
 
