@@ -2,7 +2,6 @@
 #include "../bit_array.h"
 #include "../defaults.h"
 #include "../generic_data_structures/arraylist.h"
-#include "../generic_data_structures/hashset.h"
 #include "../interval.h"
 #include "../iterators.h"
 #include "../stream.h"

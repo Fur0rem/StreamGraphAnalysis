@@ -269,12 +269,26 @@ bool test_clustering_coeff_of_node() {
 	return EXPECT_F_APPROX_EQ(clustering_coeff_c, 3.0 / 5.0, 1e-6);
 }
 
-// TEST_METRIC_F(compactness, 26.0 / 40.0, S)
+bool test_compactness() {
+	StreamGraph sg = StreamGraph_from_external("data/S.txt");
+
+	Stream fsg	   = FullStreamGraph_from(&sg);
+	double compactness = Stream_compactness(&fsg);
+	bool result	   = EXPECT_F_APPROX_EQ(compactness, 26.0 / 40.0, 1e-6);
+
+	Stream ls   = LinkStream_from(&sg);
+	compactness = Stream_compactness(&ls);
+	result &= EXPECT_F_APPROX_EQ(compactness, 1.0, 1e-6);
+
+	StreamGraph_destroy(sg);
+	FullStreamGraph_destroy(fsg);
+	LinkStream_destroy(ls);
+	return result;
+}
 
 TEST_METRIC_F(transitivity_ratio, 9.0 / 17.0, Figure_8, FullStreamGraph)
 
 int main() {
-
 	Test* tests[] = {
 	    TEST(test_cardinal_of_T_S_0),
 	    TEST(test_cardinal_of_T_S_1),

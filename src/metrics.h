@@ -100,7 +100,10 @@ double Stream_link_duration(Stream* stream);
  */
 double Stream_uniformity(Stream* stream);
 
-// TODO : compactness
+/**
+ * @param[in] stream The Stream.
+ */
+double Stream_compactness(Stream* stream);
 /** @} */
 
 /**
@@ -173,9 +176,6 @@ size_t cardinalOfT(Stream* stream);
 size_t cardinalOfV(Stream* stream);
 size_t cardinalOfE(Stream* stream);
 /** @} */
-
-// TODO: move out of metrics, and do Stream_mathematically_equivalent
-bool Stream_equals(const Stream* stream1, const Stream* stream2);
 
 String Stream_to_string(const Stream* stream);
 
