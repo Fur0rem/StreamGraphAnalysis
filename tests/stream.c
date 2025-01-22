@@ -15,7 +15,7 @@ bool load() {
 
 bool test_load_slices() {
 	StreamGraph sg = StreamGraph_from_file("data/S_multiple_slices.txt");
-	String str	   = StreamGraph_to_string(&sg);
+	String str     = StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
 	String_destroy(str);
@@ -77,12 +77,13 @@ bool test_external_format() {
 		return false;
 	}
 	fread(buffer, 1, length, file);
+
 	fclose(file);
 	buffer[length] = '\0';
 
 	// Parse the buffer
 	char* internal_format = InternalFormat_from_External_str(buffer);
-	StreamGraph sg		  = StreamGraph_from_string(internal_format);
+	StreamGraph sg	      = StreamGraph_from_string(internal_format);
 	free(internal_format);
 	StreamGraph_destroy(sg);
 	free(buffer);
@@ -91,7 +92,7 @@ bool test_external_format() {
 
 bool test_from_external_format() {
 	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
-	String str	   = StreamGraph_to_string(&sg);
+	String str     = StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
 	String_destroy(str);
@@ -101,15 +102,15 @@ bool test_from_external_format() {
 
 int main() {
 	Test* tests[] = {
-		TEST(load),
-		TEST(test_load_slices),
-		TEST(test_find_index_of_time),
-		TEST(test_find_index_of_time_in_slices),
-		TEST(test_find_index_of_time_not_found),
-		TEST(test_init_events_table),
-		TEST(test_external_format),
-		TEST(test_from_external_format),
-		NULL,
+	    TEST(load),
+	    TEST(test_load_slices),
+	    TEST(test_find_index_of_time),
+	    TEST(test_find_index_of_time_in_slices),
+	    TEST(test_find_index_of_time_not_found),
+	    TEST(test_init_events_table),
+	    TEST(test_external_format),
+	    TEST(test_from_external_format),
+	    NULL,
 	};
 
 	return test("StreamGraph", tests);

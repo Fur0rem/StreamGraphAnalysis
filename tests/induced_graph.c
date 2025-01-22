@@ -13,6 +13,7 @@ bool test_nodes_at_time_40() {
 	events_destroy(&sg);
 
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -26,6 +27,7 @@ bool test_nodes_at_time_60() {
 	events_destroy(&sg);
 
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -39,6 +41,7 @@ bool test_links_at_time_30() {
 	events_destroy(&sg);
 
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -51,6 +54,7 @@ bool test_links_at_time_60() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -63,6 +67,7 @@ bool test_links_at_time_40() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -75,6 +80,7 @@ bool test_links_at_time_25() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -87,6 +93,7 @@ bool test_links_at_time_74() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -99,6 +106,7 @@ bool test_links_at_time_75() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -111,6 +119,7 @@ bool test_links_at_time_76() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -123,6 +132,7 @@ bool test_links_at_time_80() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -135,6 +145,7 @@ bool test_links_at_time_90() {
 	}
 	events_destroy(&sg);
 	StreamGraph_destroy(sg);
+	// TODO
 	return true;
 }
 
@@ -146,25 +157,27 @@ bool test_s_concat_l() {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	events_destroy(&sg);
+	// TODO
+	return true;
 }
 
 int main() {
 	Test* tests[] = {&(Test){"nodes_at_time_40", test_nodes_at_time_40},
-					 &(Test){"nodes_at_time_60", test_nodes_at_time_60},
-					 &(Test){"links_at_time_30", test_links_at_time_30},
-					 &(Test){"links_at_time_60", test_links_at_time_60},
-					 &(Test){"links_at_time_40", test_links_at_time_40},
-					 &(Test){"links_at_time_25", test_links_at_time_25},
-					 &(Test){"links_at_time_74", test_links_at_time_74},
-					 &(Test){"links_at_time_75", test_links_at_time_75},
-					 &(Test){"links_at_time_76", test_links_at_time_76},
-					 &(Test){"links_at_time_80", test_links_at_time_80},
-					 &(Test){"links_at_time_90", test_links_at_time_90},
+			 &(Test){"nodes_at_time_60", test_nodes_at_time_60},
+			 &(Test){"links_at_time_30", test_links_at_time_30},
+			 &(Test){"links_at_time_60", test_links_at_time_60},
+			 &(Test){"links_at_time_40", test_links_at_time_40},
+			 &(Test){"links_at_time_25", test_links_at_time_25},
+			 &(Test){"links_at_time_74", test_links_at_time_74},
+			 &(Test){"links_at_time_75", test_links_at_time_75},
+			 &(Test){"links_at_time_76", test_links_at_time_76},
+			 &(Test){"links_at_time_80", test_links_at_time_80},
+			 &(Test){"links_at_time_90", test_links_at_time_90},
 
-					 // TODO: tests which are expected to crash
-					 // &(Test){"test_links_at_time_100", test_links_at_time_100},
+			 // TODO: tests which are expected to crash
+			 // &(Test){"test_links_at_time_100", test_links_at_time_100},
 
-					 NULL};
+			 NULL};
 
 	return test("StreamGraph", tests);
 }

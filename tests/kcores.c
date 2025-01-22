@@ -3,14 +3,14 @@
 
 bool test_k_cores() {
 	StreamGraph sg = StreamGraph_from_external("data/kcores_test.txt");
-	Stream st	   = FullStreamGraph_from(&sg);
+	Stream st      = FullStreamGraph_from(&sg);
 
 	KCore kcore_1 = Stream_k_cores(&st, 1);
 	KCore kcore_2 = Stream_k_cores(&st, 2);
 	KCore kcore_3 = Stream_k_cores(&st, 3);
 
 #define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                                      \
-	NodePresenceArrayList_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalArrayList_new()});                    \
+	NodePresenceArrayList_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalArrayList_new()});                \
 	IntervalArrayList_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
 
 	KCore expected_kcore_1 = {NodePresenceArrayList_new()};
@@ -52,7 +52,7 @@ bool test_k_cores() {
 }
 
 bool test_k_cores_chunk() {
-	StreamGraph sg			= StreamGraph_from_external("data/kcores_with_L.txt");
+	StreamGraph sg		= StreamGraph_from_external("data/kcores_with_L.txt");
 	StreamGraph kcores_only = StreamGraph_from_external("data/kcores_test.txt");
 
 	LinkIdArrayList links = LinkIdArrayList_new();
@@ -63,8 +63,11 @@ bool test_k_cores_chunk() {
 	NodeIdArrayList_push(&nodes, 7);
 
 	Interval snapshot = Interval_from(0, 10);
-	Stream st		  = CS_without(&sg, &nodes, &links, snapshot.start, snapshot.end);
-	Stream og		  = FullStreamGraph_from(&kcores_only);
+	Stream st	  = CS_without(&sg, &nodes, &links, snapshot.start, snapshot.end);
+	Stream og	  = FullStreamGraph_from(&kcores_only);
+
+	NodeIdArrayList_destroy(nodes);
+	LinkIdArrayList_destroy(links);
 
 	KCore kcore_1	 = Stream_k_cores(&st, 1);
 	KCore og_kcore_1 = Stream_k_cores(&og, 1);
@@ -104,9 +107,9 @@ bool test_k_cores_chunk() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_k_cores),
-		TEST(test_k_cores_chunk),
-		NULL,
+	    TEST(test_k_cores),
+	    TEST(test_k_cores_chunk),
+	    NULL,
 	};
 
 	return test("K-Cores", tests);

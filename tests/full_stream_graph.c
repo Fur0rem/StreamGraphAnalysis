@@ -11,7 +11,7 @@
 bool test_links_at_time_80() {
 	StreamGraph sg = StreamGraph_from_file("data/S.txt");
 	init_events_table(&sg);
-	Stream stream		= FullStreamGraph_from(&sg);
+	Stream stream	    = FullStreamGraph_from(&sg);
 	StreamFunctions fns = FullStreamGraph_stream_functions;
 
 	LinksIterator links_present_at_80 = fns.links_present_at_t(stream.stream_data, 80);
@@ -26,8 +26,8 @@ bool test_links_at_time_80() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_links_at_time_80),
-		NULL,
+	    TEST(test_links_at_time_80),
+	    NULL,
 	};
 
 	return test("Induced Graph", tests);

@@ -9,31 +9,45 @@
 
 bool test_create() {
 	BitArray bit_array = BitArray_with_n_bits(10);
-	return EXPECT_EQ(bit_array.nb_bits, 10);
+	bool result	   = EXPECT_EQ(bit_array.nb_bits, 10);
+	BitArray_destroy(bit_array);
+	return result;
 }
 
 bool test_set_one() {
 	BitArray bit_array = BitArray_n_zeros(10);
 	BitArray_set_one(bit_array, 5);
-	return EXPECT(bit_array.bits[0] == (1 << 5));
+	// return EXPECT(bit_array.bits[0] == (1 << 5));
+	bool result = EXPECT_EQ(bit_array.bits[0], (1 << 5));
+	BitArray_destroy(bit_array);
+	return result;
 }
 
 bool test_set_zero() {
 	BitArray bit_array = BitArray_n_zeros(10);
 	BitArray_set_one(bit_array, 5);
 	BitArray_set_zero(bit_array, 5);
-	return EXPECT(bit_array.bits[0] == 0);
+	//   return EXPECT(bit_array.bits[0] == 0);
+	bool result = EXPECT_EQ(bit_array.bits[0], 0);
+	BitArray_destroy(bit_array);
+	return result;
 }
 
 bool test_is_one() {
 	BitArray bit_array = BitArray_with_n_bits(10);
 	BitArray_set_one(bit_array, 5);
-	return EXPECT(BitArray_is_one(bit_array, 5));
+	//   return EXPECT(BitArray_is_one(bit_array, 5));
+	bool result = EXPECT(BitArray_is_one(bit_array, 5));
+	BitArray_destroy(bit_array);
+	return result;
 }
 
 bool test_is_zero() {
 	BitArray bit_array = BitArray_n_zeros(10);
-	return EXPECT(!BitArray_is_one(bit_array, 5));
+	//   return EXPECT(!BitArray_is_one(bit_array, 5));
+	bool result = EXPECT(!BitArray_is_one(bit_array, 5));
+	BitArray_destroy(bit_array);
+	return result;
 }
 
 bool test_all_zeros_small() {
@@ -44,6 +58,7 @@ bool test_all_zeros_small() {
 		result &= EXPECT(!BitArray_is_one(bit_array, i));
 	}
 
+	BitArray_destroy(bit_array);
 	return result;
 }
 
@@ -55,6 +70,7 @@ bool test_all_ones_small() {
 		result &= EXPECT(BitArray_is_one(bit_array, i));
 	}
 
+	BitArray_destroy(bit_array);
 	return result;
 }
 
@@ -66,6 +82,7 @@ bool test_all_zeros_big() {
 		result &= EXPECT(!BitArray_is_one(bit_array, i));
 	}
 
+	BitArray_destroy(bit_array);
 	return result;
 }
 
@@ -77,6 +94,7 @@ bool test_all_ones_big() {
 		result &= EXPECT(BitArray_is_one(bit_array, i));
 	}
 
+	BitArray_destroy(bit_array);
 	return result;
 }
 
@@ -84,7 +102,7 @@ bool test_to_string() {
 	bool result = true;
 
 	BitArray bit_array = BitArray_n_zeros(5);
-	String str		   = BitArray_to_string(&bit_array);
+	String str	   = BitArray_to_string(&bit_array);
 	result &= EXPECT_EQ(str.data, "00000");
 	EXPECT(strcmp(str.data, "00000") == 0);
 	String_destroy(str);
@@ -99,7 +117,7 @@ bool test_to_string() {
 	BitArray_destroy(bit_array);
 
 	bit_array = BitArray_n_ones(100);
-	str		  = BitArray_to_string(&bit_array);
+	str	  = BitArray_to_string(&bit_array);
 	char expected[101];
 	for (size_t i = 0; i < 100; i++) {
 		expected[i] = '1';
@@ -110,11 +128,13 @@ bool test_to_string() {
 	String_destroy(str);
 
 	BitArray_set_zero(bit_array, 99);
-	str			 = BitArray_to_string(&bit_array);
+	str	     = BitArray_to_string(&bit_array);
 	expected[99] = '0';
 	result &= EXPECT_EQ(str.data, expected);
 	EXPECT(strcmp(str.data, expected) == 0);
 	String_destroy(str);
+
+	BitArray_destroy(bit_array);
 
 	return result;
 }
@@ -123,7 +143,7 @@ bool test_to_string_big() {
 	bool result = true;
 
 	BitArray bit_array = BitArray_n_ones(1 << 27);
-	String str		   = BitArray_to_string(&bit_array);
+	String str	   = BitArray_to_string(&bit_array);
 
 	char* expected2 = malloc((1 << 27) + 1);
 	for (size_t i = 0; i < (1 << 27); i++) {
@@ -171,7 +191,7 @@ bool test_random_string() {
 	bool result = true;
 
 	const size_t str_size = 200;
-	char* expected		  = malloc(str_size + 1);
+	char* expected	      = malloc(str_size + 1);
 	for (size_t i = 0; i < str_size; i++) {
 		expected[i] = '0';
 	}
@@ -205,6 +225,8 @@ bool test_leading_zeros_small_zeros() {
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 3), 2);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 4), 1);
 
+	BitArray_destroy(bit_array);
+
 	return result;
 }
 
@@ -217,6 +239,8 @@ bool test_leading_zeros_small_ones() {
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 2), 0);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 3), 0);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 4), 0);
+
+	BitArray_destroy(bit_array);
 
 	return result;
 }
@@ -232,6 +256,8 @@ bool test_leading_zeros_small_1() {
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 3), 0);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 4), 1);
 
+	BitArray_destroy(bit_array);
+
 	return result;
 }
 
@@ -245,6 +271,8 @@ bool test_leading_zeros_big_zeros() {
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 3), 87);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 4), 86);
 
+	BitArray_destroy(bit_array);
+
 	return result;
 }
 
@@ -257,6 +285,8 @@ bool test_leading_zeros_big_ones() {
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 2), 0);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 3), 0);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 4), 0);
+
+	BitArray_destroy(bit_array);
 
 	return result;
 }
@@ -273,31 +303,33 @@ bool test_leading_zeros_big_1() {
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 3), 0);
 	result &= EXPECT_EQ(BitArray_leading_zeros_from(bit_array, 4), 86);
 
+	BitArray_destroy(bit_array);
+
 	return result;
 }
 
 int main() {
 	Test* tests[] = {
-		TEST(test_create),
-		TEST(test_set_one),
-		TEST(test_set_zero),
-		TEST(test_is_one),
-		TEST(test_is_zero),
-		TEST(test_all_zeros_small),
-		TEST(test_all_ones_small),
-		TEST(test_all_zeros_big),
-		TEST(test_all_ones_big),
-		TEST(test_leading_zeros_small_zeros),
-		TEST(test_leading_zeros_small_ones),
-		TEST(test_leading_zeros_small_1),
-		TEST(test_leading_zeros_big_zeros),
-		TEST(test_leading_zeros_big_ones),
-		TEST(test_leading_zeros_big_1),
-		TEST(test_to_string),
-		TEST(test_to_string2),
-		TEST(test_random_string),
-		// TEST(test_to_string_big),
-		NULL,
+	    TEST(test_create),
+	    TEST(test_set_one),
+	    TEST(test_set_zero),
+	    TEST(test_is_one),
+	    TEST(test_is_zero),
+	    TEST(test_all_zeros_small),
+	    TEST(test_all_ones_small),
+	    TEST(test_all_zeros_big),
+	    TEST(test_all_ones_big),
+	    TEST(test_leading_zeros_small_zeros),
+	    TEST(test_leading_zeros_small_ones),
+	    TEST(test_leading_zeros_small_1),
+	    TEST(test_leading_zeros_big_zeros),
+	    TEST(test_leading_zeros_big_ones),
+	    TEST(test_leading_zeros_big_1),
+	    TEST(test_to_string),
+	    TEST(test_to_string2),
+	    TEST(test_random_string),
+	    // TEST(test_to_string_big),
+	    NULL,
 	};
 
 	return test("BitArray", tests);

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS="-Wall -Wextra -g -Wno-unused-function"
+CFLAGS="-Wall -Wextra -g -Wno-unused-function -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined"
 
 SRC_DIR=src
 TEST_DIR=tests
@@ -45,7 +45,7 @@ if [ $# -eq 1 ]; then
     # fi
 
     # Try to make the file
-    result=$(make $filename 2>&1)
+    result=$(make $filename compile_mode=release 2>&1)
     # If it failed, it's a header only library
     if [ $? -ne 0 ]; then
         $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
@@ -57,7 +57,7 @@ if [ $# -eq 1 ]; then
             $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/test.o
         fi
     fi
-    
+
     if [ $valgrind -ne 1 ]; then
         $BIN_DIR/test_$filename
     else
@@ -91,7 +91,7 @@ for file in $TEST_DIR/*.c; do
     # Remove old test file
     rm -f $BIN_DIR/test_$filename
     # Try to make the file
-    result=$(make $filename 2>&1)
+    result=$(make $filename compile_mode=release 2>&1)
     # If it failed, it's a header only library
     if [ $? -ne 0 ]; then
         $CC $CFLAGS -o $BIN_DIR/test_$filename $TEST_DIR/$filename.c $BIN_DIR/test.o
@@ -118,7 +118,6 @@ for file in $TEST_DIR/*.c; do
         continue
     fi
 
-
     $BIN_DIR/test_$filename
     # Check the return code
     if [ $? -ne 0 ]; then
@@ -132,7 +131,7 @@ done
 
 if [ $global_success -eq 0 ]; then
     echo "All tests passed!"
-else 
+else
     echo "${TEXT_BOLD} ${TEXT_RED} Tests that failed: $every_test_that_failed ${TEXT_RESET}"
 fi
 exit $global_success

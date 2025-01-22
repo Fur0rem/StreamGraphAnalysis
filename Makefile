@@ -1,10 +1,10 @@
 CC = gcc
-DEBUG_FLAGS = -g -O0
+DEBUG_FLAGS = -g -O0 -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined
 RELEASE_FLAGS = -O4 -lto -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
 FLAGS = $(DEBUG_FLAGS)
 CFLAGS = -Wall -Wextra $(FLAGS) -std=c2x
-LDFLAGS = -lm
+LDFLAGS = -lm -fsanitize=address,undefined
 
 # Ensure the binary directory exists
 

@@ -40,22 +40,22 @@ DONT_OPTIMISE void clustering_coeff() {
 
 DONT_OPTIMISE void density_at_instant() {
 	StreamFunctions fns = STREAM_FUNCS(fns, &stream);
-	Interval lifespan	= fns.lifespan(stream.stream_data);
+	Interval lifespan   = fns.lifespan(stream.stream_data);
 	for (TimeId t = lifespan.start; t < lifespan.end; t++) {
 		Stream_density_at_instant(&stream, t);
 	}
 }
 
 #define BENCHMARK_METRIC(name, metric)                                                                                                     \
-	stream = stream1;                                                                                                                      \
-	benchmark(metric, name " S_concat_L", 1);                                                                                              \
-	stream = stream2;                                                                                                                      \
-	benchmark(metric, name " LS_90", 1);                                                                                                   \
-	stream = stream3;                                                                                                                      \
-	benchmark(metric, name " primaryschool", 1);                                                                                           \
-	stream = stream4;                                                                                                                      \
-	benchmark(metric, name " facebooklike", 1);                                                                                            \
-	printf("\n");
+	stream = stream1;                                                                                                                  \
+	benchmark(metric, name " S_concat_L", 1);                                                                                          \
+	stream = stream2;                                                                                                                  \
+	benchmark(metric, name " LS_90", 1);                                                                                               \
+	stream = stream3;                                                                                                                  \
+	benchmark(metric, name " primaryschool", 1);                                                                                       \
+	stream = stream4;                                                                                                                  \
+	// benchmark(metric, name " facebooklike", 1);                                                                                            \
+	// printf("\n");
 
 int main() {
 	StreamGraph sg1 = StreamGraph_from_external("data/S_concat_L.txt");

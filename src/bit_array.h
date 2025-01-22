@@ -21,7 +21,7 @@ typedef size_t BitArraySlice;
  * It is not possible to go higher than an int otherwise some functions will not work.
  */
 typedef struct {
-	size_t nb_bits;		 /**< The number of bits in the array. */
+	size_t nb_bits;	     /**< The number of bits in the array. */
 	BitArraySlice* bits; /**< The array of bits. */
 } BitArray;
 
@@ -143,17 +143,17 @@ size_t BitArray_leading_zeros_from(BitArray array, size_t index);
  * @param[in] array The BitArray.
  * @return The string representation of the BitArray.
  */
-String BitArray_to_string(const BitArray* array);
+DeclareToString(BitArray);
 
 /**
  * @brief Compares two BitArrays.
  *
  * Returns true if the two BitArrays are equal, false otherwise.
- * @param[in] a The first BitArray.
- * @param[in] b The second BitArray.
+ * @param[in] left The first BitArray.
+ * @param[in] right The second BitArray.
  * @return Whether the two BitArrays are equal.
  */
-bool BitArray_equals(const BitArray* a, const BitArray* b);
+DeclareEquals(BitArray);
 
 /** @} */
 

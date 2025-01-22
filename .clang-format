@@ -1,6 +1,6 @@
 UseTab: Always
-TabWidth: 4
-IndentWidth: 4
+TabWidth: 8
+IndentWidth: 8
 BasedOnStyle: LLVM
 PointerAlignment: Left
 SpaceAfterCStyleCast: false
@@ -11,18 +11,14 @@ BraceWrapping:
   AfterUnion: false
   AfterEnum: false
   AfterFunction: false
-  AfterNamespace: false
   AfterExternBlock: false
   BeforeElse: true
-  AfterStruct: false
 ColumnLimit: 140
 IndentCaseLabels: true
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: false
 AllowShortBlocksOnASingleLine: Empty
-# AllowShortIfStatementsOnASingleLine: false
-# AllowShortCaseExpressionOnASingleLine: false
 AlignConsecutiveMacros: true
 IndentPPDirectives: AfterHash
 AlignConsecutiveAssignments: true
