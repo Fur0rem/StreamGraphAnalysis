@@ -227,6 +227,38 @@ double Stream_uniformity_pair_nodes(Stream* stream, NodeId node1, NodeId node2) 
 	return (double)t_i / (double)t_u;
 }
 
+double Stream_compactness(Stream* stream) {
+	// CATCH_METRICS_IMPLEM(compactness, stream);
+	StreamFunctions fns = STREAM_FUNCS(fns, stream);
+
+	// Compute T' (the set of times where at least one node is present)
+	// Compute V' (the set of nodes present at least once)
+	size_t nb_nodes_exist	     = 0;
+	TimeId first_node_apparition = SIZE_MAX;
+	TimeId last_node_apparition  = 0;
+
+	NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	FOR_EACH_NODE(node_id, nodes) {
+		TimesIterator times = fns.times_node_present(stream->stream_data, node_id);
+		size_t nb_times	    = 0;
+		FOR_EACH_TIME(interval, times) {
+			nb_times++;
+			if (interval.start < first_node_apparition) {
+				first_node_apparition = interval.start;
+			}
+			if (interval.end > last_node_apparition) {
+				last_node_apparition = interval.end;
+			}
+		}
+		if (nb_times > 0) {
+			nb_nodes_exist++;
+		}
+	}
+
+	// |W| / (|T'| * |V'|)
+	return (double)cardinalOfW(stream) / (double)((last_node_apparition - first_node_apparition) * nb_nodes_exist);
+}
+
 double Stream_density(Stream* stream) {
 	CATCH_METRICS_IMPLEM(density, stream);
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
