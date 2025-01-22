@@ -19,7 +19,7 @@ bool test_equals() {
 }
 
 bool test_isomorphism_chunk() {
-	StreamGraph sg			= StreamGraph_from_external("data/kcores_with_L.txt");
+	StreamGraph sg		= StreamGraph_from_external("data/kcores_with_L.txt");
 	StreamGraph kcores_only = StreamGraph_from_external("data/kcores_test.txt");
 
 	LinkIdArrayList links = LinkIdArrayList_new();
@@ -35,8 +35,8 @@ bool test_isomorphism_chunk() {
 	NodeIdArrayList_push(&nodes, 6);
 
 	Interval snapshot = Interval_from(0, 10);
-	Stream st		  = CS_with(&sg, &nodes, &links, snapshot.start, snapshot.end);
-	Stream og		  = LinkStream_from(&kcores_only);
+	Stream st	  = CS_with(&sg, &nodes, &links, snapshot.start, snapshot.end);
+	Stream og	  = LinkStream_from(&kcores_only);
 
 	bool result = EXPECT(are_isomorphic(&st, &og));
 
@@ -45,6 +45,7 @@ bool test_isomorphism_chunk() {
 	LinkStream_destroy(og);
 	CS_destroy(st);
 	LinkIdArrayList_destroy(links);
+	NodeIdArrayList_destroy(nodes);
 
 	return result;
 
@@ -173,16 +174,16 @@ bool test_different_lifespans() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_equals),
-		TEST(test_isomorphism_chunk),
-		TEST(test_not_isomorphic),
-		TEST(test_not_isomorphic_stretched),
-		TEST(test_isomorphism_offset),
-		TEST(test_isomorphic_ids_scrambled),
-		TEST(test_isomorphism_different_node_times),
-		TEST(test_isomorphism_not_constant_offset),
-		TEST(test_different_lifespans),
-		NULL,
+	    TEST(test_equals),
+	    TEST(test_isomorphism_chunk),
+	    TEST(test_not_isomorphic),
+	    TEST(test_not_isomorphic_stretched),
+	    TEST(test_isomorphism_offset),
+	    TEST(test_isomorphic_ids_scrambled),
+	    TEST(test_isomorphism_different_node_times),
+	    TEST(test_isomorphism_not_constant_offset),
+	    TEST(test_different_lifespans),
+	    NULL,
 	};
 
 	return test("Isomorphism", tests);

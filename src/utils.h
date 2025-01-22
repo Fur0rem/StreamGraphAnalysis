@@ -15,16 +15,16 @@
 // Malloc with error handling
 // TODO : print stack trace maybe?
 #define MALLOC_CHECK(size)                                                                                                                 \
-	({                                                                                                                                     \
-		if ((size) == 0) {                                                                                                                 \
-			fprintf(stderr, "Memory allocation with size 0 at %s:%d\n", __FILE__, __LINE__);                                               \
-		}                                                                                                                                  \
-		void* ptr = malloc(size);                                                                                                          \
-		if (ptr == NULL) {                                                                                                                 \
-			fprintf(stderr, "Memory allocation failed\n");                                                                                 \
-			exit(1);                                                                                                                       \
-		}                                                                                                                                  \
-		ptr;                                                                                                                               \
+	({                                                                                                                                 \
+		if ((size) == 0) {                                                                                                         \
+			fprintf(stderr, "Memory allocation with size 0 at %s:%d\n", __FILE__, __LINE__);                                   \
+		}                                                                                                                          \
+		void* ptr = malloc(size);                                                                                                  \
+		if (ptr == NULL) {                                                                                                         \
+			fprintf(stderr, "Memory allocation failed\n");                                                                     \
+			exit(1);                                                                                                           \
+		}                                                                                                                          \
+		ptr;                                                                                                                       \
 	})
 
 #ifdef DEBUG
@@ -34,42 +34,42 @@
 #endif
 
 // Floating point comparison
-#define F_EQUALS(left, right)			  (fabs((left) - (right)) < 1e-9)
+#define F_EQUALS(left, right)		  (fabs((left) - (right)) < 1e-9)
 #define F_EQUALS_APPROX(left, right, eps) (fabs((left) - (right)) < (eps))
 
 #define NO_FREE(type)                                                                                                                      \
 	void type##_destroy(type self) {}
 #define DEFAULT_EQUALS(type)                                                                                                               \
-	bool type##_equals(const type* left, const type* right) {                                                                              \
-		return *left == *right;                                                                                                            \
+	bool type##_equals(const type* left, const type* right) {                                                                          \
+		return *left == *right;                                                                                                    \
 	}
 #define DEFAULT_COMPARE(type)                                                                                                              \
-	int type##_compare(const type* left, const type* right) {                                                                              \
-		return *left - *right;                                                                                                             \
+	int type##_compare(const type* left, const type* right) {                                                                          \
+		return *left - *right;                                                                                                     \
 	}
 
-#define DeclareEquals(type)	 bool type##_equals(const type* left, const type* right);
+#define DeclareEquals(type)  bool type##_equals(const type* left, const type* right);
 #define DeclareCompare(type) int type##_compare(const type* left, const type* right);
 #define DeclareDestroy(type) void type##_destroy(type self);
-#define DeclareHash(type)	 int type##_hash(const type* self);
+#define DeclareHash(type)    int type##_hash(const type* self);
 
 #define DEFAULT_MIN_MAX(type)                                                                                                              \
-	type type##_min(type left, type right) {                                                                                               \
-		return left < right ? left : right;                                                                                                \
-	}                                                                                                                                      \
-	type type##_max(type left, type right) {                                                                                               \
-		return left > right ? left : right;                                                                                                \
+	type type##_min(type left, type right) {                                                                                           \
+		return left < right ? left : right;                                                                                        \
+	}                                                                                                                                  \
+	type type##_max(type left, type right) {                                                                                           \
+		return left > right ? left : right;                                                                                        \
 	}
 
 // TODO : optionnal message
 #ifdef DEBUG
-#	define ASSERT(expr)                                                                                                                   \
-		({                                                                                                                                 \
-			bool __assert_result = (expr);                                                                                                 \
-			if (!(__assert_result)) {                                                                                                      \
-				fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", #expr, __FILE__, __LINE__);                                    \
-				assert(__assert_result);                                                                                                   \
-			}                                                                                                                              \
+#	define ASSERT(expr)                                                                                                               \
+		({                                                                                                                         \
+			bool __assert_result = (expr);                                                                                     \
+			if (!(__assert_result)) {                                                                                          \
+				fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", #expr, __FILE__, __LINE__);                    \
+				assert(__assert_result);                                                                                   \
+			}                                                                                                                  \
 		})
 #else
 #	ifdef __clang__
@@ -83,10 +83,10 @@
 #define DEV_ASSERT(expr) ASSERT(expr)
 
 #ifdef DEBUG
-#	define UNREACHABLE_CODE                                                                                                               \
-		({                                                                                                                                 \
-			fprintf(stderr, "Unreachable code reached at %s:%d\n", __FILE__, __LINE__);                                                    \
-			assert(false);                                                                                                                 \
+#	define UNREACHABLE_CODE                                                                                                           \
+		({                                                                                                                         \
+			fprintf(stderr, "Unreachable code reached at %s:%d\n", __FILE__, __LINE__);                                        \
+			assert(false);                                                                                                     \
 		})
 #else
 #	define UNREACHABLE_CODE __builtin_unreachable()
@@ -129,6 +129,7 @@ void String_push_str(String* self, const char* str);
 void String_append_formatted(String* self, const char* format, ...);
 void String_concat_copy(String* self, const String* with);
 void String_concat_consume(String* self, String with);
+String String_clone(const String* str);
 
 DeclareDestroy(String);
 DeclareEquals(String);
@@ -137,11 +138,13 @@ DeclareHash(String);
 
 #define DeclareToString(type) String type##_to_string(const type* self);
 
+DeclareToString(String);
+
 #define DEFAULT_TO_STRING(type, format)                                                                                                    \
-	String type##_to_string(const type* self) {                                                                                            \
-		char* str = MALLOC(100);                                                                                                           \
-		sprintf(str, format, *self);                                                                                                       \
-		return String_from_owned(str);                                                                                                     \
+	String type##_to_string(const type* self) {                                                                                        \
+		char* str = MALLOC(100);                                                                                                   \
+		sprintf(str, format, *self);                                                                                               \
+		return String_from_owned(str);                                                                                             \
 	}
 
 char* read_file(const char* filename);

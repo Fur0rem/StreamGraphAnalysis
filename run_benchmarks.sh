@@ -17,13 +17,13 @@ global_success=0
 $CC $CFLAGS -c $benchmark_DIR/benchmark.c -o $BIN_DIR/benchmark.o
 
 # Check if the --valgrind flag is present
-valgrind=0
+valgrind=0 # TODO
 if [ "$1" == "--valgrind" ]; then
     valgrind=1
     shift
 fi
 
-callgrind=0
+callgrind=1 # TODO
 if [ "$1" == "--callgrind" ]; then
     callgrind=1
     shift
@@ -39,15 +39,15 @@ if [ $# -eq 1 ]; then
     rm -f $BIN_DIR/$filename.o
     # If the src file.c does not exist, compile the benchmark file into an executable (header only library)
     #if [ ! -f $SRC_DIR/$filename.c ]; then
-        #$CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/benchmark.o
+    #$CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/benchmark.o
     #else
     # TODO: check if the file is a header only library
-        make $filename
-        if [ -f $BIN_DIR/$filename.a ]; then
-            $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
-        else
-            $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
-        fi
+    make $filename
+    if [ -f $BIN_DIR/$filename.a ]; then
+        $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
+    else
+        $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
+    fi
     #fi
 
     # if [ $valgrind -ne 1 ]; then
@@ -58,7 +58,7 @@ if [ $# -eq 1 ]; then
 
     if [ $callgrind -eq 1 ]; then
         valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
-    else 
+    else
         if [ $valgrind -eq 1 ]; then
             valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes $BIN_DIR/benchmark_$filename
         else
@@ -97,13 +97,13 @@ for file in $benchmark_DIR/*.c; do
     # if [ ! -f $SRC_DIR/$filename.c ]; then
     #     $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/benchmark.o
     # else
-        make $filename
-        # If the compilation produced a .a file, use it instead of the .o file
-        if [ -f $BIN_DIR/$filename.a ]; then
-            $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
-        else
-            $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
-        fi
+    make $filename
+    # If the compilation produced a .a file, use it instead of the .o file
+    if [ -f $BIN_DIR/$filename.a ]; then
+        $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
+    else
+        $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
+    fi
     # fi
 
     # If the file is present but not the benchmark, the compilation of the benchmark failed
@@ -119,7 +119,6 @@ for file in $benchmark_DIR/*.c; do
         global_success=1
         continue
     fi
-
 
     # $BIN_DIR/benchmark_$filename
     # Check if the --valgrind flag is present
@@ -141,7 +140,7 @@ done
 
 if [ $global_success -eq 0 ]; then
     echo "All benchmarks passed!"
-else 
+else
     echo "${TEXT_BOLD} ${TEXT_RED} benchmarks that failed: $every_benchmark_that_failed ${TEXT_RESET}"
 fi
 exit $global_success

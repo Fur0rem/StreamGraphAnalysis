@@ -5,11 +5,11 @@
 #include <string.h>
 
 String String_from_owned(char* str) {
-	size_t len	  = strlen(str);
+	size_t len    = strlen(str);
 	String string = (String){
-		.size	  = len,
-		.capacity = len + 1,
-		.data	  = str,
+	    .size     = len,
+	    .capacity = len + 1,
+	    .data     = str,
 	};
 	return string;
 }
@@ -28,9 +28,20 @@ String String_from_duplicate(const char* str) {
 	char* data = MALLOC(len + 1);
 	memcpy(data, str, len + 1);
 	String string = (String){
-		.size	  = len,
-		.capacity = len + 1,
-		.data	  = data,
+	    .size     = len,
+	    .capacity = len + 1,
+	    .data     = data,
+	};
+	return string;
+}
+
+String String_clone(const String* str) {
+	char* data = MALLOC(str->size);
+	memcpy(data, str->data, str->size);
+	String string = (String){
+	    .size     = str->size,
+	    .capacity = str->size,
+	    .data     = data,
 	};
 	return string;
 }
@@ -65,11 +76,22 @@ void String_destroy(String self) {
 }
 
 bool String_equals(const String* left, const String* right) {
-	return strcmp(left->data, right->data) == 0;
+	if (left->size != right->size) {
+		return false;
+	}
+	return strncmp(left->data, right->data, left->size) == 0;
 }
 
 int String_compare(const String* left, const String* right) {
-	return strcmp(left->data, right->data);
+	size_t min_size = left->size;
+	if (right->size < min_size) {
+		min_size = right->size;
+	}
+	bool cmp_until_len = strncmp(left->data, right->data, min_size);
+	if (cmp_until_len != 0) {
+		return cmp_until_len;
+	}
+	return left->size - right->size;
 }
 
 // FIXME: slow hash function
@@ -134,8 +156,14 @@ void String_pop(String* self) {
 String String_with_capacity(size_t capacity) {
 	ASSERT(capacity > 0);
 	return (String){
-		.size	  = 0,
-		.capacity = capacity,
-		.data	  = MALLOC(capacity),
+	    .size     = 0,
+	    .capacity = capacity,
+	    .data     = MALLOC(capacity),
 	};
+}
+
+String String_to_string(const String* self) {
+	String cstr = String_clone(self);
+	String_push(&cstr, '\0');
+	return cstr;
 }

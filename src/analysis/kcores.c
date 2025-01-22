@@ -72,7 +72,7 @@ void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
 			Interval two   = Interval_from(time.start, time.end);
 			Interval three = Interval_from(time.end, k_cores->array[i].time.end);
 
-			KCoreData x				  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
+			KCoreData x		  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
 			NodeIdArrayList old_neigh = x.neighbours;
 
 			// Add the new intervals
@@ -107,7 +107,7 @@ void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
 			Interval two   = Interval_from(k_cores->array[i].time.start, k_cores->array[i].time.end);
 			Interval three = Interval_from(k_cores->array[i].time.end, time.end);
 
-			KCoreData x				  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
+			KCoreData x		  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
 			NodeIdArrayList old_neigh = x.neighbours;
 
 			// Add the new intervals
@@ -135,11 +135,11 @@ void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
 	for (size_t i = 0; i < k_cores->length; i++) {
 		if (Interval_overlaps_interval(k_cores->array[i].time, time)) {
 			// split the interval into 3
-			Interval inter		  = Interval_intersection(k_cores->array[i].time, time);
+			Interval inter	      = Interval_intersection(k_cores->array[i].time, time);
 			Interval old_excluded = Interval_minus(k_cores->array[i].time, inter);
 			Interval new_excluded = Interval_minus(time, inter);
 
-			KCoreData x				  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
+			KCoreData x		  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
 			NodeIdArrayList old_neigh = x.neighbours;
 
 			// Add the new intervals
@@ -204,7 +204,7 @@ void KCoreDataArrayList_merge(KCoreDataArrayList* vec) {
 			Interval i2 = vec->array[i + 1].time;
 			if (i1.end == i2.start) {
 				Interval new_interval = Interval_from(i1.start, i2.end);
-				vec->array[i].time	  = new_interval;
+				vec->array[i].time    = new_interval;
 				KCoreDataArrayList_remove_and_swap(vec, i + 1);
 				i--;
 			}
@@ -219,8 +219,8 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
-	NodesIterator nodes	   = fns.nodes_set(stream->stream_data);
-	size_t nb_nodes		   = 0;
+	NodesIterator nodes    = fns.nodes_set(stream->stream_data);
+	size_t nb_nodes	       = 0;
 	size_t biggest_node_id = 0;
 	FOR_EACH_NODE(node_id, nodes) {
 		nb_nodes++;
@@ -232,10 +232,10 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	// cause its more coherent
 	biggest_node_id++; // OPTIMISE: memory waste, maybe do a node_id to index mapping
 
-	KCoreDataArrayList* neighbourhood	   = MALLOC(sizeof(KCoreDataArrayList) * biggest_node_id);
+	KCoreDataArrayList* neighbourhood      = MALLOC(sizeof(KCoreDataArrayList) * biggest_node_id);
 	KCoreDataArrayList* next_neighbourhood = MALLOC(sizeof(KCoreDataArrayList) * biggest_node_id);
 	for (size_t node = 0; node < biggest_node_id; node++) {
-		neighbourhood[node]		 = KCoreDataArrayList_new();
+		neighbourhood[node]	 = KCoreDataArrayList_new();
 		next_neighbourhood[node] = KCoreDataArrayList_new();
 	}
 
@@ -244,8 +244,8 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	FOR_EACH_NODE(node_id, nodes) {
 		LinksIterator links = fns.neighbours_of_node(stream->stream_data, node_id);
 		FOR_EACH_LINK(link_id, links) {
-			Link link			= fns.link_by_id(stream->stream_data, link_id);
-			NodeId neighbour	= Link_get_other_node(&link, node_id);
+			Link link	    = fns.link_by_id(stream->stream_data, link_id);
+			NodeId neighbour    = Link_get_other_node(&link, node_id);
 			TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
 			FOR_EACH_TIME(interval, times) {
 				KCores_add(&neighbourhood[node_id], interval, neighbour);
@@ -274,13 +274,14 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 				if (neighbourhood[node].array[neighbour].neighbours.length >= degree) {
 					for (size_t x = 0; x < neighbourhood[node].array[neighbour].neighbours.length; x++) {
 						// See if a node that's a neighbour of the current node has been removed
-						IntervalsSet inter =
-							IntervalsSet_intersection_with_single(nodes_presence[neighbourhood[node].array[neighbour].neighbours.array[x]],
-																  neighbourhood[node].array[neighbour].time);
+						IntervalsSet inter = IntervalsSet_intersection_with_single(
+						    nodes_presence[neighbourhood[node].array[neighbour].neighbours.array[x]],
+						    neighbourhood[node].array[neighbour].time);
 
 						for (size_t l = 0; l < inter.nb_intervals; l++) {
-							KCores_add(
-								&next_neighbourhood[node], inter.intervals[l], neighbourhood[node].array[neighbour].neighbours.array[x]);
+							KCores_add(&next_neighbourhood[node],
+								   inter.intervals[l],
+								   neighbourhood[node].array[neighbour].neighbours.array[x]);
 						}
 
 						IntervalsSet_destroy(inter);
@@ -294,12 +295,12 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		}
 
 		// Stop if the k-cores are stable
-		bool stable				  = true;
+		bool stable		  = true;
 		size_t stopped_merging_at = 0;
 		for (size_t node = 0; node < biggest_node_id; node++) {
 			KCoreDataArrayList_merge(&next_neighbourhood[node]);
 			if (!KCoreDataArrayList_equals(&neighbourhood[node], &next_neighbourhood[node])) {
-				stable			   = false;
+				stable		   = false;
 				stopped_merging_at = node;
 				break;
 			}
@@ -326,8 +327,8 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 			KCoreDataArrayList_clear(&neighbourhood[i]);
 		}
 		KCoreDataArrayList* tmp = neighbourhood;
-		neighbourhood			= next_neighbourhood;
-		next_neighbourhood		= tmp;
+		neighbourhood		= next_neighbourhood;
+		next_neighbourhood	= tmp;
 	}
 
 	free(nodes_presence);
@@ -348,16 +349,16 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		return (KCore){.nodes = NodePresenceArrayList_new()};
 	}
 
-	NodeId cur_node		   = SIZE_MAX;
-	KCore kcore			   = {.nodes = NodePresenceArrayList_new()};
+	NodeId cur_node	       = SIZE_MAX;
+	KCore kcore	       = {.nodes = NodePresenceArrayList_new()};
 	size_t cur_idx_to_push = 0;
 
 	for (size_t i = 0; i < biggest_node_id; i++) {
 		for (size_t j = 0; j < neighbourhood[i].length; j++) {
 			if (i != cur_node) {
 				NodePresence new_node = {
-					.node_id  = i,
-					.presence = IntervalArrayList_new(),
+				    .node_id  = i,
+				    .presence = IntervalArrayList_new(),
 				};
 				IntervalArrayList_push(&new_node.presence, neighbourhood[i].array[j].time);
 				NodePresenceArrayList_push(&kcore.nodes, new_node);

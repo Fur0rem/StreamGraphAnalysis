@@ -21,7 +21,7 @@
 - Version control for formats
 - Add format B where it's node by node instead of event by event
 - Crashes when node ids not sorted in the input file
-
+- Uniforming code for tests
 - Read all the TODOs in the code
 
 Metrics (V for implemeted, X for not implemented):

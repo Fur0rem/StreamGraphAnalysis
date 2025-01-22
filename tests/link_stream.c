@@ -8,12 +8,12 @@
 bool test_links_at_time_8() {
 	StreamGraph sg = StreamGraph_from_external("data/L.txt");
 	init_events_table(&sg);
-	Stream ls			  = LinkStream_from(&sg);
+	Stream ls	      = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	LinkIdArrayList links	 = SGA_collect_link_ids(funcs.links_present_at_t(ls.stream_data, 8));
 	LinkIdArrayList expected = LinkIdArrayList_new();
-	String str				 = LinkIdArrayList_to_string(&links);
+	String str		 = LinkIdArrayList_to_string(&links);
 	printf("All links present at 8 : %s\n", str.data);
 	String_destroy(str);
 	LinkIdArrayList_destroy(links);
@@ -27,11 +27,11 @@ bool test_links_at_time_8() {
 bool test_nodes_present() {
 	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
 	init_events_table(&sg);
-	Stream ls			  = LinkStream_from(&sg);
+	Stream ls	      = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	NodeIdArrayList nodes_expected = SGA_collect_node_ids(funcs.nodes_set(ls.stream_data));
-	bool nodes_present			   = true;
+	bool nodes_present	       = true;
 	for (TimeId t = 0; t < StreamGraph_lifespan(&sg).end; t++) {
 		NodeIdArrayList nodes_present_at_t = SGA_collect_node_ids(funcs.nodes_present_at_t(ls.stream_data, t));
 		nodes_present &= EXPECT(NodeIdArrayList_equals(&nodes_present_at_t, &nodes_expected));
@@ -46,15 +46,15 @@ bool test_nodes_present() {
 }
 
 bool test_nodes_presence() {
-	StreamGraph sg		  = StreamGraph_from_external("data/S_external.txt");
-	Stream ls			  = LinkStream_from(&sg);
+	StreamGraph sg	      = StreamGraph_from_external("data/S_external.txt");
+	Stream ls	      = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
-	Interval interval			= StreamGraph_lifespan(&sg);
+	Interval interval	    = StreamGraph_lifespan(&sg);
 	IntervalArrayList intervals = IntervalArrayList_with_capacity(1);
 	IntervalArrayList_push(&intervals, interval);
 
-	NodesIterator set		  = funcs.nodes_set(ls.stream_data);
+	NodesIterator set	  = funcs.nodes_set(ls.stream_data);
 	bool nodes_always_present = true;
 	FOR_EACH_NODE(node_id, set) {
 		IntervalArrayList intervals_node = SGA_collect_times(funcs.times_node_present(ls.stream_data, node_id));
@@ -70,8 +70,8 @@ bool test_nodes_presence() {
 }
 
 bool test_neighbours_of_node() {
-	StreamGraph sg		  = StreamGraph_from_external("data/S_external.txt");
-	Stream ls			  = LinkStream_from(&sg);
+	StreamGraph sg	      = StreamGraph_from_external("data/S_external.txt");
+	Stream ls	      = LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	LinkIdArrayList neighbours_of_0 = LinkIdArrayList_new();
@@ -88,7 +88,7 @@ bool test_neighbours_of_node() {
 	LinkIdArrayList_push(&neighbours_of_3, 1);
 	LinkIdArrayList neighbours[] = {neighbours_of_0, neighbours_of_1, neighbours_of_2, neighbours_of_3};
 
-	NodesIterator set		  = funcs.nodes_set(ls.stream_data);
+	NodesIterator set	  = funcs.nodes_set(ls.stream_data);
 	bool has_right_neighbours = true;
 
 	FOR_EACH_NODE(node_id, set) {
@@ -97,9 +97,9 @@ bool test_neighbours_of_node() {
 
 		// Map neighbouring links to neighbouring nodes
 		for (size_t i = 0; i < neighbours_ids.length; i++) {
-			LinkId link_id			= neighbours_ids.array[i];
-			Link link				= funcs.link_by_id(ls.stream_data, link_id);
-			NodeId other_node		= Link_get_other_node(&link, node_id);
+			LinkId link_id		= neighbours_ids.array[i];
+			Link link		= funcs.link_by_id(ls.stream_data, link_id);
+			NodeId other_node	= Link_get_other_node(&link, node_id);
 			neighbours_ids.array[i] = other_node;
 		}
 
@@ -118,11 +118,11 @@ bool test_neighbours_of_node() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_links_at_time_8),
-		TEST(test_nodes_present),
-		TEST(test_nodes_presence),
-		TEST(test_neighbours_of_node),
-		NULL,
+	    TEST(test_links_at_time_8),
+	    TEST(test_nodes_present),
+	    TEST(test_nodes_presence),
+	    TEST(test_neighbours_of_node),
+	    NULL,
 	};
 
 	return test("LinkStream", tests);

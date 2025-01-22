@@ -2,7 +2,7 @@
 #include "test.h"
 
 bool test_chunk_stream_small_nodes_set() {
-	StreamGraph sg		  = StreamGraph_from_file("data/S.txt");
+	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(2);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 2);
@@ -13,7 +13,7 @@ bool test_chunk_stream_small_nodes_set() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st				 = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
+	Stream st		 = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
 	StreamFunctions funcs	 = ChunkStreamSmall_stream_functions;
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -31,7 +31,7 @@ bool test_chunk_stream_small_nodes_set() {
 }
 
 bool test_chunk_stream_small_neighbours_of_node() {
-	StreamGraph sg		  = StreamGraph_from_file("data/S.txt");
+	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(2);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -43,7 +43,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st			  = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
+	Stream st	      = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
 	StreamFunctions funcs = ChunkStreamSmall_stream_functions;
 
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
@@ -62,7 +62,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 
 // TODO: why is this here ???
 bool test_chunk_stream_small_times_node_present() {
-	StreamGraph sg		  = StreamGraph_from_file("data/S.txt");
+	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -74,7 +74,7 @@ bool test_chunk_stream_small_times_node_present() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st			  = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(20, 80));
+	Stream st	      = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(20, 80));
 	StreamFunctions funcs = ChunkStreamSmall_stream_functions;
 
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
@@ -104,10 +104,10 @@ bool test_chunk_stream_small_times_node_present() {
 
 int main() {
 	Test* tests[] = {
-		TEST(test_chunk_stream_small_nodes_set),
-		TEST(test_chunk_stream_small_neighbours_of_node),
-		TEST(test_chunk_stream_small_times_node_present),
-		NULL,
+	    TEST(test_chunk_stream_small_nodes_set),
+	    TEST(test_chunk_stream_small_neighbours_of_node),
+	    TEST(test_chunk_stream_small_times_node_present),
+	    NULL,
 	};
 
 	return test("Chunk Stream Small", tests);
