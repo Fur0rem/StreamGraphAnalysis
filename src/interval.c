@@ -1,5 +1,4 @@
 #include "interval.h"
-#include "defaults.h"
 #include "generic_data_structures/arraylist.h"
 #include "utils.h"
 #include <stddef.h>
@@ -79,7 +78,7 @@ void IntervalsSet_destroy(IntervalsSet intervals_set) {
 // TODO: Could probably be optimized
 void IntervalsSet_merge(IntervalsSet* intervals_set) {
 	IntervalArrayList merged = IntervalArrayList_with_capacity(intervals_set->nb_intervals);
-	Interval current		 = intervals_set->intervals[0];
+	Interval current	 = intervals_set->intervals[0];
 	for (size_t i = 1; i < intervals_set->nb_intervals; i++) {
 		Interval next = intervals_set->intervals[i];
 		if (current.start == next.start) {
@@ -115,8 +114,8 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
 	IntervalArrayList intersection = IntervalArrayList_with_capacity(left.nb_intervals + right.nb_intervals);
 	for (size_t i = 0; i < left.nb_intervals; i++) {
 		for (size_t j = 0; j < right.nb_intervals; j++) {
-			Interval a_interval			   = left.intervals[i];
-			Interval b_interval			   = right.intervals[j];
+			Interval a_interval	       = left.intervals[i];
+			Interval b_interval	       = right.intervals[j];
 			Interval intersection_interval = Interval_intersection(a_interval, b_interval);
 			if (Interval_duration(intersection_interval) > 0) {
 				IntervalArrayList_push(&intersection, intersection_interval);
@@ -126,8 +125,8 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
 	if (intersection.length == 0) {
 		IntervalArrayList_destroy(intersection);
 		return (IntervalsSet){
-			.nb_intervals = 0,
-			.intervals	  = NULL,
+		    .nb_intervals = 0,
+		    .intervals	  = NULL,
 		};
 	}
 
@@ -142,7 +141,7 @@ IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right) {
 // Doesn't consume the input
 IntervalArrayList IntervalArrayList_intersection(IntervalArrayList* left, IntervalArrayList* right) {
 	IntervalArrayList intersection = IntervalArrayList_with_capacity((left->length > right->length) ? left->length : right->length);
-	size_t min_at_encountered	   = 0;
+	size_t min_at_encountered      = 0;
 	for (size_t i = 0; i < left->length; i++) {
 		size_t start	   = min_at_encountered; // we keep track of when at the previous iteration we started finding intersections
 		min_at_encountered = SIZE_MAX;
@@ -256,7 +255,7 @@ bool IntervalsSet_contains_sorted(IntervalsSet intervals_set, TimeId time) {
 	// }
 	// return false;
 
-	size_t left	 = 0;
+	size_t left  = 0;
 	size_t right = intervals_set.nb_intervals;
 	while (left < right) {
 		size_t mid = left + (right - left) / 2;
@@ -316,35 +315,35 @@ void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t 
 
 IntervalsSet IntervalsSet_from_interval_arraylist(IntervalArrayList intervals) {
 	return (IntervalsSet){
-		.nb_intervals = intervals.length,
-		.intervals	  = intervals.array,
+	    .nb_intervals = intervals.length,
+	    .intervals	  = intervals.array,
 	};
 }
 
 IntervalArrayList IntervalArrayList_from_intervals_set(IntervalsSet intervals_set) {
 	return (IntervalArrayList){
-		.length	  = intervals_set.nb_intervals,
-		.capacity = intervals_set.nb_intervals,
-		.array	  = intervals_set.intervals,
+	    .length   = intervals_set.nb_intervals,
+	    .capacity = intervals_set.nb_intervals,
+	    .array    = intervals_set.intervals,
 	};
 }
 
 SGA_Offset SGA_Offset_does_not_match() {
 	return (SGA_Offset){
-		.result = NO_MATCHING_OFFSET,
+	    .result = NO_MATCHING_OFFSET,
 	};
 }
 
 SGA_Offset SGA_Offset_ok(size_t offset) {
 	return (SGA_Offset){
-		.result = OK,
-		.offset = offset,
+	    .result = OK,
+	    .offset = offset,
 	};
 }
 
 SGA_Offset SGA_Offset_empty() {
 	return (SGA_Offset){
-		.result = EMPTY_INTERVALSET,
+	    .result = EMPTY_INTERVALSET,
 	};
 }
 
@@ -393,7 +392,7 @@ SGA_Offset IntervalArrayList_offset_of(const IntervalArrayList* self, const Inte
 
 SGA_Offset Interval_offset_of(const Interval* self, const Interval* other) {
 
-	bool self_is_empty	= Interval_is_empty(*self);
+	bool self_is_empty  = Interval_is_empty(*self);
 	bool other_is_empty = Interval_is_empty(*other);
 	if (self_is_empty && other_is_empty) {
 		return SGA_Offset_empty();
@@ -404,9 +403,9 @@ SGA_Offset Interval_offset_of(const Interval* self, const Interval* other) {
 	}
 
 	size_t offset_start = other->start - self->start;
-	size_t offset_end	= other->end - self->end;
-	printf("self = [%lu, %lu[, other = [%lu, %lu[\n", self->start, self->end, other->start, other->end);
-	printf("offset_start = %zu, offset_end = %zu\n", offset_start, offset_end);
+	size_t offset_end   = other->end - self->end;
+	// printf("self = [%lu, %lu[, other = [%lu, %lu[\n", self->start, self->end, other->start, other->end);
+	// printf("offset_start = %zu, offset_end = %zu\n", offset_start, offset_end);
 
 	if (offset_start != offset_end) {
 		return SGA_Offset_does_not_match();
