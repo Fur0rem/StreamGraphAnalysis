@@ -1,30 +1,30 @@
 #include "../src/analysis/kcores.h"
 #include "../src/stream.h"
-#include "../src/stream_wrappers.h"
+#include "../src/streams.h"
 #include "benchmark.h"
 
-Stream stream;
+SGA_Stream stream;
 
 DONT_OPTIMISE void kcores() {
 	for (size_t i = 0; i < 10; i++) {
-		KCore kcore = Stream_k_cores(&stream, i);
-		KCore_destroy(kcore);
+		SGA_KCore kcore = SGA_Stream_k_core(&stream, i);
+		SGA_KCore_destroy(kcore);
 	}
 }
 
 int main() {
 
-	StreamGraph sg1 = StreamGraph_from_external("data/S_concat_L.txt");
-	Stream stream1	= FullStreamGraph_from(&sg1);
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/S_concat_L.txt");
+	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	StreamGraph sg2 = StreamGraph_from_external("data/LS_90.txt");
-	Stream stream2	= FullStreamGraph_from(&sg2);
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/LS_90.txt");
+	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	StreamGraph sg3 = StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
-	Stream stream3	= FullStreamGraph_from(&sg3);
+	SGA_StreamGraph sg3 = SGA_StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
+	SGA_Stream stream3  = SGA_FullStreamGraph_from(&sg3);
 
-	StreamGraph sg4 = StreamGraph_from_external("data/facebooklike_1_transformed.txt");
-	Stream stream4	= FullStreamGraph_from(&sg4);
+	SGA_StreamGraph sg4 = SGA_StreamGraph_from_external("data/facebooklike_1_transformed.txt");
+	SGA_Stream stream4  = SGA_FullStreamGraph_from(&sg4);
 
 	stream = stream1;
 	benchmark(kcores, "kcores S_concat_L", 10);
@@ -35,14 +35,14 @@ int main() {
 	// stream = stream4;
 	// benchmark(kcores, "kcores facebooklike", 10);
 
-	StreamGraph_destroy(sg1);
-	FullStreamGraph_destroy(stream1);
-	StreamGraph_destroy(sg2);
-	FullStreamGraph_destroy(stream2);
-	StreamGraph_destroy(sg3);
-	FullStreamGraph_destroy(stream3);
-	StreamGraph_destroy(sg4);
-	FullStreamGraph_destroy(stream4);
+	SGA_StreamGraph_destroy(sg1);
+	SGA_FullStreamGraph_destroy(stream1);
+	SGA_StreamGraph_destroy(sg2);
+	SGA_FullStreamGraph_destroy(stream2);
+	SGA_StreamGraph_destroy(sg3);
+	SGA_FullStreamGraph_destroy(stream3);
+	SGA_StreamGraph_destroy(sg4);
+	SGA_FullStreamGraph_destroy(stream4);
 
 	return 0;
 }

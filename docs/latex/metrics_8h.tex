@@ -1,319 +1,505 @@
-\hypertarget{metrics_8h}{}\doxysection{src/metrics.h File Reference}
-\label{metrics_8h}\index{src/metrics.h@{src/metrics.h}}
+\doxysection{src/analysis/metrics.h File Reference}
+\hypertarget{metrics_8h}{}\label{metrics_8h}\index{src/analysis/metrics.h@{src/analysis/metrics.h}}
+
+
+Functions to compute metrics on a \doxylink{structStream}{Stream}.  
+
+
 
 
 \doxysubsection{Detailed Description}
-Functions to compute metrics on a \mbox{\hyperlink{structStream}{Stream}}. 
+Functions to compute metrics on a \doxylink{structStream}{Stream}. 
 
 The metrics are defined in the paper. I encourage you to read it to understand the metrics as explaining them here would be redundant. Most of the functions have been named the same way, but some have been renamed to be more coherent with the implementation, if I changed the name, I will give the name of the metric in the paper. ~\newline
- The metrics documentation have been split per section of the paper and ordered in the same order as in the paper. {\ttfamily \#include \char`\"{}generic\+\_\+data\+\_\+structures/arraylist.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}interval.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}iterators.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}stream.\+h\char`\"{}}\newline
+ The metrics documentation have been split per section of the paper and ordered in the same order as in the paper. {\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
+{\ttfamily \#include "{}../interval.\+h"{}}\newline
+{\ttfamily \#include "{}../iterators.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 Include dependency graph for metrics.\+h\+:
 % FIG 0
-\doxysubsection*{Classes}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structMetricsFunctions}{Metrics\+Functions}}
-\begin{DoxyCompactList}\small\item\em Table of functions to compute metrics on a \mbox{\hyperlink{structStream}{Stream}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Functions}
+\begin{DoxyCompactList}\small\item\em Table of functions to compute metrics on a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{metrics_8h_ade385c0c829248457b5606d92689d2d5}\label{metrics_8h_ade385c0c829248457b5606d92689d2d5}} 
-bool {\bfseries Stream\+\_\+equals} (const \mbox{\hyperlink{structStream}{Stream}} $\ast$stream1, const \mbox{\hyperlink{structStream}{Stream}} $\ast$stream2)
-\item 
-\mbox{\Hypertarget{metrics_8h_aeaaea1bc201a4d3cdd18b7ff0d5d0d7d}\label{metrics_8h_aeaaea1bc201a4d3cdd18b7ff0d5d0d7d}} 
-\mbox{\hyperlink{structString}{String}} {\bfseries Stream\+\_\+to\+\_\+string} (const \mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\Hypertarget{metrics_8h_a7ad8579e8a133c11083e02758dca3a03}\label{metrics_8h_a7ad8579e8a133c11083e02758dca3a03} 
+\mbox{\hyperlink{structString}{String}} {\bfseries SGA\+\_\+\+Stream\+\_\+to\+\_\+string} (const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \end{DoxyCompactItemize}
 \begin{Indent}\textbf{ Section 3 \+: Stream graphs and link streams}\par
 \begin{DoxyCompactItemize}
 \item 
-double \mbox{\hyperlink{metrics_8h_a1937d8594936fd8c6a94a0234b516fec}{Stream\+\_\+coverage}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\end{DoxyCompactItemize}
+size\+\_\+t \mbox{\hyperlink{metrics_8h_ad09d1c80c5d3e5a77559998bed4343c4}{SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the temporal cardinal of node set of a \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all nodes. For example, if the stream contains 2 nodes A present at \mbox{[}0, 2\mbox{[} and B present at \mbox{[}1, 4\mbox{[}, the temporal cardinal of the node set is (2 -\/ 0) + (4 -\/ 1) = 2 + 3 = 5. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{metrics_8h_abed366c44e1691e90a930721f1570bd0}{SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the temporal cardinal of link set of a \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all links. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{metrics_8h_a665bb878f964e612c190f431dc710652}{SGA\+\_\+\+Stream\+\_\+duration}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the duration of the \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} in the paper. It is defined as the length of its lifespan. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{metrics_8h_a7bf36a4c55f1f803ec12da687b2403f4}{SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the distinct cardinal of node set of a \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} in the paper. It is defined as the number of distinct nodes present in the \doxylink{structStream}{Stream}. For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{metrics_8h_a8be329011584d504d6ffec3a4b4654bc}{SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the distinct cardinal of link set of a \doxylink{structStream}{Stream}. It isn\textquotesingle{}t defined in the paper. It is defined as the number of distinct links present in the \doxylink{structStream}{Stream}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_a6fc0aa70250cb72eab4ca4ac0d3bae8c}{SGA\+\_\+\+Stream\+\_\+coverage}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the coverage of the \doxylink{structStream}{Stream}. It is noted \$cov\$ in the paper. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}\textbf{ Section 4 \+: Size, duration, uniformity and compactness}\par
 \begin{DoxyCompactItemize}
 \item 
-double \mbox{\hyperlink{metrics_8h_a26e18f5e9ac6f394c5e2333519b192a9}{Stream\+\_\+contribution\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Node\+Id node\+\_\+id)
-\item 
-double \mbox{\hyperlink{metrics_8h_a28de2a7b573f24b27b5f0b329d8697db}{Stream\+\_\+number\+\_\+of\+\_\+nodes}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-double \mbox{\hyperlink{metrics_8h_acc42aba82134e53acafd5428fb6ffcc7}{Stream\+\_\+contribution\+\_\+of\+\_\+link}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Link\+Id link\+\_\+id)
-\item 
-double \mbox{\hyperlink{metrics_8h_a0b9fbd99e611df44a4261307f057a0d9}{Stream\+\_\+number\+\_\+of\+\_\+links}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-double \mbox{\hyperlink{metrics_8h_a853f788384d68081c0deb434a006e9c1}{Stream\+\_\+node\+\_\+contribution\+\_\+at\+\_\+instant}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Time\+Id time\+\_\+id)
-\item 
-double \mbox{\hyperlink{metrics_8h_afe6b432984c245e24c8c13bef6b36775}{Stream\+\_\+link\+\_\+contribution\+\_\+at\+\_\+instant}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Time\+Id time\+\_\+id)
-\item 
-double \mbox{\hyperlink{metrics_8h_aef09e97fd5895cb11693874b76cb1c3f}{Stream\+\_\+node\+\_\+duration}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-double \mbox{\hyperlink{metrics_8h_a0587864a897d23cac05a2ef7439e89fd}{Stream\+\_\+link\+\_\+duration}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-double \mbox{\hyperlink{metrics_8h_a8f6d7c0e23f83c84693284611228c59f}{Stream\+\_\+uniformity}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\end{DoxyCompactItemize}
+double \mbox{\hyperlink{metrics_8h_a321a69207e3143010840b5098dbc574f}{SGA\+\_\+\+Stream\+\_\+contribution\+\_\+of\+\_\+node}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Compute the contribution of a node in the \doxylink{structStream}{Stream}. It is noted \$n\+\_\+v\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_a430aaaf295657f6ab38f7c3ba8b86690}{SGA\+\_\+\+Stream\+\_\+number\+\_\+of\+\_\+nodes}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the number of nodes in the \doxylink{structStream}{Stream}. It is noted \$n\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_ab6944e26991a8760bbe2c67d8e999e8e}{SGA\+\_\+\+Stream\+\_\+contribution\+\_\+of\+\_\+link}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Link\+Id link\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Compute the contribution of a link in the \doxylink{structStream}{Stream}. It is noted \$m\+\_\+\{uv\}\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_a956c08e9d67ca05ca04e3e7b4a48f7de}{SGA\+\_\+\+Stream\+\_\+number\+\_\+of\+\_\+links}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the number of links in the \doxylink{structStream}{Stream}. It is noted \$m\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_afc1b45ef152674859f077aa98377c189}{SGA\+\_\+\+Stream\+\_\+node\+\_\+contribution\+\_\+at\+\_\+instant}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Time\+Id time\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Compute the node contribution at a given instant in the \doxylink{structStream}{Stream}. It is noted \$k\+\_\+t\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_ae37989af8c58e7b04025265864c614c9}{SGA\+\_\+\+Stream\+\_\+link\+\_\+contribution\+\_\+at\+\_\+instant}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Time\+Id time\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Compute the link contribution at a given instant in the \doxylink{structStream}{Stream}. It is noted \$l\+\_\+t\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_ac45151c1b3de45e3ea56379cf777cb67}{SGA\+\_\+\+Stream\+\_\+node\+\_\+duration}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the node duration of the \doxylink{structStream}{Stream}. It is noted \$k\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_a92db2a07174bf1d1962a711b87f2b66a}{SGA\+\_\+\+Stream\+\_\+link\+\_\+duration}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the link duration of the \doxylink{structStream}{Stream}. It is noted \$l\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_a5a918ea31ade0db5dfec2bf3fabccb34}{SGA\+\_\+\+Stream\+\_\+uniformity}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the uniformity of the \doxylink{structStream}{Stream}. It is noted \$⋓\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_a686a6cd691fe83cb689555988269bbdd}{SGA\+\_\+\+Stream\+\_\+compactness}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the compactness of the \doxylink{structStream}{Stream}. It is noted \$c\$ in the paper. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}\textbf{ Section 5 \+: Density}\par
 \begin{DoxyCompactItemize}
 \item 
-double \mbox{\hyperlink{metrics_8h_a1cbac88c4bd6b16c22a761f8476213c9}{Stream\+\_\+density}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+double \mbox{\hyperlink{metrics_8h_a090dfb59208803c054a0c83e6ed7bf13}{SGA\+\_\+\+Stream\+\_\+density}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the density of the \doxylink{structStream}{Stream}. It is noted \$δ\$ in the paper. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{metrics_8h_acc38379172b5363108269b660620abf7}{SGA\+\_\+\+Stream\+\_\+density\+\_\+of\+\_\+link}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Link\+Id link\+\_\+id)
 \item 
-double \mbox{\hyperlink{metrics_8h_a947b5589738f1430fe3218ad22397a5b}{Stream\+\_\+density\+\_\+of\+\_\+link}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Link\+Id link\+\_\+id)
+double \mbox{\hyperlink{metrics_8h_aeb253e2a0f7dfc58aca81ad1474eea54}{SGA\+\_\+\+Stream\+\_\+density\+\_\+of\+\_\+node}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id)
 \item 
-double \mbox{\hyperlink{metrics_8h_a93c22db60ca580936b5b4b0970ed4dac}{Stream\+\_\+density\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Node\+Id node\+\_\+id)
-\item 
-double \mbox{\hyperlink{metrics_8h_af79ae210fa8212775cdb13aaeaf51bb6}{Stream\+\_\+density\+\_\+at\+\_\+instant}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Time\+Id time\+\_\+id)
+double \mbox{\hyperlink{metrics_8h_a1bcb9243e9df6544d27b8367f596ed1a}{SGA\+\_\+\+Stream\+\_\+density\+\_\+at\+\_\+instant}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Time\+Id time\+\_\+id)
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}\textbf{ Section 8 \+: Neighbourhood and degree}\par
 \begin{DoxyCompactItemize}
 \item 
-double \mbox{\hyperlink{metrics_8h_a7718e55a6a6da43ddf0949dc14bfc9cb}{Stream\+\_\+degree\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Node\+Id node\+\_\+id)
+double \mbox{\hyperlink{metrics_8h_a51cdbf865f594fc2a03dbec988fc0b5c}{SGA\+\_\+\+Stream\+\_\+degree\+\_\+of\+\_\+node}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id)
 \item 
-double \mbox{\hyperlink{metrics_8h_abcb7c1664997510c6c3811fb0b6bf0ad}{Stream\+\_\+average\+\_\+node\+\_\+degree}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+double \mbox{\hyperlink{metrics_8h_af786c5baadaa0c383cac77610b52bf86}{SGA\+\_\+\+Stream\+\_\+average\+\_\+node\+\_\+degree}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}\textbf{ Section 9 \+: Clustering coefficient and transitivity ratio}\par
 \begin{DoxyCompactItemize}
 \item 
-double \mbox{\hyperlink{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}{Stream\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream, Node\+Id node\+\_\+id)
+double \mbox{\hyperlink{metrics_8h_a26d4b6e63158415e7f64ba73fb0d2cc8}{SGA\+\_\+\+Stream\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id)
 \item 
-double \mbox{\hyperlink{metrics_8h_a433af043086448858f5bc38f99f1aefe}{Stream\+\_\+node\+\_\+clustering\+\_\+coeff}} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+double \mbox{\hyperlink{metrics_8h_a16b834a99d761eaf4b418809b4be8706}{SGA\+\_\+\+Stream\+\_\+node\+\_\+clustering\+\_\+coeff}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \item 
-\mbox{\Hypertarget{metrics_8h_a50ab9c8c12d0b9c6767d069803da6399}\label{metrics_8h_a50ab9c8c12d0b9c6767d069803da6399}} 
-double {\bfseries Stream\+\_\+transitivity\+\_\+ratio} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-\mbox{\Hypertarget{metrics_8h_a0da130634b1a4af9625b46339429c99d}\label{metrics_8h_a0da130634b1a4af9625b46339429c99d}} 
-size\+\_\+t {\bfseries cardinal\+OfW} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-\mbox{\Hypertarget{metrics_8h_a0bb2588f94b6e6dded75604096c927ec}\label{metrics_8h_a0bb2588f94b6e6dded75604096c927ec}} 
-size\+\_\+t {\bfseries cardinal\+OfT} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-\mbox{\Hypertarget{metrics_8h_aafe8415a13811d5f34be90df16215eb9}\label{metrics_8h_aafe8415a13811d5f34be90df16215eb9}} 
-size\+\_\+t {\bfseries cardinal\+OfV} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
-\item 
-\mbox{\Hypertarget{metrics_8h_aaae69abae1a31c906fab8f79c4cfde5e}\label{metrics_8h_aaae69abae1a31c906fab8f79c4cfde5e}} 
-size\+\_\+t {\bfseries cardinal\+OfE} (\mbox{\hyperlink{structStream}{Stream}} $\ast$stream)
+\Hypertarget{metrics_8h_a1117abb5513c4e3346ba60cf3feff3d0}\label{metrics_8h_a1117abb5513c4e3346ba60cf3feff3d0} 
+double {\bfseries SGA\+\_\+\+Stream\+\_\+transitivity\+\_\+ratio} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \end{DoxyCompactItemize}
 \end{Indent}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{metrics_8h_abcb7c1664997510c6c3811fb0b6bf0ad}\label{metrics_8h_abcb7c1664997510c6c3811fb0b6bf0ad}} 
-\index{metrics.h@{metrics.h}!Stream\_average\_node\_degree@{Stream\_average\_node\_degree}}
-\index{Stream\_average\_node\_degree@{Stream\_average\_node\_degree}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_average\_node\_degree()}{Stream\_average\_node\_degree()}}
-{\footnotesize\ttfamily double Stream\+\_\+average\+\_\+node\+\_\+degree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_af786c5baadaa0c383cac77610b52bf86}\index{metrics.h@{metrics.h}!SGA\_Stream\_average\_node\_degree@{SGA\_Stream\_average\_node\_degree}}
+\index{SGA\_Stream\_average\_node\_degree@{SGA\_Stream\_average\_node\_degree}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_average\_node\_degree()}{SGA\_Stream\_average\_node\_degree()}}
+{\footnotesize\ttfamily \label{metrics_8h_af786c5baadaa0c383cac77610b52bf86} 
+double SGA\+\_\+\+Stream\+\_\+average\+\_\+node\+\_\+degree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}\label{metrics_8h_af47274c37cdebe12720fcae0bd19b6c2}} 
-\index{metrics.h@{metrics.h}!Stream\_clustering\_coeff\_of\_node@{Stream\_clustering\_coeff\_of\_node}}
-\index{Stream\_clustering\_coeff\_of\_node@{Stream\_clustering\_coeff\_of\_node}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_clustering\_coeff\_of\_node()}{Stream\_clustering\_coeff\_of\_node()}}
-{\footnotesize\ttfamily double Stream\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Node\+Id}]{node\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_a26d4b6e63158415e7f64ba73fb0d2cc8}\index{metrics.h@{metrics.h}!SGA\_Stream\_clustering\_coeff\_of\_node@{SGA\_Stream\_clustering\_coeff\_of\_node}}
+\index{SGA\_Stream\_clustering\_coeff\_of\_node@{SGA\_Stream\_clustering\_coeff\_of\_node}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_clustering\_coeff\_of\_node()}{SGA\_Stream\_clustering\_coeff\_of\_node()}}
+{\footnotesize\ttfamily \label{metrics_8h_a26d4b6e63158415e7f64ba73fb0d2cc8} 
+double SGA\+\_\+\+Stream\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node to get the clustering coefficient of. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_acc42aba82134e53acafd5428fb6ffcc7}\label{metrics_8h_acc42aba82134e53acafd5428fb6ffcc7}} 
-\index{metrics.h@{metrics.h}!Stream\_contribution\_of\_link@{Stream\_contribution\_of\_link}}
-\index{Stream\_contribution\_of\_link@{Stream\_contribution\_of\_link}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_contribution\_of\_link()}{Stream\_contribution\_of\_link()}}
-{\footnotesize\ttfamily double Stream\+\_\+contribution\+\_\+of\+\_\+link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Link\+Id}]{link\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_a686a6cd691fe83cb689555988269bbdd}\index{metrics.h@{metrics.h}!SGA\_Stream\_compactness@{SGA\_Stream\_compactness}}
+\index{SGA\_Stream\_compactness@{SGA\_Stream\_compactness}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_compactness()}{SGA\_Stream\_compactness()}}
+{\footnotesize\ttfamily \label{metrics_8h_a686a6cd691fe83cb689555988269bbdd} 
+double SGA\+\_\+\+Stream\+\_\+compactness (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
-Named contribution of a pair of nodes in the paper. 
+
+
+Compute the compactness of the \doxylink{structStream}{Stream}. It is noted \$c\$ in the paper. 
+
+
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{metrics_8h_ab6944e26991a8760bbe2c67d8e999e8e}\index{metrics.h@{metrics.h}!SGA\_Stream\_contribution\_of\_link@{SGA\_Stream\_contribution\_of\_link}}
+\index{SGA\_Stream\_contribution\_of\_link@{SGA\_Stream\_contribution\_of\_link}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_contribution\_of\_link()}{SGA\_Stream\_contribution\_of\_link()}}
+{\footnotesize\ttfamily \label{metrics_8h_ab6944e26991a8760bbe2c67d8e999e8e} 
+double SGA\+\_\+\+Stream\+\_\+contribution\+\_\+of\+\_\+link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Compute the contribution of a link in the \doxylink{structStream}{Stream}. It is noted \$m\+\_\+\{uv\}\$ in the paper. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em link\+\_\+id} & The id of the link to get the contribution of. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a26e18f5e9ac6f394c5e2333519b192a9}\label{metrics_8h_a26e18f5e9ac6f394c5e2333519b192a9}} 
-\index{metrics.h@{metrics.h}!Stream\_contribution\_of\_node@{Stream\_contribution\_of\_node}}
-\index{Stream\_contribution\_of\_node@{Stream\_contribution\_of\_node}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_contribution\_of\_node()}{Stream\_contribution\_of\_node()}}
-{\footnotesize\ttfamily double Stream\+\_\+contribution\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Node\+Id}]{node\+\_\+id }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The contribution of the link. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a321a69207e3143010840b5098dbc574f}\index{metrics.h@{metrics.h}!SGA\_Stream\_contribution\_of\_node@{SGA\_Stream\_contribution\_of\_node}}
+\index{SGA\_Stream\_contribution\_of\_node@{SGA\_Stream\_contribution\_of\_node}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_contribution\_of\_node()}{SGA\_Stream\_contribution\_of\_node()}}
+{\footnotesize\ttfamily \label{metrics_8h_a321a69207e3143010840b5098dbc574f} 
+double SGA\+\_\+\+Stream\+\_\+contribution\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Compute the contribution of a node in the \doxylink{structStream}{Stream}. It is noted \$n\+\_\+v\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node to get the contribution of. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a1937d8594936fd8c6a94a0234b516fec}\label{metrics_8h_a1937d8594936fd8c6a94a0234b516fec}} 
-\index{metrics.h@{metrics.h}!Stream\_coverage@{Stream\_coverage}}
-\index{Stream\_coverage@{Stream\_coverage}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_coverage()}{Stream\_coverage()}}
-{\footnotesize\ttfamily double Stream\+\_\+coverage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The contribution of the node. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a6fc0aa70250cb72eab4ca4ac0d3bae8c}\index{metrics.h@{metrics.h}!SGA\_Stream\_coverage@{SGA\_Stream\_coverage}}
+\index{SGA\_Stream\_coverage@{SGA\_Stream\_coverage}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_coverage()}{SGA\_Stream\_coverage()}}
+{\footnotesize\ttfamily \label{metrics_8h_a6fc0aa70250cb72eab4ca4ac0d3bae8c} 
+double SGA\+\_\+\+Stream\+\_\+coverage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the coverage of the \doxylink{structStream}{Stream}. It is noted \$cov\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a7718e55a6a6da43ddf0949dc14bfc9cb}\label{metrics_8h_a7718e55a6a6da43ddf0949dc14bfc9cb}} 
-\index{metrics.h@{metrics.h}!Stream\_degree\_of\_node@{Stream\_degree\_of\_node}}
-\index{Stream\_degree\_of\_node@{Stream\_degree\_of\_node}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_degree\_of\_node()}{Stream\_degree\_of\_node()}}
-{\footnotesize\ttfamily double Stream\+\_\+degree\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Node\+Id}]{node\+\_\+id }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The coverage of the \doxylink{structStream}{Stream}. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a51cdbf865f594fc2a03dbec988fc0b5c}\index{metrics.h@{metrics.h}!SGA\_Stream\_degree\_of\_node@{SGA\_Stream\_degree\_of\_node}}
+\index{SGA\_Stream\_degree\_of\_node@{SGA\_Stream\_degree\_of\_node}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_degree\_of\_node()}{SGA\_Stream\_degree\_of\_node()}}
+{\footnotesize\ttfamily \label{metrics_8h_a51cdbf865f594fc2a03dbec988fc0b5c} 
+double SGA\+\_\+\+Stream\+\_\+degree\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node to get the degree of. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a1cbac88c4bd6b16c22a761f8476213c9}\label{metrics_8h_a1cbac88c4bd6b16c22a761f8476213c9}} 
-\index{metrics.h@{metrics.h}!Stream\_density@{Stream\_density}}
-\index{Stream\_density@{Stream\_density}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_density()}{Stream\_density()}}
-{\footnotesize\ttfamily double Stream\+\_\+density (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_a090dfb59208803c054a0c83e6ed7bf13}\index{metrics.h@{metrics.h}!SGA\_Stream\_density@{SGA\_Stream\_density}}
+\index{SGA\_Stream\_density@{SGA\_Stream\_density}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_density()}{SGA\_Stream\_density()}}
+{\footnotesize\ttfamily \label{metrics_8h_a090dfb59208803c054a0c83e6ed7bf13} 
+double SGA\+\_\+\+Stream\+\_\+density (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the density of the \doxylink{structStream}{Stream}. It is noted \$δ\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_af79ae210fa8212775cdb13aaeaf51bb6}\label{metrics_8h_af79ae210fa8212775cdb13aaeaf51bb6}} 
-\index{metrics.h@{metrics.h}!Stream\_density\_at\_instant@{Stream\_density\_at\_instant}}
-\index{Stream\_density\_at\_instant@{Stream\_density\_at\_instant}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_density\_at\_instant()}{Stream\_density\_at\_instant()}}
-{\footnotesize\ttfamily double Stream\+\_\+density\+\_\+at\+\_\+instant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Time\+Id}]{time\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_a1bcb9243e9df6544d27b8367f596ed1a}\index{metrics.h@{metrics.h}!SGA\_Stream\_density\_at\_instant@{SGA\_Stream\_density\_at\_instant}}
+\index{SGA\_Stream\_density\_at\_instant@{SGA\_Stream\_density\_at\_instant}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_density\_at\_instant()}{SGA\_Stream\_density\_at\_instant()}}
+{\footnotesize\ttfamily \label{metrics_8h_a1bcb9243e9df6544d27b8367f596ed1a} 
+double SGA\+\_\+\+Stream\+\_\+density\+\_\+at\+\_\+instant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Time\+Id}]{time\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em time\+\_\+id} & The instant to get the density at. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a947b5589738f1430fe3218ad22397a5b}\label{metrics_8h_a947b5589738f1430fe3218ad22397a5b}} 
-\index{metrics.h@{metrics.h}!Stream\_density\_of\_link@{Stream\_density\_of\_link}}
-\index{Stream\_density\_of\_link@{Stream\_density\_of\_link}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_density\_of\_link()}{Stream\_density\_of\_link()}}
-{\footnotesize\ttfamily double Stream\+\_\+density\+\_\+of\+\_\+link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Link\+Id}]{link\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_acc38379172b5363108269b660620abf7}\index{metrics.h@{metrics.h}!SGA\_Stream\_density\_of\_link@{SGA\_Stream\_density\_of\_link}}
+\index{SGA\_Stream\_density\_of\_link@{SGA\_Stream\_density\_of\_link}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_density\_of\_link()}{SGA\_Stream\_density\_of\_link()}}
+{\footnotesize\ttfamily \label{metrics_8h_acc38379172b5363108269b660620abf7} 
+double SGA\+\_\+\+Stream\+\_\+density\+\_\+of\+\_\+link (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
 
 Named density of a pair of nodes in the paper. 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em link\+\_\+id} & The id of the link to get the density of. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a93c22db60ca580936b5b4b0970ed4dac}\label{metrics_8h_a93c22db60ca580936b5b4b0970ed4dac}} 
-\index{metrics.h@{metrics.h}!Stream\_density\_of\_node@{Stream\_density\_of\_node}}
-\index{Stream\_density\_of\_node@{Stream\_density\_of\_node}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_density\_of\_node()}{Stream\_density\_of\_node()}}
-{\footnotesize\ttfamily double Stream\+\_\+density\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Node\+Id}]{node\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_aeb253e2a0f7dfc58aca81ad1474eea54}\index{metrics.h@{metrics.h}!SGA\_Stream\_density\_of\_node@{SGA\_Stream\_density\_of\_node}}
+\index{SGA\_Stream\_density\_of\_node@{SGA\_Stream\_density\_of\_node}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_density\_of\_node()}{SGA\_Stream\_density\_of\_node()}}
+{\footnotesize\ttfamily \label{metrics_8h_aeb253e2a0f7dfc58aca81ad1474eea54} 
+double SGA\+\_\+\+Stream\+\_\+density\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node to get the density of. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_afe6b432984c245e24c8c13bef6b36775}\label{metrics_8h_afe6b432984c245e24c8c13bef6b36775}} 
-\index{metrics.h@{metrics.h}!Stream\_link\_contribution\_at\_instant@{Stream\_link\_contribution\_at\_instant}}
-\index{Stream\_link\_contribution\_at\_instant@{Stream\_link\_contribution\_at\_instant}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_link\_contribution\_at\_instant()}{Stream\_link\_contribution\_at\_instant()}}
-{\footnotesize\ttfamily double Stream\+\_\+link\+\_\+contribution\+\_\+at\+\_\+instant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Time\+Id}]{time\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_a8be329011584d504d6ffec3a4b4654bc}\index{metrics.h@{metrics.h}!SGA\_Stream\_distinct\_cardinal\_of\_link\_set@{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}}
+\index{SGA\_Stream\_distinct\_cardinal\_of\_link\_set@{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_distinct\_cardinal\_of\_link\_set()}{SGA\_Stream\_distinct\_cardinal\_of\_link\_set()}}
+{\footnotesize\ttfamily \label{metrics_8h_a8be329011584d504d6ffec3a4b4654bc} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the distinct cardinal of link set of a \doxylink{structStream}{Stream}. It isn\textquotesingle{}t defined in the paper. It is defined as the number of distinct links present in the \doxylink{structStream}{Stream}. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distinct cardinal of the link set. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a7bf36a4c55f1f803ec12da687b2403f4}\index{metrics.h@{metrics.h}!SGA\_Stream\_distinct\_cardinal\_of\_node\_set@{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}}
+\index{SGA\_Stream\_distinct\_cardinal\_of\_node\_set@{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_distinct\_cardinal\_of\_node\_set()}{SGA\_Stream\_distinct\_cardinal\_of\_node\_set()}}
+{\footnotesize\ttfamily \label{metrics_8h_a7bf36a4c55f1f803ec12da687b2403f4} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the distinct cardinal of node set of a \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} in the paper. It is defined as the number of distinct nodes present in the \doxylink{structStream}{Stream}. For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distinct cardinal of the node set. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a665bb878f964e612c190f431dc710652}\index{metrics.h@{metrics.h}!SGA\_Stream\_duration@{SGA\_Stream\_duration}}
+\index{SGA\_Stream\_duration@{SGA\_Stream\_duration}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_duration()}{SGA\_Stream\_duration()}}
+{\footnotesize\ttfamily \label{metrics_8h_a665bb878f964e612c190f431dc710652} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the duration of the \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} in the paper. It is defined as the length of its lifespan. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The duration of the \doxylink{structStream}{Stream}.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+In the paper, T is defined as a set of time instants, meaning it could be split in multiple intervals. Here, we consider it as a single interval. 
+\end{DoxyNote}
+\Hypertarget{metrics_8h_ae37989af8c58e7b04025265864c614c9}\index{metrics.h@{metrics.h}!SGA\_Stream\_link\_contribution\_at\_instant@{SGA\_Stream\_link\_contribution\_at\_instant}}
+\index{SGA\_Stream\_link\_contribution\_at\_instant@{SGA\_Stream\_link\_contribution\_at\_instant}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_link\_contribution\_at\_instant()}{SGA\_Stream\_link\_contribution\_at\_instant()}}
+{\footnotesize\ttfamily \label{metrics_8h_ae37989af8c58e7b04025265864c614c9} 
+double SGA\+\_\+\+Stream\+\_\+link\+\_\+contribution\+\_\+at\+\_\+instant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Time\+Id}]{time\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Compute the link contribution at a given instant in the \doxylink{structStream}{Stream}. It is noted \$l\+\_\+t\$ in the paper. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em time\+\_\+id} & The instant to get the contribution at. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a0587864a897d23cac05a2ef7439e89fd}\label{metrics_8h_a0587864a897d23cac05a2ef7439e89fd}} 
-\index{metrics.h@{metrics.h}!Stream\_link\_duration@{Stream\_link\_duration}}
-\index{Stream\_link\_duration@{Stream\_link\_duration}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_link\_duration()}{Stream\_link\_duration()}}
-{\footnotesize\ttfamily double Stream\+\_\+link\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The link contribution at the instant. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a92db2a07174bf1d1962a711b87f2b66a}\index{metrics.h@{metrics.h}!SGA\_Stream\_link\_duration@{SGA\_Stream\_link\_duration}}
+\index{SGA\_Stream\_link\_duration@{SGA\_Stream\_link\_duration}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_link\_duration()}{SGA\_Stream\_link\_duration()}}
+{\footnotesize\ttfamily \label{metrics_8h_a92db2a07174bf1d1962a711b87f2b66a} 
+double SGA\+\_\+\+Stream\+\_\+link\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the link duration of the \doxylink{structStream}{Stream}. It is noted \$l\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a433af043086448858f5bc38f99f1aefe}\label{metrics_8h_a433af043086448858f5bc38f99f1aefe}} 
-\index{metrics.h@{metrics.h}!Stream\_node\_clustering\_coeff@{Stream\_node\_clustering\_coeff}}
-\index{Stream\_node\_clustering\_coeff@{Stream\_node\_clustering\_coeff}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_node\_clustering\_coeff()}{Stream\_node\_clustering\_coeff()}}
-{\footnotesize\ttfamily double Stream\+\_\+node\+\_\+clustering\+\_\+coeff (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The link duration of the \doxylink{structStream}{Stream}. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a16b834a99d761eaf4b418809b4be8706}\index{metrics.h@{metrics.h}!SGA\_Stream\_node\_clustering\_coeff@{SGA\_Stream\_node\_clustering\_coeff}}
+\index{SGA\_Stream\_node\_clustering\_coeff@{SGA\_Stream\_node\_clustering\_coeff}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_node\_clustering\_coeff()}{SGA\_Stream\_node\_clustering\_coeff()}}
+{\footnotesize\ttfamily \label{metrics_8h_a16b834a99d761eaf4b418809b4be8706} 
+double SGA\+\_\+\+Stream\+\_\+node\+\_\+clustering\+\_\+coeff (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a853f788384d68081c0deb434a006e9c1}\label{metrics_8h_a853f788384d68081c0deb434a006e9c1}} 
-\index{metrics.h@{metrics.h}!Stream\_node\_contribution\_at\_instant@{Stream\_node\_contribution\_at\_instant}}
-\index{Stream\_node\_contribution\_at\_instant@{Stream\_node\_contribution\_at\_instant}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_node\_contribution\_at\_instant()}{Stream\_node\_contribution\_at\_instant()}}
-{\footnotesize\ttfamily double Stream\+\_\+node\+\_\+contribution\+\_\+at\+\_\+instant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream,  }\item[{Time\+Id}]{time\+\_\+id }\end{DoxyParamCaption})}
+\Hypertarget{metrics_8h_afc1b45ef152674859f077aa98377c189}\index{metrics.h@{metrics.h}!SGA\_Stream\_node\_contribution\_at\_instant@{SGA\_Stream\_node\_contribution\_at\_instant}}
+\index{SGA\_Stream\_node\_contribution\_at\_instant@{SGA\_Stream\_node\_contribution\_at\_instant}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_node\_contribution\_at\_instant()}{SGA\_Stream\_node\_contribution\_at\_instant()}}
+{\footnotesize\ttfamily \label{metrics_8h_afc1b45ef152674859f077aa98377c189} 
+double SGA\+\_\+\+Stream\+\_\+node\+\_\+contribution\+\_\+at\+\_\+instant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{Time\+Id}]{time\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Compute the node contribution at a given instant in the \doxylink{structStream}{Stream}. It is noted \$k\+\_\+t\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \mbox{\texttt{ in}}  & {\em time\+\_\+id} & The instant to get the contribution at. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_aef09e97fd5895cb11693874b76cb1c3f}\label{metrics_8h_aef09e97fd5895cb11693874b76cb1c3f}} 
-\index{metrics.h@{metrics.h}!Stream\_node\_duration@{Stream\_node\_duration}}
-\index{Stream\_node\_duration@{Stream\_node\_duration}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_node\_duration()}{Stream\_node\_duration()}}
-{\footnotesize\ttfamily double Stream\+\_\+node\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The node contribution at the instant. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_ac45151c1b3de45e3ea56379cf777cb67}\index{metrics.h@{metrics.h}!SGA\_Stream\_node\_duration@{SGA\_Stream\_node\_duration}}
+\index{SGA\_Stream\_node\_duration@{SGA\_Stream\_node\_duration}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_node\_duration()}{SGA\_Stream\_node\_duration()}}
+{\footnotesize\ttfamily \label{metrics_8h_ac45151c1b3de45e3ea56379cf777cb67} 
+double SGA\+\_\+\+Stream\+\_\+node\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the node duration of the \doxylink{structStream}{Stream}. It is noted \$k\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a0b9fbd99e611df44a4261307f057a0d9}\label{metrics_8h_a0b9fbd99e611df44a4261307f057a0d9}} 
-\index{metrics.h@{metrics.h}!Stream\_number\_of\_links@{Stream\_number\_of\_links}}
-\index{Stream\_number\_of\_links@{Stream\_number\_of\_links}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_number\_of\_links()}{Stream\_number\_of\_links()}}
-{\footnotesize\ttfamily double Stream\+\_\+number\+\_\+of\+\_\+links (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The node duration of the \doxylink{structStream}{Stream}. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a956c08e9d67ca05ca04e3e7b4a48f7de}\index{metrics.h@{metrics.h}!SGA\_Stream\_number\_of\_links@{SGA\_Stream\_number\_of\_links}}
+\index{SGA\_Stream\_number\_of\_links@{SGA\_Stream\_number\_of\_links}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_number\_of\_links()}{SGA\_Stream\_number\_of\_links()}}
+{\footnotesize\ttfamily \label{metrics_8h_a956c08e9d67ca05ca04e3e7b4a48f7de} 
+double SGA\+\_\+\+Stream\+\_\+number\+\_\+of\+\_\+links (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the number of links in the \doxylink{structStream}{Stream}. It is noted \$m\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a28de2a7b573f24b27b5f0b329d8697db}\label{metrics_8h_a28de2a7b573f24b27b5f0b329d8697db}} 
-\index{metrics.h@{metrics.h}!Stream\_number\_of\_nodes@{Stream\_number\_of\_nodes}}
-\index{Stream\_number\_of\_nodes@{Stream\_number\_of\_nodes}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_number\_of\_nodes()}{Stream\_number\_of\_nodes()}}
-{\footnotesize\ttfamily double Stream\+\_\+number\+\_\+of\+\_\+nodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The number of links in the \doxylink{structStream}{Stream}. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a430aaaf295657f6ab38f7c3ba8b86690}\index{metrics.h@{metrics.h}!SGA\_Stream\_number\_of\_nodes@{SGA\_Stream\_number\_of\_nodes}}
+\index{SGA\_Stream\_number\_of\_nodes@{SGA\_Stream\_number\_of\_nodes}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_number\_of\_nodes()}{SGA\_Stream\_number\_of\_nodes()}}
+{\footnotesize\ttfamily \label{metrics_8h_a430aaaf295657f6ab38f7c3ba8b86690} 
+double SGA\+\_\+\+Stream\+\_\+number\+\_\+of\+\_\+nodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the number of nodes in the \doxylink{structStream}{Stream}. It is noted \$n\$ in the paper. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{metrics_8h_a8f6d7c0e23f83c84693284611228c59f}\label{metrics_8h_a8f6d7c0e23f83c84693284611228c59f}} 
-\index{metrics.h@{metrics.h}!Stream\_uniformity@{Stream\_uniformity}}
-\index{Stream\_uniformity@{Stream\_uniformity}!metrics.h@{metrics.h}}
-\doxysubsubsection{\texorpdfstring{Stream\_uniformity()}{Stream\_uniformity()}}
-{\footnotesize\ttfamily double Stream\+\_\+uniformity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structStream}{Stream}} $\ast$}]{stream }\end{DoxyParamCaption})}
+\begin{DoxyReturn}{Returns}
+The number of nodes in the \doxylink{structStream}{Stream}. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_abed366c44e1691e90a930721f1570bd0}\index{metrics.h@{metrics.h}!SGA\_Stream\_temporal\_cardinal\_of\_link\_set@{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}}
+\index{SGA\_Stream\_temporal\_cardinal\_of\_link\_set@{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_temporal\_cardinal\_of\_link\_set()}{SGA\_Stream\_temporal\_cardinal\_of\_link\_set()}}
+{\footnotesize\ttfamily \label{metrics_8h_abed366c44e1691e90a930721f1570bd0} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the temporal cardinal of link set of a \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all links. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \mbox{\hyperlink{structStream}{Stream}}. \\
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The temporal cardinal of the link set. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_ad09d1c80c5d3e5a77559998bed4343c4}\index{metrics.h@{metrics.h}!SGA\_Stream\_temporal\_cardinal\_of\_node\_set@{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}}
+\index{SGA\_Stream\_temporal\_cardinal\_of\_node\_set@{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_temporal\_cardinal\_of\_node\_set()}{SGA\_Stream\_temporal\_cardinal\_of\_node\_set()}}
+{\footnotesize\ttfamily \label{metrics_8h_ad09d1c80c5d3e5a77559998bed4343c4} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the temporal cardinal of node set of a \doxylink{structStream}{Stream}. It is noted \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all nodes. For example, if the stream contains 2 nodes A present at \mbox{[}0, 2\mbox{[} and B present at \mbox{[}1, 4\mbox{[}, the temporal cardinal of the node set is (2 -\/ 0) + (4 -\/ 1) = 2 + 3 = 5. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The temporal cardinal of the node set. 
+\end{DoxyReturn}
+\Hypertarget{metrics_8h_a5a918ea31ade0db5dfec2bf3fabccb34}\index{metrics.h@{metrics.h}!SGA\_Stream\_uniformity@{SGA\_Stream\_uniformity}}
+\index{SGA\_Stream\_uniformity@{SGA\_Stream\_uniformity}!metrics.h@{metrics.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_uniformity()}{SGA\_Stream\_uniformity()}}
+{\footnotesize\ttfamily \label{metrics_8h_a5a918ea31ade0db5dfec2bf3fabccb34} 
+double SGA\+\_\+\+Stream\+\_\+uniformity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the uniformity of the \doxylink{structStream}{Stream}. It is noted \$⋓\$ in the paper. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The uniformity of the \doxylink{structStream}{Stream}. 
+\end{DoxyReturn}

@@ -6,8 +6,8 @@
 #include <unistd.h>
 
 bool test_walk_a_c() {
-	StreamGraph sg = StreamGraph_from_external("data/L.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	bool result = true;
 
@@ -23,8 +23,8 @@ bool test_walk_a_c() {
 	// printf("w2 %s\n", Walk_to_string(&w2_walk).data);
 	WalkInfo_destroy(w2);
 
-	StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
-	Stream st2	= FullStreamGraph_from(&sg2);
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
 	WalkInfo w3  = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
 	Walk w3_walk = WalkInfo_unwrap_checked(w3);
@@ -38,10 +38,10 @@ bool test_walk_a_c() {
 	// printf("w4 %s\n", Walk_to_string(&w4_walk).data);
 	WalkInfo_destroy(w4);
 
-	StreamGraph_destroy(sg);
-	StreamGraph_destroy(sg2);
-	FullStreamGraph_destroy(st);
-	FullStreamGraph_destroy(st2);
+	SGA_StreamGraph_destroy(sg);
+	SGA_StreamGraph_destroy(sg2);
+	SGA_FullStreamGraph_destroy(st);
+	SGA_FullStreamGraph_destroy(st2);
 
 	return result;
 }
@@ -51,12 +51,12 @@ bool test_walk_optimal() {
 	// FullStreamGraph fsg = (FullStreamGraph){
 	// 	.underlying_stream_graph = &sg,
 	// };
-	// Stream st = (Stream){
+	// SGA_Stream st = (SGA_Stream){
 	// 	.type = FULL_STREAM_GRAPH,
 	// 	.stream = &fsg,
 	// };
-	StreamGraph sg = StreamGraph_from_external("data/test.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
 	WalkInfoArrayList walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
@@ -67,16 +67,16 @@ bool test_walk_optimal() {
 		String_destroy(str);
 	}
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
 	WalkInfoArrayList_destroy(walks);
 
 	return true;
 }
 
 bool test_fastest_shortest() {
-	StreamGraph sg = StreamGraph_from_external("data/L.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
 	WalkInfo w = Stream_fastest_shortest_walk(&st, 0, 3, 0);
@@ -84,8 +84,8 @@ bool test_fastest_shortest() {
 	printf("w %s\n", str.data);
 	String_destroy(str);
 
-	StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
-	Stream st2	= FullStreamGraph_from(&sg2);
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
 	WalkInfo w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
 	str	    = WalkInfo_to_string(&w2);
@@ -97,10 +97,10 @@ bool test_fastest_shortest() {
 	printf("w3 %s\n", str.data);
 	String_destroy(str);
 
-	StreamGraph_destroy(sg);
-	StreamGraph_destroy(sg2);
-	FullStreamGraph_destroy(st);
-	FullStreamGraph_destroy(st2);
+	SGA_StreamGraph_destroy(sg);
+	SGA_StreamGraph_destroy(sg2);
+	SGA_FullStreamGraph_destroy(st);
+	SGA_FullStreamGraph_destroy(st2);
 	WalkInfo_destroy(w);
 	WalkInfo_destroy(w2);
 	WalkInfo_destroy(w3);
@@ -109,8 +109,8 @@ bool test_fastest_shortest() {
 }
 
 bool test_fastest() {
-	StreamGraph sg = StreamGraph_from_external("data/L.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	bool result = true;
 
@@ -135,11 +135,11 @@ bool test_fastest() {
 	// printf("w3 %s\n", Walk_to_string(&w3_walk).data);
 	WalkInfo_destroy(w3);
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
 
-	StreamGraph sg2 = StreamGraph_from_external("data/test.txt");
-	Stream st2	= FullStreamGraph_from(&sg2);
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
 	WalkInfo w4  = Stream_fastest_walk(&st2, 0, 3, 5);
 	Walk w4_walk = WalkInfo_unwrap_checked(w4);
@@ -153,31 +153,31 @@ bool test_fastest() {
 	result &= EXPECT_EQ(w5.result.no_walk_reason.reason.unreachable_after, 9);
 	WalkInfo_destroy(w5);
 
-	StreamGraph_destroy(sg2);
-	FullStreamGraph_destroy(st2);
+	SGA_StreamGraph_destroy(sg2);
+	SGA_FullStreamGraph_destroy(st2);
 
 	return result;
 }
 
 bool test_walk_node_not_present() {
-	bool correct   = true;
-	StreamGraph sg = StreamGraph_from_external("data/bridge.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	bool correct	   = true;
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/bridge.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	WalkInfo wi = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
 	Walk w	    = WalkInfo_unwrap_checked(wi);
 	correct &= EXPECT(Walk_goes_through(&w, st, 3, 0, 1, 2, 3));
 	WalkInfo_destroy(wi);
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
 	return correct;
 }
 
 // NOTE: I realised the definition of betweenness is more complicated than I
 // thought So ignore these tests for now bool test_betweenness_of_node_at_time()
 // { 	StreamGraph sg = StreamGraph_from_external("data/fig_18_left.txt");
-// Stream st = FullStreamGraph_from(&sg); 	printf("Loaded graph\n");
+// SGA_Stream st = FullStreamGraph_from(&sg); 	printf("Loaded graph\n");
 
 // 	double b_2_v = betweenness_of_node_at_time(&st, 1, 2);
 // 	double b_3_v = betweenness_of_node_at_time(&st, 1, 3);
@@ -188,7 +188,7 @@ bool test_walk_node_not_present() {
 
 // bool test_betweenness_of_node_at_time_2() {
 // 	StreamGraph sg = StreamGraph_from_external("data/fig_19_L4.txt");
-// 	Stream st = FullStreamGraph_from(&sg);
+// 	SGA_Stream st = FullStreamGraph_from(&sg);
 // 	printf("Loaded graph\n");
 
 // 	double b_35_v = betweenness_of_node_at_time(&st, 2, 3.5);
@@ -199,26 +199,26 @@ bool test_walk_node_not_present() {
 // }
 
 bool test_robustness_length_of_1() {
-	StreamGraph sg = StreamGraph_from_external("data/robustness_1.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/robustness_1.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	double robustness = Stream_robustness_by_length(&st);
 	bool success	  = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
 
-	FullStreamGraph_destroy(st);
-	StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	return success;
 }
 
 bool test_robustness_duration_of_1() {
-	StreamGraph sg = StreamGraph_from_external("data/robustness_1.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/robustness_1.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	double robustness = Stream_robustness_by_duration(&st);
 	bool success	  = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
 
-	FullStreamGraph_destroy(st);
-	StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	return success;
 }
 

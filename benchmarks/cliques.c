@@ -1,21 +1,21 @@
 #include "../src/analysis/cliques.h"
 #include "../src/stream.h"
-#include "../src/stream_wrappers.h"
+#include "../src/streams.h"
 #include "benchmark.h"
 
-Stream st;
+SGA_Stream st;
 
 DONT_OPTIMISE void benchmark_maximal_cliques() {
-	CliqueArrayList cliques = Stream_maximal_cliques(&st);
-	CliqueArrayList_destroy(cliques);
+	SGA_CliqueArrayList cliques = SGA_Stream_maximal_cliques(&st);
+	SGA_CliqueArrayList_destroy(cliques);
 	// CliqueArrayList cliques = maximal_cliques(&st);
 	// CliqueArrayList cliques = maximal_cliques(&sg);
 	// CliqueArrayList cliques = maximal_cliques(&v);
 }
 
 int main() {
-	StreamGraph sg = StreamGraph_from_external("data/cliques.txt");
-	st			   = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/cliques.txt");
+	st		   = SGA_FullStreamGraph_from(&sg);
 
 	// CliqueArrayList cliques = maximal_cliques(&st);
 	// CliqueArrayList cliques = maximal_cliques(&sg);
@@ -28,18 +28,18 @@ int main() {
 
 	benchmark(benchmark_maximal_cliques, "maximal_cliques", 10000);
 
-	StreamGraph_destroy(sg);
+	SGA_StreamGraph_destroy(sg);
 
-	sg = StreamGraph_from_external("data/LS_90.txt");
-	st = FullStreamGraph_from(&sg);
+	sg = SGA_StreamGraph_from_external("data/LS_90.txt");
+	st = SGA_FullStreamGraph_from(&sg);
 
 	benchmark(benchmark_maximal_cliques, "maximal_cliques LS_90", 10);
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
 
-	/*sg = StreamGraph_from_external("data/LS_90.txt");
-	st = FullStreamGraph_from(&sg);
+	/*sg = SGA_StreamGraph_from_external("data/LS_90.txt");
+	st = SGA_FullStreamGraph_from(&sg);
 
 	LinkArrayList_destroy(v);
 	v = LinkArrayList_new();
@@ -50,13 +50,13 @@ int main() {
 
 	benchmark(benchmark_maximal_cliques, "maximal_cliques", 10);*/
 
-	sg = StreamGraph_from_external("data/facebooklike_1_transformed.txt");
-	st = FullStreamGraph_from(&sg);
+	sg = SGA_StreamGraph_from_external("data/facebooklike_1_transformed.txt");
+	st = SGA_FullStreamGraph_from(&sg);
 
 	benchmark(benchmark_maximal_cliques, "maximal_cliques facebooklike", 10);
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
 
 	return 0;
 }

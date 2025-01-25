@@ -1,10 +1,12 @@
+#define SGA_INTERNAL
+
 #include "links_set.h"
 #include "../utils.h"
 
 LinksSet LinksSet_alloc(size_t nb_links) {
 	LinksSet set = {
-		.nb_links = nb_links,
-		.links	  = MALLOC(nb_links * sizeof(Link)),
+	    .nb_links = nb_links,
+	    .links    = MALLOC(nb_links * sizeof(Link)),
 	};
 	return set;
 }

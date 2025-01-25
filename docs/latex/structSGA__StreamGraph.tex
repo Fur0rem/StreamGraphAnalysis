@@ -1,0 +1,52 @@
+\doxysection{SGA\+\_\+\+Stream\+Graph Struct Reference}
+\hypertarget{structSGA__StreamGraph}{}\label{structSGA__StreamGraph}\index{SGA\_StreamGraph@{SGA\_StreamGraph}}
+
+
+The internal implementation of a Stream\+Graph.  
+
+
+
+
+\doxysubsection{Detailed Description}
+The internal implementation of a Stream\+Graph. 
+
+{\ttfamily \#include $<$stream.\+h$>$}
+
+
+
+Collaboration diagram for SGA\+\_\+\+Stream\+Graph\+:
+% FIG 0
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structSGA__StreamGraph_aa6545dccd4518dde86c1772f844e1f49}\label{structSGA__StreamGraph_aa6545dccd4518dde86c1772f844e1f49} 
+\mbox{\hyperlink{structKeyMomentsTable}{Key\+Moments\+Table}} {\bfseries key\+\_\+moments}
+\begin{DoxyCompactList}\small\item\em Key moments of the Stream\+Graph. A key moment is a moment where the Stream\+Graph changes. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__StreamGraph_a452cddb1c0e6a0c7f47b007979fe9abe}\label{structSGA__StreamGraph_a452cddb1c0e6a0c7f47b007979fe9abe} 
+\mbox{\hyperlink{structNodesSet}{Nodes\+Set}} {\bfseries nodes}
+\begin{DoxyCompactList}\small\item\em The nodes of the Stream\+Graph. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__StreamGraph_a01c4a3b8a9aa603938f08c025a73206a}\label{structSGA__StreamGraph_a01c4a3b8a9aa603938f08c025a73206a} 
+\mbox{\hyperlink{structLinksSet}{Links\+Set}} {\bfseries links}
+\begin{DoxyCompactList}\small\item\em The links of the Stream\+Graph. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__StreamGraph_a1d0b74b97a8b4445fe9f28f89184bd12}\label{structSGA__StreamGraph_a1d0b74b97a8b4445fe9f28f89184bd12} 
+\mbox{\hyperlink{structInterval}{Interval}} {\bfseries lifespan}
+\begin{DoxyCompactList}\small\item\em The time interval of the Stream\+Graph. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__StreamGraph_a753a24bef68c5fb3b8309c8b643a3955}\label{structSGA__StreamGraph_a753a24bef68c5fb3b8309c8b643a3955} 
+size\+\_\+t {\bfseries time\+\_\+scale}
+\begin{DoxyCompactList}\small\item\em By how much the time is scaled. Used to normalise many time-\/related metrics. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structEventsTable}{Events\+Table}} \mbox{\hyperlink{structSGA__StreamGraph_ad269df9026ff816a66b3deb2b4e5bd21}{events}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structSGA__StreamGraph_ad269df9026ff816a66b3deb2b4e5bd21}\index{SGA\_StreamGraph@{SGA\_StreamGraph}!events@{events}}
+\index{events@{events}!SGA\_StreamGraph@{SGA\_StreamGraph}}
+\doxysubsubsection{\texorpdfstring{events}{events}}
+{\footnotesize\ttfamily \label{structSGA__StreamGraph_ad269df9026ff816a66b3deb2b4e5bd21} 
+\mbox{\hyperlink{structEventsTable}{Events\+Table}} SGA\+\_\+\+Stream\+Graph\+::events}
+
+The events of the Stream\+Graph. An event keeps track of additions and removals of nodes and links. Needs to be initialised separately with init\+\_\+events\+\_\+table. As it is quite memory and time consuming, and not needed in all cases. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{stream_8h}{stream.\+h}}\end{DoxyCompactItemize}

@@ -1,10 +1,10 @@
-#ifndef BIT_ARRAY_H
-#define BIT_ARRAY_H
-
 /**
  * @file bit_array.h
  * @brief A variable length array of bits and functions to manipulate it.
  */
+
+#ifndef BIT_ARRAY_H
+#define BIT_ARRAY_H
 
 #include "utils.h"
 #include <stdbool.h>
@@ -14,16 +14,12 @@ typedef size_t BitArraySlice;
 
 /**
  * @brief The structure of a variable length array of bits.
- *
- * It contains the number of bits present in the array and the array of bits.
- * The bits are stored in an array of int's.
- * I used an array of int to have less computations to do when oring or anding two arrays.
- * It is not possible to go higher than an int otherwise some functions will not work.
  */
-typedef struct {
-	size_t nb_bits;	     /**< The number of bits in the array. */
-	BitArraySlice* bits; /**< The array of bits. */
-} BitArray;
+typedef struct BitArray BitArray;
+struct BitArray {
+	size_t nb_bits;	     ///< The number of bits in the array.
+	BitArraySlice* bits; ///< The array of bits.
+};
 
 /**
  * @name Creation and destruction functions
@@ -41,8 +37,8 @@ typedef struct {
  */
 BitArray BitArray_with_n_bits(size_t nb_bits);
 
-BitArray BitArray_n_zeros(size_t nb_bits); /**< Like BitArray_with_n_bits but initializes the bits to 0. */
-BitArray BitArray_n_ones(size_t nb_bits);  /**< Like BitArray_with_n_bits but initializes the bits to 1. */
+BitArray BitArray_n_zeros(size_t nb_bits); ///< Like BitArray_with_n_bits but initializes the bits to 0.
+BitArray BitArray_n_ones(size_t nb_bits);  ///< Like BitArray_with_n_bits but initializes the bits to 1.
 
 /**
  * @brief Destroys the given BitArray.
@@ -65,7 +61,7 @@ void BitArray_destroy(BitArray array);
  * @return Whether the bit at the given index is 1.
  */
 bool BitArray_is_one(BitArray array, size_t index);
-bool BitArray_is_zero(BitArray array, size_t index); /**< Like BitArray_is_one but returns whether the bit is 0. */
+bool BitArray_is_zero(BitArray array, size_t index); ///< Like BitArray_is_one but returns whether the bit is 0.
 
 /** @} */
 
@@ -82,14 +78,14 @@ bool BitArray_is_zero(BitArray array, size_t index); /**< Like BitArray_is_one b
  * @param[in] index The index of the bit.
  */
 void BitArray_set_one(BitArray array, size_t index);
-void BitArray_set_zero(BitArray array, size_t index); /**< Like BitArray_set_one but sets the bit to 0. */
+void BitArray_set_zero(BitArray array, size_t index); ///< Like BitArray_set_one but sets the bit to 0.
 
 /**
  * @brief Sets all the bits in the BitArray to 1.
  * @param[in, out] array The BitArray.
  */
 void BitArray_all_to_one(BitArray array);
-void BitArray_all_to_zero(BitArray array); /**< Like BitArray_set_all_ones but sets all the bits to 0. */
+void BitArray_all_to_zero(BitArray array); ///< Like BitArray_set_all_ones but sets all the bits to 0.
 
 /**
  * @brief Performs a bitwise and with the bit at the given index.
@@ -98,7 +94,7 @@ void BitArray_all_to_zero(BitArray array); /**< Like BitArray_set_all_ones but s
  * @param[in] value The value to and with the bit.
  */
 void BitArray_and_bit(BitArray array, size_t index, int value);
-void BitArray_or_bit(BitArray array, size_t index, int value); /**< Like BitArray_and_bit but performs a bitwise or. */
+void BitArray_or_bit(BitArray array, size_t index, int value); ///< Like BitArray_and_bit but performs a bitwise or.
 
 /** @} */
 
@@ -118,7 +114,7 @@ void BitArray_or_bit(BitArray array, size_t index, int value); /**< Like BitArra
  * @return The BitArray resulting from the bitwise and.
  */
 BitArray BitArray_and_array(BitArray array1, BitArray array2);
-BitArray BitArray_or_array(BitArray array1, BitArray array2); /**< Like BitArray_and_array but performs a bitwise or. */
+BitArray BitArray_or_array(BitArray array1, BitArray array2); ///< Like BitArray_and_array but performs a bitwise or.
 /**
  * @brief Returns the number of leading zeros in the BitArray starting from the given index.
  *
@@ -157,6 +153,11 @@ DeclareEquals(BitArray);
 
 /** @} */
 
+/**
+ * @brief Counts the number of 1s in the BitArray.
+ * @param[in] array The BitArray.
+ * @return The number of 1s in the BitArray.
+ */
 size_t BitArray_count_ones(const BitArray* array);
 
 #endif // BIT_ARRAY_H

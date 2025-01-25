@@ -1,0 +1,120 @@
+\doxysection{walks.\+h}
+\hypertarget{walks_8h_source}{}\label{walks_8h_source}\index{src/analysis/walks.h@{src/analysis/walks.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WALK\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WALK\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../units.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../utils.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ Forward\ declaration\ of\ TreeNode\ since\ it's\ used\ in\ TreeEdge\ before\ its\ full\ definition.}}
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTreeNode}{TreeNode}}\ \mbox{\hyperlink{structTreeNode}{TreeNode}};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ weight;}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structTreeNode}{TreeNode}}*\ child;\ \textcolor{comment}{//\ Use\ a\ pointer\ to\ TreeNode\ for\ the\ forward-\/declared\ type.}}
+\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structTreeEdge}{TreeEdge}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Function\ declarations\ that\ use\ TreeEdge.}}
+\DoxyCodeLine{00021\ DeclareToString(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
+\DoxyCodeLine{00022\ DeclareEquals(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ DeclareArrayList(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
+\DoxyCodeLine{00025\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
+\DoxyCodeLine{00026\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
+\DoxyCodeLine{00027\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ Now\ fully\ define\ TreeNode,\ after\ TreeEdge\ has\ been\ defined.}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTreeNode}{TreeNode}}\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ id;}
+\DoxyCodeLine{00032\ \ \ \ \ TreeEdgeArrayList\ children;\ \textcolor{comment}{//\ Assuming\ TreeEdgeArrayList\ is\ defined\ by\ DefArrayList\ macro.}}
+\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \mbox{\hyperlink{structTreeNode}{TreeNode}}\ TreeNode\_with\_id(\textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ TreeNode\_push\_child(\mbox{\hyperlink{structTreeNode}{TreeNode}}*\ node,\ \mbox{\hyperlink{structTreeEdge}{TreeEdge}}\ child);}
+\DoxyCodeLine{00037\ \mbox{\hyperlink{structTreeNode}{TreeNode}}\ exploration\_tree\_from\_stream(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00040\ \ \ \ \ LinkId\ link;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ time;}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ interval\_taken;}
+\DoxyCodeLine{00043\ \}\ \mbox{\hyperlink{structWalkStep}{WalkStep}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ DeclareToString(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00046\ DeclareEquals(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ DeclareArrayList(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00049\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00050\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00051\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00054\ \ \ \ \ NodeId\ start;}
+\DoxyCodeLine{00055\ \ \ \ \ NodeId\ end;}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ optimality;}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream;}
+\DoxyCodeLine{00058\ \ \ \ \ WalkStepArrayList\ steps;}
+\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{structWalk}{Walk}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ node\_absent\_between;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ TimeId\ unreachable\_after;}
+\DoxyCodeLine{00065\ \ \ \ \ \}\ reason;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ NODE\_ABSENT,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ UNREACHABLE}
+\DoxyCodeLine{00069\ \ \ \ \ \}\ type;}
+\DoxyCodeLine{00070\ \}\ \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structWalk}{Walk}}\ walk;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}}\ no\_walk\_reason;}
+\DoxyCodeLine{00076\ \ \ \ \ \}\ result;}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ WALK,}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ NO\_WALK}
+\DoxyCodeLine{00080\ \ \ \ \ \}\ type;}
+\DoxyCodeLine{00081\ \}\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ Stream\_shortest\_walk\_from\_to\_at(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,\ TimeId\ at);}
+\DoxyCodeLine{00084\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ Stream\_fastest\_shortest\_walk(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,\ TimeId\ at);}
+\DoxyCodeLine{00085\ DeclareToString(\mbox{\hyperlink{structWalk}{Walk}});}
+\DoxyCodeLine{00086\ DeclareEquals(\mbox{\hyperlink{structWalk}{Walk}});}
+\DoxyCodeLine{00087\ DeclareToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{00088\ DeclareEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{00089\ \textcolor{keywordtype}{void}\ Walk\_destroy(\mbox{\hyperlink{structWalk}{Walk}}\ walk);}
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{void}\ WalkInfo\_destroy(\mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ wi);}
+\DoxyCodeLine{00091\ DeclareArrayList(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{00092\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{00093\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{00094\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ WalkInfoArrayList\ optimal\_walks\_between\_two\_nodes(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ (*fn)(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*,\ NodeId,\ NodeId,\ TimeId));}
+\DoxyCodeLine{00098\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ Stream\_fastest\_walk(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,\ TimeId\ at);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keywordtype}{size\_t}\ Walk\_length(\mbox{\hyperlink{structWalk}{Walk}}*\ walk);}
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{size\_t}\ Walk\_duration(\mbox{\hyperlink{structWalk}{Walk}}*\ walk);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keywordtype}{double}\ Stream\_robustness\_by\_length(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{keywordtype}{bool}\ Walk\_goes\_through(\mbox{\hyperlink{structWalk}{Walk}}*\ walk,\ \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}\ stream,\ \textcolor{keywordtype}{size\_t}\ nb\_steps,\ ...);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \mbox{\hyperlink{structWalk}{Walk}}\ WalkInfo\_unwrap\_checked(\mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ info);}
+\DoxyCodeLine{00108\ \mbox{\hyperlink{structWalk}{Walk}}\ WalkInfo\_unwrap\_unchecked(\mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ info);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ TimeId\ Walk\_arrives\_at(\mbox{\hyperlink{structWalk}{Walk}}*\ walk);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{double}\ Stream\_robustness\_by\_duration(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WALK\_H}}
+
+\end{DoxyCode}

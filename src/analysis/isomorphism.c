@@ -1,8 +1,10 @@
+#define SGA_INTERNAL
+
 #include "isomorphism.h"
-#include "../metrics.h"
+#include "../analysis/metrics.h"
 #include "../stream.h"
 #include "../stream_functions.h"
-#include "../stream_wrappers.h"
+#include "../streams.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -34,8 +36,8 @@ bool check_interval_lists_match(IntervalArrayList* l1, IntervalArrayList* l2, si
 	return true;
 }
 
-bool check_all_possible_mappings(const Stream* s1, const Stream* s2, size_t n, IntervalArrayList** graph1, IntervalArrayList** graph2,
-				 int* mapping, bool* visited, int vertex, size_t universal_offset_amount) {
+bool check_all_possible_mappings(const SGA_Stream* s1, const SGA_Stream* s2, size_t n, IntervalArrayList** graph1,
+				 IntervalArrayList** graph2, int* mapping, bool* visited, int vertex, size_t universal_offset_amount) {
 	StreamFunctions fns1 = STREAM_FUNCS(fns1, s1);
 	StreamFunctions fns2 = STREAM_FUNCS(fns2, s2);
 
@@ -100,13 +102,14 @@ void print_adjacency_matrix(size_t n, IntervalArrayList** graph) {
 	printf("]\n");
 }
 
-bool are_isomorphic(const Stream* s1, const Stream* s2) {
+bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2) {
 	// Check if the two streamgraphs have the same number of nodes and links
-	if ((cardinalOfV(s1) != cardinalOfV(s2)) || (cardinalOfE(s1) != cardinalOfE(s2))) {
+	if ((SGA_Stream_distinct_cardinal_of_node_set(s1) != SGA_Stream_distinct_cardinal_of_node_set(s2)) ||
+	    (SGA_Stream_temporal_cardinal_of_link_set(s1) != SGA_Stream_temporal_cardinal_of_link_set(s2))) {
 		return false;
 	}
 
-	size_t nb_nodes = cardinalOfV(s1);
+	size_t nb_nodes = SGA_Stream_distinct_cardinal_of_node_set(s1);
 
 	StreamFunctions fns1 = STREAM_FUNCS(fns1, s1);
 	StreamFunctions fns2 = STREAM_FUNCS(fns2, s2);
@@ -239,15 +242,15 @@ bool are_isomorphic(const Stream* s1, const Stream* s2) {
 		return false;                                                                                                              \
 	}
 
-bool are_probably_isomorphic(const Stream* s1, const Stream* s2) {
-	COMPARE_METRIC(cardinalOfV, s1, s2);
-	COMPARE_METRIC(cardinalOfE, s1, s2);
-	COMPARE_METRIC(cardinalOfT, s1, s2);
-	COMPARE_METRIC(cardinalOfW, s1, s2);
+bool are_probably_isomorphic(SGA_Stream* s1, SGA_Stream* s2) {
+	COMPARE_METRIC(SGA_Stream_distinct_cardinal_of_node_set, s1, s2);
+	COMPARE_METRIC(SGA_Stream_temporal_cardinal_of_link_set, s1, s2);
+	COMPARE_METRIC(SGA_Stream_duration, s1, s2);
+	COMPARE_METRIC(SGA_Stream_temporal_cardinal_of_node_set, s1, s2);
 
-	COMPARE_METRIC(Stream_density, s1, s2);
-	COMPARE_METRIC(Stream_average_node_degree, s1, s2);
-	COMPARE_METRIC(Stream_uniformity, s1, s2);
+	COMPARE_METRIC(SGA_Stream_density, s1, s2);
+	COMPARE_METRIC(SGA_Stream_average_node_degree, s1, s2);
+	COMPARE_METRIC(SGA_Stream_uniformity, s1, s2);
 
 	return true;
 }

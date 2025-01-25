@@ -1,11 +1,16 @@
-#include "../units.h"
-#include "../utils.h"
-#include <stddef.h>
-#include <stdint.h>
+#ifndef SGA_KEY_MOMENTS_TABLE_H
+#	define SGA_KEY_MOMENTS_TABLE_H
+
+#	include "../units.h"
+#	include "../utils.h"
+#	include <stddef.h>
+#	include <stdint.h>
+
+// #ifdef SGA_INTERNAL
 
 typedef uint8_t RelativeMoment;
-#define RELATIVE_MOMENT_MAX ((RelativeMoment)~0)
-#define SLICE_SIZE			(((size_t)RELATIVE_MOMENT_MAX) + 1)
+#	define RELATIVE_MOMENT_MAX ((RelativeMoment)~0)
+#	define SLICE_SIZE	    (((size_t)RELATIVE_MOMENT_MAX) + 1)
 
 typedef struct {
 	size_t nb_moments;
@@ -39,3 +44,6 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);
 
 // size_t2ArrayList KeyMomentsTable_all_moments(KeyMomentsTable* kmt);
 void print_key_moments_table(KeyMomentsTable* kmt);
+#endif // SGA_INTERNAL
+
+// #endif // SGA_KEY_MOMENTS_TABLE_H

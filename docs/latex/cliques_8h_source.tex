@@ -1,0 +1,36 @@
+\doxysection{cliques.\+h}
+\hypertarget{cliques_8h_source}{}\label{cliques_8h_source}\index{src/analysis/cliques.h@{src/analysis/cliques.h}}
+\mbox{\hyperlink{cliques_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ CLIQUES\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ CLIQUES\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}../stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}../units.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}../utils.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00025\ \ \ \ \ TimeId\ \mbox{\hyperlink{structSGA__Clique_ad40731096f9bde099e45082fe0af3aad}{time\_start}};\ }
+\DoxyCodeLine{00026\ \ \ \ \ TimeId\ \mbox{\hyperlink{structSGA__Clique_a574799385b3b5cbfd175f74b8e76e068}{time\_end}};\ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ NodeId*\ \mbox{\hyperlink{structSGA__Clique_a0b0ad6b7c13f456f8db5e66c504e9f46}{nodes}};\ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structSGA__Clique_ac49048fe91871b0723f74dc08c3f58a8}{nb\_nodes}};\ \ \ }
+\DoxyCodeLine{00029\ \}\ \mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ DeclareToString(\mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}});}
+\DoxyCodeLine{00032\ DeclareEquals(\mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}});}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ DeclareArrayList(\mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}});}
+\DoxyCodeLine{00035\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}});}
+\DoxyCodeLine{00036\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}});}
+\DoxyCodeLine{00037\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structSGA__Clique}{SGA\_Clique}});}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00044\ SGA\_CliqueArrayList\ \mbox{\hyperlink{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\_Stream\_maximal\_cliques}}(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ st);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CLIQUES\_H}}
+
+\end{DoxyCode}

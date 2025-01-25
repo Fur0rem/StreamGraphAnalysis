@@ -1,3 +1,10 @@
+/**
+ * @file tests/link_stream.c
+ * @brief Tests regarding LinkStream
+ */
+
+#define SGA_INTERNAL
+
 #include "../StreamGraphAnalysis.h"
 #include "test.h"
 #include <stddef.h>
@@ -6,9 +13,8 @@
 #include <string.h>
 
 bool test_links_at_time_8() {
-	StreamGraph sg = StreamGraph_from_external("data/L.txt");
-	init_events_table(&sg);
-	Stream ls	      = LinkStream_from(&sg);
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	LinkIdArrayList links	 = SGA_collect_link_ids(funcs.links_present_at_t(ls.stream_data, 8));
@@ -18,39 +24,36 @@ bool test_links_at_time_8() {
 	String_destroy(str);
 	LinkIdArrayList_destroy(links);
 	LinkIdArrayList_destroy(expected);
-	events_destroy(&sg);
-	StreamGraph_destroy(sg);
-	LinkStream_destroy(ls);
+	SGA_StreamGraph_destroy(sg);
+	SGA_LinkStream_destroy(ls);
 	return true;
 }
 
 bool test_nodes_present() {
-	StreamGraph sg = StreamGraph_from_external("data/S_external.txt");
-	init_events_table(&sg);
-	Stream ls	      = LinkStream_from(&sg);
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	NodeIdArrayList nodes_expected = SGA_collect_node_ids(funcs.nodes_set(ls.stream_data));
 	bool nodes_present	       = true;
-	for (TimeId t = 0; t < StreamGraph_lifespan(&sg).end; t++) {
+	for (TimeId t = 0; t < SGA_StreamGraph_lifespan(&sg).end; t++) {
 		NodeIdArrayList nodes_present_at_t = SGA_collect_node_ids(funcs.nodes_present_at_t(ls.stream_data, t));
 		nodes_present &= EXPECT(NodeIdArrayList_equals(&nodes_present_at_t, &nodes_expected));
 		NodeIdArrayList_destroy(nodes_present_at_t);
 	}
 
 	NodeIdArrayList_destroy(nodes_expected);
-	events_destroy(&sg);
-	StreamGraph_destroy(sg);
-	LinkStream_destroy(ls);
+	SGA_StreamGraph_destroy(sg);
+	SGA_LinkStream_destroy(ls);
 	return nodes_present;
 }
 
 bool test_nodes_presence() {
-	StreamGraph sg	      = StreamGraph_from_external("data/S_external.txt");
-	Stream ls	      = LinkStream_from(&sg);
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
-	Interval interval	    = StreamGraph_lifespan(&sg);
+	Interval interval	    = SGA_StreamGraph_lifespan(&sg);
 	IntervalArrayList intervals = IntervalArrayList_with_capacity(1);
 	IntervalArrayList_push(&intervals, interval);
 
@@ -63,15 +66,15 @@ bool test_nodes_presence() {
 	}
 
 	IntervalArrayList_destroy(intervals);
-	StreamGraph_destroy(sg);
-	LinkStream_destroy(ls);
+	SGA_StreamGraph_destroy(sg);
+	SGA_LinkStream_destroy(ls);
 
 	return nodes_always_present;
 }
 
 bool test_neighbours_of_node() {
-	StreamGraph sg	      = StreamGraph_from_external("data/S_external.txt");
-	Stream ls	      = LinkStream_from(&sg);
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
 	LinkIdArrayList neighbours_of_0 = LinkIdArrayList_new();
@@ -110,8 +113,8 @@ bool test_neighbours_of_node() {
 	for (size_t i = 0; i < 4; i++) {
 		LinkIdArrayList_destroy(neighbours[i]);
 	}
-	StreamGraph_destroy(sg);
-	LinkStream_destroy(ls);
+	SGA_StreamGraph_destroy(sg);
+	SGA_LinkStream_destroy(ls);
 
 	return has_right_neighbours;
 }
@@ -125,5 +128,5 @@ int main() {
 	    NULL,
 	};
 
-	return test("LinkStream", tests);
+	return test("SGA_LinkStream", tests);
 }

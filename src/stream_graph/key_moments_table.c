@@ -1,3 +1,5 @@
+#define SGA_INTERNAL
+
 #include "key_moments_table.h"
 #include "../units.h"
 #include "../utils.h"
@@ -22,7 +24,7 @@ size_t KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n) {
 }
 
 void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment) {
-	size_t slice		   = key_moment / SLICE_SIZE;
+	size_t slice	       = key_moment / SLICE_SIZE;
 	size_t relative_moment = key_moment % SLICE_SIZE;
 	if (slice != kmt->fill_info.current_slice) {
 		kmt->fill_info.current_slice  = slice;
@@ -34,13 +36,13 @@ void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment) {
 
 KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices) {
 	KeyMomentsTable kmt = {
-		.nb_slices = nb_slices,
-		.slices	   = (MomentsSlice*)MALLOC(nb_slices * sizeof(MomentsSlice)),
-		.fill_info =
-			{
-				.current_slice	= 0,
-				.current_moment = 0,
-			},
+	    .nb_slices = nb_slices,
+	    .slices    = (MomentsSlice*)MALLOC(nb_slices * sizeof(MomentsSlice)),
+	    .fill_info =
+		{
+		    .current_slice  = 0,
+		    .current_moment = 0,
+		},
 	};
 	return kmt;
 }
@@ -71,7 +73,7 @@ size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt) {
 size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt) {
 	size_t last_slice_idx  = kmt->nb_slices - 1;
 	size_t last_moment_idx = kmt->slices[last_slice_idx].nb_moments - 1;
-	size_t last_moment	   = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * SLICE_SIZE);
+	size_t last_moment     = kmt->slices[last_slice_idx].moments[last_moment_idx] + (last_slice_idx * SLICE_SIZE);
 	return last_moment;
 }
 void KeyMomentsTable_destroy(KeyMomentsTable kmt) {
@@ -100,7 +102,7 @@ size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t) {
 	// Then we find the index of the time in the slice
 	size_t relative_time = t % SLICE_SIZE;
 	// Recherche dichotomique
-	size_t left	 = 0;
+	size_t left  = 0;
 	size_t right = kmt->slices[slice].nb_moments;
 	while (left < right) {
 		size_t mid = (left + right) / 2;

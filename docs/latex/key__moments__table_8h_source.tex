@@ -1,47 +1,55 @@
-\hypertarget{key__moments__table_8h_source}{}\doxysection{key\+\_\+moments\+\_\+table.\+h}
-\label{key__moments__table_8h_source}\index{src/stream\_graph/key\_moments\_table.h@{src/stream\_graph/key\_moments\_table.h}}
+\doxysection{key\+\_\+moments\+\_\+table.\+h}
+\hypertarget{key__moments__table_8h_source}{}\label{key__moments__table_8h_source}\index{src/stream\_graph/key\_moments\_table.h@{src/stream\_graph/key\_moments\_table.h}}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#include "{}../units.h"{}}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#include "{}../utils.h"{}}}
-\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <stdint.h>}}
-\DoxyCodeLine{5 }
-\DoxyCodeLine{6 \textcolor{keyword}{typedef} uint8\_t RelativeMoment;}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#define RELATIVE\_MOMENT\_MAX ((RelativeMoment)\string~0)}}
-\DoxyCodeLine{8 \textcolor{preprocessor}{\#define SLICE\_SIZE          (((size\_t)RELATIVE\_MOMENT\_MAX) + 1)}}
-\DoxyCodeLine{9 }
-\DoxyCodeLine{10 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{11     \textcolor{keywordtype}{size\_t} nb\_moments;}
-\DoxyCodeLine{12     RelativeMoment* moments;}
-\DoxyCodeLine{13 \} \mbox{\hyperlink{structMomentsSlice}{MomentsSlice}};}
-\DoxyCodeLine{14 }
-\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{16     \textcolor{keywordtype}{size\_t} current\_slice;}
-\DoxyCodeLine{17     \textcolor{keywordtype}{size\_t} current\_moment;}
-\DoxyCodeLine{18 \} \mbox{\hyperlink{structKeyMomentsTableIterator}{KeyMomentsTableIterator}};}
-\DoxyCodeLine{19 }
-\DoxyCodeLine{20 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{21     \textcolor{keywordtype}{size\_t} nb\_slices;}
-\DoxyCodeLine{22     \mbox{\hyperlink{structMomentsSlice}{MomentsSlice}}* slices;}
-\DoxyCodeLine{23     \mbox{\hyperlink{structKeyMomentsTableIterator}{KeyMomentsTableIterator}} fill\_info;}
-\DoxyCodeLine{24 \} \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}};}
-\DoxyCodeLine{25 }
-\DoxyCodeLine{26 \textcolor{keywordtype}{size\_t} KeyMomentsTable\_nth\_key\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt, \textcolor{keywordtype}{size\_t} n);}
-\DoxyCodeLine{27 \textcolor{keywordtype}{void} KeyMomentsTable\_push\_in\_order(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt, \textcolor{keywordtype}{size\_t} key\_moment);}
-\DoxyCodeLine{28 \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}} KeyMomentsTable\_alloc(\textcolor{keywordtype}{size\_t} nb\_slices);}
-\DoxyCodeLine{29 \textcolor{keywordtype}{void} KeyMomentsTable\_alloc\_slice(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt, \textcolor{keywordtype}{size\_t} slice, \textcolor{keywordtype}{size\_t} nb\_moments);}
-\DoxyCodeLine{30 \textcolor{keywordtype}{size\_t} KeyMomentsTable\_first\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt);}
-\DoxyCodeLine{31 \textcolor{keywordtype}{size\_t} KeyMomentsTable\_last\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt);}
-\DoxyCodeLine{32 \textcolor{keywordtype}{void} KeyMomentsTable\_destroy(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}} kmt);}
-\DoxyCodeLine{33 \textcolor{keywordtype}{size\_t} KeyMomentsTable\_find\_time\_index(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt, TimeId t);}
-\DoxyCodeLine{34 }
-\DoxyCodeLine{35 \textcolor{comment}{// typedef size\_t size\_t2;}}
-\DoxyCodeLine{36 \textcolor{comment}{// bool size\_t2\_equals(size\_t2 a, size\_t2 b);}}
-\DoxyCodeLine{37 \textcolor{comment}{// char* size\_t2\_to\_string(const size\_t2* a);}}
-\DoxyCodeLine{38 \textcolor{comment}{// DefArrayList(size\_t2, NO\_FREE(size\_t2));}}
-\DoxyCodeLine{39 }
-\DoxyCodeLine{40 \textcolor{comment}{// size\_t2ArrayList KeyMomentsTable\_all\_moments(KeyMomentsTable* kmt);}}
-\DoxyCodeLine{41 \textcolor{keywordtype}{void} print\_key\_moments\_table(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}* kmt);}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SGA\_KEY\_MOMENTS\_TABLE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#\ \ \ define\ SGA\_KEY\_MOMENTS\_TABLE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#\ \ \ include\ "{}../units.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#\ \ \ include\ "{}../utils.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#\ \ \ include\ <stddef.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#\ \ \ include\ <stdint.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{typedef}\ uint8\_t\ RelativeMoment;}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#\ \ \ define\ RELATIVE\_MOMENT\_MAX\ ((RelativeMoment)\string~0)}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#\ \ \ define\ SLICE\_SIZE\ \ \ \ \ \ \ (((size\_t)RELATIVE\_MOMENT\_MAX)\ +\ 1)}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_moments;}
+\DoxyCodeLine{00017\ \ \ \ \ RelativeMoment*\ moments;}
+\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structMomentsSlice}{MomentsSlice}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ current\_slice;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ current\_moment;}
+\DoxyCodeLine{00023\ \}\ \mbox{\hyperlink{structKeyMomentsTableIterator}{KeyMomentsTableIterator}};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_slices;}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{structMomentsSlice}{MomentsSlice}}*\ slices;}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{structKeyMomentsTableIterator}{KeyMomentsTableIterator}}\ fill\_info;}
+\DoxyCodeLine{00029\ \}\ \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{size\_t}\ KeyMomentsTable\_nth\_key\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{void}\ KeyMomentsTable\_push\_in\_order(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ \textcolor{keywordtype}{size\_t}\ key\_moment);}
+\DoxyCodeLine{00033\ \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}\ KeyMomentsTable\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_slices);}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{void}\ KeyMomentsTable\_alloc\_slice(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ \textcolor{keywordtype}{size\_t}\ slice,\ \textcolor{keywordtype}{size\_t}\ nb\_moments);}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{size\_t}\ KeyMomentsTable\_first\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt);}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{size\_t}\ KeyMomentsTable\_last\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ KeyMomentsTable\_destroy(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}\ kmt);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{size\_t}\ KeyMomentsTable\_find\_time\_index(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ TimeId\ t);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ typedef\ size\_t\ size\_t2;}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ bool\ size\_t2\_equals(size\_t2\ a,\ size\_t2\ b);}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ char*\ size\_t2\_to\_string(const\ size\_t2*\ a);}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ DefArrayList(size\_t2,\ NO\_FREE(size\_t2));}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ size\_t2ArrayList\ KeyMomentsTable\_all\_moments(KeyMomentsTable*\ kmt);}}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ print\_key\_moments\_table(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt);}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \#endif\ //\ SGA\_KEY\_MOMENTS\_TABLE\_H}}
 
 \end{DoxyCode}

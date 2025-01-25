@@ -38,7 +38,7 @@
 #define F_EQUALS_APPROX(left, right, eps) (fabs((left) - (right)) < (eps))
 
 #define NO_FREE(type)                                                                                                                      \
-	void type##_destroy(type self) {}
+	void type##_destroy(type self __attribute__((unused))) {}
 #define DEFAULT_EQUALS(type)                                                                                                               \
 	bool type##_equals(const type* left, const type* right) {                                                                          \
 		return *left == *right;                                                                                                    \
@@ -106,6 +106,14 @@
 #	define DONT_OPTIMISE __attribute__((optimize("O0")))
 #else
 #	define DONT_OPTIMISE
+#endif
+
+#if defined(__clang__) || defined(__GNUC__)
+#	define PURE_FN	 __attribute__((pure))
+#	define CONST_FN __attribute__((const))
+#else
+#	define PURE_FN
+#	define CONST_FN
 #endif
 
 typedef struct {

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['linksiterator_0',['LinksIterator',['../iterators_8h.html#a7cf998d549a9dbc3e839cb6df96ec48b',1,'iterators.h']]]
+  ['bitarray_0',['BitArray',['../bit__array_8h.html#a44f9a1312aeadcbf8ec7561cea0525e2',1,'bit_array.h']]]
 ];

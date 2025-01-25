@@ -25,26 +25,14 @@
 var NAVTREE =
 [
   [ "StreamGraphAnalysis", "index.html", [
-    [ "@anchor md_README", "index.html#autotoc_md0", null ],
-    [ "StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs", "index.html#autotoc_md1", [
-      [ "Current state of the Project", "index.html#autotoc_md2", null ],
-      [ "How to use the library", "index.html#autotoc_md3", null ],
-      [ "Data format", "index.html#autotoc_md4", null ],
-      [ "Purpose of the library", "index.html#autotoc_md5", null ],
-      [ "Code architecture", "index.html#autotoc_md6", null ],
-      [ "What it can do", "index.html#autotoc_md7", null ],
-      [ "What it cannot do", "index.html#autotoc_md8", null ],
-      [ "Specifications of the stream graph data", "index.html#autotoc_md9", null ],
-      [ "Stream wrappers", "index.html#autotoc_md10", null ],
-      [ "Project guidelines and organisation", "index.html#autotoc_md11", null ],
-      [ "Supported metrics and analysis (In order of first mention in the paper)", "index.html#autotoc_md12", null ]
-    ] ],
+    [ "StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs", "index.html", "index" ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Variables", "functions_vars.html", null ],
+        [ "Enumerator", "functions_eval.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -61,8 +49,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"StreamGraphAnalysis_8h.html"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';

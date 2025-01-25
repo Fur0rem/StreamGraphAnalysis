@@ -1,10 +1,58 @@
-===================================================================================
-StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs
-===================================================================================
+# StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs
 
 Current state of the Project
 ----------------------------
 Quite usable, but not fully fleshed out yet.
+
+Before you start
+---------------------
+The library is based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at https://arxiv.org/abs/1710.04073.
+
+It is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6.
+It is made to be efficient in terms of memory usage and speed, and to support the computation of metrics different transformations of the stream graph without copying much data.
+
+It is highly recommended to read the paper before using the library, or at least have a good enough understanding of what a stream graph is and what the metrics can represent and tell you.
+
+
+Regarding the paper
+--------------------------------
+I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences :
+- The paper defines the stream graph as a tuple of 4 sets (W : Temporal nodes, V : distinct nodes, E : links, T : time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).
+- For their cardinals, which are often used in the paper, I renamed them to |W| : temporal_cardinal_of_node_set, |V| : distinct_cardinal_of_node_set, |E| : distinct_cardinal_of_link_set, |T| : duration.
+- For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.
+- The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.
+
+Basic information about the implementation
+------------------------------------------
+
+The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics.
+Anything related to the library (data types, functions, ect...) contain the prefix SGA_ to avoid conflicts with other libraries.
+There are 2 main data structures in the library :
+- StreamGraph, which is the main data structure, and contains the entire stream graph.
+- Stream, which is a wrapper around the StreamGraph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.
+
+You need to first load the StreamGraph, and then wrap it in a Stream to compute metrics on it.
+The stream contains a reference to the StreamGraph, so be careful to not delete the StreamGraph before the Stream.
+
+Stream's are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried.
+For example, a LinkStream will only have a reference to the StreamGraph, and return the full lifespan of the stream graph when asked for the lifespan of node.
+All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a LinkStream can optimise the computation of the coverage, which is always 1.
+
+The different streams are :
+- FullStreamGraph : The entire stream graph, no modifications
+- LinkStream : All nodes are present at all times, and the links are the only thing that changes
+- SnapshotStream : Study the stream graph only on a subset of the interval it is defined on, doesn't change nodes or links present
+- ChunkStream and ChunkStreamSmall : Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. ChunkStream is optimised for when you have a lot of nodes and links, and ChunkStreamSmall is optimised for more sparse chunks with a small portion of the nodes and links.
+
+I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.
+
+The library was designed to have efficient access on:
+- Access a node: which is in $O(1)$
+- Access a link: which is in $O(1)$
+- Access a time: which is in $O(1)$ (actually in $O(log(255)$), but it's a constant time)
+
+More details about the methods and the data structures are available in the documentation.
+
 
 How to use the library
 ----------------------
@@ -12,13 +60,19 @@ How to use the library
 Clone the repository, and then run make libSGA to compile the library.
 You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library.
 There is a header StreamGraphAnalysis.h in the main directory that you can include in your project to use the library.
-You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the doc/ directory.
+You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory.
+TODO: explanation of a code sample
+
+Common mistakes
+----------------
+- Not initialising the events table before using some functions that need it, if you get a segmentation fault, that might be the reason. It will have an explicit error in debug mode, but not in release mode, for performance reasons.
+- Make sure that the initialisation of a stream graph or an event table does not happen in a multithreaded context, as it is not thread-safe.
 
 Data format
 -----------
 
 You have two ways to format your data, either in the external format or in the internal format.
-The external format is easier to write, but the internal format is more efficient to read.
+The external format is easier to write for you, but the internal format is more efficient to read for the program.
 So it's recommended to write your data in the external format, and then convert it to the internal format using the InternalFormat_from_External_str function, and save that for future use.
 
 External format :
@@ -27,10 +81,10 @@ SGA External Format <version>
 
 [General]
 Lifespan=(<start>, <end>)
-Scale=<scale>
+Scaling=<scale>
 
 [Events]
-<Timestamp> <+ or -> <N (for node) or L (for link)> (<NodeId> for a node or <Node1> <Node2> for a link)
+<Timestamp> <+ (for appearance) or - (for disappearance)> <N (for node) or L (for link)> (<NodeId> for a node or <Node1> <Node2> for a link)
 ...
 
 [EndOfStream]
@@ -41,18 +95,7 @@ All timestamps must be integers, which is why the scale is used to bring metrics
 For example, if you have a stream with nodes present at 0.5, 1.5, ect...
 You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.
 
-Purpose of the library
-----------------------
-The library is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6.
-It it based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at https://arxiv.org/abs/1710.04073.
-It is optimised for reading and analysing huge stream graphs, with a balance between memory usage and speed.
-The library also supports the computation of metrics on subgraphs of the stream graph without copying much data, but at some cost I will explain in the code architecture section.
-
-Code architecture
------------------
-- The library was made for only reading stream graphs, and therefore the data structure doesn't allow for modifications, but at the benefit of enabling a lot of optimisations, and concurrent access to the stream graph.
-- The data structure was made to have 3 very efficient primitives : Access by node, access by link, and access by time. All of these have a complexity of O(1) (The complexity of the access by time is O(log(255)), but it is then equivalent by complexity classes to O(1)). However it does involve a bit of information duplication, which is why the library is optimised for reading only.
-- There is also a constraint of being able to compute metrics on subgraphs of the stream graph without copying much data. This is done through having an underlying stream graph, lazy iterators to access the data that the subgraph can alter to its needs, caching already-computed base elements, and double-layered dynamic dispatch to compute the base elements needed for each type of subgraph based on its iterators, with different types of subgraphs being able to hijack the computation of other functions, for example a LinkStream can hijack the computation of the coverage which is always 1.
+There are some example data files in the data/ directory.
 
 What it can do
 --------------
@@ -71,20 +114,6 @@ Specifications of the stream graph data
 - The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[
 - If a link is present at time t, the nodes u and v must be present at time t
 
-Stream wrappers
----------------
-
-The library supports analysing substreams of the stream graph, which are called (for now) stream wrappers.
-You need to wrap your stream graph in one of these to compute metrics on it.
-
-The stream wrappers are :
-- FullStreamGraph : The entire stream graph, no modifications
-- LinkStream : All nodes are present at all times, and the links are the only thing that changes
-- SnapshotStream : Study the stream graph only on a subset of the interval it is defined on, doesn't change nodes or links present
-- ChunkStream and ChunkStreamSmall : Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. ChunkStream is optimised for when you have a lot of nodes and links, and ChunkStreamSmall is optimised for more sparse chunks with a small portion of the nodes and links.
-
-I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.
-
 
 Project guidelines and organisation
 --------------------
@@ -96,13 +125,19 @@ Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro
 - Organisation :
 
 The src/ directory contains the entire source code of the library.
+The src/stream_graph/ directory contains the source code of the StreamGraph data structure.
+The src/streams/ directory contains the source code of the different streams.
+The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-cores, etc...
 The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework.
 One test exists per source file, and each test must have the same name as the source file it tests.
+The benchmarks/ directory contains the benchmarks for the library.
+The examples/ directory contains examples of how to use the library.
+The data/ directory contains example data files.
 You can run them using the run_tests.sh script in the main directory.
 
-Supported metrics and analysis (In order of first mention in the paper)
+Supported metrics and analysis
 -----------------------------------------------------------
-
+- |W|, |V|, |E|, |T| : Section 3
 - Coverage : Section 3
 - Contribution of a node : Section 4
 - Number of nodes : Section 4
@@ -112,6 +147,7 @@ Supported metrics and analysis (In order of first mention in the paper)
 - Link duration : Section 4
 - Uniformity : Section 4
 - Uniformity of a pair of nodes : Section 4
+- Compactness : Section 4
 - Density : Section 5
 - Density of link : Section 5
 - Density of node : Section 5
@@ -125,6 +161,3 @@ Supported metrics and analysis (In order of first mention in the paper)
 - Paths and distances : Section 14
 - Robustness by length : Outside of the paper
 - Isomorphism : Outside of the paper
-
-(These were implemented in previous commits but have not been ported for generic streams yet)
-- Compactness : Section 4

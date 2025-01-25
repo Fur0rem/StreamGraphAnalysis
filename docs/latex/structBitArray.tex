@@ -1,37 +1,15 @@
-\hypertarget{structBitArray}{}\doxysection{Bit\+Array Struct Reference}
-\label{structBitArray}\index{BitArray@{BitArray}}
-
-
-\doxysubsection{Detailed Description}
-The structure of a variable length array of bits. 
-
-It contains the number of bits present in the array and the array of bits. The bits are stored in an array of int\textquotesingle{}s. I used an array of int to have less computations to do when oring or anding two arrays. It is not possible to go higher than an int otherwise some functions will not work. 
-
-{\ttfamily \#include $<$bit\+\_\+array.\+h$>$}
-
-\doxysubsection*{Public Attributes}
+\doxysection{Bit\+Array Struct Reference}
+\hypertarget{structBitArray}{}\label{structBitArray}\index{BitArray@{BitArray}}
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-size\+\_\+t \mbox{\hyperlink{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}{nb\+\_\+bits}}
-\item 
-Bit\+Array\+Slice $\ast$ \mbox{\hyperlink{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc}{bits}}
-\end{DoxyCompactItemize}
+\Hypertarget{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}\label{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d} 
+size\+\_\+t {\bfseries nb\+\_\+bits}
+\begin{DoxyCompactList}\small\item\em The number of bits in the array. \end{DoxyCompactList}\item 
+\Hypertarget{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc}\label{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc} 
+Bit\+Array\+Slice \texorpdfstring{$\ast$}{*} {\bfseries bits}
+\begin{DoxyCompactList}\small\item\em The array of bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
-
-\doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc}\label{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc}} 
-\index{BitArray@{BitArray}!bits@{bits}}
-\index{bits@{bits}!BitArray@{BitArray}}
-\doxysubsubsection{\texorpdfstring{bits}{bits}}
-{\footnotesize\ttfamily Bit\+Array\+Slice$\ast$ Bit\+Array\+::bits}
-
-The array of bits. \mbox{\Hypertarget{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}\label{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}} 
-\index{BitArray@{BitArray}!nb\_bits@{nb\_bits}}
-\index{nb\_bits@{nb\_bits}!BitArray@{BitArray}}
-\doxysubsubsection{\texorpdfstring{nb\_bits}{nb\_bits}}
-{\footnotesize\ttfamily size\+\_\+t Bit\+Array\+::nb\+\_\+bits}
-
-The number of bits in the array. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

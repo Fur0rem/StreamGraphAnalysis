@@ -11,9 +11,9 @@ digraph "StreamGraph"
   Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fill_info" ];
   Node4 [label="KeyMomentsTableIterator",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structKeyMomentsTableIterator.html",tooltip=" "];
   Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" nodes" ];
-  Node5 [label="TemporalNodesSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structTemporalNodesSet.html",tooltip=" "];
+  Node5 [label="NodesSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structNodesSet.html",tooltip=" "];
   Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" nodes" ];
-  Node6 [label="TemporalNode",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structTemporalNode.html",tooltip=" "];
+  Node6 [label="Node",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structNode.html",tooltip=" "];
   Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" presence" ];
   Node7 [label="IntervalsSet",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structIntervalsSet.html",tooltip=" "];
   Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" intervals" ];

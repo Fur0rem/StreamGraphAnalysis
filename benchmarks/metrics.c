@@ -1,29 +1,33 @@
-#include "../src/metrics.h"
-#include "../src/stream.h"
-#include "../src/stream_wrappers.h"
+/**
+ * @file benchmarks/metrics.c
+ * @brief Benchmarks for metrics
+ */
+
+#define SGA_INTERNAL
+#include "../StreamGraphAnalysis.h"
 #include "benchmark.h"
 
-Stream stream;
+SGA_Stream stream;
 
 DONT_OPTIMISE void number_of_links() {
-	Stream_number_of_links(&stream);
+	SGA_Stream_number_of_links(&stream);
 	reset_cache(&stream);
 }
 
 DONT_OPTIMISE void coverage() {
-	Stream_coverage(&stream);
+	SGA_Stream_coverage(&stream);
 	reset_cache(&stream);
 }
 
 DONT_OPTIMISE void uniformity() {
-	Stream_node_duration(&stream);
+	SGA_Stream_node_duration(&stream);
 	reset_cache(&stream);
 }
 
 char* file_name;
 
 DONT_OPTIMISE void transitivity_ratio() {
-	Stream_transitivity_ratio(&stream);
+	SGA_Stream_transitivity_ratio(&stream);
 }
 
 // // TODO: move to analytics or smth
@@ -35,14 +39,14 @@ DONT_OPTIMISE void transitivity_ratio() {
 // }
 
 DONT_OPTIMISE void clustering_coeff() {
-	Stream_node_clustering_coeff(&stream);
+	SGA_Stream_node_clustering_coeff(&stream);
 }
 
 DONT_OPTIMISE void density_at_instant() {
 	StreamFunctions fns = STREAM_FUNCS(fns, &stream);
 	Interval lifespan   = fns.lifespan(stream.stream_data);
 	for (TimeId t = lifespan.start; t < lifespan.end; t++) {
-		Stream_density_at_instant(&stream, t);
+		SGA_Stream_density_at_instant(&stream, t);
 	}
 }
 
@@ -58,17 +62,17 @@ DONT_OPTIMISE void density_at_instant() {
 	// printf("\n");
 
 int main() {
-	StreamGraph sg1 = StreamGraph_from_external("data/S_concat_L.txt");
-	Stream stream1	= FullStreamGraph_from(&sg1);
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/S_concat_L.txt");
+	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	StreamGraph sg2 = StreamGraph_from_external("data/LS_90.txt");
-	Stream stream2	= FullStreamGraph_from(&sg2);
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/LS_90.txt");
+	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	StreamGraph sg3 = StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
-	Stream stream3	= FullStreamGraph_from(&sg3);
+	SGA_StreamGraph sg3 = SGA_StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
+	SGA_Stream stream3  = SGA_FullStreamGraph_from(&sg3);
 
-	StreamGraph sg4 = StreamGraph_from_external("data/facebooklike_1_transformed.txt");
-	Stream stream4	= FullStreamGraph_from(&sg4);
+	SGA_StreamGraph sg4 = SGA_StreamGraph_from_external("data/facebooklike_1_transformed.txt");
+	SGA_Stream stream4  = SGA_FullStreamGraph_from(&sg4);
 
 	init_events_table(&sg1);
 	init_events_table(&sg2);
@@ -136,14 +140,14 @@ int main() {
 	events_destroy(&sg2);
 	events_destroy(&sg3);
 	events_destroy(&sg4);
-	StreamGraph_destroy(sg1);
-	FullStreamGraph_destroy(stream1);
-	StreamGraph_destroy(sg2);
-	FullStreamGraph_destroy(stream2);
-	StreamGraph_destroy(sg3);
-	FullStreamGraph_destroy(stream3);
-	StreamGraph_destroy(sg4);
-	FullStreamGraph_destroy(stream4);
+	SGA_StreamGraph_destroy(sg1);
+	SGA_FullStreamGraph_destroy(stream1);
+	SGA_StreamGraph_destroy(sg2);
+	SGA_FullStreamGraph_destroy(stream2);
+	SGA_StreamGraph_destroy(sg3);
+	SGA_FullStreamGraph_destroy(stream3);
+	SGA_StreamGraph_destroy(sg4);
+	SGA_FullStreamGraph_destroy(stream4);
 
 	return 0;
 }

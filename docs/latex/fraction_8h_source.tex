@@ -1,37 +1,37 @@
-\hypertarget{fraction_8h_source}{}\doxysection{fraction.\+h}
-\label{fraction_8h_source}\index{src/fraction.h@{src/fraction.h}}
+\doxysection{fraction.\+h}
+\hypertarget{fraction_8h_source}{}\label{fraction_8h_source}\index{src/fraction.h@{src/fraction.h}}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SGA\_FRACTION\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SGA\_FRACTION\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}defaults.h"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdbool.h>}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{8 }
-\DoxyCodeLine{9 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{10     \textcolor{keywordtype}{size\_t} num;}
-\DoxyCodeLine{11     \textcolor{keywordtype}{size\_t} den;}
-\DoxyCodeLine{12 \} \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}};}
-\DoxyCodeLine{13 }
-\DoxyCodeLine{14 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_from(\textcolor{keywordtype}{size\_t} num, \textcolor{keywordtype}{size\_t} den);}
-\DoxyCodeLine{15 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_add(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a, \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} b);}
-\DoxyCodeLine{16 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_sub(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a, \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} b);}
-\DoxyCodeLine{17 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_mul(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a, \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} b);}
-\DoxyCodeLine{18 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_div(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a, \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} b);}
-\DoxyCodeLine{19 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_simplify(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a);}
-\DoxyCodeLine{20 }
-\DoxyCodeLine{21 DeclareEquals(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}});}
-\DoxyCodeLine{22 DeclareToString(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}});}
-\DoxyCodeLine{23 DeclareCompare(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}});}
-\DoxyCodeLine{24 }
-\DoxyCodeLine{25 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_neg(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a);}
-\DoxyCodeLine{26 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_abs(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a);}
-\DoxyCodeLine{27 \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} SGA\_Fraction\_inv(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a);}
-\DoxyCodeLine{28 \textcolor{keywordtype}{size\_t} SGA\_Fraction\_to\_size\_t(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a);}
-\DoxyCodeLine{29 \textcolor{keywordtype}{double} SGA\_Fraction\_to\_double(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}} a);}
-\DoxyCodeLine{30 }
-\DoxyCodeLine{31 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SGA\_FRACTION\_H}}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SGA\_FRACTION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SGA\_FRACTION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}defaults.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}utils.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ num;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ den;}
+\DoxyCodeLine{00012\ \}\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_from(\textcolor{keywordtype}{size\_t}\ num,\ \textcolor{keywordtype}{size\_t}\ den);}
+\DoxyCodeLine{00015\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_add(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a,\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ b);}
+\DoxyCodeLine{00016\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_sub(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a,\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ b);}
+\DoxyCodeLine{00017\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_mul(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a,\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ b);}
+\DoxyCodeLine{00018\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_div(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a,\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ b);}
+\DoxyCodeLine{00019\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_simplify(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ DeclareEquals(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}});}
+\DoxyCodeLine{00022\ DeclareToString(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}});}
+\DoxyCodeLine{00023\ DeclareCompare(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}});}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_neg(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a);}
+\DoxyCodeLine{00026\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_abs(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a);}
+\DoxyCodeLine{00027\ \mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ SGA\_Fraction\_inv(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a);}
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{size\_t}\ SGA\_Fraction\_to\_size\_t(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a);}
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{double}\ SGA\_Fraction\_to\_double(\mbox{\hyperlink{structSGA__Fraction}{SGA\_Fraction}}\ a);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_FRACTION\_H}}
 
 \end{DoxyCode}

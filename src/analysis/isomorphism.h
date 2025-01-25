@@ -27,7 +27,8 @@
  the streamgraphs.
  * This is why there is also an alternative function are_probably_isomorphic which is way faster, but may return false positives.
  */
-bool are_isomorphic(const Stream* s1, const Stream* s2);
+// TODO: return mapping instead of boolean
+bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2);
 
 /**
  * @brief Check if two streamgraphs are probably isomorphic.
@@ -39,15 +40,15 @@ bool are_isomorphic(const Stream* s1, const Stream* s2);
  isomorphic, especially as the streamgraphs get larger.
  * However, it may return false positives in some cases, where the two streamgraphs are not isomorphic, but the function returns true.
  * This function checks for the following properties:
- * - The number of nodes in the two streamgraphs (cardinalOfV)
- * - The number of links in the two streamgraphs (cardinalOfE)
- * - The total duration of the two streamgraphs (cardinalOfT)
- * - The total node duration of the two streamgraphs (cardinalOfW)
+ * - The number of nodes in the two streamgraphs (distinct_cardinal_of_node_set)
+ * - The number of links in the two streamgraphs (temporal_cardinal_of_link_set)
+ * - The total duration of the two streamgraphs (duration)
+ * - The total node duration of the two streamgraphs (temporal_cardinal_of_node_set)
  * - The density of the two streamgraphs
  * - The average node degree of the two streamgraphs
  * - The uniformity of the two streamgraphs
  * All these properties can be computed in <= O(n) time, where n is the number of nodes in the streamgraphs.
  */
-bool are_probably_isomorphic(const Stream* s1, const Stream* s2);
+bool are_probably_isomorphic(SGA_Stream* s1, SGA_Stream* s2);
 
 #endif

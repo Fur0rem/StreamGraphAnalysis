@@ -1,0 +1,72 @@
+\doxysection{src/analysis/cliques.h File Reference}
+\hypertarget{cliques_8h}{}\label{cliques_8h}\index{src/analysis/cliques.h@{src/analysis/cliques.h}}
+
+
+Find maximal cliques in a \doxylink{structStream}{Stream}.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Find maximal cliques in a \doxylink{structStream}{Stream}. 
+
+A clique is a set of nodes where each node is connected to all the other nodes in the set. A maximal clique is a clique that is not included in a larger clique. ~\newline
+ You can check Section 7 of the paper for more information. {\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+graph/links\+\_\+set.\+h"{}}\newline
+{\ttfamily \#include "{}../units.\+h"{}}\newline
+{\ttfamily \#include "{}../utils.\+h"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+Include dependency graph for cliques.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}}
+\begin{DoxyCompactList}\small\item\em Structure representing a clique. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{cliques_8h_a1d29ed8253f1304a7f5a6c2106a5d799}\label{cliques_8h_a1d29ed8253f1304a7f5a6c2106a5d799} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{cliques_8h_a5ec62eac8f33de56e83755ca21c32036}\label{cliques_8h_a5ec62eac8f33de56e83755ca21c32036} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{cliques_8h_a76c6ee1752296e2b345ba3c845c17ba2}\label{cliques_8h_a76c6ee1752296e2b345ba3c845c17ba2} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{cliques_8h_a1ac2054aa3644cfdea109e67242ea3c4}\label{cliques_8h_a1ac2054aa3644cfdea109e67242ea3c4} 
+{\bfseries Declare\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{cliques_8h_a8f6bd28e9ef2f40f514eded2467882da}\label{cliques_8h_a8f6bd28e9ef2f40f514eded2467882da} 
+{\bfseries Declare\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{cliques_8h_a5fa1e4d652b6e96fb14b545336746668}\label{cliques_8h_a5fa1e4d652b6e96fb14b545336746668} 
+{\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
+\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f}\index{cliques.h@{cliques.h}!SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}}
+\index{SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}!cliques.h@{cliques.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_maximal\_cliques()}{SGA\_Stream\_maximal\_cliques()}}
+{\footnotesize\ttfamily \label{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f} 
+SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
+
+
+
+Find the maximal cliques in a \doxylink{structStream}{Stream}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream} to find the maximal cliques in. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximal cliques as an Array\+List. 
+\end{DoxyReturn}

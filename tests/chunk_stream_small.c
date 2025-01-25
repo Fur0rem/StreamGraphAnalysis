@@ -1,8 +1,15 @@
+/**
+ * @file tests/chunk_stream_small.c
+ * @brief Tests regarding ChunkStreamSmall
+ */
+
+#define SGA_INTERNAL
+
 #include "../StreamGraphAnalysis.h"
 #include "test.h"
 
 bool test_chunk_stream_small_nodes_set() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(2);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 2);
@@ -13,7 +20,7 @@ bool test_chunk_stream_small_nodes_set() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st		 = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
+	SGA_Stream st		 = SGA_ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
 	StreamFunctions funcs	 = ChunkStreamSmall_stream_functions;
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -25,13 +32,13 @@ bool test_chunk_stream_small_nodes_set() {
 		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
 	}
 
-	ChunkStreamSmall_destroy(st);
-	StreamGraph_destroy(sg);
+	SGA_ChunkStreamSmall_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	return true;
 }
 
 bool test_chunk_stream_small_neighbours_of_node() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(2);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -43,7 +50,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st	      = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
+	SGA_Stream st	      = SGA_ChunkStreamSmall_from(&sg, nodes, links, Interval_from(0, 100));
 	StreamFunctions funcs = ChunkStreamSmall_stream_functions;
 
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
@@ -55,14 +62,13 @@ bool test_chunk_stream_small_neighbours_of_node() {
 		}
 	}
 
-	ChunkStreamSmall_destroy(st);
-	StreamGraph_destroy(sg);
+	SGA_ChunkStreamSmall_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	return true;
 }
 
-// TODO: why is this here ???
 bool test_chunk_stream_small_times_node_present() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -74,7 +80,7 @@ bool test_chunk_stream_small_times_node_present() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st	      = ChunkStreamSmall_from(&sg, nodes, links, Interval_from(20, 80));
+	SGA_Stream st	      = SGA_ChunkStreamSmall_from(&sg, nodes, links, Interval_from(20, 80));
 	StreamFunctions funcs = ChunkStreamSmall_stream_functions;
 
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
@@ -97,8 +103,8 @@ bool test_chunk_stream_small_times_node_present() {
 		printf("\n");
 	}
 
-	ChunkStreamSmall_destroy(st);
-	StreamGraph_destroy(sg);
+	SGA_ChunkStreamSmall_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	return true;
 }
 

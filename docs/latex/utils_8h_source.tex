@@ -1,160 +1,171 @@
-\hypertarget{utils_8h_source}{}\doxysection{utils.\+h}
-\label{utils_8h_source}\index{src/utils.h@{src/utils.h}}
+\doxysection{utils.\+h}
+\hypertarget{utils_8h_source}{}\label{utils_8h_source}\index{src/utils.h@{src/utils.h}}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef UTILS\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define UTILS\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <assert.h>}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <math.h>}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdbool.h>}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdlib.h>}}
-\DoxyCodeLine{8 }
-\DoxyCodeLine{9 \textcolor{comment}{// Text formatting}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#define TEXT\_BOLD  "{}\(\backslash\)033[1m"{}}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#define TEXT\_RED   "{}\(\backslash\)033[31m"{}}}
-\DoxyCodeLine{12 \textcolor{preprocessor}{\#define TEXT\_GREEN "{}\(\backslash\)033[32m"{}}}
-\DoxyCodeLine{13 \textcolor{preprocessor}{\#define TEXT\_RESET "{}\(\backslash\)033[0m"{}}}
-\DoxyCodeLine{14 }
-\DoxyCodeLine{15 \textcolor{comment}{// Malloc with error handling}}
-\DoxyCodeLine{16 \textcolor{comment}{// TODO : print stack trace maybe?}}
-\DoxyCodeLine{17 \textcolor{preprocessor}{\#define MALLOC\_CHECK(size)                                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{18 \textcolor{preprocessor}{    (\{                                                                                                                                     \(\backslash\)}}
-\DoxyCodeLine{19 \textcolor{preprocessor}{        if ((size) == 0) \{                                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{20 \textcolor{preprocessor}{            fprintf(stderr, "{}Memory allocation with size 0 at \%s:\%d\(\backslash\)n"{}}, \_\_FILE\_\_, \_\_LINE\_\_);                                               \(\backslash\)}
-\DoxyCodeLine{21         \}                                                                                                                                  \(\backslash\)}
-\DoxyCodeLine{22         void* ptr = malloc(size);                                                                                                          \(\backslash\)}
-\DoxyCodeLine{23         if (ptr == NULL) \{                                                                                                                 \(\backslash\)}
-\DoxyCodeLine{24             fprintf(stderr, "{}Memory allocation failed\(\backslash\)n"{});                                                                                 \(\backslash\)}
-\DoxyCodeLine{25             exit(1);                                                                                                                       \(\backslash\)}
-\DoxyCodeLine{26         \}                                                                                                                                  \(\backslash\)}
-\DoxyCodeLine{27         ptr;                                                                                                                               \(\backslash\)}
-\DoxyCodeLine{28     \})}
-\DoxyCodeLine{29 }
-\DoxyCodeLine{30 \textcolor{preprocessor}{\#ifdef DEBUG}}
-\DoxyCodeLine{31 \textcolor{preprocessor}{\#   define MALLOC(size) MALLOC\_CHECK(size)}}
-\DoxyCodeLine{32 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{33 \textcolor{preprocessor}{\#   define MALLOC(size) malloc(size)}}
-\DoxyCodeLine{34 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{35 }
-\DoxyCodeLine{36 \textcolor{comment}{// Floating point comparison}}
-\DoxyCodeLine{37 \textcolor{preprocessor}{\#define F\_EQUALS(left, right)             (fabs((left) -\/ (right)) < 1e-\/9)}}
-\DoxyCodeLine{38 \textcolor{preprocessor}{\#define F\_EQUALS\_APPROX(left, right, eps) (fabs((left) -\/ (right)) < (eps))}}
-\DoxyCodeLine{39 }
-\DoxyCodeLine{40 \textcolor{preprocessor}{\#define NO\_FREE(type)                                                                                                                      \(\backslash\)}}
-\DoxyCodeLine{41 \textcolor{preprocessor}{    void type\#\#\_destroy(type self) \{\}}}
-\DoxyCodeLine{42 \textcolor{preprocessor}{\#define DEFAULT\_EQUALS(type)                                                                                                               \(\backslash\)}}
-\DoxyCodeLine{43 \textcolor{preprocessor}{    bool type\#\#\_equals(const type* left, const type* right) \{                                                                              \(\backslash\)}}
-\DoxyCodeLine{44 \textcolor{preprocessor}{        return *left == *right;                                                                                                            \(\backslash\)}}
-\DoxyCodeLine{45 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{46 \textcolor{preprocessor}{\#define DEFAULT\_COMPARE(type)                                                                                                              \(\backslash\)}}
-\DoxyCodeLine{47 \textcolor{preprocessor}{    int type\#\#\_compare(const type* left, const type* right) \{                                                                              \(\backslash\)}}
-\DoxyCodeLine{48 \textcolor{preprocessor}{        return *left -\/ *right;                                                                                                             \(\backslash\)}}
-\DoxyCodeLine{49 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{50 }
-\DoxyCodeLine{51 \textcolor{preprocessor}{\#define DeclareEquals(type)  bool type\#\#\_equals(const type* left, const type* right);}}
-\DoxyCodeLine{52 \textcolor{preprocessor}{\#define DeclareCompare(type) int type\#\#\_compare(const type* left, const type* right);}}
-\DoxyCodeLine{53 \textcolor{preprocessor}{\#define DeclareDestroy(type) void type\#\#\_destroy(type self);}}
-\DoxyCodeLine{54 \textcolor{preprocessor}{\#define DeclareHash(type)    int type\#\#\_hash(const type* self);}}
-\DoxyCodeLine{55 }
-\DoxyCodeLine{56 \textcolor{preprocessor}{\#define DEFAULT\_MIN\_MAX(type)                                                                                                              \(\backslash\)}}
-\DoxyCodeLine{57 \textcolor{preprocessor}{    type type\#\#\_min(type left, type right) \{                                                                                               \(\backslash\)}}
-\DoxyCodeLine{58 \textcolor{preprocessor}{        return left < right ? left : right;                                                                                                \(\backslash\)}}
-\DoxyCodeLine{59 \textcolor{preprocessor}{    \}                                                                                                                                      \(\backslash\)}}
-\DoxyCodeLine{60 \textcolor{preprocessor}{    type type\#\#\_max(type left, type right) \{                                                                                               \(\backslash\)}}
-\DoxyCodeLine{61 \textcolor{preprocessor}{        return left > right ? left : right;                                                                                                \(\backslash\)}}
-\DoxyCodeLine{62 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{63 }
-\DoxyCodeLine{64 \textcolor{comment}{// TODO : optionnal message}}
-\DoxyCodeLine{65 \textcolor{preprocessor}{\#ifdef DEBUG}}
-\DoxyCodeLine{66 \textcolor{preprocessor}{\#   define ASSERT(expr)                                                                                                                   \(\backslash\)}}
-\DoxyCodeLine{67 \textcolor{preprocessor}{        (\{                                                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{68 \textcolor{preprocessor}{            bool \_\_assert\_result = (expr);                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{69 \textcolor{preprocessor}{            if (!(\_\_assert\_result)) \{                                                                                                      \(\backslash\)}}
-\DoxyCodeLine{70 \textcolor{preprocessor}{                fprintf(stderr, "{}Assertion failed: \%s, file \%s, line \%d\(\backslash\)n"{}}, \#expr, \_\_FILE\_\_, \_\_LINE\_\_);                                    \(\backslash\)}
-\DoxyCodeLine{71                 assert(\_\_assert\_result);                                                                                                   \(\backslash\)}
-\DoxyCodeLine{72             \}                                                                                                                              \(\backslash\)}
-\DoxyCodeLine{73         \})}
-\DoxyCodeLine{74 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{75 \textcolor{preprocessor}{\#   ifdef \_\_clang\_\_}}
-\DoxyCodeLine{76 \textcolor{preprocessor}{\#       define ASSERT(expr) \_\_builtin\_expect((expr), 1)}}
-\DoxyCodeLine{77 \textcolor{preprocessor}{\#   elif defined(\_\_GNUC\_\_)}}
-\DoxyCodeLine{78 \textcolor{preprocessor}{\#       define ASSERT(expr) \_\_attribute\_\_((assume(expr)))}}
-\DoxyCodeLine{79 \textcolor{preprocessor}{\#   endif}}
-\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{81 }
-\DoxyCodeLine{82 \textcolor{comment}{// TODO: add message to signal it's my fault and not the user's}}
-\DoxyCodeLine{83 \textcolor{preprocessor}{\#define DEV\_ASSERT(expr) ASSERT(expr)}}
-\DoxyCodeLine{84 }
-\DoxyCodeLine{85 \textcolor{preprocessor}{\#ifdef DEBUG}}
-\DoxyCodeLine{86 \textcolor{preprocessor}{\#   define UNREACHABLE\_CODE                                                                                                               \(\backslash\)}}
-\DoxyCodeLine{87 \textcolor{preprocessor}{        (\{                                                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{88 \textcolor{preprocessor}{            fprintf(stderr, "{}Unreachable code reached at \%s:\%d\(\backslash\)n"{}}, \_\_FILE\_\_, \_\_LINE\_\_);                                                    \(\backslash\)}
-\DoxyCodeLine{89             assert(false);                                                                                                                 \(\backslash\)}
-\DoxyCodeLine{90         \})}
-\DoxyCodeLine{91 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{92 \textcolor{preprocessor}{\#   define UNREACHABLE\_CODE \_\_builtin\_unreachable()}}
-\DoxyCodeLine{93 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{94 }
-\DoxyCodeLine{95 \textcolor{preprocessor}{\#if defined(\_\_clang\_\_) || defined(\_\_GNUC\_\_)}}
-\DoxyCodeLine{96 \textcolor{preprocessor}{\#   define LIKELY(cond)   (\_\_builtin\_expect(!!(cond), 1))}}
-\DoxyCodeLine{97 \textcolor{preprocessor}{\#   define UNLIKELY(cond) (\_\_builtin\_expect(!!(cond), 0))}}
-\DoxyCodeLine{98 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{99 \textcolor{preprocessor}{\#   define LIKELY(cond)   (cond)}}
-\DoxyCodeLine{100 \textcolor{preprocessor}{\#   define UNLIKELY(cond) (cond)}}
-\DoxyCodeLine{101 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{102 }
-\DoxyCodeLine{103 \textcolor{preprocessor}{\#ifdef \_\_clang\_\_}}
-\DoxyCodeLine{104 \textcolor{preprocessor}{\#   define DONT\_OPTIMISE \_\_attribute\_\_((optnone))}}
-\DoxyCodeLine{105 \textcolor{preprocessor}{\#elif defined(\_\_GNUC\_\_)}}
-\DoxyCodeLine{106 \textcolor{preprocessor}{\#   define DONT\_OPTIMISE \_\_attribute\_\_((optimize("{}O0"{}})))}
-\DoxyCodeLine{107 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{108 \textcolor{preprocessor}{\#   define DONT\_OPTIMISE}}
-\DoxyCodeLine{109 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{110 }
-\DoxyCodeLine{111 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{112     \textcolor{comment}{// TODO: rename those to the same as arraylist}}
-\DoxyCodeLine{113     \textcolor{keywordtype}{size\_t} size;}
-\DoxyCodeLine{114     \textcolor{keywordtype}{size\_t} capacity;}
-\DoxyCodeLine{115     \textcolor{keywordtype}{char}* data;}
-\DoxyCodeLine{116 \} \mbox{\hyperlink{structString}{String}};}
-\DoxyCodeLine{117 }
-\DoxyCodeLine{118 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
-\DoxyCodeLine{119 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{120 \textcolor{preprocessor}{\#include <string.h>}}
-\DoxyCodeLine{121 }
-\DoxyCodeLine{122 \mbox{\hyperlink{structString}{String}} String\_from\_owned(\textcolor{keywordtype}{char}* str);}
-\DoxyCodeLine{123 \mbox{\hyperlink{structString}{String}} String\_from\_duplicate(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
-\DoxyCodeLine{124 }
-\DoxyCodeLine{125 \textcolor{comment}{// TODO: mis namings between push and append}}
-\DoxyCodeLine{126 \textcolor{comment}{// plus push str and append formatted can be merged}}
-\DoxyCodeLine{127 \textcolor{keywordtype}{void} String\_push(\mbox{\hyperlink{structString}{String}}* self, \textcolor{keywordtype}{char} character);}
-\DoxyCodeLine{128 \textcolor{keywordtype}{void} String\_push\_str(\mbox{\hyperlink{structString}{String}}* self, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
-\DoxyCodeLine{129 \textcolor{keywordtype}{void} String\_append\_formatted(\mbox{\hyperlink{structString}{String}}* self, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* format, ...);}
-\DoxyCodeLine{130 \textcolor{keywordtype}{void} String\_concat\_copy(\mbox{\hyperlink{structString}{String}}* self, \textcolor{keyword}{const} \mbox{\hyperlink{structString}{String}}* with);}
-\DoxyCodeLine{131 \textcolor{keywordtype}{void} String\_concat\_consume(\mbox{\hyperlink{structString}{String}}* self, \mbox{\hyperlink{structString}{String}} with);}
-\DoxyCodeLine{132 }
-\DoxyCodeLine{133 DeclareDestroy(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{134 DeclareEquals(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{135 DeclareCompare(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{136 DeclareHash(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{137 }
-\DoxyCodeLine{138 \textcolor{preprocessor}{\#define DeclareToString(type) String type\#\#\_to\_string(const type* self);}}
-\DoxyCodeLine{139 }
-\DoxyCodeLine{140 \textcolor{preprocessor}{\#define DEFAULT\_TO\_STRING(type, format)                                                                                                    \(\backslash\)}}
-\DoxyCodeLine{141 \textcolor{preprocessor}{    String type\#\#\_to\_string(const type* self) \{                                                                                            \(\backslash\)}}
-\DoxyCodeLine{142 \textcolor{preprocessor}{        char* str = MALLOC(100);                                                                                                           \(\backslash\)}}
-\DoxyCodeLine{143 \textcolor{preprocessor}{        sprintf(str, format, *self);                                                                                                       \(\backslash\)}}
-\DoxyCodeLine{144 \textcolor{preprocessor}{        return String\_from\_owned(str);                                                                                                     \(\backslash\)}}
-\DoxyCodeLine{145 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{146 }
-\DoxyCodeLine{147 \textcolor{keywordtype}{char}* read\_file(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
-\DoxyCodeLine{148 }
-\DoxyCodeLine{149 \textcolor{keywordtype}{void} String\_pop\_n(\mbox{\hyperlink{structString}{String}}* self, \textcolor{keywordtype}{size\_t} n);}
-\DoxyCodeLine{150 \textcolor{keywordtype}{void} String\_pop(\mbox{\hyperlink{structString}{String}}* self);}
-\DoxyCodeLine{151 }
-\DoxyCodeLine{152 \mbox{\hyperlink{structString}{String}} String\_with\_capacity(\textcolor{keywordtype}{size\_t} capacity);}
-\DoxyCodeLine{153 }
-\DoxyCodeLine{154 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <assert.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Text\ formatting}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ TEXT\_BOLD\ \ "{}\(\backslash\)033[1m"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ TEXT\_RED\ \ \ "{}\(\backslash\)033[31m"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ TEXT\_GREEN\ "{}\(\backslash\)033[32m"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ TEXT\_RESET\ "{}\(\backslash\)033[0m"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ Malloc\ with\ error\ handling}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ TODO\ :\ print\ stack\ trace\ maybe?}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ MALLOC\_CHECK(size)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ ((size)\ ==\ 0)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ "{}Memory\ allocation\ with\ size\ 0\ at\ \%s:\%d\(\backslash\)n"{},\ \_\_FILE\_\_,\ \_\_LINE\_\_);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ void*\ ptr\ =\ malloc(size);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ (ptr\ ==\ NULL)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ "{}Memory\ allocation\ failed\(\backslash\)n"{});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ exit(1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ptr;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \})}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#ifdef\ DEBUG}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#\ \ \ define\ MALLOC(size)\ MALLOC\_CHECK(size)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#\ \ \ define\ MALLOC(size)\ malloc(size)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Floating\ point\ comparison}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ F\_EQUALS(left,\ right)\ \ \ \ \ \ \ \ \ (fabs((left)\ -\/\ (right))\ <\ 1e-\/9)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ F\_EQUALS\_APPROX(left,\ right,\ eps)\ (fabs((left)\ -\/\ (right))\ <\ (eps))}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ NO\_FREE(type)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ void\ type\#\#\_destroy(type\ self\ \_\_attribute\_\_((unused)))\ \{\}}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ DEFAULT\_EQUALS(type)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ bool\ type\#\#\_equals(const\ type*\ left,\ const\ type*\ right)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ *left\ ==\ *right;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ DEFAULT\_COMPARE(type)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ int\ type\#\#\_compare(const\ type*\ left,\ const\ type*\ right)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ *left\ -\/\ *right;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ DeclareEquals(type)\ \ bool\ type\#\#\_equals(const\ type*\ left,\ const\ type*\ right);}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ DeclareCompare(type)\ int\ type\#\#\_compare(const\ type*\ left,\ const\ type*\ right);}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ DeclareDestroy(type)\ void\ type\#\#\_destroy(type\ self);}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ DeclareHash(type)\ \ \ \ int\ type\#\#\_hash(const\ type*\ self);}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ DEFAULT\_MIN\_MAX(type)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ type\ type\#\#\_min(type\ left,\ type\ right)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ left\ <\ right\ ?\ left\ :\ right;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ type\ type\#\#\_max(type\ left,\ type\ right)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ left\ >\ right\ ?\ left\ :\ right;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ TODO\ :\ optionnal\ message}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#ifdef\ DEBUG}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#\ \ \ define\ ASSERT(expr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ bool\ \_\_assert\_result\ =\ (expr);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ if\ (!(\_\_assert\_result))\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ "{}Assertion\ failed:\ \%s,\ file\ \%s,\ line\ \%d\(\backslash\)n"{},\ \#expr,\ \_\_FILE\_\_,\ \_\_LINE\_\_);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\_\_assert\_result);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \})}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#\ \ \ ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ define\ ASSERT(expr)\ \_\_builtin\_expect((expr),\ 1)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#\ \ \ elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ define\ ASSERT(expr)\ \_\_attribute\_\_((assume(expr)))}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#\ \ \ endif}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{comment}{//\ TODO:\ add\ message\ to\ signal\ it's\ my\ fault\ and\ not\ the\ user's}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ DEV\_ASSERT(expr)\ ASSERT(expr)}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#ifdef\ DEBUG}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#\ \ \ define\ UNREACHABLE\_CODE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ "{}Unreachable\ code\ reached\ at\ \%s:\%d\(\backslash\)n"{},\ \_\_FILE\_\_,\ \_\_LINE\_\_);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ assert(false);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \})}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#\ \ \ define\ UNREACHABLE\_CODE\ \_\_builtin\_unreachable()}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ ||\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#\ \ \ define\ LIKELY(cond)\ \ \ (\_\_builtin\_expect(!!(cond),\ 1))}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#\ \ \ define\ UNLIKELY(cond)\ (\_\_builtin\_expect(!!(cond),\ 0))}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#\ \ \ define\ LIKELY(cond)\ \ \ (cond)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#\ \ \ define\ UNLIKELY(cond)\ (cond)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#\ \ \ define\ DONT\_OPTIMISE\ \_\_attribute\_\_((optnone))}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#\ \ \ define\ DONT\_OPTIMISE\ \_\_attribute\_\_((optimize("{}O0"{})))}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#\ \ \ define\ DONT\_OPTIMISE}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ ||\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#\ \ \ define\ PURE\_FN\ \ \ \_\_attribute\_\_((pure))}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#\ \ \ define\ CONST\_FN\ \_\_attribute\_\_((const))}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#\ \ \ define\ PURE\_FN}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#\ \ \ define\ CONST\_FN}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{comment}{//\ TODO:\ rename\ those\ to\ the\ same\ as\ arraylist}}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size;}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ capacity;}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{char}*\ data;}
+\DoxyCodeLine{00124\ \}\ \mbox{\hyperlink{structString}{String}};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#include\ "{}utils.h"{}}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \mbox{\hyperlink{structString}{String}}\ String\_from\_owned(\textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00131\ \mbox{\hyperlink{structString}{String}}\ String\_from\_duplicate(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ TODO:\ mis\ namings\ between\ push\ and\ append}}
+\DoxyCodeLine{00134\ \textcolor{comment}{//\ plus\ push\ str\ and\ append\ formatted\ can\ be\ merged}}
+\DoxyCodeLine{00135\ \textcolor{keywordtype}{void}\ String\_push(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keywordtype}{char}\ character);}
+\DoxyCodeLine{00136\ \textcolor{keywordtype}{void}\ String\_push\_str(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00137\ \textcolor{keywordtype}{void}\ String\_append\_formatted(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ format,\ ...);}
+\DoxyCodeLine{00138\ \textcolor{keywordtype}{void}\ String\_concat\_copy(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ with);}
+\DoxyCodeLine{00139\ \textcolor{keywordtype}{void}\ String\_concat\_consume(\mbox{\hyperlink{structString}{String}}*\ self,\ \mbox{\hyperlink{structString}{String}}\ with);}
+\DoxyCodeLine{00140\ \mbox{\hyperlink{structString}{String}}\ String\_clone(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ str);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ DeclareDestroy(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00143\ DeclareEquals(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00144\ DeclareCompare(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00145\ DeclareHash(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ DeclareToString(type)\ String\ type\#\#\_to\_string(const\ type*\ self);}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ DeclareToString(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ DEFAULT\_TO\_STRING(type,\ format)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\ \ \ \ String\ type\#\#\_to\_string(const\ type*\ self)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ char*\ str\ =\ MALLOC(100);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ sprintf(str,\ format,\ *self);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ String\_from\_owned(str);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{keywordtype}{char}*\ read\_file(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{keywordtype}{void}\ String\_pop\_n(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{00161\ \textcolor{keywordtype}{void}\ String\_pop(\mbox{\hyperlink{structString}{String}}*\ self);}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \mbox{\hyperlink{structString}{String}}\ String\_with\_capacity(\textcolor{keywordtype}{size\_t}\ capacity);}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

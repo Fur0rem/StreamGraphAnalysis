@@ -1,3 +1,5 @@
+#define SGA_INTERNAL
+
 #include "iterators.h"
 #include "interval.h"
 #include "units.h"
@@ -54,14 +56,14 @@ TimesIterator TimesIterator_union(TimesIterator a, TimesIterator b) {
 	IntervalsSet unioned = IntervalsSet_union(intervals_set_a, intervals_set_b);
 
 	IntervalsIteratorData* data = MALLOC(sizeof(IntervalsIteratorData));
-	data->intervals				= unioned;
-	data->current_interval		= 0;
+	data->intervals		    = unioned;
+	data->current_interval	    = 0;
 
 	TimesIterator times = {
-		.stream_graph  = a.stream_graph,
-		.iterator_data = data,
-		.next		   = IntervalsIterator_next,
-		.destroy	   = IntervalsIterator_destroy,
+	    .stream_graph  = a.stream_graph,
+	    .iterator_data = data,
+	    .next	   = IntervalsIterator_next,
+	    .destroy	   = IntervalsIterator_destroy,
 	};
 
 	IntervalArrayList_destroy(intervals);
@@ -96,15 +98,15 @@ TimesIterator TimesIterator_intersection(TimesIterator a, TimesIterator b) {
 	IntervalsSet intersected = IntervalsSet_intersection(intervals_set_a, intervals_set_b);
 
 	TimesIterator times = {
-		.stream_graph  = a.stream_graph,
-		.iterator_data = MALLOC(sizeof(IntervalsIteratorData)),
-		.next		   = IntervalsIterator_next,
-		.destroy	   = IntervalsIterator_destroy,
+	    .stream_graph  = a.stream_graph,
+	    .iterator_data = MALLOC(sizeof(IntervalsIteratorData)),
+	    .next	   = IntervalsIterator_next,
+	    .destroy	   = IntervalsIterator_destroy,
 	};
 
 	IntervalsIteratorData* data = (IntervalsIteratorData*)times.iterator_data;
-	data->intervals				= intersected;
-	data->current_interval		= 0;
+	data->intervals		    = intersected;
+	data->current_interval	    = 0;
 
 	IntervalArrayList_destroy(intervals);
 	IntervalsSet_destroy(intervals_set_a);
@@ -156,7 +158,7 @@ typedef struct {
 
 NodeId NodesIterator_filtered_next(NodesIterator* iter) {
 	FilteredNodesIteratorData* data = (FilteredNodesIteratorData*)iter->iterator_data;
-	NodeId node						= data->iter->next(data->iter);
+	NodeId node			= data->iter->next(data->iter);
 	while (node != NODES_ITERATOR_END) {
 		if (data->predicate(node)) {
 			return node;
@@ -174,14 +176,14 @@ void NodesIterator_filtered_destroy(NodesIterator* iter) {
 
 NodesIterator NodesIterator_filtered(NodesIterator iter, bool (*predicate)(NodeId)) {
 	FilteredNodesIteratorData* data = MALLOC(sizeof(FilteredNodesIteratorData));
-	data->iter						= &iter;
-	data->predicate					= predicate;
+	data->iter			= &iter;
+	data->predicate			= predicate;
 
 	NodesIterator filtered = {
-		.stream_graph  = iter.stream_graph,
-		.iterator_data = data,
-		.next		   = NodesIterator_filtered_next,
-		.destroy	   = NodesIterator_filtered_destroy,
+	    .stream_graph  = iter.stream_graph,
+	    .iterator_data = data,
+	    .next	   = NodesIterator_filtered_next,
+	    .destroy	   = NodesIterator_filtered_destroy,
 	};
 
 	return filtered;

@@ -1,9 +1,14 @@
-#include "../src/bit_array.h"
-#include "../src/utils.h"
+/**
+ * @file tests/bit_array.c
+ * @brief Tests regarding BitArray
+ */
+
+#define SGA_INTERNAL
+
+#include "../StreamGraphAnalysis.h"
 #include "test.h"
 
 #include <stddef.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
 

@@ -1,0 +1,79 @@
+\doxysection{src/analysis/isomorphism.h File Reference}
+\hypertarget{isomorphism_8h}{}\label{isomorphism_8h}\index{src/analysis/isomorphism.h@{src/analysis/isomorphism.h}}
+
+
+Functions to check if two streamgraphs are isomorphic.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Functions to check if two streamgraphs are isomorphic. 
+
+Iso-\/morphism in regular graphs means that two graphs are the same, but with different labels on the nodes. That is, the structure of the graph is the same, but the nodes are different. In mathematical terms, it means there exists a bijection between the nodes of the two graphs that preserves the edges.
+
+In the context of streamgraphs, we add the time dimension to the definition. Now, two streamgraphs are isomorphic if their structure is the same, and if their evolution over time is the same. That means that the bijection between the nodes also preserves the times at which the nodes are present, and the times at which the links are present. Albeit with a possible offset of the time axis between the two streamgraphs. {\ttfamily \#include "{}../stream.\+h"{}}\newline
+Include dependency graph for isomorphism.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{isomorphism_8h_a4803e2186a745ab1d8cb350d031184df}{are\+\_\+isomorphic}} (const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
+\begin{DoxyCompactList}\small\item\em Check if two streamgraphs are isomorphic. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454}{are\+\_\+probably\+\_\+isomorphic}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
+\begin{DoxyCompactList}\small\item\em Check if two streamgraphs are probably isomorphic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{isomorphism_8h_a4803e2186a745ab1d8cb350d031184df}\index{isomorphism.h@{isomorphism.h}!are\_isomorphic@{are\_isomorphic}}
+\index{are\_isomorphic@{are\_isomorphic}!isomorphism.h@{isomorphism.h}}
+\doxysubsubsection{\texorpdfstring{are\_isomorphic()}{are\_isomorphic()}}
+{\footnotesize\ttfamily \label{isomorphism_8h_a4803e2186a745ab1d8cb350d031184df} 
+bool are\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
+
+
+
+Check if two streamgraphs are isomorphic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & The first streamgraph \\
+\hline
+{\em s2} & The second streamgraph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the two streamgraphs are isomorphic, false otherwise
+\end{DoxyReturn}
+This function can be quite costly in terms of computation, as the algorithm used is in O(n!) worst case where n is the number of nodes in the streamgraphs. This is why there is also an alternative function are\+\_\+probably\+\_\+isomorphic which is way faster, but may return false positives. \Hypertarget{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454}\index{isomorphism.h@{isomorphism.h}!are\_probably\_isomorphic@{are\_probably\_isomorphic}}
+\index{are\_probably\_isomorphic@{are\_probably\_isomorphic}!isomorphism.h@{isomorphism.h}}
+\doxysubsubsection{\texorpdfstring{are\_probably\_isomorphic()}{are\_probably\_isomorphic()}}
+{\footnotesize\ttfamily \label{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454} 
+bool are\+\_\+probably\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
+
+
+
+Check if two streamgraphs are probably isomorphic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & The first streamgraph \\
+\hline
+{\em s2} & The second streamgraph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the two streamgraphs are probably isomorphic, false otherwise
+\end{DoxyReturn}
+This function only checks for fast-\/to-\/compute properties and metrics, and will catch most cases where the two streamgraphs are not isomorphic, especially as the streamgraphs get larger. However, it may return false positives in some cases, where the two streamgraphs are not isomorphic, but the function returns true. This function checks for the following properties\+:
+\begin{DoxyItemize}
+\item The number of nodes in the two streamgraphs (distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set)
+\item The number of links in the two streamgraphs (temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set)
+\item The total duration of the two streamgraphs (duration)
+\item The total node duration of the two streamgraphs (temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set)
+\item The density of the two streamgraphs
+\item The average node degree of the two streamgraphs
+\item The uniformity of the two streamgraphs All these properties can be computed in \texorpdfstring{$<$}{<}= O(n) time, where n is the number of nodes in the streamgraphs. 
+\end{DoxyItemize}

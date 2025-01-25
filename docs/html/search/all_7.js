@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['link_0',['Link',['../structLink.html',1,'']]],
-  ['linkidmap_1',['LinkIdMap',['../structLinkIdMap.html',1,'']]],
-  ['linkinfo_2',['LinkInfo',['../structLinkInfo.html',1,'']]],
-  ['linksiterator_3',['LinksIterator',['../structLinksIterator.html',1,'LinksIterator'],['../iterators_8h.html#a7cf998d549a9dbc3e839cb6df96ec48b',1,'LinksIterator():&#160;iterators.h']]],
-  ['linksset_4',['LinksSet',['../structLinksSet.html',1,'']]]
+  ['graph_20data_0',['Specifications of the stream graph data',['../index.html#autotoc_md10',1,'']]],
+  ['graphs_1',['StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs',['../index.html',1,'']]],
+  ['guidelines_20and_20organisation_2',['Project guidelines and organisation',['../index.html#autotoc_md11',1,'']]]
 ];

@@ -1,8 +1,5 @@
-#ifndef ITERATORS_H
-#define ITERATORS_H
-
 /**
- * @file iterators.h
+ * @file src/iterators.h
  * @brief Iterators over nodes, links and time intervals.
  *
  * An iterator is a structure that allows to iterate over a set of data.
@@ -19,6 +16,9 @@
  * A consumed iterator should not be used anymore.
  */
 
+#ifndef ITERATORS_H
+#define ITERATORS_H
+
 #include "interval.h"
 #include "stream.h"
 #include <stddef.h>
@@ -28,32 +28,35 @@
  * @brief An iterator over nodes.
  */
 typedef struct NodesIterator NodesIterator;
-struct NodesIterator {
-	Stream stream_graph;
-	void* iterator_data;
-	size_t (*next)(NodesIterator*);
-	void (*destroy)(NodesIterator*);
-	void (*skip_n)(void*, size_t);
-};
 
 /**
  * @brief An iterator over links.
  */
 typedef struct LinksIterator LinksIterator;
-struct LinksIterator {
-	Stream stream_graph;
-	void* iterator_data;
-	size_t (*next)(LinksIterator*);
-	void (*destroy)(LinksIterator*);
-	void (*skip_n)(void*, size_t); // TODO : those
-};
 
 /**
  * @brief An iterator over a set of time intervals.
  */
 typedef struct TimesIterator TimesIterator;
+
+struct NodesIterator {
+	SGA_Stream stream_graph;
+	void* iterator_data;
+	size_t (*next)(NodesIterator*);
+	void (*destroy)(NodesIterator*);
+	// void (*skip_n)(void*, size_t); // TODO : those
+};
+
+struct LinksIterator {
+	SGA_Stream stream_graph;
+	void* iterator_data;
+	size_t (*next)(LinksIterator*);
+	void (*destroy)(LinksIterator*);
+	// void (*skip_n)(void*, size_t); // TODO : those
+};
+
 struct TimesIterator {
-	Stream stream_graph;
+	SGA_Stream stream_graph;
 	void* iterator_data;
 	Interval (*next)(TimesIterator*);
 	void (*destroy)(TimesIterator*);
@@ -64,16 +67,16 @@ struct TimesIterator {
 // The destroy function is only called when the previous condition is false, and then evaluates to 0 (false)
 // This uses the GNU extension of "Statement Expressions"
 #define FOR_EACH(type_iterated, iterated, iterator, end_cond)                                                                              \
-	for (type_iterated iterated = (iterator).next(&(iterator)); (end_cond) || ({                                                           \
-																	(iterator).destroy(&(iterator));                                       \
-																	0;                                                                     \
-																});                                                                        \
-		 (iterated)				= (iterator).next(&(iterator)))
+	for (type_iterated iterated = (iterator).next(&(iterator)); (end_cond) || ({                                                       \
+									    (iterator).destroy(&(iterator));                               \
+									    0;                                                             \
+								    });                                                                    \
+	     (iterated)		    = (iterator).next(&(iterator)))
 /** @endcond */
 
 // TODO: rename to IntervalIterator probably
-#define TIMES_ITERATOR_END ((Interval){.start = SIZE_MAX, .end = SIZE_MAX})
-#define NODES_ITERATOR_END SIZE_MAX
+#define TIMES_ITERATOR_END ((Interval){.start = SIZE_MAX, .end = 0})
+#define NODES_ITERATOR_END SIZE_MAX // TODO: switch to LINK_MAX, TIME_MAX, NODE_MAX when it is defined
 #define LINKS_ITERATOR_END SIZE_MAX
 
 /**
@@ -84,8 +87,8 @@ struct TimesIterator {
  * Consumes the iterator.
  * @{
  */
-#define FOR_EACH_NODE(iterated, iterator) FOR_EACH(size_t, iterated, iterator, (iterated) != NODES_ITERATOR_END)
-#define FOR_EACH_LINK(iterated, iterator) FOR_EACH(size_t, iterated, iterator, (iterated) != LINKS_ITERATOR_END)
+#define FOR_EACH_NODE(iterated, iterator) FOR_EACH(NodeId, iterated, iterator, (iterated) != NODES_ITERATOR_END)
+#define FOR_EACH_LINK(iterated, iterator) FOR_EACH(LinkId, iterated, iterator, (iterated) != LINKS_ITERATOR_END)
 #define FOR_EACH_TIME(iterated, iterator) FOR_EACH(Interval, iterated, iterator, (iterated).start != SIZE_MAX)
 /** @} */
 
@@ -100,12 +103,12 @@ size_t total_time_of(TimesIterator times);
 
 /** @cond */
 #define _COUNT_ITERATOR(type, iterated, iterator, end_cond)                                                                                \
-	({                                                                                                                                     \
-		size_t count = 0;                                                                                                                  \
-		FOR_EACH(type, iterated, iterator, end_cond) {                                                                                     \
-			count++;                                                                                                                       \
-		}                                                                                                                                  \
-		count;                                                                                                                             \
+	({                                                                                                                                 \
+		size_t count = 0;                                                                                                          \
+		FOR_EACH(type, iterated, iterator, end_cond) {                                                                             \
+			count++;                                                                                                           \
+		}                                                                                                                          \
+		count;                                                                                                                     \
 	})
 size_t count_nodes(NodesIterator nodes);
 size_t count_links(LinksIterator links);
@@ -170,9 +173,9 @@ NodeIdArrayList SGA_collect_node_ids(NodesIterator nodes);
 LinkIdArrayList SGA_collect_link_ids(LinksIterator links);
 
 #define BREAK_ITER(iterator)                                                                                                               \
-	({                                                                                                                                     \
-		(iterator).destroy(&(iterator));                                                                                                   \
-		break;                                                                                                                             \
+	({                                                                                                                                 \
+		(iterator).destroy(&(iterator));                                                                                           \
+		break;                                                                                                                     \
 	})
 
 #endif // ITERATORS_H
