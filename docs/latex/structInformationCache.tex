@@ -1,26 +1,43 @@
-\hypertarget{structInformationCache}{}\doxysection{Information\+Cache Struct Reference}
-\label{structInformationCache}\index{InformationCache@{InformationCache}}
+\doxysection{Information\+Cache Struct Reference}
+\hypertarget{structInformationCache}{}\label{structInformationCache}\index{InformationCache@{InformationCache}}
+
+
+A cache of information about the 4 main sets of a \doxylink{structStream}{Stream}\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V.  
+
+
+
+
+\doxysubsection{Detailed Description}
+A cache of information about the 4 main sets of a \doxylink{structStream}{Stream}\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V. 
+
+Some metrics share the same computation, for example, the average node degree, compactness, and density all need the cardinal of W. Instead of recomputing the same value multiple times, we store it in a cache, as all the values are constant for a given \doxylink{structStream}{Stream}. 
+
+{\ttfamily \#include $<$stream.\+h$>$}
+
 
 
 Collaboration diagram for Information\+Cache\+:
 % FIG 0
-\doxysubsection*{Public Attributes}
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structInformationCache_af377e6b18b169a3ae97a2cf122fee6ec}\label{structInformationCache_af377e6b18b169a3ae97a2cf122fee6ec}} 
-\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries cardinal\+OfW}
-\item 
-\mbox{\Hypertarget{structInformationCache_a987a146bcad3a4f8d2d304ed38222099}\label{structInformationCache_a987a146bcad3a4f8d2d304ed38222099}} 
-\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries cardinal\+OfT}
-\item 
-\mbox{\Hypertarget{structInformationCache_aeacf4b628118d5f76cdfd524c6641b92}\label{structInformationCache_aeacf4b628118d5f76cdfd524c6641b92}} 
-\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries cardinal\+OfE}
-\item 
-\mbox{\Hypertarget{structInformationCache_aec394c96b4d70467c70847caa3efdb25}\label{structInformationCache_aec394c96b4d70467c70847caa3efdb25}} 
-\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries cardinal\+OfV}
-\end{DoxyCompactItemize}
+\Hypertarget{structInformationCache_a3ef19171db92fde3db5375cf72a56f94}\label{structInformationCache_a3ef19171db92fde3db5375cf72a56f94} 
+\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set}
+\begin{DoxyCompactList}\small\item\em The cardinal of the temporal nodes set W. \end{DoxyCompactList}\item 
+\Hypertarget{structInformationCache_ae6f1a0b399763d3b9a5bc55f3d51198c}\label{structInformationCache_ae6f1a0b399763d3b9a5bc55f3d51198c} 
+\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries duration}
+\begin{DoxyCompactList}\small\item\em The cardinal of the life span T. \end{DoxyCompactList}\item 
+\Hypertarget{structInformationCache_a1fc7502fa7d0a9c59700ff49a9720186}\label{structInformationCache_a1fc7502fa7d0a9c59700ff49a9720186} 
+\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set}
+\begin{DoxyCompactList}\small\item\em The cardinal of the temporal links set E. \end{DoxyCompactList}\item 
+\Hypertarget{structInformationCache_af88ff6c5a24810eaa686047b409912f6}\label{structInformationCache_af88ff6c5a24810eaa686047b409912f6} 
+\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set}
+\begin{DoxyCompactList}\small\item\em The cardinal of the distinct nodes set V. \end{DoxyCompactList}\item 
+\Hypertarget{structInformationCache_ab62de569648c8d79a50c281718b561d9}\label{structInformationCache_ab62de569648c8d79a50c281718b561d9} 
+\mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}} {\bfseries distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set}
+\begin{DoxyCompactList}\small\item\em The cardinal of the distinct links set. (Not defined in the paper) \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/stream.\+h\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{stream_8h}{stream.\+h}}\end{DoxyCompactItemize}

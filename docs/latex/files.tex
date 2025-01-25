@@ -1,19 +1,28 @@
 \doxysection{File List}
 Here is a list of all documented files with brief descriptions\+:\begin{DoxyCompactList}
+\item\contentsline{section}{\mbox{\hyperlink{StreamGraphAnalysis_8h}{Stream\+Graph\+Analysis.\+h}} \\*The main header file of the library }{\pageref{StreamGraphAnalysis_8h}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{arena_8h_source}{arena.\+h}} }{\pageref{arena_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{bit__array_8h}{bit\+\_\+array.\+h}} \\*A variable length array of bits and functions to manipulate it }{\pageref{bit__array_8h}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{defaults_8h_source}{defaults.\+h}} }{\pageref{defaults_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{fraction_8h_source}{fraction.\+h}} }{\pageref{fraction_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{interval_8h_source}{interval.\+h}} }{\pageref{interval_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{iterators_8h}{iterators.\+h}} \\*Iterators over nodes, links and time intervals }{\pageref{iterators_8h}}{}
-\item\contentsline{section}{src/\mbox{\hyperlink{metrics_8h}{metrics.\+h}} \\*Functions to compute metrics on a \mbox{\hyperlink{structStream}{Stream}} }{\pageref{metrics_8h}}{}
-\item\contentsline{section}{src/\mbox{\hyperlink{stream_8h_source}{stream.\+h}} }{\pageref{stream_8h_source}}{}
-\item\contentsline{section}{src/\mbox{\hyperlink{stream__functions_8h_source}{stream\+\_\+functions.\+h}} }{\pageref{stream__functions_8h_source}}{}
-\item\contentsline{section}{src/\mbox{\hyperlink{stream__wrappers_8h_source}{stream\+\_\+wrappers.\+h}} }{\pageref{stream__wrappers_8h_source}}{}
+\item\contentsline{section}{src/\mbox{\hyperlink{stream_8h}{stream.\+h}} \\*Create Stream\+Graph\textquotesingle{}s and manipulate generic \doxylink{structStream}{Stream}\textquotesingle{}s. A Stream\+Graph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. ~\newline
+ A \doxylink{structStream}{Stream} is a wrapper/interface around a Stream\+Graph. All the functions to access the data and metrics take a \doxylink{structStream}{Stream} as input, and not a Stream\+Graph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of \doxylink{structStream}{Stream}\textquotesingle{}s can change the way a Stream\+Graph is viewed. ~\newline
+ The 4 main types of \doxylink{structStream}{Stream} are\+: }{\pageref{stream_8h}}{}
+\item\contentsline{section}{src/\mbox{\hyperlink{stream__functions_8h}{stream\+\_\+functions.\+h}} \\*Functions to access the data of a Stream\+Graph }{\pageref{stream__functions_8h}}{}
+\item\contentsline{section}{src/\mbox{\hyperlink{streams_8h}{streams.\+h}} \\*Utility header to include all types of streams at once }{\pageref{streams_8h}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{units_8h_source}{units.\+h}} }{\pageref{units_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{utils_8h_source}{utils.\+h}} }{\pageref{utils_8h_source}}{}
-\item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{events__table_8h_source}{events\+\_\+table.\+h}} }{\pageref{events__table_8h_source}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{cliques_8c}{cliques.\+c}} \\*Implementation of the algorithm to find maximal cliques in a \doxylink{structStream}{Stream}. ~\newline
+ The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}} }{\pageref{cliques_8c}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{cliques_8h}{cliques.\+h}} \\*Find maximal cliques in a \doxylink{structStream}{Stream} }{\pageref{cliques_8h}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{isomorphism_8h}{isomorphism.\+h}} \\*Functions to check if two streamgraphs are isomorphic }{\pageref{isomorphism_8h}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{kcores_8h}{kcores.\+h}} \\*Functions to compute the k-\/cores of a \doxylink{structStream}{Stream} }{\pageref{kcores_8h}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{metrics_8h}{metrics.\+h}} \\*Functions to compute metrics on a \doxylink{structStream}{Stream} }{\pageref{metrics_8h}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{walks_8h_source}{walks.\+h}} }{\pageref{walks_8h_source}}{}
+\item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{events__table_8h}{events\+\_\+table.\+h}} }{\pageref{events__table_8h}}{}
 \item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{key__moments__table_8h_source}{key\+\_\+moments\+\_\+table.\+h}} }{\pageref{key__moments__table_8h_source}}{}
 \item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{links__set_8h_source}{links\+\_\+set.\+h}} }{\pageref{links__set_8h_source}}{}
-\item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{nodes__set_8h_source}{nodes\+\_\+set.\+h}} }{\pageref{nodes__set_8h_source}}{}
+\item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{nodes__set_8h}{nodes\+\_\+set.\+h}} \\*A node and a set of nodes of a Stream\+Graph }{\pageref{nodes__set_8h}}{}
 \end{DoxyCompactList}

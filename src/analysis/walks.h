@@ -34,7 +34,7 @@ struct TreeNode {
 
 TreeNode TreeNode_with_id(size_t id);
 void TreeNode_push_child(TreeNode* node, TreeEdge child);
-TreeNode exploration_tree_from_stream(Stream* stream);
+TreeNode exploration_tree_from_stream(SGA_Stream* stream);
 
 typedef struct {
 	LinkId link;
@@ -54,7 +54,7 @@ typedef struct {
 	NodeId start;
 	NodeId end;
 	Interval optimality;
-	Stream* stream;
+	SGA_Stream* stream;
 	WalkStepArrayList steps;
 } Walk;
 
@@ -80,8 +80,8 @@ typedef struct {
 	} type;
 } WalkInfo;
 
-WalkInfo Stream_shortest_walk_from_to_at(Stream* stream, NodeId from, NodeId to, TimeId at);
-WalkInfo Stream_fastest_shortest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
+WalkInfo Stream_shortest_walk_from_to_at(SGA_Stream* stream, NodeId from, NodeId to, TimeId at);
+WalkInfo Stream_fastest_shortest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId at);
 DeclareToString(Walk);
 DeclareEquals(Walk);
 DeclareToString(WalkInfo);
@@ -93,21 +93,22 @@ DeclareArrayListDeriveEquals(WalkInfo);
 DeclareArrayListDeriveToString(WalkInfo);
 DeclareArrayListDeriveRemove(WalkInfo);
 
-WalkInfoArrayList optimal_walks_between_two_nodes(Stream* stream, NodeId from, NodeId to, WalkInfo (*fn)(Stream*, NodeId, NodeId, TimeId));
-WalkInfo Stream_fastest_walk(Stream* stream, NodeId from, NodeId to, TimeId at);
+WalkInfoArrayList optimal_walks_between_two_nodes(SGA_Stream* stream, NodeId from, NodeId to,
+						  WalkInfo (*fn)(SGA_Stream*, NodeId, NodeId, TimeId));
+WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId at);
 
 size_t Walk_length(Walk* walk);
 size_t Walk_duration(Walk* walk);
 
-double Stream_robustness_by_length(Stream* stream);
+double Stream_robustness_by_length(SGA_Stream* stream);
 
-bool Walk_goes_through(Walk* walk, Stream stream, size_t nb_steps, ...);
+bool Walk_goes_through(Walk* walk, SGA_Stream stream, size_t nb_steps, ...);
 
 Walk WalkInfo_unwrap_checked(WalkInfo info);
 Walk WalkInfo_unwrap_unchecked(WalkInfo info);
 
 TimeId Walk_arrives_at(Walk* walk);
 
-double Stream_robustness_by_duration(Stream* stream);
+double Stream_robustness_by_duration(SGA_Stream* stream);
 
 #endif // WALK_H

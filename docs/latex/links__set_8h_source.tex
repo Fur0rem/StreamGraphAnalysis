@@ -1,36 +1,36 @@
-\hypertarget{links__set_8h_source}{}\doxysection{links\+\_\+set.\+h}
-\label{links__set_8h_source}\index{src/stream\_graph/links\_set.h@{src/stream\_graph/links\_set.h}}
+\doxysection{links\+\_\+set.\+h}
+\hypertarget{links__set_8h_source}{}\label{links__set_8h_source}\index{src/stream\_graph/links\_set.h@{src/stream\_graph/links\_set.h}}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_GRAPH\_LINKS\_SET\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_GRAPH\_LINKS\_SET\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../interval.h"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../units.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdint.h>}}
-\DoxyCodeLine{8 }
-\DoxyCodeLine{9 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{10     \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}} presence;}
-\DoxyCodeLine{11     NodeId nodes[2];}
-\DoxyCodeLine{12 \} \mbox{\hyperlink{structLink}{Link}};}
-\DoxyCodeLine{13 }
-\DoxyCodeLine{14 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{15     \textcolor{keywordtype}{size\_t} nb\_links;}
-\DoxyCodeLine{16     \mbox{\hyperlink{structLink}{Link}}* links;}
-\DoxyCodeLine{17 \} \mbox{\hyperlink{structLinksSet}{LinksSet}};}
-\DoxyCodeLine{18 }
-\DoxyCodeLine{19 \mbox{\hyperlink{structLinksSet}{LinksSet}} LinksSet\_alloc(\textcolor{keywordtype}{size\_t} nb\_links);}
-\DoxyCodeLine{20 DeclareToString(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{21 DeclareEquals(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{22 }
-\DoxyCodeLine{23 DeclareArrayList(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{24 DeclareArrayListDeriveEquals(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{25 DeclareArrayListDeriveToString(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{26 DeclareArrayListDeriveRemove(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{27 }
-\DoxyCodeLine{28 NodeId Link\_get\_other\_node(\textcolor{keyword}{const} \mbox{\hyperlink{structLink}{Link}}* link, NodeId node\_id);}
-\DoxyCodeLine{29 }
-\DoxyCodeLine{30 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../units.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}\ presence;}
+\DoxyCodeLine{00011\ \ \ \ \ NodeId\ nodes[2];}
+\DoxyCodeLine{00012\ \}\ \mbox{\hyperlink{structLink}{Link}};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_links;}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structLink}{Link}}*\ links;}
+\DoxyCodeLine{00017\ \}\ \mbox{\hyperlink{structLinksSet}{LinksSet}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ LinksSet\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_links);}
+\DoxyCodeLine{00020\ DeclareToString(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00021\ DeclareEquals(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ DeclareArrayList(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00024\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00025\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00026\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ NodeId\ Link\_get\_other\_node(\textcolor{keyword}{const}\ \mbox{\hyperlink{structLink}{Link}}*\ link,\ NodeId\ node\_id);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_GRAPH\_LINKS\_SET\_H}}
 
 \end{DoxyCode}

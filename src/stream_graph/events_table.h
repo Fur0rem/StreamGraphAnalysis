@@ -1,3 +1,7 @@
+/**
+ * @file src/stream_graph/events_table.h
+ */
+
 #ifndef EVENTS_TABLE_H
 #define EVENTS_TABLE_H
 
@@ -6,10 +10,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef struct {
+typedef struct Event Event;
+#ifdef SGA_INTERNAL
+struct Event {
 	size_t nb_info;
 	size_t* events;
-} Event;
+};
+#endif // SGA_INTERNAL
 
 typedef struct {
 	Event* events;
@@ -23,7 +30,12 @@ typedef struct {
 	Events link_events;
 } EventsTable;
 
+#ifdef SGA_INTERNAL
+
 EventsTable EventsTable_alloc(size_t nb_node_regular_key_moments, size_t nb_node_removal_only_key_moments);
 String EventsTable_to_string(EventsTable* events_table);
+// TODO: no destroy ?
+
+#endif // SGA_INTERNAL
 
 #endif

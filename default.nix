@@ -7,9 +7,10 @@ let
 
 in pkgs.mkShell {
 	buildInputs = with pkgs; [ 
-		clang-tools
 		gcc
 		coreutils-prefixed
 		re2
+		clang-tools
+		doxygen
 	];
 }

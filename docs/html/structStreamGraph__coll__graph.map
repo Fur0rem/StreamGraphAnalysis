@@ -3,8 +3,8 @@
 <area shape="rect" id="node2" href="$structKeyMomentsTable.html" title=" " alt="" coords="168,288,309,315"/>
 <area shape="rect" id="node3" href="$structMomentsSlice.html" title=" " alt="" coords="5,184,120,211"/>
 <area shape="rect" id="node4" href="$structKeyMomentsTableIterator.html" title=" " alt="" coords="144,184,333,211"/>
-<area shape="rect" id="node5" href="$structTemporalNodesSet.html" title=" " alt="" coords="420,288,564,315"/>
-<area shape="rect" id="node6" href="$structTemporalNode.html" title=" " alt="" coords="463,184,579,211"/>
+<area shape="rect" id="node5" href="$structNodesSet.html" title=" " alt="" coords="420,288,564,315"/>
+<area shape="rect" id="node6" href="$structNode.html" title=" " alt="" coords="463,184,579,211"/>
 <area shape="rect" id="node7" href="$structIntervalsSet.html" title=" " alt="" coords="471,95,571,121"/>
 <area shape="rect" id="node10" href="$structLink.html" title=" " alt="" coords="603,184,653,211"/>
 <area shape="rect" id="node8" href="$structInterval.html" title=" " alt="" coords="367,5,439,32"/>

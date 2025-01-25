@@ -1,10 +1,10 @@
-#ifndef INDUCED_GRAPH_H
-#define INDUCED_GRAPH_H
-
 /**
- * @file induced_graph.h
+ * @file src/stream_data_access/induced_graph.h
  * @brief Functions to get the nodes and links present at a given time in a StreamGraph.
  */
+
+#ifndef INDUCED_GRAPH_H
+#define INDUCED_GRAPH_H
 
 #include "../iterators.h"
 #include "../stream.h"
@@ -16,15 +16,7 @@
  * @param[in] t The time.
  * @return An iterator over the nodes present at the given time in the given StreamGraph.
  */
-NodesIterator StreamGraph_nodes_present_at(StreamGraph* stream_graph, TimeId t);
-
-/**
- * @brief The data of the iterator over the nodes present at a given time in a StreamGraph.
- */
-typedef struct {
-	size_t current_event;
-	size_t current_node;
-} NodesPresentAtTIterator;
+NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph, TimeId t);
 
 /**
  * @brief Returns an iterator over the links present at the given time in the given StreamGraph.
@@ -32,14 +24,6 @@ typedef struct {
  * @param[in] t The time.
  * @return An iterator over the links present at the given time in the given StreamGraph.
  */
-LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t);
-
-/**
- * @brief The data of the iterator over the links present at a given time in a StreamGraph.
- */
-typedef struct {
-	size_t current_event;
-	size_t current_link;
-} LinksPresentAtTIterator;
+LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, TimeId t);
 
 #endif // INDUCED_GRAPH_H

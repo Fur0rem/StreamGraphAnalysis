@@ -1,8 +1,9 @@
+#define SGA_INTERNAL
+
 #include "bit_array.h"
 #include "utils.h"
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 
 // Using an int because it is the biggest type that can be used with bitwise
 // shifting operations that doesn't fuck up

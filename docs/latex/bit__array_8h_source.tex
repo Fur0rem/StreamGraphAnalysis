@@ -1,45 +1,63 @@
-\hypertarget{bit__array_8h_source}{}\doxysection{bit\+\_\+array.\+h}
-\label{bit__array_8h_source}\index{src/bit\_array.h@{src/bit\_array.h}}
+\doxysection{bit\+\_\+array.\+h}
+\hypertarget{bit__array_8h_source}{}\label{bit__array_8h_source}\index{src/bit\_array.h@{src/bit\_array.h}}
 \mbox{\hyperlink{bit__array_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef BIT\_ARRAY\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define BIT\_ARRAY\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <stdbool.h>}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{12 }
-\DoxyCodeLine{13 \textcolor{keyword}{typedef} \textcolor{keywordtype}{size\_t} BitArraySlice;}
-\DoxyCodeLine{14 }
-\DoxyCodeLine{23 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{24     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}{nb\_bits}};       }
-\DoxyCodeLine{25     BitArraySlice* \mbox{\hyperlink{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc}{bits}}; }
-\DoxyCodeLine{26 \} \mbox{\hyperlink{structBitArray}{BitArray}};}
-\DoxyCodeLine{27 }
-\DoxyCodeLine{42 \mbox{\hyperlink{structBitArray}{BitArray}} \mbox{\hyperlink{bit__array_8h_a6c47f74244006ff431a64e98daf3652e}{BitArray\_with\_n\_bits}}(\textcolor{keywordtype}{size\_t} nb\_bits);}
-\DoxyCodeLine{43 }
-\DoxyCodeLine{44 \mbox{\hyperlink{structBitArray}{BitArray}} \mbox{\hyperlink{bit__array_8h_a7fdee2546d1251aea06cd5b07f0ffb1d}{BitArray\_n\_zeros}}(\textcolor{keywordtype}{size\_t} nb\_bits); }
-\DoxyCodeLine{45 \mbox{\hyperlink{structBitArray}{BitArray}} \mbox{\hyperlink{bit__array_8h_aba66285d6c98067bbaa9585cbdde4683}{BitArray\_n\_ones}}(\textcolor{keywordtype}{size\_t} nb\_bits);  }
-\DoxyCodeLine{51 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_a786300f4984391a7139863cd38b09b3b}{BitArray\_destroy}}(\mbox{\hyperlink{structBitArray}{BitArray}} array);}
-\DoxyCodeLine{52 }
-\DoxyCodeLine{67 \textcolor{keywordtype}{bool} \mbox{\hyperlink{bit__array_8h_a414eeef9d566db7a3e74cabdbb5c7653}{BitArray\_is\_one}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index);}
-\DoxyCodeLine{68 \textcolor{keywordtype}{bool} \mbox{\hyperlink{bit__array_8h_ac2c3e6a5d6a1c717f1c59d53f34d522e}{BitArray\_is\_zero}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index); }
-\DoxyCodeLine{84 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_ac22e1d66f71b26493412050ee0262fe3}{BitArray\_set\_one}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index);}
-\DoxyCodeLine{85 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_a2f5eb4a58ab7ebcff680edec5582f2b7}{BitArray\_set\_zero}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index); }
-\DoxyCodeLine{91 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_a0a6b465196254ea81c9bfa809a687a4f}{BitArray\_all\_to\_one}}(\mbox{\hyperlink{structBitArray}{BitArray}} array);}
-\DoxyCodeLine{92 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_a3de4906a9ce0ca8128315b5df0413c67}{BitArray\_all\_to\_zero}}(\mbox{\hyperlink{structBitArray}{BitArray}} array); }
-\DoxyCodeLine{100 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_a8ea9e97257dc75decba1cc58f505af32}{BitArray\_and\_bit}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index, \textcolor{keywordtype}{int} value);}
-\DoxyCodeLine{101 \textcolor{keywordtype}{void} \mbox{\hyperlink{bit__array_8h_a7512d496479cd9f3d1cc93afcf0e300d}{BitArray\_or\_bit}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index, \textcolor{keywordtype}{int} value); }
-\DoxyCodeLine{120 \mbox{\hyperlink{structBitArray}{BitArray}} \mbox{\hyperlink{bit__array_8h_aba8bf5561d8be0acfe2e9dce86575c7e}{BitArray\_and\_array}}(\mbox{\hyperlink{structBitArray}{BitArray}} array1, \mbox{\hyperlink{structBitArray}{BitArray}} array2);}
-\DoxyCodeLine{121 \mbox{\hyperlink{structBitArray}{BitArray}} \mbox{\hyperlink{bit__array_8h_a3496c7206b2733791428180a23381201}{BitArray\_or\_array}}(\mbox{\hyperlink{structBitArray}{BitArray}} array1, \mbox{\hyperlink{structBitArray}{BitArray}} array2); }
-\DoxyCodeLine{130 \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{bit__array_8h_ae336bb24993e5ba5cd864eaf5acec4db}{BitArray\_leading\_zeros\_from}}(\mbox{\hyperlink{structBitArray}{BitArray}} array, \textcolor{keywordtype}{size\_t} index);}
-\DoxyCodeLine{131 }
-\DoxyCodeLine{146 \mbox{\hyperlink{structString}{String}} \mbox{\hyperlink{bit__array_8h_a32be734b960c9210108a9090c011e143}{BitArray\_to\_string}}(\textcolor{keyword}{const} \mbox{\hyperlink{structBitArray}{BitArray}}* array);}
-\DoxyCodeLine{147 }
-\DoxyCodeLine{156 \textcolor{keywordtype}{bool} \mbox{\hyperlink{bit__array_8h_aec8a9d3641ca8fd53820c4dc1558650d}{BitArray\_equals}}(\textcolor{keyword}{const} \mbox{\hyperlink{structBitArray}{BitArray}}* a, \textcolor{keyword}{const} \mbox{\hyperlink{structBitArray}{BitArray}}* b);}
-\DoxyCodeLine{157 }
-\DoxyCodeLine{160 \textcolor{keywordtype}{size\_t} BitArray\_count\_ones(\textcolor{keyword}{const} \mbox{\hyperlink{structBitArray}{BitArray}}* array);}
-\DoxyCodeLine{161 }
-\DoxyCodeLine{162 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// BIT\_ARRAY\_H}}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ BIT\_ARRAY\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ BIT\_ARRAY\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}utils.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{size\_t}\ BitArraySlice;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBitArray}{BitArray}}\ \mbox{\hyperlink{structBitArray}{BitArray}};}
+\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBitArray}{BitArray}}\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structBitArray_ac24ea25e981a8997edf3b8f1d422ab5d}{nb\_bits}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \ \ \ \ BitArraySlice*\ \mbox{\hyperlink{structBitArray_a5898b55f85eeb18ff29cd27c608c63bc}{bits}};\ }
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00038\ \mbox{\hyperlink{structBitArray}{BitArray}}\ \mbox{\hyperlink{bit__array_8h_a6c47f74244006ff431a64e98daf3652e}{BitArray\_with\_n\_bits}}(\textcolor{keywordtype}{size\_t}\ nb\_bits);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \mbox{\hyperlink{structBitArray}{BitArray}}\ \mbox{\hyperlink{bit__array_8h_a7fdee2546d1251aea06cd5b07f0ffb1d}{BitArray\_n\_zeros}}(\textcolor{keywordtype}{size\_t}\ nb\_bits);\ }
+\DoxyCodeLine{00041\ \mbox{\hyperlink{structBitArray}{BitArray}}\ \mbox{\hyperlink{bit__array_8h_aba66285d6c98067bbaa9585cbdde4683}{BitArray\_n\_ones}}(\textcolor{keywordtype}{size\_t}\ nb\_bits);\ \ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_a786300f4984391a7139863cd38b09b3b}{BitArray\_destroy}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{bit__array_8h_a414eeef9d566db7a3e74cabdbb5c7653}{BitArray\_is\_one}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index);}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{bit__array_8h_ac2c3e6a5d6a1c717f1c59d53f34d522e}{BitArray\_is\_zero}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index);\ }
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_ac22e1d66f71b26493412050ee0262fe3}{BitArray\_set\_one}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index);}
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_a2f5eb4a58ab7ebcff680edec5582f2b7}{BitArray\_set\_zero}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index);\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_a0a6b465196254ea81c9bfa809a687a4f}{BitArray\_all\_to\_one}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array);}
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_a3de4906a9ce0ca8128315b5df0413c67}{BitArray\_all\_to\_zero}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array);\ }
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00096\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_a8ea9e97257dc75decba1cc58f505af32}{BitArray\_and\_bit}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index,\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bit__array_8h_a7512d496479cd9f3d1cc93afcf0e300d}{BitArray\_or\_bit}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index,\ \textcolor{keywordtype}{int}\ value);\ }
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00116\ \mbox{\hyperlink{structBitArray}{BitArray}}\ \mbox{\hyperlink{bit__array_8h_aba8bf5561d8be0acfe2e9dce86575c7e}{BitArray\_and\_array}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array1,\ \mbox{\hyperlink{structBitArray}{BitArray}}\ array2);}
+\DoxyCodeLine{00117\ \mbox{\hyperlink{structBitArray}{BitArray}}\ \mbox{\hyperlink{bit__array_8h_a3496c7206b2733791428180a23381201}{BitArray\_or\_array}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array1,\ \mbox{\hyperlink{structBitArray}{BitArray}}\ array2);\ }
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{bit__array_8h_ae336bb24993e5ba5cd864eaf5acec4db}{BitArray\_leading\_zeros\_from}}(\mbox{\hyperlink{structBitArray}{BitArray}}\ array,\ \textcolor{keywordtype}{size\_t}\ index);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00142\ DeclareToString(\mbox{\hyperlink{structBitArray}{BitArray}});}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00152\ DeclareEquals(\mbox{\hyperlink{structBitArray}{BitArray}});}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00161\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{bit__array_8h_a7ab36fd6d4cc0b030c9fd056a0d27b2e}{BitArray\_count\_ones}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structBitArray}{BitArray}}*\ array);}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ BIT\_ARRAY\_H}}
 
 \end{DoxyCode}

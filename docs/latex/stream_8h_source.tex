@@ -1,92 +1,103 @@
-\hypertarget{stream_8h_source}{}\doxysection{stream.\+h}
-\label{stream_8h_source}\index{src/stream.h@{src/stream.h}}
-
+\doxysection{stream.\+h}
+\hypertarget{stream_8h_source}{}\label{stream_8h_source}\index{src/stream.h@{src/stream.h}}
+\mbox{\hyperlink{stream_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef STREAM\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define STREAM\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{bit__array_8h}{bit\_array.h}}"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}interval.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}stream\_graph/events\_table.h"{}}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}stream\_graph/key\_moments\_table.h"{}}}
-\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}stream\_graph/links\_set.h"{}}}
-\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}stream\_graph/nodes\_set.h"{}}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}units.h"{}}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stdbool.h>}}
-\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <stdint.h>}}
-\DoxyCodeLine{14 }
-\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{16     \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}} key\_moments;}
-\DoxyCodeLine{17     \mbox{\hyperlink{structTemporalNodesSet}{TemporalNodesSet}} nodes;}
-\DoxyCodeLine{18     \mbox{\hyperlink{structLinksSet}{LinksSet}} links;}
-\DoxyCodeLine{19     \mbox{\hyperlink{structEventsTable}{EventsTable}} events;}
-\DoxyCodeLine{20     \mbox{\hyperlink{structInterval}{Interval}} lifespan;}
-\DoxyCodeLine{21     \textcolor{keywordtype}{size\_t} scaling;}
-\DoxyCodeLine{22 \textcolor{preprocessor}{\#ifdef DEBUG}}
-\DoxyCodeLine{23     \textcolor{keywordtype}{bool} events\_inited;}
-\DoxyCodeLine{24 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{25 \} \mbox{\hyperlink{structStreamGraph}{StreamGraph}};}
-\DoxyCodeLine{26 }
-\DoxyCodeLine{27 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_string(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
-\DoxyCodeLine{28 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_file(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
-\DoxyCodeLine{29 \mbox{\hyperlink{structString}{String}} StreamGraph\_to\_string(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
-\DoxyCodeLine{30 \textcolor{keywordtype}{void} StreamGraph\_destroy(\mbox{\hyperlink{structStreamGraph}{StreamGraph}} sg);}
-\DoxyCodeLine{31 \textcolor{comment}{// size\_t StreamGraph\_lifespan\_begin(StreamGraph* sg);}}
-\DoxyCodeLine{32 \textcolor{comment}{// size\_t StreamGraph\_lifespan\_end(StreamGraph* sg);}}
-\DoxyCodeLine{33 }
-\DoxyCodeLine{34 \textcolor{comment}{// TODO: why are these here and not in stream\_data\_access/... ?}}
-\DoxyCodeLine{35 \mbox{\hyperlink{structInterval}{Interval}} StreamGraph\_lifespan(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
-\DoxyCodeLine{36 \textcolor{keywordtype}{size\_t} StreamGraph\_scaling(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
-\DoxyCodeLine{37 \textcolor{keywordtype}{void} init\_events\_table(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
-\DoxyCodeLine{38 \textcolor{keywordtype}{void} events\_destroy(\mbox{\hyperlink{structStreamGraph}{StreamGraph}}* sg);}
-\DoxyCodeLine{39 \textcolor{keywordtype}{char}* InternalFormat\_from\_External\_str(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str);}
-\DoxyCodeLine{40 \mbox{\hyperlink{structStreamGraph}{StreamGraph}} StreamGraph\_from\_external(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename);}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{43     \textcolor{keywordtype}{bool} present;}
-\DoxyCodeLine{44     \textcolor{keywordtype}{size\_t} data;}
-\DoxyCodeLine{45 \} \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}};}
-\DoxyCodeLine{46 }
-\DoxyCodeLine{47 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{48     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfW;}
-\DoxyCodeLine{49     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfT;}
-\DoxyCodeLine{50     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfE;}
-\DoxyCodeLine{51     \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}} cardinalOfV;}
-\DoxyCodeLine{52 \} \mbox{\hyperlink{structInformationCache}{InformationCache}};}
-\DoxyCodeLine{53 }
-\DoxyCodeLine{54 \textcolor{comment}{// TRICK: StreamData is a blanket struct that serves as a placeholder for the union of all stream types}}
-\DoxyCodeLine{55 \textcolor{comment}{// (FullStreamGraph, LinkStream, ect...).}}
-\DoxyCodeLine{56 \textcolor{comment}{// Otherwise a circular dependency would be created since these files need stream.h.}}
-\DoxyCodeLine{57 \textcolor{comment}{// And if we used a void* pointer, we would lose type safety.}}
-\DoxyCodeLine{58 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{59 \} \mbox{\hyperlink{structStreamData}{StreamData}};}
-\DoxyCodeLine{60 }
-\DoxyCodeLine{61 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
-\DoxyCodeLine{62     \textcolor{keyword}{enum} \{}
-\DoxyCodeLine{63         FULL\_STREAM\_GRAPH,}
-\DoxyCodeLine{64         LINK\_STREAM,}
-\DoxyCodeLine{65         CHUNK\_STREAM,}
-\DoxyCodeLine{66         CHUNK\_STREAM\_SMALL,}
-\DoxyCodeLine{67         SNAPSHOT\_STREAM,}
-\DoxyCodeLine{68     \} type;}
-\DoxyCodeLine{69     \mbox{\hyperlink{structStreamData}{StreamData}}* stream\_data;}
-\DoxyCodeLine{70     \mbox{\hyperlink{structInformationCache}{InformationCache}} cache;}
-\DoxyCodeLine{71 \} \mbox{\hyperlink{structStream}{Stream}};}
-\DoxyCodeLine{72 }
-\DoxyCodeLine{73 \textcolor{keywordtype}{void} init\_cache(\mbox{\hyperlink{structStream}{Stream}}* stream);}
-\DoxyCodeLine{74 }
-\DoxyCodeLine{75 \textcolor{preprocessor}{\#define FETCH\_CACHE(stream, field)                                                                                                         \(\backslash\)}}
-\DoxyCodeLine{76 \textcolor{preprocessor}{    if ((stream)-\/>cache.field.present) \{                                                                                                   \(\backslash\)}}
-\DoxyCodeLine{77 \textcolor{preprocessor}{        return (stream)-\/>cache.field.data;                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{78 \textcolor{preprocessor}{    \}}}
-\DoxyCodeLine{79 }
-\DoxyCodeLine{80 \textcolor{preprocessor}{\#define UPDATE\_CACHE(stream, field, value)                                                                                                 \(\backslash\)}}
-\DoxyCodeLine{81 \textcolor{preprocessor}{    (stream)-\/>cache.field.present = true;                                                                                                  \(\backslash\)}}
-\DoxyCodeLine{82 \textcolor{preprocessor}{    (stream)-\/>cache.field.data    = value;}}
-\DoxyCodeLine{83 }
-\DoxyCodeLine{84 \textcolor{keywordtype}{void} reset\_cache(\mbox{\hyperlink{structStream}{Stream}}* stream);}
-\DoxyCodeLine{85 }
-\DoxyCodeLine{86 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STREAM\_H}}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ STREAM\_H}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ STREAM\_H}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{bit__array_8h}{bit\_array.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}interval.h"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{events__table_8h}{stream\_graph/events\_table.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}stream\_graph/key\_moments\_table.h"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{nodes__set_8h}{stream\_graph/nodes\_set.h}}"{}}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ "{}units.h"{}}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}\ \mbox{\hyperlink{structSGA__StreamGraph_aa6545dccd4518dde86c1772f844e1f49}{key\_moments}};\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structNodesSet}{NodesSet}}\ \mbox{\hyperlink{structSGA__StreamGraph_a452cddb1c0e6a0c7f47b007979fe9abe}{nodes}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ \mbox{\hyperlink{structSGA__StreamGraph_a01c4a3b8a9aa603938f08c025a73206a}{links}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ \mbox{\hyperlink{structSGA__StreamGraph_a1d0b74b97a8b4445fe9f28f89184bd12}{lifespan}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structSGA__StreamGraph_a753a24bef68c5fb3b8309c8b643a3955}{time\_scale}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{structEventsTable}{EventsTable}}\ \mbox{\hyperlink{structSGA__StreamGraph_ad269df9026ff816a66b3deb2b4e5bd21}{events}};\ }
+\DoxyCodeLine{00060\ \};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structOptionalSizeT_a74eac5e5eec34e0186693430be72f59a}{present}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structOptionalSizeT_aa760fbdbc1ca1cc28e893f5ece590fbb}{data}};\ \ }
+\DoxyCodeLine{00068\ \}\ \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{structInformationCache_a3ef19171db92fde3db5375cf72a56f94}{temporal\_cardinal\_of\_node\_set}};\ }
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{structInformationCache_ae6f1a0b399763d3b9a5bc55f3d51198c}{duration}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{structInformationCache_a1fc7502fa7d0a9c59700ff49a9720186}{temporal\_cardinal\_of\_link\_set}};\ }
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{structInformationCache_af88ff6c5a24810eaa686047b409912f6}{distinct\_cardinal\_of\_node\_set}};\ }
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{structInformationCache_ab62de569648c8d79a50c281718b561d9}{distinct\_cardinal\_of\_link\_set}};\ }
+\DoxyCodeLine{00083\ \}\ \mbox{\hyperlink{structInformationCache}{InformationCache}};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ SGA\_StreamGraph\_from\_string(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00086\ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ SGA\_StreamGraph\_from\_file(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
+\DoxyCodeLine{00087\ \mbox{\hyperlink{structString}{String}}\ SGA\_StreamGraph\_to\_string(\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{void}\ SGA\_StreamGraph\_destroy(\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{comment}{//\ void\ SGA\_init\_events\_table(SGA\_StreamGraph*\ sg);}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ void\ SGA\_events\_destroy(SGA\_StreamGraph*\ sg);}}
+\DoxyCodeLine{00092\ \textcolor{keywordtype}{char}*\ SGA\_InternalFormat\_from\_External\_str(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00093\ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ SGA\_StreamGraph\_from\_external(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{comment}{//\ TRICK:\ StreamData\ is\ a\ blanket\ struct\ that\ serves\ as\ a\ placeholder\ for\ the\ union\ of\ all\ stream\ types}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//\ (FullStreamGraph,\ LinkStream,\ ect...).}}
+\DoxyCodeLine{00097\ \textcolor{comment}{//\ Otherwise\ a\ circular\ dependency\ would\ be\ created\ since\ these\ files\ need\ stream.h.}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//\ And\ if\ we\ used\ a\ void*\ pointer,\ we\ would\ lose\ type\ safety.}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ typedef\ struct\ \{}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ \}\ SGA\_StreamData;}}
+\DoxyCodeLine{00107\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}};}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structStream}{Stream}}\ \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}};}
+\DoxyCodeLine{00115\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structStream}{Stream}}\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structStream_a47f89969d03d12fd239eee2e65fd8e7ea4a3f6f6436e78048799b6c3174c450fc}{FULL\_STREAM\_GRAPH}},\ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structStream_a47f89969d03d12fd239eee2e65fd8e7ea52d5949a558d6325a2db2c6dc17ec1bc}{LINK\_STREAM}},\ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structStream_a47f89969d03d12fd239eee2e65fd8e7ea6047e74721d498622f994a5d93de46ad}{CHUNK\_STREAM}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structStream_a47f89969d03d12fd239eee2e65fd8e7ea00ea2abc5f1c086a573ba3e4eb8da494}{CHUNK\_STREAM\_SMALL}},\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structStream_a47f89969d03d12fd239eee2e65fd8e7eacbe6bb1e8a727436372c8db3366fbc47}{SNAPSHOT\_STREAM}},\ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ \}\ \mbox{\hyperlink{structStream_a2cf54cbad608365128400f3e39c45b85}{type}};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*\ \mbox{\hyperlink{structStream_a28ce66216141e466d214dadd7fefb9ac}{stream\_data}};\ }
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{structInformationCache}{InformationCache}}\ \mbox{\hyperlink{structStream_ae260f00346ff1f0f0dedb7a4c5b4e953}{cache}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00137\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_aa8e8a255c59a064519663b1ab3a589b6}{init\_cache}}(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#\ \ \ define\ FETCH\_CACHE(stream,\ field)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ ((stream)-\/>cache.field.present)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ return\ (stream)-\/>cache.field.data;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#\ \ \ define\ UPDATE\_CACHE(stream,\ field,\ value)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (stream)-\/>cache.field.present\ =\ true;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (stream)-\/>cache.field.data\ \ \ \ =\ value;}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00166\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_a19b523be46204ad6b126b353469c48f4}{reset\_cache}}(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \mbox{\hyperlink{structInterval}{Interval}}\ SGA\_StreamGraph\_lifespan(\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00169\ \textcolor{keywordtype}{size\_t}\ SGA\_StreamGraph\_time\_scale(\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00170\ \textcolor{keywordtype}{void}\ init\_events\_table(\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00171\ \textcolor{keywordtype}{void}\ events\_destroy(\mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_H}}
 
 \end{DoxyCode}

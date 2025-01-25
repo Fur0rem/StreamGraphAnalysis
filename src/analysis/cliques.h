@@ -1,3 +1,13 @@
+/**
+ * @file src/analysis/cliques.h
+ * @brief Find maximal cliques in a Stream.
+ *
+ * A clique is a set of nodes where each node is connected to all the other nodes in the set.
+ * A maximal clique is a clique that is not included in a larger clique.
+ * <br>
+ * You can check Section 7 of the paper for more information.
+ */
+
 #ifndef CLIQUES_H
 #define CLIQUES_H
 
@@ -8,22 +18,29 @@
 #include "../utils.h"
 #include <stdbool.h>
 
-typedef struct Clique Clique;
-struct Clique {
-	TimeId time_start;
-	TimeId time_end;
-	NodeId* nodes;
-	size_t nb_nodes;
-};
+/**
+ * @brief Structure representing a clique.
+ */
+typedef struct {
+	TimeId time_start; ///< When the clique starts.
+	TimeId time_end;   ///< When the clique ends.
+	NodeId* nodes;	   ///< The nodes in the clique.
+	size_t nb_nodes;   ///< The number of nodes in the clique.
+} SGA_Clique;
 
-DeclareToString(Clique);
-DeclareEquals(Clique);
+DeclareToString(SGA_Clique);
+DeclareEquals(SGA_Clique);
 
-DeclareArrayList(Clique);
-DeclareArrayListDeriveEquals(Clique);
-DeclareArrayListDeriveToString(Clique);
-DeclareArrayListDeriveRemove(Clique);
+DeclareArrayList(SGA_Clique);
+DeclareArrayListDeriveEquals(SGA_Clique);
+DeclareArrayListDeriveToString(SGA_Clique);
+DeclareArrayListDeriveRemove(SGA_Clique);
 
-CliqueArrayList Stream_maximal_cliques(Stream* st);
+/**
+ * @brief Find the maximal cliques in a Stream.
+ * @param[in] stream The Stream to find the maximal cliques in.
+ * @return The maximal cliques as an ArrayList.
+ */
+SGA_CliqueArrayList SGA_Stream_maximal_cliques(SGA_Stream* st);
 
 #endif // CLIQUES_H

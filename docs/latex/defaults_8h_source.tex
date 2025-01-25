@@ -1,54 +1,54 @@
-\hypertarget{defaults_8h_source}{}\doxysection{defaults.\+h}
-\label{defaults_8h_source}\index{src/defaults.h@{src/defaults.h}}
+\doxysection{defaults.\+h}
+\hypertarget{defaults_8h_source}{}\label{defaults_8h_source}\index{src/defaults.h@{src/defaults.h}}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef DEFAULTS\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define DEFAULTS\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}generic\_data\_structures/arraylist.h"{}}}
-\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}generic\_data\_structures/binary\_heap.h"{}}}
-\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}generic\_data\_structures/hashset.h"{}}}
-\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
-\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stddef.h>}}
-\DoxyCodeLine{9 }
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#define DeclareFullDerivedArrayList(T)                                                                                                     \(\backslash\)}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{    DeclareArrayList(T);                                                                                                                   \(\backslash\)}}
-\DoxyCodeLine{12 \textcolor{preprocessor}{    DeclareArrayListDeriveRemove(T);                                                                                                       \(\backslash\)}}
-\DoxyCodeLine{13 \textcolor{preprocessor}{    DeclareArrayListDeriveEquals(T);                                                                                                       \(\backslash\)}}
-\DoxyCodeLine{14 \textcolor{preprocessor}{    DeclareArrayListDeriveOrdered(T);                                                                                                      \(\backslash\)}}
-\DoxyCodeLine{15 \textcolor{preprocessor}{    DeclareArrayListDeriveToString(T);}}
-\DoxyCodeLine{16 }
-\DoxyCodeLine{17 \textcolor{preprocessor}{\#define DefineFullDerivedArrayList(T)                                                                                                      \(\backslash\)}}
-\DoxyCodeLine{18 \textcolor{preprocessor}{    DefineArrayList(T);                                                                                                                    \(\backslash\)}}
-\DoxyCodeLine{19 \textcolor{preprocessor}{    DefineArrayListDeriveRemove(T);                                                                                                        \(\backslash\)}}
-\DoxyCodeLine{20 \textcolor{preprocessor}{    DefineArrayListDeriveEquals(T);                                                                                                        \(\backslash\)}}
-\DoxyCodeLine{21 \textcolor{preprocessor}{    DefineArrayListDeriveOrdered(T);                                                                                                       \(\backslash\)}}
-\DoxyCodeLine{22 \textcolor{preprocessor}{    DefineArrayListDeriveToString(T);}}
-\DoxyCodeLine{23 }
-\DoxyCodeLine{24 \textcolor{preprocessor}{\#define DeclareFullDerivedHashset(T)                                                                                                       \(\backslash\)}}
-\DoxyCodeLine{25 \textcolor{preprocessor}{    DeclareHashset(T);                                                                                                                     \(\backslash\)}}
-\DoxyCodeLine{26 \textcolor{preprocessor}{    DeclareHashsetDeriveRemove(T);                                                                                                         \(\backslash\)}}
-\DoxyCodeLine{27 \textcolor{preprocessor}{    DeclareHashsetDeriveToString(T);                                                                                                       \(\backslash\)}}
-\DoxyCodeLine{28 \textcolor{preprocessor}{    DeclareHashsetDeriveEquals(T);}}
-\DoxyCodeLine{29 }
-\DoxyCodeLine{30 \textcolor{preprocessor}{\#define DefineFullDerivedHashset(T)                                                                                                        \(\backslash\)}}
-\DoxyCodeLine{31 \textcolor{preprocessor}{    DefineHashset(T);                                                                                                                      \(\backslash\)}}
-\DoxyCodeLine{32 \textcolor{preprocessor}{    DefineHashsetDeriveRemove(T);                                                                                                          \(\backslash\)}}
-\DoxyCodeLine{33 \textcolor{preprocessor}{    DefineHashsetDeriveToString(T);                                                                                                        \(\backslash\)}}
-\DoxyCodeLine{34 \textcolor{preprocessor}{    DefineHashsetDeriveEquals(T);}}
-\DoxyCodeLine{35 }
-\DoxyCodeLine{36 DeclareCompare(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{37 DeclareToString(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{38 DeclareFullDerivedArrayList(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{39 DeclareFullDerivedHashset(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{40 DeclareBinaryHeap(\textcolor{keywordtype}{size\_t});}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42 DeclareCompare(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{43 DeclareToString(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{44 DeclareFullDerivedArrayList(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{45 DeclareFullDerivedHashset(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{46 DeclareBinaryHeap(\textcolor{keywordtype}{int});}
-\DoxyCodeLine{47 }
-\DoxyCodeLine{48 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// DEFAULTS\_H}}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ DEFAULTS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ DEFAULTS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}generic\_data\_structures/binary\_heap.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}generic\_data\_structures/hashset.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}utils.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DeclareFullDerivedArrayList(T)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \ DeclareArrayList(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \ \ \ DeclareArrayListDeriveRemove(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \ DeclareArrayListDeriveEquals(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \ \ \ DeclareArrayListDeriveOrdered(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ DeclareArrayListDeriveToString(T);}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ DefineFullDerivedArrayList(T)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ DefineArrayList(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ DefineArrayListDeriveRemove(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ DefineArrayListDeriveEquals(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ DefineArrayListDeriveOrdered(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ DefineArrayListDeriveToString(T);}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ DeclareFullDerivedHashset(T)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ DeclareHashset(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ DeclareHashsetDeriveRemove(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ DeclareHashsetDeriveToString(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ DeclareHashsetDeriveEquals(T);}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ DefineFullDerivedHashset(T)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ DefineHashset(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\ \ \ \ DefineHashsetDeriveRemove(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ DefineHashsetDeriveToString(T);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ \ \ DefineHashsetDeriveEquals(T);}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ DeclareCompare(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{00037\ DeclareToString(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{00038\ DeclareFullDerivedArrayList(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{00039\ DeclareFullDerivedHashset(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{00040\ DeclareBinaryHeap(\textcolor{keywordtype}{size\_t});}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ DeclareCompare(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00043\ DeclareToString(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00044\ DeclareFullDerivedArrayList(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00045\ DeclareFullDerivedHashset(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00046\ DeclareBinaryHeap(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DEFAULTS\_H}}
 
 \end{DoxyCode}

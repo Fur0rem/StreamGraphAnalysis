@@ -1,0 +1,72 @@
+\doxysection{src/analysis/kcores.h File Reference}
+\hypertarget{kcores_8h}{}\label{kcores_8h}\index{src/analysis/kcores.h@{src/analysis/kcores.h}}
+
+
+Functions to compute the k-\/cores of a \doxylink{structStream}{Stream}.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Functions to compute the k-\/cores of a \doxylink{structStream}{Stream}. 
+
+The k-\/core of a stream graph is the largest sub-\/stream of nodes where each node is connected to at least k other nodes during a maximal time interval. ~\newline
+ You can check Section 13 of the paper for more information. {\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
+{\ttfamily \#include "{}../interval.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../utils.\+h"{}}\newline
+{\ttfamily \#include "{}stddef.\+h"{}}\newline
+Include dependency graph for kcores.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structNodePresence}{Node\+Presence}}
+\begin{DoxyCompactList}\small\item\em The presence of a node in the stream. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}}
+\begin{DoxyCompactList}\small\item\em The k-\/core of a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{kcores_8h_a8823dda27ece06b01229578736652a37}\label{kcores_8h_a8823dda27ece06b01229578736652a37} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structNodePresence}{Node\+Presence}})
+\item 
+\Hypertarget{kcores_8h_a6644220432ea3c7725776200cd9baf9b}\label{kcores_8h_a6644220432ea3c7725776200cd9baf9b} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}})
+\item 
+\Hypertarget{kcores_8h_adf8a34de3f6a68c233e9355551491d2f}\label{kcores_8h_adf8a34de3f6a68c233e9355551491d2f} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}})
+\item 
+\Hypertarget{kcores_8h_abba98e468686e83990623f43efd77d50}\label{kcores_8h_abba98e468686e83990623f43efd77d50} 
+{\bfseries Declare\+Destroy} (\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}})
+\item 
+\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}} \mbox{\hyperlink{kcores_8h_afd2433d00730da88463168b197f52118}{SGA\+\_\+\+Stream\+\_\+k\+\_\+core}} (const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t k)
+\begin{DoxyCompactList}\small\item\em Compute the k-\/core of a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{kcores_8h_afd2433d00730da88463168b197f52118}\index{kcores.h@{kcores.h}!SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}}
+\index{SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}!kcores.h@{kcores.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_k\_core()}{SGA\_Stream\_k\_core()}}
+{\footnotesize\ttfamily \label{kcores_8h_afd2433d00730da88463168b197f52118} 
+\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}} SGA\+\_\+\+Stream\+\_\+k\+\_\+core (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{size\+\_\+t}]{degree}{}\end{DoxyParamCaption})}
+
+
+
+Compute the k-\/core of a \doxylink{structStream}{Stream}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em k} & The k to compute the k-\/core for. Should be greater between 1 and the number of nodes in the \doxylink{structStream}{Stream}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The k-\/core of the \doxylink{structStream}{Stream}.
+\end{DoxyReturn}
+The algorithm used won\textquotesingle{}t work for the 0-\/core, but it is the same as the initial graph so you can just use the initial graph. It will work for k greaters than the number of nodes in the \doxylink{structStream}{Stream}, but it will be empty, so it\textquotesingle{}s not very useful.
+
+Compute the k-\/core of a \doxylink{structStream}{Stream}. 

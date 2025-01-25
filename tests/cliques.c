@@ -1,6 +1,6 @@
 #include "../src/analysis/cliques.h"
 #include "../src/stream.h"
-#include "../src/stream_wrappers.h"
+#include "../src/streams.h"
 #include "../src/units.h"
 
 #include "test.h"
@@ -8,17 +8,17 @@
 
 bool test_maximal_cliques() {
 	// StreamGraph sg = StreamGraph_from_file("data/internal_cliques.txt");
-	StreamGraph sg = StreamGraph_from_external("data/cliques.txt");
-	Stream st      = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/cliques.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
-	CliqueArrayList cliques = Stream_maximal_cliques(&st);
+	SGA_CliqueArrayList cliques = SGA_Stream_maximal_cliques(&st);
 
-	String cliques_str = CliqueArrayList_to_string(&cliques);
+	String cliques_str = SGA_CliqueArrayList_to_string(&cliques);
 	printf("%s\n", cliques_str.data);
 	String_destroy(cliques_str);
 
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
 	/*1 5 1 2
 	2 4 0 1 2
 	3 11 2 3
@@ -34,7 +34,7 @@ bool test_maximal_cliques() {
 	    EXPECT(cliques.array[3].time_end == 10) && EXPECT(cliques.array[3].nb_nodes == 3) && EXPECT(cliques.array[3].nodes[0] == 1) &&
 	    EXPECT(cliques.array[3].nodes[1] == 2) && EXPECT(cliques.array[3].nodes[2] == 3);
 
-	CliqueArrayList_destroy(cliques);
+	SGA_CliqueArrayList_destroy(cliques);
 	// LinkArrayList_destroy(v);
 
 	return result;

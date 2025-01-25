@@ -1,3 +1,15 @@
+/**
+ * @file src/analysis/cliques.c
+ * @brief Implementation of the algorithm to find maximal cliques in a Stream.
+ * <br>
+ * The algorithm to find the maximal cliques is a temporal version of the Bron-Kerbosch algorithm.
+ * Special thanks to Alexis Baudin for letting me use his implementation.
+ * I chose the non-parallel with pivot version.
+ * You can find the original code at https://gitlab.lip6.fr/baudin/maxcliques-linkstream
+ */
+
+#define SGA_INTERNAL
+
 #include "cliques.h"
 #include "../bit_array.h"
 #include "../defaults.h"
@@ -7,7 +19,7 @@
 #include "../stream.h"
 #include "../stream_functions.h"
 #include "../stream_graph/links_set.h"
-#include "../stream_wrappers.h"
+#include "../streams.h"
 #include "../units.h"
 #include "../utils.h"
 #include <stddef.h>
@@ -44,7 +56,7 @@ int LinkPresence_compare(const LinkPresence* l1, const LinkPresence* l2) {
 
 DefineArrayListDeriveOrdered(LinkPresence);
 
-bool Clique_equals(const Clique* c1, const Clique* c2) {
+bool SGA_Clique_equals(const SGA_Clique* c1, const SGA_Clique* c2) {
 	if (c1->time_start != c2->time_start || c1->time_end != c2->time_end || c1->nb_nodes != c2->nb_nodes) {
 		return false;
 	}
@@ -56,7 +68,7 @@ bool Clique_equals(const Clique* c1, const Clique* c2) {
 	return true;
 }
 
-String Clique_to_string(const Clique* c) {
+String SGA_Clique_to_string(const SGA_Clique* c) {
 	String str = String_from_duplicate("Clique ");
 	String_append_formatted(&str, "[%zu, %zu[ (", c->time_start, c->time_end);
 	for (size_t i = 0; i < c->nb_nodes; i++) {
@@ -69,14 +81,14 @@ String Clique_to_string(const Clique* c) {
 	return str;
 }
 
-void Clique_destroy(Clique c) {
+void SGA_Clique_destroy(SGA_Clique c) {
 	free(c.nodes);
 }
 
-DefineArrayList(Clique);
-DefineArrayListDeriveRemove(Clique);
-DefineArrayListDeriveEquals(Clique);
-DefineArrayListDeriveToString(Clique);
+DefineArrayList(SGA_Clique);
+DefineArrayListDeriveRemove(SGA_Clique);
+DefineArrayListDeriveEquals(SGA_Clique);
+DefineArrayListDeriveToString(SGA_Clique);
 
 void swap(size_t* tab, size_t i, size_t j) {
 	size_t tmp = tab[i];
@@ -217,21 +229,22 @@ void swap_P_node_position(XPR* xpr, size_t u, size_t iv) {
 	swap(xpr->XPindex, u, v);
 }
 
-size_t min(size_t a, size_t b) {
+// TODO: name collision with walks
+size_t local_size_t_min(size_t a, size_t b) {
 	return a < b ? a : b;
 }
 
-size_t max(size_t a, size_t b) {
+size_t local_size_t_max(size_t a, size_t b) {
 	return a > b ? a : b;
 }
 
 void init_timeEndRNode(XPR* xpr, size_t w, size_t e1, size_t e2, size_t e3, size_t depth) {
-	xpr->timeEndRNode[depth][w] = min(min(e1, e2), e3);
+	xpr->timeEndRNode[depth][w] = local_size_t_min(local_size_t_min(e1, e2), e3);
 }
 
 void update_timeEndRNode(XPR* xpr, size_t v, size_t e, size_t depth) {
 	size_t e1		    = xpr->timeEndRNode[depth - 1][v];
-	xpr->timeEndRNode[depth][v] = min(e, e1);
+	xpr->timeEndRNode[depth][v] = local_size_t_min(e, e1);
 }
 
 void print_P(XPR* xpr, size_t depth) {
@@ -498,7 +511,7 @@ LinkPresenceStream* allocLinkStream_end_from_links(LinkPresenceArrayList links, 
 
 	ASSERT(im == m);
 
-	qsort(del_link, m, sizeof(LinkPresence), (int (*)(const void*, const void*)) & endlink_sorter);
+	qsort(del_link, m, sizeof(LinkPresence), (int (*)(const void*, const void*))&endlink_sorter);
 
 	size_t ia = 0;
 	size_t id = 0;
@@ -566,7 +579,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceArrayList links) {
 
 		if (b > old_b) {
 			ntimestep++;
-			mtmax = max(mt, mtmax);
+			mtmax = local_size_t_max(mt, mtmax);
 			mt    = 1;
 		}
 		else {
@@ -583,8 +596,8 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceArrayList links) {
 		if (nmin == SIZE_MAX) {
 			nmin = u;
 		}
-		nmin = min(min(u, v), nmin);
-		n    = max(max(u, v), n);
+		nmin = local_size_t_min(local_size_t_min(u, v), nmin);
+		n    = local_size_t_max(local_size_t_max(u, v), n);
 	}
 
 	ASSERT(b == old_b);
@@ -618,8 +631,8 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceArrayList links) {
 		else { // new link
 			degreeT[u]++;
 			degreeT[v]++;
-			degreeMax[u] = max(degreeT[u], degreeMax[u]);
-			degreeMax[v] = max(degreeT[v], degreeMax[v]);
+			degreeMax[u] = local_size_t_max(degreeT[u], degreeMax[u]);
+			degreeMax[v] = local_size_t_max(degreeT[v], degreeMax[v]);
 		}
 	}
 
@@ -632,7 +645,7 @@ Datastructure* allocDatastrucure_from_links(LinkPresenceArrayList links) {
 			S[u] = alloc_NeighborList(degreeMax[u], degreeMax[u]);
 			dsum += degreeMax[u];
 			nreal += 1;
-			dmax = max(degreeMax[u], dmax);
+			dmax = local_size_t_max(degreeMax[u], dmax);
 		}
 	}
 
@@ -700,7 +713,7 @@ size_t choose_pivot(XPR* xpr, NeighborListEnd* N, size_t depth) {
 				size_t eup = N[p].end[i];
 				size_t euR = xpr->timeEndRNode[depth][u];
 
-				if (euR <= min(epR, eup)) {
+				if (euR <= local_size_t_min(epR, eup)) {
 					dp++;
 				}
 			}
@@ -737,7 +750,8 @@ void MyCounter_free(MyCounter* mc) {
 	free(mc);
 }
 
-void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* S, MyCounter* mc, size_t depth, CliqueArrayList* cliques) {
+void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* S, MyCounter* mc, size_t depth,
+		SGA_CliqueArrayList* cliques) {
 
 	// Node of search tree
 	mc->nTimeMaxCliques++;
@@ -763,7 +777,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 				size_t euR = xpr->timeEndRNode[depth][u];
 
 				// TODO : == au lieu de <= ??
-				if (euR <= min(epR, eup)) {
+				if (euR <= local_size_t_min(epR, eup)) {
 					np--;
 					swap_P_node_position(xpr, u, np);
 				}
@@ -783,7 +797,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 			size_t u = xpr->candidates_to_iterate[depth].array[i];
 
 			// Reduced clique duration
-			size_t e_new = min(xpr->timeEndRNode[depth][u], e);
+			size_t e_new = local_size_t_min(xpr->timeEndRNode[depth][u], e);
 
 			// If time is not reduced then R is not max in time
 			R_is_max &= e_new < e;
@@ -882,7 +896,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 		}
 		mc->nMaxCliques++;
 
-		Clique c = {
+		SGA_Clique c = {
 		    .time_start = b,
 		    .time_end	= e,
 		    .nb_nodes	= xpr->R.length,
@@ -891,7 +905,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 		for (size_t i = 0; i < xpr->R.length; i++) {
 			c.nodes[i] = xpr->R.array[i];
 		}
-		CliqueArrayList_push(cliques, c);
+		SGA_CliqueArrayList_push(cliques, c);
 	}
 
 	if (xpr->beginP[depth] == xpr->endP[depth]) {
@@ -906,7 +920,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 }
 
 void MaxCliquesFromEdges(const size_tArrayList NewEdges, NeighborList* S, MySet* Snodes, size_t b, NeighborListEnd* N, XPR* xpr,
-			 MyCounter* mc, CliqueArrayList* cliques) {
+			 MyCounter* mc, SGA_CliqueArrayList* cliques) {
 
 	const size_t depth	= 0;
 	const size_t next_depth = depth + 1;
@@ -972,13 +986,13 @@ void MaxCliquesFromEdges(const size_tArrayList NewEdges, NeighborList* S, MySet*
 	clearMySet(Snodes);
 }
 
-CliqueArrayList cliques_sequential(const LinkPresenceStream* ls_end, Datastructure* d, MyCounter* mc) {
-	size_t old_b	       = SIZE_MAX;
-	NeighborListEnd* N     = d->N;
-	NeighborList* S	       = d->S;
-	MySet* Snodes	       = d->Snodes;
-	XPR* xpr	       = d->xpr;
-	CliqueArrayList result = CliqueArrayList_new();
+SGA_CliqueArrayList cliques_sequential(const LinkPresenceStream* ls_end, Datastructure* d, MyCounter* mc) {
+	size_t old_b		   = SIZE_MAX;
+	NeighborListEnd* N	   = d->N;
+	NeighborList* S		   = d->S;
+	MySet* Snodes		   = d->Snodes;
+	XPR* xpr		   = d->xpr;
+	SGA_CliqueArrayList result = SGA_CliqueArrayList_new();
 
 	for (size_t i = 0; i < ls_end->m; i++) {
 
@@ -1033,7 +1047,7 @@ CliqueArrayList cliques_sequential(const LinkPresenceStream* ls_end, Datastructu
 	return result;
 }
 
-CliqueArrayList Stream_maximal_cliques(Stream* st) {
+SGA_CliqueArrayList SGA_Stream_maximal_cliques(SGA_Stream* st) {
 	StreamFunctions funcs	    = STREAM_FUNCS(funcs, st);
 	LinkPresenceArrayList links = LinkPresenceArrayList_new();
 	LinksIterator links_set	    = funcs.links_set(st->stream_data);
@@ -1051,9 +1065,9 @@ CliqueArrayList Stream_maximal_cliques(Stream* st) {
 	}
 
 	LinkPresenceArrayList_sort_unstable(&links);
-	Datastructure* d  = allocDatastrucure_from_links(links);
-	MyCounter* mc	  = alloc_MyCounter();
-	CliqueArrayList v = cliques_sequential(d->ls_end, d, mc);
+	Datastructure* d      = allocDatastrucure_from_links(links);
+	MyCounter* mc	      = alloc_MyCounter();
+	SGA_CliqueArrayList v = cliques_sequential(d->ls_end, d, mc);
 	LinkPresenceArrayList_destroy(links);
 	MyCounter_free(mc);
 	DataStructure_free(d);

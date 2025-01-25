@@ -1,10 +1,17 @@
+/**
+ * @file tests/chunk_stream.c
+ * @brief Tests regarding ChunkStream
+ */
+
+#define SGA_INTERNAL
+
 #include "../StreamGraphAnalysis.h"
 #include "test.h"
 #include <stdint.h>
 
 bool test_chunk_stream_nodes_and_links_set() {
 	bool result	      = true;
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(2);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 2);
@@ -15,7 +22,7 @@ bool test_chunk_stream_nodes_and_links_set() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st	      = CS_with(&sg, &nodes, &links, 0, 100);
+	SGA_Stream st	      = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(0, 100));
 	StreamFunctions funcs = ChunkStream_stream_functions;
 
 	NodesIterator nodes_iter  = funcs.nodes_set(st.stream_data);
@@ -30,8 +37,8 @@ bool test_chunk_stream_nodes_and_links_set() {
 	    EXPECT(EXPECT(sg.links.links[links_vec.array[0]].nodes[0] == 0) && EXPECT(sg.links.links[links_vec.array[0]].nodes[1] == 2)) ||
 	    (EXPECT(sg.links.links[links_vec.array[0]].nodes[0] == 2) && EXPECT(sg.links.links[links_vec.array[0]].nodes[1] == 0));
 
-	CS_destroy(st);
-	StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	NodeIdArrayList_destroy(nodes);
 	LinkIdArrayList_destroy(links);
 
@@ -41,7 +48,7 @@ bool test_chunk_stream_nodes_and_links_set() {
 }
 
 bool test_neighbours_of_node_chunk_stream() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(2);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -53,7 +60,8 @@ bool test_neighbours_of_node_chunk_stream() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st		 = CS_with(&sg, &nodes, &links, 0, 100);
+	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 0, 100);
+	SGA_Stream st		 = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(0, 100));
 	StreamFunctions funcs	 = ChunkStream_stream_functions;
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -64,15 +72,17 @@ bool test_neighbours_of_node_chunk_stream() {
 		}
 	}
 
-	CS_destroy(st);
-	StreamGraph_destroy(sg);
+	// CS_destroy(st);
+	// StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	NodeIdArrayList_destroy(nodes);
 	LinkIdArrayList_destroy(links);
 	return true;
 }
 
 bool test_times_node_present_chunk_stream() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -84,7 +94,8 @@ bool test_times_node_present_chunk_stream() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	SGA_Stream st		 = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(20, 80));
 	StreamFunctions funcs	 = ChunkStream_stream_functions;
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -96,15 +107,17 @@ bool test_times_node_present_chunk_stream() {
 		printf("\n");
 	}
 
-	CS_destroy(st);
-	StreamGraph_destroy(sg);
+	// CS_destroy(st);
+	// StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	NodeIdArrayList_destroy(nodes);
 	LinkIdArrayList_destroy(links);
 	return true;
 }
 
 bool test_times_node_present_chunk_stream_2() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -116,7 +129,8 @@ bool test_times_node_present_chunk_stream_2() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st		 = CS_with(&sg, &nodes, &links, 40, 45);
+	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 40, 45);
+	SGA_Stream st		 = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(40, 45));
 	StreamFunctions funcs	 = ChunkStream_stream_functions;
 	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	FOR_EACH_NODE(node_id, nodes_iter) {
@@ -128,15 +142,17 @@ bool test_times_node_present_chunk_stream_2() {
 		printf("\n");
 	}
 
-	CS_destroy(st);
-	StreamGraph_destroy(sg);
+	// CS_destroy(st);
+	// StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	NodeIdArrayList_destroy(nodes);
 	LinkIdArrayList_destroy(links);
 	return true;
 }
 
 bool test_link_presence_chunk_stream() {
-	StreamGraph sg	      = StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -148,7 +164,8 @@ bool test_link_presence_chunk_stream() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	SGA_Stream st		 = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(20, 80));
 	StreamFunctions funcs	 = ChunkStream_stream_functions;
 	LinksIterator links_iter = funcs.links_set(st.stream_data);
 	FOR_EACH_LINK(link_id, links_iter) {
@@ -160,16 +177,17 @@ bool test_link_presence_chunk_stream() {
 		printf("\n");
 	}
 
-	CS_destroy(st);
-	StreamGraph_destroy(sg);
+	// CS_destroy(st);
+	// StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	NodeIdArrayList_destroy(nodes);
 	LinkIdArrayList_destroy(links);
 	return true;
 }
 
 bool test_nodes_and_links_present_at_t_chunk_stream() {
-	StreamGraph sg = StreamGraph_from_file("data/S.txt");
-	init_events_table(&sg);
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
 	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
 	NodeIdArrayList_push(&nodes, 0);
 	NodeIdArrayList_push(&nodes, 1);
@@ -181,7 +199,8 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 	LinkIdArrayList_push(&links, 2);
 	LinkIdArrayList_push(&links, 3);
 
-	Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	SGA_Stream st		 = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(20, 80));
 	StreamFunctions funcs	 = ChunkStream_stream_functions;
 	NodesIterator nodes_iter = funcs.nodes_present_at_t(st.stream_data, 40);
 	printf("STUFF PRESENT AT 40\n");
@@ -199,9 +218,50 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 		printf("LINK %zu (%zu, %zu)\n", link_id, sg.links.links[link_id].nodes[0], sg.links.links[link_id].nodes[1]);
 	}
 
-	CS_destroy(st);
-	events_destroy(&sg);
-	StreamGraph_destroy(sg);
+	// CS_destroy(st);
+	// events_destroy(&sg);
+	// StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
+	NodeIdArrayList_destroy(nodes);
+	LinkIdArrayList_destroy(links);
+	return true;
+}
+
+bool test_key_moments() {
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/S.txt");
+	NodeIdArrayList nodes = NodeIdArrayList_with_capacity(3);
+	NodeIdArrayList_push(&nodes, 0);
+	NodeIdArrayList_push(&nodes, 1);
+	NodeIdArrayList_push(&nodes, 3);
+
+	LinkIdArrayList links = LinkIdArrayList_with_capacity(4);
+	LinkIdArrayList_push(&links, 0);
+	LinkIdArrayList_push(&links, 1);
+	LinkIdArrayList_push(&links, 2);
+	LinkIdArrayList_push(&links, 3);
+
+	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
+	SGA_Stream st			  = SGA_ChunkStream_with(&sg, &nodes, &links, Interval_from(20, 80));
+	StreamFunctions funcs		  = ChunkStream_stream_functions;
+	TimesIterator key_moments	  = funcs.key_moments(st.stream_data);
+	IntervalArrayList key_moments_vec = SGA_collect_times(key_moments);
+	for (size_t i = 0; i < key_moments_vec.length; i++) {
+		Interval interval = key_moments_vec.array[i];
+		printf("KEY MOMENT : [%lu, %lu[\n", interval.start, interval.end);
+	}
+	IntervalArrayList_destroy(key_moments_vec);
+
+	// printf("KEY MOMENTS\n");
+	// FOR_EACH_TIME(interval, key_moments) {
+	// 	printf("KEY MOMENT : [%lu, %lu]\n", interval.start, interval.end);
+	// }
+
+	// CS_destroy(st);
+	// events_destroy(&sg);
+	// StreamGraph_destroy(sg);
+	SGA_ChunkStream_destroy(st);
+	SGA_StreamGraph_destroy(sg);
 	NodeIdArrayList_destroy(nodes);
 	LinkIdArrayList_destroy(links);
 	return true;
@@ -215,6 +275,7 @@ int main() {
 	    TEST(test_times_node_present_chunk_stream_2),
 	    TEST(test_link_presence_chunk_stream),
 	    TEST(test_nodes_and_links_present_at_t_chunk_stream),
+	    TEST(test_key_moments),
 	    NULL,
 	};
 	return test("Chunk Stream", tests);

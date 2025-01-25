@@ -1,0 +1,21 @@
+digraph "WalkInfo"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="WalkInfo",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge8_Node000001_Node000002",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" walk",fontcolor="grey" ];
+  Node2 [id="Node000002",label="Walk",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structWalk.html",tooltip=" "];
+  Node3 -> Node2 [id="edge9_Node000002_Node000003",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" optimality",fontcolor="grey" ];
+  Node3 [id="Node000003",label="Interval",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structInterval.html",tooltip=" "];
+  Node4 -> Node2 [id="edge10_Node000002_Node000004",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" stream",fontcolor="grey" ];
+  Node4 [id="Node000004",label="Stream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structStream.html",tooltip=" "];
+  Node5 -> Node4 [id="edge11_Node000004_Node000005",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" cache",fontcolor="grey" ];
+  Node5 [id="Node000005",label="InformationCache",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$structInformationCache.html",tooltip="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..."];
+  Node6 -> Node5 [id="edge12_Node000005_Node000006",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" distinct_cardinal_of\l_link_set\ndistinct_cardinal\l_of_node_set\nduration\ntemporal_cardinal\l_of_link_set\ntemporal_cardinal\l_of_node_set",fontcolor="grey" ];
+  Node6 [id="Node000006",label="OptionalSizeT",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$structOptionalSizeT.html",tooltip="A size_t that can be optional."];
+  Node7 -> Node1 [id="edge13_Node000001_Node000007",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" no_walk_reason",fontcolor="grey" ];
+  Node7 [id="Node000007",label="NoWalkReason",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structNoWalkReason.html",tooltip=" "];
+  Node3 -> Node7 [id="edge14_Node000007_Node000003",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" node_absent_between",fontcolor="grey" ];
+}

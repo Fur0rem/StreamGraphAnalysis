@@ -1,71 +1,40 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS="-Wall -Wextra -Wno-unused-function -O4"
+CFLAGS="-O4"
 
 SRC_DIR=src
-benchmark_DIR=benchmarks
-BIN_DIR=bin
+BENCH_DIR=benchmarks
+BIN_DIR=bin/benchmark
 
 TEXT_BOLD=$(tput bold)
 TEXT_RESET=$(tput sgr0)
 TEXT_RED=$(tput setaf 1)
+TEXT_GREEN=$(tput setaf 2)
 
 global_success=0
 
+make clean
+make libSGA compile_mode=benchmark
+# Check if the compilation was successful
+if [ $? -ne 0 ]; then
+    echo "${TEXT_BOLD}${TEXT_RED}Compilation failed for libSGA${TEXT_RESET}"
+    exit 1
+fi
+
 # Compile benchmark.c into an object file
-$CC $CFLAGS -c $benchmark_DIR/benchmark.c -o $BIN_DIR/benchmark.o
-
-# Check if the --valgrind flag is present
-valgrind=0 # TODO
-if [ "$1" == "--valgrind" ]; then
-    valgrind=1
-    shift
-fi
-
-callgrind=1 # TODO
-if [ "$1" == "--callgrind" ]; then
-    callgrind=1
-    shift
-fi
+$CC $CFLAGS -c $BENCH_DIR/benchmark.c -o $BIN_DIR/benchmark.o
 
 # If you have only one argument : run that benchmark only
 if [ $# -eq 1 ]; then
     filename=$1
     echo "Found benchmark file: $filename"
-    # Remove old benchmark file
-    rm -f $BIN_DIR/benchmark_$filename
-    rm -f $BIN_DIR/$filename.a
-    rm -f $BIN_DIR/$filename.o
-    # If the src file.c does not exist, compile the benchmark file into an executable (header only library)
-    #if [ ! -f $SRC_DIR/$filename.c ]; then
-    #$CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/benchmark.o
-    #else
-    # TODO: check if the file is a header only library
-    make $filename
-    if [ -f $BIN_DIR/$filename.a ]; then
-        $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
-    else
-        $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $benchmark_DIR/$filename.c $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
-    fi
-    #fi
 
-    # if [ $valgrind -ne 1 ]; then
-    #     $BIN_DIR/benchmark_$filename
-    # else
-    #     valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
-    # fi
+    # Compile the file with libSGA.a
+    $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $BENCH_DIR/$filename.c $BIN_DIR/libSGA.a $BIN_DIR/benchmark.o
 
-    if [ $callgrind -eq 1 ]; then
-        valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
-    else
-        if [ $valgrind -eq 1 ]; then
-            valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes $BIN_DIR/benchmark_$filename
-        else
-            $BIN_DIR/benchmark_$filename
-        fi
-    fi
-
+    # Run the benchmark
+    $BIN_DIR/benchmark_$filename
     # Check the return code
     if [ $? -ne 0 ]; then
         global_success=1
@@ -75,7 +44,7 @@ if [ $# -eq 1 ]; then
     if [ $global_success -eq 0 ]; then
         echo "All benchmarks passed!"
     else
-        echo "${TEXT_BOLD}${TEXT_RED}benchmark FAILED FOR $filename !!!${TEXT_RESET}"
+        echo "${TEXT_BOLD}${TEXT_RED}TEST FAILED FOR $filename !!!${TEXT_RESET}"
     fi
 
     exit $global_success
@@ -83,7 +52,9 @@ fi
 
 # Iterate over all files in the benchmarks directory
 every_benchmark_that_failed=""
-for file in $benchmark_DIR/*.c; do
+every_benchmark_which_failed_compilation=""
+every_benchmark_that_passed=""
+for file in $BENCH_DIR/*.c; do
     # If it is benchmark.c or a file that does not end in .c, skip it
     if [ $(basename $file) == "benchmark.c" ] || [ $(grep -q ".c" $file | wc -l) != 0 ]; then
         continue
@@ -91,47 +62,26 @@ for file in $benchmark_DIR/*.c; do
     # Get the filename without the extension
     filename=$(basename $file .c)
     echo "Found benchmark file: $filename"
-    # Remove old benchmark file
-    rm -f $BIN_DIR/benchmark_$filename
-    # If the src file.c does not exist, compile the benchmark file into an executable
-    # if [ ! -f $SRC_DIR/$filename.c ]; then
-    #     $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/benchmark.o
-    # else
-    make $filename
-    # If the compilation produced a .a file, use it instead of the .o file
-    if [ -f $BIN_DIR/$filename.a ]; then
-        $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file -L$BIN_DIR -l:$filename.a $BIN_DIR/benchmark.o
-    else
-        $CC -Wno-unused-function -g -o $BIN_DIR/benchmark_$filename $file $BIN_DIR/$filename.o $BIN_DIR/benchmark.o
-    fi
-    # fi
 
-    # If the file is present but not the benchmark, the compilation of the benchmark failed
-    # If neither are present, the compilation of the file failed
-    if [ ! -f $BIN_DIR/benchmark_$filename ] && [ -f $BIN_DIR/$filename.o ]; then
-        echo "${TEXT_BOLD}${TEXT_RED}COMPILATION FAILED FOR benchmark OF $filename !!!${TEXT_RESET}"
-        every_benchmark_that_failed="$every_benchmark_that_failed compilation_benchmark_$filename"
-        global_success=1
-        continue
-    elif [ ! -f $BIN_DIR/benchmark_$filename ]; then
-        echo "${TEXT_BOLD}${TEXT_RED}COMPILATION FAILED FOR $filename !!!${TEXT_RESET}"
-        every_benchmark_that_failed="$every_benchmark_that_failed compilation_$filename"
+    # Compile the file with libSGA.a
+    $CC $CFLAGS -o $BIN_DIR/benchmark_$filename $BENCH_DIR/$filename.c $BIN_DIR/libSGA.a $BIN_DIR/benchmark.o
+
+    # Check if the compilation was successful
+    if [ $? -ne 0 ]; then
+        echo "${TEXT_BOLD}${TEXT_RED}Compilation failed for $filename${TEXT_RESET}"
+        every_benchmark_which_failed_compilation="$every_benchmark_which_failed_compilation $filename"
         global_success=1
         continue
     fi
 
-    # $BIN_DIR/benchmark_$filename
-    # Check if the --valgrind flag is present
-    if [ $valgrind -ne 1 ]; then
-        $BIN_DIR/benchmark_$filename
-    else
-        valgrind --tool=callgrind $BIN_DIR/benchmark_$filename --callgrind-out-file=benchmarks/callgrind/$filename.out
-    fi
-
+    # Run the benchmark
+    $BIN_DIR/benchmark_$filename
     # Check the return code
     if [ $? -ne 0 ]; then
         every_benchmark_that_failed="$every_benchmark_that_failed $filename"
         global_success=1
+    else
+        every_benchmark_that_passed="$every_benchmark_that_passed $filename"
     fi
 
     echo ""
@@ -139,8 +89,11 @@ for file in $benchmark_DIR/*.c; do
 done
 
 if [ $global_success -eq 0 ]; then
-    echo "All benchmarks passed!"
+    echo "All benchmarks ran successfully!"
 else
-    echo "${TEXT_BOLD} ${TEXT_RED} benchmarks that failed: $every_benchmark_that_failed ${TEXT_RESET}"
+    echo "${TEXT_BOLD}${TEXT_RED} Some benchmarks failed!${TEXT_RESET}"
+    echo "${TEXT_GREEN}  Benchmarks that ran: ${TEXT_RESET} $every_benchmark_that_passed"
+    echo "${TEXT_BOLD} ${TEXT_RED} Benchmarks that failed: ${TEXT_RESET} $every_benchmark_that_failed"
+    echo "${TEXT_BOLD} ${TEXT_RED} Benchmarks that failed compilation: ${TEXT_RESET} $every_benchmark_which_failed_compilation"
 fi
 exit $global_success

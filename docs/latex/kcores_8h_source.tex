@@ -1,0 +1,35 @@
+\doxysection{kcores.\+h}
+\hypertarget{kcores_8h_source}{}\label{kcores_8h_source}\index{src/analysis/kcores.h@{src/analysis/kcores.h}}
+\mbox{\hyperlink{kcores_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ K\_CORES\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ K\_CORES\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}../utils.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}stddef.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00024\ \ \ \ \ NodeId\ \mbox{\hyperlink{structNodePresence_af86a6a6095758f91093d5c59d10ba8e8}{node\_id}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00025\ \ \ \ \ IntervalArrayList\ \mbox{\hyperlink{structNodePresence_a47fad48d8b6edaf642ba4e8714133cec}{presence}};\ }
+\DoxyCodeLine{00026\ \}\ \mbox{\hyperlink{structNodePresence}{NodePresence}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ DeclareArrayList(\mbox{\hyperlink{structNodePresence}{NodePresence}});}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00034\ \ \ \ \ NodePresenceArrayList\ \mbox{\hyperlink{structSGA__KCore_aa323516f86aa3456a8951d31a913af1a}{nodes}};\ }
+\DoxyCodeLine{00035\ \}\ \mbox{\hyperlink{structSGA__KCore}{SGA\_KCore}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ DeclareToString(\mbox{\hyperlink{structSGA__KCore}{SGA\_KCore}});}
+\DoxyCodeLine{00038\ DeclareEquals(\mbox{\hyperlink{structSGA__KCore}{SGA\_KCore}});}
+\DoxyCodeLine{00039\ DeclareDestroy(\mbox{\hyperlink{structSGA__KCore}{SGA\_KCore}});}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00050\ \mbox{\hyperlink{structSGA__KCore}{SGA\_KCore}}\ \mbox{\hyperlink{kcores_8h_afd2433d00730da88463168b197f52118}{SGA\_Stream\_k\_core}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ \textcolor{keywordtype}{size\_t}\ k);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ K\_CORES\_H}}
+
+\end{DoxyCode}

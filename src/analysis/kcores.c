@@ -1,6 +1,8 @@
+#define SGA_INTERNAL
+
 #include "kcores.h"
 #include "../stream_functions.h"
-#include "../stream_wrappers.h"
+#include "../streams.h"
 #include <stdint.h>
 
 typedef struct {
@@ -52,8 +54,22 @@ void NodePresence_destroy(NodePresence node) {
 
 DefineArrayListDeriveRemove(NodePresence);
 
-void KCore_destroy(KCore self) {
+void SGA_KCore_destroy(SGA_KCore self) {
 	NodePresenceArrayList_destroy(self.nodes);
+}
+
+/**
+ * @brief Simplifies the intervals of all the nodes in the k-core
+ * It merges the intervals and sorts them to have a more compact representation
+ * @param k_core[in, out] The k-core to simplify
+ */
+void KCore_simplify(SGA_KCore* k_core) {
+	for (size_t i = 0; i < k_core->nodes.length; i++) {
+		IntervalsSet intervals = IntervalsSet_from_interval_arraylist(k_core->nodes.array[i].presence);
+		IntervalsSet_sort(&intervals);
+		IntervalsSet_merge(&intervals);
+		k_core->nodes.array[i].presence = IntervalArrayList_from_intervals_set(intervals);
+	}
 }
 
 void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
@@ -215,7 +231,7 @@ void KCoreDataArrayList_merge(KCoreDataArrayList* vec) {
 }
 
 /// Doesn't work with 0 but who cares about 0-core cause it's the same as the initial graph
-KCore Stream_k_cores(const Stream* stream, size_t degree) {
+SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
@@ -346,11 +362,11 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 		}
 		free(neighbourhood);
 
-		return (KCore){.nodes = NodePresenceArrayList_new()};
+		return (SGA_KCore){.nodes = NodePresenceArrayList_new()};
 	}
 
 	NodeId cur_node	       = SIZE_MAX;
-	KCore kcore	       = {.nodes = NodePresenceArrayList_new()};
+	SGA_KCore kcore	       = {.nodes = NodePresenceArrayList_new()};
 	size_t cur_idx_to_push = 0;
 
 	for (size_t i = 0; i < biggest_node_id; i++) {
@@ -378,12 +394,12 @@ KCore Stream_k_cores(const Stream* stream, size_t degree) {
 	}
 	free(neighbourhood);
 
-	KCore_clean_up(&kcore);
+	KCore_simplify(&kcore);
 
 	return kcore;
 }
 
-String KCore_to_string(const KCore* k_core) {
+String SGA_KCore_to_string(const SGA_KCore* k_core) {
 	String str = String_from_duplicate("KCore : { \n");
 	for (size_t i = 0; i < k_core->nodes.length; i++) {
 		String intervals_str = IntervalArrayList_to_string(&k_core->nodes.array[i].presence);
@@ -397,7 +413,7 @@ String KCore_to_string(const KCore* k_core) {
 	return str;
 }
 
-bool KCore_equals(const KCore* left, const KCore* right) {
+bool SGA_KCore_equals(const SGA_KCore* left, const SGA_KCore* right) {
 	if (left->nodes.length != right->nodes.length) {
 		return false;
 	}
@@ -413,14 +429,4 @@ bool KCore_equals(const KCore* left, const KCore* right) {
 	}
 
 	return true;
-}
-
-// TODO : quel nom de merde mais j'ai pas d'idee ptdr
-void KCore_clean_up(KCore* k_core) {
-	for (size_t i = 0; i < k_core->nodes.length; i++) {
-		IntervalsSet intervals = IntervalsSet_from_interval_arraylist(k_core->nodes.array[i].presence);
-		IntervalsSet_sort(&intervals);
-		IntervalsSet_merge(&intervals);
-		k_core->nodes.array[i].presence = IntervalArrayList_from_intervals_set(intervals);
-	}
 }

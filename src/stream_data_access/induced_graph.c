@@ -1,9 +1,26 @@
-#include "induced_graph.h"
+#define SGA_INTERNAL
+
 #include "../utils.h"
+#include "key_moments.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
+
+/**
+ * @brief The data of the iterator over the nodes present at a given time in a StreamGraph.
+ */
+typedef struct {
+	size_t current_event;
+	size_t current_node;
+} NodesPresentAtTIterator;
+
+/**
+ * @brief The data of the iterator over the links present at a given time in a StreamGraph.
+ */
+typedef struct {
+	size_t current_event;
+	size_t current_link;
+} LinksPresentAtTIterator;
 
 // TODO : Lots of copy-paste here and in its .h file. Refactor this somehow if you can do it without making it
 // unreadable
@@ -14,7 +31,7 @@
 size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 
 	LinksPresentAtTIterator* links_iter_data = (LinksPresentAtTIterator*)links_iter->iterator_data;
-	StreamGraph* stream_graph				 = links_iter->stream_graph.stream_data;
+	SGA_StreamGraph* stream_graph		 = links_iter->stream_graph.stream_data;
 
 	// If you asked for the very last key moment, nothing is present
 	// I need to check if the current event is equal to the number of events because of the shift by 1 in the after
@@ -54,7 +71,7 @@ size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
 
 	LinksPresentAtTIterator* links_iter_data = (LinksPresentAtTIterator*)links_iter->iterator_data;
-	StreamGraph* stream_graph				 = links_iter->stream_graph.stream_data;
+	SGA_StreamGraph* stream_graph		 = links_iter->stream_graph.stream_data;
 
 	// If you're the last link of the event
 	size_t return_val;
@@ -75,7 +92,7 @@ size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
 	// If the current event has 0 links
 	while (stream_graph->events.link_events.events[links_iter_data->current_event].nb_info == 0) {
 		if ((links_iter_data->current_event == 0) ||
-			(!BitArray_is_one(stream_graph->events.link_events.presence_mask, links_iter_data->current_event - 1))) {
+		    (!BitArray_is_one(stream_graph->events.link_events.presence_mask, links_iter_data->current_event - 1))) {
 			return SIZE_MAX;
 		}
 		links_iter_data->current_event--;
@@ -90,16 +107,8 @@ void LinksPresentAtTIterator_destroy(LinksIterator* links_iter) {
 	free(links_iter->iterator_data);
 }
 
-LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t) {
+LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, TimeId t) {
 	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
-
-#ifdef DEBUG
-	printf("Events inited: %d\n", stream_graph->events_inited);
-	if (!stream_graph->events_inited) {
-		fprintf(stderr, "Events table not initialized\n");
-		exit(1);
-	}
-#endif
 
 	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
 
@@ -111,25 +120,25 @@ LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t) 
 	// printf("Current event: %zu\n", current_event);
 
 	LinksPresentAtTIterator* links_iter_data = MALLOC(sizeof(LinksPresentAtTIterator));
-	links_iter_data->current_event			 = current_event;
-	links_iter_data->current_link			 = 0;
+	links_iter_data->current_event		 = current_event;
+	links_iter_data->current_link		 = 0;
 
-	Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
-	// Stream* stream = MALLOC(sizeof(Stream));
+	SGA_Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
+	// SGA_Stream* stream = MALLOC(sizeof(SGA_Stream));
 	// stream->type = FULL_STREAM_GRAPH;
 	// stream->stream = stream_graph;
 
 	if (current_event > stream_graph->events.nb_events) {
 		return (LinksIterator){.stream_graph  = stream,
-							   .iterator_data = links_iter_data,
-							   .next		  = LinksPresentAtT_next_after_disappearence,
-							   .destroy		  = LinksPresentAtTIterator_destroy};
+				       .iterator_data = links_iter_data,
+				       .next	      = LinksPresentAtT_next_after_disappearence,
+				       .destroy	      = LinksPresentAtTIterator_destroy};
 	}
 
 	LinksIterator links_iter = {
-		.stream_graph  = stream,
-		.iterator_data = links_iter_data,
-		.destroy	   = LinksPresentAtTIterator_destroy,
+	    .stream_graph  = stream,
+	    .iterator_data = links_iter_data,
+	    .destroy	   = LinksPresentAtTIterator_destroy,
 	};
 	if (current_event > stream_graph->events.link_events.disappearance_index) {
 		links_iter.next = LinksPresentAtT_next_after_disappearence;
@@ -145,7 +154,7 @@ LinksIterator StreamGraph_links_present_at(StreamGraph* stream_graph, TimeId t) 
 size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 
 	NodesPresentAtTIterator* nodes_iter_data = (NodesPresentAtTIterator*)nodes_iter->iterator_data;
-	StreamGraph* stream_graph				 = nodes_iter->stream_graph.stream_data;
+	SGA_StreamGraph* stream_graph		 = nodes_iter->stream_graph.stream_data;
 
 	if (nodes_iter_data->current_event >= stream_graph->events.nb_events) {
 		return SIZE_MAX;
@@ -181,7 +190,7 @@ size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
 
 	NodesPresentAtTIterator* nodes_iter_data = (NodesPresentAtTIterator*)nodes_iter->iterator_data;
-	StreamGraph* stream_graph				 = nodes_iter->stream_graph.stream_data;
+	SGA_StreamGraph* stream_graph		 = nodes_iter->stream_graph.stream_data;
 
 	// If you're the last node of the event
 	size_t return_val;
@@ -202,7 +211,7 @@ size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
 	// If the current event has 0 nodes
 	while (stream_graph->events.node_events.events[nodes_iter_data->current_event].nb_info == 0) {
 		if ((nodes_iter_data->current_event == 0) ||
-			(!BitArray_is_one(stream_graph->events.node_events.presence_mask, nodes_iter_data->current_event - 1))) {
+		    (!BitArray_is_one(stream_graph->events.node_events.presence_mask, nodes_iter_data->current_event - 1))) {
 			return SIZE_MAX;
 		}
 		nodes_iter_data->current_event--;
@@ -217,13 +226,7 @@ void NodesPresentAtTIterator_destroy(NodesIterator* nodes_iter) {
 	free(nodes_iter->iterator_data);
 }
 
-NodesIterator StreamGraph_nodes_present_at(StreamGraph* stream_graph, TimeId t) {
-#ifdef DEBUG
-	if (!stream_graph->events_inited) {
-		fprintf(stderr, "Events table not initialized\n");
-		exit(1);
-	}
-#endif
+NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph, TimeId t) {
 	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
 
 	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
@@ -235,27 +238,27 @@ NodesIterator StreamGraph_nodes_present_at(StreamGraph* stream_graph, TimeId t) 
 
 	// printf("Current event: %zu\n", current_event);
 
-	Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
-	// Stream* stream = MALLOC(sizeof(Stream));
+	SGA_Stream stream = {.type = FULL_STREAM_GRAPH, .stream_data = stream_graph};
+	// SGA_Stream* stream = MALLOC(sizeof(SGA_Stream));
 	// stream->type = FULL_STREAM_GRAPH;
 	// stream->stream = stream_graph;
 	if (current_event > stream_graph->events.nb_events) {
 		NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
 		return (NodesIterator){
-			.stream_graph  = stream,
-			.iterator_data = nodes_iter_data,
-			.next		   = NodesPresentAtT_next_after_disappearence,
-			.destroy	   = NodesPresentAtTIterator_destroy,
+		    .stream_graph  = stream,
+		    .iterator_data = nodes_iter_data,
+		    .next	   = NodesPresentAtT_next_after_disappearence,
+		    .destroy	   = NodesPresentAtTIterator_destroy,
 		};
 	}
 
 	NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
-	nodes_iter_data->current_event			 = current_event;
-	nodes_iter_data->current_node			 = 0;
-	NodesIterator nodes_iter				 = {
-						.stream_graph  = stream,
-						.iterator_data = nodes_iter_data,
-						.destroy	   = NodesPresentAtTIterator_destroy,
+	nodes_iter_data->current_event		 = current_event;
+	nodes_iter_data->current_node		 = 0;
+	NodesIterator nodes_iter		 = {
+			    .stream_graph  = stream,
+			    .iterator_data = nodes_iter_data,
+			    .destroy	   = NodesPresentAtTIterator_destroy,
 	};
 	if (current_event > stream_graph->events.node_events.disappearance_index) {
 		nodes_iter.next = NodesPresentAtT_next_after_disappearence;

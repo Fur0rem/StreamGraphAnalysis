@@ -1,9 +1,13 @@
-#include "../src/analysis/walks.h"
-#include "../src/stream.h"
-#include "../src/stream_wrappers.h"
+/**
+ * @file benchmarks/walks.c
+ * @brief Benchmarks for walks
+ */
+
+#define SGA_INTERNAL
+#include "../StreamGraphAnalysis.h"
 #include "benchmark.h"
 
-Stream stream;
+SGA_Stream stream;
 
 DONT_OPTIMISE void robustness_by_length() {
 	Stream_robustness_by_length(&stream);
@@ -15,7 +19,7 @@ DONT_OPTIMISE void robustness_by_duration() {
 
 DONT_OPTIMISE void fastest() {
 	MetricsFunctions fns = FullStreamGraph_metrics_functions;
-	size_t nb_nodes		 = fns.cardinalOfV(&stream);
+	size_t nb_nodes	     = fns.distinct_cardinal_of_node_set(&stream);
 	for (size_t i = 0; i < nb_nodes; i++) {
 		for (size_t j = 0; j < nb_nodes; j++) {
 			if (i == j) {
@@ -29,27 +33,27 @@ DONT_OPTIMISE void fastest() {
 }
 
 int main() {
-	StreamGraph sg;
-	sg	   = StreamGraph_from_external("data/S_external.txt");
-	stream = FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg;
+	sg     = SGA_StreamGraph_from_external("data/S_external.txt");
+	stream = SGA_FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length Figure_8", 1000);
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(stream);
 
-	sg	   = StreamGraph_from_external("data/S_concat_L.txt");
-	stream = FullStreamGraph_from(&sg);
+	sg     = SGA_StreamGraph_from_external("data/S_concat_L.txt");
+	stream = SGA_FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length S_concat_L", 1000);
 	benchmark(robustness_by_duration, "robustness_by_duration S_concat_L", 1000);
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(stream);
 
-	sg	   = StreamGraph_from_external("data/LS_90.txt");
-	stream = FullStreamGraph_from(&sg);
+	sg     = SGA_StreamGraph_from_external("data/LS_90.txt");
+	stream = SGA_FullStreamGraph_from(&sg);
 	benchmark(robustness_by_duration, "robustness_by_duration LS_90", 1);
 	benchmark(fastest, "fastest LS_90", 1);
 	benchmark(robustness_by_length, "robustness_by_length LS_90", 1);
-	StreamGraph_destroy(sg);
-	FullStreamGraph_destroy(stream);
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(stream);
 
 	return 0;
 }

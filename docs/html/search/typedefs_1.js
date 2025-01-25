@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nodesiterator_0',['NodesIterator',['../iterators_8h.html#ac329d89f5f25ae367833ebdaaeeedea4',1,'iterators.h']]]
+  ['linksiterator_0',['LinksIterator',['../iterators_8h.html#a7cf998d549a9dbc3e839cb6df96ec48b',1,'iterators.h']]]
 ];
