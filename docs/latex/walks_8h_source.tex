@@ -1,120 +1,106 @@
 \doxysection{walks.\+h}
 \hypertarget{walks_8h_source}{}\label{walks_8h_source}\index{src/analysis/walks.h@{src/analysis/walks.h}}
-
+\mbox{\hyperlink{walks_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WALK\_H}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WALK\_H}}
-\DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../units.h"{}}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../utils.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{comment}{//\ Forward\ declaration\ of\ TreeNode\ since\ it's\ used\ in\ TreeEdge\ before\ its\ full\ definition.}}
-\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTreeNode}{TreeNode}}\ \mbox{\hyperlink{structTreeNode}{TreeNode}};}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ weight;}
-\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structTreeNode}{TreeNode}}*\ child;\ \textcolor{comment}{//\ Use\ a\ pointer\ to\ TreeNode\ for\ the\ forward-\/declared\ type.}}
-\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structTreeEdge}{TreeEdge}};}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \textcolor{comment}{//\ Function\ declarations\ that\ use\ TreeEdge.}}
-\DoxyCodeLine{00021\ DeclareToString(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
-\DoxyCodeLine{00022\ DeclareEquals(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ DeclareArrayList(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
-\DoxyCodeLine{00025\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
-\DoxyCodeLine{00026\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
-\DoxyCodeLine{00027\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structTreeEdge}{TreeEdge}});}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \textcolor{comment}{//\ Now\ fully\ define\ TreeNode,\ after\ TreeEdge\ has\ been\ defined.}}
-\DoxyCodeLine{00030\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTreeNode}{TreeNode}}\ \{}
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ id;}
-\DoxyCodeLine{00032\ \ \ \ \ TreeEdgeArrayList\ children;\ \textcolor{comment}{//\ Assuming\ TreeEdgeArrayList\ is\ defined\ by\ DefArrayList\ macro.}}
-\DoxyCodeLine{00033\ \};}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \mbox{\hyperlink{structTreeNode}{TreeNode}}\ TreeNode\_with\_id(\textcolor{keywordtype}{size\_t}\ \textcolor{keywordtype}{id});}
-\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ TreeNode\_push\_child(\mbox{\hyperlink{structTreeNode}{TreeNode}}*\ node,\ \mbox{\hyperlink{structTreeEdge}{TreeEdge}}\ child);}
-\DoxyCodeLine{00037\ \mbox{\hyperlink{structTreeNode}{TreeNode}}\ exploration\_tree\_from\_stream(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00040\ \ \ \ \ LinkId\ link;}
-\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ time;}
-\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ interval\_taken;}
-\DoxyCodeLine{00043\ \}\ \mbox{\hyperlink{structWalkStep}{WalkStep}};}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ DeclareToString(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
-\DoxyCodeLine{00046\ DeclareEquals(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ DeclareArrayList(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
-\DoxyCodeLine{00049\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
-\DoxyCodeLine{00050\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
-\DoxyCodeLine{00051\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structWalkStep}{WalkStep}});}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ WALK\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ WALK\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../units.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../utils.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ SGA\_LinkId\ \mbox{\hyperlink{structSGA__WalkStep_a7d1de3bb73977cfad954f292e71fa85d}{link}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structSGA__WalkStep_a49eeb08ee029d1737518e9d1136c85f5}{time}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{structSGA__WalkStep_a8777f68a9e87538be1cb54e54ec0568b}{interval\_taken}};\ }
+\DoxyCodeLine{00024\ \}\ \mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ DeclareToString(\mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}});}
+\DoxyCodeLine{00027\ DeclareEquals(\mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}});}
+\DoxyCodeLine{00028\ DeclareArrayList(\mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}});}
+\DoxyCodeLine{00029\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}});}
+\DoxyCodeLine{00030\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}});}
+\DoxyCodeLine{00031\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structSGA__WalkStep}{SGA\_WalkStep}});}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00039\ \ \ \ \ SGA\_NodeId\ \mbox{\hyperlink{structSGA__Walk_a0be156249d852c4bea593e087afc0682}{start}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ SGA\_NodeId\ \mbox{\hyperlink{structSGA__Walk_a34893363a103ce5b250e34ee30d9abcf}{end}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{structSGA__Walk_ab6b72bb6e9d27917781a604cbcefcbe7}{optimality}};\ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ SGA\_WalkStepArrayList\ \mbox{\hyperlink{structSGA__Walk_ac557a7eea59c807d10f007bdb726ed41}{steps}};\ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ \mbox{\hyperlink{structSGA__Walk_ad2b8dced84b74d0dd2ded124fda2cab1}{stream}};\ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \}\ \mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ DeclareToString(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}});}
+\DoxyCodeLine{00047\ DeclareEquals(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}});}
+\DoxyCodeLine{00048\ DeclareArrayList(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}});}
+\DoxyCodeLine{00049\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}});}
+\DoxyCodeLine{00050\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}});}
+\DoxyCodeLine{00051\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}});}
 \DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00054\ \ \ \ \ NodeId\ start;}
-\DoxyCodeLine{00055\ \ \ \ \ NodeId\ end;}
-\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ optimality;}
-\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream;}
-\DoxyCodeLine{00058\ \ \ \ \ WalkStepArrayList\ steps;}
-\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{structWalk}{Walk}};}
-\DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{union\ }\{}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structInterval}{Interval}}\ node\_absent\_between;}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ TimeId\ unreachable\_after;}
-\DoxyCodeLine{00065\ \ \ \ \ \}\ reason;}
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ NODE\_ABSENT,}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ UNREACHABLE}
-\DoxyCodeLine{00069\ \ \ \ \ \}\ type;}
-\DoxyCodeLine{00070\ \}\ \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}};}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{union\ }\{}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structWalk}{Walk}}\ walk;}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNoWalkReason}{NoWalkReason}}\ no\_walk\_reason;}
-\DoxyCodeLine{00076\ \ \ \ \ \}\ result;}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ WALK,}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ NO\_WALK}
-\DoxyCodeLine{00080\ \ \ \ \ \}\ type;}
-\DoxyCodeLine{00081\ \}\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}};}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ Stream\_shortest\_walk\_from\_to\_at(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,\ TimeId\ at);}
-\DoxyCodeLine{00084\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ Stream\_fastest\_shortest\_walk(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,\ TimeId\ at);}
-\DoxyCodeLine{00085\ DeclareToString(\mbox{\hyperlink{structWalk}{Walk}});}
-\DoxyCodeLine{00086\ DeclareEquals(\mbox{\hyperlink{structWalk}{Walk}});}
-\DoxyCodeLine{00087\ DeclareToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{00088\ DeclareEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{00089\ \textcolor{keywordtype}{void}\ Walk\_destroy(\mbox{\hyperlink{structWalk}{Walk}}\ walk);}
-\DoxyCodeLine{00090\ \textcolor{keywordtype}{void}\ WalkInfo\_destroy(\mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ wi);}
-\DoxyCodeLine{00091\ DeclareArrayList(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{00092\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{00093\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{00094\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structWalkInfo}{WalkInfo}});}
-\DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ WalkInfoArrayList\ optimal\_walks\_between\_two\_nodes(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ (*fn)(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*,\ NodeId,\ NodeId,\ TimeId));}
-\DoxyCodeLine{00098\ \mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ Stream\_fastest\_walk(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream,\ NodeId\ from,\ NodeId\ to,\ TimeId\ at);}
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \textcolor{keywordtype}{size\_t}\ Walk\_length(\mbox{\hyperlink{structWalk}{Walk}}*\ walk);}
-\DoxyCodeLine{00101\ \textcolor{keywordtype}{size\_t}\ Walk\_duration(\mbox{\hyperlink{structWalk}{Walk}}*\ walk);}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \textcolor{keywordtype}{double}\ Stream\_robustness\_by\_length(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \textcolor{keywordtype}{bool}\ Walk\_goes\_through(\mbox{\hyperlink{structWalk}{Walk}}*\ walk,\ \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}\ stream,\ \textcolor{keywordtype}{size\_t}\ nb\_steps,\ ...);}
-\DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \mbox{\hyperlink{structWalk}{Walk}}\ WalkInfo\_unwrap\_checked(\mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ info);}
-\DoxyCodeLine{00108\ \mbox{\hyperlink{structWalk}{Walk}}\ WalkInfo\_unwrap\_unchecked(\mbox{\hyperlink{structWalkInfo}{WalkInfo}}\ info);}
-\DoxyCodeLine{00109\ }
-\DoxyCodeLine{00110\ TimeId\ Walk\_arrives\_at(\mbox{\hyperlink{structWalk}{Walk}}*\ walk);}
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ \textcolor{keywordtype}{double}\ Stream\_robustness\_by\_duration(\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WALK\_H}}
+\DoxyCodeLine{00057\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{structSGA__NoWalkReason_acc262035194560bb7b37d816d35d7c28}{node\_absent\_between}};\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ SGA\_Time\ \mbox{\hyperlink{structSGA__NoWalkReason_aed9c4eacdf0235ae6362c8fda6147955}{unreachable\_after}};\ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \}\ reason;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa3eddeebd0bb052be0dfb480b65b0a3c7}{NODE\_ABSENT}},\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa5b2bd822d5899cbad12a60eccd2bb18c}{UNREACHABLE}}\ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \}\ type;}
+\DoxyCodeLine{00068\ \}\ \mbox{\hyperlink{structSGA__NoWalkReason}{SGA\_NoWalkReason}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}\ \mbox{\hyperlink{structSGA__OptionalWalk_a65c61eae53e8f210a5db092ad56ee893}{walk}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__NoWalkReason}{SGA\_NoWalkReason}}\ \mbox{\hyperlink{structSGA__OptionalWalk_a848b7bbdd0e89dd2b52bc6bc98bbfa41}{no\_walk\_reason}};\ }
+\DoxyCodeLine{00078\ \ \ \ \ \}\ result;}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04ad91db25c3daeb3b9ee8c1ecaa9e52c59}{WALK}},\ \ \ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04af2daee285de88d44fc6e33617a5cbbd2}{NO\_WALK}}\ }
+\DoxyCodeLine{00083\ \ \ \ \ \}\ type;}
+\DoxyCodeLine{00084\ \}\ \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00091\ \mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}\ \mbox{\hyperlink{walks_8h_a6d4a88e745f804c7e6d5885a11d513c5}{SGA\_OptionalWalk\_unwrap\_checked}}(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ info);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00099\ \mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}\ \mbox{\hyperlink{walks_8h_aa7c84eadd78019cfe68f9c537c936044}{SGA\_OptionalWalk\_unwrap\_unchecked}}(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ info);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00107\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{walks_8h_a9c516109b73b18dc27068dbe4556b090}{SGA\_Walk\_length}}(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}*\ walk);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00113\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{walks_8h_a67470fc1050e8e90199fe6afd3781f56}{SGA\_Walk\_duration}}(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}*\ walk);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00123\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{walks_8h_a427fc8924afa794634d8d86d85caeb63}{SGA\_Walk\_goes\_through}}(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}*\ walk,\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream,\ \textcolor{keywordtype}{size\_t}\ nb\_steps,\ ...);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00130\ SGA\_Time\ \mbox{\hyperlink{walks_8h_a89d1d2fa3cc13827475bdb2a1ad60a69}{SGA\_Walk\_arrives\_at}}(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}*\ walk);}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00141\ \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ \mbox{\hyperlink{walks_8h_a2eb4fb3b2e9179db14d63a632d0c6e6b}{SGA\_shortest\_walk}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ from,\ SGA\_NodeId\ to,\ SGA\_Time\ at);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00153\ \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ \mbox{\hyperlink{walks_8h_aa6f82faf304d94b3c3154326f70d2a8d}{SGA\_fastest\_walk}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ from,\ SGA\_NodeId\ to,\ SGA\_Time\ at);}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00166\ \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ \mbox{\hyperlink{walks_8h_a2e1f985fc5811e61d9c38f3f3e4e1431}{Stream\_fastest\_shortest\_walk}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ from,\ SGA\_NodeId\ to,\ SGA\_Time\ at);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00172\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{walks_8h_a17b2ef8894d87a9ade6ddffdd5c0944e}{SGA\_Walk\_destroy}}(\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}}\ walk);}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00178\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{walks_8h_af541e38c917e9734bd0d88679027048e}{SGA\_OptionalWalk\_destroy}}(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ wi);}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ DeclareToString(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}});}
+\DoxyCodeLine{00181\ DeclareEquals(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}});}
+\DoxyCodeLine{00182\ DeclareArrayList(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}});}
+\DoxyCodeLine{00183\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}});}
+\DoxyCodeLine{00184\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}});}
+\DoxyCodeLine{00185\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}});}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00194\ SGA\_OptionalWalkArrayList\ \mbox{\hyperlink{walks_8h_a4e8e389ec492d1d506fc81f3819682d1}{SGA\_optimal\_walks\_between\_two\_nodes}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ from,\ SGA\_NodeId\ to,}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\_OptionalWalk}}\ (*fn)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*,\ SGA\_NodeId,\ SGA\_NodeId,\ SGA\_Time));}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00204\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{walks_8h_af4c7fd83de3277b281d5f4b30283faf5}{SGA\_Stream\_robustness\_by\_length}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00213\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{walks_8h_ace09d220e7b90f9e7e26a1fc56ca309b}{SGA\_Stream\_robustness\_by\_duration}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WALK\_H}}
 
 \end{DoxyCode}

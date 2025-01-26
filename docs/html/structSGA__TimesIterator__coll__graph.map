@@ -1,0 +1,11 @@
+<map id="SGA_TimesIterator" name="SGA_TimesIterator">
+<area shape="rect" id="Node000001" title=" " alt="" coords="66,419,210,447"/>
+<area shape="rect" id="Node000002" href="$structSGA__Stream.html" title="The structure of a Stream." alt="" coords="23,327,125,354"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,369,81,394,92,407,107,417,104,421,89,411,76,397,69,370"/>
+<area shape="rect" id="Node000003" href="$structInformationCache.html" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="5,234,143,262"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,277,77,326,71,326,71,277"/>
+<area shape="rect" id="Node000004" href="$structOptionalSizeT.html" title="A size_t that can be optional." alt="" coords="18,5,130,33"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="77,48,77,234,71,234,71,48"/>
+<area shape="rect" id="Node000005" href="$structSGA__Interval.html" title=" " alt="" coords="149,327,255,354"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="191,370,175,397,154,420,150,417,171,394,187,367"/>
+</map>

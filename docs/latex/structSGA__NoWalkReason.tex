@@ -1,0 +1,74 @@
+\doxysection{SGA\+\_\+\+No\+Walk\+Reason Struct Reference}
+\hypertarget{structSGA__NoWalkReason}{}\label{structSGA__NoWalkReason}\index{SGA\_NoWalkReason@{SGA\_NoWalkReason}}
+
+
+A reason why a walk is not possible It can be because a node does not exist in the stream at the time of the walk or because the node is simply unreachable.  
+
+
+
+
+\doxysubsection{Detailed Description}
+A reason why a walk is not possible It can be because a node does not exist in the stream at the time of the walk or because the node is simply unreachable. 
+
+{\ttfamily \#include $<$walks.\+h$>$}
+
+
+
+Collaboration diagram for SGA\+\_\+\+No\+Walk\+Reason\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{structSGA__NoWalkReason__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa3eddeebd0bb052be0dfb480b65b0a3c7}{NODE\+\_\+\+ABSENT}}
+, \mbox{\hyperlink{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa5b2bd822d5899cbad12a60eccd2bb18c}{UNREACHABLE}}
+ \}
+\begin{DoxyCompactList}\small\item\em The type of the reason. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structSGA__NoWalkReason_ac90ab5fc29b932c3e057381f8c1ac66a}\label{structSGA__NoWalkReason_ac90ab5fc29b932c3e057381f8c1ac66a} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}} {\bfseries node\_absent\_between}\\
+\>\>{\em The interval of time at which the node is absent. }\\
+\>SGA\_Time {\bfseries unreachable\_after}\\
+\>\>{\em The first time at which the node is unreachable. }\\
+\} {\bfseries reason}\\
+
+\end{tabbing}\begin{DoxyCompactList}\small\item\em The reason why the walk is not possible. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__NoWalkReason_a16b0e780fa5d30092eef6f31f1879ea2}\label{structSGA__NoWalkReason_a16b0e780fa5d30092eef6f31f1879ea2} 
+enum SGA\+\_\+\+No\+Walk\+Reason\+:: \{ ... \}  {\bfseries type}
+\begin{DoxyCompactList}\small\item\em The type of the reason. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576cea}\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily \label{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576cea} 
+anonymous enum}
+
+
+
+The type of the reason. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NODE\_ABSENT@{NODE\_ABSENT}!SGA\_NoWalkReason@{SGA\_NoWalkReason}}\index{SGA\_NoWalkReason@{SGA\_NoWalkReason}!NODE\_ABSENT@{NODE\_ABSENT}}}\Hypertarget{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa3eddeebd0bb052be0dfb480b65b0a3c7}\label{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa3eddeebd0bb052be0dfb480b65b0a3c7} 
+NODE\+\_\+\+ABSENT&The node is absent. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNREACHABLE@{UNREACHABLE}!SGA\_NoWalkReason@{SGA\_NoWalkReason}}\index{SGA\_NoWalkReason@{SGA\_NoWalkReason}!UNREACHABLE@{UNREACHABLE}}}\Hypertarget{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa5b2bd822d5899cbad12a60eccd2bb18c}\label{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576ceaa5b2bd822d5899cbad12a60eccd2bb18c} 
+UNREACHABLE&The node is unreachable. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/analysis/\mbox{\hyperlink{walks_8h}{walks.\+h}}\end{DoxyCompactItemize}

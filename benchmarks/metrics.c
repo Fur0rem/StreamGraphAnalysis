@@ -43,8 +43,8 @@ DONT_OPTIMISE void clustering_coeff() {
 }
 
 DONT_OPTIMISE void density_at_instant() {
-	StreamFunctions fns = STREAM_FUNCS(fns, &stream);
-	Interval lifespan   = fns.lifespan(stream.stream_data);
+	StreamFunctions fns   = STREAM_FUNCS(fns, &stream);
+	SGA_Interval lifespan = fns.lifespan(stream.stream_data);
 	for (TimeId t = lifespan.start; t < lifespan.end; t++) {
 		SGA_Stream_density_at_instant(&stream, t);
 	}

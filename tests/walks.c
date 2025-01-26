@@ -11,32 +11,32 @@ bool test_walk_a_c() {
 
 	bool result = true;
 
-	WalkInfo w1  = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
-	Walk w1_walk = WalkInfo_unwrap_checked(w1);
-	result &= EXPECT(Walk_goes_through(&w1_walk, st, 2, 0, 1, 3));
-	// printf("w1 %s\n", Walk_to_string(&w1_walk).data);
-	WalkInfo_destroy(w1);
+	SGA_OptionalWalk w1 = SGA_shortest_walk(&st, 0, 3, 0);
+	SGA_Walk w1_walk    = SGA_OptionalWalk_unwrap_checked(w1);
+	result &= EXPECT(SGA_Walk_goes_through(&w1_walk, st, 2, 0, 1, 3));
+	// printf("w1 %s\n", SGA_Walk_to_string(&w1_walk).data);
+	SGA_OptionalWalk_destroy(w1);
 
-	WalkInfo w2  = Stream_shortest_walk_from_to_at(&st, 0, 3, 5);
-	Walk w2_walk = WalkInfo_unwrap_checked(w2);
-	result &= EXPECT(Walk_goes_through(&w2_walk, st, 2, 0, 1, 3));
-	// printf("w2 %s\n", Walk_to_string(&w2_walk).data);
-	WalkInfo_destroy(w2);
+	SGA_OptionalWalk w2 = SGA_shortest_walk(&st, 0, 3, 5);
+	SGA_Walk w2_walk    = SGA_OptionalWalk_unwrap_checked(w2);
+	result &= EXPECT(SGA_Walk_goes_through(&w2_walk, st, 2, 0, 1, 3));
+	// printf("w2 %s\n", SGA_Walk_to_string(&w2_walk).data);
+	SGA_OptionalWalk_destroy(w2);
 
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
 	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
-	WalkInfo w3  = Stream_shortest_walk_from_to_at(&st2, 0, 3, 0);
-	Walk w3_walk = WalkInfo_unwrap_checked(w3);
-	result &= EXPECT(Walk_goes_through(&w3_walk, st2, 2, 0, 1, 3));
-	// printf("w3 %s\n", Walk_to_string(&w3_walk).data);
-	WalkInfo_destroy(w3);
+	SGA_OptionalWalk w3 = SGA_shortest_walk(&st2, 0, 3, 0);
+	SGA_Walk w3_walk    = SGA_OptionalWalk_unwrap_checked(w3);
+	result &= EXPECT(SGA_Walk_goes_through(&w3_walk, st2, 2, 0, 1, 3));
+	// printf("w3 %s\n", SGA_Walk_to_string(&w3_walk).data);
+	SGA_OptionalWalk_destroy(w3);
 
-	WalkInfo w4  = Stream_shortest_walk_from_to_at(&st2, 0, 3, 5);
-	Walk w4_walk = WalkInfo_unwrap_checked(w4);
-	result &= EXPECT(Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
-	// printf("w4 %s\n", Walk_to_string(&w4_walk).data);
-	WalkInfo_destroy(w4);
+	SGA_OptionalWalk w4 = SGA_shortest_walk(&st2, 0, 3, 5);
+	SGA_Walk w4_walk    = SGA_OptionalWalk_unwrap_checked(w4);
+	result &= EXPECT(SGA_Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
+	// printf("w4 %s\n", SGA_Walk_to_string(&w4_walk).data);
+	SGA_OptionalWalk_destroy(w4);
 
 	SGA_StreamGraph_destroy(sg);
 	SGA_StreamGraph_destroy(sg2);
@@ -59,17 +59,17 @@ bool test_walk_optimal() {
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
-	WalkInfoArrayList walks = optimal_walks_between_two_nodes(&st, 0, 3, Stream_shortest_walk_from_to_at);
+	SGA_OptionalWalkArrayList walks = SGA_optimal_walks_between_two_nodes(&st, 0, 3, SGA_shortest_walk);
 	printf("Optimal walks between 0 and 3\n");
 	for (size_t i = 0; i < walks.length; i++) {
-		String str = WalkInfo_to_string(&walks.array[i]);
+		String str = SGA_OptionalWalk_to_string(&walks.array[i]);
 		printf("%s\n", str.data);
 		String_destroy(str);
 	}
 
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(st);
-	WalkInfoArrayList_destroy(walks);
+	SGA_OptionalWalkArrayList_destroy(walks);
 
 	return true;
 }
@@ -79,21 +79,21 @@ bool test_fastest_shortest() {
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
-	WalkInfo w = Stream_fastest_shortest_walk(&st, 0, 3, 0);
-	String str = WalkInfo_to_string(&w);
+	SGA_OptionalWalk w = Stream_fastest_shortest_walk(&st, 0, 3, 0);
+	String str	   = SGA_OptionalWalk_to_string(&w);
 	printf("w %s\n", str.data);
 	String_destroy(str);
 
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
 	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
-	WalkInfo w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
-	str	    = WalkInfo_to_string(&w2);
+	SGA_OptionalWalk w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
+	str		    = SGA_OptionalWalk_to_string(&w2);
 	printf("w2 %s\n", str.data);
 	String_destroy(str);
 
-	WalkInfo w3 = Stream_fastest_shortest_walk(&st2, 0, 3, 9);
-	str	    = WalkInfo_to_string(&w3);
+	SGA_OptionalWalk w3 = Stream_fastest_shortest_walk(&st2, 0, 3, 9);
+	str		    = SGA_OptionalWalk_to_string(&w3);
 	printf("w3 %s\n", str.data);
 	String_destroy(str);
 
@@ -101,9 +101,9 @@ bool test_fastest_shortest() {
 	SGA_StreamGraph_destroy(sg2);
 	SGA_FullStreamGraph_destroy(st);
 	SGA_FullStreamGraph_destroy(st2);
-	WalkInfo_destroy(w);
-	WalkInfo_destroy(w2);
-	WalkInfo_destroy(w3);
+	SGA_OptionalWalk_destroy(w);
+	SGA_OptionalWalk_destroy(w2);
+	SGA_OptionalWalk_destroy(w3);
 
 	return true;
 }
@@ -114,26 +114,26 @@ bool test_fastest() {
 
 	bool result = true;
 
-	WalkInfo w1  = Stream_fastest_walk(&st, 0, 3, 0);
-	Walk w1_walk = WalkInfo_unwrap_checked(w1);
-	result &= EXPECT(Walk_goes_through(&w1_walk, st, 2, 0, 2, 3));
-	result &= EXPECT_EQ(Walk_arrives_at(&w1_walk), 6);
-	// printf("w1 %s\n", Walk_to_string(&w1_walk).data);
-	WalkInfo_destroy(w1);
+	SGA_OptionalWalk w1 = SGA_fastest_walk(&st, 0, 3, 0);
+	SGA_Walk w1_walk    = SGA_OptionalWalk_unwrap_checked(w1);
+	result &= EXPECT(SGA_Walk_goes_through(&w1_walk, st, 2, 0, 2, 3));
+	result &= EXPECT_EQ(SGA_Walk_arrives_at(&w1_walk), 6);
+	// printf("w1 %s\n", SGA_Walk_to_string(&w1_walk).data);
+	SGA_OptionalWalk_destroy(w1);
 
-	WalkInfo w2  = Stream_fastest_walk(&st, 0, 3, 4);
-	Walk w2_walk = WalkInfo_unwrap_checked(w2);
-	result &= EXPECT(Walk_goes_through(&w2_walk, st, 2, 0, 2, 3));
-	result &= EXPECT_EQ(Walk_arrives_at(&w2_walk), 6);
-	// printf("w2 %s\n", Walk_to_string(&w2_walk).data);
-	WalkInfo_destroy(w2);
+	SGA_OptionalWalk w2 = SGA_fastest_walk(&st, 0, 3, 4);
+	SGA_Walk w2_walk    = SGA_OptionalWalk_unwrap_checked(w2);
+	result &= EXPECT(SGA_Walk_goes_through(&w2_walk, st, 2, 0, 2, 3));
+	result &= EXPECT_EQ(SGA_Walk_arrives_at(&w2_walk), 6);
+	// printf("w2 %s\n", SGA_Walk_to_string(&w2_walk).data);
+	SGA_OptionalWalk_destroy(w2);
 
-	WalkInfo w3  = Stream_fastest_walk(&st, 0, 3, 5);
-	Walk w3_walk = WalkInfo_unwrap_checked(w3);
-	result &= EXPECT(Walk_goes_through(&w3_walk, st, 3, 0, 1, 2, 3));
-	result &= EXPECT_EQ(Walk_arrives_at(&w3_walk), 6);
-	// printf("w3 %s\n", Walk_to_string(&w3_walk).data);
-	WalkInfo_destroy(w3);
+	SGA_OptionalWalk w3 = SGA_fastest_walk(&st, 0, 3, 5);
+	SGA_Walk w3_walk    = SGA_OptionalWalk_unwrap_checked(w3);
+	result &= EXPECT(SGA_Walk_goes_through(&w3_walk, st, 3, 0, 1, 2, 3));
+	result &= EXPECT_EQ(SGA_Walk_arrives_at(&w3_walk), 6);
+	// printf("w3 %s\n", SGA_Walk_to_string(&w3_walk).data);
+	SGA_OptionalWalk_destroy(w3);
 
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(st);
@@ -141,17 +141,17 @@ bool test_fastest() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
 	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
-	WalkInfo w4  = Stream_fastest_walk(&st2, 0, 3, 5);
-	Walk w4_walk = WalkInfo_unwrap_checked(w4);
-	result &= EXPECT(Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
-	result &= EXPECT_EQ(Walk_arrives_at(&w4_walk), 8);
-	WalkInfo_destroy(w4);
+	SGA_OptionalWalk w4 = SGA_fastest_walk(&st2, 0, 3, 5);
+	SGA_Walk w4_walk    = SGA_OptionalWalk_unwrap_checked(w4);
+	result &= EXPECT(SGA_Walk_goes_through(&w4_walk, st2, 3, 0, 1, 2, 3));
+	result &= EXPECT_EQ(SGA_Walk_arrives_at(&w4_walk), 8);
+	SGA_OptionalWalk_destroy(w4);
 
-	WalkInfo w5 = Stream_fastest_walk(&st2, 0, 3, 9);
+	SGA_OptionalWalk w5 = SGA_fastest_walk(&st2, 0, 3, 9);
 	result &= EXPECT(w5.type == NO_WALK);
 	result &= EXPECT(w5.result.no_walk_reason.type == UNREACHABLE);
 	result &= EXPECT_EQ(w5.result.no_walk_reason.reason.unreachable_after, 9);
-	WalkInfo_destroy(w5);
+	SGA_OptionalWalk_destroy(w5);
 
 	SGA_StreamGraph_destroy(sg2);
 	SGA_FullStreamGraph_destroy(st2);
@@ -164,10 +164,10 @@ bool test_walk_node_not_present() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/bridge.txt");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
-	WalkInfo wi = Stream_shortest_walk_from_to_at(&st, 0, 3, 0);
-	Walk w	    = WalkInfo_unwrap_checked(wi);
-	correct &= EXPECT(Walk_goes_through(&w, st, 3, 0, 1, 2, 3));
-	WalkInfo_destroy(wi);
+	SGA_OptionalWalk wi = SGA_shortest_walk(&st, 0, 3, 0);
+	SGA_Walk w	    = SGA_OptionalWalk_unwrap_checked(wi);
+	correct &= EXPECT(SGA_Walk_goes_through(&w, st, 3, 0, 1, 2, 3));
+	SGA_OptionalWalk_destroy(wi);
 
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(st);
@@ -202,7 +202,7 @@ bool test_robustness_length_of_1() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/robustness_1.txt");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
-	double robustness = Stream_robustness_by_length(&st);
+	double robustness = SGA_Stream_robustness_by_length(&st);
 	bool success	  = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
 
 	SGA_FullStreamGraph_destroy(st);
@@ -214,7 +214,7 @@ bool test_robustness_duration_of_1() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/robustness_1.txt");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
-	double robustness = Stream_robustness_by_duration(&st);
+	double robustness = SGA_Stream_robustness_by_duration(&st);
 	bool success	  = EXPECT_F_APPROX_EQ(robustness, 1.0, 1e-6);
 
 	SGA_FullStreamGraph_destroy(st);
@@ -234,5 +234,5 @@ int main() {
 	    NULL,
 	};
 
-	return test("Walks", tests);
+	return test("SGA_Walks", tests);
 }

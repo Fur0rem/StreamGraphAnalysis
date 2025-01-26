@@ -1,0 +1,49 @@
+\doxysection{SGA\+\_\+\+Times\+Iterator Struct Reference}
+\hypertarget{structSGA__TimesIterator}{}\label{structSGA__TimesIterator}\index{SGA\_TimesIterator@{SGA\_TimesIterator}}
+
+
+Collaboration diagram for SGA\+\_\+\+Times\+Iterator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{structSGA__TimesIterator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structSGA__TimesIterator_a0f93c220c8d8281961d7af7977d0100a}\label{structSGA__TimesIterator_a0f93c220c8d8281961d7af7977d0100a} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} {\bfseries stream\+\_\+graph}
+\begin{DoxyCompactList}\small\item\em The stream graph from which the iterator is created. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__TimesIterator_aff888fa22a69047a18dc30e63f551ccc}\label{structSGA__TimesIterator_aff888fa22a69047a18dc30e63f551ccc} 
+void \texorpdfstring{$\ast$}{*} {\bfseries iterator\+\_\+data}
+\begin{DoxyCompactList}\small\item\em Extra data needed to iterate. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structSGA__TimesIterator_abcae2537735ec5ae5cdb92625e8dc30b}{next}} )(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \texorpdfstring{$\ast$}{*})
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structSGA__TimesIterator_adf5325ec20dd2d0356cac708a911673a}{destroy}} )(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Takes itself as the argument. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structSGA__TimesIterator_adf5325ec20dd2d0356cac708a911673a}\index{SGA\_TimesIterator@{SGA\_TimesIterator}!destroy@{destroy}}
+\index{destroy@{destroy}!SGA\_TimesIterator@{SGA\_TimesIterator}}
+\doxysubsubsection{\texorpdfstring{destroy}{destroy}}
+{\footnotesize\ttfamily \label{structSGA__TimesIterator_adf5325ec20dd2d0356cac708a911673a} 
+void(\texorpdfstring{$\ast$}{*} SGA\+\_\+\+Times\+Iterator\+::destroy) (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \texorpdfstring{$\ast$}{*})}
+
+
+
+Takes itself as the argument. 
+
+Function to destroy the iterator. \Hypertarget{structSGA__TimesIterator_abcae2537735ec5ae5cdb92625e8dc30b}\index{SGA\_TimesIterator@{SGA\_TimesIterator}!next@{next}}
+\index{next@{next}!SGA\_TimesIterator@{SGA\_TimesIterator}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily \label{structSGA__TimesIterator_abcae2537735ec5ae5cdb92625e8dc30b} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}(\texorpdfstring{$\ast$}{*} SGA\+\_\+\+Times\+Iterator\+::next) (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \texorpdfstring{$\ast$}{*})}
+
+Function to get the next time interval. Takes itself as the argument. If there are no more time intervals, it returns TIMES\+\_\+\+ITERATOR\+\_\+\+END. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{iterators_8h}{iterators.\+h}}\end{DoxyCompactItemize}

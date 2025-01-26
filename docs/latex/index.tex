@@ -19,12 +19,12 @@ I tried to follow the paper namings as closely as possible, but I had to make so
 The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics. Anything related to the library (data types, functions, ect...) contain the prefix SGA\+\_\+ to avoid conflicts with other libraries. There are 2 main data structures in the library \+:
 \begin{DoxyItemize}
 \item Stream\+Graph, which is the main data structure, and contains the entire stream graph.
-\item \doxylink{structStream}{Stream}, which is a wrapper around the Stream\+Graph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.
+\item Stream, which is a wrapper around the Stream\+Graph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.
 \end{DoxyItemize}
 
-You need to first load the Stream\+Graph, and then wrap it in a \doxylink{structStream}{Stream} to compute metrics on it. The stream contains a reference to the Stream\+Graph, so be careful to not delete the Stream\+Graph before the \doxylink{structStream}{Stream}.
+You need to first load the Stream\+Graph, and then wrap it in a Stream to compute metrics on it. The stream contains a reference to the Stream\+Graph, so be careful to not delete the Stream\+Graph before the Stream.
 
-\doxylink{structStream}{Stream}\textquotesingle{}s are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried. For example, a Link\+Stream will only have a reference to the Stream\+Graph, and return the full lifespan of the stream graph when asked for the lifespan of node. All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a Link\+Stream can optimise the computation of the coverage, which is always 1.
+Stream\textquotesingle{}s are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried. For example, a Link\+Stream will only have a reference to the Stream\+Graph, and return the full lifespan of the stream graph when asked for the lifespan of node. All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a Link\+Stream can optimise the computation of the coverage, which is always 1.
 
 The different streams are \+:
 \begin{DoxyItemize}
@@ -44,12 +44,7 @@ The library was designed to have efficient access on\+:
 \end{DoxyItemize}
 
 More details about the methods and the data structures are available in the documentation.\hypertarget{index_autotoc_md5}{}\doxysection{\texorpdfstring{How to use the library}{How to use the library}}\label{index_autotoc_md5}
-Clone the repository, and then run make lib\+SGA to compile the library. You will have a lib\+SGA.\+a file in the bin/ directory, which you can link to your project to use the library. There is a header \doxylink{StreamGraphAnalysis_8h}{Stream\+Graph\+Analysis.\+h} in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory. TODO\+: explanation of a code sample\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{Common mistakes}{Common mistakes}}\label{index_autotoc_md6}
-
-\begin{DoxyItemize}
-\item Not initialising the events table before using some functions that need it, if you get a segmentation fault, that might be the reason. It will have an explicit error in debug mode, but not in release mode, for performance reasons.
-\item Make sure that the initialisation of a stream graph or an event table does not happen in a multithreaded context, as it is not thread-\/safe.
-\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{Data format}{Data format}}\label{index_autotoc_md7}
+Clone the repository, and then run make lib\+SGA to compile the library. You will have a lib\+SGA.\+a file in the bin/ directory, which you can link to your project to use the library. There is a header \doxylink{StreamGraphAnalysis_8h}{Stream\+Graph\+Analysis.\+h} in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory. TODO\+: explanation of a code sample\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{Data format}{Data format}}\label{index_autotoc_md6}
 You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it\textquotesingle{}s recommended to write your data in the external format, and then convert it to the internal format using the Internal\+Format\+\_\+from\+\_\+\+External\+\_\+str function, and save that for future use.
 
 External format \+: 
@@ -58,7 +53,7 @@ External format \+:
 \DoxyCodeLine{}
 \DoxyCodeLine{[General]}
 \DoxyCodeLine{Lifespan=(<start>,\ <end>)}
-\DoxyCodeLine{Scaling=<scale>}
+\DoxyCodeLine{TimeScale=<scale>}
 \DoxyCodeLine{}
 \DoxyCodeLine{[Events]}
 \DoxyCodeLine{<Timestamp>\ <+\ (for\ appearance)\ or\ -\/\ (for\ disappearance)>\ <N\ (for\ node)\ or\ L\ (for\ link)>\ (<NodeId>\ for\ a\ node\ or\ <Node1>\ <Node2>\ for\ a\ link)}
@@ -72,31 +67,45 @@ External format \+:
 
 All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.\+5, 1.\+5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.
 
-There are some example data files in the data/ directory.\hypertarget{index_autotoc_md8}{}\doxysection{\texorpdfstring{What it can do}{What it can do}}\label{index_autotoc_md8}
+There are some example data files in the data/ directory.\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{What it can do}{What it can do}}\label{index_autotoc_md7}
 
 \begin{DoxyItemize}
 \item Read a stream graph from a file
 \item Compute different metrics on the stream graph, the list of which is available below
 \item Support concurrent access to the stream graph, since it is read-\/only
-\end{DoxyItemize}\hypertarget{index_autotoc_md9}{}\doxysection{\texorpdfstring{What it cannot do}{What it cannot do}}\label{index_autotoc_md9}
+\end{DoxyItemize}\hypertarget{index_autotoc_md8}{}\doxysection{\texorpdfstring{What it cannot do}{What it cannot do}}\label{index_autotoc_md8}
 
 \begin{DoxyItemize}
 \item Modify the stream graph \+: the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.
-\end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{Specifications of the stream graph data}{Specifications of the stream graph data}}\label{index_autotoc_md10}
+\end{DoxyItemize}\hypertarget{index_autotoc_md9}{}\doxysection{\texorpdfstring{Specifications of the stream graph data}{Specifications of the stream graph data}}\label{index_autotoc_md9}
 
 \begin{DoxyItemize}
 \item The stream graph is continuous, undirected and unweighted
 \item The stream graph cannot have instantaneous links, i.\+e. a link must last at least one time unit
 \item The stream graph uses closed on the left intervals, i.\+e. a link (u, v) is active at time t if and only if t is in \mbox{[}t\+\_\+start, t\+\_\+end\mbox{[}
 \item If a link is present at time t, the nodes u and v must be present at time t
-\end{DoxyItemize}\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Project guidelines and organisation}{Project guidelines and organisation}}\label{index_autotoc_md11}
+\end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{Project guidelines and organisation}{Project guidelines and organisation}}\label{index_autotoc_md10}
 
 \begin{DoxyItemize}
 \item Guidelines \+: None for now, I\textquotesingle{}m focusing on having something that works first, rather than something that is perfect but with no results. Things I\textquotesingle{}m considering for guidelines are namespacing to work with other libraries. Maybe I could make it standardised like ISO C, or C99, but I\textquotesingle{}m doing weird macro magic for the genericity specified above, so I\textquotesingle{}m not sure how to do that.
 \item Organisation \+:
 \end{DoxyItemize}
 
-The src/ directory contains the entire source code of the library. The src/stream\+\_\+graph/ directory contains the source code of the Stream\+Graph data structure. The src/streams/ directory contains the source code of the different streams. The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-\/cores, etc... The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. The benchmarks/ directory contains the benchmarks for the library. The examples/ directory contains examples of how to use the library. The data/ directory contains example data files. You can run them using the run\+\_\+tests.\+sh script in the main directory.\hypertarget{index_autotoc_md12}{}\doxysection{\texorpdfstring{Supported metrics and analysis}{Supported metrics and analysis}}\label{index_autotoc_md12}
+The src/ directory contains the entire source code of the library.
+
+The src/stream\+\_\+graph/ directory contains the source code of the Stream\+Graph data structure.
+
+The src/streams/ directory contains the source code of the different streams.
+
+The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-\/cores, etc...
+
+The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. You can run them using the run\+\_\+tests.\+sh script in the main directory.
+
+The benchmarks/ directory contains the benchmarks for the library. You can run them using the run\+\_\+benchmarks.\+sh script in the main directory.
+
+The examples/ directory contains examples of how to use the library.
+
+The data/ directory contains example data files.\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Supported metrics and analysis}{Supported metrics and analysis}}\label{index_autotoc_md11}
 
 \begin{DoxyItemize}
 \item \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: Section 3
@@ -105,8 +114,8 @@ The src/ directory contains the entire source code of the library. The src/strea
 \item Number of nodes \+: Section 4
 \item Contribution of a link \+: Section 4
 \item Number of links \+: Section 4
-\item \doxylink{structNode}{Node} duration \+: Section 4
-\item \doxylink{structLink}{Link} duration \+: Section 4
+\item Node duration \+: Section 4
+\item Link duration \+: Section 4
 \item Uniformity \+: Section 4
 \item Uniformity of a pair of nodes \+: Section 4
 \item Compactness \+: Section 4
@@ -118,9 +127,9 @@ The src/ directory contains the entire source code of the library. The src/strea
 \item Degree of a node \+: Section 8
 \item Average node degree \+: Section 8
 \item Clustering coefficient of a node \+: Section 9
-\item \doxylink{structNode}{Node} clustering coefficient \+: Section 9
+\item Node clustering coefficient \+: Section 9
 \item K-\/cores \+: Section 13
-\item Paths and distances \+: Section 14
+\item Walks and distances \+: Section 14 (The paper mentionned paths but for now I only implemented walks)
 \item Robustness by length \+: Outside of the paper
 \item Isomorphism \+: Outside of the paper 
 \end{DoxyItemize}

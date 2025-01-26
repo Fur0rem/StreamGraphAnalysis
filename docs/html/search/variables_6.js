@@ -1,13 +1,10 @@
 var searchData=
 [
-  ['nb_5fbits_0',['nb_bits',['../structBitArray.html#ac24ea25e981a8997edf3b8f1d422ab5d',1,'BitArray']]],
-  ['nb_5fneighbours_1',['nb_neighbours',['../structNode.html#ad71cb9e358dc613defeac60f9eb83d05',1,'Node']]],
-  ['nb_5fnodes_2',['nb_nodes',['../structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5',1,'NodesSet::nb_nodes'],['../structSGA__Clique.html#ac49048fe91871b0723f74dc08c3f58a8',1,'SGA_Clique::nb_nodes']]],
-  ['neighbours_3',['neighbours',['../structNode.html#aaa8bff743bab6c964e42f545c1f03302',1,'Node']]],
-  ['neighbours_5fof_5fnode_4',['neighbours_of_node',['../structStreamFunctions.html#ad9054f226bad6c08a65ba8ab701a89c7',1,'StreamFunctions']]],
-  ['node_5fby_5fid_5',['node_by_id',['../structStreamFunctions.html#a922c2b87c1c7d01983fb73ae430264c7',1,'StreamFunctions']]],
-  ['node_5fid_6',['node_id',['../structNodePresence.html#af86a6a6095758f91093d5c59d10ba8e8',1,'NodePresence']]],
-  ['nodes_7',['nodes',['../structSGA__StreamGraph.html#a452cddb1c0e6a0c7f47b007979fe9abe',1,'SGA_StreamGraph::nodes'],['../structNodesSet.html#af421500fba2027c5b0faac1fe3145b79',1,'NodesSet::nodes'],['../structSGA__Clique.html#a0b0ad6b7c13f456f8db5e66c504e9f46',1,'SGA_Clique::nodes'],['../structSGA__KCore.html#aa323516f86aa3456a8951d31a913af1a',1,'SGA_KCore::nodes']]],
-  ['nodes_5fpresent_5fat_5ft_8',['nodes_present_at_t',['../structStreamFunctions.html#a4d282efa8dcb546269a8321d9169a18d',1,'StreamFunctions']]],
-  ['nodes_5fset_9',['nodes_set',['../structStreamFunctions.html#a7cc356d611ec49523da76f6faa9b77b7',1,'StreamFunctions']]]
+  ['lifespan_0',['lifespan',['../structSGA__StreamGraph.html#aea5025df02df725f85dea7385529ef7c',1,'SGA_StreamGraph::lifespan'],['../structStreamFunctions.html#a95ad29be4b5d1cbe419eb00e73a489a4',1,'StreamFunctions::lifespan']]],
+  ['link_1',['link',['../structSGA__WalkStep.html#a7d1de3bb73977cfad954f292e71fa85d',1,'SGA_WalkStep']]],
+  ['link_5fbetween_5fnodes_2',['link_between_nodes',['../structStreamFunctions.html#a418a5f51dc8ea4f0a5ce30f3bb9ed84e',1,'StreamFunctions']]],
+  ['link_5fby_5fid_3',['link_by_id',['../structStreamFunctions.html#a572da2dcfbfcf288f15916761afdcf91',1,'StreamFunctions']]],
+  ['links_4',['links',['../structSGA__StreamGraph.html#a01c4a3b8a9aa603938f08c025a73206a',1,'SGA_StreamGraph']]],
+  ['links_5fpresent_5fat_5ft_5',['links_present_at_t',['../structStreamFunctions.html#ab77bc6452a5009a7f960d279305a6d1b',1,'StreamFunctions']]],
+  ['links_5fset_6',['links_set',['../structStreamFunctions.html#a7d55dfd3dda763b73668793e2fd69128',1,'StreamFunctions']]]
 ];

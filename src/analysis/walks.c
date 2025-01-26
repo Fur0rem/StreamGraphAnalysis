@@ -24,43 +24,32 @@
 #include <string.h>
 #include <unistd.h>
 
-bool TreeEdge_equals(const TreeEdge* a, const TreeEdge* b) {
-	return a->weight == b->weight && a->child->id == b->child->id;
-}
-
-String TreeEdge_to_string(const TreeEdge* edge) {
-	char* str = malloc(100);
-	sprintf(str, "TreeEdge(weight:%zu, child:%zu)", edge->weight, edge->child->id);
-	return String_from_owned(str);
-}
-
 // Breadth-first search for shortest walk
-
 typedef struct QueueInfo QueueInfo;
 struct QueueInfo {
-	NodeId node;
-	size_t time;
+	SGA_NodeId node;
+	SGA_Time time;
 	size_t depth;
 	size_t previouses;
-	Interval interval_taken;
+	SGA_Interval interval_taken;
 	QueueInfo* previous;
 };
 
 bool QueueInfo_equals(const QueueInfo* a, const QueueInfo* b) {
 	return a->node == b->node && a->time == b->time && a->previous == b->previous &&
-	       Interval_equals(&a->interval_taken, &b->interval_taken) && a->depth == b->depth;
+	       SGA_Interval_equals(&a->interval_taken, &b->interval_taken) && a->depth == b->depth;
 }
 
 String QueueInfo_to_string(const QueueInfo* info) {
 	/*char* str = malloc(100);
 	sprintf(str, "QueueInfo(node:%zu, time:%zu, interval taken:%s, depth:%zu)",
-	info->node, info->time, Interval_to_string(&info->interval_taken),
+	info->node, info->time, SGA_Interval_to_string(&info->interval_taken),
 	info->depth); return str;*/
 	String str = String_from_duplicate("");
 	char buf[100];
 	sprintf(buf, "QueueInfo(node:%zu, time:%zu, interval taken:", info->node, info->time);
 	String_push_str(&str, buf);
-	String interval_str = Interval_to_string(&info->interval_taken);
+	String interval_str = SGA_Interval_to_string(&info->interval_taken);
 	String_concat_copy(&str, &interval_str);
 	String_push_str(&str, ", depth:");
 	sprintf(buf, "%zu", info->depth);
@@ -68,14 +57,17 @@ String QueueInfo_to_string(const QueueInfo* info) {
 	return str;
 }
 
-String WalkStep_to_string(const WalkStep* step) {
+String SGA_WalkStep_to_string(const SGA_WalkStep* step) {
 	char* str = MALLOC(100);
-	sprintf(
-	    str, "WalkStep(link:%zu, time:%zu, interval taken:%s)", step->link, step->time, Interval_to_string(&step->interval_taken).data);
+	sprintf(str,
+		"WalkStep(link:%zu, time:%zu, interval taken:%s)",
+		step->link,
+		step->time,
+		SGA_Interval_to_string(&step->interval_taken).data);
 	return String_from_owned(str);
 }
 
-bool WalkStep_equals(const WalkStep* a, const WalkStep* b) {
+bool SGA_WalkStep_equals(const SGA_WalkStep* a, const SGA_WalkStep* b) {
 	return a->link == b->link && a->time == b->time;
 }
 
@@ -95,8 +87,8 @@ size_t size_t_max(size_t a, size_t b) {
 }
 
 typedef struct {
-	NodeId node;
-	TimeId time;
+	SGA_NodeId node;
+	SGA_Time time;
 } ExploredState;
 
 bool ExploredState_equals(ExploredState* a, ExploredState* b) {
@@ -124,7 +116,7 @@ DefineHashsetDeriveRemove(ExploredState);
 
 #define APPEND_CONST(str) str, sizeof(str) - 1
 
-String Walk_to_string(const Walk* walk) {
+String SGA_Walk_to_string(const SGA_Walk* walk) {
 	if (walk->steps.length == 0) {
 		char* buf = malloc(100);
 		sprintf(buf, "No walk from %zu to %zu at %zu\n", walk->start, walk->end, walk->optimality.start);
@@ -142,7 +134,7 @@ String Walk_to_string(const Walk* walk) {
 	String_push_str(&str, " at ");
 	sprintf(buf, "%zu", walk->optimality.start);
 	String_push_str(&str, buf);
-	String time_str = Interval_to_string(&walk->optimality);
+	String time_str = SGA_Interval_to_string(&walk->optimality);
 	String_push_str(&str, " | Optimal at ");
 	String_concat_consume(&str, time_str);
 	String_push(&str, '\n');
@@ -151,18 +143,18 @@ String Walk_to_string(const Walk* walk) {
 	SGA_StreamGraph sg   = *fsg->underlying_stream_graph;
 
 	for (size_t i = 0; i < walk->steps.length; i++) {
-		WalkStep step = walk->steps.array[i];
+		SGA_WalkStep step = walk->steps.array[i];
 		sprintf(buf, "%zu", step.link);
 		String_push_str(&str, buf);
-		NodeId from = sg.links.links[step.link].nodes[0];
-		NodeId to   = sg.links.links[step.link].nodes[1];
+		SGA_NodeId from = sg.links.links[step.link].nodes[0];
+		SGA_NodeId to	= sg.links.links[step.link].nodes[1];
 		sprintf(buf, " (%zu -> %zu)", from, to);
 		String_push_str(&str, buf);
 		String_push_str(&str, " @ ");
 		sprintf(buf, "%zu", step.time);
 		String_push_str(&str, buf);
-		Interval interval   = step.interval_taken;
-		String interval_str = Interval_to_string(&interval);
+		SGA_Interval interval = step.interval_taken;
+		String interval_str   = SGA_Interval_to_string(&interval);
 		String_push_str(&str, " | ");
 		String_concat_consume(&str, interval_str);
 		String_push(&str, '\n');
@@ -170,34 +162,33 @@ String Walk_to_string(const Walk* walk) {
 	return str;
 }
 
-bool Walk_equals(const Walk* a, const Walk* b) {
+bool SGA_Walk_equals(const SGA_Walk* a, const SGA_Walk* b) {
 	for (size_t i = 0; i < a->steps.length; i++) {
-		if (!WalkStep_equals(&a->steps.array[i], &b->steps.array[i])) {
+		if (!SGA_WalkStep_equals(&a->steps.array[i], &b->steps.array[i])) {
 			return false;
 		}
 	}
 	return true;
 }
 
-DeclareArrayList(Walk);
-DefineArrayList(Walk);
-DefineArrayListDeriveRemove(Walk);
-DefineArrayListDeriveToString(Walk);
-DefineArrayListDeriveEquals(Walk);
+DefineArrayList(SGA_Walk);
+DefineArrayListDeriveRemove(SGA_Walk);
+DefineArrayListDeriveToString(SGA_Walk);
+DefineArrayListDeriveEquals(SGA_Walk);
 
-String WalkInfo_to_string(const WalkInfo* wi) {
+String SGA_OptionalWalk_to_string(const SGA_OptionalWalk* wi) {
 	if (wi->type == WALK) {
-		String walk_str = Walk_to_string(&wi->result.walk);
-		String str	= String_from_duplicate("WalkInfo(WALK, ");
+		String walk_str = SGA_Walk_to_string(&wi->result.walk);
+		String str	= String_from_duplicate("SGA_OptionalWalk(WALK, ");
 		String_concat_consume(&str, walk_str);
 		String_push(&str, ')');
 		return str;
 	}
 	else {
-		String str	    = String_from_duplicate("WalkInfo(NO_WALK, ");
-		NoWalkReason reason = wi->result.no_walk_reason;
+		String str		= String_from_duplicate("SGA_OptionalWalk(NO_WALK, ");
+		SGA_NoWalkReason reason = wi->result.no_walk_reason;
 		if (reason.type == NODE_ABSENT) {
-			String interval_str = Interval_to_string(&reason.reason.node_absent_between);
+			String interval_str = SGA_Interval_to_string(&reason.reason.node_absent_between);
 			String_push_str(&str, "NODE_ABSENT in interval ");
 			String_concat_copy(&str, &interval_str);
 		}
@@ -210,34 +201,40 @@ String WalkInfo_to_string(const WalkInfo* wi) {
 		return str;
 	}
 }
-bool WalkInfo_equals(const WalkInfo* a, const WalkInfo* b) {
+
+bool SGA_OptionalWalk_equals(const SGA_OptionalWalk* a, const SGA_OptionalWalk* b) {
 	if (a->type != b->type) {
 		return false;
 	}
 	if (a->type == WALK) {
-		return Walk_equals(&a->result.walk, &b->result.walk);
+		return SGA_Walk_equals(&a->result.walk, &b->result.walk);
 	}
 	else {
 		return a->result.no_walk_reason.type == b->result.no_walk_reason.type;
 	}
 }
 
-WalkInfoArrayList optimal_walks_between_two_nodes(SGA_Stream* stream, NodeId from, NodeId to,
-						  WalkInfo (*fn)(SGA_Stream*, NodeId, NodeId, TimeId)) {
-	WalkInfoArrayList walks = WalkInfoArrayList_with_capacity(1);
-	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
+DefineArrayList(SGA_OptionalWalk);
+DefineArrayListDeriveRemove(SGA_OptionalWalk);
+DefineArrayListDeriveToString(SGA_OptionalWalk);
+DefineArrayListDeriveEquals(SGA_OptionalWalk);
 
-	Interval lifespan   = fns.lifespan(stream->stream_data);
-	TimeId current_time = lifespan.start;
+SGA_OptionalWalkArrayList SGA_optimal_walks_between_two_nodes(SGA_Stream* stream, SGA_NodeId from, SGA_NodeId to,
+							      SGA_OptionalWalk (*fn)(SGA_Stream*, SGA_NodeId, SGA_NodeId, SGA_Time)) {
+	SGA_OptionalWalkArrayList walks = SGA_OptionalWalkArrayList_with_capacity(1);
+	StreamFunctions fns		= STREAM_FUNCS(fns, stream);
+
+	SGA_Interval lifespan = fns.lifespan(stream->stream_data);
+	SGA_Time current_time = lifespan.start;
 
 	while (current_time != lifespan.end) {
 		// printf("Current time in func: %zu\n", current_time);
-		size_t previous_time = current_time;
-		WalkInfo optimal     = fn(stream, from, to, current_time);
-		WalkInfoArrayList_push(&walks, optimal);
-		// printf("Optimal walk type: %s\n", WalkInfo_to_string(&optimal).data);
+		size_t previous_time	 = current_time;
+		SGA_OptionalWalk optimal = fn(stream, from, to, current_time);
+		SGA_OptionalWalkArrayList_push(&walks, optimal);
+		// printf("Optimal walk type: %s\n", SGA_OptionalWalk_to_string(&optimal).data);
 		if (optimal.type == NO_WALK) {
-			NoWalkReason error = optimal.result.no_walk_reason;
+			SGA_NoWalkReason error = optimal.result.no_walk_reason;
 			if (error.type == NODE_ABSENT) {
 				current_time = error.reason.node_absent_between.end;
 			}
@@ -248,7 +245,7 @@ WalkInfoArrayList optimal_walks_between_two_nodes(SGA_Stream* stream, NodeId fro
 		else if (optimal.type == WALK) {
 			// printf("Optimal walk found : %s\n",
 			// Walk_to_string(&optimal.result.walk).data);
-			Interval optimality = optimal.result.walk.optimality;
+			SGA_Interval optimality = optimal.result.walk.optimality;
 			// printf("Optimality: %zu -> %zu\n", optimality.start, optimality.end);
 			ASSERT(optimality.start <= optimality.end);
 			current_time = optimality.end;
@@ -260,106 +257,111 @@ WalkInfoArrayList optimal_walks_between_two_nodes(SGA_Stream* stream, NodeId fro
 	return walks;
 }
 
-void WalkInfo_destroy(WalkInfo wi) {
+void SGA_OptionalWalk_destroy(SGA_OptionalWalk wi) {
 	if (wi.type == WALK) {
-		Walk_destroy(wi.result.walk);
+		SGA_Walk_destroy(wi.result.walk);
 	}
 }
 
 // TODO : put it in the right place
-DefineArrayList(WalkStep);
-NO_FREE(WalkStep);
-DefineArrayListDeriveRemove(WalkStep);
-DefineArrayListDeriveToString(WalkStep);
+DefineArrayList(SGA_WalkStep);
+NO_FREE(SGA_WalkStep);
+DefineArrayListDeriveRemove(SGA_WalkStep);
+DefineArrayListDeriveToString(SGA_WalkStep);
 
-DefineArrayList(WalkInfo);
-DefineArrayListDeriveRemove(WalkInfo);
-DefineArrayListDeriveEquals(WalkInfo);
-DefineArrayListDeriveToString(WalkInfo);
-
-WalkStepArrayList WalkStepArrayList_from_candidates(SGA_Stream* stream, QueueInfo* candidates, NodeId from) {
-	QueueInfo* current_walk = candidates;
-	WalkStepArrayList steps = WalkStepArrayList_with_capacity(candidates->previouses);
-	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
+/**
+ * @brief Creates a walk from the recorded steps
+ * @param[in] stream The stream in which the walk is
+ * @param[in] candidates The recorded steps, starting from the last node
+ * @param[in] from The node from which the walk starts
+ */
+SGA_WalkStepArrayList SGA_WalkStepArrayList_from_candidates(SGA_Stream* stream, QueueInfo* candidates, SGA_NodeId from) {
+	QueueInfo* current_walk	    = candidates;
+	SGA_WalkStepArrayList steps = SGA_WalkStepArrayList_with_capacity(candidates->previouses);
+	StreamFunctions fns	    = STREAM_FUNCS(fns, stream);
 
 	while (current_walk != NULL) {
-		NodeId current_node  = current_walk->node;
-		QueueInfo* previous  = current_walk->previous;
-		NodeId previous_node = previous == NULL ? from : previous->node;
+		SGA_NodeId current_node	 = current_walk->node;
+		QueueInfo* previous	 = current_walk->previous;
+		SGA_NodeId previous_node = previous == NULL ? from : previous->node;
 
 		if (current_node == previous_node) {
 			break;
 		}
 
-		LinkId link_id = fns.link_between_nodes(stream->stream_data, current_node, previous_node);
+		SGA_LinkId link_id = fns.link_between_nodes(stream->stream_data, current_node, previous_node);
 		if (link_id != SIZE_MAX) {
-			WalkStep step = {link_id, current_walk->time, .interval_taken = current_walk->interval_taken};
-			WalkStepArrayList_push(&steps, step);
+			SGA_WalkStep step = {
+			    link_id,
+			    current_walk->time,
+			    .interval_taken = current_walk->interval_taken,
+			};
+			SGA_WalkStepArrayList_push(&steps, step);
 		}
 		current_walk = previous;
 	}
 
-	WalkStepArrayList_reverse(&steps);
+	SGA_WalkStepArrayList_reverse(&steps);
 	return steps;
 }
 
-WalkInfo unreachable_after(TimeId after) {
-	return (WalkInfo){
+SGA_OptionalWalk unreachable_after(SGA_Time after) {
+	return (SGA_OptionalWalk){
 	    .type					    = NO_WALK,
 	    .result.no_walk_reason.type			    = UNREACHABLE,
 	    .result.no_walk_reason.reason.unreachable_after = after,
 	};
 }
 
-WalkInfo node_absent_between(Interval interval) {
-	return (WalkInfo){
+SGA_OptionalWalk node_absent_between(SGA_Interval interval) {
+	return (SGA_OptionalWalk){
 	    .type					      = NO_WALK,
 	    .result.no_walk_reason.type			      = NODE_ABSENT,
 	    .result.no_walk_reason.reason.node_absent_between = interval,
 	};
 }
 
-WalkInfo walk_exists(Walk walk) {
-	return (WalkInfo){
+SGA_OptionalWalk walk_exists(SGA_Walk walk) {
+	return (SGA_OptionalWalk){
 	    .type	 = WALK,
 	    .result.walk = walk,
 	};
 }
 
-void node_can_still_appear(SGA_Stream* stream, NodeId node, TimeId current_time, Interval* current_node_present, Interval* next_appearance,
-			   bool* can_still_appear) {
-	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
-	TimesIterator times_node_present = fns.times_node_present(stream->stream_data, node);
-	*can_still_appear		 = false;
+void node_can_still_appear(SGA_Stream* stream, SGA_NodeId node, SGA_Time current_time, SGA_Interval* current_node_present,
+			   SGA_Interval* next_appearance, bool* can_still_appear) {
+	StreamFunctions fns		     = STREAM_FUNCS(fns, stream);
+	SGA_TimesIterator times_node_present = fns.times_node_present(stream->stream_data, node);
+	*can_still_appear		     = false;
 
-	FOR_EACH_TIME(interval, times_node_present) {
-		if (Interval_contains(interval, current_time)) {
+	SGA_FOR_EACH_TIME(interval, times_node_present) {
+		if (SGA_Interval_contains(interval, current_time)) {
 			*current_node_present = interval;
 			*can_still_appear     = true;
-			BREAK_ITER(times_node_present);
+			SGA_BREAK_ITERATOR(times_node_present);
 		}
 		else if (interval.start > current_time) {
 			*next_appearance  = interval;
 			*can_still_appear = true;
-			BREAK_ITER(times_node_present);
+			SGA_BREAK_ITERATOR(times_node_present);
 		}
 	}
 }
 
 // Minimal number of hops between two nodes
 // Uses buffering to avoid reallocating memory
-void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, NodeId to, TimeId at, WalkInfo* result, Arena* arena,
-					      QueueInfoArrayList* queue, ExploredStateHashset* explored) {
+void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, SGA_NodeId from, SGA_NodeId to, SGA_Time at, SGA_OptionalWalk* result,
+					      Arena* arena, QueueInfoArrayList* queue, ExploredStateHashset* explored) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
 
 	// Initialize the queue with the starting node
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
-	QueueInfo start	    = {from, current_time, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL, .previouses = 0};
+	QueueInfo start = {from, current_time, .interval_taken = SGA_Interval_from(at, max_lifespan), .previous = NULL, .previouses = 0};
 	QueueInfoArrayList_push(queue, start);
 
-	NodeId current_candidate = from;
+	SGA_NodeId current_candidate = from;
 	QueueInfo current_info;
 	while ((current_candidate != to) && (!QueueInfoArrayList_is_empty(*queue))) {
 		// Get the next node from the queue
@@ -375,55 +377,55 @@ void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, N
 		current_time	  = current_info.time;
 
 		// get for how long the node is present
-		/*TimesIterator times_node_present =
-		fns.times_node_present(stream->stream_data, current_candidate); Interval
-		current_node_present	 = Interval_empty(); Interval next_appearance
-		= Interval_from(current_time, max_lifespan); bool can_still_appear
+		/*SGA_TimesIterator times_node_present =
+		fns.times_node_present(stream->stream_data, current_candidate); SGA_Interval
+		current_node_present	 = SGA_Interval_empty(); SGA_Interval next_appearance
+		= SGA_Interval_from(current_time, max_lifespan); bool can_still_appear
 		= false;
 
-		FOR_EACH_TIME(interval, times_node_present) {
-			if (Interval_contains(interval, current_time)) {
+		SGA_FOR_EACH_TIME(interval, times_node_present) {
+			if (SGA_Interval_contains(interval, current_time)) {
 				current_node_present = interval;
 				can_still_appear	 = true;
-				BREAK_ITER(times_node_present);
+				SGA_BREAK_ITERATOR(times_node_present);
 			}
 			else if (interval.start > current_time) {
 				next_appearance	 = interval;
 				can_still_appear = true;
-				BREAK_ITER(times_node_present);
+				SGA_BREAK_ITERATOR(times_node_present);
 			}
 		}
 
 		if (!can_still_appear) {
-			*result = node_absent_between(Interval_from(current_time,
+			*result = node_absent_between(SGA_Interval_from(current_time,
 		max_lifespan)); return;
 		}
 
-		if (Interval_is_empty(current_node_present)) {
-			*result = node_absent_between(Interval_from(current_time,
+		if (SGA_Interval_is_empty(current_node_present)) {
+			*result = node_absent_between(SGA_Interval_from(current_time,
 		next_appearance.start)); return;
 		}*/
 
-		Interval current_node_present = Interval_empty();
-		Interval next_appearance      = Interval_from(current_time, max_lifespan);
-		bool can_still_appear	      = false;
+		SGA_Interval current_node_present = SGA_Interval_empty();
+		SGA_Interval next_appearance	  = SGA_Interval_from(current_time, max_lifespan);
+		bool can_still_appear		  = false;
 		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance, &can_still_appear);
 
 		if (!can_still_appear) {
-			*result = node_absent_between(Interval_from(current_time, max_lifespan));
+			*result = node_absent_between(SGA_Interval_from(current_time, max_lifespan));
 			return;
 		}
 
-		if (Interval_is_empty(current_node_present)) {
-			*result = node_absent_between(Interval_from(current_time, next_appearance.start));
+		if (SGA_Interval_is_empty(current_node_present)) {
+			*result = node_absent_between(SGA_Interval_from(current_time, next_appearance.start));
 			return;
 		}
 
-		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
-		FOR_EACH_LINK(link_id, neighbours) {
-			IntervalArrayList intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
+		SGA_LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
+		SGA_FOR_EACH_LINK(link_id, neighbours) {
+			SGA_IntervalArrayList intervals = SGA_collect_times(fns.times_link_present(stream->stream_data, link_id));
 			for (size_t j = intervals.length; j-- > 0;) { // TODO: c'est quoi cette boucle de merde ??????
-				Interval interval = intervals.array[j];
+				SGA_Interval interval = intervals.array[j];
 
 				// Any interval after the next disappearance of the node is unreachable
 				if (interval.start > current_node_present.end) {
@@ -433,14 +435,14 @@ void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, N
 					interval.end = current_node_present.end;
 				}
 
-				bool can_cross_now    = Interval_contains(interval, current_time);
+				bool can_cross_now    = SGA_Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					Link link		= fns.link_by_id(stream->stream_data, link_id);
-					NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					SGA_Link link		= fns.link_by_id(stream->stream_data, link_id);
+					SGA_NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					QueueInfo* previous	= Arena_alloc(arena, sizeof(QueueInfo));
 					*previous		= current_info;
-					TimeId time_crossed	= can_cross_now ? current_time : interval.start;
+					SGA_Time time_crossed	= can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {neighbor_id,
 								   time_crossed,
 								   .interval_taken = interval,
@@ -472,7 +474,7 @@ void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, N
 					break;
 				}
 			}
-			IntervalArrayList_destroy(intervals);
+			SGA_IntervalArrayList_destroy(intervals);
 		}
 	}
 
@@ -483,12 +485,12 @@ void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, N
 	}
 
 	// Build the walk
-	Walk walk = {
+	SGA_Walk walk = {
 	    .start	= from,
 	    .end	= to,
-	    .optimality = Interval_from(at, max_lifespan),
+	    .optimality = SGA_Interval_from(at, max_lifespan),
 	    .stream	= stream,
-	    .steps	= WalkStepArrayList_from_candidates(stream, &current_info, from),
+	    .steps	= SGA_WalkStepArrayList_from_candidates(stream, &current_info, from),
 	};
 
 	// OPTIMISE: dont look through them all and propagate, just do a regular min
@@ -500,8 +502,8 @@ void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, N
 	// walk.optimality.end = walk.steps.array[0].needs_to_arrive_before;
 	size_t previous_time = SIZE_MAX;
 	for (size_t i = 0; i < walk.steps.length; i++) {
-		WalkStep* step = &walk.steps.array[i];
-		previous_time  = size_t_min(previous_time, step->interval_taken.end);
+		SGA_WalkStep* step = &walk.steps.array[i];
+		previous_time	   = size_t_min(previous_time, step->interval_taken.end);
 	}
 	walk.optimality.end = previous_time;
 
@@ -509,8 +511,8 @@ void Stream_shortest_walk_from_to_at_buffered(SGA_Stream* stream, NodeId from, N
 }
 
 // Minimal number of hops between two nodes
-WalkInfo Stream_shortest_walk_from_to_at(SGA_Stream* stream, NodeId from, NodeId to, TimeId at) {
-	WalkInfo result;
+SGA_OptionalWalk SGA_shortest_walk(SGA_Stream* stream, SGA_NodeId from, SGA_NodeId to, SGA_Time at) {
+	SGA_OptionalWalk result;
 	Arena arena		      = Arena_init();
 	QueueInfoArrayList queue      = QueueInfoArrayList_with_capacity(1);
 	ExploredStateHashset explored = ExploredStateHashset_with_capacity(50);
@@ -521,8 +523,8 @@ WalkInfo Stream_shortest_walk_from_to_at(SGA_Stream* stream, NodeId from, NodeId
 	return result;
 }
 
-WalkInfo Stream_fastest_shortest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId at) {
-	WalkInfo result;
+SGA_OptionalWalk Stream_fastest_shortest_walk(SGA_Stream* stream, SGA_NodeId from, SGA_NodeId to, SGA_Time at) {
+	SGA_OptionalWalk result;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
 
@@ -535,13 +537,13 @@ WalkInfo Stream_fastest_shortest_walk(SGA_Stream* stream, NodeId from, NodeId to
 		     .node	     = from,
 		     .time	     = current_time,
 		     .depth	     = 0,
-		     .interval_taken = Interval_from(at, max_lifespan),
+		     .interval_taken = SGA_Interval_from(at, max_lifespan),
 		     .previous	     = NULL,
 		     .previouses     = 0,
 	 };
 	QueueInfoArrayList_push(&queue, start);
 
-	NodeId current_candidate = from;
+	SGA_NodeId current_candidate = from;
 	QueueInfo current_info;
 	size_t best_time_yet = SIZE_MAX;
 	QueueInfo best_yet;
@@ -560,46 +562,46 @@ WalkInfo Stream_fastest_shortest_walk(SGA_Stream* stream, NodeId from, NodeId to
 		current_time	  = current_info.time;
 
 		// Get for how long the node is present
-		Interval current_node_present = Interval_empty();
-		Interval next_appearance      = Interval_from(current_time, max_lifespan);
-		bool can_still_appear	      = false;
+		SGA_Interval current_node_present = SGA_Interval_empty();
+		SGA_Interval next_appearance	  = SGA_Interval_from(current_time, max_lifespan);
+		bool can_still_appear		  = false;
 		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance, &can_still_appear);
 
 		if (!can_still_appear) {
-			result = node_absent_between(Interval_from(current_time, max_lifespan));
+			result = node_absent_between(SGA_Interval_from(current_time, max_lifespan));
 			return result;
 		}
 
-		if (Interval_is_empty(current_node_present)) {
-			result = node_absent_between(Interval_from(current_time, next_appearance.start));
+		if (SGA_Interval_is_empty(current_node_present)) {
+			result = node_absent_between(SGA_Interval_from(current_time, next_appearance.start));
 			return result;
 		}
 
-		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
-		FOR_EACH_LINK(link_id, neighbours) {
-			Link link			 = fns.link_by_id(stream->stream_data, link_id);
-			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
-			FOR_EACH_TIME(interval, times_link_present) {
+		SGA_LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
+		SGA_FOR_EACH_LINK(link_id, neighbours) {
+			SGA_Link link			     = fns.link_by_id(stream->stream_data, link_id);
+			SGA_TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
+			SGA_FOR_EACH_TIME(interval, times_link_present) {
 
 				// Any interval after the next disappearance of the node is unreachable
 				if (interval.start > current_node_present.end) {
-					BREAK_ITER(times_link_present);
+					SGA_BREAK_ITERATOR(times_link_present);
 				}
 				if (interval.end > current_node_present.end) {
 					interval.end = current_node_present.end;
 				}
 
-				bool can_cross_now    = Interval_contains(interval, current_time);
+				bool can_cross_now    = SGA_Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					SGA_NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					QueueInfo* previous	= Arena_alloc(&arena, sizeof(QueueInfo));
 					*previous		= current_info;
-					TimeId time_crossed	= can_cross_now ? current_time : interval.start;
+					SGA_Time time_crossed	= can_cross_now ? current_time : interval.start;
 					QueueInfo neighbor_info = {
-					    neighbor_id,
-					    time_crossed,
-					    current_info.depth + 1,
+					    .node	    = neighbor_id,
+					    .time	    = time_crossed,
+					    .depth	    = current_info.depth + 1,
 					    .interval_taken = interval,
 					    .previous	    = previous,
 					    .previouses	    = current_info.previouses + 1,
@@ -624,12 +626,12 @@ WalkInfo Stream_fastest_shortest_walk(SGA_Stream* stream, NodeId from, NodeId to
 	}
 
 	// Build the walk
-	Walk walk = {
+	SGA_Walk walk = {
 	    .start	= from,
 	    .end	= to,
-	    .optimality = Interval_from(at, max_lifespan),
+	    .optimality = SGA_Interval_from(at, max_lifespan),
 	    .stream	= stream,
-	    .steps	= WalkStepArrayList_from_candidates(stream, &best_yet, from),
+	    .steps	= SGA_WalkStepArrayList_from_candidates(stream, &best_yet, from),
 	};
 
 	// propagate the optimal intervals
@@ -640,8 +642,8 @@ WalkInfo Stream_fastest_shortest_walk(SGA_Stream* stream, NodeId from, NodeId to
 
 	size_t previous_time = SIZE_MAX;
 	for (size_t i = 0; i < walk.steps.length; i++) {
-		WalkStep* step = &walk.steps.array[i];
-		previous_time  = size_t_min(previous_time, step->interval_taken.end);
+		SGA_WalkStep* step = &walk.steps.array[i];
+		previous_time	   = size_t_min(previous_time, step->interval_taken.end);
 	}
 	walk.optimality.end = previous_time;
 
@@ -654,15 +656,15 @@ cleanup_and_return:
 	return result;
 }
 
-void Walk_destroy(Walk walk) {
-	WalkStepArrayList_destroy(walk.steps);
+void SGA_Walk_destroy(SGA_Walk walk) {
+	SGA_WalkStepArrayList_destroy(walk.steps);
 }
 
 typedef struct DijkstraState DijkstraState;
 struct DijkstraState {
-	NodeId node;
+	SGA_NodeId node;
 	size_t time;
-	Interval interval_taken;
+	SGA_Interval interval_taken;
 	size_t number_of_jumps;
 	DijkstraState* previous;
 };
@@ -679,7 +681,7 @@ String DijkstraState_to_string(DijkstraState* state) {
 		state->node,
 		state->time,
 		state->number_of_jumps,
-		Interval_to_string(&state->interval_taken).data);
+		SGA_Interval_to_string(&state->interval_taken).data);
 	return String_from_owned(str);
 }
 
@@ -724,10 +726,10 @@ DefineBinaryHeap(DijkstraState);
 // Dijkstra's algorithm to find the minimum delay between two nodes
 // Its also the shortest fastest
 // OPTIMISE: preallocated memory of previouses like the other funcs
-WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId at) {
+SGA_OptionalWalk SGA_fastest_walk(SGA_Stream* stream, SGA_NodeId from, SGA_NodeId to, SGA_Time at) {
 	ASSERT(from != to);
 
-	WalkInfo result;
+	SGA_OptionalWalk result;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t current_time = at;
 
@@ -738,10 +740,10 @@ WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId 
 
 	// Initialize the queue with the starting node
 	DijkstraStateBinaryHeap queue = DijkstraStateBinaryHeap_with_capacity(10);
-	DijkstraState start	      = {from, at, .interval_taken = Interval_from(at, max_lifespan), .previous = NULL};
+	DijkstraState start	      = {from, at, .interval_taken = SGA_Interval_from(at, max_lifespan), .previous = NULL};
 	DijkstraStateBinaryHeap_insert(&queue, start);
 
-	NodeId current_candidate = from;
+	SGA_NodeId current_candidate = from;
 	DijkstraState current_info;
 	size_t best_time_yet = SIZE_MAX;
 	DijkstraState best_yet;
@@ -772,42 +774,42 @@ WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId 
 		current_time	  = current_info.time;
 
 		// Get for how long the node is present
-		Interval current_node_present = Interval_empty();
-		Interval next_appearance      = Interval_from(current_time, max_lifespan);
-		bool can_still_appear	      = false;
+		SGA_Interval current_node_present = SGA_Interval_empty();
+		SGA_Interval next_appearance	  = SGA_Interval_from(current_time, max_lifespan);
+		bool can_still_appear		  = false;
 		node_can_still_appear(stream, current_candidate, current_time, &current_node_present, &next_appearance, &can_still_appear);
 
 		if (!can_still_appear) {
-			result = node_absent_between(Interval_from(current_time, max_lifespan));
+			result = node_absent_between(SGA_Interval_from(current_time, max_lifespan));
 			goto cleanup_and_return;
 		}
 
-		if (Interval_is_empty(current_node_present)) {
-			result = node_absent_between(Interval_from(current_time, next_appearance.start));
+		if (SGA_Interval_is_empty(current_node_present)) {
+			result = node_absent_between(SGA_Interval_from(current_time, next_appearance.start));
 			goto cleanup_and_return;
 		}
 		// Get its neighbors
-		LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
-		FOR_EACH_LINK(link_id, neighbours) {
-			Link link			 = fns.link_by_id(stream->stream_data, link_id);
-			TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
-			FOR_EACH_TIME(interval, times_link_present) {
+		SGA_LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, current_candidate);
+		SGA_FOR_EACH_LINK(link_id, neighbours) {
+			SGA_Link link			     = fns.link_by_id(stream->stream_data, link_id);
+			SGA_TimesIterator times_link_present = fns.times_link_present(stream->stream_data, link_id);
+			SGA_FOR_EACH_TIME(interval, times_link_present) {
 
 				// Any interval after the next disappearance of the node is unreachable
 				if (interval.start > current_node_present.end) {
-					BREAK_ITER(times_link_present);
+					SGA_BREAK_ITERATOR(times_link_present);
 				}
 				if (interval.end > current_node_present.end) {
 					interval.end = current_node_present.end;
 				}
 
-				bool can_cross_now    = Interval_contains(interval, current_time);
+				bool can_cross_now    = SGA_Interval_contains(interval, current_time);
 				bool will_cross_later = (interval.start > current_time);
 				if (can_cross_now || will_cross_later) {
-					NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
+					SGA_NodeId neighbor_id	= link.nodes[0] == current_candidate ? link.nodes[1] : link.nodes[0];
 					DijkstraState* previous = Arena_alloc(&arena, sizeof(DijkstraState));
 					*previous		= current_info;
-					TimeId time_crossed	= can_cross_now ? current_time : interval.start;
+					SGA_Time time_crossed	= can_cross_now ? current_time : interval.start;
 					// DijkstraState neighbor_info = {neighbor_id, time_crossed,
 					// current_info.number_of_jumps
 					// + 1, .previous = previous};
@@ -845,12 +847,12 @@ WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId 
 	}
 
 	// Build the walk
-	Walk walk = {
+	SGA_Walk walk = {
 	    .start	= from,
 	    .end	= to,
-	    .optimality = Interval_from(at, best_time_yet),
+	    .optimality = SGA_Interval_from(at, best_time_yet),
 	    .stream	= stream,
-	    .steps	= WalkStepArrayList_with_capacity(1),
+	    .steps	= SGA_WalkStepArrayList_with_capacity(1),
 	};
 
 	// Build the steps
@@ -863,17 +865,21 @@ WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId 
 		// String str = DijkstraState_to_string(current_walk);
 		// printf("Current walk : %s\n", str.data);
 		// String_destroy(str);
-		DijkstraState* previous = current_walk->previous;
-		NodeId previous_node	= previous == NULL ? from : previous->node;
+		DijkstraState* previous	 = current_walk->previous;
+		SGA_NodeId previous_node = previous == NULL ? from : previous->node;
 		// Find the link between the current node and the previous node
-		LinksIterator links = fns.links_set(stream->stream_data);
-		FOR_EACH_LINK(i, links) {
-			Link link = fns.link_by_id(stream->stream_data, i);
+		SGA_LinksIterator links = fns.links_set(stream->stream_data);
+		SGA_FOR_EACH_LINK(i, links) {
+			SGA_Link link = fns.link_by_id(stream->stream_data, i);
 			if ((link.nodes[0] == current_walk->node && link.nodes[1] == previous_node) ||
 			    (link.nodes[1] == current_walk->node && link.nodes[0] == previous_node)) {
-				WalkStep step = {i, current_walk->time, .interval_taken = current_walk->interval_taken};
-				WalkStepArrayList_push(&walk.steps, step);
-				BREAK_ITER(links);
+				SGA_WalkStep step = {
+				    .link	    = i,
+				    .time	    = current_walk->time,
+				    .interval_taken = current_walk->interval_taken,
+				};
+				SGA_WalkStepArrayList_push(&walk.steps, step);
+				SGA_BREAK_ITERATOR(links);
 			}
 		}
 		current_walk = previous;
@@ -902,13 +908,13 @@ WalkInfo Stream_fastest_walk(SGA_Stream* stream, NodeId from, NodeId to, TimeId 
 
 	size_t previous_time = SIZE_MAX;
 	for (size_t i = 0; i < walk.steps.length; i++) {
-		WalkStep* step = &walk.steps.array[i];
-		previous_time  = size_t_min(previous_time, step->interval_taken.end);
+		SGA_WalkStep* step = &walk.steps.array[i];
+		previous_time	   = size_t_min(previous_time, step->interval_taken.end);
 	}
 	walk.optimality.end   = previous_time;
 	walk.optimality.start = at;
 
-	WalkStepArrayList_reverse(&walk.steps);
+	SGA_WalkStepArrayList_reverse(&walk.steps);
 	result = walk_exists(walk);
 
 	// printf("Walk : %s\n", Walk_to_string(&result.result.walk).data);
@@ -920,11 +926,11 @@ cleanup_and_return:
 	return result;
 }
 
-size_t Walk_length(Walk* walk) {
+size_t Walk_length(SGA_Walk* walk) {
 	return walk->steps.length;
 }
 
-size_t Walk_duration(Walk* walk) {
+size_t Walk_duration(SGA_Walk* walk) {
 	if (walk->steps.length == 0) {
 		return 0;
 	}
@@ -933,7 +939,7 @@ size_t Walk_duration(Walk* walk) {
 	return end_time - start_time;
 }
 
-double Walk_duration_integral(Interval waiting_period, Interval instantaneous_perioud, TimeId reached_at) {
+double Walk_duration_integral(SGA_Interval waiting_period, SGA_Interval instantaneous_perioud, SGA_Time reached_at) {
 	size_t a = waiting_period.start;
 	size_t b = waiting_period.end;
 	size_t c = instantaneous_perioud.start;
@@ -945,12 +951,12 @@ double Walk_duration_integral(Interval waiting_period, Interval instantaneous_pe
 	return integral;
 }
 
-double Walk_duration_integral_1_over_x(Walk* walk) {
-	TimeId started_moving_at = walk->optimality.start;
-	TimeId reached_at	 = walk->optimality.start;
+double Walk_duration_integral_1_over_x(SGA_Walk* walk) {
+	SGA_Time started_moving_at = walk->optimality.start;
+	SGA_Time reached_at	   = walk->optimality.start;
 
 	for (size_t i = 0; i < walk->steps.length; i++) {
-		WalkStep step = walk->steps.array[i];
+		SGA_WalkStep step = walk->steps.array[i];
 		if (step.time > reached_at) {
 			reached_at = step.time;
 		}
@@ -964,10 +970,10 @@ double Walk_duration_integral_1_over_x(Walk* walk) {
 		stopped_waiting = walk->optimality.end;
 	}
 	return Walk_duration_integral(
-	    Interval_from(started_moving_at, stopped_waiting), Interval_from(stopped_waiting, walk->optimality.end), reached_at);
+	    SGA_Interval_from(started_moving_at, stopped_waiting), SGA_Interval_from(stopped_waiting, walk->optimality.end), reached_at);
 }
 
-size_t Walk_length_integral_doubled(Walk* walk) {
+size_t Walk_length_integral_doubled(SGA_Walk* walk) {
 	// Area under the curve from [start, end] of the walk
 	// The area under the constant function (length) over the interval [start,
 	// end] = t is (length * t) we double it to match with the duration integral
@@ -980,16 +986,16 @@ size_t Walk_length_integral_doubled(Walk* walk) {
 	return integral;
 }
 
-bool Walk_involves_node_at_time(Walk* walk, NodeId node, double time) {
+bool SGA_Walk_involves_node_at_time(SGA_Walk* walk, SGA_NodeId node, SGA_Time time) {
 	for (size_t i = 0; i < walk->steps.length; i++) {
-		WalkStep step	    = walk->steps.array[i];
+		SGA_WalkStep step   = walk->steps.array[i];
 		StreamFunctions fns = STREAM_FUNCS(fns, walk->stream);
-		Link link	    = fns.link_by_id(walk->stream->stream_data, step.link);
+		SGA_Link link	    = fns.link_by_id(walk->stream->stream_data, step.link);
 		if (link.nodes[0] == node || link.nodes[1] == node) {
 			// if ((double)step.time <= time && time <=
 			// (double)step.needs_to_arrive_before) { 	return true;
 			// }
-			if ((double)step.interval_taken.start <= time && time <= (double)step.interval_taken.end) {
+			if (SGA_Interval_contains(step.interval_taken, time)) {
 				return true;
 			}
 		}
@@ -997,20 +1003,22 @@ bool Walk_involves_node_at_time(Walk* walk, NodeId node, double time) {
 	return false;
 }
 
-double betweenness_of_node_at_time(SGA_Stream* stream, NodeId node, double time) {
+// TODO: ca marchait ou pas je sais plus
+double betweenness_of_node_at_time(SGA_Stream* stream, SGA_NodeId node, SGA_Time time) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	// size_t number_of_walks = 0;
 	// size_t number_of_walks_involving_node = 0;
 	// Compute all the walks between all the nodes
-	double betweenness  = 0.0;
-	NodesIterator nodes = fns.nodes_set(stream->stream_data);
-	FOR_EACH_NODE(from, nodes) {
-		NodesIterator nodes2 = fns.nodes_set(stream->stream_data);
-		FOR_EACH_NODE(to, nodes2) {
+	double betweenness	= 0.0;
+	SGA_NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	SGA_FOR_EACH_NODE(from, nodes) {
+		SGA_NodesIterator nodes2 = fns.nodes_set(stream->stream_data);
+		SGA_FOR_EACH_NODE(to, nodes2) {
 			if (from != to) {
-				WalkInfoArrayList optimal_walks = optimal_walks_between_two_nodes(stream, from, to, Stream_fastest_walk);
+				SGA_OptionalWalkArrayList optimal_walks =
+				    SGA_optimal_walks_between_two_nodes(stream, from, to, SGA_fastest_walk);
 				for (size_t i = 0; i < optimal_walks.length; i++) {
-					WalkInfo walk = optimal_walks.array[i];
+					SGA_OptionalWalk walk = optimal_walks.array[i];
 					if (walk.type == WALK) {
 						// size_t walk_optimality =
 						// 	walk.result.walk.optimality.end -
@@ -1018,7 +1026,7 @@ double betweenness_of_node_at_time(SGA_Stream* stream, NodeId node, double time)
 						size_t walk_optimality		      = 1;
 						size_t number_of_walks		      = walk_optimality;
 						size_t number_of_walks_involving_node = 0;
-						if (Walk_involves_node_at_time(&walk.result.walk, node, time)) {
+						if (SGA_Walk_involves_node_at_time(&walk.result.walk, node, time)) {
 							number_of_walks_involving_node += walk_optimality;
 						}
 						if (number_of_walks == 0) {
@@ -1027,21 +1035,21 @@ double betweenness_of_node_at_time(SGA_Stream* stream, NodeId node, double time)
 						betweenness += (double)number_of_walks_involving_node / (double)number_of_walks;
 					}
 				}
-				String str = WalkInfoArrayList_to_string(&optimal_walks);
+				String str = SGA_OptionalWalkArrayList_to_string(&optimal_walks);
 				String_destroy(str);
-				WalkInfoArrayList_destroy(optimal_walks);
+				SGA_OptionalWalkArrayList_destroy(optimal_walks);
 			}
 		}
 	}
 	return betweenness;
 }
 
-double Walk_length_integral(Walk* walk) {
+double Walk_length_integral(SGA_Walk* walk) {
 	return (double)Walk_length(walk);
 }
 
 // TODO: merge it with robustness by duration
-double Stream_robustness_by_length(SGA_Stream* stream) {
+double SGA_Stream_robustness_by_length(SGA_Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
@@ -1053,26 +1061,26 @@ double Stream_robustness_by_length(SGA_Stream* stream) {
 
 	double robustness = 0.0;
 
-	NodeIdArrayList nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
+	SGA_NodeIdArrayList nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
 
 	// printf("Number of nodes : %zu\n", nodes.length);
 	for (size_t f = 0; f < nodes.length; f++) {
-		NodeId from = nodes.array[f];
+		SGA_NodeId from = nodes.array[f];
 		// printf("From %zu\n", from);
 		for (size_t t = 0; t < nodes.length; t++) {
 			// printf("To %zu\n", t);
-			NodeId to = nodes.array[t];
+			SGA_NodeId to = nodes.array[t];
 			if (from == to) {
-				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
-				FOR_EACH_TIME(p, presence) {
+				SGA_TimesIterator presence = fns.times_node_present(stream->stream_data, from);
+				SGA_FOR_EACH_TIME(p, presence) {
 					robustness += (double)(p.end - p.start); // 1 if exists, 0 if not
 				}
 			}
 			else {
-				TimeId current_time = 0;
+				SGA_Time current_time = 0;
 				while (current_time != max_lifespan) {
 					// printf("Current time %zu\n", current_time);
-					WalkInfo optimal;
+					SGA_OptionalWalk optimal;
 					// ArenaArrayList_clear(&arena);
 					QueueInfoArrayList_clear(&queue);
 					ExploredStateHashset_clear(&explored);
@@ -1080,35 +1088,35 @@ double Stream_robustness_by_length(SGA_Stream* stream) {
 					    stream, from, to, current_time, &optimal, &arena, &queue, &explored);
 					size_t previous_time = current_time;
 					if (optimal.type == NO_WALK) {
-						NoWalkReason error = optimal.result.no_walk_reason;
+						SGA_NoWalkReason error = optimal.result.no_walk_reason;
 						if (error.type == NODE_ABSENT) {
 							current_time = error.reason.node_absent_between.end;
 							continue;
 						}
 						if (error.type == UNREACHABLE) {
-							WalkInfo_destroy(optimal);
+							SGA_OptionalWalk_destroy(optimal);
 							Arena_clear(&arena);
 							goto after_while;
 						}
 					}
 					else if (optimal.type == WALK) {
-						Interval optimality = optimal.result.walk.optimality;
-						current_time	    = optimality.end;
+						SGA_Interval optimality = optimal.result.walk.optimality;
+						current_time		= optimality.end;
 						robustness +=
-						    (double)Interval_duration(optimality) / Walk_length_integral(&optimal.result.walk);
+						    (double)SGA_Interval_duration(optimality) / Walk_length_integral(&optimal.result.walk);
 					}
 					if (current_time == previous_time) {
 						current_time++;
 					}
 
-					WalkInfo_destroy(optimal);
+					SGA_OptionalWalk_destroy(optimal);
 					Arena_clear(&arena); // OPTIMISE: reuse it
 				}
 			after_while:
 			}
 		}
 	}
-	NodeIdArrayList_destroy(nodes);
+	SGA_NodeIdArrayList_destroy(nodes);
 	ExploredStateHashset_destroy(explored);
 	QueueInfoArrayList_destroy(queue);
 	Arena_destroy(arena);
@@ -1116,7 +1124,7 @@ double Stream_robustness_by_length(SGA_Stream* stream) {
 	return robustness / (double)(nodes.length * nodes.length * (max_lifespan - begin));
 }
 
-double Stream_robustness_by_duration(SGA_Stream* stream) {
+double SGA_Stream_robustness_by_duration(SGA_Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
 	size_t max_lifespan = fns.lifespan(stream->stream_data).end;
@@ -1128,51 +1136,51 @@ double Stream_robustness_by_duration(SGA_Stream* stream) {
 
 	double robustness = 0.0;
 
-	NodeIdArrayList nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
+	SGA_NodeIdArrayList nodes = SGA_collect_node_ids(fns.nodes_set(stream->stream_data));
 
 	// printf("Number of nodes : %zu\n", nodes.length);
 	for (size_t f = 0; f < nodes.length; f++) {
-		NodeId from = nodes.array[f];
+		SGA_NodeId from = nodes.array[f];
 		// printf("From %zu\n", from);
 		for (size_t t = 0; t < nodes.length; t++) {
 			// printf("To %zu\n", t);
-			NodeId to = nodes.array[t];
+			SGA_NodeId to = nodes.array[t];
 			if (from == to) {
-				TimesIterator presence = fns.times_node_present(stream->stream_data, from);
-				FOR_EACH_TIME(p, presence) {
+				SGA_TimesIterator presence = fns.times_node_present(stream->stream_data, from);
+				SGA_FOR_EACH_TIME(p, presence) {
 					robustness += (double)(p.end - p.start); // 1 if exists, 0 if not
 				}
 			}
 			else {
-				TimeId current_time = 0;
+				SGA_Time current_time = 0;
 				while (current_time != max_lifespan) {
 					// printf("Current time %zu\n", current_time);
-					WalkInfo optimal;
+					SGA_OptionalWalk optimal;
 					// ArenaArrayList_clear(&arena);
 					QueueInfoArrayList_clear(&queue);
 					ExploredStateHashset_clear(&explored);
 					// Stream_shortest_walk_from_to_at_buffered(stream, from, to,
 					// current_time, &optimal, &arena, &queue,
 					// &explored);
-					optimal = Stream_fastest_walk(stream, from, to, current_time);
-					// printf("Optimal : %s\n", WalkInfo_to_string(&optimal).data);
+					optimal = SGA_fastest_walk(stream, from, to, current_time);
+					// printf("Optimal : %s\n", SGA_OptionalWalk_to_string(&optimal).data);
 					size_t previous_time = current_time;
 					if (optimal.type == NO_WALK) {
-						NoWalkReason error = optimal.result.no_walk_reason;
+						SGA_NoWalkReason error = optimal.result.no_walk_reason;
 						if (error.type == NODE_ABSENT) {
 							current_time = error.reason.node_absent_between.end;
 							continue;
 						}
 						if (error.type == UNREACHABLE) {
-							WalkInfo_destroy(optimal);
+							SGA_OptionalWalk_destroy(optimal);
 							Arena_clear(&arena);
 							goto after_while;
 						}
 					}
 					else if (optimal.type == WALK) {
-						Interval optimality = optimal.result.walk.optimality;
-						current_time	    = optimality.end;
-						robustness += (double)(Interval_duration(optimality)) /
+						SGA_Interval optimality = optimal.result.walk.optimality;
+						current_time		= optimality.end;
+						robustness += (double)(SGA_Interval_duration(optimality)) /
 							      (1.0 + Walk_duration_integral_1_over_x(&optimal.result.walk));
 					}
 					if (current_time == previous_time) {
@@ -1181,14 +1189,14 @@ double Stream_robustness_by_duration(SGA_Stream* stream) {
 
 					// TODO : shit name
 
-					WalkInfo_destroy(optimal);
+					SGA_OptionalWalk_destroy(optimal);
 					Arena_clear(&arena); // OPTIMISE: reuse it
 				}
 			after_while:
 			}
 		}
 	}
-	NodeIdArrayList_destroy(nodes);
+	SGA_NodeIdArrayList_destroy(nodes);
 	ExploredStateHashset_destroy(explored);
 	QueueInfoArrayList_destroy(queue);
 	Arena_destroy(arena);
@@ -1196,7 +1204,7 @@ double Stream_robustness_by_duration(SGA_Stream* stream) {
 	return robustness / (double)(nodes.length * nodes.length * (max_lifespan - begin));
 }
 
-bool Walk_goes_through(Walk* walk, SGA_Stream stream, size_t nb_steps, ...) {
+bool SGA_Walk_goes_through(SGA_Walk* walk, SGA_Stream stream, size_t nb_steps, ...) {
 
 	if (walk->steps.length != nb_steps) {
 		// printf("Walk size %zu != nb_steps %zu\n", walk->steps.length, nb_steps);
@@ -1213,8 +1221,8 @@ bool Walk_goes_through(Walk* walk, SGA_Stream stream, size_t nb_steps, ...) {
 	va_start(args, nb_steps);
 
 	// Check the first node
-	NodeId first_node = va_arg(args, NodeId);
-	Link first_link	  = fns.link_by_id(stream.stream_data, walk->steps.array[0].link);
+	SGA_NodeId first_node = va_arg(args, SGA_NodeId);
+	SGA_Link first_link   = fns.link_by_id(stream.stream_data, walk->steps.array[0].link);
 	// printf("Checking first node %zu\n", first_node);
 	if (first_link.nodes[0] != first_node && first_link.nodes[1] != first_node) {
 		// printf("First node %zu FALSE\n", first_node);
@@ -1223,9 +1231,9 @@ bool Walk_goes_through(Walk* walk, SGA_Stream stream, size_t nb_steps, ...) {
 
 	// Check the intermediate nodes
 	for (size_t i = 1; i < nb_steps; i++) {
-		NodeId node = va_arg(args, NodeId);
+		SGA_NodeId node = va_arg(args, SGA_NodeId);
 		// printf("Checking node %zu\n", node);
-		Link link = fns.link_by_id(stream.stream_data, walk->steps.array[i].link);
+		SGA_Link link = fns.link_by_id(stream.stream_data, walk->steps.array[i].link);
 		if (link.nodes[0] != node && link.nodes[1] != node) {
 			// printf("Node %zu FALSE\n", node);
 			return false;
@@ -1233,8 +1241,8 @@ bool Walk_goes_through(Walk* walk, SGA_Stream stream, size_t nb_steps, ...) {
 	}
 
 	// Check the last node
-	NodeId last_node = va_arg(args, NodeId);
-	Link last_link	 = fns.link_by_id(stream.stream_data, walk->steps.array[nb_steps - 1].link);
+	SGA_NodeId last_node = va_arg(args, SGA_NodeId);
+	SGA_Link last_link   = fns.link_by_id(stream.stream_data, walk->steps.array[nb_steps - 1].link);
 	// printf("Checking last node %zu\n", last_node);
 	if (last_link.nodes[0] != last_node && last_link.nodes[1] != last_node) {
 		// printf("Last node %zu FALSE\n", last_node);
@@ -1245,16 +1253,16 @@ bool Walk_goes_through(Walk* walk, SGA_Stream stream, size_t nb_steps, ...) {
 	return true;
 }
 
-Walk WalkInfo_unwrap_unchecked(WalkInfo info) {
+SGA_Walk SGA_OptionalWalk_unwrap_unchecked(SGA_OptionalWalk info) {
 	return info.result.walk;
 }
 
-Walk WalkInfo_unwrap_checked(WalkInfo info) {
-	assert(info.type == WALK);
-	return WalkInfo_unwrap_unchecked(info);
+SGA_Walk SGA_OptionalWalk_unwrap_checked(SGA_OptionalWalk info) {
+	ASSERT(info.type == WALK);
+	return SGA_OptionalWalk_unwrap_unchecked(info);
 }
 
-TimeId Walk_arrives_at(Walk* walk) {
+SGA_Time SGA_Walk_arrives_at(SGA_Walk* walk) {
 	// printf("Walk size : %zu\n", walk->steps.length);
 	// printf("Walk arrival time : %zu\n", walk->steps.array[walk->steps.length -
 	// 1].time);

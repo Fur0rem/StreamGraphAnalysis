@@ -113,15 +113,106 @@ $(function(){initNavTree('stream__functions_8h.html',''); initResizable(true); }
 <code>#include &quot;<a class="el" href="stream_8h_source.html">stream.h</a>&quot;</code><br />
 <code>#include &quot;stream_graph/links_set.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="nodes__set_8h_source.html">stream_graph/nodes_set.h</a>&quot;</code><br />
+<code>#include &quot;units.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for stream_functions.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="stream__functions_8h__incl.png" border="0" usemap="#asrc_2stream__functions_8h" alt=""/></div>
+<map name="asrc_2stream__functions_8h" id="asrc_2stream__functions_8h">
+<area shape="rect" title="Functions to access the data of a StreamGraph." alt="" coords="891,5,1060,33"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="931,81,1020,109"/>
+<area shape="poly" title=" " alt="" coords="978,34,978,65,973,65,973,34"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="1100,418,1165,445"/>
+<area shape="poly" title=" " alt="" coords="1061,17,1149,26,1196,35,1240,49,1280,68,1312,94,1333,128,1339,147,1341,169,1341,256,1336,286,1324,313,1306,338,1283,359,1231,393,1181,416,1179,412,1229,388,1280,355,1302,334,1320,311,1331,285,1335,256,1335,169,1333,148,1328,130,1308,98,1277,73,1238,54,1195,40,1149,31,1060,23"/>
+<area shape="rect" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="692,157,771,184"/>
+<area shape="poly" title=" " alt="" coords="955,36,767,151,764,146,953,31"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="1013,232,1159,277"/>
+<area shape="poly" title=" " alt="" coords="993,32,1014,53,1034,80,1051,114,1065,151,1082,217,1077,218,1059,153,1046,117,1029,82,1010,56,989,35"/>
+<area shape="rect" href="nodes__set_8h.html" title="A node and a set of nodes of a StreamGraph." alt="" coords="106,232,260,277"/>
+<area shape="poly" title=" " alt="" coords="890,24,766,32,609,53,525,71,441,93,359,123,281,159,241,188,210,222,206,218,238,184,278,154,357,118,439,88,524,65,608,48,765,27,890,19"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="839,334,922,361"/>
+<area shape="poly" title=" " alt="" coords="973,110,893,320,888,318,968,108"/>
+<area shape="poly" title=" " alt="" coords="1013,107,1053,125,1098,152,1141,187,1159,208,1174,231,1182,254,1186,277,1181,325,1167,370,1150,405,1146,403,1162,368,1176,324,1180,277,1177,255,1169,234,1155,211,1137,191,1095,156,1051,130,1011,112"/>
+<area shape="rect" title=" " alt="" coords="493,662,567,689"/>
+<area shape="poly" title=" " alt="" coords="1020,99,1123,120,1184,139,1246,164,1302,196,1348,236,1366,260,1380,286,1388,315,1391,346,1391,509,1386,546,1371,574,1346,596,1312,616,1269,629,1194,640,985,657,757,669,583,675,582,670,757,664,985,652,1194,634,1268,624,1310,611,1343,591,1367,571,1381,545,1386,508,1386,346,1383,316,1375,288,1362,263,1344,240,1299,200,1243,168,1183,144,1122,125,1019,104"/>
+<area shape="poly" title=" " alt="" coords="932,112,786,155,785,150,931,107"/>
+<area shape="rect" title=" " alt="" coords="170,418,240,445"/>
+<area shape="poly" title=" " alt="" coords="931,103,831,117,695,141,542,180,466,205,392,235,316,271,287,293,255,327,231,365,215,404,210,402,226,363,251,323,283,289,313,267,390,230,464,200,541,175,694,136,830,111,930,98"/>
+<area shape="rect" title=" " alt="" coords="568,569,745,614"/>
+<area shape="poly" title=" " alt="" coords="871,363,689,559,685,556,867,360"/>
+<area shape="poly" title=" " alt="" coords="918,359,942,367,1086,413,1084,418,940,372,917,364"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="205,578,266,605"/>
+<area shape="poly" title=" " alt="" coords="846,364,281,576,279,571,845,359"/>
+<area shape="rect" title=" " alt="" coords="5,662,87,689"/>
+<area shape="poly" title=" " alt="" coords="839,360,724,385,561,429,376,491,283,529,194,571,128,613,74,654,71,649,125,608,191,567,281,524,374,486,559,424,722,380,838,354"/>
+<area shape="poly" title=" " alt="" coords="918,359,980,387,1056,431,1094,459,1130,491,1162,527,1187,568,1196,592,1194,604,1187,616,1174,624,1154,631,1095,644,924,662,733,672,582,676,582,671,733,666,924,656,1094,639,1153,626,1172,619,1183,612,1189,602,1190,593,1182,570,1157,531,1126,495,1091,463,1053,436,977,392,915,364"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="916,493,1002,521"/>
+<area shape="poly" title=" " alt="" coords="1103,448,1005,490,1003,485,1101,443"/>
+<area shape="poly" title=" " alt="" coords="1155,444,1198,475,1243,518,1261,543,1271,567,1270,592,1257,615,1243,625,1221,633,1154,646,1065,657,962,664,748,673,582,676,582,671,748,668,961,659,1064,651,1153,641,1219,628,1241,620,1253,612,1265,591,1265,568,1256,545,1239,522,1195,479,1152,448"/>
+<area shape="poly" title=" " alt="" coords="917,523,752,567,751,562,915,518"/>
+<area shape="rect" title=" " alt="" coords="971,569,1148,614"/>
+<area shape="poly" title=" " alt="" coords="977,520,1023,557,1019,561,974,524"/>
+<area shape="rect" title=" " alt="" coords="769,569,947,614"/>
+<area shape="poly" title=" " alt="" coords="945,524,898,561,895,557,941,520"/>
+<area shape="poly" title=" " alt="" coords="916,516,282,587,282,582,915,511"/>
+<area shape="poly" title=" " alt="" coords="1003,512,1066,525,1129,546,1154,559,1170,575,1174,594,1163,616,1132,631,1075,643,911,661,728,671,582,676,582,670,728,666,911,655,1074,638,1130,626,1159,612,1169,594,1165,578,1150,563,1127,551,1065,530,1002,517"/>
+<area shape="poly" title=" " alt="" coords="259,574,281,575,290,581,293,591,287,604,275,609,273,604,284,600,287,591,285,584,279,580,259,580"/>
+<area shape="rect" title=" " alt="" coords="299,662,372,689"/>
+<area shape="poly" title=" " alt="" coords="253,604,310,650,306,654,250,608"/>
+<area shape="rect" title=" " alt="" coords="396,662,464,689"/>
+<area shape="poly" title=" " alt="" coords="268,603,386,653,384,658,266,608"/>
+<area shape="poly" title=" " alt="" coords="206,608,91,658,89,653,204,603"/>
+<area shape="rect" title=" " alt="" coords="111,662,181,689"/>
+<area shape="poly" title=" " alt="" coords="223,608,173,653,170,649,219,604"/>
+<area shape="poly" title=" " alt="" coords="267,599,309,611,479,658,478,663,308,616,266,604"/>
+<area shape="rect" title=" " alt="" coords="204,662,274,689"/>
+<area shape="poly" title=" " alt="" coords="239,606,241,646,235,646,233,606"/>
+<area shape="poly" title=" " alt="" coords="759,183,791,203,823,231,853,275,873,318,868,320,848,277,819,234,788,207,756,187"/>
+<area shape="poly" title=" " alt="" coords="762,183,855,230,928,276,998,325,1106,406,1103,410,995,329,925,281,853,235,760,187"/>
+<area shape="poly" title=" " alt="" coords="691,176,543,182,346,193,165,211,101,222,66,235,41,258,27,282,22,310,21,346,21,508,28,583,41,646,36,647,22,584,15,509,15,346,16,309,22,280,37,254,63,230,100,217,164,205,346,188,543,176,691,170"/>
+<area shape="poly" title=" " alt="" coords="742,184,760,217,779,264,789,317,787,345,779,371,757,410,731,438,703,458,673,475,643,490,614,509,585,535,559,570,543,609,535,647,530,646,538,608,554,568,581,531,611,505,641,486,671,470,700,454,728,434,752,407,774,369,782,344,783,318,774,266,756,219,737,186"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="99,493,188,521"/>
+<area shape="poly" title=" " alt="" coords="691,175,547,180,358,190,186,207,126,220,107,227,96,234,78,262,70,294,70,327,77,362,101,428,129,479,124,481,96,430,71,363,65,328,65,293,73,260,92,230,105,222,125,215,185,202,357,184,547,174,691,170"/>
+<area shape="rect" href="events__table_8h.html" title=" " alt="" coords="373,325,532,370"/>
+<area shape="poly" title=" " alt="" coords="712,187,501,319,498,314,709,183"/>
+<area shape="poly" title=" " alt="" coords="692,182,616,200,517,229,408,272,355,298,305,327,268,361,227,407,223,404,265,358,302,323,352,293,406,267,515,224,615,195,691,177"/>
+<area shape="rect" href="key__moments__table_8h.html" title="Table of all key moments." alt="" coords="557,325,764,370"/>
+<area shape="poly" title=" " alt="" coords="728,186,677,312,673,310,724,184"/>
+<area shape="poly" title=" " alt="" coords="772,178,998,230,997,236,771,184"/>
+<area shape="poly" title=" " alt="" coords="691,180,277,242,276,237,691,175"/>
+<area shape="poly" title=" " alt="" coords="160,520,212,565,208,569,156,524"/>
+<area shape="poly" title=" " alt="" coords="138,523,64,649,59,647,133,520"/>
+<area shape="poly" title=" " alt="" coords="189,519,245,539,303,567,332,589,361,611,421,639,479,658,477,663,419,644,358,616,329,594,301,571,243,544,187,524"/>
+<area shape="poly" title=" " alt="" coords="533,365,545,367,699,389,852,406,1085,425,1085,430,852,411,699,394,544,372,532,370"/>
+<area shape="poly" title=" " alt="" coords="450,371,443,417,439,479,443,547,451,581,463,612,477,633,496,650,493,654,473,637,458,615,446,582,438,548,433,479,438,416,445,370"/>
+<area shape="poly" title=" " alt="" coords="408,373,310,420,181,488,179,483,307,415,405,368"/>
+<area shape="poly" title=" " alt="" coords="388,373,256,416,254,411,386,368"/>
+<area shape="poly" title=" " alt="" coords="765,364,1085,419,1084,425,764,369"/>
+<area shape="poly" title=" " alt="" coords="581,373,521,393,462,420,432,438,410,455,361,495,265,570,262,566,358,491,406,450,429,434,459,415,519,388,579,368"/>
+<area shape="poly" title=" " alt="" coords="574,373,540,392,514,419,500,447,493,477,491,509,493,540,505,600,521,646,516,648,500,601,487,541,485,509,488,476,495,445,509,416,537,387,571,368"/>
+<area shape="poly" title=" " alt="" coords="557,370,545,372,256,424,255,419,544,367,556,365"/>
+<area shape="poly" title=" " alt="" coords="1038,280,925,329,923,325,1036,275"/>
+<area shape="poly" title=" " alt="" coords="1094,277,1128,402,1123,403,1089,278"/>
+<area shape="poly" title=" " alt="" coords="1116,276,1188,338,1228,380,1265,426,1294,474,1310,523,1311,548,1308,571,1298,594,1283,616,1268,625,1244,633,1175,647,1082,658,975,665,753,674,582,677,582,671,753,669,974,660,1081,652,1174,642,1243,628,1266,620,1279,612,1294,591,1303,570,1306,547,1305,524,1289,477,1261,429,1224,383,1184,342,1113,280"/>
+<area shape="poly" title=" " alt="" coords="1013,260,860,266,671,278,490,298,416,312,362,327,344,337,332,347,305,372,242,412,239,407,302,368,329,343,341,332,360,323,415,306,489,293,671,273,860,261,1013,255"/>
+<area shape="poly" title=" " alt="" coords="261,260,493,284,777,322,824,331,824,336,776,328,492,290,261,266"/>
+<area shape="poly" title=" " alt="" coords="175,278,161,312,150,355,148,401,152,423,160,444,203,475,297,534,496,651,493,656,294,538,200,480,156,447,147,425,142,401,145,354,156,311,170,276"/>
+<area shape="poly" title=" " alt="" coords="189,277,204,402,199,402,183,278"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="stream__functions_8h__dep__incl.png" border="0" usemap="#asrc_2stream__functions_8hdep" alt=""/></div>
+<map name="asrc_2stream__functions_8hdep" id="asrc_2stream__functions_8hdep">
+<area shape="rect" title="Functions to access the data of a StreamGraph." alt="" coords="198,5,368,33"/>
+<area shape="rect" href="StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="5,81,180,109"/>
+<area shape="poly" title=" " alt="" coords="236,42,127,83,125,78,234,37"/>
+<area shape="rect" href="cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="204,81,363,109"/>
+<area shape="poly" title=" " alt="" coords="286,49,286,81,280,81,280,49"/>
+<area shape="rect" href="metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="387,81,550,109"/>
+<area shape="poly" title=" " alt="" coords="331,37,437,78,435,83,329,41"/>
+</map>
 </div>
 </div>
 <p><a href="stream__functions_8h_source.html">Go to the source code of this file.</a></p>
@@ -140,42 +231,42 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a98d97b3f9756c0a6fdd5ba74266e85c2" id="r_a98d97b3f9756c0a6fdd5ba74266e85c2"><td class="memItemLeft" align="right" valign="top"><a id="a98d97b3f9756c0a6fdd5ba74266e85c2" name="a98d97b3f9756c0a6fdd5ba74266e85c2"></a>
-<a class="el" href="structInterval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_lifespan</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="separator:a98d97b3f9756c0a6fdd5ba74266e85c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ee3efc7f385f6d55272e82fc91f35be" id="r_a1ee3efc7f385f6d55272e82fc91f35be"><td class="memItemLeft" align="right" valign="top"><a id="a1ee3efc7f385f6d55272e82fc91f35be" name="a1ee3efc7f385f6d55272e82fc91f35be"></a>
-<a class="el" href="structNodesIterator.html">NodesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_nodes_set</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="separator:a1ee3efc7f385f6d55272e82fc91f35be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af662b6dde14c234f954b77bd52347ef6" id="r_af662b6dde14c234f954b77bd52347ef6"><td class="memItemLeft" align="right" valign="top"><a id="af662b6dde14c234f954b77bd52347ef6" name="af662b6dde14c234f954b77bd52347ef6"></a>
-<a class="el" href="structLinksIterator.html">LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_links_set</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="separator:af662b6dde14c234f954b77bd52347ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbcdffd68145f223c10557c9a00dc53d" id="r_afbcdffd68145f223c10557c9a00dc53d"><td class="memItemLeft" align="right" valign="top"><a id="afbcdffd68145f223c10557c9a00dc53d" name="afbcdffd68145f223c10557c9a00dc53d"></a>
-<a class="el" href="structNodesIterator.html">NodesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_nodes_present_at_t</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, TimeId time_id)</td></tr>
-<tr class="separator:afbcdffd68145f223c10557c9a00dc53d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad781104cdb10b7b75656aa601a402471" id="r_ad781104cdb10b7b75656aa601a402471"><td class="memItemLeft" align="right" valign="top"><a id="ad781104cdb10b7b75656aa601a402471" name="ad781104cdb10b7b75656aa601a402471"></a>
-<a class="el" href="structLinksIterator.html">LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_links_present_at_t</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, TimeId time_id)</td></tr>
-<tr class="separator:ad781104cdb10b7b75656aa601a402471"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7a0ec570b351a67dac5c0181581d685" id="r_ab7a0ec570b351a67dac5c0181581d685"><td class="memItemLeft" align="right" valign="top"><a id="ab7a0ec570b351a67dac5c0181581d685" name="ab7a0ec570b351a67dac5c0181581d685"></a>
-<a class="el" href="structTimesIterator.html">TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_times_node_present</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id)</td></tr>
-<tr class="separator:ab7a0ec570b351a67dac5c0181581d685"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39c7ad3ea05d539357660d2a3c53375c" id="r_a39c7ad3ea05d539357660d2a3c53375c"><td class="memItemLeft" align="right" valign="top"><a id="a39c7ad3ea05d539357660d2a3c53375c" name="a39c7ad3ea05d539357660d2a3c53375c"></a>
-<a class="el" href="structTimesIterator.html">TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_times_link_present</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, LinkId link_id)</td></tr>
-<tr class="separator:a39c7ad3ea05d539357660d2a3c53375c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24edee40d64c4b7faf9f131b8ec62bc5" id="r_a24edee40d64c4b7faf9f131b8ec62bc5"><td class="memItemLeft" align="right" valign="top"><a id="a24edee40d64c4b7faf9f131b8ec62bc5" name="a24edee40d64c4b7faf9f131b8ec62bc5"></a>
-<a class="el" href="structLink.html">Link</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_link_by_id</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, size_t link_id)</td></tr>
-<tr class="separator:a24edee40d64c4b7faf9f131b8ec62bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0885ff440ffec4ef550dfd67177d174d" id="r_a0885ff440ffec4ef550dfd67177d174d"><td class="memItemLeft" align="right" valign="top"><a id="a0885ff440ffec4ef550dfd67177d174d" name="a0885ff440ffec4ef550dfd67177d174d"></a>
-<a class="el" href="structNode.html">Node</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_node_by_id</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, size_t node_id)</td></tr>
-<tr class="separator:a0885ff440ffec4ef550dfd67177d174d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0153d83a8e8f3ae0327fff92a09620ef" id="r_a0153d83a8e8f3ae0327fff92a09620ef"><td class="memItemLeft" align="right" valign="top"><a id="a0153d83a8e8f3ae0327fff92a09620ef" name="a0153d83a8e8f3ae0327fff92a09620ef"></a>
-<a class="el" href="structLinksIterator.html">LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_neighbours_of_node</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id)</td></tr>
-<tr class="separator:a0153d83a8e8f3ae0327fff92a09620ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8316e1d95ced39c4f37e264f3e98dc8" id="r_ac8316e1d95ced39c4f37e264f3e98dc8"><td class="memItemLeft" align="right" valign="top"><a id="ac8316e1d95ced39c4f37e264f3e98dc8" name="ac8316e1d95ced39c4f37e264f3e98dc8"></a>
-LinkId&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_link_between_nodes</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id, NodeId other_node_id)</td></tr>
-<tr class="separator:ac8316e1d95ced39c4f37e264f3e98dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e4c70d23003893da225d37fb873daee" id="r_a6e4c70d23003893da225d37fb873daee"><td class="memItemLeft" align="right" valign="top"><a id="a6e4c70d23003893da225d37fb873daee" name="a6e4c70d23003893da225d37fb873daee"></a>
-<a class="el" href="structTimesIterator.html">TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_key_moments</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="separator:a6e4c70d23003893da225d37fb873daee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab804879e23ee919fbe81eb1bfcd77168" id="r_ab804879e23ee919fbe81eb1bfcd77168"><td class="memItemLeft" align="right" valign="top"><a id="ab804879e23ee919fbe81eb1bfcd77168" name="ab804879e23ee919fbe81eb1bfcd77168"></a>
+<a class="el" href="structSGA__Interval.html">SGA_Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_lifespan</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="separator:ab804879e23ee919fbe81eb1bfcd77168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a824c36df39b9f04309195df3b499e0a1" id="r_a824c36df39b9f04309195df3b499e0a1"><td class="memItemLeft" align="right" valign="top"><a id="a824c36df39b9f04309195df3b499e0a1" name="a824c36df39b9f04309195df3b499e0a1"></a>
+<a class="el" href="structSGA__NodesIterator.html">SGA_NodesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_nodes_set</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="separator:a824c36df39b9f04309195df3b499e0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3906fe09d860a010beb791d62cb5729" id="r_aa3906fe09d860a010beb791d62cb5729"><td class="memItemLeft" align="right" valign="top"><a id="aa3906fe09d860a010beb791d62cb5729" name="aa3906fe09d860a010beb791d62cb5729"></a>
+<a class="el" href="structSGA__LinksIterator.html">SGA_LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_links_set</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="separator:aa3906fe09d860a010beb791d62cb5729"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23d1534c47087c2468daa4400a040fd2" id="r_a23d1534c47087c2468daa4400a040fd2"><td class="memItemLeft" align="right" valign="top"><a id="a23d1534c47087c2468daa4400a040fd2" name="a23d1534c47087c2468daa4400a040fd2"></a>
+<a class="el" href="structSGA__NodesIterator.html">SGA_NodesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_nodes_present_at_t</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_TimeId time_id)</td></tr>
+<tr class="separator:a23d1534c47087c2468daa4400a040fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c24579a8ed49c70f1899f4b2e8e465f" id="r_a0c24579a8ed49c70f1899f4b2e8e465f"><td class="memItemLeft" align="right" valign="top"><a id="a0c24579a8ed49c70f1899f4b2e8e465f" name="a0c24579a8ed49c70f1899f4b2e8e465f"></a>
+<a class="el" href="structSGA__LinksIterator.html">SGA_LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_links_present_at_t</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_TimeId time_id)</td></tr>
+<tr class="separator:a0c24579a8ed49c70f1899f4b2e8e465f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9646259657bd5e58d882bd836af145f" id="r_aa9646259657bd5e58d882bd836af145f"><td class="memItemLeft" align="right" valign="top"><a id="aa9646259657bd5e58d882bd836af145f" name="aa9646259657bd5e58d882bd836af145f"></a>
+<a class="el" href="structSGA__TimesIterator.html">SGA_TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_times_node_present</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="separator:aa9646259657bd5e58d882bd836af145f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a626128d113305f27990dfd929c04e788" id="r_a626128d113305f27990dfd929c04e788"><td class="memItemLeft" align="right" valign="top"><a id="a626128d113305f27990dfd929c04e788" name="a626128d113305f27990dfd929c04e788"></a>
+<a class="el" href="structSGA__TimesIterator.html">SGA_TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_times_link_present</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_LinkId link_id)</td></tr>
+<tr class="separator:a626128d113305f27990dfd929c04e788"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd53317d066e0cfa3bc0c9dbab480dc" id="r_aefd53317d066e0cfa3bc0c9dbab480dc"><td class="memItemLeft" align="right" valign="top"><a id="aefd53317d066e0cfa3bc0c9dbab480dc" name="aefd53317d066e0cfa3bc0c9dbab480dc"></a>
+<a class="el" href="structSGA__Link.html">SGA_Link</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_link_by_id</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_LinkId link_id)</td></tr>
+<tr class="separator:aefd53317d066e0cfa3bc0c9dbab480dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d336352f7c8fc7ac9d06e62f9c365ff" id="r_a1d336352f7c8fc7ac9d06e62f9c365ff"><td class="memItemLeft" align="right" valign="top"><a id="a1d336352f7c8fc7ac9d06e62f9c365ff" name="a1d336352f7c8fc7ac9d06e62f9c365ff"></a>
+<a class="el" href="structSGA__Node.html">SGA_Node</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_node_by_id</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="separator:a1d336352f7c8fc7ac9d06e62f9c365ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9525463a814213d454ffb20d291d76cc" id="r_a9525463a814213d454ffb20d291d76cc"><td class="memItemLeft" align="right" valign="top"><a id="a9525463a814213d454ffb20d291d76cc" name="a9525463a814213d454ffb20d291d76cc"></a>
+<a class="el" href="structSGA__LinksIterator.html">SGA_LinksIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_neighbours_of_node</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="separator:a9525463a814213d454ffb20d291d76cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2d835b83fab8b1a42fff3a30ee507c8" id="r_af2d835b83fab8b1a42fff3a30ee507c8"><td class="memItemLeft" align="right" valign="top"><a id="af2d835b83fab8b1a42fff3a30ee507c8" name="af2d835b83fab8b1a42fff3a30ee507c8"></a>
+SGA_LinkId&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_link_between_nodes</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id, SGA_NodeId other_node_id)</td></tr>
+<tr class="separator:af2d835b83fab8b1a42fff3a30ee507c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aa81d2b4562780caaa8c0bb4cb8510c" id="r_a7aa81d2b4562780caaa8c0bb4cb8510c"><td class="memItemLeft" align="right" valign="top"><a id="a7aa81d2b4562780caaa8c0bb4cb8510c" name="a7aa81d2b4562780caaa8c0bb4cb8510c"></a>
+<a class="el" href="structSGA__TimesIterator.html">SGA_TimesIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_key_moments</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="separator:a7aa81d2b4562780caaa8c0bb4cb8510c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ae17a7d6116e27af6de662f904e388af6" name="ae17a7d6116e27af6de662f904e388af6"></a>
@@ -229,7 +320,7 @@ LinkId&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_link_bet
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">variable</td><td>The variable to store the functions in. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream_var</td><td>The <a class="el" href="structStream.html">Stream</a> to get the functions for. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream_var</td><td>The Stream to get the functions for. </td></tr>
   </table>
   </dd>
 </dl>

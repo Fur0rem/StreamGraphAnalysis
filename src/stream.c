@@ -1,6 +1,6 @@
 #define SGA_INTERNAL
 
-#include "stream.h"
+#include "stream_graph/key_moments_table.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -18,7 +18,6 @@
 #include "stream_functions.h"
 #include "stream_graph/events_table.h"
 #include "stream_graph/links_set.h"
-#include "units.h"
 #include "utils.h"
 
 char* get_to_header(const char* str, const char* header) {
@@ -153,7 +152,7 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	// EXPECTED_NB_SCANNED(2);
 	// GO_TO_NEXT_LINE(str);
 	// size_t scaling;
-	// nb_scanned = sscanf(str, "Scaling=%zu\n", &scaling);
+	// nb_scanned = sscanf(str, "TimeScale=%zu\n", &scaling);
 	// sg.scaling = scaling;
 	// EXPECTED_NB_SCANNED(1);
 	// GO_TO_NEXT_LINE(str);
@@ -175,13 +174,13 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		PRINT_LINE(str);
 		exit(1);
 	}
-	sg.lifespan = Interval_from(lifespan_start, lifespan_end);
+	sg.lifespan = SGA_Interval_from(lifespan_start, lifespan_end);
 	EXPECT_AND_MOVE(new_ptr, ')');
 	EXPECT_AND_MOVE(new_ptr, '\n');
 	str = new_ptr;
 
 	// TODO: RENAME scaling to timescale
-	EXPECT_SEQ_AND_MOVE(str, "Scaling=");
+	EXPECT_SEQ_AND_MOVE(str, "TimeScale=");
 	size_t scaling = strtol(str, &new_ptr, 10);
 	if (new_ptr == str) {
 		fprintf(stderr, "Could not parse the scaling\n");
@@ -274,7 +273,7 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		str = new_ptr;
 		// Allocate the neighbours
 		sg.nodes.nodes[node].nb_neighbours = nb_neighbours;
-		sg.nodes.nodes[node].neighbours	   = MALLOC(nb_neighbours * sizeof(LinkId));
+		sg.nodes.nodes[node].neighbours	   = MALLOC(nb_neighbours * sizeof(SGA_LinkId));
 	}
 
 	NEXT_HEADER([[[NumberOfIntervals]]]);
@@ -294,7 +293,7 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		}
 		str = new_ptr + 1;
 		// Allocate the intervals
-		IntervalsSet presence	      = IntervalsSet_alloc(nb_intervals);
+		SGA_IntervalsSet presence     = SGA_IntervalsSet_alloc(nb_intervals);
 		sg.nodes.nodes[node].presence = presence;
 	}
 
@@ -316,7 +315,7 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		}
 		str = new_ptr + 1;
 		// Allocate the intervals
-		IntervalsSet presence	      = IntervalsSet_alloc(nb_intervals);
+		SGA_IntervalsSet presence     = SGA_IntervalsSet_alloc(nb_intervals);
 		sg.links.links[link].presence = presence;
 	}
 
@@ -644,7 +643,7 @@ NO_FREE(EventTuple);
 DefineArrayListDeriveRemove(EventTuple);
 DefineArrayListDeriveRemove(EventTupleArrayList);
 
-size_t link_hash(Link key) {
+size_t link_hash(SGA_Link key) {
 	return key.nodes[0] + key.nodes[1];
 }
 
@@ -712,7 +711,7 @@ size_t nb_characters_needed(size_t number) {
 
 // An estimation of the size of the output string for a stream internal format (slightly overestimated most of
 // the time)
-size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, TimeId last_event, size_t nb_events,
+size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, SGA_Time last_event, size_t nb_events,
 				     size_tArrayList nb_events_per_slice) {
 	// Most of these are magic functions with some trial and error on a few examples
 	// I had between ~2% and ~30% of error on the size estimation
@@ -720,7 +719,7 @@ size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, TimeId la
 
 	// The headers + the number of events in each slice * the number of slices
 	size_t headers_size = strlen("[General]\nLifespan=(%zu "
-				     "%zu)\nScaling=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
+				     "%zu)\nTimeScale=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
 				     "zu\n\n[["
 				     "Nodes]"
 				     "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
@@ -779,7 +778,7 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 	EXPECT_AND_MOVE(new_ptr, '\n');
 	str = new_ptr;
 
-	EXPECT_SEQ_AND_MOVE(str, "Scaling=");
+	EXPECT_SEQ_AND_MOVE(str, "TimeScale=");
 	size_t scaling = strtol(str, &new_ptr, 10);
 	if (new_ptr == str) {
 		fprintf(stderr, TEXT_RED "Could not parse the scaling\n" TEXT_RESET);
@@ -964,7 +963,7 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 	}
 
 	// Push the lifespan end event if it is not the last event
-	TimeId last_event = events.array[events.length - 1].array[0].moment;
+	size_t last_event = events.array[events.length - 1].array[0].moment;
 	if (last_event != lifespan_end) {
 		last_event	= lifespan_end;
 		size_t slice_id = last_event / SLICE_SIZE;
@@ -994,7 +993,7 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 
 	String_push_str(&out_str, "[General]\n");
 	String_append_formatted(&out_str, "Lifespan=(%zu %zu)\n", lifespan_start, lifespan_end);
-	String_append_formatted(&out_str, "Scaling=%zu\n\n", scaling);
+	String_append_formatted(&out_str, "TimeScale=%zu\n\n", scaling);
 
 	String_push_str(&out_str, "[Memory]\n");
 	String_append_formatted(&out_str, "NumberOfNodes=%zu\n", biggest_node_id + 1);
@@ -1106,9 +1105,9 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 }
 
 // TODO: WHY ISN'T THIS IN NODES_SET.C ??
-String Node_to_string(SGA_StreamGraph* sg, size_t node_idx) {
+String SGA_Node_to_string(SGA_StreamGraph* sg, size_t node_idx) {
 
-	Node* node = &sg->nodes.nodes[node_idx];
+	SGA_Node* node = &sg->nodes.nodes[node_idx];
 
 	String str = String_from_duplicate("Node ");
 	String_append_formatted(&str, "%zu {\n", node_idx);
@@ -1116,13 +1115,13 @@ String Node_to_string(SGA_StreamGraph* sg, size_t node_idx) {
 
 	// Append the first interval
 	String_push_str(&str, "\t\t");
-	String interval_str = Interval_to_string(&node->presence.intervals[0]);
+	String interval_str = SGA_Interval_to_string(&node->presence.intervals[0]);
 	String_concat_consume(&str, interval_str);
 
 	// Append the other intervals
 	for (size_t i = 1; i < node->presence.nb_intervals; i++) {
 		String_push_str(&str, " U ");
-		interval_str = Interval_to_string(&node->presence.intervals[i]);
+		interval_str = SGA_Interval_to_string(&node->presence.intervals[i]);
 		String_concat_consume(&str, interval_str);
 	}
 	String_push_str(&str, "\n\t]\n");
@@ -1144,10 +1143,10 @@ String SGA_StreamGraph_to_string(SGA_StreamGraph* sg) {
 	String str = String_from_duplicate("StreamGraph {\n");
 	String_append_formatted(&str, "\tLifespan=[%zu %zu[\n", StreamGraph_lifespan_begin(sg), StreamGraph_lifespan_end(sg));
 
-	// Nodes
+	// SGA_Nodes
 	String_push_str(&str, "\tNodes=[\n");
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-		String node_str = Node_to_string(sg, i);
+		String node_str = SGA_Node_to_string(sg, i);
 		String_concat_consume(&str, node_str);
 	}
 	String_push_str(&str, "\t]\n");
@@ -1155,7 +1154,7 @@ String SGA_StreamGraph_to_string(SGA_StreamGraph* sg) {
 	// Links
 	String_push_str(&str, "\tLinks=[\n");
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		String link_str = Link_to_string(&sg->links.links[i]);
+		String link_str = SGA_Link_to_string(&sg->links.links[i]);
 		String_concat_consume(&str, link_str);
 	}
 	String_push_str(&str, "\t]\n");
@@ -1227,7 +1226,7 @@ void init_events_table(SGA_StreamGraph* sg) {
 	// Find the index of the last time a node appears
 	size_t last_node_addition = 0;
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-		size_t last_node_time = IntervalsSet_last(&sg->nodes.nodes[i].presence).start;
+		size_t last_node_time = SGA_IntervalsSet_last(&sg->nodes.nodes[i].presence).start;
 		if (last_node_time > last_node_addition) {
 			last_node_addition = last_node_time;
 		}
@@ -1235,7 +1234,7 @@ void init_events_table(SGA_StreamGraph* sg) {
 
 	size_t last_link_addition = 0;
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		size_t last_link_time = IntervalsSet_last(&sg->links.links[i].presence).start;
+		size_t last_link_time = SGA_IntervalsSet_last(&sg->links.links[i].presence).start;
 		if (last_link_time > last_link_addition) {
 			last_link_addition = last_link_time;
 		}
@@ -1264,12 +1263,12 @@ void init_events_table(SGA_StreamGraph* sg) {
 
 	// For each node
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-		Node* node = &sg->nodes.nodes[i];
+		SGA_Node* node = &sg->nodes.nodes[i];
 		// For each interval
 		for (size_t j = 0; j < node->presence.nb_intervals; j++) {
-			Interval interval = node->presence.intervals[j];
-			size_t start	  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
-			size_t end	  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			SGA_Interval interval = node->presence.intervals[j];
+			size_t start	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
+			size_t end	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
 			// Invalidate the bit of the presence mask
 			if (end < sg->events.node_events.disappearance_index) {
 				// printf("invalidating %zu\n", end);
@@ -1307,11 +1306,11 @@ void init_events_table(SGA_StreamGraph* sg) {
 	}
 
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		Link* link = &sg->links.links[i];
+		SGA_Link* link = &sg->links.links[i];
 		for (size_t j = 0; j < link->presence.nb_intervals; j++) {
-			Interval interval = link->presence.intervals[j];
-			size_t start	  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
-			size_t end	  = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			SGA_Interval interval = link->presence.intervals[j];
+			size_t start	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
+			size_t end	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
 			if (end < sg->events.link_events.disappearance_index) {
 				BitArray_set_zero(sg->events.link_events.presence_mask, end);
 			}
@@ -1322,13 +1321,13 @@ void init_events_table(SGA_StreamGraph* sg) {
 		}
 	}
 
-	for (size_t i = 1; i < sg->events.node_events.disappearance_index; i++) {
+	for (SGA_TimeId i = 1; i < sg->events.node_events.disappearance_index; i++) {
 		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {
 			for (int j = i - 2; j >= 0; j--) {
 				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < node_events[j].length; k++) {
-						if (IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
-										 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+						if (SGA_IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
+										     KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tArrayList_push(&node_events[i], node_events[j].array[k]);
 						}
 					}
@@ -1348,8 +1347,8 @@ void init_events_table(SGA_StreamGraph* sg) {
 					for (size_t k = 0; k < link_events[j].length; k++) {
 
 						// FIXME: WHY DO I HAVE TO COMPILE TWICE TO HAVE THE PERFORMANCE BOOST?
-						if (IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
-										 KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+						if (SGA_IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
+										     KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
 							size_tArrayList_push(&link_events[i], link_events[j].array[k]);
 						}
 					}
@@ -1452,7 +1451,7 @@ void reset_cache(SGA_Stream* stream) {
 	stream->cache.distinct_cardinal_of_node_set.present = false;
 }
 
-Interval SGA_StreamGraph_lifespan(SGA_StreamGraph* sg) {
+SGA_Interval SGA_StreamGraph_lifespan(SGA_StreamGraph* sg) {
 	return sg->lifespan;
 }
 

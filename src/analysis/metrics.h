@@ -2,7 +2,7 @@
 #define METRICS_H
 
 /**
- * @file metrics.h
+ * @file src/analysis/metrics.h
  * @brief Functions to compute metrics on a Stream.
  *
  * The metrics are defined in the paper. I encourage you to read it to understand the metrics as explaining them here
@@ -109,7 +109,7 @@ double SGA_Stream_coverage(SGA_Stream* stream);
  * @param[in] node_id The id of the node to get the contribution of.
  * @return The contribution of the node.
  */
-double SGA_Stream_contribution_of_node(SGA_Stream* stream, NodeId node_id);
+double SGA_Stream_contribution_of_node(SGA_Stream* stream, SGA_NodeId node_id);
 
 /**
  * @brief Compute the number of nodes in the Stream. It is noted $n$ in the paper.
@@ -124,7 +124,7 @@ double SGA_Stream_number_of_nodes(SGA_Stream* stream);
  * @param[in] link_id The id of the link to get the contribution of.
  * @return The contribution of the link.
  */
-double SGA_Stream_contribution_of_link(SGA_Stream* stream, LinkId link_id);
+double SGA_Stream_contribution_of_link(SGA_Stream* stream, SGA_LinkId link_id);
 
 /**
  * @brief Compute the number of links in the Stream. It is noted $m$ in the paper.
@@ -139,7 +139,7 @@ double SGA_Stream_number_of_links(SGA_Stream* stream);
  * @param[in] time_id The instant to get the contribution at.
  * @return The node contribution at the instant.
  */
-double SGA_Stream_node_contribution_at_instant(SGA_Stream* stream, TimeId time_id);
+double SGA_Stream_node_contribution_at_instant(SGA_Stream* stream, SGA_Time time);
 
 /**
  * @brief Compute the link contribution at a given instant in the Stream. It is noted $l_t$ in the paper.
@@ -147,7 +147,7 @@ double SGA_Stream_node_contribution_at_instant(SGA_Stream* stream, TimeId time_i
  * @param[in] time_id The instant to get the contribution at.
  * @return The link contribution at the instant.
  */
-double SGA_Stream_link_contribution_at_instant(SGA_Stream* stream, TimeId time_id);
+double SGA_Stream_link_contribution_at_instant(SGA_Stream* stream, SGA_Time time);
 
 /**
  * @brief Compute the node duration of the Stream. It is noted $k$ in the paper.
@@ -193,19 +193,19 @@ double SGA_Stream_density(SGA_Stream* stream);
  * @param[in] stream The Stream.
  * @param[in] link_id The id of the link to get the density of.
  */
-double SGA_Stream_density_of_link(SGA_Stream* stream, LinkId link_id);
+double SGA_Stream_density_of_link(SGA_Stream* stream, SGA_LinkId link_id);
 
 /**
  * @param[in] stream The Stream.
  * @param[in] node_id The id of the node to get the density of.
  */
-double SGA_Stream_density_of_node(SGA_Stream* stream, NodeId node_id);
+double SGA_Stream_density_of_node(SGA_Stream* stream, SGA_NodeId node_id);
 
 /**
  * @param[in] stream The Stream.
  * @param[in] time_id The instant to get the density at.
  */
-double SGA_Stream_density_at_instant(SGA_Stream* stream, TimeId time_id);
+double SGA_Stream_density_at_instant(SGA_Stream* stream, SGA_Time time);
 /** @} */
 
 /**
@@ -217,7 +217,7 @@ double SGA_Stream_density_at_instant(SGA_Stream* stream, TimeId time_id);
  * @param[in] stream The Stream.
  * @param[in] node_id The id of the node to get the degree of.
  */
-double SGA_Stream_degree_of_node(SGA_Stream* stream, NodeId node_id);
+double SGA_Stream_degree_of_node(SGA_Stream* stream, SGA_NodeId node_id);
 
 /**
  * @param[in] stream The Stream.
@@ -234,7 +234,7 @@ double SGA_Stream_average_node_degree(SGA_Stream* stream);
  * @param[in] stream The Stream.
  * @param[in] node_id The id of the node to get the clustering coefficient of.
  */
-double SGA_Stream_clustering_coeff_of_node(SGA_Stream* stream, NodeId node_id);
+double SGA_Stream_clustering_coeff_of_node(SGA_Stream* stream, SGA_NodeId node_id);
 
 /**
  * @param[in] stream The Stream.

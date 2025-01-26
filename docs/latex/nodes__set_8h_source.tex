@@ -11,31 +11,27 @@
 \DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
 \DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNode}{Node}}\ \mbox{\hyperlink{structNode}{Node}};}
-\DoxyCodeLine{00014\ \textcolor{comment}{//\ \#ifdef\ SGA\_INTERNAL}}
-\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNode}{Node}}\ \{}
-\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}\ \mbox{\hyperlink{structNode_a346abdaaeb5e4b688fe31758b316b069}{presence}};\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structNode_ad71cb9e358dc613defeac60f9eb83d05}{nb\_neighbours}};\ \ }
-\DoxyCodeLine{00021\ \ \ \ \ LinkId*\ \mbox{\hyperlink{structNode_aaa8bff743bab6c964e42f545c1f03302}{neighbours}};\ \ \ \ }
-\DoxyCodeLine{00022\ \};}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \textcolor{comment}{//\ \#endif\ //\ SGA\_INTERNAL}}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structNodesSet_a91eddce3c8a85482291887fb3afdf8f5}{nb\_nodes}};\ }
-\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{structNode}{Node}}*\ \mbox{\hyperlink{structNodesSet_af421500fba2027c5b0faac1fe3145b79}{nodes}};\ \ \ \ }
-\DoxyCodeLine{00032\ \}\ \mbox{\hyperlink{structNodesSet}{NodesSet}};}
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structSGA__IntervalsSet}{SGA\_IntervalsSet}}\ \mbox{\hyperlink{structSGA__Node_aa3d0ed353886aae7b2d03f6ddcc0d424}{presence}};\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structSGA__Node_a1757eb726945b972c4580b3548e58afd}{nb\_neighbours}};\ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ SGA\_LinkId*\ \mbox{\hyperlink{structSGA__Node_a35ab4a4675fc2c9a19b63333de3504da}{neighbours}};\ \ \ \ \ \ }
+\DoxyCodeLine{00020\ \}\ \mbox{\hyperlink{structSGA__Node}{SGA\_Node}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{nodes__set_8h_ade3fa780afef02897497fc25e3856c3e}{SGA\_Node\_first\_appearance}}(\mbox{\hyperlink{structSGA__Node}{SGA\_Node}}*\ node);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{nodes__set_8h_a08af617f36c544a272f20f943db880c4}{SGA\_Node\_last\_disappearance}}(\mbox{\hyperlink{structSGA__Node}{SGA\_Node}}*\ node);}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00040\ \textcolor{keywordtype}{size\_t}\ Node\_first\_appearance(\mbox{\hyperlink{structNode}{Node}}*\ node);}
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structNodesSet_a91eddce3c8a85482291887fb3afdf8f5}{nb\_nodes}};\ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{structSGA__Node}{SGA\_Node}}*\ \mbox{\hyperlink{structNodesSet_a84e66c4a70bdc5ee4cdf6c060a129849}{nodes}};\ }
+\DoxyCodeLine{00040\ \}\ \mbox{\hyperlink{structNodesSet}{NodesSet}};}
 \DoxyCodeLine{00041\ }
-\DoxyCodeLine{00046\ \textcolor{keywordtype}{size\_t}\ Node\_last\_disappearance(\mbox{\hyperlink{structNode}{Node}}*\ node);}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00053\ \mbox{\hyperlink{structNodesSet}{NodesSet}}\ NodesSet\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_nodes);}
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_STREAM\_GRAPH\_NODES\_SET\_H}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \mbox{\hyperlink{structNodesSet}{NodesSet}}\ NodesSet\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_nodes);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_STREAM\_GRAPH\_NODES\_SET\_H}}
 
 \end{DoxyCode}

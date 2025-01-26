@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['kcoredata_0',['KCoreData',['../structKCoreData.html',1,'']]],
-  ['keymomentstable_1',['KeyMomentsTable',['../structKeyMomentsTable.html',1,'']]],
-  ['keymomentstableiterator_2',['KeyMomentsTableIterator',['../structKeyMomentsTableIterator.html',1,'']]]
+  ['linkidmap_0',['LinkIdMap',['../structLinkIdMap.html',1,'']]],
+  ['linkinfo_1',['LinkInfo',['../structLinkInfo.html',1,'']]],
+  ['linkpresence_2',['LinkPresence',['../structLinkPresence.html',1,'']]],
+  ['linkpresencestream_3',['LinkPresenceStream',['../structLinkPresenceStream.html',1,'']]],
+  ['linksset_4',['LinksSet',['../structLinksSet.html',1,'']]]
 ];

@@ -24,19 +24,19 @@ void SGA_LinkStream_destroy(SGA_Stream stream) {
 	free(stream.stream_data);
 }
 
-NodesIterator LinkStream_nodes_set(SGA_StreamData* stream_data) {
+SGA_NodesIterator LinkStream_nodes_set(SGA_StreamData* stream_data) {
 	LinkStream* link_stream	      = (LinkStream*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 	return SGA_StreamGraph_nodes_set(stream_graph);
 }
 
-LinksIterator LinkStream_links_set(SGA_StreamData* stream_data) {
+SGA_LinksIterator LinkStream_links_set(SGA_StreamData* stream_data) {
 	LinkStream* link_stream	      = (LinkStream*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 	return SGA_StreamGraph_links_set(stream_graph);
 }
 
-Interval LinkStream_lifespan(SGA_StreamData* stream_data) {
+SGA_Interval LinkStream_lifespan(SGA_StreamData* stream_data) {
 	LinkStream* link_stream	      = (LinkStream*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 	return SGA_StreamGraph_lifespan(stream_graph);
@@ -48,19 +48,19 @@ size_t LinkStream_time_scale(SGA_StreamData* stream_data) {
 	return SGA_StreamGraph_time_scale(stream_graph);
 }
 
-NodesIterator LinkStream_nodes_present_at_t(SGA_StreamData* stream_data, TimeId instant) {
+SGA_NodesIterator LinkStream_nodes_present_at_t(SGA_StreamData* stream_data, SGA_TimeId instant) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
 
-	ASSERT(Interval_contains(SGA_StreamGraph_lifespan(link_stream->underlying_stream_graph), instant));
+	ASSERT(SGA_Interval_contains(SGA_StreamGraph_lifespan(link_stream->underlying_stream_graph), instant));
 
 	// In a linkstream, all nodes are present at all times
 	return SGA_StreamGraph_nodes_set(link_stream->underlying_stream_graph);
 }
 
-LinksIterator LinkStream_links_present_at_t(SGA_StreamData* stream_data, TimeId instant) {
+SGA_LinksIterator LinkStream_links_present_at_t(SGA_StreamData* stream_data, SGA_TimeId instant) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
 
-	ASSERT(Interval_contains(SGA_StreamGraph_lifespan(link_stream->underlying_stream_graph), instant));
+	ASSERT(SGA_Interval_contains(SGA_StreamGraph_lifespan(link_stream->underlying_stream_graph), instant));
 
 	return SGA_StreamGraph_links_present_at(link_stream->underlying_stream_graph, instant);
 }
@@ -69,34 +69,34 @@ typedef struct {
 	bool has_been_called;
 } TimesNodePresentIteratorData;
 
-Interval LinkStream_TimesNodePresent_next(TimesIterator* iter) {
+SGA_Interval LinkStream_TimesNodePresent_next(SGA_TimesIterator* iter) {
 	TimesNodePresentIteratorData* times_iter_data = (TimesNodePresentIteratorData*)iter->iterator_data;
 	LinkStream* ls				      = iter->stream_graph.stream_data;
 	if (times_iter_data->has_been_called) {
-		return TIMES_ITERATOR_END;
+		return SGA_TIMES_ITERATOR_END;
 	}
 	times_iter_data->has_been_called = true;
 	return SGA_StreamGraph_lifespan(ls->underlying_stream_graph);
 }
 
-void LinkStream_TimesNodePresentIterator_destroy(TimesIterator* iterator) {
+void LinkStream_TimesNodePresentIterator_destroy(SGA_TimesIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-TimesIterator LinkStream_times_node_present(SGA_StreamData* link_stream, NodeId node_id) {
+SGA_TimesIterator LinkStream_times_node_present(SGA_StreamData* link_stream, SGA_NodeId node_id) {
 	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	SGA_Stream stream			    = {.stream_data = link_stream};
 	iterator_data->has_been_called		    = false;
-	TimesIterator times_iterator		    = {
-			   .stream_graph  = stream,
-			   .iterator_data = iterator_data,
-			   .next	  = LinkStream_TimesNodePresent_next,
-			   .destroy	  = LinkStream_TimesNodePresentIterator_destroy,
-	       };
+	SGA_TimesIterator times_iterator	    = {
+		       .stream_graph  = stream,
+		       .iterator_data = iterator_data,
+		       .next	      = LinkStream_TimesNodePresent_next,
+		       .destroy	      = LinkStream_TimesNodePresentIterator_destroy,
+	   };
 	return times_iterator;
 }
 
-TimesIterator LinkStream_times_link_present(SGA_StreamData* stream_data, LinkId link_id) {
+SGA_TimesIterator LinkStream_times_link_present(SGA_StreamData* stream_data, SGA_LinkId link_id) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
 
 	ASSERT(link_id < link_stream->underlying_stream_graph->links.nb_links);
@@ -104,7 +104,7 @@ TimesIterator LinkStream_times_link_present(SGA_StreamData* stream_data, LinkId 
 	return SGA_StreamGraph_times_link_present(link_stream->underlying_stream_graph, link_id);
 }
 
-Link LinkStream_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
+SGA_Link LinkStream_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
 	LinkStream* link_stream = (LinkStream*)stream_data;
 
 	ASSERT(link_id < link_stream->underlying_stream_graph->links.nb_links);
@@ -112,7 +112,7 @@ Link LinkStream_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
 	return link_stream->underlying_stream_graph->links.links[link_id];
 }
 
-LinksIterator LinkStream_neighbours_of_node(SGA_StreamData* stream_data, NodeId node_id) {
+SGA_LinksIterator LinkStream_neighbours_of_node(SGA_StreamData* stream_data, SGA_NodeId node_id) {
 	LinkStream* link_stream	      = (LinkStream*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 
@@ -121,7 +121,7 @@ LinksIterator LinkStream_neighbours_of_node(SGA_StreamData* stream_data, NodeId 
 	return SGA_StreamGraph_neighbours_of_node(stream_graph, node_id);
 }
 
-TimesIterator LinkStream_key_moments(SGA_StreamData* stream_data) {
+SGA_TimesIterator LinkStream_key_moments(SGA_StreamData* stream_data) {
 	LinkStream* link_stream	      = (LinkStream*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 
@@ -148,7 +148,7 @@ double LS_coverage(SGA_Stream* stream_data) {
 
 size_t LS_cardinal_of_T(SGA_Stream* stream) {
 	LinkStream* ls = (LinkStream*)stream->stream_data;
-	size_t t       = Interval_duration(SGA_StreamGraph_lifespan(ls->underlying_stream_graph));
+	size_t t       = SGA_Interval_duration(SGA_StreamGraph_lifespan(ls->underlying_stream_graph));
 	UPDATE_CACHE(stream, duration, t);
 	return t;
 }
@@ -172,9 +172,9 @@ size_t LS_cardinal_of_E(SGA_Stream* stream) {
 	LinkStream* ls = (LinkStream*)stream->stream_data;
 	size_t e       = 0;
 	for (size_t i = 0; i < ls->underlying_stream_graph->links.nb_links; i++) {
-		Link link = ls->underlying_stream_graph->links.links[i];
+		SGA_Link link = ls->underlying_stream_graph->links.links[i];
 		for (size_t j = 0; j < link.presence.nb_intervals; j++) {
-			e += Interval_duration(link.presence.intervals[j]);
+			e += SGA_Interval_duration(link.presence.intervals[j]);
 		}
 	}
 	UPDATE_CACHE(stream, temporal_cardinal_of_link_set, e);

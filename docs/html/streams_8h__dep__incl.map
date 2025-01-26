@@ -1,0 +1,9 @@
+<map id="src/streams.h" name="src/streams.h">
+<area shape="rect" id="Node000001" title="Utility header to include all types of streams at once." alt="" coords="228,5,338,33"/>
+<area shape="rect" id="Node000002" href="$StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="5,81,180,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,42,127,83,125,78,234,37"/>
+<area shape="rect" id="Node000003" href="$cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="204,81,363,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,49,286,81,280,81,280,49"/>
+<area shape="rect" id="Node000004" href="$metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="387,81,550,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="331,37,437,78,435,83,329,41"/>
+</map>

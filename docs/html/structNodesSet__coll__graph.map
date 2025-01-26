@@ -1,0 +1,9 @@
+<map id="NodesSet" name="NodesSet">
+<area shape="rect" id="Node000001" title="The structure of a set of nodes in a StreamGraph." alt="" coords="30,283,114,311"/>
+<area shape="rect" id="Node000002" href="$structSGA__Node.html" title="The structure of a node in a StreamGraph." alt="" coords="27,191,117,218"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,234,75,283,69,283,69,234"/>
+<area shape="rect" id="Node000003" href="$structSGA__IntervalsSet.html" title=" " alt="" coords="5,98,139,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,141,75,190,69,190,69,141"/>
+<area shape="rect" id="Node000004" href="$structSGA__Interval.html" title=" " alt="" coords="19,5,125,33"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="75,48,75,98,69,98,69,48"/>
+</map>

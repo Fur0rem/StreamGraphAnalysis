@@ -1,14 +1,28 @@
 <map id="StreamFunctions" name="StreamFunctions">
-<area shape="rect" id="node1" title=" " alt="" coords="370,436,501,463"/>
-<area shape="rect" id="node2" href="$structNodesIterator.html" title=" " alt="" coords="5,317,116,344"/>
-<area shape="rect" id="node3" href="$structStream.html" title=" " alt="" coords="137,228,206,255"/>
-<area shape="rect" id="node7" href="$structLinksIterator.html" title=" " alt="" coords="173,317,277,344"/>
-<area shape="rect" id="node9" href="$structTimesIterator.html" title=" " alt="" coords="452,317,563,344"/>
-<area shape="rect" id="node4" href="$structStreamData.html" title=" " alt="" coords="56,139,156,165"/>
-<area shape="rect" id="node5" href="$structInformationCache.html" title=" " alt="" coords="181,139,319,165"/>
-<area shape="rect" id="node6" href="$structOptionalSizeT.html" title=" " alt="" coords="194,5,306,32"/>
-<area shape="rect" id="node8" href="$structInterval.html" title=" " alt="" coords="471,139,543,165"/>
-<area shape="rect" id="node11" href="$structIntervalsSet.html" title=" " alt="" coords="567,228,667,255"/>
-<area shape="rect" id="node10" href="$structLink.html" title=" " alt="" coords="592,317,641,344"/>
-<area shape="rect" id="node12" href="$structNode.html" title=" " alt="" coords="665,317,781,344"/>
+<area shape="rect" id="Node000001" title="Table of functions to access the data of a StreamGraph." alt="" coords="207,546,337,574"/>
+<area shape="rect" id="Node000002" href="$structSGA__Interval.html" title=" " alt="" coords="198,234,303,262"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,277,274,545,268,546,250,277"/>
+<area shape="rect" id="Node000008" href="$structSGA__TimesIterator.html" title=" " alt="" coords="288,419,432,447"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="268,274,354,417,350,420,264,277"/>
+<area shape="rect" id="Node000010" href="$structSGA__IntervalsSet.html" title=" " alt="" coords="80,327,213,354"/>
+<area shape="poly" id="edge13_Node000010_Node000002" title=" " alt="" coords="196,271,173,288,160,307,152,327,147,325,155,304,169,284,193,267"/>
+<area shape="rect" id="Node000003" href="$structSGA__NodesIterator.html" title=" " alt="" coords="456,419,600,447"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="520,463,501,495,472,524,448,534,415,543,338,555,337,549,414,538,447,529,469,520,496,492,515,460"/>
+<area shape="rect" id="Node000004" href="$structSGA__Stream.html" title="The structure of a Stream." alt="" coords="477,327,579,354"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="530,370,530,419,525,419,525,370"/>
+<area shape="rect" id="Node000007" href="$structSGA__LinksIterator.html" title=" " alt="" coords="624,419,762,447"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="589,358,629,376,658,396,682,417,678,421,655,401,627,381,587,362"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="471,362,430,381,400,401,375,421,372,417,397,396,427,376,468,357"/>
+<area shape="rect" id="Node000005" href="$structInformationCache.html" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="459,234,596,262"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="530,277,530,326,525,326,525,277"/>
+<area shape="rect" id="Node000006" href="$structOptionalSizeT.html" title="A size_t that can be optional." alt="" coords="472,5,584,33"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="530,48,530,234,525,234,525,48"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="689,463,675,495,664,511,649,524,625,536,592,545,510,556,419,561,338,562,337,557,419,556,509,551,591,539,623,531,646,520,660,508,670,493,684,461"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="344,461,283,547,279,544,340,458"/>
+<area shape="rect" id="Node000009" href="$structSGA__Link.html" title=" " alt="" coords="5,419,88,447"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="49,462,54,493,61,508,70,520,92,532,126,541,207,552,206,557,125,546,90,537,67,524,56,510,49,495,43,463"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="106,364,84,380,67,400,55,420,51,417,63,397,80,376,103,360"/>
+<area shape="rect" id="Node000011" href="$structSGA__Node.html" title="The structure of a node in a StreamGraph." alt="" coords="111,419,200,447"/>
+<area shape="poly" id="edge15_Node000011_Node000010" title=" " alt="" coords="152,369,157,419,152,419,147,370"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="150,462,147,492,149,507,156,520,178,540,207,551,205,556,176,544,152,524,144,509,142,493,144,462"/>
 </map>

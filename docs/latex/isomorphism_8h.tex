@@ -14,15 +14,27 @@ Iso-\/morphism in regular graphs means that two graphs are the same, but with di
 
 In the context of streamgraphs, we add the time dimension to the definition. Now, two streamgraphs are isomorphic if their structure is the same, and if their evolution over time is the same. That means that the bijection between the nodes also preserves the times at which the nodes are present, and the times at which the links are present. Albeit with a possible offset of the time axis between the two streamgraphs. {\ttfamily \#include "{}../stream.\+h"{}}\newline
 Include dependency graph for isomorphism.\+h\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isomorphism_8h__incl}
+\end{center}
+\end{figure}
 This graph shows which files directly or indirectly include this file\+:
-% FIG 1
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{isomorphism_8h__dep__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{isomorphism_8h_a4803e2186a745ab1d8cb350d031184df}{are\+\_\+isomorphic}} (const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
+bool \mbox{\hyperlink{isomorphism_8h_a4803e2186a745ab1d8cb350d031184df}{are\+\_\+isomorphic}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
 \begin{DoxyCompactList}\small\item\em Check if two streamgraphs are isomorphic. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454}{are\+\_\+probably\+\_\+isomorphic}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
+bool \mbox{\hyperlink{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454}{are\+\_\+probably\+\_\+isomorphic}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
 \begin{DoxyCompactList}\small\item\em Check if two streamgraphs are probably isomorphic. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -31,7 +43,7 @@ bool \mbox{\hyperlink{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454}{are\+\_\
 \index{are\_isomorphic@{are\_isomorphic}!isomorphism.h@{isomorphism.h}}
 \doxysubsubsection{\texorpdfstring{are\_isomorphic()}{are\_isomorphic()}}
 {\footnotesize\ttfamily \label{isomorphism_8h_a4803e2186a745ab1d8cb350d031184df} 
-bool are\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{const \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
+bool are\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
 
 
 
@@ -51,7 +63,7 @@ This function can be quite costly in terms of computation, as the algorithm used
 \index{are\_probably\_isomorphic@{are\_probably\_isomorphic}!isomorphism.h@{isomorphism.h}}
 \doxysubsubsection{\texorpdfstring{are\_probably\_isomorphic()}{are\_probably\_isomorphic()}}
 {\footnotesize\ttfamily \label{isomorphism_8h_a9598b88a92a7dcf8d9967cf9508fa454} 
-bool are\+\_\+probably\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
+bool are\+\_\+probably\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
 
 
 

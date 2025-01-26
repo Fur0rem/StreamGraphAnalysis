@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stream_5fdata_0',['stream_data',['../structStream.html#a28ce66216141e466d214dadd7fefb9ac',1,'Stream']]]
+  ['optimality_0',['optimality',['../structSGA__Walk.html#ab6b72bb6e9d27917781a604cbcefcbe7',1,'SGA_Walk']]]
 ];

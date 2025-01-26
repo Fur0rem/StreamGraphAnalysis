@@ -12,5 +12,6 @@ in pkgs.mkShell {
 		re2
 		clang-tools
 		doxygen
+		graphviz
 	];
 }

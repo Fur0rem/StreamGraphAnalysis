@@ -26,13 +26,13 @@ void SGA_FullStreamGraph_destroy(SGA_Stream stream) {
 	free(stream.stream_data);
 }
 
-NodesIterator FullStreamGraph_nodes_set(SGA_StreamData* stream_data) {
+SGA_NodesIterator FullStreamGraph_nodes_set(SGA_StreamData* stream_data) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	SGA_StreamGraph* stream_graph	   = full_stream_graph->underlying_stream_graph;
 	return SGA_StreamGraph_nodes_set(stream_graph);
 }
 
-Interval FullStreamGraph_lifespan(SGA_StreamData* stream_data) {
+SGA_Interval FullStreamGraph_lifespan(SGA_StreamData* stream_data) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	return full_stream_graph->underlying_stream_graph->lifespan;
 }
@@ -42,23 +42,23 @@ size_t FullStreamGraph_time_scale(SGA_StreamData* stream_data) {
 	return full_stream_graph->underlying_stream_graph->time_scale;
 }
 
-NodesIterator FullStreamGraph_nodes_present_at_t(SGA_StreamData* stream_data, TimeId instant) {
+SGA_NodesIterator FullStreamGraph_nodes_present_at_t(SGA_StreamData* stream_data, SGA_Time instant) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 
-	ASSERT(Interval_contains(full_stream_graph->underlying_stream_graph->lifespan, instant));
+	ASSERT(SGA_Interval_contains(full_stream_graph->underlying_stream_graph->lifespan, instant));
 
 	return SGA_StreamGraph_nodes_present_at(full_stream_graph->underlying_stream_graph, instant);
 }
 
-LinksIterator FullStreamGraph_links_present_at_t(SGA_StreamData* stream_data, TimeId instant) {
+SGA_LinksIterator FullStreamGraph_links_present_at_t(SGA_StreamData* stream_data, SGA_Time instant) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 
-	ASSERT(Interval_contains(full_stream_graph->underlying_stream_graph->lifespan, instant));
+	ASSERT(SGA_Interval_contains(full_stream_graph->underlying_stream_graph->lifespan, instant));
 
 	return SGA_StreamGraph_links_present_at(full_stream_graph->underlying_stream_graph, instant);
 }
 
-TimesIterator FullStreamGraph_times_node_present(SGA_StreamData* stream_data, NodeId node_id) {
+SGA_TimesIterator FullStreamGraph_times_node_present(SGA_StreamData* stream_data, SGA_NodeId node_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	SGA_StreamGraph* stream_graph	   = full_stream_graph->underlying_stream_graph;
 
@@ -67,7 +67,7 @@ TimesIterator FullStreamGraph_times_node_present(SGA_StreamData* stream_data, No
 	return SGA_StreamGraph_times_node_present(stream_graph, node_id);
 }
 
-Link FullStreamGraph_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
+SGA_Link FullStreamGraph_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 
 	ASSERT(link_id < full_stream_graph->underlying_stream_graph->links.nb_links);
@@ -75,7 +75,7 @@ Link FullStreamGraph_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
 	return full_stream_graph->underlying_stream_graph->links.links[link_id];
 }
 
-LinksIterator FullStreamGraph_neighbours_of_node(SGA_StreamData* stream_data, NodeId node_id) {
+SGA_LinksIterator FullStreamGraph_neighbours_of_node(SGA_StreamData* stream_data, SGA_NodeId node_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	SGA_StreamGraph* stream_graph	   = full_stream_graph->underlying_stream_graph;
 
@@ -84,7 +84,7 @@ LinksIterator FullStreamGraph_neighbours_of_node(SGA_StreamData* stream_data, No
 	return SGA_StreamGraph_neighbours_of_node(stream_graph, node_id);
 }
 
-Node FullStreamGraph_node_by_id(SGA_StreamData* stream_data, size_t node_id) {
+SGA_Node FullStreamGraph_node_by_id(SGA_StreamData* stream_data, size_t node_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 
 	ASSERT(node_id < full_stream_graph->underlying_stream_graph->nodes.nb_nodes);
@@ -92,12 +92,12 @@ Node FullStreamGraph_node_by_id(SGA_StreamData* stream_data, size_t node_id) {
 	return full_stream_graph->underlying_stream_graph->nodes.nodes[node_id];
 }
 
-LinksIterator FullStreamGraph_links_set(SGA_StreamData* stream_data) {
+SGA_LinksIterator FullStreamGraph_links_set(SGA_StreamData* stream_data) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	return SGA_StreamGraph_links_set(full_stream_graph->underlying_stream_graph);
 }
 
-TimesIterator FullStreamGraph_times_link_present(SGA_StreamData* stream_data, LinkId link_id) {
+SGA_TimesIterator FullStreamGraph_times_link_present(SGA_StreamData* stream_data, SGA_LinkId link_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 
 	ASSERT(link_id < full_stream_graph->underlying_stream_graph->links.nb_links);
@@ -105,7 +105,7 @@ TimesIterator FullStreamGraph_times_link_present(SGA_StreamData* stream_data, Li
 	return SGA_StreamGraph_times_link_present(full_stream_graph->underlying_stream_graph, link_id);
 }
 
-LinkId FullStreamGraph_link_between_nodes(SGA_StreamData* stream_data, NodeId node_id, NodeId other_node_id) {
+SGA_LinkId FullStreamGraph_link_between_nodes(SGA_StreamData* stream_data, SGA_NodeId node_id, SGA_NodeId other_node_id) {
 	FullStreamGraph* full_stream_graph = (FullStreamGraph*)stream_data;
 	SGA_StreamGraph* stream_graph	   = full_stream_graph->underlying_stream_graph;
 
@@ -116,7 +116,7 @@ LinkId FullStreamGraph_link_between_nodes(SGA_StreamData* stream_data, NodeId no
 	return SGA_StreamGraph_link_between_nodes(stream_graph, node_id, other_node_id);
 }
 
-TimesIterator FullStreamGraph_key_moments(SGA_StreamData* stream_data) {
+SGA_TimesIterator FullStreamGraph_key_moments(SGA_StreamData* stream_data) {
 	FullStreamGraph* link_stream  = (FullStreamGraph*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 

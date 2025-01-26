@@ -2,17 +2,17 @@
 \hypertarget{stream_8h}{}\label{stream_8h}\index{src/stream.h@{src/stream.h}}
 
 
-Create Stream\+Graph\textquotesingle{}s and manipulate generic \doxylink{structStream}{Stream}\textquotesingle{}s. A Stream\+Graph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. ~\newline
- A \doxylink{structStream}{Stream} is a wrapper/interface around a Stream\+Graph. All the functions to access the data and metrics take a \doxylink{structStream}{Stream} as input, and not a Stream\+Graph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of \doxylink{structStream}{Stream}\textquotesingle{}s can change the way a Stream\+Graph is viewed. ~\newline
- The 4 main types of \doxylink{structStream}{Stream} are\+:  
+Create Stream\+Graph\textquotesingle{}s and manipulate generic Stream\textquotesingle{}s. A Stream\+Graph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. ~\newline
+ A Stream is a wrapper/interface around a Stream\+Graph. All the functions to access the data and metrics take a Stream as input, and not a Stream\+Graph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of Stream\textquotesingle{}s can change the way a Stream\+Graph is viewed. ~\newline
+ The 4 main types of Stream are\+:  
 
 
 
 
 \doxysubsection{Detailed Description}
-Create Stream\+Graph\textquotesingle{}s and manipulate generic \doxylink{structStream}{Stream}\textquotesingle{}s. A Stream\+Graph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. ~\newline
- A \doxylink{structStream}{Stream} is a wrapper/interface around a Stream\+Graph. All the functions to access the data and metrics take a \doxylink{structStream}{Stream} as input, and not a Stream\+Graph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of \doxylink{structStream}{Stream}\textquotesingle{}s can change the way a Stream\+Graph is viewed. ~\newline
- The 4 main types of \doxylink{structStream}{Stream} are\+: 
+Create Stream\+Graph\textquotesingle{}s and manipulate generic Stream\textquotesingle{}s. A Stream\+Graph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. ~\newline
+ A Stream is a wrapper/interface around a Stream\+Graph. All the functions to access the data and metrics take a Stream as input, and not a Stream\+Graph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of Stream\textquotesingle{}s can change the way a Stream\+Graph is viewed. ~\newline
+ The 4 main types of Stream are\+: 
 
 
 \begin{DoxyItemize}
@@ -20,8 +20,8 @@ Create Stream\+Graph\textquotesingle{}s and manipulate generic \doxylink{structS
 \item Link\+Stream\+: A Stream\+Graph where all nodes are present at all times.
 \item Chunk\+Stream and Chunk\+Stream\+Small\+: A subset of the Stream\+Graph.
 \item Snapshot\+Stream\+: A Stream\+Graph at a specific time interval. ~\newline
- All of these \doxylink{structStream}{Stream}\textquotesingle{}s use an underlying Stream\+Graph, but transform the data in different ways. ~\newline
- The \doxylink{structStream}{Stream}\textquotesingle{}s do not actually modify the underlying Stream\+Graph, they only provide a different access to it. Each implementation tries to do lazy evaluation and only compute the data when needed, and transform it on the fly. Each implementation can also specialise some implementations of metrics to be more efficient. You can also manipulate multiple \doxylink{structStream}{Stream}\textquotesingle{}s of the same Stream\+Graph at the same time. 
+ All of these Stream\textquotesingle{}s use an underlying Stream\+Graph, but transform the data in different ways. ~\newline
+ The Stream\textquotesingle{}s do not actually modify the underlying Stream\+Graph, they only provide a different access to it. Each implementation tries to do lazy evaluation and only compute the data when needed, and transform it on the fly. Each implementation can also specialise some implementations of metrics to be more efficient. You can also manipulate multiple Stream\textquotesingle{}s of the same Stream\+Graph at the same time. 
 \end{DoxyItemize}{\ttfamily \#include "{}bit\+\_\+array.\+h"{}}\newline
 {\ttfamily \#include "{}interval.\+h"{}}\newline
 {\ttfamily \#include "{}stream\+\_\+graph/events\+\_\+table.\+h"{}}\newline
@@ -33,9 +33,21 @@ Create Stream\+Graph\textquotesingle{}s and manipulate generic \doxylink{structS
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 Include dependency graph for stream.\+h\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stream_8h__incl}
+\end{center}
+\end{figure}
 This graph shows which files directly or indirectly include this file\+:
-% FIG 1
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stream_8h__dep__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -44,16 +56,16 @@ struct \mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}}
 struct \mbox{\hyperlink{structOptionalSizeT}{Optional\+SizeT}}
 \begin{DoxyCompactList}\small\item\em A size\+\_\+t that can be optional. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structInformationCache}{Information\+Cache}}
-\begin{DoxyCompactList}\small\item\em A cache of information about the 4 main sets of a \doxylink{structStream}{Stream}\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{structStream}{Stream}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em A cache of information about the 4 main sets of a Stream\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}
+\begin{DoxyCompactList}\small\item\em The structure of a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
 \#define \mbox{\hyperlink{stream_8h_abb59726803b5ce07a0f602df01da5492}{FETCH\+\_\+\+CACHE}}(stream,  field)
-\begin{DoxyCompactList}\small\item\em Fetch a value from the cache of a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Fetch a value from the cache of a Stream. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{stream_8h_a991491221185567742f92f656f1e4644}{UPDATE\+\_\+\+CACHE}}(stream,  field,  value)
-\begin{DoxyCompactList}\small\item\em Write a value to the cache of a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Write a value to the cache of a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -61,9 +73,9 @@ typedef struct SGA\+\_\+\+Stream\+Graph \mbox{\hyperlink{stream_8h_a623e7910ee66
 \begin{DoxyCompactList}\small\item\em The structure used to represent a stream graph. \end{DoxyCompactList}\item 
 \Hypertarget{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}\label{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f} 
 typedef void {\bfseries SGA\+\_\+\+Stream\+Data}
-\begin{DoxyCompactList}\small\item\em Blanket struct that serves as a placeholder for the union of all stream types (Full\+Stream\+Graph, Link\+Stream, etc...). Otherwise a circular dependency would be created since these files need \doxylink{stream_8h}{stream.\+h}. It is safe to cast this to the actual type of the \doxylink{structStream}{Stream} (which is known in the \doxylink{structStream}{Stream} struct). \end{DoxyCompactList}\item 
-typedef struct \mbox{\hyperlink{structStream}{Stream}} \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}}
-\begin{DoxyCompactList}\small\item\em The structure of a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Blanket struct that serves as a placeholder for the union of all stream types (Full\+Stream\+Graph, Link\+Stream, etc...). Otherwise a circular dependency would be created since these files need \doxylink{stream_8h}{stream.\+h}. It is safe to cast this to the actual type of the Stream (which is known in the Stream struct). \end{DoxyCompactList}\item 
+typedef struct SGA\+\_\+\+Stream \mbox{\hyperlink{stream_8h_a6e6f770c3645b9702da2fd1a41a57c06}{SGA\+\_\+\+Stream}}
+\begin{DoxyCompactList}\small\item\em The structure of a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -85,12 +97,12 @@ char \texorpdfstring{$\ast$}{*} {\bfseries SGA\+\_\+\+Internal\+Format\+\_\+from
 \Hypertarget{stream_8h_a5c0760a9ab0981304d8337b87365eb63}\label{stream_8h_a5c0760a9ab0981304d8337b87365eb63} 
 \mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+external} (const char \texorpdfstring{$\ast$}{*}filename)
 \item 
-void \mbox{\hyperlink{stream_8h_aa8e8a255c59a064519663b1ab3a589b6}{init\+\_\+cache}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
-\begin{DoxyCompactList}\small\item\em Initialise the cache of a \doxylink{structStream}{Stream}, starting empty. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{stream_8h_a19b523be46204ad6b126b353469c48f4}{reset\+\_\+cache}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
-\begin{DoxyCompactList}\small\item\em Reset the cache of a \doxylink{structStream}{Stream}, emptying it. \end{DoxyCompactList}\item 
-\Hypertarget{stream_8h_a4193ccffe0daf2876defbf0566cbf2df}\label{stream_8h_a4193ccffe0daf2876defbf0566cbf2df} 
-\mbox{\hyperlink{structInterval}{Interval}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+lifespan} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
+void \mbox{\hyperlink{stream_8h_aa8e8a255c59a064519663b1ab3a589b6}{init\+\_\+cache}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Initialise the cache of a Stream, starting empty. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{stream_8h_a19b523be46204ad6b126b353469c48f4}{reset\+\_\+cache}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Reset the cache of a Stream, emptying it. \end{DoxyCompactList}\item 
+\Hypertarget{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70}\label{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+lifespan} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
 \item 
 \Hypertarget{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19}\label{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19} 
 size\+\_\+t {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+time\+\_\+scale} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
@@ -119,11 +131,11 @@ void {\bfseries events\+\_\+destroy} (\mbox{\hyperlink{structSGA__StreamGraph}{S
 \end{DoxyCode}
 
 
-Fetch a value from the cache of a \doxylink{structStream}{Stream}. 
+Fetch a value from the cache of a Stream. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream} to fetch the value from. \\
+\mbox{\texttt{ in}}  & {\em stream} & The Stream to fetch the value from. \\
 \hline
 \mbox{\texttt{ in}}  & {\em field} & The field of the cache to fetch. s If the value is present in the cache, it is returned early in the function. Otherwise, the function continues normally. \\
 \hline
@@ -142,11 +154,11 @@ Fetch a value from the cache of a \doxylink{structStream}{Stream}.
 \end{DoxyCode}
 
 
-Write a value to the cache of a \doxylink{structStream}{Stream}. 
+Write a value to the cache of a Stream. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ out}}  & {\em stream} & The \doxylink{structStream}{Stream} to write the value to. \\
+\mbox{\texttt{ out}}  & {\em stream} & The Stream to write the value to. \\
 \hline
 \mbox{\texttt{ out}}  & {\em field} & The field of the cache to write to. \\
 \hline
@@ -156,15 +168,15 @@ Write a value to the cache of a \doxylink{structStream}{Stream}.
 
 
 \doxysubsection{Typedef Documentation}
-\Hypertarget{stream_8h_abee5236d2849589cd7dd9b7347a5290e}\index{stream.h@{stream.h}!SGA\_Stream@{SGA\_Stream}}
+\Hypertarget{stream_8h_a6e6f770c3645b9702da2fd1a41a57c06}\index{stream.h@{stream.h}!SGA\_Stream@{SGA\_Stream}}
 \index{SGA\_Stream@{SGA\_Stream}!stream.h@{stream.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream}{SGA\_Stream}}
-{\footnotesize\ttfamily \label{stream_8h_abee5236d2849589cd7dd9b7347a5290e} 
-typedef struct \mbox{\hyperlink{structStream}{Stream}} \mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}}}
+{\footnotesize\ttfamily \label{stream_8h_a6e6f770c3645b9702da2fd1a41a57c06} 
+typedef struct SGA\+\_\+\+Stream SGA\+\_\+\+Stream}
 
 
 
-The structure of a \doxylink{structStream}{Stream}. 
+The structure of a Stream. 
 
 Depends on an underlying Stream\+Graph, so its lifetime/scope should be less than the Stream\+Graph. \Hypertarget{stream_8h_a623e7910ee66c5dd739f381b9f77ed24}\index{stream.h@{stream.h}!SGA\_StreamGraph@{SGA\_StreamGraph}}
 \index{SGA\_StreamGraph@{SGA\_StreamGraph}!stream.h@{stream.h}}
@@ -183,29 +195,29 @@ It is opaque to the user, you should not access its fields directly.
 \index{init\_cache@{init\_cache}!stream.h@{stream.h}}
 \doxysubsubsection{\texorpdfstring{init\_cache()}{init\_cache()}}
 {\footnotesize\ttfamily \label{stream_8h_aa8e8a255c59a064519663b1ab3a589b6} 
-void init\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+void init\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
-Initialise the cache of a \doxylink{structStream}{Stream}, starting empty. 
+Initialise the cache of a Stream, starting empty. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ out}}  & {\em stream} & The \doxylink{structStream}{Stream} to initialise the cache of. \\
+\mbox{\texttt{ out}}  & {\em stream} & The Stream to initialise the cache of. \\
 \hline
 \end{DoxyParams}
 \Hypertarget{stream_8h_a19b523be46204ad6b126b353469c48f4}\index{stream.h@{stream.h}!reset\_cache@{reset\_cache}}
 \index{reset\_cache@{reset\_cache}!stream.h@{stream.h}}
 \doxysubsubsection{\texorpdfstring{reset\_cache()}{reset\_cache()}}
 {\footnotesize\ttfamily \label{stream_8h_a19b523be46204ad6b126b353469c48f4} 
-void reset\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+void reset\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
-Reset the cache of a \doxylink{structStream}{Stream}, emptying it. 
+Reset the cache of a Stream, emptying it. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ out}}  & {\em stream} & The \doxylink{structStream}{Stream} to reset the cache of. \\
+\mbox{\texttt{ out}}  & {\em stream} & The Stream to reset the cache of. \\
 \hline
 \end{DoxyParams}

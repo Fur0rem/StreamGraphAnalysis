@@ -15,48 +15,54 @@ Table of functions to access the data of a Stream\+Graph.
 
 
 Collaboration diagram for Stream\+Functions\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structStreamFunctions__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structStreamFunctions_aabeb18bb61f6689c19986d544e3eac8e}\label{structStreamFunctions_aabeb18bb61f6689c19986d544e3eac8e} 
-\mbox{\hyperlink{structInterval}{Interval}}(\texorpdfstring{$\ast$}{*} {\bfseries lifespan} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
-\begin{DoxyCompactList}\small\item\em Lifespan of the \doxylink{structStream}{Stream}. \end{DoxyCompactList}\item 
+\Hypertarget{structStreamFunctions_a95ad29be4b5d1cbe419eb00e73a489a4}\label{structStreamFunctions_a95ad29be4b5d1cbe419eb00e73a489a4} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}(\texorpdfstring{$\ast$}{*} {\bfseries lifespan} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Lifespan of the Stream. \end{DoxyCompactList}\item 
 size\+\_\+t(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structStreamFunctions_a7a5f24457f0207b517c830faf9279586}{time\+\_\+scale}} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
 \item 
-\Hypertarget{structStreamFunctions_a7cc356d611ec49523da76f6faa9b77b7}\label{structStreamFunctions_a7cc356d611ec49523da76f6faa9b77b7} 
-\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries nodes\+\_\+set} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
-\begin{DoxyCompactList}\small\item\em Set of nodes in the \doxylink{structStream}{Stream}. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a4a39186fc511b0be8138aa92146a748a}\label{structStreamFunctions_a4a39186fc511b0be8138aa92146a748a} 
-\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries links\+\_\+set} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
-\begin{DoxyCompactList}\small\item\em Set of links in the \doxylink{structStream}{Stream}. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a4d282efa8dcb546269a8321d9169a18d}\label{structStreamFunctions_a4d282efa8dcb546269a8321d9169a18d} 
-\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries nodes\+\_\+present\+\_\+at\+\_\+t} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, Time\+Id)
+\Hypertarget{structStreamFunctions_ac6678cd13ed80f23ae64e7de3224b246}\label{structStreamFunctions_ac6678cd13ed80f23ae64e7de3224b246} 
+\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries nodes\+\_\+set} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Set of nodes in the Stream. \end{DoxyCompactList}\item 
+\Hypertarget{structStreamFunctions_a7d55dfd3dda763b73668793e2fd69128}\label{structStreamFunctions_a7d55dfd3dda763b73668793e2fd69128} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries links\+\_\+set} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Set of links in the Stream. \end{DoxyCompactList}\item 
+\Hypertarget{structStreamFunctions_a1413e5e3b7a9ee21c9b71f47a31fcac9}\label{structStreamFunctions_a1413e5e3b7a9ee21c9b71f47a31fcac9} 
+\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries nodes\+\_\+present\+\_\+at\+\_\+t} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Time)
 \begin{DoxyCompactList}\small\item\em Nodes present at a given instant. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a39d527a4b701bb2b2732edeb7f9b2773}\label{structStreamFunctions_a39d527a4b701bb2b2732edeb7f9b2773} 
-\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries links\+\_\+present\+\_\+at\+\_\+t} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, Time\+Id)
+\Hypertarget{structStreamFunctions_ab77bc6452a5009a7f960d279305a6d1b}\label{structStreamFunctions_ab77bc6452a5009a7f960d279305a6d1b} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries links\+\_\+present\+\_\+at\+\_\+t} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Time)
 \begin{DoxyCompactList}\small\item\em Links present at a given instant. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_aa07ce9980c11b7172b90d1cd1cef1010}\label{structStreamFunctions_aa07ce9980c11b7172b90d1cd1cef1010} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries times\+\_\+node\+\_\+present} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, Node\+Id)
+\Hypertarget{structStreamFunctions_a1daad7464c157d797950520fcd8007be}\label{structStreamFunctions_a1daad7464c157d797950520fcd8007be} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries times\+\_\+node\+\_\+present} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Node\+Id)
 \begin{DoxyCompactList}\small\item\em Times a node is present. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_aba11aba8e9b94726a751c897a5b4f374}\label{structStreamFunctions_aba11aba8e9b94726a751c897a5b4f374} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries times\+\_\+link\+\_\+present} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, Link\+Id)
+\Hypertarget{structStreamFunctions_a30b0601e389cca4abc37890871d89f01}\label{structStreamFunctions_a30b0601e389cca4abc37890871d89f01} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries times\+\_\+link\+\_\+present} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Link\+Id)
 \begin{DoxyCompactList}\small\item\em Times a link is present. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a42b0f94dfbfb574725f7d63d8dd821e6}\label{structStreamFunctions_a42b0f94dfbfb574725f7d63d8dd821e6} 
-\mbox{\hyperlink{structLink}{Link}}(\texorpdfstring{$\ast$}{*} {\bfseries link\+\_\+by\+\_\+id} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, size\+\_\+t)
+\Hypertarget{structStreamFunctions_a572da2dcfbfcf288f15916761afdcf91}\label{structStreamFunctions_a572da2dcfbfcf288f15916761afdcf91} 
+\mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}}(\texorpdfstring{$\ast$}{*} {\bfseries link\+\_\+by\+\_\+id} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Link\+Id)
 \begin{DoxyCompactList}\small\item\em Access a link by its id. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a922c2b87c1c7d01983fb73ae430264c7}\label{structStreamFunctions_a922c2b87c1c7d01983fb73ae430264c7} 
-\mbox{\hyperlink{structNode}{Node}}(\texorpdfstring{$\ast$}{*} {\bfseries node\+\_\+by\+\_\+id} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, size\+\_\+t)
+\Hypertarget{structStreamFunctions_a9623eef32f3aec29c249679be2c817c3}\label{structStreamFunctions_a9623eef32f3aec29c249679be2c817c3} 
+\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}}(\texorpdfstring{$\ast$}{*} {\bfseries node\+\_\+by\+\_\+id} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Node\+Id)
 \begin{DoxyCompactList}\small\item\em Access a node by its id. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_ad9054f226bad6c08a65ba8ab701a89c7}\label{structStreamFunctions_ad9054f226bad6c08a65ba8ab701a89c7} 
-\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries neighbours\+\_\+of\+\_\+node} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, Node\+Id)
+\Hypertarget{structStreamFunctions_acc827f1dbe0707c232ed32cdc83c91ed}\label{structStreamFunctions_acc827f1dbe0707c232ed32cdc83c91ed} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries neighbours\+\_\+of\+\_\+node} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Node\+Id)
 \begin{DoxyCompactList}\small\item\em Neighbours of a node. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a2bcdd3a0aec552e5f3bc97a6d4b93c8e}\label{structStreamFunctions_a2bcdd3a0aec552e5f3bc97a6d4b93c8e} 
-Link\+Id(\texorpdfstring{$\ast$}{*} {\bfseries link\+\_\+between\+\_\+nodes} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, Node\+Id, Node\+Id)
-\begin{DoxyCompactList}\small\item\em \doxylink{structLink}{Link} between two nodes. \end{DoxyCompactList}\item 
-\Hypertarget{structStreamFunctions_a6ee05429dd390290d051c498922ce316}\label{structStreamFunctions_a6ee05429dd390290d051c498922ce316} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries key\+\_\+moments} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
-\begin{DoxyCompactList}\small\item\em Key moments of the \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\Hypertarget{structStreamFunctions_a418a5f51dc8ea4f0a5ce30f3bb9ed84e}\label{structStreamFunctions_a418a5f51dc8ea4f0a5ce30f3bb9ed84e} 
+SGA\+\_\+\+Link\+Id(\texorpdfstring{$\ast$}{*} {\bfseries link\+\_\+between\+\_\+nodes} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Node\+Id, SGA\+\_\+\+Node\+Id)
+\begin{DoxyCompactList}\small\item\em Link between two nodes. \end{DoxyCompactList}\item 
+\Hypertarget{structStreamFunctions_a96ccd937d0edd3f94100a24b3241f36b}\label{structStreamFunctions_a96ccd937d0edd3f94100a24b3241f36b} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}(\texorpdfstring{$\ast$}{*} {\bfseries key\+\_\+moments} )(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Key moments of the Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Data Documentation}

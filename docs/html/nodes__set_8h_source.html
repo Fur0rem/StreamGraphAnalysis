@@ -108,45 +108,43 @@ $(function(){initNavTree('nodes__set_8h_source.html',''); initResizable(true); }
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;../interval.h&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structNode.html">Node</a> <a class="code hl_struct" href="structNode.html">Node</a>;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">// #ifdef SGA_INTERNAL</span></div>
-<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structNode.html">   18</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structNode.html">Node</a> {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structNode.html#a346abdaaeb5e4b688fe31758b316b069">   19</a></span>    <a class="code hl_struct" href="structIntervalsSet.html">IntervalsSet</a> <a class="code hl_variable" href="structNode.html#a346abdaaeb5e4b688fe31758b316b069">presence</a>; </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structNode.html#ad71cb9e358dc613defeac60f9eb83d05">   20</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structNode.html#ad71cb9e358dc613defeac60f9eb83d05">nb_neighbours</a>;  </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structNode.html#aaa8bff743bab6c964e42f545c1f03302">   21</a></span>    LinkId* <a class="code hl_variable" href="structNode.html#aaa8bff743bab6c964e42f545c1f03302">neighbours</a>;    </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>};</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span></div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structSGA__Node.html">   16</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structSGA__Node.html#aa3d0ed353886aae7b2d03f6ddcc0d424">   17</a></span>    <a class="code hl_struct" href="structSGA__IntervalsSet.html">SGA_IntervalsSet</a> <a class="code hl_variable" href="structSGA__Node.html#aa3d0ed353886aae7b2d03f6ddcc0d424">presence</a>; </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structSGA__Node.html#a1757eb726945b972c4580b3548e58afd">   18</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structSGA__Node.html#a1757eb726945b972c4580b3548e58afd">nb_neighbours</a>;     </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structSGA__Node.html#a35ab4a4675fc2c9a19b63333de3504da">   19</a></span>    SGA_LinkId* <a class="code hl_variable" href="structSGA__Node.html#a35ab4a4675fc2c9a19b63333de3504da">neighbours</a>;      </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>} <a class="code hl_struct" href="structSGA__Node.html">SGA_Node</a>;</div>
 </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">// #endif // SGA_INTERNAL</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structNodesSet.html">   29</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5">   30</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5">nb_nodes</a>; </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structNodesSet.html#af421500fba2027c5b0faac1fe3145b79">   31</a></span>    <a class="code hl_struct" href="structNode.html">Node</a>* <a class="code hl_variable" href="structNodesSet.html#af421500fba2027c5b0faac1fe3145b79">nodes</a>;    </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>} <a class="code hl_struct" href="structNodesSet.html">NodesSet</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keywordtype">size_t</span> <a class="code hl_function" href="nodes__set_8h.html#ade3fa780afef02897497fc25e3856c3e">SGA_Node_first_appearance</a>(<a class="code hl_struct" href="structSGA__Node.html">SGA_Node</a>* node);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keywordtype">size_t</span> <a class="code hl_function" href="nodes__set_8h.html#a08af617f36c544a272f20f943db880c4">SGA_Node_last_disappearance</a>(<a class="code hl_struct" href="structSGA__Node.html">SGA_Node</a>* node);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span></div>
+<div class="foldopen" id="foldopen00037" data-start="{" data-end="};">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structNodesSet.html">   37</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5">   38</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5">nb_nodes</a>; </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849">   39</a></span>    <a class="code hl_struct" href="structSGA__Node.html">SGA_Node</a>* <a class="code hl_variable" href="structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849">nodes</a>; </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>} <a class="code hl_struct" href="structNodesSet.html">NodesSet</a>;</div>
 </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#ifdef SGA_INTERNAL</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keywordtype">size_t</span> Node_first_appearance(<a class="code hl_struct" href="structNode.html">Node</a>* node);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keywordtype">size_t</span> Node_last_disappearance(<a class="code hl_struct" href="structNode.html">Node</a>* node);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><a class="code hl_struct" href="structNodesSet.html">NodesSet</a> NodesSet_alloc(<span class="keywordtype">size_t</span> nb_nodes);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#endif </span><span class="comment">// SGA_STREAM_GRAPH_NODES_SET_H</span></div>
-<div class="ttc" id="astructIntervalsSet_html"><div class="ttname"><a href="structIntervalsSet.html">IntervalsSet</a></div><div class="ttdef"><b>Definition</b> interval.h:15</div></div>
-<div class="ttc" id="astructNode_html"><div class="ttname"><a href="structNode.html">Node</a></div><div class="ttdoc">The structure of a node in a StreamGraph.</div><div class="ttdef"><b>Definition</b> nodes_set.h:18</div></div>
-<div class="ttc" id="astructNode_html_a346abdaaeb5e4b688fe31758b316b069"><div class="ttname"><a href="structNode.html#a346abdaaeb5e4b688fe31758b316b069">Node::presence</a></div><div class="ttdeci">IntervalsSet presence</div><div class="ttdoc">All the time intervals the node is present.</div><div class="ttdef"><b>Definition</b> nodes_set.h:19</div></div>
-<div class="ttc" id="astructNode_html_aaa8bff743bab6c964e42f545c1f03302"><div class="ttname"><a href="structNode.html#aaa8bff743bab6c964e42f545c1f03302">Node::neighbours</a></div><div class="ttdeci">LinkId * neighbours</div><div class="ttdoc">Array of neighbours of the node.</div><div class="ttdef"><b>Definition</b> nodes_set.h:21</div></div>
-<div class="ttc" id="astructNode_html_ad71cb9e358dc613defeac60f9eb83d05"><div class="ttname"><a href="structNode.html#ad71cb9e358dc613defeac60f9eb83d05">Node::nb_neighbours</a></div><div class="ttdeci">size_t nb_neighbours</div><div class="ttdoc">Number of neighbours of the node.</div><div class="ttdef"><b>Definition</b> nodes_set.h:20</div></div>
-<div class="ttc" id="astructNodesSet_html"><div class="ttname"><a href="structNodesSet.html">NodesSet</a></div><div class="ttdoc">The structure of a set of nodes in a StreamGraph.</div><div class="ttdef"><b>Definition</b> nodes_set.h:29</div></div>
-<div class="ttc" id="astructNodesSet_html_a91eddce3c8a85482291887fb3afdf8f5"><div class="ttname"><a href="structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5">NodesSet::nb_nodes</a></div><div class="ttdeci">size_t nb_nodes</div><div class="ttdoc">Number of nodes in the set.</div><div class="ttdef"><b>Definition</b> nodes_set.h:30</div></div>
-<div class="ttc" id="astructNodesSet_html_af421500fba2027c5b0faac1fe3145b79"><div class="ttname"><a href="structNodesSet.html#af421500fba2027c5b0faac1fe3145b79">NodesSet::nodes</a></div><div class="ttdeci">Node * nodes</div><div class="ttdoc">Array of nodes.</div><div class="ttdef"><b>Definition</b> nodes_set.h:31</div></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#ifdef SGA_INTERNAL</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><a class="code hl_struct" href="structNodesSet.html">NodesSet</a> NodesSet_alloc(<span class="keywordtype">size_t</span> nb_nodes);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif </span><span class="comment">// SGA_STREAM_GRAPH_NODES_SET_H</span></div>
+<div class="ttc" id="anodes__set_8h_html_a08af617f36c544a272f20f943db880c4"><div class="ttname"><a href="nodes__set_8h.html#a08af617f36c544a272f20f943db880c4">SGA_Node_last_disappearance</a></div><div class="ttdeci">size_t SGA_Node_last_disappearance(SGA_Node *node)</div><div class="ttdoc">Get the last time the node disappears in the StreamGraph.</div><div class="ttdef"><b>Definition</b> nodes_set.c:21</div></div>
+<div class="ttc" id="anodes__set_8h_html_ade3fa780afef02897497fc25e3856c3e"><div class="ttname"><a href="nodes__set_8h.html#ade3fa780afef02897497fc25e3856c3e">SGA_Node_first_appearance</a></div><div class="ttdeci">size_t SGA_Node_first_appearance(SGA_Node *node)</div><div class="ttdoc">Get the first time the node appears in the StreamGraph.</div><div class="ttdef"><b>Definition</b> nodes_set.c:16</div></div>
+<div class="ttc" id="astructNodesSet_html"><div class="ttname"><a href="structNodesSet.html">NodesSet</a></div><div class="ttdoc">The structure of a set of nodes in a StreamGraph.</div><div class="ttdef"><b>Definition</b> nodes_set.h:37</div></div>
+<div class="ttc" id="astructNodesSet_html_a84e66c4a70bdc5ee4cdf6c060a129849"><div class="ttname"><a href="structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849">NodesSet::nodes</a></div><div class="ttdeci">SGA_Node * nodes</div><div class="ttdoc">Array of nodes.</div><div class="ttdef"><b>Definition</b> nodes_set.h:39</div></div>
+<div class="ttc" id="astructNodesSet_html_a91eddce3c8a85482291887fb3afdf8f5"><div class="ttname"><a href="structNodesSet.html#a91eddce3c8a85482291887fb3afdf8f5">NodesSet::nb_nodes</a></div><div class="ttdeci">size_t nb_nodes</div><div class="ttdoc">Number of nodes in the set.</div><div class="ttdef"><b>Definition</b> nodes_set.h:38</div></div>
+<div class="ttc" id="astructSGA__IntervalsSet_html"><div class="ttname"><a href="structSGA__IntervalsSet.html">SGA_IntervalsSet</a></div><div class="ttdef"><b>Definition</b> interval.h:15</div></div>
+<div class="ttc" id="astructSGA__Node_html"><div class="ttname"><a href="structSGA__Node.html">SGA_Node</a></div><div class="ttdoc">The structure of a node in a StreamGraph.</div><div class="ttdef"><b>Definition</b> nodes_set.h:16</div></div>
+<div class="ttc" id="astructSGA__Node_html_a1757eb726945b972c4580b3548e58afd"><div class="ttname"><a href="structSGA__Node.html#a1757eb726945b972c4580b3548e58afd">SGA_Node::nb_neighbours</a></div><div class="ttdeci">size_t nb_neighbours</div><div class="ttdoc">Number of neighbours of the node.</div><div class="ttdef"><b>Definition</b> nodes_set.h:18</div></div>
+<div class="ttc" id="astructSGA__Node_html_a35ab4a4675fc2c9a19b63333de3504da"><div class="ttname"><a href="structSGA__Node.html#a35ab4a4675fc2c9a19b63333de3504da">SGA_Node::neighbours</a></div><div class="ttdeci">SGA_LinkId * neighbours</div><div class="ttdoc">Array of neighbours of the node.</div><div class="ttdef"><b>Definition</b> nodes_set.h:19</div></div>
+<div class="ttc" id="astructSGA__Node_html_aa3d0ed353886aae7b2d03f6ddcc0d424"><div class="ttname"><a href="structSGA__Node.html#aa3d0ed353886aae7b2d03f6ddcc0d424">SGA_Node::presence</a></div><div class="ttdeci">SGA_IntervalsSet presence</div><div class="ttdoc">All the time intervals the node is present.</div><div class="ttdef"><b>Definition</b> nodes_set.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

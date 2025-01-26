@@ -1,4 +1,5 @@
 <map id="Arena" name="Arena">
-<area shape="rect" id="node1" title=" " alt="" coords="22,95,82,121"/>
-<area shape="rect" id="node2" href="$structInnerArena.html" title=" " alt="" coords="5,5,99,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="22,98,81,126"/>
+<area shape="rect" id="Node000002" href="$structInnerArena.html" title=" " alt="" coords="5,5,98,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,48,54,98,49,98,49,48"/>
 </map>

@@ -9,8 +9,8 @@
 #include "test.h"
 
 #define PUSH_SINGLE_INTERVAL(kcore, node, start, end)                                                                                      \
-	NodePresenceArrayList_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = IntervalArrayList_new()});                \
-	IntervalArrayList_push(&(kcore).nodes.array[node].presence, Interval_from(start, end));
+	NodePresenceArrayList_push(&(kcore).nodes, (NodePresence){.node_id = (node), .presence = SGA_IntervalArrayList_new()});            \
+	SGA_IntervalArrayList_push(&(kcore).nodes.array[node].presence, SGA_Interval_from(start, end));
 
 bool test_k_cores() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/kcores_test.txt");
@@ -28,15 +28,15 @@ bool test_k_cores() {
 
 	SGA_KCore expected_kcore_2 = {NodePresenceArrayList_new()};
 	PUSH_SINGLE_INTERVAL(expected_kcore_2, 0, 4, 5);
-	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = IntervalArrayList_new()});
-	IntervalArrayList_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(4, 5));
-	IntervalArrayList_push(&(expected_kcore_2).nodes.array[1].presence, Interval_from(7, 9));
-	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = IntervalArrayList_new()});
-	IntervalArrayList_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(4, 5));
-	IntervalArrayList_push(&(expected_kcore_2).nodes.array[2].presence, Interval_from(7, 9));
-	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = IntervalArrayList_new()});
-	IntervalArrayList_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(4, 5));
-	IntervalArrayList_push(&(expected_kcore_2).nodes.array[3].presence, Interval_from(7, 9));
+	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 1, .presence = SGA_IntervalArrayList_new()});
+	SGA_IntervalArrayList_push(&(expected_kcore_2).nodes.array[1].presence, SGA_Interval_from(4, 5));
+	SGA_IntervalArrayList_push(&(expected_kcore_2).nodes.array[1].presence, SGA_Interval_from(7, 9));
+	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 2, .presence = SGA_IntervalArrayList_new()});
+	SGA_IntervalArrayList_push(&(expected_kcore_2).nodes.array[2].presence, SGA_Interval_from(4, 5));
+	SGA_IntervalArrayList_push(&(expected_kcore_2).nodes.array[2].presence, SGA_Interval_from(7, 9));
+	NodePresenceArrayList_push(&(expected_kcore_2).nodes, (NodePresence){.node_id = 3, .presence = SGA_IntervalArrayList_new()});
+	SGA_IntervalArrayList_push(&(expected_kcore_2).nodes.array[3].presence, SGA_Interval_from(4, 5));
+	SGA_IntervalArrayList_push(&(expected_kcore_2).nodes.array[3].presence, SGA_Interval_from(7, 9));
 
 	SGA_KCore expected_kcore_3 = {NodePresenceArrayList_new()};
 
@@ -62,19 +62,19 @@ bool test_k_cores_chunk() {
 	SGA_StreamGraph sg	    = SGA_StreamGraph_from_external("data/kcores_with_L.txt");
 	SGA_StreamGraph kcores_only = SGA_StreamGraph_from_external("data/kcores_test.txt");
 
-	LinkIdArrayList links = LinkIdArrayList_new();
-	NodeIdArrayList nodes = NodeIdArrayList_new();
-	NodeIdArrayList_push(&nodes, 1);
-	NodeIdArrayList_push(&nodes, 3);
-	NodeIdArrayList_push(&nodes, 5);
-	NodeIdArrayList_push(&nodes, 7);
+	SGA_LinkIdArrayList links = SGA_LinkIdArrayList_new();
+	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_new();
+	SGA_NodeIdArrayList_push(&nodes, 1);
+	SGA_NodeIdArrayList_push(&nodes, 3);
+	SGA_NodeIdArrayList_push(&nodes, 5);
+	SGA_NodeIdArrayList_push(&nodes, 7);
 
-	Interval snapshot = Interval_from(0, 10);
-	SGA_Stream st	  = SGA_ChunkStream_without(&sg, &nodes, &links, snapshot);
-	SGA_Stream og	  = SGA_FullStreamGraph_from(&kcores_only);
+	SGA_Interval snapshot = SGA_Interval_from(0, 10);
+	SGA_Stream st	      = SGA_ChunkStream_without(&sg, &nodes, &links, snapshot);
+	SGA_Stream og	      = SGA_FullStreamGraph_from(&kcores_only);
 
-	NodeIdArrayList_destroy(nodes);
-	LinkIdArrayList_destroy(links);
+	SGA_NodeIdArrayList_destroy(nodes);
+	SGA_LinkIdArrayList_destroy(links);
 
 	SGA_KCore kcore_1    = SGA_Stream_k_core(&st, 1);
 	SGA_KCore og_kcore_1 = SGA_Stream_k_core(&og, 1);

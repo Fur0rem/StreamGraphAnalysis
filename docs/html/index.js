@@ -5,11 +5,10 @@ var index =
     [ "Regarding the paper", "index.html#autotoc_md3", null ],
     [ "Basic information about the implementation", "index.html#autotoc_md4", null ],
     [ "How to use the library", "index.html#autotoc_md5", null ],
-    [ "Common mistakes", "index.html#autotoc_md6", null ],
-    [ "Data format", "index.html#autotoc_md7", null ],
-    [ "What it can do", "index.html#autotoc_md8", null ],
-    [ "What it cannot do", "index.html#autotoc_md9", null ],
-    [ "Specifications of the stream graph data", "index.html#autotoc_md10", null ],
-    [ "Project guidelines and organisation", "index.html#autotoc_md11", null ],
-    [ "Supported metrics and analysis", "index.html#autotoc_md12", null ]
+    [ "Data format", "index.html#autotoc_md6", null ],
+    [ "What it can do", "index.html#autotoc_md7", null ],
+    [ "What it cannot do", "index.html#autotoc_md8", null ],
+    [ "Specifications of the stream graph data", "index.html#autotoc_md9", null ],
+    [ "Project guidelines and organisation", "index.html#autotoc_md10", null ],
+    [ "Supported metrics and analysis", "index.html#autotoc_md11", null ]
 ];

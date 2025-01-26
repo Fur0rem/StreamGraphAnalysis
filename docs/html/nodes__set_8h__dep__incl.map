@@ -1,0 +1,41 @@
+<map id="src/stream_graph/nodes_set.h" name="src/stream_graph/nodes_set.h">
+<area shape="rect" id="Node000001" title="A node and a set of nodes of a StreamGraph." alt="" coords="720,5,898,50"/>
+<area shape="rect" id="Node000002" href="$stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="578,98,680,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="748,59,659,100,657,95,746,55"/>
+<area shape="rect" id="Node000012" href="$stream__functions_8h.html" title="Functions to access the data of a StreamGraph." alt="" coords="904,249,1074,277"/>
+<area shape="poly" id="edge27_Node000001_Node000012" title=" " alt="" coords="837,61,923,172,981,247,977,250,919,175,833,64"/>
+<area shape="rect" id="Node000003" href="$StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="339,325,514,353"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="597,136,533,176,489,204,453,216,422,220,395,228,383,237,371,251,367,260,367,269,375,289,391,307,409,323,406,327,387,311,371,292,362,270,362,259,367,248,379,233,393,223,421,215,452,211,487,199,530,171,594,132"/>
+<area shape="rect" id="Node000004" href="$cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="584,325,743,353"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="636,140,664,324,659,325,631,141"/>
+<area shape="rect" id="Node000005" href="$cliques_8h.html" title="Find maximal cliques in a Stream." alt="" coords="381,249,541,277"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="606,138,533,203,478,251,475,247,530,199,602,134"/>
+<area shape="rect" id="Node000006" href="$isomorphism_8h.html" title="Functions to check if two streamgraphs are isomorphic." alt="" coords="5,249,205,277"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="562,115,453,117,325,125,264,133,208,144,163,158,132,176,119,192,112,212,107,249,102,248,107,210,115,189,129,172,161,153,207,139,263,128,325,120,453,112,562,110"/>
+<area shape="rect" id="Node000007" href="$kcores_8h.html" title="Functions to compute the k&#45;cores of a Stream." alt="" coords="318,174,476,201"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="574,133,439,176,438,171,572,128"/>
+<area shape="rect" id="Node000008" href="$metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="969,325,1132,353"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="696,119,805,136,930,163,990,181,1042,200,1083,223,1110,248,1115,259,1115,270,1106,292,1089,311,1071,327,1068,323,1086,307,1101,289,1110,269,1109,260,1105,251,1080,227,1040,205,988,186,929,169,804,142,695,124"/>
+<area shape="rect" id="Node000009" href="$metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="666,249,829,277"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="651,136,739,247,735,250,646,139"/>
+<area shape="rect" id="Node000010" href="$walks_8h.html" title="Analysis regarding walks in streams and computations related to it." alt="" coords="142,174,294,201"/>
+<area shape="poly" id="edge15_Node000002_Node000010" title=" " alt="" coords="563,128,293,176,292,170,562,122"/>
+<area shape="rect" id="Node000011" href="$iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="757,174,869,201"/>
+<area shape="poly" id="edge17_Node000002_Node000011" title=" " alt="" coords="677,129,781,171,779,176,675,134"/>
+<area shape="poly" id="edge26_Node000002_Node000012" title=" " alt="" coords="696,118,786,137,835,152,882,171,912,189,939,209,979,247,975,251,935,213,909,193,880,176,834,157,785,142,695,123"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="451,292,435,326,430,323,446,290"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="512,280,628,322,627,327,510,285"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="178,278,369,322,368,327,177,284"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="362,212,344,226,330,242,324,259,327,276,339,291,353,304,387,322,384,327,350,308,335,295,323,278,318,258,326,239,341,222,358,208"/>
+<area shape="poly" id="edge13_Node000009_Node000003" title=" " alt="" coords="676,284,485,327,484,322,674,278"/>
+<area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="817,279,996,322,995,327,816,284"/>
+<area shape="poly" id="edge16_Node000010_Node000003" title=" " alt="" coords="243,211,277,242,317,275,360,301,400,322,397,327,357,306,314,279,274,246,239,214"/>
+<area shape="poly" id="edge18_Node000011_Node000003" title=" " alt="" coords="766,210,655,252,461,327,459,322,653,247,764,205"/>
+<area shape="poly" id="edge19_Node000011_Node000004" title=" " alt="" coords="835,213,849,245,850,262,843,278,823,300,799,315,772,326,744,333,743,328,770,321,796,310,820,295,839,276,844,261,843,246,830,215"/>
+<area shape="poly" id="edge20_Node000011_Node000008" title=" " alt="" coords="884,192,943,199,1004,211,1055,226,1075,236,1089,248,1096,268,1090,290,1078,310,1065,327,1061,323,1074,307,1085,288,1090,268,1084,251,1072,241,1053,231,1002,216,942,205,884,197"/>
+<area shape="poly" id="edge21_Node000011_Node000009" title=" " alt="" coords="793,215,761,251,757,247,789,211"/>
+<area shape="poly" id="edge22_Node000011_Node000012" title=" " alt="" coords="860,205,959,246,957,251,857,210"/>
+<area shape="poly" id="edge23_Node000012_Node000003" title=" " alt="" coords="890,280,514,329,513,324,889,275"/>
+<area shape="poly" id="edge24_Node000012_Node000004" title=" " alt="" coords="916,284,723,327,722,322,915,278"/>
+<area shape="poly" id="edge25_Node000012_Node000008" title=" " alt="" coords="1012,287,1042,323,1037,326,1008,291"/>
+</map>

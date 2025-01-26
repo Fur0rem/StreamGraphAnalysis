@@ -2,14 +2,14 @@
 \hypertarget{cliques_8c}{}\label{cliques_8c}\index{src/analysis/cliques.c@{src/analysis/cliques.c}}
 
 
-Implementation of the algorithm to find maximal cliques in a \doxylink{structStream}{Stream}. ~\newline
+Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
  The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}}.  
 
 
 
 
 \doxysubsection{Detailed Description}
-Implementation of the algorithm to find maximal cliques in a \doxylink{structStream}{Stream}. ~\newline
+Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
  The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}}. 
 
 {\ttfamily \#include "{}cliques.\+h"{}}\newline
@@ -29,7 +29,13 @@ Implementation of the algorithm to find maximal cliques in a \doxylink{structStr
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 Include dependency graph for cliques.\+c\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cliques_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -265,8 +271,8 @@ void {\bfseries Max\+Cliques\+From\+Edges} (const size\+\_\+t\+Array\+List New\+
 \Hypertarget{cliques_8c_af75771f32c0b9fe7f2a16f998d3d5634}\label{cliques_8c_af75771f32c0b9fe7f2a16f998d3d5634} 
 SGA\+\_\+\+Clique\+Array\+List {\bfseries cliques\+\_\+sequential} (const \mbox{\hyperlink{structLinkPresenceStream}{Link\+Presence\+Stream}} \texorpdfstring{$\ast$}{*}ls\+\_\+end, \mbox{\hyperlink{structDatastructure}{Datastructure}} \texorpdfstring{$\ast$}{*}d, \mbox{\hyperlink{structMyCounter}{My\+Counter}} \texorpdfstring{$\ast$}{*}mc)
 \item 
-SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8c_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
-\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8c_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
+\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -274,15 +280,15 @@ SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8c_a2eb6ce869a1373dedfa3
 \index{SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}!cliques.c@{cliques.c}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_maximal\_cliques()}{SGA\_Stream\_maximal\_cliques()}}
 {\footnotesize\ttfamily \label{cliques_8c_a2eb6ce869a1373dedfa311a0ce84086f} 
-SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
+SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
 
 
 
-Find the maximal cliques in a \doxylink{structStream}{Stream}. 
+Find the maximal cliques in a Stream. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream} to find the maximal cliques in. \\
+\mbox{\texttt{ in}}  & {\em stream} & The Stream to find the maximal cliques in. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

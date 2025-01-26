@@ -1,14 +1,10 @@
 - Clean up walks source code cause it is soooooo ugly
 - Skip n for iterators
-- Safer version of the Stream Graph, with mutex and lazy event table evaluation
 - Better error messages
 - Name coherency between FSG/FullStreamGraph ect...
 - Name guard for different iterators of the different stream types
-- src/streams -> src/streams
 - Check for data coherence in the input file
 - Automate tests and formatting using GitHub actions
-- Choose between calling nodes temporal nodes or nodes
-- Rename test files (?)
 - Put NO_FREE next to its related structures and also have one name for destroy/free
 - Benchmarking framework
 - Change mallocs to the safe macro MALLOC defined in utils.h
@@ -30,6 +26,7 @@
 - data_access for key_moments + induced_graph -> time_access
 - Moments/time -> instant
 - Automatic initialisation of key moments table and events
+- @param[in/out/in,out] for documentation
 
 Metrics (V for implemeted, X for not implemented):
 - Coverage V

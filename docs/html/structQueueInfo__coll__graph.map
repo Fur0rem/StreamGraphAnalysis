@@ -1,0 +1,6 @@
+<map id="QueueInfo" name="QueueInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="14,98,102,126"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="119,103,129,112,120,121,103,123,102,118,118,116,124,112,116,107"/>
+<area shape="rect" id="Node000002" href="$structSGA__Interval.html" title=" " alt="" coords="5,5,111,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,48,61,98,55,98,55,48"/>
+</map>

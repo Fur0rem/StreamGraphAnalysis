@@ -2,22 +2,28 @@
 \hypertarget{structInformationCache}{}\label{structInformationCache}\index{InformationCache@{InformationCache}}
 
 
-A cache of information about the 4 main sets of a \doxylink{structStream}{Stream}\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V.  
+A cache of information about the 4 main sets of a Stream\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V.  
 
 
 
 
 \doxysubsection{Detailed Description}
-A cache of information about the 4 main sets of a \doxylink{structStream}{Stream}\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V. 
+A cache of information about the 4 main sets of a Stream\+: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V. 
 
-Some metrics share the same computation, for example, the average node degree, compactness, and density all need the cardinal of W. Instead of recomputing the same value multiple times, we store it in a cache, as all the values are constant for a given \doxylink{structStream}{Stream}. 
+Some metrics share the same computation, for example, the average node degree, compactness, and density all need the cardinal of W. Instead of recomputing the same value multiple times, we store it in a cache, as all the values are constant for a given Stream. 
 
 {\ttfamily \#include $<$stream.\+h$>$}
 
 
 
 Collaboration diagram for Information\+Cache\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{structInformationCache__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 

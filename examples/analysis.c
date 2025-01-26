@@ -32,8 +32,8 @@ int main() {
 		SGA_KCore_destroy(kcore);
 	}
 
-	printf("Robustness by length: %f\n", Stream_robustness_by_length(&st));
-	printf("Robustness by duration: %f\n", Stream_robustness_by_duration(&st));
+	printf("Robustness by length: %f\n", SGA_Stream_robustness_by_length(&st));
+	printf("Robustness by duration: %f\n", SGA_Stream_robustness_by_duration(&st));
 
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);

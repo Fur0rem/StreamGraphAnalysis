@@ -15,7 +15,7 @@
  * @param[in] stream_graph The StreamGraph to get the links from.
  * @return An iterator over all the links of the StreamGraph.
  */
-LinksIterator SGA_StreamGraph_links_set(SGA_StreamGraph* stream_graph);
+SGA_LinksIterator SGA_StreamGraph_links_set(SGA_StreamGraph* stream_graph);
 
 /**
  * @brief Get the links present at a given time in a StreamGraph.
@@ -23,7 +23,7 @@ LinksIterator SGA_StreamGraph_links_set(SGA_StreamGraph* stream_graph);
  * @param[in] t The time at which to get the links present.
  * @return An iterator over the links present at the given time in the given StreamGraph.
  */
-LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, TimeId t);
+SGA_LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, SGA_Time t);
 
 /**
  * @brief Get a link by its id.
@@ -31,7 +31,7 @@ LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, Ti
  * @param[in] link_id The id of the link to get.
  * @return The link with the given id.
  */
-Link SGA_StreamGraph_link_by_id(SGA_StreamGraph* stream_graph, LinkId link_id);
+SGA_Link SGA_StreamGraph_link_by_id(SGA_StreamGraph* stream_graph, SGA_LinkId link_id);
 
 /**
  * @brief Get the times a link is present in a StreamGraph.
@@ -39,7 +39,7 @@ Link SGA_StreamGraph_link_by_id(SGA_StreamGraph* stream_graph, LinkId link_id);
  * @param[in] link_id The id of the link to get the times for.
  * @return An iterator over the times the link is present.
  */
-TimesIterator SGA_StreamGraph_times_link_present(SGA_StreamGraph* stream_graph, LinkId link_id);
+SGA_TimesIterator SGA_StreamGraph_times_link_present(SGA_StreamGraph* stream_graph, SGA_LinkId link_id);
 
 /**
  * @brief Get the id of the link between two nodes.
@@ -48,7 +48,7 @@ TimesIterator SGA_StreamGraph_times_link_present(SGA_StreamGraph* stream_graph, 
  * @param[in] other_node_id The id of the second node.
  * @return The id of the link between the two nodes.
  */
-LinkId SGA_StreamGraph_link_between_nodes(SGA_StreamGraph* stream_graph, NodeId node_id, NodeId other_node_id);
+SGA_LinkId SGA_StreamGraph_link_between_nodes(SGA_StreamGraph* stream_graph, SGA_NodeId node_id, SGA_NodeId other_node_id);
 
 #endif // SGA_INTERNAL
 

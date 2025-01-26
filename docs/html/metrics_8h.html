@@ -104,10 +104,10 @@ $(function(){initNavTree('metrics_8h.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>Functions to compute metrics on a <a class="el" href="structStream.html">Stream</a>.  
+<p>Functions to compute metrics on a Stream.  
 <a href="#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Functions to compute metrics on a <a class="el" href="structStream.html">Stream</a>. </p>
+<div class="textblock"><p>Functions to compute metrics on a Stream. </p>
 <p>The metrics are defined in the paper. I encourage you to read it to understand the metrics as explaining them here would be redundant. Most of the functions have been named the same way, but some have been renamed to be more coherent with the implementation, if I changed the name, I will give the name of the metric in the paper. <br  />
  The metrics documentation have been split per section of the paper and ordered in the same order as in the paper. </p>
 </div><div class="textblock"><code>#include &quot;../generic_data_structures/arraylist.h&quot;</code><br />
@@ -120,34 +120,99 @@ Include dependency graph for metrics.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="metrics_8h__incl.png" border="0" usemap="#asrc_2analysis_2metrics_8h" alt=""/></div>
 <map name="asrc_2analysis_2metrics_8h" id="asrc_2analysis_2metrics_8h">
-<area shape="rect" title="Functions to compute metrics on a Stream." alt="" coords="976,5,1083,32"/>
-<area shape="rect" title=" " alt="" coords="1029,557,1208,599"/>
-<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="937,326,1021,353"/>
-<area shape="rect" title=" " alt="" coords="423,647,497,673"/>
-<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="722,80,811,107"/>
-<area shape="rect" href="stream_8h_source.html" title=" " alt="" coords="727,155,807,181"/>
-<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="841,408,908,435"/>
-<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="1334,565,1397,591"/>
-<area shape="rect" title=" " alt="" coords="1493,647,1576,673"/>
-<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="825,483,911,509"/>
-<area shape="rect" title=" " alt="" coords="573,557,752,599"/>
-<area shape="rect" title=" " alt="" coords="776,557,955,599"/>
-<area shape="rect" title=" " alt="" coords="1301,647,1376,673"/>
-<area shape="rect" title=" " alt="" coords="1401,647,1469,673"/>
-<area shape="rect" title=" " alt="" coords="1111,647,1182,673"/>
-<area shape="rect" title=" " alt="" coords="1206,647,1277,673"/>
-<area shape="rect" title=" " alt="" coords="225,408,295,435"/>
-<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="1168,483,1259,509"/>
-<area shape="rect" href="events__table_8h_source.html" title=" " alt="" coords="579,319,739,360"/>
-<area shape="rect" href="key__moments__table_8h_source.html" title=" " alt="" coords="347,319,555,360"/>
-<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="693,229,840,271"/>
-<area shape="rect" href="nodes__set_8h_source.html" title=" " alt="" coords="249,229,404,271"/>
+<area shape="rect" title="Functions to compute metrics on a Stream." alt="" coords="912,5,1075,33"/>
+<area shape="rect" title=" " alt="" coords="5,81,195,126"/>
+<area shape="poly" title=" " alt="" coords="911,27,604,45,409,62,214,84,210,84,210,79,213,78,409,56,603,40,911,21"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="1220,350,1316,378"/>
+<area shape="poly" title=" " alt="" coords="1076,28,1132,46,1159,61,1183,79,1208,108,1228,141,1243,176,1254,212,1267,281,1271,335,1265,335,1261,281,1249,213,1238,178,1223,143,1204,111,1179,83,1156,65,1130,51,1075,33"/>
+<area shape="rect" title=" " alt="" coords="727,679,801,706"/>
+<area shape="poly" title=" " alt="" coords="911,24,722,32,610,41,498,56,396,77,311,105,279,122,255,142,240,163,235,186,235,525,239,561,252,587,274,608,305,628,337,642,382,654,494,671,613,682,712,687,712,692,613,687,493,677,381,659,336,647,303,633,271,612,248,590,234,562,229,526,229,186,235,161,251,138,276,118,309,100,394,72,497,51,609,36,722,27,911,19"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="1068,90,1169,117"/>
+<area shape="poly" title=" " alt="" coords="1015,31,1087,79,1085,83,1012,36"/>
+<area shape="rect" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="954,174,1033,201"/>
+<area shape="poly" title=" " alt="" coords="996,33,996,158,991,158,991,33"/>
+<area shape="rect" title=" " alt="" coords="1079,586,1257,631"/>
+<area shape="poly" title=" " alt="" coords="1265,380,1185,572,1180,570,1260,378"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="1014,435,1079,462"/>
+<area shape="poly" title=" " alt="" coords="1233,381,1095,432,1093,427,1232,376"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="1433,594,1495,622"/>
+<area shape="poly" title=" " alt="" coords="1281,377,1446,581,1442,584,1276,380"/>
+<area shape="rect" title=" " alt="" coords="1591,679,1673,706"/>
+<area shape="poly" title=" " alt="" coords="1309,376,1359,396,1420,425,1482,462,1538,508,1569,546,1594,588,1626,663,1621,665,1589,591,1564,549,1534,512,1479,466,1417,429,1357,401,1307,381"/>
+<area shape="poly" title=" " alt="" coords="1276,378,1291,425,1305,493,1306,530,1302,567,1291,602,1271,633,1247,645,1204,656,1078,673,935,684,817,691,816,686,935,679,1078,667,1203,650,1245,640,1268,629,1287,599,1297,566,1301,530,1299,493,1286,426,1271,380"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="821,510,907,538"/>
+<area shape="poly" title=" " alt="" coords="1015,465,911,507,909,502,1013,460"/>
+<area shape="poly" title=" " alt="" coords="1049,463,1046,497,1038,542,1020,591,1007,613,990,633,950,661,904,679,858,689,816,693,816,688,857,684,903,673,947,656,986,629,1002,610,1015,588,1033,541,1041,496,1044,463"/>
+<area shape="poly" title=" " alt="" coords="908,535,1074,579,1072,584,907,540"/>
+<area shape="rect" title=" " alt="" coords="775,586,953,631"/>
+<area shape="poly" title=" " alt="" coords="867,539,867,570,861,570,861,539"/>
+<area shape="rect" title=" " alt="" coords="574,586,751,631"/>
+<area shape="poly" title=" " alt="" coords="833,541,731,582,729,577,831,536"/>
+<area shape="poly" title=" " alt="" coords="908,532,926,535,1205,575,1418,600,1418,605,1204,580,925,541,907,537"/>
+<area shape="poly" title=" " alt="" coords="906,536,940,555,955,568,968,585,976,609,974,620,967,632,953,648,936,661,897,680,855,690,817,694,816,689,854,685,895,675,933,657,949,644,963,629,969,619,971,609,963,587,952,572,937,559,904,541"/>
+<area shape="poly" title=" " alt="" coords="1488,591,1510,592,1518,598,1521,608,1516,621,1503,626,1501,621,1512,617,1516,608,1514,601,1508,597,1488,597"/>
+<area shape="rect" title=" " alt="" coords="1494,679,1567,706"/>
+<area shape="poly" title=" " alt="" coords="1477,621,1513,665,1509,668,1473,624"/>
+<area shape="rect" title=" " alt="" coords="1216,679,1283,706"/>
+<area shape="poly" title=" " alt="" coords="1435,625,1416,633,1298,677,1296,672,1414,628,1433,620"/>
+<area shape="poly" title=" " alt="" coords="1492,620,1593,669,1590,674,1490,625"/>
+<area shape="rect" title=" " alt="" coords="1307,679,1376,706"/>
+<area shape="poly" title=" " alt="" coords="1446,625,1375,672,1372,668,1443,621"/>
+<area shape="poly" title=" " alt="" coords="1438,625,1415,633,1332,652,1246,666,1076,684,926,693,816,694,816,689,926,687,1076,679,1245,661,1331,646,1414,628,1437,620"/>
+<area shape="rect" title=" " alt="" coords="1400,679,1470,706"/>
+<area shape="poly" title=" " alt="" coords="1462,624,1447,665,1442,663,1457,622"/>
+<area shape="poly" title=" " alt="" coords="1133,116,1176,172,1224,260,1259,335,1254,337,1220,263,1171,175,1128,119"/>
+<area shape="poly" title=" " alt="" coords="1123,117,1128,163,1130,232,1124,310,1115,350,1102,388,1091,408,1076,426,1071,422,1086,405,1098,386,1110,348,1118,309,1125,231,1123,164,1118,118"/>
+<area shape="poly" title=" " alt="" coords="1170,104,1255,115,1303,125,1350,141,1393,162,1429,190,1453,226,1459,247,1461,270,1461,366,1457,396,1444,432,1403,511,1351,585,1325,613,1301,633,1262,650,1208,664,1073,682,931,691,817,694,817,688,931,686,1073,677,1207,659,1261,645,1299,628,1322,609,1347,582,1399,509,1440,430,1452,395,1456,365,1456,270,1454,248,1448,228,1425,194,1391,167,1348,146,1302,131,1254,120,1169,109"/>
+<area shape="poly" title=" " alt="" coords="1100,120,1027,167,1025,163,1097,116"/>
+<area shape="rect" title=" " alt="" coords="421,435,491,462"/>
+<area shape="poly" title=" " alt="" coords="1068,109,905,118,800,128,690,141,583,160,487,184,410,214,382,232,361,251,349,272,347,295,352,318,363,342,396,387,431,423,428,426,392,390,359,345,347,320,342,295,344,270,357,248,378,228,408,209,485,179,582,155,689,136,799,123,905,113,1068,104"/>
+<area shape="poly" title=" " alt="" coords="1027,199,1074,220,1124,247,1190,293,1244,338,1240,342,1187,298,1121,252,1072,225,1025,204"/>
+<area shape="poly" title=" " alt="" coords="1026,200,1056,219,1070,232,1081,248,1090,270,1093,294,1090,342,1078,386,1063,422,1058,420,1073,384,1085,341,1088,294,1084,272,1076,251,1066,236,1053,223,1023,204"/>
+<area shape="poly" title=" " alt="" coords="1034,191,1129,210,1185,226,1238,247,1344,301,1419,355,1487,421,1567,509,1599,544,1621,585,1631,625,1635,663,1629,663,1626,626,1616,587,1595,547,1563,512,1483,424,1416,359,1341,306,1236,252,1183,231,1128,215,1033,197"/>
+<area shape="poly" title=" " alt="" coords="953,193,812,199,625,211,453,228,393,239,360,252,336,272,317,293,304,313,295,335,287,385,285,447,285,525,288,548,294,566,305,580,319,591,355,609,400,628,440,645,481,658,567,677,646,686,712,689,711,694,646,691,566,682,480,664,438,650,398,633,353,614,316,595,301,583,290,568,282,549,280,526,280,447,281,384,290,334,299,311,313,289,332,268,357,247,392,234,453,223,624,205,811,194,953,188"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="1434,510,1523,538"/>
+<area shape="poly" title=" " alt="" coords="1034,197,1096,216,1173,246,1254,287,1294,312,1330,340,1371,379,1408,422,1464,496,1459,499,1404,425,1367,383,1326,344,1290,317,1252,292,1171,251,1094,221,1033,202"/>
+<area shape="rect" href="events__table_8h.html" title=" " alt="" coords="856,342,1016,387"/>
+<area shape="poly" title=" " alt="" coords="964,204,934,223,921,236,910,250,905,269,905,289,918,327,913,329,900,290,900,268,906,248,916,232,930,219,961,200"/>
+<area shape="poly" title=" " alt="" coords="953,193,864,203,745,227,682,246,619,272,559,304,506,344,491,361,479,381,464,420,459,419,474,378,486,358,502,340,557,300,617,267,680,241,744,222,863,198,953,188"/>
+<area shape="rect" href="key__moments__table_8h.html" title="Table of all key moments." alt="" coords="624,342,832,387"/>
+<area shape="poly" title=" " alt="" coords="973,204,897,252,773,335,770,331,895,247,971,200"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="920,249,1066,294"/>
+<area shape="poly" title=" " alt="" coords="996,202,996,233,991,233,991,202"/>
+<area shape="rect" href="nodes__set_8h.html" title="A node and a set of nodes of a StreamGraph." alt="" coords="371,249,525,294"/>
+<area shape="poly" title=" " alt="" coords="954,196,776,217,544,252,540,253,540,247,544,247,775,212,953,190"/>
+<area shape="poly" title=" " alt="" coords="1479,539,1472,580,1466,579,1474,538"/>
+<area shape="poly" title=" " alt="" coords="1493,537,1612,665,1608,669,1489,540"/>
+<area shape="poly" title=" " alt="" coords="1469,540,1417,592,1388,617,1365,633,1318,648,1256,661,1102,678,942,688,817,693,816,687,942,683,1101,673,1255,655,1317,643,1363,628,1385,613,1414,588,1465,536"/>
+<area shape="poly" title=" " alt="" coords="967,385,1018,423,1015,427,963,389"/>
+<area shape="poly" title=" " alt="" coords="857,389,782,417,700,458,660,484,623,514,590,549,564,587,556,609,557,619,563,629,577,644,594,657,632,675,673,685,712,689,711,694,672,690,630,680,591,662,574,648,559,632,552,620,551,609,559,585,586,545,619,511,657,480,697,454,780,412,855,384"/>
+<area shape="poly" title=" " alt="" coords="1011,385,1420,503,1418,508,1010,390"/>
+<area shape="poly" title=" " alt="" coords="856,387,844,389,658,421,507,443,506,438,658,416,844,384,855,382"/>
+<area shape="poly" title=" " alt="" coords="813,385,1000,432,998,438,812,390"/>
+<area shape="poly" title=" " alt="" coords="788,385,1004,460,1420,591,1418,596,1002,465,786,390"/>
+<area shape="poly" title=" " alt="" coords="689,389,619,434,582,462,548,494,521,527,505,561,502,578,504,595,509,612,519,629,531,639,550,648,600,664,712,683,711,688,598,669,548,653,528,644,515,632,504,615,498,596,497,578,500,560,517,524,544,490,578,458,616,429,686,385"/>
+<area shape="poly" title=" " alt="" coords="657,390,507,435,505,430,655,385"/>
+<area shape="poly" title=" " alt="" coords="1060,292,1214,343,1213,348,1058,297"/>
+<area shape="poly" title=" " alt="" coords="1008,293,1031,341,1041,381,1047,419,1041,420,1036,383,1025,343,1004,295"/>
+<area shape="poly" title=" " alt="" coords="920,282,838,291,749,304,668,322,636,333,613,344,571,379,546,415,528,457,509,511,484,574,482,601,487,614,497,629,510,640,531,650,587,666,652,677,712,684,711,690,651,683,586,671,529,655,507,645,493,632,482,617,477,602,478,573,504,509,523,455,541,412,567,376,611,340,634,328,667,317,748,299,838,286,919,277"/>
+<area shape="poly" title=" " alt="" coords="920,275,844,279,754,289,659,310,613,325,569,344,542,361,516,382,477,424,473,421,513,378,538,357,567,340,611,320,658,305,753,284,844,273,920,269"/>
+<area shape="poly" title=" " alt="" coords="526,279,1205,353,1205,359,525,284"/>
+<area shape="poly" title=" " alt="" coords="437,296,405,362,392,404,387,447,387,525,389,550,396,572,408,592,422,609,462,637,510,658,563,672,617,682,712,689,712,694,616,687,562,678,508,663,459,642,419,613,403,595,391,574,384,551,381,526,381,447,387,403,400,360,432,293"/>
+<area shape="poly" title=" " alt="" coords="452,294,457,419,452,419,446,294"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="metrics_8h__dep__incl.png" border="0" usemap="#asrc_2analysis_2metrics_8hdep" alt=""/></div>
+<map name="asrc_2analysis_2metrics_8hdep" id="asrc_2analysis_2metrics_8hdep">
+<area shape="rect" title="Functions to compute metrics on a Stream." alt="" coords="107,5,270,33"/>
+<area shape="rect" href="StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="5,81,180,109"/>
+<area shape="poly" title=" " alt="" coords="161,45,111,83,108,78,158,41"/>
+<area shape="rect" href="metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="203,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="219,41,269,78,266,83,216,45"/>
+</map>
 </div>
 </div>
 <p><a href="metrics_8h_source.html">Go to the source code of this file.</a></p>
@@ -155,86 +220,86 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMetricsFunctions.html">MetricsFunctions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Table of functions to compute metrics on a <a class="el" href="structStream.html">Stream</a>.  <a href="structMetricsFunctions.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Table of functions to compute metrics on a Stream.  <a href="structMetricsFunctions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a7ad8579e8a133c11083e02758dca3a03" id="r_a7ad8579e8a133c11083e02758dca3a03"><td class="memItemLeft" align="right" valign="top"><a id="a7ad8579e8a133c11083e02758dca3a03" name="a7ad8579e8a133c11083e02758dca3a03"></a>
-<a class="el" href="structString.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_to_string</b> (const <a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
+<a class="el" href="structString.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_to_string</b> (const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
 <tr class="separator:a7ad8579e8a133c11083e02758dca3a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Section 3 : Stream graphs and link streams</div></td></tr>
-<tr class="memitem:ad09d1c80c5d3e5a77559998bed4343c4" id="r_ad09d1c80c5d3e5a77559998bed4343c4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad09d1c80c5d3e5a77559998bed4343c4">SGA_Stream_temporal_cardinal_of_node_set</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:ad09d1c80c5d3e5a77559998bed4343c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the temporal cardinal of node set of a <a class="el" href="structStream.html">Stream</a>. It is noted |W| in the paper. It is defined as the sum of the duration of the presence of all nodes. For example, if the stream contains 2 nodes A present at [0, 2[ and B present at [1, 4[, the temporal cardinal of the node set is (2 - 0) + (4 - 1) = 2 + 3 = 5.  <br /></td></tr>
+<tr class="memitem:ad09d1c80c5d3e5a77559998bed4343c4" id="r_ad09d1c80c5d3e5a77559998bed4343c4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad09d1c80c5d3e5a77559998bed4343c4">SGA_Stream_temporal_cardinal_of_node_set</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:ad09d1c80c5d3e5a77559998bed4343c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the temporal cardinal of node set of a Stream. It is noted |W| in the paper. It is defined as the sum of the duration of the presence of all nodes. For example, if the stream contains 2 nodes A present at [0, 2[ and B present at [1, 4[, the temporal cardinal of the node set is (2 - 0) + (4 - 1) = 2 + 3 = 5.  <br /></td></tr>
 <tr class="separator:ad09d1c80c5d3e5a77559998bed4343c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abed366c44e1691e90a930721f1570bd0" id="r_abed366c44e1691e90a930721f1570bd0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abed366c44e1691e90a930721f1570bd0">SGA_Stream_temporal_cardinal_of_link_set</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:abed366c44e1691e90a930721f1570bd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the temporal cardinal of link set of a <a class="el" href="structStream.html">Stream</a>. It is noted |E| in the paper. It is defined as the sum of the duration of the presence of all links.  <br /></td></tr>
+<tr class="memitem:abed366c44e1691e90a930721f1570bd0" id="r_abed366c44e1691e90a930721f1570bd0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abed366c44e1691e90a930721f1570bd0">SGA_Stream_temporal_cardinal_of_link_set</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:abed366c44e1691e90a930721f1570bd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the temporal cardinal of link set of a Stream. It is noted |E| in the paper. It is defined as the sum of the duration of the presence of all links.  <br /></td></tr>
 <tr class="separator:abed366c44e1691e90a930721f1570bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a665bb878f964e612c190f431dc710652" id="r_a665bb878f964e612c190f431dc710652"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a665bb878f964e612c190f431dc710652">SGA_Stream_duration</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a665bb878f964e612c190f431dc710652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the duration of the <a class="el" href="structStream.html">Stream</a>. It is noted |T| in the paper. It is defined as the length of its lifespan.  <br /></td></tr>
+<tr class="memitem:a665bb878f964e612c190f431dc710652" id="r_a665bb878f964e612c190f431dc710652"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a665bb878f964e612c190f431dc710652">SGA_Stream_duration</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a665bb878f964e612c190f431dc710652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the duration of the Stream. It is noted |T| in the paper. It is defined as the length of its lifespan.  <br /></td></tr>
 <tr class="separator:a665bb878f964e612c190f431dc710652"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bf36a4c55f1f803ec12da687b2403f4" id="r_a7bf36a4c55f1f803ec12da687b2403f4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bf36a4c55f1f803ec12da687b2403f4">SGA_Stream_distinct_cardinal_of_node_set</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a7bf36a4c55f1f803ec12da687b2403f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the distinct cardinal of node set of a <a class="el" href="structStream.html">Stream</a>. It is noted |V| in the paper. It is defined as the number of distinct nodes present in the <a class="el" href="structStream.html">Stream</a>. For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2.  <br /></td></tr>
+<tr class="memitem:a7bf36a4c55f1f803ec12da687b2403f4" id="r_a7bf36a4c55f1f803ec12da687b2403f4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bf36a4c55f1f803ec12da687b2403f4">SGA_Stream_distinct_cardinal_of_node_set</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a7bf36a4c55f1f803ec12da687b2403f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the distinct cardinal of node set of a Stream. It is noted |V| in the paper. It is defined as the number of distinct nodes present in the Stream. For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2.  <br /></td></tr>
 <tr class="separator:a7bf36a4c55f1f803ec12da687b2403f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8be329011584d504d6ffec3a4b4654bc" id="r_a8be329011584d504d6ffec3a4b4654bc"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8be329011584d504d6ffec3a4b4654bc">SGA_Stream_distinct_cardinal_of_link_set</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a8be329011584d504d6ffec3a4b4654bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the distinct cardinal of link set of a <a class="el" href="structStream.html">Stream</a>. It isn't defined in the paper. It is defined as the number of distinct links present in the <a class="el" href="structStream.html">Stream</a>.  <br /></td></tr>
+<tr class="memitem:a8be329011584d504d6ffec3a4b4654bc" id="r_a8be329011584d504d6ffec3a4b4654bc"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8be329011584d504d6ffec3a4b4654bc">SGA_Stream_distinct_cardinal_of_link_set</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a8be329011584d504d6ffec3a4b4654bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the distinct cardinal of link set of a Stream. It isn't defined in the paper. It is defined as the number of distinct links present in the Stream.  <br /></td></tr>
 <tr class="separator:a8be329011584d504d6ffec3a4b4654bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fc0aa70250cb72eab4ca4ac0d3bae8c" id="r_a6fc0aa70250cb72eab4ca4ac0d3bae8c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fc0aa70250cb72eab4ca4ac0d3bae8c">SGA_Stream_coverage</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a6fc0aa70250cb72eab4ca4ac0d3bae8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the coverage of the <a class="el" href="structStream.html">Stream</a>. It is noted $cov$ in the paper.  <br /></td></tr>
+<tr class="memitem:a6fc0aa70250cb72eab4ca4ac0d3bae8c" id="r_a6fc0aa70250cb72eab4ca4ac0d3bae8c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fc0aa70250cb72eab4ca4ac0d3bae8c">SGA_Stream_coverage</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a6fc0aa70250cb72eab4ca4ac0d3bae8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the coverage of the Stream. It is noted $cov$ in the paper.  <br /></td></tr>
 <tr class="separator:a6fc0aa70250cb72eab4ca4ac0d3bae8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Section 4 : Size, duration, uniformity and compactness</div></td></tr>
-<tr class="memitem:a321a69207e3143010840b5098dbc574f" id="r_a321a69207e3143010840b5098dbc574f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a321a69207e3143010840b5098dbc574f">SGA_Stream_contribution_of_node</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id)</td></tr>
-<tr class="memdesc:a321a69207e3143010840b5098dbc574f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution of a node in the <a class="el" href="structStream.html">Stream</a>. It is noted $n_v$ in the paper.  <br /></td></tr>
-<tr class="separator:a321a69207e3143010840b5098dbc574f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a430aaaf295657f6ab38f7c3ba8b86690" id="r_a430aaaf295657f6ab38f7c3ba8b86690"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a430aaaf295657f6ab38f7c3ba8b86690">SGA_Stream_number_of_nodes</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a430aaaf295657f6ab38f7c3ba8b86690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the number of nodes in the <a class="el" href="structStream.html">Stream</a>. It is noted $n$ in the paper.  <br /></td></tr>
+<tr class="memitem:a254d9c9f3c9de6faf5d228938c01f491" id="r_a254d9c9f3c9de6faf5d228938c01f491"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a254d9c9f3c9de6faf5d228938c01f491">SGA_Stream_contribution_of_node</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="memdesc:a254d9c9f3c9de6faf5d228938c01f491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution of a node in the Stream. It is noted $n_v$ in the paper.  <br /></td></tr>
+<tr class="separator:a254d9c9f3c9de6faf5d228938c01f491"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a430aaaf295657f6ab38f7c3ba8b86690" id="r_a430aaaf295657f6ab38f7c3ba8b86690"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a430aaaf295657f6ab38f7c3ba8b86690">SGA_Stream_number_of_nodes</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a430aaaf295657f6ab38f7c3ba8b86690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the number of nodes in the Stream. It is noted $n$ in the paper.  <br /></td></tr>
 <tr class="separator:a430aaaf295657f6ab38f7c3ba8b86690"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6944e26991a8760bbe2c67d8e999e8e" id="r_ab6944e26991a8760bbe2c67d8e999e8e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6944e26991a8760bbe2c67d8e999e8e">SGA_Stream_contribution_of_link</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, LinkId link_id)</td></tr>
-<tr class="memdesc:ab6944e26991a8760bbe2c67d8e999e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution of a link in the <a class="el" href="structStream.html">Stream</a>. It is noted $m_{uv}$ in the paper.  <br /></td></tr>
-<tr class="separator:ab6944e26991a8760bbe2c67d8e999e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a956c08e9d67ca05ca04e3e7b4a48f7de" id="r_a956c08e9d67ca05ca04e3e7b4a48f7de"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a956c08e9d67ca05ca04e3e7b4a48f7de">SGA_Stream_number_of_links</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a956c08e9d67ca05ca04e3e7b4a48f7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the number of links in the <a class="el" href="structStream.html">Stream</a>. It is noted $m$ in the paper.  <br /></td></tr>
+<tr class="memitem:a79a7957c15e156924016bd3d102fae0a" id="r_a79a7957c15e156924016bd3d102fae0a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79a7957c15e156924016bd3d102fae0a">SGA_Stream_contribution_of_link</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_LinkId link_id)</td></tr>
+<tr class="memdesc:a79a7957c15e156924016bd3d102fae0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution of a link in the Stream. It is noted $m_{uv}$ in the paper.  <br /></td></tr>
+<tr class="separator:a79a7957c15e156924016bd3d102fae0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a956c08e9d67ca05ca04e3e7b4a48f7de" id="r_a956c08e9d67ca05ca04e3e7b4a48f7de"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a956c08e9d67ca05ca04e3e7b4a48f7de">SGA_Stream_number_of_links</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a956c08e9d67ca05ca04e3e7b4a48f7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the number of links in the Stream. It is noted $m$ in the paper.  <br /></td></tr>
 <tr class="separator:a956c08e9d67ca05ca04e3e7b4a48f7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc1b45ef152674859f077aa98377c189" id="r_afc1b45ef152674859f077aa98377c189"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc1b45ef152674859f077aa98377c189">SGA_Stream_node_contribution_at_instant</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, TimeId time_id)</td></tr>
-<tr class="memdesc:afc1b45ef152674859f077aa98377c189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the node contribution at a given instant in the <a class="el" href="structStream.html">Stream</a>. It is noted $k_t$ in the paper.  <br /></td></tr>
-<tr class="separator:afc1b45ef152674859f077aa98377c189"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae37989af8c58e7b04025265864c614c9" id="r_ae37989af8c58e7b04025265864c614c9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae37989af8c58e7b04025265864c614c9">SGA_Stream_link_contribution_at_instant</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, TimeId time_id)</td></tr>
-<tr class="memdesc:ae37989af8c58e7b04025265864c614c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the link contribution at a given instant in the <a class="el" href="structStream.html">Stream</a>. It is noted $l_t$ in the paper.  <br /></td></tr>
-<tr class="separator:ae37989af8c58e7b04025265864c614c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac45151c1b3de45e3ea56379cf777cb67" id="r_ac45151c1b3de45e3ea56379cf777cb67"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac45151c1b3de45e3ea56379cf777cb67">SGA_Stream_node_duration</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:ac45151c1b3de45e3ea56379cf777cb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the node duration of the <a class="el" href="structStream.html">Stream</a>. It is noted $k$ in the paper.  <br /></td></tr>
+<tr class="memitem:adbd17a44c378bb7632e433d8f75d9eb9" id="r_adbd17a44c378bb7632e433d8f75d9eb9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adbd17a44c378bb7632e433d8f75d9eb9">SGA_Stream_node_contribution_at_instant</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_Time time)</td></tr>
+<tr class="memdesc:adbd17a44c378bb7632e433d8f75d9eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the node contribution at a given instant in the Stream. It is noted $k_t$ in the paper.  <br /></td></tr>
+<tr class="separator:adbd17a44c378bb7632e433d8f75d9eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2a8face1b0c0a6be18dcd734905057e" id="r_ab2a8face1b0c0a6be18dcd734905057e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2a8face1b0c0a6be18dcd734905057e">SGA_Stream_link_contribution_at_instant</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_Time time)</td></tr>
+<tr class="memdesc:ab2a8face1b0c0a6be18dcd734905057e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the link contribution at a given instant in the Stream. It is noted $l_t$ in the paper.  <br /></td></tr>
+<tr class="separator:ab2a8face1b0c0a6be18dcd734905057e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac45151c1b3de45e3ea56379cf777cb67" id="r_ac45151c1b3de45e3ea56379cf777cb67"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac45151c1b3de45e3ea56379cf777cb67">SGA_Stream_node_duration</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:ac45151c1b3de45e3ea56379cf777cb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the node duration of the Stream. It is noted $k$ in the paper.  <br /></td></tr>
 <tr class="separator:ac45151c1b3de45e3ea56379cf777cb67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92db2a07174bf1d1962a711b87f2b66a" id="r_a92db2a07174bf1d1962a711b87f2b66a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92db2a07174bf1d1962a711b87f2b66a">SGA_Stream_link_duration</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a92db2a07174bf1d1962a711b87f2b66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the link duration of the <a class="el" href="structStream.html">Stream</a>. It is noted $l$ in the paper.  <br /></td></tr>
+<tr class="memitem:a92db2a07174bf1d1962a711b87f2b66a" id="r_a92db2a07174bf1d1962a711b87f2b66a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92db2a07174bf1d1962a711b87f2b66a">SGA_Stream_link_duration</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a92db2a07174bf1d1962a711b87f2b66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the link duration of the Stream. It is noted $l$ in the paper.  <br /></td></tr>
 <tr class="separator:a92db2a07174bf1d1962a711b87f2b66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a918ea31ade0db5dfec2bf3fabccb34" id="r_a5a918ea31ade0db5dfec2bf3fabccb34"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a918ea31ade0db5dfec2bf3fabccb34">SGA_Stream_uniformity</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a5a918ea31ade0db5dfec2bf3fabccb34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the uniformity of the <a class="el" href="structStream.html">Stream</a>. It is noted $⋓$ in the paper.  <br /></td></tr>
+<tr class="memitem:a5a918ea31ade0db5dfec2bf3fabccb34" id="r_a5a918ea31ade0db5dfec2bf3fabccb34"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a918ea31ade0db5dfec2bf3fabccb34">SGA_Stream_uniformity</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a5a918ea31ade0db5dfec2bf3fabccb34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the uniformity of the Stream. It is noted $⋓$ in the paper.  <br /></td></tr>
 <tr class="separator:a5a918ea31ade0db5dfec2bf3fabccb34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a686a6cd691fe83cb689555988269bbdd" id="r_a686a6cd691fe83cb689555988269bbdd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a686a6cd691fe83cb689555988269bbdd">SGA_Stream_compactness</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a686a6cd691fe83cb689555988269bbdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the compactness of the <a class="el" href="structStream.html">Stream</a>. It is noted $c$ in the paper.  <br /></td></tr>
+<tr class="memitem:a686a6cd691fe83cb689555988269bbdd" id="r_a686a6cd691fe83cb689555988269bbdd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a686a6cd691fe83cb689555988269bbdd">SGA_Stream_compactness</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a686a6cd691fe83cb689555988269bbdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the compactness of the Stream. It is noted $c$ in the paper.  <br /></td></tr>
 <tr class="separator:a686a6cd691fe83cb689555988269bbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Section 5 : Density</div></td></tr>
-<tr class="memitem:a090dfb59208803c054a0c83e6ed7bf13" id="r_a090dfb59208803c054a0c83e6ed7bf13"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a090dfb59208803c054a0c83e6ed7bf13">SGA_Stream_density</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a090dfb59208803c054a0c83e6ed7bf13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the density of the <a class="el" href="structStream.html">Stream</a>. It is noted $δ$ in the paper.  <br /></td></tr>
+<tr class="memitem:a090dfb59208803c054a0c83e6ed7bf13" id="r_a090dfb59208803c054a0c83e6ed7bf13"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a090dfb59208803c054a0c83e6ed7bf13">SGA_Stream_density</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a090dfb59208803c054a0c83e6ed7bf13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the density of the Stream. It is noted $δ$ in the paper.  <br /></td></tr>
 <tr class="separator:a090dfb59208803c054a0c83e6ed7bf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc38379172b5363108269b660620abf7" id="r_acc38379172b5363108269b660620abf7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc38379172b5363108269b660620abf7">SGA_Stream_density_of_link</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, LinkId link_id)</td></tr>
-<tr class="separator:acc38379172b5363108269b660620abf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb253e2a0f7dfc58aca81ad1474eea54" id="r_aeb253e2a0f7dfc58aca81ad1474eea54"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb253e2a0f7dfc58aca81ad1474eea54">SGA_Stream_density_of_node</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id)</td></tr>
-<tr class="separator:aeb253e2a0f7dfc58aca81ad1474eea54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bcb9243e9df6544d27b8367f596ed1a" id="r_a1bcb9243e9df6544d27b8367f596ed1a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bcb9243e9df6544d27b8367f596ed1a">SGA_Stream_density_at_instant</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, TimeId time_id)</td></tr>
-<tr class="separator:a1bcb9243e9df6544d27b8367f596ed1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c259f16d29621f7331a1fa6a0210277" id="r_a5c259f16d29621f7331a1fa6a0210277"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c259f16d29621f7331a1fa6a0210277">SGA_Stream_density_of_link</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_LinkId link_id)</td></tr>
+<tr class="separator:a5c259f16d29621f7331a1fa6a0210277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a947145e29b1ff876cb8f78c9cbd9525a" id="r_a947145e29b1ff876cb8f78c9cbd9525a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a947145e29b1ff876cb8f78c9cbd9525a">SGA_Stream_density_of_node</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="separator:a947145e29b1ff876cb8f78c9cbd9525a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9572cd263e810b654e96aca41a5e9397" id="r_a9572cd263e810b654e96aca41a5e9397"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9572cd263e810b654e96aca41a5e9397">SGA_Stream_density_at_instant</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_Time time)</td></tr>
+<tr class="separator:a9572cd263e810b654e96aca41a5e9397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Section 8 : Neighbourhood and degree</div></td></tr>
-<tr class="memitem:a51cdbf865f594fc2a03dbec988fc0b5c" id="r_a51cdbf865f594fc2a03dbec988fc0b5c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51cdbf865f594fc2a03dbec988fc0b5c">SGA_Stream_degree_of_node</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id)</td></tr>
-<tr class="separator:a51cdbf865f594fc2a03dbec988fc0b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af786c5baadaa0c383cac77610b52bf86" id="r_af786c5baadaa0c383cac77610b52bf86"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af786c5baadaa0c383cac77610b52bf86">SGA_Stream_average_node_degree</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
+<tr class="memitem:a23151d70a4c338e59803dcabed7c663d" id="r_a23151d70a4c338e59803dcabed7c663d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23151d70a4c338e59803dcabed7c663d">SGA_Stream_degree_of_node</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="separator:a23151d70a4c338e59803dcabed7c663d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af786c5baadaa0c383cac77610b52bf86" id="r_af786c5baadaa0c383cac77610b52bf86"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af786c5baadaa0c383cac77610b52bf86">SGA_Stream_average_node_degree</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
 <tr class="separator:af786c5baadaa0c383cac77610b52bf86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Section 9 : Clustering coefficient and transitivity ratio</div></td></tr>
-<tr class="memitem:a26d4b6e63158415e7f64ba73fb0d2cc8" id="r_a26d4b6e63158415e7f64ba73fb0d2cc8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26d4b6e63158415e7f64ba73fb0d2cc8">SGA_Stream_clustering_coeff_of_node</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream, NodeId node_id)</td></tr>
-<tr class="separator:a26d4b6e63158415e7f64ba73fb0d2cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16b834a99d761eaf4b418809b4be8706" id="r_a16b834a99d761eaf4b418809b4be8706"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16b834a99d761eaf4b418809b4be8706">SGA_Stream_node_clustering_coeff</a> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
+<tr class="memitem:ab44c84ee92129ae7477f29e6d1a49e25" id="r_ab44c84ee92129ae7477f29e6d1a49e25"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab44c84ee92129ae7477f29e6d1a49e25">SGA_Stream_clustering_coeff_of_node</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream, SGA_NodeId node_id)</td></tr>
+<tr class="separator:ab44c84ee92129ae7477f29e6d1a49e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16b834a99d761eaf4b418809b4be8706" id="r_a16b834a99d761eaf4b418809b4be8706"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16b834a99d761eaf4b418809b4be8706">SGA_Stream_node_clustering_coeff</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
 <tr class="separator:a16b834a99d761eaf4b418809b4be8706"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1117abb5513c4e3346ba60cf3feff3d0" id="r_a1117abb5513c4e3346ba60cf3feff3d0"><td class="memItemLeft" align="right" valign="top"><a id="a1117abb5513c4e3346ba60cf3feff3d0" name="a1117abb5513c4e3346ba60cf3feff3d0"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transitivity_ratio</b> (<a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transitivity_ratio</b> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
 <tr class="separator:a1117abb5513c4e3346ba60cf3feff3d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -247,22 +312,22 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_average_node_degree </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a26d4b6e63158415e7f64ba73fb0d2cc8" name="a26d4b6e63158415e7f64ba73fb0d2cc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26d4b6e63158415e7f64ba73fb0d2cc8">&#9670;&#160;</a></span>SGA_Stream_clustering_coeff_of_node()</h2>
+<a id="ab44c84ee92129ae7477f29e6d1a49e25" name="ab44c84ee92129ae7477f29e6d1a49e25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab44c84ee92129ae7477f29e6d1a49e25">&#9670;&#160;</a></span>SGA_Stream_clustering_coeff_of_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -270,18 +335,18 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_clustering_coeff_of_node </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">node_id</td><td>The id of the node to get the clustering coefficient of. </td></tr>
   </table>
   </dd>
@@ -298,24 +363,24 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_compactness </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the compactness of the <a class="el" href="structStream.html">Stream</a>. It is noted $c$ in the paper. </p>
+<p>Compute the compactness of the Stream. It is noted $c$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ab6944e26991a8760bbe2c67d8e999e8e" name="ab6944e26991a8760bbe2c67d8e999e8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6944e26991a8760bbe2c67d8e999e8e">&#9670;&#160;</a></span>SGA_Stream_contribution_of_link()</h2>
+<a id="a79a7957c15e156924016bd3d102fae0a" name="a79a7957c15e156924016bd3d102fae0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79a7957c15e156924016bd3d102fae0a">&#9670;&#160;</a></span>SGA_Stream_contribution_of_link()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -323,20 +388,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_contribution_of_link </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">LinkId</td>          <td class="paramname"><span class="paramname"><em>link_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_LinkId</td>          <td class="paramname"><span class="paramname"><em>link_id</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the contribution of a link in the <a class="el" href="structStream.html">Stream</a>. It is noted $m_{uv}$ in the paper. </p>
+<p>Compute the contribution of a link in the Stream. It is noted $m_{uv}$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">link_id</td><td>The id of the link to get the contribution of. </td></tr>
   </table>
   </dd>
@@ -345,8 +410,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
 
 </div>
 </div>
-<a id="a321a69207e3143010840b5098dbc574f" name="a321a69207e3143010840b5098dbc574f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a321a69207e3143010840b5098dbc574f">&#9670;&#160;</a></span>SGA_Stream_contribution_of_node()</h2>
+<a id="a254d9c9f3c9de6faf5d228938c01f491" name="a254d9c9f3c9de6faf5d228938c01f491"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a254d9c9f3c9de6faf5d228938c01f491">&#9670;&#160;</a></span>SGA_Stream_contribution_of_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,20 +419,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_contribution_of_node </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the contribution of a node in the <a class="el" href="structStream.html">Stream</a>. It is noted $n_v$ in the paper. </p>
+<p>Compute the contribution of a node in the Stream. It is noted $n_v$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">node_id</td><td>The id of the node to get the contribution of. </td></tr>
   </table>
   </dd>
@@ -385,25 +450,25 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_coverage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the coverage of the <a class="el" href="structStream.html">Stream</a>. It is noted $cov$ in the paper. </p>
+<p>Compute the coverage of the Stream. It is noted $cov$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The coverage of the <a class="el" href="structStream.html">Stream</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The coverage of the Stream. </dd></dl>
 
 </div>
 </div>
-<a id="a51cdbf865f594fc2a03dbec988fc0b5c" name="a51cdbf865f594fc2a03dbec988fc0b5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51cdbf865f594fc2a03dbec988fc0b5c">&#9670;&#160;</a></span>SGA_Stream_degree_of_node()</h2>
+<a id="a23151d70a4c338e59803dcabed7c663d" name="a23151d70a4c338e59803dcabed7c663d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23151d70a4c338e59803dcabed7c663d">&#9670;&#160;</a></span>SGA_Stream_degree_of_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -411,18 +476,18 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_degree_of_node </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">node_id</td><td>The id of the node to get the degree of. </td></tr>
   </table>
   </dd>
@@ -439,24 +504,24 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_density </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the density of the <a class="el" href="structStream.html">Stream</a>. It is noted $δ$ in the paper. </p>
+<p>Compute the density of the Stream. It is noted $δ$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a1bcb9243e9df6544d27b8367f596ed1a" name="a1bcb9243e9df6544d27b8367f596ed1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bcb9243e9df6544d27b8367f596ed1a">&#9670;&#160;</a></span>SGA_Stream_density_at_instant()</h2>
+<a id="a9572cd263e810b654e96aca41a5e9397" name="a9572cd263e810b654e96aca41a5e9397"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9572cd263e810b654e96aca41a5e9397">&#9670;&#160;</a></span>SGA_Stream_density_at_instant()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -464,18 +529,18 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_density_at_instant </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">TimeId</td>          <td class="paramname"><span class="paramname"><em>time_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_Time</td>          <td class="paramname"><span class="paramname"><em>time</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">time_id</td><td>The instant to get the density at. </td></tr>
   </table>
   </dd>
@@ -483,8 +548,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
 
 </div>
 </div>
-<a id="acc38379172b5363108269b660620abf7" name="acc38379172b5363108269b660620abf7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc38379172b5363108269b660620abf7">&#9670;&#160;</a></span>SGA_Stream_density_of_link()</h2>
+<a id="a5c259f16d29621f7331a1fa6a0210277" name="a5c259f16d29621f7331a1fa6a0210277"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c259f16d29621f7331a1fa6a0210277">&#9670;&#160;</a></span>SGA_Stream_density_of_link()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -492,18 +557,18 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_density_of_link </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">LinkId</td>          <td class="paramname"><span class="paramname"><em>link_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_LinkId</td>          <td class="paramname"><span class="paramname"><em>link_id</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Named density of a pair of nodes in the paper. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">link_id</td><td>The id of the link to get the density of. </td></tr>
   </table>
   </dd>
@@ -511,8 +576,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
 
 </div>
 </div>
-<a id="aeb253e2a0f7dfc58aca81ad1474eea54" name="aeb253e2a0f7dfc58aca81ad1474eea54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb253e2a0f7dfc58aca81ad1474eea54">&#9670;&#160;</a></span>SGA_Stream_density_of_node()</h2>
+<a id="a947145e29b1ff876cb8f78c9cbd9525a" name="a947145e29b1ff876cb8f78c9cbd9525a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a947145e29b1ff876cb8f78c9cbd9525a">&#9670;&#160;</a></span>SGA_Stream_density_of_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -520,18 +585,18 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_density_of_node </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_NodeId</td>          <td class="paramname"><span class="paramname"><em>node_id</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">node_id</td><td>The id of the node to get the density of. </td></tr>
   </table>
   </dd>
@@ -548,16 +613,16 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">size_t SGA_Stream_distinct_cardinal_of_link_set </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the distinct cardinal of link set of a <a class="el" href="structStream.html">Stream</a>. It isn't defined in the paper. It is defined as the number of distinct links present in the <a class="el" href="structStream.html">Stream</a>. </p>
+<p>Compute the distinct cardinal of link set of a Stream. It isn't defined in the paper. It is defined as the number of distinct links present in the Stream. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -574,16 +639,16 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">size_t SGA_Stream_distinct_cardinal_of_node_set </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the distinct cardinal of node set of a <a class="el" href="structStream.html">Stream</a>. It is noted |V| in the paper. It is defined as the number of distinct nodes present in the <a class="el" href="structStream.html">Stream</a>. For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2. </p>
+<p>Compute the distinct cardinal of node set of a Stream. It is noted |V| in the paper. It is defined as the number of distinct nodes present in the Stream. For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -600,26 +665,26 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">size_t SGA_Stream_duration </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the duration of the <a class="el" href="structStream.html">Stream</a>. It is noted |T| in the paper. It is defined as the length of its lifespan. </p>
+<p>Compute the duration of the Stream. It is noted |T| in the paper. It is defined as the length of its lifespan. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The duration of the <a class="el" href="structStream.html">Stream</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The duration of the Stream.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>In the paper, T is defined as a set of time instants, meaning it could be split in multiple intervals. Here, we consider it as a single interval. </dd></dl>
 
 </div>
 </div>
-<a id="ae37989af8c58e7b04025265864c614c9" name="ae37989af8c58e7b04025265864c614c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae37989af8c58e7b04025265864c614c9">&#9670;&#160;</a></span>SGA_Stream_link_contribution_at_instant()</h2>
+<a id="ab2a8face1b0c0a6be18dcd734905057e" name="ab2a8face1b0c0a6be18dcd734905057e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2a8face1b0c0a6be18dcd734905057e">&#9670;&#160;</a></span>SGA_Stream_link_contribution_at_instant()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -627,20 +692,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_link_contribution_at_instant </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">TimeId</td>          <td class="paramname"><span class="paramname"><em>time_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_Time</td>          <td class="paramname"><span class="paramname"><em>time</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the link contribution at a given instant in the <a class="el" href="structStream.html">Stream</a>. It is noted $l_t$ in the paper. </p>
+<p>Compute the link contribution at a given instant in the Stream. It is noted $l_t$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">time_id</td><td>The instant to get the contribution at. </td></tr>
   </table>
   </dd>
@@ -658,20 +723,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_link_duration </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the link duration of the <a class="el" href="structStream.html">Stream</a>. It is noted $l$ in the paper. </p>
+<p>Compute the link duration of the Stream. It is noted $l$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The link duration of the <a class="el" href="structStream.html">Stream</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The link duration of the Stream. </dd></dl>
 
 </div>
 </div>
@@ -684,22 +749,22 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_node_clustering_coeff </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="afc1b45ef152674859f077aa98377c189" name="afc1b45ef152674859f077aa98377c189"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc1b45ef152674859f077aa98377c189">&#9670;&#160;</a></span>SGA_Stream_node_contribution_at_instant()</h2>
+<a id="adbd17a44c378bb7632e433d8f75d9eb9" name="adbd17a44c378bb7632e433d8f75d9eb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbd17a44c378bb7632e433d8f75d9eb9">&#9670;&#160;</a></span>SGA_Stream_node_contribution_at_instant()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -707,20 +772,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_node_contribution_at_instant </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">TimeId</td>          <td class="paramname"><span class="paramname"><em>time_id</em></span>&#160;)</td>
+          <td class="paramtype">SGA_Time</td>          <td class="paramname"><span class="paramname"><em>time</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the node contribution at a given instant in the <a class="el" href="structStream.html">Stream</a>. It is noted $k_t$ in the paper. </p>
+<p>Compute the node contribution at a given instant in the Stream. It is noted $k_t$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">time_id</td><td>The instant to get the contribution at. </td></tr>
   </table>
   </dd>
@@ -738,20 +803,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_node_duration </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the node duration of the <a class="el" href="structStream.html">Stream</a>. It is noted $k$ in the paper. </p>
+<p>Compute the node duration of the Stream. It is noted $k$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The node duration of the <a class="el" href="structStream.html">Stream</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The node duration of the Stream. </dd></dl>
 
 </div>
 </div>
@@ -764,20 +829,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_number_of_links </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the number of links in the <a class="el" href="structStream.html">Stream</a>. It is noted $m$ in the paper. </p>
+<p>Compute the number of links in the Stream. It is noted $m$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The number of links in the <a class="el" href="structStream.html">Stream</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of links in the Stream. </dd></dl>
 
 </div>
 </div>
@@ -790,20 +855,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_number_of_nodes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the number of nodes in the <a class="el" href="structStream.html">Stream</a>. It is noted $n$ in the paper. </p>
+<p>Compute the number of nodes in the Stream. It is noted $n$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The number of nodes in the <a class="el" href="structStream.html">Stream</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of nodes in the Stream. </dd></dl>
 
 </div>
 </div>
@@ -816,16 +881,16 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">size_t SGA_Stream_temporal_cardinal_of_link_set </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the temporal cardinal of link set of a <a class="el" href="structStream.html">Stream</a>. It is noted |E| in the paper. It is defined as the sum of the duration of the presence of all links. </p>
+<p>Compute the temporal cardinal of link set of a Stream. It is noted |E| in the paper. It is defined as the sum of the duration of the presence of all links. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -842,16 +907,16 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">size_t SGA_Stream_temporal_cardinal_of_node_set </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the temporal cardinal of node set of a <a class="el" href="structStream.html">Stream</a>. It is noted |W| in the paper. It is defined as the sum of the duration of the presence of all nodes. For example, if the stream contains 2 nodes A present at [0, 2[ and B present at [1, 4[, the temporal cardinal of the node set is (2 - 0) + (4 - 1) = 2 + 3 = 5. </p>
+<p>Compute the temporal cardinal of node set of a Stream. It is noted |W| in the paper. It is defined as the sum of the duration of the presence of all nodes. For example, if the stream contains 2 nodes A present at [0, 2[ and B present at [1, 4[, the temporal cardinal of the node set is (2 - 0) + (4 - 1) = 2 + 3 = 5. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -868,20 +933,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_Stream_transiti
         <tr>
           <td class="memname">double SGA_Stream_uniformity </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="stream_8h.html#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the uniformity of the <a class="el" href="structStream.html">Stream</a>. It is noted $⋓$ in the paper. </p>
+<p>Compute the uniformity of the Stream. It is noted $⋓$ in the paper. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The uniformity of the <a class="el" href="structStream.html">Stream</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The uniformity of the Stream. </dd></dl>
 
 </div>
 </div>

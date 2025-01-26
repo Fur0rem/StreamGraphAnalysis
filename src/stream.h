@@ -51,7 +51,7 @@ struct SGA_StreamGraph {
 	KeyMomentsTable key_moments; ///< Key moments of the StreamGraph. A key moment is a moment where the StreamGraph changes.
 	NodesSet nodes;		     ///< The nodes of the StreamGraph.
 	LinksSet links;		     ///< The links of the StreamGraph.
-	Interval lifespan;	     ///< The time interval of the StreamGraph.
+	SGA_Interval lifespan;	     ///< The time interval of the StreamGraph.
 	size_t time_scale;	     ///< By how much the time is scaled. Used to normalise many time-related metrics.
 
 	EventsTable events; ///< The events of the StreamGraph. An event keeps track of additions and removals of nodes and links.
@@ -111,8 +111,7 @@ typedef void SGA_StreamData;
  *
  * Depends on an underlying StreamGraph, so its lifetime/scope should be less than the StreamGraph.
  */
-typedef struct Stream SGA_Stream;
-struct Stream {
+typedef struct SGA_Stream {
 	/**
 	 * @brief The type of the Stream.
 	 */
@@ -126,7 +125,7 @@ struct Stream {
 
 	SGA_StreamData* stream_data; ///< The data of the Stream. It is a union of all the different types of StreamData.
 	InformationCache cache;	     ///< A cache of information about the 4 main sets of a Stream.
-};
+} SGA_Stream;
 
 #ifdef SGA_INTERNAL
 
@@ -165,7 +164,7 @@ void init_cache(SGA_Stream* stream);
  */
 void reset_cache(SGA_Stream* stream);
 
-Interval SGA_StreamGraph_lifespan(SGA_StreamGraph* sg);
+SGA_Interval SGA_StreamGraph_lifespan(SGA_StreamGraph* sg);
 size_t SGA_StreamGraph_time_scale(SGA_StreamGraph* sg);
 void init_events_table(SGA_StreamGraph* sg);
 void events_destroy(SGA_StreamGraph* sg);

@@ -16,16 +16,18 @@
  * @param[in] stream_graph The StreamGraph to get the key moments from.
  * @return An iterator over all the key moments of the StreamGraph.
  */
-TimesIterator SGA_StreamGraph_key_moments(SGA_StreamGraph* stream_graph);
+SGA_TimesIterator SGA_StreamGraph_key_moments(SGA_StreamGraph* stream_graph);
 
 #ifdef SGA_INTERNAL
+
 /**
  * @brief Get all the key moments of a StreamGraph in between two instants
  * @param[in] stream_graph The StreamGraph to get the key moments from.
  * @param[in] interval The interval to get the key moments in.
  * @return An iterator over all the key moments of the StreamGraph in the interval.
  */
-TimesIterator SGA_StreamGraph_key_moments_between(SGA_StreamGraph* stream_graph, Interval interval);
+SGA_TimesIterator SGA_StreamGraph_key_moments_between(SGA_StreamGraph* stream_graph, SGA_Interval interval);
+
 #endif // SGA_INTERNAL
 
 #endif // SGA_KEY_MOMENTS_H

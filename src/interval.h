@@ -8,57 +8,58 @@
 #include <stddef.h>
 
 typedef struct {
-	TimeId start;
-	TimeId end;
-} Interval;
+	SGA_Time start;
+	SGA_Time end;
+} SGA_Interval;
 
 typedef struct {
 	size_t nb_intervals;
-	Interval* intervals;
-} IntervalsSet;
+	SGA_Interval* intervals;
+} SGA_IntervalsSet;
 
 // TODO: maybe change the name of contains ?
-bool Interval_contains(Interval interval, TimeId time);
-bool Interval_contains_interval(Interval container, Interval contained);
-bool Interval_overlaps_interval(Interval left, Interval right);
+// TODO: maybe use pointers for those instead?
+bool SGA_Interval_contains(SGA_Interval interval, SGA_Time time);
+bool SGA_Interval_contains_interval(SGA_Interval container, SGA_Interval contained);
+bool SGA_Interval_overlaps_interval(SGA_Interval left, SGA_Interval right);
 
-size_t Interval_duration(Interval interval);
-Interval Interval_from(TimeId start, TimeId end);
-Interval Interval_intersection(Interval left, Interval right);
-Interval Interval_minus(Interval left, Interval right);
+size_t SGA_Interval_duration(SGA_Interval interval);
+SGA_Interval SGA_Interval_from(SGA_Time start, SGA_Time end);
+SGA_Interval SGA_Interval_intersection(SGA_Interval left, SGA_Interval right);
+SGA_Interval SGA_Interval_minus(SGA_Interval left, SGA_Interval right);
 
-DeclareToString(Interval);
-DeclareEquals(Interval);
+DeclareToString(SGA_Interval);
+DeclareEquals(SGA_Interval);
 
-DeclareArrayList(Interval);
-DeclareArrayListDeriveRemove(Interval);
-DeclareArrayListDeriveEquals(Interval);
-DeclareArrayListDeriveToString(Interval);
+DeclareArrayList(SGA_Interval);
+DeclareArrayListDeriveRemove(SGA_Interval);
+DeclareArrayListDeriveEquals(SGA_Interval);
+DeclareArrayListDeriveToString(SGA_Interval);
 
-// int Interval_starts_before(const void* a, const void* b);
+// int SGA_Interval_starts_before(const void* a, const void* b);
 
-size_t IntervalsSet_size(IntervalsSet intervals_set);
-IntervalsSet IntervalsSet_alloc(size_t nb_intervals);
-void IntervalsSet_merge(IntervalsSet* intervals_set);
-IntervalsSet IntervalsSet_intersection(IntervalsSet left, IntervalsSet right);
-IntervalArrayList IntervalArrayList_intersection(IntervalArrayList* left, IntervalArrayList* right);
-IntervalsSet IntervalsSet_intersection_with_single(IntervalsSet set, Interval interval);
-void IntervalsSet_self_intersection_with_single(IntervalsSet* intervals_set, Interval interval);
-IntervalsSet IntervalsSet_union(IntervalsSet left, IntervalsSet right);
-void IntervalsSet_destroy(IntervalsSet intervals_set);
-Interval IntervalsSet_last(IntervalsSet* intervals_set);
-bool IntervalsSet_contains(IntervalsSet intervals_set, TimeId time);
-bool IntervalsSet_contains_sorted(IntervalsSet intervals_set, TimeId time);
+size_t SGA_IntervalsSet_size(SGA_IntervalsSet intervals_set);
+SGA_IntervalsSet SGA_IntervalsSet_alloc(size_t nb_intervals);
+void SGA_IntervalsSet_merge(SGA_IntervalsSet* intervals_set);
+SGA_IntervalsSet SGA_IntervalsSet_intersection(SGA_IntervalsSet left, SGA_IntervalsSet right);
+SGA_IntervalArrayList SGA_IntervalArrayList_intersection(SGA_IntervalArrayList* left, SGA_IntervalArrayList* right);
+SGA_IntervalsSet SGA_IntervalsSet_intersection_with_single(SGA_IntervalsSet set, SGA_Interval interval);
+void SGA_IntervalsSet_self_intersection_with_single(SGA_IntervalsSet* intervals_set, SGA_Interval interval);
+SGA_IntervalsSet SGA_IntervalsSet_union(SGA_IntervalsSet left, SGA_IntervalsSet right);
+void SGA_IntervalsSet_destroy(SGA_IntervalsSet intervals_set);
+SGA_Interval SGA_IntervalsSet_last(SGA_IntervalsSet* intervals_set);
+bool SGA_IntervalsSet_contains(SGA_IntervalsSet intervals_set, SGA_Time time);
+bool SGA_IntervalsSet_contains_sorted(SGA_IntervalsSet intervals_set, SGA_Time time);
 
-void IntervalsSet_add_at(IntervalsSet* intervals_set, Interval interval, size_t index);
+void SGA_IntervalsSet_add_at(SGA_IntervalsSet* intervals_set, SGA_Interval interval, size_t index);
 
-IntervalsSet IntervalsSet_from_interval_arraylist(IntervalArrayList intervals);
-IntervalArrayList IntervalArrayList_from_intervals_set(IntervalsSet intervals_set);
+SGA_IntervalsSet SGA_IntervalsSet_from_interval_arraylist(SGA_IntervalArrayList intervals);
+SGA_IntervalArrayList SGA_IntervalArrayList_from_intervals_set(SGA_IntervalsSet intervals_set);
 
-void IntervalsSet_sort(IntervalsSet* intervals_set);
+void SGA_IntervalsSet_sort(SGA_IntervalsSet* intervals_set);
 
-Interval Interval_empty();
-bool Interval_is_empty(Interval interval);
+SGA_Interval SGA_Interval_empty();
+bool SGA_Interval_is_empty(SGA_Interval interval);
 
 typedef struct {
 	enum {
@@ -69,8 +70,8 @@ typedef struct {
 	size_t offset;
 } SGA_Offset;
 
-SGA_Offset IntervalArrayList_offset_of(const IntervalArrayList* self, const IntervalArrayList* other);
-SGA_Offset Interval_offset_of(const Interval* self, const Interval* other);
+SGA_Offset SGA_IntervalArrayList_offset_of(const SGA_IntervalArrayList* self, const SGA_IntervalArrayList* other);
+SGA_Offset SGA_Interval_offset_of(const SGA_Interval* self, const SGA_Interval* other);
 
 bool SGA_Offset_is_ok(SGA_Offset offset);
 

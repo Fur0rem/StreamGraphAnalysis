@@ -28,7 +28,7 @@ typedef struct {
 // nodes
 // TODO : Maybe merge all the data access files into one, since they're all quite similar and small
 
-size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
+size_t LinksPresentAtT_next_after_disappearence(SGA_LinksIterator* links_iter) {
 
 	LinksPresentAtTIterator* links_iter_data = (LinksPresentAtTIterator*)links_iter->iterator_data;
 	SGA_StreamGraph* stream_graph		 = links_iter->stream_graph.stream_data;
@@ -68,7 +68,7 @@ size_t LinksPresentAtT_next_after_disappearence(LinksIterator* links_iter) {
 }
 
 // Returns NULL if there are no more links present at time t
-size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
+size_t LinksPresentAtT_next_before_disappearance(SGA_LinksIterator* links_iter) {
 
 	LinksPresentAtTIterator* links_iter_data = (LinksPresentAtTIterator*)links_iter->iterator_data;
 	SGA_StreamGraph* stream_graph		 = links_iter->stream_graph.stream_data;
@@ -103,17 +103,17 @@ size_t LinksPresentAtT_next_before_disappearance(LinksIterator* links_iter) {
 	return return_val;
 }
 
-void LinksPresentAtTIterator_destroy(LinksIterator* links_iter) {
+void LinksPresentAtTIterator_destroy(SGA_LinksIterator* links_iter) {
 	free(links_iter->iterator_data);
 }
 
-LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, TimeId t) {
-	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
+SGA_LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, SGA_Time time) {
+	DEV_ASSERT(SGA_Interval_contains(stream_graph->lifespan, time));
 
-	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
+	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, time);
 
 	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
-	if (t >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.link_events.disappearance_index)) {
+	if (time >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.link_events.disappearance_index)) {
 		current_event++;
 	}
 
@@ -129,13 +129,13 @@ LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, Ti
 	// stream->stream = stream_graph;
 
 	if (current_event > stream_graph->events.nb_events) {
-		return (LinksIterator){.stream_graph  = stream,
-				       .iterator_data = links_iter_data,
-				       .next	      = LinksPresentAtT_next_after_disappearence,
-				       .destroy	      = LinksPresentAtTIterator_destroy};
+		return (SGA_LinksIterator){.stream_graph  = stream,
+					   .iterator_data = links_iter_data,
+					   .next	  = LinksPresentAtT_next_after_disappearence,
+					   .destroy	  = LinksPresentAtTIterator_destroy};
 	}
 
-	LinksIterator links_iter = {
+	SGA_LinksIterator links_iter = {
 	    .stream_graph  = stream,
 	    .iterator_data = links_iter_data,
 	    .destroy	   = LinksPresentAtTIterator_destroy,
@@ -151,7 +151,7 @@ LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph, Ti
 
 // Okay so next_after i have to put the skip loop before and in the next_before i have to put it after
 
-size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
+size_t NodesPresentAtT_next_after_disappearence(SGA_NodesIterator* nodes_iter) {
 
 	NodesPresentAtTIterator* nodes_iter_data = (NodesPresentAtTIterator*)nodes_iter->iterator_data;
 	SGA_StreamGraph* stream_graph		 = nodes_iter->stream_graph.stream_data;
@@ -187,7 +187,7 @@ size_t NodesPresentAtT_next_after_disappearence(NodesIterator* nodes_iter) {
 }
 
 // Returns NULL if there are no more nodes present at time t
-size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
+size_t NodesPresentAtT_next_before_disappearance(SGA_NodesIterator* nodes_iter) {
 
 	NodesPresentAtTIterator* nodes_iter_data = (NodesPresentAtTIterator*)nodes_iter->iterator_data;
 	SGA_StreamGraph* stream_graph		 = nodes_iter->stream_graph.stream_data;
@@ -222,17 +222,17 @@ size_t NodesPresentAtT_next_before_disappearance(NodesIterator* nodes_iter) {
 	return return_val;
 }
 
-void NodesPresentAtTIterator_destroy(NodesIterator* nodes_iter) {
+void NodesPresentAtTIterator_destroy(SGA_NodesIterator* nodes_iter) {
 	free(nodes_iter->iterator_data);
 }
 
-NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph, TimeId t) {
-	DEV_ASSERT(Interval_contains(stream_graph->lifespan, t));
+SGA_NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph, SGA_Time time) {
+	DEV_ASSERT(SGA_Interval_contains(stream_graph->lifespan, time));
 
-	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, t);
+	size_t current_event = KeyMomentsTable_find_time_index(&stream_graph->key_moments, time);
 
 	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
-	if (t >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.node_events.disappearance_index)) {
+	if (time >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.node_events.disappearance_index)) {
 		current_event++;
 	}
 
@@ -244,7 +244,7 @@ NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph, Ti
 	// stream->stream = stream_graph;
 	if (current_event > stream_graph->events.nb_events) {
 		NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
-		return (NodesIterator){
+		return (SGA_NodesIterator){
 		    .stream_graph  = stream,
 		    .iterator_data = nodes_iter_data,
 		    .next	   = NodesPresentAtT_next_after_disappearence,
@@ -255,11 +255,11 @@ NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph, Ti
 	NodesPresentAtTIterator* nodes_iter_data = MALLOC(sizeof(NodesPresentAtTIterator));
 	nodes_iter_data->current_event		 = current_event;
 	nodes_iter_data->current_node		 = 0;
-	NodesIterator nodes_iter		 = {
-			    .stream_graph  = stream,
-			    .iterator_data = nodes_iter_data,
-			    .destroy	   = NodesPresentAtTIterator_destroy,
-	};
+	SGA_NodesIterator nodes_iter		 = {
+			.stream_graph  = stream,
+			.iterator_data = nodes_iter_data,
+			.destroy       = NodesPresentAtTIterator_destroy,
+	    };
 	if (current_event > stream_graph->events.node_events.disappearance_index) {
 		nodes_iter.next = NodesPresentAtT_next_after_disappearence;
 	}

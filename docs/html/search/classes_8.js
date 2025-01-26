@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['metricsfunctions_0',['MetricsFunctions',['../structMetricsFunctions.html',1,'']]],
-  ['momentsslice_1',['MomentsSlice',['../structMomentsSlice.html',1,'']]],
-  ['mycounter_2',['MyCounter',['../structMyCounter.html',1,'']]],
-  ['myset_3',['MySet',['../structMySet.html',1,'']]]
+  ['neighborlist_0',['NeighborList',['../structNeighborList.html',1,'']]],
+  ['neighborlistend_1',['NeighborListEnd',['../structNeighborListEnd.html',1,'']]],
+  ['nodepresence_2',['NodePresence',['../structNodePresence.html',1,'']]],
+  ['nodesset_3',['NodesSet',['../structNodesSet.html',1,'']]]
 ];

@@ -16,7 +16,7 @@
  * @param[in] node_id The id of the node.
  * @return An iterator over the links between the node and its neighbours.
  */
-LinksIterator SGA_StreamGraph_neighbours_of_node(SGA_StreamGraph* stream_graph, NodeId node_id);
+SGA_LinksIterator SGA_StreamGraph_neighbours_of_node(SGA_StreamGraph* stream_graph, SGA_NodeId node_id);
 
 /**
  * @brief Get the times a node is present in a StreamGraph.
@@ -24,14 +24,14 @@ LinksIterator SGA_StreamGraph_neighbours_of_node(SGA_StreamGraph* stream_graph, 
  * @param[in] node_id The id of the node.
  * @return An iterator over the times the node is present.
  */
-TimesIterator SGA_StreamGraph_times_node_present(SGA_StreamGraph* stream_graph, NodeId node_id);
+SGA_TimesIterator SGA_StreamGraph_times_node_present(SGA_StreamGraph* stream_graph, SGA_NodeId node_id);
 
 /**
  * @brief Get the set of nodes in a StreamGraph.
  * @param[in] stream_graph The StreamGraph to get the nodes of.
  * @return An iterator over all the nodes of the StreamGraph.
  */
-NodesIterator SGA_StreamGraph_nodes_set(SGA_StreamGraph* stream_graph);
+SGA_NodesIterator SGA_StreamGraph_nodes_set(SGA_StreamGraph* stream_graph);
 
 /**
  * @brief Get a node by its id.
@@ -39,7 +39,7 @@ NodesIterator SGA_StreamGraph_nodes_set(SGA_StreamGraph* stream_graph);
  * @param[in] node_id The id of the node to get.
  * @return The node with the given id.
  */
-Node SGA_StreamGraph_node_by_id(SGA_StreamGraph* stream_graph, NodeId node_id);
+SGA_Node SGA_StreamGraph_node_by_id(SGA_StreamGraph* stream_graph, SGA_NodeId node_id);
 
 #endif // SGA_INTERNAL
 
