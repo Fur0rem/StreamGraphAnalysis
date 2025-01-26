@@ -1,0 +1,31 @@
+<map id="SGA_StreamGraph" name="SGA_StreamGraph">
+<area shape="rect" id="Node000001" title="The internal implementation of a StreamGraph." alt="" coords="429,393,570,421"/>
+<area shape="rect" id="Node000002" href="$structKeyMomentsTable.html" title=" " alt="" coords="166,300,307,328"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,341,255,356,266,367,294,379,334,388,429,399,428,404,333,393,292,384,263,371,251,359,243,344"/>
+<area shape="rect" id="Node000003" href="$structMomentsSlice.html" title=" " alt="" coords="5,191,119,218"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,225,217,298,214,302,95,229"/>
+<area shape="rect" id="Node000004" href="$structKeyMomentsTableIterator.html" title=" " alt="" coords="142,191,331,218"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="239,234,239,300,234,300,234,234"/>
+<area shape="rect" id="Node000005" href="$structNodesSet.html" title="The structure of a set of nodes in a StreamGraph." alt="" coords="458,300,541,328"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="502,343,502,393,497,393,497,343"/>
+<area shape="rect" id="Node000006" href="$structSGA__Node.html" title="The structure of a node in a StreamGraph." alt="" coords="460,191,549,218"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="506,234,503,300,497,300,501,234"/>
+<area shape="rect" id="Node000007" href="$structSGA__IntervalsSet.html" title=" " alt="" coords="438,98,571,126"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="507,141,507,190,502,190,502,141"/>
+<area shape="rect" id="Node000010" href="$structSGA__Link.html" title=" " alt="" coords="573,191,655,218"/>
+<area shape="poly" id="edge10_Node000010_Node000007" title=" " alt="" coords="550,131,574,148,594,168,608,188,604,192,590,172,571,152,547,135"/>
+<area shape="rect" id="Node000008" href="$structSGA__Interval.html" title=" " alt="" coords="348,5,453,33"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="393,48,386,78,382,111,382,315,389,341,406,362,430,378,456,390,454,395,428,383,403,366,384,343,377,316,377,110,380,77,388,47"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="429,41,491,95,488,99,425,45"/>
+<area shape="rect" id="Node000009" href="$structLinksSet.html" title=" " alt="" coords="565,300,642,328"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="582,341,549,371,519,395,516,390,546,367,578,337"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="614,234,607,301,602,300,609,233"/>
+<area shape="rect" id="Node000011" href="$structEventsTable.html" title=" " alt="" coords="666,300,765,328"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="678,338,606,371,542,395,540,390,604,367,676,333"/>
+<area shape="rect" id="Node000012" href="$structEvents.html" title=" " alt="" coords="683,191,748,218"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="718,234,718,300,713,300,713,234"/>
+<area shape="rect" id="Node000013" href="$structEvent.html" title=" " alt="" coords="678,98,736,126"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="712,141,717,190,712,191,707,141"/>
+<area shape="rect" id="Node000014" href="$structBitArray.html" title=" " alt="" coords="761,98,835,126"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="787,141,768,168,739,192,736,188,764,165,783,138"/>
+</map>

@@ -18,53 +18,53 @@ bool test_cardinal_of_T_S_0() {
 	SGA_Stream st	      = SGA_FullStreamGraph_from(&sg);
 	StreamFunctions funcs = STREAM_FUNCS(funcs, &st);
 
-	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 0);
-	size_t cardinal		 = total_time_of(times_iter);
+	SGA_TimesIterator times_iter = funcs.times_node_present(st.stream_data, 0);
+	size_t cardinal		     = SGA_total_time_of(times_iter);
 
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 100);
 }
 bool test_cardinal_of_T_S_1() {
-	SGA_StreamGraph sg	 = SGA_StreamGraph_from_file("data/S.txt");
-	SGA_Stream st		 = SGA_FullStreamGraph_from(&sg);
-	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 1);
-	size_t cardinal		 = total_time_of(times_iter);
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_Stream st		     = SGA_FullStreamGraph_from(&sg);
+	StreamFunctions funcs	     = STREAM_FUNCS(funcs, &st);
+	SGA_TimesIterator times_iter = funcs.times_node_present(st.stream_data, 1);
+	size_t cardinal		     = SGA_total_time_of(times_iter);
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 90);
 }
 
 bool test_cardinal_of_T_S_2() {
-	SGA_StreamGraph sg	 = SGA_StreamGraph_from_file("data/S.txt");
-	SGA_Stream st		 = SGA_FullStreamGraph_from(&sg);
-	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 2);
-	size_t cardinal		 = total_time_of(times_iter);
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_Stream st		     = SGA_FullStreamGraph_from(&sg);
+	StreamFunctions funcs	     = STREAM_FUNCS(funcs, &st);
+	SGA_TimesIterator times_iter = funcs.times_node_present(st.stream_data, 2);
+	size_t cardinal		     = SGA_total_time_of(times_iter);
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 50);
 }
 
 bool test_cardinal_of_T_S_3() {
-	SGA_StreamGraph sg	 = SGA_StreamGraph_from_file("data/S.txt");
-	SGA_Stream st		 = SGA_FullStreamGraph_from(&sg);
-	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
-	size_t cardinal		 = total_time_of(times_iter);
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_Stream st		     = SGA_FullStreamGraph_from(&sg);
+	StreamFunctions funcs	     = STREAM_FUNCS(funcs, &st);
+	SGA_TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
+	size_t cardinal		     = SGA_total_time_of(times_iter);
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(cardinal, 20);
 }
 
 bool test_times_node_present() {
-	SGA_StreamGraph sg	 = SGA_StreamGraph_from_file("data/S.txt");
-	SGA_Stream st		 = SGA_FullStreamGraph_from(&sg);
-	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
-	TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_Stream st		     = SGA_FullStreamGraph_from(&sg);
+	StreamFunctions funcs	     = STREAM_FUNCS(funcs, &st);
+	SGA_TimesIterator times_iter = funcs.times_node_present(st.stream_data, 3);
 	printf("Present from : \n");
-	FOR_EACH_TIME(interval, times_iter) {
+	SGA_FOR_EACH_TIME(interval, times_iter) {
 		printf("[%lu, %lu] U ", interval.start, interval.end);
 	}
 	SGA_FullStreamGraph_destroy(st);
@@ -73,21 +73,21 @@ bool test_times_node_present() {
 }
 
 bool test_cardinal_of_W_S() {
-	SGA_StreamGraph sg	 = SGA_StreamGraph_from_file("data/S.txt");
-	SGA_Stream st		 = SGA_FullStreamGraph_from(&sg);
-	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
-	size_t cardinal		 = 0;
-	FOR_EACH_NODE(node_id, nodes_iter) {
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_Stream st		     = SGA_FullStreamGraph_from(&sg);
+	StreamFunctions funcs	     = STREAM_FUNCS(funcs, &st);
+	SGA_NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
+	size_t cardinal		     = 0;
+	SGA_FOR_EACH_NODE(node_id, nodes_iter) {
 		printf("NODE %zu\n", node_id);
 		size_t before = cardinal;
 		// for each interval of presence of the node
-		Node node = sg.nodes.nodes[node_id];
+		SGA_Node node = sg.nodes.nodes[node_id];
 		// for each interval of presence of the node
 		for (size_t i = 0; i < node.presence.nb_intervals; i++) {
 			printf("Interval %zu : [%lu, %lu]\n", i, node.presence.intervals[i].start, node.presence.intervals[i].end);
 		}
-		cardinal += total_time_of(funcs.times_node_present(st.stream_data, node_id));
+		cardinal += SGA_total_time_of(funcs.times_node_present(st.stream_data, node_id));
 		printf("Cardinal : %zu\n", cardinal - before);
 	}
 	SGA_FullStreamGraph_destroy(st);
@@ -96,13 +96,13 @@ bool test_cardinal_of_W_S() {
 }
 
 bool test_cardinal_of_W_L() {
-	SGA_StreamGraph sg	 = SGA_StreamGraph_from_file("data/S.txt");
-	SGA_Stream st		 = SGA_LinkStream_from(&sg);
-	StreamFunctions funcs	 = STREAM_FUNCS(funcs, &st);
-	NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
-	size_t cardinal		 = 0;
-	FOR_EACH_NODE(node_id, nodes_iter) {
-		cardinal += total_time_of(funcs.times_node_present(st.stream_data, node_id));
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_Stream st		     = SGA_LinkStream_from(&sg);
+	StreamFunctions funcs	     = STREAM_FUNCS(funcs, &st);
+	SGA_NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
+	size_t cardinal		     = 0;
+	SGA_FOR_EACH_NODE(node_id, nodes_iter) {
+		cardinal += SGA_total_time_of(funcs.times_node_present(st.stream_data, node_id));
 	}
 	SGA_LinkStream_destroy(st);
 	SGA_StreamGraph_destroy(sg);

@@ -1,0 +1,56 @@
+\doxysection{src/stream\+\_\+graph/key\+\_\+moments\+\_\+table.h File Reference}
+\hypertarget{key__moments__table_8h}{}\label{key__moments__table_8h}\index{src/stream\_graph/key\_moments\_table.h@{src/stream\_graph/key\_moments\_table.h}}
+
+
+Table of all key moments.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Table of all key moments. 
+
+{\ttfamily \#include "{}../units.\+h"{}}\newline
+{\ttfamily \#include "{}../utils.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for key\+\_\+moments\+\_\+table.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{key__moments__table_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{key__moments__table_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structMomentsSlice}{Moments\+Slice}}
+\item 
+struct \mbox{\hyperlink{structKeyMomentsTableIterator}{Key\+Moments\+Table\+Iterator}}
+\item 
+struct \mbox{\hyperlink{structKeyMomentsTable}{Key\+Moments\+Table}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{key__moments__table_8h_ab3db31fcb00226b4a62a403805cea938}\label{key__moments__table_8h_ab3db31fcb00226b4a62a403805cea938} 
+\#define {\bfseries RELATIVE\+\_\+\+MOMENT\+\_\+\+MAX}~((Relative\+Moment)\texorpdfstring{$\sim$}{\string~}0)
+\item 
+\Hypertarget{key__moments__table_8h_acbd539e016f410437814d7029e576971}\label{key__moments__table_8h_acbd539e016f410437814d7029e576971} 
+\#define {\bfseries SLICE\+\_\+\+SIZE}~(((size\+\_\+t)RELATIVE\+\_\+\+MOMENT\+\_\+\+MAX) + 1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{key__moments__table_8h_a3bcfae9004c0ec6e49c5b631332e56fa}\label{key__moments__table_8h_a3bcfae9004c0ec6e49c5b631332e56fa} 
+typedef uint8\+\_\+t {\bfseries Relative\+Moment}
+\end{DoxyCompactItemize}

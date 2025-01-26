@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cache_0',['cache',['../structStream.html#ae260f00346ff1f0f0dedb7a4c5b4e953',1,'Stream']]]
+  ['cache_0',['cache',['../structSGA__Stream.html#ad50e9e6167fed3e723994d3909e0496f',1,'SGA_Stream']]]
 ];

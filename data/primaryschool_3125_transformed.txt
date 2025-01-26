@@ -2,7 +2,7 @@ SGA External Format 1.0.0
 
 [General]
 Lifespan=(3122 15124)
-Scaling=1
+TimeScale=1
 
 [Events]
 3122 + N 72

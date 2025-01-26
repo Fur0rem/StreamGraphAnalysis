@@ -1,6 +1,9 @@
 <map id="LinksSet" name="LinksSet">
-<area shape="rect" id="node1" title=" " alt="" coords="17,273,94,300"/>
-<area shape="rect" id="node2" href="$structLink.html" title=" " alt="" coords="31,184,80,211"/>
-<area shape="rect" id="node3" href="$structIntervalsSet.html" title=" " alt="" coords="5,95,105,121"/>
-<area shape="rect" id="node4" href="$structInterval.html" title=" " alt="" coords="19,5,91,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="34,283,110,311"/>
+<area shape="rect" id="Node000002" href="$structSGA__Link.html" title=" " alt="" coords="31,191,113,218"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,234,75,283,69,283,69,234"/>
+<area shape="rect" id="Node000003" href="$structSGA__IntervalsSet.html" title=" " alt="" coords="5,98,139,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,141,75,190,69,190,69,141"/>
+<area shape="rect" id="Node000004" href="$structSGA__Interval.html" title=" " alt="" coords="19,5,125,33"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="75,48,75,98,69,98,69,48"/>
 </map>

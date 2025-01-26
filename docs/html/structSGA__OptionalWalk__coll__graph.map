@@ -1,0 +1,16 @@
+<map id="SGA_OptionalWalk" name="SGA_OptionalWalk">
+<area shape="rect" id="Node000001" title="May contain a walk or a reason why a walk is not possible." alt="" coords="87,512,229,540"/>
+<area shape="rect" id="Node000002" href="$structSGA__Walk.html" title="A walk in a stream A walk is a sequence of steps that goes from a node to another node in a stream...." alt="" coords="201,419,288,447"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,462,207,490,179,513,175,509,203,486,226,458"/>
+<area shape="rect" id="Node000003" href="$structSGA__Interval.html" title=" " alt="" coords="88,327,193,354"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="193,359,217,376,233,397,243,418,238,420,228,400,213,380,190,364"/>
+<area shape="rect" id="Node000007" href="$structSGA__NoWalkReason.html" title="A reason why a walk is not possible It can be because a node does not exist in the stream at the time..." alt="" coords="5,419,159,447"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="82,364,68,380,65,389,66,398,75,418,70,420,60,400,59,388,63,377,79,361"/>
+<area shape="rect" id="Node000004" href="$structSGA__Stream.html" title="The structure of a Stream." alt="" coords="295,327,397,354"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="337,370,319,397,301,411,282,421,279,416,298,406,315,393,333,367"/>
+<area shape="rect" id="Node000005" href="$structInformationCache.html" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="277,234,415,262"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="349,277,349,326,343,326,343,277"/>
+<area shape="rect" id="Node000006" href="$structOptionalSizeT.html" title="A size_t that can be optional." alt="" coords="290,5,402,33"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="349,48,349,234,343,234,343,48"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="87,461,98,487,111,499,127,509,124,514,108,503,93,489,82,463"/>
+</map>

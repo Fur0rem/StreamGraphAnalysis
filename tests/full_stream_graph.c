@@ -17,8 +17,8 @@ bool test_links_at_time_80() {
 	SGA_Stream stream   = SGA_FullStreamGraph_from(&sg);
 	StreamFunctions fns = FullStreamGraph_stream_functions;
 
-	LinksIterator links_present_at_80 = fns.links_present_at_t(stream.stream_data, 80);
-	FOR_EACH_LINK(link, links_present_at_80) {
+	SGA_LinksIterator links_present_at_80 = fns.links_present_at_t(stream.stream_data, 80);
+	SGA_FOR_EACH_LINK(link, links_present_at_80) {
 		printf("Link : %zu (%zu - %zu)\n", link, sg.links.links[link].nodes[0], sg.links.links[link].nodes[1]);
 	}
 	// events_destroy(&sg);

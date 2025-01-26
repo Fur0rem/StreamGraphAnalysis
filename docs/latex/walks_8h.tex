@@ -1,0 +1,403 @@
+\doxysection{src/analysis/walks.h File Reference}
+\hypertarget{walks_8h}{}\label{walks_8h}\index{src/analysis/walks.h@{src/analysis/walks.h}}
+
+
+Analysis regarding walks in streams and computations related to it.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Analysis regarding walks in streams and computations related to it. 
+
+{\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
+{\ttfamily \#include "{}../interval.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../units.\+h"{}}\newline
+{\ttfamily \#include "{}../utils.\+h"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+Include dependency graph for walks.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{walks_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=211pt]{walks_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}}
+\begin{DoxyCompactList}\small\item\em A step in a Walk. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}}
+\begin{DoxyCompactList}\small\item\em A walk in a stream A walk is a sequence of steps that goes from a node to another node in a stream. A walk can go through the same node and link multiple times. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSGA__NoWalkReason}{SGA\+\_\+\+No\+Walk\+Reason}}
+\begin{DoxyCompactList}\small\item\em A reason why a walk is not possible It can be because a node does not exist in the stream at the time of the walk or because the node is simply unreachable. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}}
+\begin{DoxyCompactList}\small\item\em May contain a walk or a reason why a walk is not possible. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{walks_8h_a97ff0eb07f60047db1db42ab5db94599}\label{walks_8h_a97ff0eb07f60047db1db42ab5db94599} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}})
+\item 
+\Hypertarget{walks_8h_afc890c33595542bdcf98ba02f0dd47b5}\label{walks_8h_afc890c33595542bdcf98ba02f0dd47b5} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}})
+\item 
+\Hypertarget{walks_8h_a9f5196544e1010b8d6fcec97bde2f79d}\label{walks_8h_a9f5196544e1010b8d6fcec97bde2f79d} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}})
+\item 
+\Hypertarget{walks_8h_aa9df823cfda58a7b68c9862506ec2abd}\label{walks_8h_aa9df823cfda58a7b68c9862506ec2abd} 
+{\bfseries Declare\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}})
+\item 
+\Hypertarget{walks_8h_a18fce12bb8275551721994faf323cf43}\label{walks_8h_a18fce12bb8275551721994faf323cf43} 
+{\bfseries Declare\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}})
+\item 
+\Hypertarget{walks_8h_adcd43332114113b44491f13d0f758af3}\label{walks_8h_adcd43332114113b44491f13d0f758af3} 
+{\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structSGA__WalkStep}{SGA\+\_\+\+Walk\+Step}})
+\item 
+\Hypertarget{walks_8h_ac10c4393ec617b95ac156025793e50ee}\label{walks_8h_ac10c4393ec617b95ac156025793e50ee} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}})
+\item 
+\Hypertarget{walks_8h_a831b5d639d361209dccec94d3f19a24d}\label{walks_8h_a831b5d639d361209dccec94d3f19a24d} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}})
+\item 
+\Hypertarget{walks_8h_a1ff823b608c943b9615c8e2e7b769457}\label{walks_8h_a1ff823b608c943b9615c8e2e7b769457} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}})
+\item 
+\Hypertarget{walks_8h_a0f4847e654da4610f42284630814cd1d}\label{walks_8h_a0f4847e654da4610f42284630814cd1d} 
+{\bfseries Declare\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}})
+\item 
+\Hypertarget{walks_8h_adb17db05c201030f3d941896c5cf7f37}\label{walks_8h_adb17db05c201030f3d941896c5cf7f37} 
+{\bfseries Declare\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}})
+\item 
+\Hypertarget{walks_8h_a2034e88b2c7589bf6e6b2c8fd351881a}\label{walks_8h_a2034e88b2c7589bf6e6b2c8fd351881a} 
+{\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}})
+\item 
+\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \mbox{\hyperlink{walks_8h_a6d4a88e745f804c7e6d5885a11d513c5}{SGA\+\_\+\+Optional\+Walk\+\_\+unwrap\+\_\+checked}} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} info)
+\begin{DoxyCompactList}\small\item\em Gets the walk contained in an optional walk. Panics if the optional walk does not contain a walk. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \mbox{\hyperlink{walks_8h_aa7c84eadd78019cfe68f9c537c936044}{SGA\+\_\+\+Optional\+Walk\+\_\+unwrap\+\_\+unchecked}} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} info)
+\begin{DoxyCompactList}\small\item\em Gets the walk contained in an optional walk. Does not check if the optional walk contains a walk. Produces undefined behavior if the optional walk does not contain a walk. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{walks_8h_a9c516109b73b18dc27068dbe4556b090}{SGA\+\_\+\+Walk\+\_\+length}} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}walk)
+\begin{DoxyCompactList}\small\item\em Calculates the length of a walk The length of a walk is the number of nodes it goes through. \end{DoxyCompactList}\item 
+\Hypertarget{walks_8h_a67470fc1050e8e90199fe6afd3781f56}\label{walks_8h_a67470fc1050e8e90199fe6afd3781f56} 
+size\+\_\+t {\bfseries SGA\+\_\+\+Walk\+\_\+duration} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}walk)
+\begin{DoxyCompactList}\small\item\em Calculates the duration of a walk The duration of a walk is the time it takes to go through all the steps of the walk. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{walks_8h_a427fc8924afa794634d8d86d85caeb63}{SGA\+\_\+\+Walk\+\_\+goes\+\_\+through}} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}walk, \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream, size\+\_\+t nb\+\_\+steps,...)
+\begin{DoxyCompactList}\small\item\em Checks if a walk goes through a node. \end{DoxyCompactList}\item 
+SGA\+\_\+\+Time \mbox{\hyperlink{walks_8h_a89d1d2fa3cc13827475bdb2a1ad60a69}{SGA\+\_\+\+Walk\+\_\+arrives\+\_\+at}} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}walk)
+\begin{DoxyCompactList}\small\item\em Gets the time at which a walk arrives at its destination. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} \mbox{\hyperlink{walks_8h_a2eb4fb3b2e9179db14d63a632d0c6e6b}{SGA\+\_\+shortest\+\_\+walk}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id from, SGA\+\_\+\+Node\+Id to, SGA\+\_\+\+Time at)
+\begin{DoxyCompactList}\small\item\em Computes the shortest walk from a node to another node at a given time. A walk is the shortest if it\textquotesingle{}s the one with the least length. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} \mbox{\hyperlink{walks_8h_aa6f82faf304d94b3c3154326f70d2a8d}{SGA\+\_\+fastest\+\_\+walk}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id from, SGA\+\_\+\+Node\+Id to, SGA\+\_\+\+Time at)
+\begin{DoxyCompactList}\small\item\em Computes the fastest walk from a node to another node at a given time. A walk is the fastest if it\textquotesingle{}s the one with the least duration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} \mbox{\hyperlink{walks_8h_a2e1f985fc5811e61d9c38f3f3e4e1431}{Stream\+\_\+fastest\+\_\+shortest\+\_\+walk}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id from, SGA\+\_\+\+Node\+Id to, SGA\+\_\+\+Time at)
+\begin{DoxyCompactList}\small\item\em Computes the fastest of the shortest walks from a node to another node at a given time. A walk is the fastest shortest walk if it\textquotesingle{}s the fastest. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{walks_8h_a17b2ef8894d87a9ade6ddffdd5c0944e}{SGA\+\_\+\+Walk\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} walk)
+\begin{DoxyCompactList}\small\item\em Destroys a walk. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{walks_8h_af541e38c917e9734bd0d88679027048e}{SGA\+\_\+\+Optional\+Walk\+\_\+destroy}} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} wi)
+\begin{DoxyCompactList}\small\item\em Destroys an optional walk. \end{DoxyCompactList}\item 
+\Hypertarget{walks_8h_a4a2fa46edf793ba25168ceb0f382b777}\label{walks_8h_a4a2fa46edf793ba25168ceb0f382b777} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}})
+\item 
+\Hypertarget{walks_8h_a77e4fda6f7e4a50bc689dba85c36d007}\label{walks_8h_a77e4fda6f7e4a50bc689dba85c36d007} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}})
+\item 
+\Hypertarget{walks_8h_a68f31b8530b9787bf25a336bd23bb5b7}\label{walks_8h_a68f31b8530b9787bf25a336bd23bb5b7} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}})
+\item 
+\Hypertarget{walks_8h_a5b67442ad2b8c6aa6afb3d32c8776e3b}\label{walks_8h_a5b67442ad2b8c6aa6afb3d32c8776e3b} 
+{\bfseries Declare\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}})
+\item 
+\Hypertarget{walks_8h_a31b1be59b015be9d59f9bab585313be6}\label{walks_8h_a31b1be59b015be9d59f9bab585313be6} 
+{\bfseries Declare\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}})
+\item 
+\Hypertarget{walks_8h_a57d838e36d970f3c238afd3d353b5d19}\label{walks_8h_a57d838e36d970f3c238afd3d353b5d19} 
+{\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}})
+\item 
+SGA\+\_\+\+Optional\+Walk\+Array\+List \mbox{\hyperlink{walks_8h_a4e8e389ec492d1d506fc81f3819682d1}{SGA\+\_\+optimal\+\_\+walks\+\_\+between\+\_\+two\+\_\+nodes}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id from, SGA\+\_\+\+Node\+Id to, \mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}}(\texorpdfstring{$\ast$}{*}fn)(\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Node\+Id, SGA\+\_\+\+Node\+Id, SGA\+\_\+\+Time))
+\begin{DoxyCompactList}\small\item\em Computes the optimal walks between two nodes in a stream over the duration of the stream. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{walks_8h_af4c7fd83de3277b281d5f4b30283faf5}{SGA\+\_\+\+Stream\+\_\+robustness\+\_\+by\+\_\+length}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Computes the robustness of a stream by the length of the walks in it. The robustness (by length) of a stream is the average length of all optimal walks between all nodes at all times. It represents how much steps are needed on average to go from a node to another node at a given time in the stream. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{walks_8h_ace09d220e7b90f9e7e26a1fc56ca309b}{SGA\+\_\+\+Stream\+\_\+robustness\+\_\+by\+\_\+duration}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Computes the robustness of a stream by the duration of the walks in it. The robustness (by duration) of a stream is the average duration of all optimal walks between all nodes at all times. It represents how much time is needed on average to go from a node to another node at a given time in the stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{walks_8h_aa6f82faf304d94b3c3154326f70d2a8d}\index{walks.h@{walks.h}!SGA\_fastest\_walk@{SGA\_fastest\_walk}}
+\index{SGA\_fastest\_walk@{SGA\_fastest\_walk}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_fastest\_walk()}{SGA\_fastest\_walk()}}
+{\footnotesize\ttfamily \label{walks_8h_aa6f82faf304d94b3c3154326f70d2a8d} 
+\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} SGA\+\_\+fastest\+\_\+walk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{from}{, }\item[{SGA\+\_\+\+Node\+Id}]{to}{, }\item[{SGA\+\_\+\+Time}]{at}{}\end{DoxyParamCaption})}
+
+
+
+Computes the fastest walk from a node to another node at a given time. A walk is the fastest if it\textquotesingle{}s the one with the least duration. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{walks_8h_a67470fc1050e8e90199fe6afd3781f56}{SGA\+\_\+\+Walk\+\_\+duration} among all walks possible for this query. The algorithm used make it also the shortest 
+
+SGA\+\_\+shortest\+\_\+walkf fastest walk by design. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The stream in which the walk is \\
+\hline
+\mbox{\texttt{ in}}  & {\em from} & The node from which the walk starts \\
+\hline
+\mbox{\texttt{ in}}  & {\em to} & The node where the walk ends \\
+\hline
+\mbox{\texttt{ in}}  & {\em at} & The time at which the walk starts \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The fastest walk from the node to the other node at the given time if it exists, a reason why it does not exist otherwise. 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_a4e8e389ec492d1d506fc81f3819682d1}\index{walks.h@{walks.h}!SGA\_optimal\_walks\_between\_two\_nodes@{SGA\_optimal\_walks\_between\_two\_nodes}}
+\index{SGA\_optimal\_walks\_between\_two\_nodes@{SGA\_optimal\_walks\_between\_two\_nodes}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_optimal\_walks\_between\_two\_nodes()}{SGA\_optimal\_walks\_between\_two\_nodes()}}
+{\footnotesize\ttfamily \label{walks_8h_a4e8e389ec492d1d506fc81f3819682d1} 
+SGA\+\_\+\+Optional\+Walk\+Array\+List SGA\+\_\+optimal\+\_\+walks\+\_\+between\+\_\+two\+\_\+nodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{from}{, }\item[{SGA\+\_\+\+Node\+Id}]{to}{, }\item[{\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}}(\texorpdfstring{$\ast$}{*}}]{fn~}{)(\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}, SGA\+\_\+\+Node\+Id, SGA\+\_\+\+Node\+Id, SGA\+\_\+\+Time)}\end{DoxyParamCaption})}
+
+
+
+Computes the optimal walks between two nodes in a stream over the duration of the stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & The stream in which the walk is \\
+\hline
+{\em from} & The node from which the walk starts \\
+\hline
+{\em to} & The node where the walk ends \\
+\hline
+{\em fn} & The function that computes the optimal walk between two nodes at a given time \\
+\hline
+\end{DoxyParams}
+\Hypertarget{walks_8h_af541e38c917e9734bd0d88679027048e}\index{walks.h@{walks.h}!SGA\_OptionalWalk\_destroy@{SGA\_OptionalWalk\_destroy}}
+\index{SGA\_OptionalWalk\_destroy@{SGA\_OptionalWalk\_destroy}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_OptionalWalk\_destroy()}{SGA\_OptionalWalk\_destroy()}}
+{\footnotesize\ttfamily \label{walks_8h_af541e38c917e9734bd0d88679027048e} 
+void SGA\+\_\+\+Optional\+Walk\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}}}]{wi}{}\end{DoxyParamCaption})}
+
+
+
+Destroys an optional walk. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em wi} & The optional walk to destroy \\
+\hline
+\end{DoxyParams}
+\Hypertarget{walks_8h_a6d4a88e745f804c7e6d5885a11d513c5}\index{walks.h@{walks.h}!SGA\_OptionalWalk\_unwrap\_checked@{SGA\_OptionalWalk\_unwrap\_checked}}
+\index{SGA\_OptionalWalk\_unwrap\_checked@{SGA\_OptionalWalk\_unwrap\_checked}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_OptionalWalk\_unwrap\_checked()}{SGA\_OptionalWalk\_unwrap\_checked()}}
+{\footnotesize\ttfamily \label{walks_8h_a6d4a88e745f804c7e6d5885a11d513c5} 
+\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} SGA\+\_\+\+Optional\+Walk\+\_\+unwrap\+\_\+checked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}}}]{info}{}\end{DoxyParamCaption})}
+
+
+
+Gets the walk contained in an optional walk. Panics if the optional walk does not contain a walk. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em info} & The optional walk to get the walk from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The walk contained in the optional walk 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_aa7c84eadd78019cfe68f9c537c936044}\index{walks.h@{walks.h}!SGA\_OptionalWalk\_unwrap\_unchecked@{SGA\_OptionalWalk\_unwrap\_unchecked}}
+\index{SGA\_OptionalWalk\_unwrap\_unchecked@{SGA\_OptionalWalk\_unwrap\_unchecked}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_OptionalWalk\_unwrap\_unchecked()}{SGA\_OptionalWalk\_unwrap\_unchecked()}}
+{\footnotesize\ttfamily \label{walks_8h_aa7c84eadd78019cfe68f9c537c936044} 
+\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} SGA\+\_\+\+Optional\+Walk\+\_\+unwrap\+\_\+unchecked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}}}]{info}{}\end{DoxyParamCaption})}
+
+
+
+Gets the walk contained in an optional walk. Does not check if the optional walk contains a walk. Produces undefined behavior if the optional walk does not contain a walk. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em info} & The optional walk to get the walk from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The walk contained in the optional walk 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_a2eb4fb3b2e9179db14d63a632d0c6e6b}\index{walks.h@{walks.h}!SGA\_shortest\_walk@{SGA\_shortest\_walk}}
+\index{SGA\_shortest\_walk@{SGA\_shortest\_walk}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_shortest\_walk()}{SGA\_shortest\_walk()}}
+{\footnotesize\ttfamily \label{walks_8h_a2eb4fb3b2e9179db14d63a632d0c6e6b} 
+\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} SGA\+\_\+shortest\+\_\+walk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{from}{, }\item[{SGA\+\_\+\+Node\+Id}]{to}{, }\item[{SGA\+\_\+\+Time}]{at}{}\end{DoxyParamCaption})}
+
+
+
+Computes the shortest walk from a node to another node at a given time. A walk is the shortest if it\textquotesingle{}s the one with the least length. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{walks_8h_a9c516109b73b18dc27068dbe4556b090}{SGA\+\_\+\+Walk\+\_\+length} among all walks possible for this query. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The stream in which the walk is \\
+\hline
+\mbox{\texttt{ in}}  & {\em from} & The node from which the walk starts \\
+\hline
+\mbox{\texttt{ in}}  & {\em to} & The node where the walk ends \\
+\hline
+\mbox{\texttt{ in}}  & {\em at} & The time at which the walk starts \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The shortest walk from the node to the other node at the given time if it exists, a reason why it does not exist otherwise. 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_ace09d220e7b90f9e7e26a1fc56ca309b}\index{walks.h@{walks.h}!SGA\_Stream\_robustness\_by\_duration@{SGA\_Stream\_robustness\_by\_duration}}
+\index{SGA\_Stream\_robustness\_by\_duration@{SGA\_Stream\_robustness\_by\_duration}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_robustness\_by\_duration()}{SGA\_Stream\_robustness\_by\_duration()}}
+{\footnotesize\ttfamily \label{walks_8h_ace09d220e7b90f9e7e26a1fc56ca309b} 
+double SGA\+\_\+\+Stream\+\_\+robustness\+\_\+by\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Computes the robustness of a stream by the duration of the walks in it. The robustness (by duration) of a stream is the average duration of all optimal walks between all nodes at all times. It represents how much time is needed on average to go from a node to another node at a given time in the stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & The stream to compute the robustness of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The robustness of the stream by the duration of the walks in it 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_af4c7fd83de3277b281d5f4b30283faf5}\index{walks.h@{walks.h}!SGA\_Stream\_robustness\_by\_length@{SGA\_Stream\_robustness\_by\_length}}
+\index{SGA\_Stream\_robustness\_by\_length@{SGA\_Stream\_robustness\_by\_length}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_robustness\_by\_length()}{SGA\_Stream\_robustness\_by\_length()}}
+{\footnotesize\ttfamily \label{walks_8h_af4c7fd83de3277b281d5f4b30283faf5} 
+double SGA\+\_\+\+Stream\+\_\+robustness\+\_\+by\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Computes the robustness of a stream by the length of the walks in it. The robustness (by length) of a stream is the average length of all optimal walks between all nodes at all times. It represents how much steps are needed on average to go from a node to another node at a given time in the stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & The stream to compute the robustness of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The robustness of the stream by the length of the walks in it 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_a89d1d2fa3cc13827475bdb2a1ad60a69}\index{walks.h@{walks.h}!SGA\_Walk\_arrives\_at@{SGA\_Walk\_arrives\_at}}
+\index{SGA\_Walk\_arrives\_at@{SGA\_Walk\_arrives\_at}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Walk\_arrives\_at()}{SGA\_Walk\_arrives\_at()}}
+{\footnotesize\ttfamily \label{walks_8h_a89d1d2fa3cc13827475bdb2a1ad60a69} 
+SGA\+\_\+\+Time SGA\+\_\+\+Walk\+\_\+arrives\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}}]{walk}{}\end{DoxyParamCaption})}
+
+
+
+Gets the time at which a walk arrives at its destination. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em walk} & The walk to get the arrival time of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The time at which the walk arrives at its destination 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_a17b2ef8894d87a9ade6ddffdd5c0944e}\index{walks.h@{walks.h}!SGA\_Walk\_destroy@{SGA\_Walk\_destroy}}
+\index{SGA\_Walk\_destroy@{SGA\_Walk\_destroy}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Walk\_destroy()}{SGA\_Walk\_destroy()}}
+{\footnotesize\ttfamily \label{walks_8h_a17b2ef8894d87a9ade6ddffdd5c0944e} 
+void SGA\+\_\+\+Walk\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}}}]{walk}{}\end{DoxyParamCaption})}
+
+
+
+Destroys a walk. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em walk} & The walk to destroy \\
+\hline
+\end{DoxyParams}
+\Hypertarget{walks_8h_a427fc8924afa794634d8d86d85caeb63}\index{walks.h@{walks.h}!SGA\_Walk\_goes\_through@{SGA\_Walk\_goes\_through}}
+\index{SGA\_Walk\_goes\_through@{SGA\_Walk\_goes\_through}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Walk\_goes\_through()}{SGA\_Walk\_goes\_through()}}
+{\footnotesize\ttfamily \label{walks_8h_a427fc8924afa794634d8d86d85caeb63} 
+bool SGA\+\_\+\+Walk\+\_\+goes\+\_\+through (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}}]{walk}{, }\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{, }\item[{size\+\_\+t}]{nb\+\_\+steps}{, }\item[{}]{...}{}\end{DoxyParamCaption})}
+
+
+
+Checks if a walk goes through a node. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em walk} & The walk to check \\
+\hline
+\mbox{\texttt{ in}}  & {\em stream} & The stream in which the walk is \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+steps} & The number of steps to check \\
+\hline
+\mbox{\texttt{ in}}  & {\em ...} & The nodes to check if the walk goes through \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the walk goes through all the nodes, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_a9c516109b73b18dc27068dbe4556b090}\index{walks.h@{walks.h}!SGA\_Walk\_length@{SGA\_Walk\_length}}
+\index{SGA\_Walk\_length@{SGA\_Walk\_length}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Walk\_length()}{SGA\_Walk\_length()}}
+{\footnotesize\ttfamily \label{walks_8h_a9c516109b73b18dc27068dbe4556b090} 
+size\+\_\+t SGA\+\_\+\+Walk\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Walk}{SGA\+\_\+\+Walk}} \texorpdfstring{$\ast$}{*}}]{walk}{}\end{DoxyParamCaption})}
+
+
+
+Calculates the length of a walk The length of a walk is the number of nodes it goes through. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em walk} & The walk to calculate the length of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The length of the walk 
+\end{DoxyReturn}
+\Hypertarget{walks_8h_a2e1f985fc5811e61d9c38f3f3e4e1431}\index{walks.h@{walks.h}!Stream\_fastest\_shortest\_walk@{Stream\_fastest\_shortest\_walk}}
+\index{Stream\_fastest\_shortest\_walk@{Stream\_fastest\_shortest\_walk}!walks.h@{walks.h}}
+\doxysubsubsection{\texorpdfstring{Stream\_fastest\_shortest\_walk()}{Stream\_fastest\_shortest\_walk()}}
+{\footnotesize\ttfamily \label{walks_8h_a2e1f985fc5811e61d9c38f3f3e4e1431} 
+\mbox{\hyperlink{structSGA__OptionalWalk}{SGA\+\_\+\+Optional\+Walk}} Stream\+\_\+fastest\+\_\+shortest\+\_\+walk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{from}{, }\item[{SGA\+\_\+\+Node\+Id}]{to}{, }\item[{SGA\+\_\+\+Time}]{at}{}\end{DoxyParamCaption})}
+
+
+
+Computes the fastest of the shortest walks from a node to another node at a given time. A walk is the fastest shortest walk if it\textquotesingle{}s the fastest. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{walks_8h_aa6f82faf304d94b3c3154326f70d2a8d}{SGA\+\_\+fastest\+\_\+walk} among all shortest 
+
+\doxylink{walks_8h_a2eb4fb3b2e9179db14d63a632d0c6e6b}{SGA\+\_\+shortest\+\_\+walk} walks possible for this query. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The stream in which the walk is \\
+\hline
+\mbox{\texttt{ in}}  & {\em from} & The node from which the walk starts \\
+\hline
+\mbox{\texttt{ in}}  & {\em to} & The node where the walk ends \\
+\hline
+\mbox{\texttt{ in}}  & {\em at} & The time at which the walk starts \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The fastest and shortest walk from the node to the other node at the given time if it exists, a reason why it does not exist otherwise. 
+\end{DoxyReturn}

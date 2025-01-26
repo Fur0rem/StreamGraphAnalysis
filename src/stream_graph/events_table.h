@@ -20,7 +20,7 @@ struct Event {
 
 typedef struct {
 	Event* events;
-	TimeId disappearance_index;
+	SGA_TimeId disappearance_index;
 	BitArray presence_mask;
 } Events;
 

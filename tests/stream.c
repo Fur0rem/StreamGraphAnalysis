@@ -28,7 +28,7 @@ bool test_load_slices() {
 	String_destroy(str);
 	// EXPECT(SGA_StreamGraph_lifespan_begin(&sg) == 0);
 	// EXPECT(SGA_StreamGraph_lifespan_end(&sg) == 1000);
-	Interval lifespan = SGA_StreamGraph_lifespan(&sg);
+	SGA_Interval lifespan = SGA_StreamGraph_lifespan(&sg);
 	EXPECT_EQ(lifespan.start, 0);
 	EXPECT_EQ(lifespan.end, 1000);
 	SGA_StreamGraph_destroy(sg);

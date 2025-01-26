@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['optionalsizet_0',['OptionalSizeT',['../structOptionalSizeT.html',1,'']]]
+  ['queueinfo_0',['QueueInfo',['../structQueueInfo.html',1,'']]]
 ];

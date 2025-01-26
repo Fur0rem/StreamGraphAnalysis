@@ -106,26 +106,26 @@ $(function(){initNavTree('stream_8h.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>Create StreamGraph's and manipulate generic <a class="el" href="structStream.html">Stream</a>'s. A StreamGraph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. <br  />
- A <a class="el" href="structStream.html">Stream</a> is a wrapper/interface around a StreamGraph. All the functions to access the data and metrics take a <a class="el" href="structStream.html">Stream</a> as input, and not a StreamGraph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of <a class="el" href="structStream.html">Stream</a>'s can change the way a StreamGraph is viewed. <br  />
- The 4 main types of <a class="el" href="structStream.html">Stream</a> are:  
+<p>Create StreamGraph's and manipulate generic Stream's. A StreamGraph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. <br  />
+ A Stream is a wrapper/interface around a StreamGraph. All the functions to access the data and metrics take a Stream as input, and not a StreamGraph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of Stream's can change the way a StreamGraph is viewed. <br  />
+ The 4 main types of Stream are:  
 <a href="#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Create StreamGraph's and manipulate generic <a class="el" href="structStream.html">Stream</a>'s. A StreamGraph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. <br  />
- A <a class="el" href="structStream.html">Stream</a> is a wrapper/interface around a StreamGraph. All the functions to access the data and metrics take a <a class="el" href="structStream.html">Stream</a> as input, and not a StreamGraph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of <a class="el" href="structStream.html">Stream</a>'s can change the way a StreamGraph is viewed. <br  />
- The 4 main types of <a class="el" href="structStream.html">Stream</a> are: </p>
+<div class="textblock"><p>Create StreamGraph's and manipulate generic Stream's. A StreamGraph is the main data structure to represent a stream graph. It contains all the information about the nodes, links, and its presence in time. <br  />
+ A Stream is a wrapper/interface around a StreamGraph. All the functions to access the data and metrics take a Stream as input, and not a StreamGraph. The interface asks for the bare minimum to access the data and compute metrics on it. Various actual implementations of Stream's can change the way a StreamGraph is viewed. <br  />
+ The 4 main types of Stream are: </p>
 <ul>
 <li>FullStreamGraph: A StreamGraph as is.</li>
 <li>LinkStream: A StreamGraph where all nodes are present at all times.</li>
 <li>ChunkStream and ChunkStreamSmall: A subset of the StreamGraph.</li>
 <li>SnapshotStream: A StreamGraph at a specific time interval. <br  />
- All of these <a class="el" href="structStream.html">Stream</a>'s use an underlying StreamGraph, but transform the data in different ways. <br  />
- The <a class="el" href="structStream.html">Stream</a>'s do not actually modify the underlying StreamGraph, they only provide a different access to it. Each implementation tries to do lazy evaluation and only compute the data when needed, and transform it on the fly. Each implementation can also specialise some implementations of metrics to be more efficient. You can also manipulate multiple <a class="el" href="structStream.html">Stream</a>'s of the same StreamGraph at the same time. </li>
+ All of these Stream's use an underlying StreamGraph, but transform the data in different ways. <br  />
+ The Stream's do not actually modify the underlying StreamGraph, they only provide a different access to it. Each implementation tries to do lazy evaluation and only compute the data when needed, and transform it on the fly. Each implementation can also specialise some implementations of metrics to be more efficient. You can also manipulate multiple Stream's of the same StreamGraph at the same time. </li>
 </ul>
 </div><div class="textblock"><code>#include &quot;<a class="el" href="bit__array_8h_source.html">bit_array.h</a>&quot;</code><br />
 <code>#include &quot;interval.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="events__table_8h_source.html">stream_graph/events_table.h</a>&quot;</code><br />
-<code>#include &quot;stream_graph/key_moments_table.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="key__moments__table_8h_source.html">stream_graph/key_moments_table.h</a>&quot;</code><br />
 <code>#include &quot;stream_graph/links_set.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="nodes__set_8h_source.html">stream_graph/nodes_set.h</a>&quot;</code><br />
 <code>#include &quot;units.h&quot;</code><br />
@@ -136,11 +136,118 @@ $(function(){initNavTree('stream_8h.html',''); initResizable(true); });
 Include dependency graph for stream.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="stream_8h__incl.png" border="0" usemap="#asrc_2stream_8h" alt=""/></div>
+<map name="asrc_2stream_8h" id="asrc_2stream_8h">
+<area shape="rect" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="560,5,662,33"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="155,342,244,370"/>
+<area shape="poly" title=" " alt="" coords="560,28,423,47,358,63,333,73,316,83,289,109,267,140,249,173,234,208,215,274,205,327,200,326,210,273,229,206,244,171,263,137,285,106,312,79,331,68,357,58,422,42,559,23"/>
+<area shape="rect" title=" " alt="" coords="5,510,87,538"/>
+<area shape="poly" title=" " alt="" coords="560,27,415,43,327,57,237,75,154,98,86,125,60,141,40,158,28,176,23,195,23,357,30,432,42,495,37,496,24,433,18,357,18,194,23,173,36,154,57,136,84,120,153,92,236,70,326,52,415,38,560,22"/>
+<area shape="rect" title=" " alt="" coords="568,510,641,538"/>
+<area shape="poly" title=" " alt="" coords="560,31,491,49,453,63,417,80,385,102,359,128,342,159,335,195,335,357,338,391,348,416,364,438,390,460,429,484,471,501,514,511,553,517,552,522,513,516,470,506,426,489,387,464,361,441,343,418,333,392,330,357,330,194,337,157,355,125,382,98,415,76,451,58,489,44,559,26"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="370,182,453,210"/>
+<area shape="poly" title=" " alt="" coords="561,32,507,50,480,64,457,83,442,102,431,124,418,168,413,166,426,122,438,99,453,79,477,60,504,45,559,27"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="781,266,847,294"/>
+<area shape="poly" title=" " alt="" coords="639,31,676,53,720,85,764,125,800,172,814,212,818,251,812,252,809,214,796,175,761,128,717,89,673,58,636,36"/>
+<area shape="rect" href="events__table_8h.html" title=" " alt="" coords="861,174,1020,218"/>
+<area shape="poly" title=" " alt="" coords="663,23,751,40,799,56,843,79,867,96,888,117,922,159,917,162,884,121,864,100,841,83,797,61,749,45,662,28"/>
+<area shape="rect" title=" " alt="" coords="1099,266,1169,294"/>
+<area shape="poly" title=" " alt="" coords="663,20,782,27,927,39,1054,56,1098,67,1122,79,1137,98,1146,120,1154,167,1152,213,1144,252,1139,251,1146,213,1149,168,1141,122,1132,101,1119,83,1096,72,1053,62,926,45,782,33,663,26"/>
+<area shape="rect" href="key__moments__table_8h.html" title="Table of all key moments." alt="" coords="578,174,786,218"/>
+<area shape="poly" title=" " alt="" coords="619,33,670,158,665,160,614,35"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="468,81,614,126"/>
+<area shape="poly" title=" " alt="" coords="602,35,571,71,567,67,598,32"/>
+<area shape="rect" href="nodes__set_8h.html" title="A node and a set of nodes of a StreamGraph." alt="" coords="954,81,1108,126"/>
+<area shape="poly" title=" " alt="" coords="663,28,939,81,938,87,662,33"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="159,426,221,454"/>
+<area shape="poly" title=" " alt="" coords="200,371,196,411,191,410,195,370"/>
+<area shape="poly" title=" " alt="" coords="189,372,70,500,66,497,185,368"/>
+<area shape="poly" title=" " alt="" coords="214,368,265,419,293,444,315,460,359,475,422,490,553,513,552,518,421,495,358,481,313,465,290,449,261,423,210,372"/>
+<area shape="poly" title=" " alt="" coords="214,423,236,424,244,430,247,440,242,453,229,458,227,453,238,449,242,440,240,433,234,429,214,428"/>
+<area shape="rect" title=" " alt="" coords="111,510,184,538"/>
+<area shape="poly" title=" " alt="" coords="186,456,163,498,159,495,181,453"/>
+<area shape="rect" title=" " alt="" coords="208,510,276,538"/>
+<area shape="poly" title=" " alt="" coords="201,453,228,496,223,499,196,456"/>
+<area shape="poly" title=" " alt="" coords="168,457,84,505,81,500,166,452"/>
+<area shape="rect" title=" " alt="" coords="299,510,369,538"/>
+<area shape="poly" title=" " alt="" coords="214,452,299,500,296,505,212,457"/>
+<area shape="poly" title=" " alt="" coords="222,448,264,460,421,491,553,513,552,518,420,496,263,465,221,454"/>
+<area shape="rect" title=" " alt="" coords="392,510,462,538"/>
+<area shape="poly" title=" " alt="" coords="222,449,378,503,376,508,220,455"/>
+<area shape="poly" title=" " alt="" coords="402,212,257,371,215,416,211,413,253,368,398,209"/>
+<area shape="poly" title=" " alt="" coords="373,213,323,233,263,261,200,298,144,344,113,381,89,422,57,496,52,494,84,420,109,378,140,340,197,294,260,256,321,228,371,208"/>
+<area shape="poly" title=" " alt="" coords="409,211,397,256,387,322,386,358,390,395,400,429,417,461,445,487,480,504,517,514,553,519,552,525,516,520,478,509,442,491,413,464,395,432,385,396,381,359,381,322,392,255,404,209"/>
+<area shape="rect" title=" " alt="" coords="472,418,649,462"/>
+<area shape="poly" title=" " alt="" coords="422,209,541,403,537,405,417,212"/>
+<area shape="poly" title=" " alt="" coords="454,203,767,267,766,272,453,209"/>
+<area shape="poly" title=" " alt="" coords="848,284,949,304,1010,320,1068,339,1117,363,1136,377,1151,392,1160,408,1163,426,1157,445,1144,464,1118,477,1071,488,936,506,783,517,657,523,657,518,782,512,935,500,1070,483,1116,472,1140,460,1153,442,1157,426,1155,410,1147,395,1133,381,1114,368,1066,344,1008,325,948,309,847,289"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="771,342,857,370"/>
+<area shape="poly" title=" " alt="" coords="817,295,817,326,811,326,811,295"/>
+<area shape="poly" title=" " alt="" coords="771,365,237,435,236,430,770,360"/>
+<area shape="poly" title=" " alt="" coords="858,355,951,361,1004,368,1054,377,1095,391,1124,409,1132,421,1134,434,1130,448,1118,464,1094,477,1050,488,922,505,777,516,657,523,657,518,777,511,922,499,1049,482,1092,472,1115,460,1125,446,1129,434,1127,423,1120,413,1093,396,1052,382,1003,373,951,366,857,361"/>
+<area shape="poly" title=" " alt="" coords="774,373,643,415,642,410,772,368"/>
+<area shape="rect" title=" " alt="" coords="927,418,1104,462"/>
+<area shape="poly" title=" " alt="" coords="847,368,949,409,947,414,845,373"/>
+<area shape="rect" title=" " alt="" coords="725,418,903,462"/>
+<area shape="poly" title=" " alt="" coords="817,370,817,402,811,402,811,370"/>
+<area shape="poly" title=" " alt="" coords="931,220,903,261,884,280,861,296,810,315,742,329,662,340,574,347,399,355,259,357,259,352,399,350,574,342,661,334,742,324,809,310,858,292,880,276,899,257,927,217"/>
+<area shape="poly" title=" " alt="" coords="982,217,1031,249,1086,293,1137,350,1157,382,1173,417,1180,441,1179,453,1172,464,1145,478,1095,489,951,507,789,518,657,524,657,518,788,513,950,501,1094,484,1143,473,1168,460,1174,451,1175,442,1167,419,1153,385,1133,353,1083,297,1028,253,979,221"/>
+<area shape="poly" title=" " alt="" coords="909,221,848,260,846,255,906,217"/>
+<area shape="poly" title=" " alt="" coords="993,217,1090,257,1088,262,991,221"/>
+<area shape="poly" title=" " alt="" coords="639,221,231,422,229,417,637,217"/>
+<area shape="poly" title=" " alt="" coords="688,219,692,265,692,327,685,396,676,431,664,463,652,484,635,502,631,498,647,481,660,461,671,429,679,395,687,326,686,265,682,219"/>
+<area shape="poly" title=" " alt="" coords="718,217,782,256,779,260,716,221"/>
+<area shape="poly" title=" " alt="" coords="787,214,1084,267,1083,272,786,219"/>
+<area shape="poly" title=" " alt="" coords="528,127,491,189,471,230,453,276,441,323,437,371,443,418,463,461,481,481,504,495,554,513,552,518,501,500,477,485,458,464,438,419,432,372,436,323,448,274,466,228,486,187,523,125"/>
+<area shape="poly" title=" " alt="" coords="512,128,444,175,441,171,508,124"/>
+<area shape="poly" title=" " alt="" coords="542,126,546,172,554,196,568,216,581,226,601,235,653,250,766,271,766,276,652,256,599,240,579,231,564,220,549,198,541,173,537,126"/>
+<area shape="poly" title=" " alt="" coords="615,106,720,115,842,128,954,147,1000,158,1034,171,1113,253,1109,257,1031,176,998,163,953,152,841,133,720,120,614,112"/>
+<area shape="poly" title=" " alt="" coords="1110,119,1172,140,1232,172,1258,193,1278,218,1292,246,1297,279,1297,357,1295,380,1289,398,1279,413,1267,426,1234,445,1194,465,1149,480,1087,493,937,511,780,521,657,525,657,519,780,515,936,506,1087,488,1147,475,1192,460,1232,441,1264,421,1275,410,1284,396,1289,379,1291,357,1291,279,1287,248,1274,221,1254,197,1229,177,1170,145,1108,124"/>
+<area shape="poly" title=" " alt="" coords="954,119,469,189,468,184,954,113"/>
+<area shape="poly" title=" " alt="" coords="1048,125,1079,172,1123,251,1118,254,1074,175,1044,128"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="stream_8h__dep__incl.png" border="0" usemap="#asrc_2stream_8hdep" alt=""/></div>
+<map name="asrc_2stream_8hdep" id="asrc_2stream_8hdep">
+<area shape="rect" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="528,5,631,33"/>
+<area shape="rect" href="StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="352,232,527,260"/>
+<area shape="poly" title=" " alt="" coords="557,46,480,111,455,124,433,131,414,139,398,158,394,177,400,196,413,215,427,230,423,234,409,218,396,199,389,177,393,155,411,135,431,126,453,119,477,106,554,42"/>
+<area shape="rect" href="cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="572,232,731,260"/>
+<area shape="poly" title=" " alt="" coords="591,47,650,231,645,233,586,48"/>
+<area shape="rect" href="cliques_8h.html" title="Find maximal cliques in a Stream." alt="" coords="408,157,568,184"/>
+<area shape="poly" title=" " alt="" coords="566,48,498,158,493,155,562,45"/>
+<area shape="rect" href="isomorphism_8h.html" title="Functions to check if two streamgraphs are isomorphic." alt="" coords="5,157,205,184"/>
+<area shape="poly" title=" " alt="" coords="513,23,412,25,295,34,240,41,190,52,150,66,123,83,112,99,106,119,106,156,100,156,101,118,107,97,119,79,148,61,189,47,239,36,295,28,411,20,513,17"/>
+<area shape="rect" href="kcores_8h.html" title="Functions to compute the k&#45;cores of a Stream." alt="" coords="133,81,290,109"/>
+<area shape="poly" title=" " alt="" coords="514,36,278,83,277,78,513,31"/>
+<area shape="rect" href="metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="929,232,1092,260"/>
+<area shape="poly" title=" " alt="" coords="647,22,779,36,936,61,1012,78,1079,99,1132,125,1152,139,1166,155,1172,170,1171,183,1164,195,1153,206,1120,222,1081,234,1079,229,1118,217,1150,201,1160,192,1166,182,1167,171,1161,158,1148,143,1129,129,1077,104,1011,83,935,66,778,41,646,28"/>
+<area shape="rect" href="metrics_8h.html" title="Functions to compute metrics on a Stream." alt="" coords="989,157,1152,184"/>
+<area shape="poly" title=" " alt="" coords="647,22,777,40,852,56,925,79,963,96,999,116,1055,154,1052,158,996,121,960,100,923,83,851,61,777,45,646,28"/>
+<area shape="rect" href="walks_8h.html" title="Analysis regarding walks in streams and computations related to it." alt="" coords="314,81,466,109"/>
+<area shape="poly" title=" " alt="" coords="533,42,425,83,423,78,531,37"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="800,81,911,109"/>
+<area shape="poly" title=" " alt="" coords="644,35,807,78,806,83,643,40"/>
+<area shape="rect" href="stream__functions_8h.html" title="Functions to access the data of a StreamGraph." alt="" coords="694,157,863,184"/>
+<area shape="poly" title=" " alt="" coords="610,40,763,154,759,158,607,44"/>
+<area shape="poly" title=" " alt="" coords="473,199,450,233,446,230,469,196"/>
+<area shape="poly" title=" " alt="" coords="532,189,624,229,622,234,530,193"/>
+<area shape="poly" title=" " alt="" coords="181,186,380,229,379,234,179,191"/>
+<area shape="poly" title=" " alt="" coords="245,116,344,182,420,230,417,234,341,187,242,120"/>
+<area shape="poly" title=" " alt="" coords="974,186,528,237,527,232,973,180"/>
+<area shape="poly" title=" " alt="" coords="1052,198,1023,234,1019,230,1048,195"/>
+<area shape="poly" title=" " alt="" coords="370,122,353,152,350,168,354,183,364,198,378,210,408,229,405,234,374,215,360,201,349,185,345,168,348,151,365,119"/>
+<area shape="poly" title=" " alt="" coords="804,117,683,159,476,234,474,229,681,154,802,112"/>
+<area shape="poly" title=" " alt="" coords="874,121,885,153,885,170,878,186,855,203,819,217,732,236,731,231,817,211,852,198,874,183,880,169,880,154,869,123"/>
+<area shape="poly" title=" " alt="" coords="882,117,922,155,999,230,996,234,918,159,879,121"/>
+<area shape="poly" title=" " alt="" coords="909,112,1033,154,1031,159,908,117"/>
+<area shape="poly" title=" " alt="" coords="833,121,794,158,790,154,829,118"/>
+<area shape="poly" title=" " alt="" coords="703,191,501,234,500,229,702,186"/>
+<area shape="poly" title=" " alt="" coords="744,195,675,234,673,230,741,190"/>
+<area shape="poly" title=" " alt="" coords="835,187,970,229,968,234,834,192"/>
+</map>
 </div>
 </div>
 <p><a href="stream_8h_source.html">Go to the source code of this file.</a></p>
@@ -154,18 +261,19 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A size_t that can be optional.  <a href="structOptionalSizeT.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInformationCache.html">InformationCache</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A cache of information about the 4 main sets of a <a class="el" href="structStream.html">Stream</a>: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V.  <a href="structInformationCache.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E, the life span T, and the distinct nodes V.  <a href="structInformationCache.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStream.html">Stream</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSGA__Stream.html">SGA_Stream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure of a Stream.  <a href="structSGA__Stream.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:abb59726803b5ce07a0f602df01da5492" id="r_abb59726803b5ce07a0f602df01da5492"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb59726803b5ce07a0f602df01da5492">FETCH_CACHE</a>(stream,  field)</td></tr>
-<tr class="memdesc:abb59726803b5ce07a0f602df01da5492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch a value from the cache of a <a class="el" href="structStream.html">Stream</a>.  <br /></td></tr>
+<tr class="memdesc:abb59726803b5ce07a0f602df01da5492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch a value from the cache of a Stream.  <br /></td></tr>
 <tr class="separator:abb59726803b5ce07a0f602df01da5492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a991491221185567742f92f656f1e4644" id="r_a991491221185567742f92f656f1e4644"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a991491221185567742f92f656f1e4644">UPDATE_CACHE</a>(stream,  field,  value)</td></tr>
-<tr class="memdesc:a991491221185567742f92f656f1e4644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a value to the cache of a <a class="el" href="structStream.html">Stream</a>.  <br /></td></tr>
+<tr class="memdesc:a991491221185567742f92f656f1e4644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a value to the cache of a Stream.  <br /></td></tr>
 <tr class="separator:a991491221185567742f92f656f1e4644"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -175,11 +283,11 @@ Typedefs</h2></td></tr>
 <tr class="separator:a623e7910ee66c5dd739f381b9f77ed24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c628d0526c9c7b163801ccc0e24cb4f" id="r_a3c628d0526c9c7b163801ccc0e24cb4f"><td class="memItemLeft" align="right" valign="top"><a id="a3c628d0526c9c7b163801ccc0e24cb4f" name="a3c628d0526c9c7b163801ccc0e24cb4f"></a>
 typedef void&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamData</b></td></tr>
-<tr class="memdesc:a3c628d0526c9c7b163801ccc0e24cb4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blanket struct that serves as a placeholder for the union of all stream types (FullStreamGraph, LinkStream, etc...). Otherwise a circular dependency would be created since these files need <a class="el" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep...">stream.h</a>. It is safe to cast this to the actual type of the <a class="el" href="structStream.html">Stream</a> (which is known in the <a class="el" href="structStream.html">Stream</a> struct). <br /></td></tr>
+<tr class="memdesc:a3c628d0526c9c7b163801ccc0e24cb4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blanket struct that serves as a placeholder for the union of all stream types (FullStreamGraph, LinkStream, etc...). Otherwise a circular dependency would be created since these files need <a class="el" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep...">stream.h</a>. It is safe to cast this to the actual type of the Stream (which is known in the Stream struct). <br /></td></tr>
 <tr class="separator:a3c628d0526c9c7b163801ccc0e24cb4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abee5236d2849589cd7dd9b7347a5290e" id="r_abee5236d2849589cd7dd9b7347a5290e"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structStream.html">Stream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a></td></tr>
-<tr class="memdesc:abee5236d2849589cd7dd9b7347a5290e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure of a <a class="el" href="structStream.html">Stream</a>.  <br /></td></tr>
-<tr class="separator:abee5236d2849589cd7dd9b7347a5290e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e6f770c3645b9702da2fd1a41a57c06" id="r_a6e6f770c3645b9702da2fd1a41a57c06"><td class="memItemLeft" align="right" valign="top">typedef struct SGA_Stream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e6f770c3645b9702da2fd1a41a57c06">SGA_Stream</a></td></tr>
+<tr class="memdesc:a6e6f770c3645b9702da2fd1a41a57c06"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure of a Stream.  <br /></td></tr>
+<tr class="separator:a6e6f770c3645b9702da2fd1a41a57c06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -201,15 +309,15 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_InternalFormat_
 <tr class="memitem:a5c0760a9ab0981304d8337b87365eb63" id="r_a5c0760a9ab0981304d8337b87365eb63"><td class="memItemLeft" align="right" valign="top"><a id="a5c0760a9ab0981304d8337b87365eb63" name="a5c0760a9ab0981304d8337b87365eb63"></a>
 <a class="el" href="structSGA__StreamGraph.html">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamGraph_from_external</b> (const char *filename)</td></tr>
 <tr class="separator:a5c0760a9ab0981304d8337b87365eb63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8e8a255c59a064519663b1ab3a589b6" id="r_aa8e8a255c59a064519663b1ab3a589b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8e8a255c59a064519663b1ab3a589b6">init_cache</a> (<a class="el" href="#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:aa8e8a255c59a064519663b1ab3a589b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the cache of a <a class="el" href="structStream.html">Stream</a>, starting empty.  <br /></td></tr>
+<tr class="memitem:aa8e8a255c59a064519663b1ab3a589b6" id="r_aa8e8a255c59a064519663b1ab3a589b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8e8a255c59a064519663b1ab3a589b6">init_cache</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:aa8e8a255c59a064519663b1ab3a589b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the cache of a Stream, starting empty.  <br /></td></tr>
 <tr class="separator:aa8e8a255c59a064519663b1ab3a589b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19b523be46204ad6b126b353469c48f4" id="r_a19b523be46204ad6b126b353469c48f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19b523be46204ad6b126b353469c48f4">reset_cache</a> (<a class="el" href="#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *stream)</td></tr>
-<tr class="memdesc:a19b523be46204ad6b126b353469c48f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the cache of a <a class="el" href="structStream.html">Stream</a>, emptying it.  <br /></td></tr>
+<tr class="memitem:a19b523be46204ad6b126b353469c48f4" id="r_a19b523be46204ad6b126b353469c48f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19b523be46204ad6b126b353469c48f4">reset_cache</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *stream)</td></tr>
+<tr class="memdesc:a19b523be46204ad6b126b353469c48f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the cache of a Stream, emptying it.  <br /></td></tr>
 <tr class="separator:a19b523be46204ad6b126b353469c48f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4193ccffe0daf2876defbf0566cbf2df" id="r_a4193ccffe0daf2876defbf0566cbf2df"><td class="memItemLeft" align="right" valign="top"><a id="a4193ccffe0daf2876defbf0566cbf2df" name="a4193ccffe0daf2876defbf0566cbf2df"></a>
-<a class="el" href="structInterval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamGraph_lifespan</b> (<a class="el" href="structSGA__StreamGraph.html">SGA_StreamGraph</a> *sg)</td></tr>
-<tr class="separator:a4193ccffe0daf2876defbf0566cbf2df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88ac3f8cd9c51ef6f65bcfb1c66cb70" id="r_af88ac3f8cd9c51ef6f65bcfb1c66cb70"><td class="memItemLeft" align="right" valign="top"><a id="af88ac3f8cd9c51ef6f65bcfb1c66cb70" name="af88ac3f8cd9c51ef6f65bcfb1c66cb70"></a>
+<a class="el" href="structSGA__Interval.html">SGA_Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamGraph_lifespan</b> (<a class="el" href="structSGA__StreamGraph.html">SGA_StreamGraph</a> *sg)</td></tr>
+<tr class="separator:af88ac3f8cd9c51ef6f65bcfb1c66cb70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af819fe6f62a1bb1263348ba4df6d9e19" id="r_af819fe6f62a1bb1263348ba4df6d9e19"><td class="memItemLeft" align="right" valign="top"><a id="af819fe6f62a1bb1263348ba4df6d9e19" name="af819fe6f62a1bb1263348ba4df6d9e19"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamGraph_time_scale</b> (<a class="el" href="structSGA__StreamGraph.html">SGA_StreamGraph</a> *sg)</td></tr>
 <tr class="separator:af819fe6f62a1bb1263348ba4df6d9e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -243,10 +351,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>events_destroy</b> (<
 <div class="line">            return (stream)-&gt;cache.field.data;                                                                                 \</div>
 <div class="line">        }</div>
 </div><!-- fragment -->
-<p>Fetch a value from the cache of a <a class="el" href="structStream.html">Stream</a>. </p>
+<p>Fetch a value from the cache of a Stream. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a> to fetch the value from. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The Stream to fetch the value from. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>The field of the cache to fetch. s If the value is present in the cache, it is returned early in the function. Otherwise, the function continues normally. </td></tr>
   </table>
   </dd>
@@ -280,10 +388,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>events_destroy</b> (<
 <b>Value:</b><div class="fragment"><div class="line">        (stream)-&gt;cache.field.present = <span class="keyword">true</span>;                                                                                      \</div>
 <div class="line">        (stream)-&gt;cache.field.data    = value;</div>
 </div><!-- fragment -->
-<p>Write a value to the cache of a <a class="el" href="structStream.html">Stream</a>. </p>
+<p>Write a value to the cache of a Stream. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a> to write the value to. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>The Stream to write the value to. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">field</td><td>The field of the cache to write to. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The value to write to the cache. </td></tr>
   </table>
@@ -293,19 +401,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>events_destroy</b> (<
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="abee5236d2849589cd7dd9b7347a5290e" name="abee5236d2849589cd7dd9b7347a5290e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abee5236d2849589cd7dd9b7347a5290e">&#9670;&#160;</a></span>SGA_Stream</h2>
+<a id="a6e6f770c3645b9702da2fd1a41a57c06" name="a6e6f770c3645b9702da2fd1a41a57c06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e6f770c3645b9702da2fd1a41a57c06">&#9670;&#160;</a></span>SGA_Stream</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="structStream.html">Stream</a> <a class="el" href="#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a></td>
+          <td class="memname">typedef struct SGA_Stream SGA_Stream</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The structure of a <a class="el" href="structStream.html">Stream</a>. </p>
+<p>The structure of a Stream. </p>
 <p>Depends on an underlying StreamGraph, so its lifetime/scope should be less than the StreamGraph. </p>
 
 </div>
@@ -337,16 +445,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>events_destroy</b> (<
         <tr>
           <td class="memname">void init_cache </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialise the cache of a <a class="el" href="structStream.html">Stream</a>, starting empty. </p>
+<p>Initialise the cache of a Stream, starting empty. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a> to initialise the cache of. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>The Stream to initialise the cache of. </td></tr>
   </table>
   </dd>
 </dl>
@@ -362,16 +470,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>events_destroy</b> (<
         <tr>
           <td class="memname">void reset_cache </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#abee5236d2849589cd7dd9b7347a5290e">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>stream</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reset the cache of a <a class="el" href="structStream.html">Stream</a>, emptying it. </p>
+<p>Reset the cache of a Stream, emptying it. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>The <a class="el" href="structStream.html">Stream</a> to reset the cache of. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>The Stream to reset the cache of. </td></tr>
   </table>
   </dd>
 </dl>

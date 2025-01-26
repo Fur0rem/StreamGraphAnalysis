@@ -2,13 +2,13 @@
 \hypertarget{cliques_8h}{}\label{cliques_8h}\index{src/analysis/cliques.h@{src/analysis/cliques.h}}
 
 
-Find maximal cliques in a \doxylink{structStream}{Stream}.  
+Find maximal cliques in a Stream.  
 
 
 
 
 \doxysubsection{Detailed Description}
-Find maximal cliques in a \doxylink{structStream}{Stream}. 
+Find maximal cliques in a Stream. 
 
 A clique is a set of nodes where each node is connected to all the other nodes in the set. A maximal clique is a clique that is not included in a larger clique. ~\newline
  You can check Section 7 of the paper for more information. {\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
@@ -18,9 +18,21 @@ A clique is a set of nodes where each node is connected to all the other nodes i
 {\ttfamily \#include "{}../utils.\+h"{}}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 Include dependency graph for cliques.\+h\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cliques_8h__incl}
+\end{center}
+\end{figure}
 This graph shows which files directly or indirectly include this file\+:
-% FIG 1
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{cliques_8h__dep__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -47,8 +59,8 @@ struct \mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}}
 \Hypertarget{cliques_8h_a5fa1e4d652b6e96fb14b545336746668}\label{cliques_8h_a5fa1e4d652b6e96fb14b545336746668} 
 {\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
 \item 
-SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
-\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a \doxylink{structStream}{Stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
+\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -56,15 +68,15 @@ SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{cliques_8h_a2eb6ce869a1373dedfa3
 \index{SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}!cliques.h@{cliques.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_maximal\_cliques()}{SGA\_Stream\_maximal\_cliques()}}
 {\footnotesize\ttfamily \label{cliques_8h_a2eb6ce869a1373dedfa311a0ce84086f} 
-SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
+SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
 
 
 
-Find the maximal cliques in a \doxylink{structStream}{Stream}. 
+Find the maximal cliques in a Stream. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The \doxylink{structStream}{Stream} to find the maximal cliques in. \\
+\mbox{\texttt{ in}}  & {\em stream} & The Stream to find the maximal cliques in. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

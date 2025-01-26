@@ -1,0 +1,88 @@
+\doxysection{SGA\+\_\+\+Stream Struct Reference}
+\hypertarget{structSGA__Stream}{}\label{structSGA__Stream}\index{SGA\_Stream@{SGA\_Stream}}
+
+
+The structure of a Stream.  
+
+
+
+
+\doxysubsection{Detailed Description}
+The structure of a Stream. 
+
+Depends on an underlying Stream\+Graph, so its lifetime/scope should be less than the Stream\+Graph. 
+
+{\ttfamily \#include $<$stream.\+h$>$}
+
+
+
+Collaboration diagram for SGA\+\_\+\+Stream\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{structSGA__Stream__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a}{FULL\+\_\+\+STREAM\+\_\+\+GRAPH}}
+, \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2}{LINK\+\_\+\+STREAM}}
+, \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198}{CHUNK\+\_\+\+STREAM}}
+, \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4}{CHUNK\+\_\+\+STREAM\+\_\+\+SMALL}}
+, \newline
+\mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ac4c51b95a7e3b249ec3fc9000ba72dc3}{SNAPSHOT\+\_\+\+STREAM}}
+ \}
+\begin{DoxyCompactList}\small\item\em The type of the Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structSGA__Stream_a9ab32867f0838c335107d3d6fb958278}\label{structSGA__Stream_a9ab32867f0838c335107d3d6fb958278} 
+enum SGA\+\_\+\+Stream\+:: \{ ... \}  {\bfseries type}
+\begin{DoxyCompactList}\small\item\em The type of the Stream. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__Stream_a6bdffced49b473c2ebcc6b15cde87e85}\label{structSGA__Stream_a6bdffced49b473c2ebcc6b15cde87e85} 
+\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\+\_\+\+Stream\+Data}} \texorpdfstring{$\ast$}{*} {\bfseries stream\+\_\+data}
+\begin{DoxyCompactList}\small\item\em The data of the Stream. It is a union of all the different types of Stream\+Data. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__Stream_ad50e9e6167fed3e723994d3909e0496f}\label{structSGA__Stream_ad50e9e6167fed3e723994d3909e0496f} 
+\mbox{\hyperlink{structInformationCache}{Information\+Cache}} {\bfseries cache}
+\begin{DoxyCompactList}\small\item\em A cache of information about the 4 main sets of a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7}\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily \label{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7} 
+anonymous enum}
+
+
+
+The type of the Stream. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FULL\_STREAM\_GRAPH@{FULL\_STREAM\_GRAPH}!SGA\_Stream@{SGA\_Stream}}\index{SGA\_Stream@{SGA\_Stream}!FULL\_STREAM\_GRAPH@{FULL\_STREAM\_GRAPH}}}\Hypertarget{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a}\label{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a} 
+FULL\+\_\+\+STREAM\+\_\+\+GRAPH&A Full\+Stream\+Graph. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LINK\_STREAM@{LINK\_STREAM}!SGA\_Stream@{SGA\_Stream}}\index{SGA\_Stream@{SGA\_Stream}!LINK\_STREAM@{LINK\_STREAM}}}\Hypertarget{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2}\label{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2} 
+LINK\+\_\+\+STREAM&A Link\+Stream. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CHUNK\_STREAM@{CHUNK\_STREAM}!SGA\_Stream@{SGA\_Stream}}\index{SGA\_Stream@{SGA\_Stream}!CHUNK\_STREAM@{CHUNK\_STREAM}}}\Hypertarget{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198}\label{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198} 
+CHUNK\+\_\+\+STREAM&A Chunk\+Stream. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CHUNK\_STREAM\_SMALL@{CHUNK\_STREAM\_SMALL}!SGA\_Stream@{SGA\_Stream}}\index{SGA\_Stream@{SGA\_Stream}!CHUNK\_STREAM\_SMALL@{CHUNK\_STREAM\_SMALL}}}\Hypertarget{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4}\label{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4} 
+CHUNK\+\_\+\+STREAM\+\_\+\+SMALL&A Chunk\+Stream\+Small. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SNAPSHOT\_STREAM@{SNAPSHOT\_STREAM}!SGA\_Stream@{SGA\_Stream}}\index{SGA\_Stream@{SGA\_Stream}!SNAPSHOT\_STREAM@{SNAPSHOT\_STREAM}}}\Hypertarget{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ac4c51b95a7e3b249ec3fc9000ba72dc3}\label{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ac4c51b95a7e3b249ec3fc9000ba72dc3} 
+SNAPSHOT\+\_\+\+STREAM&A Snapshot\+Stream. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{stream_8h}{stream.\+h}}\end{DoxyCompactItemize}

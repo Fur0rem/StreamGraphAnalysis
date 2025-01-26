@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-SGA_Stream SGA_SnapshotStream_from(SGA_StreamGraph* stream_graph, Interval snapshot) {
+SGA_Stream SGA_SnapshotStream_from(SGA_StreamGraph* stream_graph, SGA_Interval snapshot) {
 	SnapshotStream* snapshot_stream = MALLOC(sizeof(SnapshotStream));
 	// *snapshot_stream = SnapshotStream_with(stream_graph, nodes, links, time_start, time_end);
 	*snapshot_stream = (SnapshotStream){
@@ -28,22 +28,22 @@ void SGA_SnapshotStream_destroy(SGA_Stream stream) {
 }
 
 typedef struct {
-	NodeId current_node;
+	SGA_NodeId current_node;
 } NodesSetIteratorData;
 
-NodesIterator SnapshotStream_nodes_set(SGA_StreamData* stream_data) {
+SGA_NodesIterator SnapshotStream_nodes_set(SGA_StreamData* stream_data) {
 	SnapshotStream* snap	      = (SnapshotStream*)stream_data;
 	SGA_StreamGraph* stream_graph = snap->underlying_stream_graph;
 	return SGA_StreamGraph_nodes_set(stream_graph);
 }
 
-LinksIterator SnapshotStream_links_set(SGA_StreamData* stream_data) {
+SGA_LinksIterator SnapshotStream_links_set(SGA_StreamData* stream_data) {
 	SnapshotStream* snap	      = (SnapshotStream*)stream_data;
 	SGA_StreamGraph* stream_graph = snap->underlying_stream_graph;
 	return SGA_StreamGraph_links_set(stream_graph);
 }
 
-Interval SnapshotStream_lifespan(SGA_StreamData* stream_data) {
+SGA_Interval SnapshotStream_lifespan(SGA_StreamData* stream_data) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	return snapshot_stream->snapshot;
 }
@@ -53,25 +53,25 @@ size_t SnapshotStream_time_scale(SGA_StreamData* stream_data) {
 	return SGA_StreamGraph_time_scale(snapshot_stream->underlying_stream_graph);
 }
 
-NodesIterator SnapshotStream_nodes_present_at_t(SGA_StreamData* stream_data, TimeId instant) {
+SGA_NodesIterator SnapshotStream_nodes_present_at_t(SGA_StreamData* stream_data, SGA_Time instant) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	SGA_StreamGraph* stream_graph	= snapshot_stream->underlying_stream_graph;
 
-	ASSERT(Interval_contains(snapshot_stream->snapshot, instant));
+	ASSERT(SGA_Interval_contains(snapshot_stream->snapshot, instant));
 
 	return SGA_StreamGraph_nodes_present_at(stream_graph, instant);
 }
 
-LinksIterator SnapshotStream_links_present_at_t(SGA_StreamData* stream_data, TimeId instant) {
+SGA_LinksIterator SnapshotStream_links_present_at_t(SGA_StreamData* stream_data, SGA_Time instant) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	SGA_StreamGraph* stream_graph	= snapshot_stream->underlying_stream_graph;
 
-	ASSERT(Interval_contains(snapshot_stream->snapshot, instant));
+	ASSERT(SGA_Interval_contains(snapshot_stream->snapshot, instant));
 
 	return SGA_StreamGraph_links_present_at(stream_graph, instant);
 }
 
-LinksIterator SnapshotStream_neighbours_of_node(SGA_StreamData* stream_data, NodeId node) {
+SGA_LinksIterator SnapshotStream_neighbours_of_node(SGA_StreamData* stream_data, SGA_NodeId node) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	SGA_StreamGraph* stream_graph	= snapshot_stream->underlying_stream_graph;
 
@@ -86,25 +86,25 @@ typedef struct {
 	size_t current_id;
 } SSS_TimesIdPresentAtIteratorData; // TODO : rename ?
 
-Interval SSS_TimesNodePresentAt_next(TimesIterator* iter) {
+SGA_Interval SSS_TimesNodePresentAt_next(SGA_TimesIterator* iter) {
 	SSS_TimesIdPresentAtIteratorData* times_iter_data = (SSS_TimesIdPresentAtIteratorData*)iter->iterator_data;
 	SnapshotStream* snapshot_stream			  = (SnapshotStream*)iter->stream_graph.stream_data;
 	SGA_StreamGraph* stream_graph			  = snapshot_stream->underlying_stream_graph;
-	NodeId node					  = times_iter_data->current_id;
+	SGA_NodeId node					  = times_iter_data->current_id;
 	if (times_iter_data->current_time >= stream_graph->nodes.nodes[node].presence.nb_intervals) {
-		return Interval_from(SIZE_MAX, SIZE_MAX);
+		return SGA_TIMES_ITERATOR_END;
 	}
-	Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
-	nth_time	  = Interval_intersection(nth_time, snapshot_stream->snapshot);
+	SGA_Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
+	nth_time	      = SGA_Interval_intersection(nth_time, snapshot_stream->snapshot);
 	times_iter_data->current_time++;
 	return nth_time;
 }
 
-void SSS_TimesNodePresentAtIterator_destroy(TimesIterator* iterator) {
+void SSS_TimesNodePresentAtIterator_destroy(SGA_TimesIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-TimesIterator SnapshotStream_times_node_present(SGA_StreamData* stream_data, NodeId node) {
+SGA_TimesIterator SnapshotStream_times_node_present(SGA_StreamData* stream_data, SGA_NodeId node) {
 	SnapshotStream* snapshot_stream			= (SnapshotStream*)stream_data;
 	SSS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(SSS_TimesIdPresentAtIteratorData));
 	size_t nb_skips					= 0;
@@ -121,7 +121,7 @@ TimesIterator SnapshotStream_times_node_present(SGA_StreamData* stream_data, Nod
 	// SGA_Stream* stream = MALLOC(sizeof(SGA_Stream));
 	// stream->type = snapshot_stream;
 	// stream->stream = snapshot_stream;
-	TimesIterator times_iterator = {
+	SGA_TimesIterator times_iterator = {
 	    .stream_graph  = stream,
 	    .iterator_data = iterator_data,
 	    .next	   = SSS_TimesNodePresentAt_next,
@@ -131,21 +131,21 @@ TimesIterator SnapshotStream_times_node_present(SGA_StreamData* stream_data, Nod
 }
 
 // same for links now
-Interval SSS_TimesLinkPresentAt_next(TimesIterator* iter) {
+SGA_Interval SSS_TimesLinkPresentAt_next(SGA_TimesIterator* iter) {
 	SSS_TimesIdPresentAtIteratorData* times_iter_data = (SSS_TimesIdPresentAtIteratorData*)iter->iterator_data;
 	SnapshotStream* snapshot_stream			  = (SnapshotStream*)iter->stream_graph.stream_data;
 	SGA_StreamGraph* stream_graph			  = snapshot_stream->underlying_stream_graph;
-	LinkId link					  = times_iter_data->current_id;
+	SGA_LinkId link					  = times_iter_data->current_id;
 	if (times_iter_data->current_time >= stream_graph->links.links[link].presence.nb_intervals) {
-		return Interval_from(SIZE_MAX, SIZE_MAX);
+		return SGA_TIMES_ITERATOR_END;
 	}
-	Interval nth_time = stream_graph->links.links[link].presence.intervals[times_iter_data->current_time];
-	nth_time	  = Interval_intersection(nth_time, snapshot_stream->snapshot);
+	SGA_Interval nth_time = stream_graph->links.links[link].presence.intervals[times_iter_data->current_time];
+	nth_time	      = SGA_Interval_intersection(nth_time, snapshot_stream->snapshot);
 	times_iter_data->current_time++;
 	return nth_time;
 }
 
-TimesIterator SnapshotStream_times_link_present(SGA_StreamData* stream_data, LinkId link) {
+SGA_TimesIterator SnapshotStream_times_link_present(SGA_StreamData* stream_data, SGA_LinkId link) {
 	SnapshotStream* snapshot_stream			= (SnapshotStream*)stream_data;
 	SSS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(SSS_TimesIdPresentAtIteratorData));
 	size_t nb_skips					= 0;
@@ -162,7 +162,7 @@ TimesIterator SnapshotStream_times_link_present(SGA_StreamData* stream_data, Lin
 	// SGA_Stream* stream = MALLOC(sizeof(SGA_Stream));
 	// stream->type = snapshot_stream;
 	// stream->stream = snapshot_stream;
-	TimesIterator times_iterator = {
+	SGA_TimesIterator times_iterator = {
 	    .stream_graph  = stream,
 	    .iterator_data = iterator_data,
 	    .next	   = SSS_TimesLinkPresentAt_next,
@@ -171,12 +171,12 @@ TimesIterator SnapshotStream_times_link_present(SGA_StreamData* stream_data, Lin
 	return times_iterator;
 }
 
-Link SnapshotStream_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
+SGA_Link SnapshotStream_link_by_id(SGA_StreamData* stream_data, size_t link_id) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	return SGA_StreamGraph_link_by_id(snapshot_stream->underlying_stream_graph, link_id);
 }
 
-TimesIterator SnapshotStream_key_moments(SGA_StreamData* stream_data) {
+SGA_TimesIterator SnapshotStream_key_moments(SGA_StreamData* stream_data) {
 	SnapshotStream* snapshot_stream = (SnapshotStream*)stream_data;
 	SGA_StreamGraph* stream_graph	= snapshot_stream->underlying_stream_graph;
 	return SGA_StreamGraph_key_moments_between(stream_graph, snapshot_stream->snapshot);

@@ -1,16 +1,19 @@
+/**
+ * @file src/stream_graph/key_moments_table.h
+ * @brief Table of all key moments
+ */
+
 #ifndef SGA_KEY_MOMENTS_TABLE_H
-#	define SGA_KEY_MOMENTS_TABLE_H
+#define SGA_KEY_MOMENTS_TABLE_H
 
-#	include "../units.h"
-#	include "../utils.h"
-#	include <stddef.h>
-#	include <stdint.h>
-
-// #ifdef SGA_INTERNAL
+#include "../units.h"
+#include "../utils.h"
+#include <stddef.h>
+#include <stdint.h>
 
 typedef uint8_t RelativeMoment;
-#	define RELATIVE_MOMENT_MAX ((RelativeMoment)~0)
-#	define SLICE_SIZE	    (((size_t)RELATIVE_MOMENT_MAX) + 1)
+#define RELATIVE_MOMENT_MAX ((RelativeMoment)~0)
+#define SLICE_SIZE	    (((size_t)RELATIVE_MOMENT_MAX) + 1)
 
 typedef struct {
 	size_t nb_moments;
@@ -18,32 +21,34 @@ typedef struct {
 } MomentsSlice;
 
 typedef struct {
-	size_t current_slice;
-	size_t current_moment;
+	SGA_TimeId current_slice;
+	RelativeMoment current_moment;
 } KeyMomentsTableIterator;
 
 typedef struct {
-	size_t nb_slices;
+	SGA_TimeId nb_slices;
 	MomentsSlice* slices;
 	KeyMomentsTableIterator fill_info;
 } KeyMomentsTable;
 
-size_t KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, size_t n);
-void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, size_t key_moment);
+#ifdef SGA_INTERNAL
+
+SGA_Time KeyMomentsTable_nth_key_moment(KeyMomentsTable* kmt, SGA_TimeId n);
+
+void KeyMomentsTable_push_in_order(KeyMomentsTable* kmt, SGA_Time key_moment);
 KeyMomentsTable KeyMomentsTable_alloc(size_t nb_slices);
-void KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, size_t slice, size_t nb_moments);
-size_t KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
-size_t KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
+
+void KeyMomentsTable_alloc_slice(KeyMomentsTable* kmt, SGA_TimeId slice, RelativeMoment nb_moments);
+SGA_Time KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
+
+SGA_Time KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
 void KeyMomentsTable_destroy(KeyMomentsTable kmt);
-size_t KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, TimeId t);
 
-// typedef size_t size_t2;
-// bool size_t2_equals(size_t2 a, size_t2 b);
-// char* size_t2_to_string(const size_t2* a);
-// DefArrayList(size_t2, NO_FREE(size_t2));
+// Assumes the times are sorted, returns the index of a certain time if all of them were in a single array
+SGA_TimeId KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, SGA_Time t);
 
-// size_t2ArrayList KeyMomentsTable_all_moments(KeyMomentsTable* kmt);
 void print_key_moments_table(KeyMomentsTable* kmt);
+
 #endif // SGA_INTERNAL
 
-// #endif // SGA_KEY_MOMENTS_TABLE_H
+#endif // SGA_KEY_MOMENTS_TABLE_H

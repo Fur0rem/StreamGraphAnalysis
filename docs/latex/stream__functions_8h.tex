@@ -14,10 +14,23 @@ Functions to access the data of a Stream\+Graph.
 {\ttfamily \#include "{}stream.\+h"{}}\newline
 {\ttfamily \#include "{}stream\+\_\+graph/links\+\_\+set.\+h"{}}\newline
 {\ttfamily \#include "{}stream\+\_\+graph/nodes\+\_\+set.\+h"{}}\newline
+{\ttfamily \#include "{}units.\+h"{}}\newline
 Include dependency graph for stream\+\_\+functions.\+h\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stream__functions_8h__incl}
+\end{center}
+\end{figure}
 This graph shows which files directly or indirectly include this file\+:
-% FIG 1
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stream__functions_8h__dep__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,41 +44,41 @@ struct \mbox{\hyperlink{structStreamFunctions}{Stream\+Functions}}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{stream__functions_8h_a98d97b3f9756c0a6fdd5ba74266e85c2}\label{stream__functions_8h_a98d97b3f9756c0a6fdd5ba74266e85c2} 
-\mbox{\hyperlink{structInterval}{Interval}} {\bfseries SGA\+\_\+\+Stream\+\_\+lifespan} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\Hypertarget{stream__functions_8h_ab804879e23ee919fbe81eb1bfcd77168}\label{stream__functions_8h_ab804879e23ee919fbe81eb1bfcd77168} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} {\bfseries SGA\+\_\+\+Stream\+\_\+lifespan} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \item 
-\Hypertarget{stream__functions_8h_a1ee3efc7f385f6d55272e82fc91f35be}\label{stream__functions_8h_a1ee3efc7f385f6d55272e82fc91f35be} 
-\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\Hypertarget{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1}\label{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1} 
+\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \item 
-\Hypertarget{stream__functions_8h_af662b6dde14c234f954b77bd52347ef6}\label{stream__functions_8h_af662b6dde14c234f954b77bd52347ef6} 
-\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+links\+\_\+set} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\Hypertarget{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729}\label{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+links\+\_\+set} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \item 
-\Hypertarget{stream__functions_8h_afbcdffd68145f223c10557c9a00dc53d}\label{stream__functions_8h_afbcdffd68145f223c10557c9a00dc53d} 
-\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Time\+Id time\+\_\+id)
+\Hypertarget{stream__functions_8h_a23d1534c47087c2468daa4400a040fd2}\label{stream__functions_8h_a23d1534c47087c2468daa4400a040fd2} 
+\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time\+Id time\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_ad781104cdb10b7b75656aa601a402471}\label{stream__functions_8h_ad781104cdb10b7b75656aa601a402471} 
-\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Time\+Id time\+\_\+id)
+\Hypertarget{stream__functions_8h_a0c24579a8ed49c70f1899f4b2e8e465f}\label{stream__functions_8h_a0c24579a8ed49c70f1899f4b2e8e465f} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time\+Id time\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_ab7a0ec570b351a67dac5c0181581d685}\label{stream__functions_8h_ab7a0ec570b351a67dac5c0181581d685} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id)
+\Hypertarget{stream__functions_8h_aa9646259657bd5e58d882bd836af145f}\label{stream__functions_8h_aa9646259657bd5e58d882bd836af145f} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_a39c7ad3ea05d539357660d2a3c53375c}\label{stream__functions_8h_a39c7ad3ea05d539357660d2a3c53375c} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Link\+Id link\+\_\+id)
+\Hypertarget{stream__functions_8h_a626128d113305f27990dfd929c04e788}\label{stream__functions_8h_a626128d113305f27990dfd929c04e788} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_a24edee40d64c4b7faf9f131b8ec62bc5}\label{stream__functions_8h_a24edee40d64c4b7faf9f131b8ec62bc5} 
-\mbox{\hyperlink{structLink}{Link}} {\bfseries SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t link\+\_\+id)
+\Hypertarget{stream__functions_8h_aefd53317d066e0cfa3bc0c9dbab480dc}\label{stream__functions_8h_aefd53317d066e0cfa3bc0c9dbab480dc} 
+\mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}} {\bfseries SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_a0885ff440ffec4ef550dfd67177d174d}\label{stream__functions_8h_a0885ff440ffec4ef550dfd67177d174d} 
-\mbox{\hyperlink{structNode}{Node}} {\bfseries SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t node\+\_\+id)
+\Hypertarget{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff}\label{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff} 
+\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} {\bfseries SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_a0153d83a8e8f3ae0327fff92a09620ef}\label{stream__functions_8h_a0153d83a8e8f3ae0327fff92a09620ef} 
-\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id)
+\Hypertarget{stream__functions_8h_a9525463a814213d454ffb20d291d76cc}\label{stream__functions_8h_a9525463a814213d454ffb20d291d76cc} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_ac8316e1d95ced39c4f37e264f3e98dc8}\label{stream__functions_8h_ac8316e1d95ced39c4f37e264f3e98dc8} 
-Link\+Id {\bfseries SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, Node\+Id node\+\_\+id, Node\+Id other\+\_\+node\+\_\+id)
+\Hypertarget{stream__functions_8h_af2d835b83fab8b1a42fff3a30ee507c8}\label{stream__functions_8h_af2d835b83fab8b1a42fff3a30ee507c8} 
+SGA\+\_\+\+Link\+Id {\bfseries SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id, SGA\+\_\+\+Node\+Id other\+\_\+node\+\_\+id)
 \item 
-\Hypertarget{stream__functions_8h_a6e4c70d23003893da225d37fb873daee}\label{stream__functions_8h_a6e4c70d23003893da225d37fb873daee} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+key\+\_\+moments} (\mbox{\hyperlink{stream_8h_abee5236d2849589cd7dd9b7347a5290e}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\Hypertarget{stream__functions_8h_a7aa81d2b4562780caaa8c0bb4cb8510c}\label{stream__functions_8h_a7aa81d2b4562780caaa8c0bb4cb8510c} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} {\bfseries SGA\+\_\+\+Stream\+\_\+key\+\_\+moments} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \end{DoxyCompactItemize}
 
 
@@ -116,6 +129,6 @@ Get the functions to access the data of a Stream\+Graph.
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ out}}  & {\em variable} & The variable to store the functions in. \\
 \hline
-\mbox{\texttt{ in}}  & {\em stream\+\_\+var} & The \doxylink{structStream}{Stream} to get the functions for. \\
+\mbox{\texttt{ in}}  & {\em stream\+\_\+var} & The Stream to get the functions for. \\
 \hline
 \end{DoxyParams}

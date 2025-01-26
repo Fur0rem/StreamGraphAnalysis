@@ -900,7 +900,7 @@ void BKtemporal(XPR* xpr, size_t b, size_t e, NeighborListEnd* N, NeighborList* 
 		    .time_start = b,
 		    .time_end	= e,
 		    .nb_nodes	= xpr->R.length,
-		    .nodes	= malloc(xpr->R.length * sizeof(NodeId)),
+		    .nodes	= malloc(xpr->R.length * sizeof(SGA_NodeId)),
 		};
 		for (size_t i = 0; i < xpr->R.length; i++) {
 			c.nodes[i] = xpr->R.array[i];
@@ -1050,9 +1050,9 @@ SGA_CliqueArrayList cliques_sequential(const LinkPresenceStream* ls_end, Datastr
 SGA_CliqueArrayList SGA_Stream_maximal_cliques(SGA_Stream* st) {
 	StreamFunctions funcs	    = STREAM_FUNCS(funcs, st);
 	LinkPresenceArrayList links = LinkPresenceArrayList_new();
-	LinksIterator links_set	    = funcs.links_set(st->stream_data);
-	FOR_EACH_LINK(link_id, links_set) {
-		Link link = funcs.link_by_id(st->stream_data, link_id);
+	SGA_LinksIterator links_set = funcs.links_set(st->stream_data);
+	SGA_FOR_EACH_LINK(link_id, links_set) {
+		SGA_Link link = funcs.link_by_id(st->stream_data, link_id);
 		for (size_t i = 0; i < link.presence.nb_intervals; i++) {
 			LinkPresence l = (LinkPresence){
 			    .start    = link.presence.intervals[i].start,

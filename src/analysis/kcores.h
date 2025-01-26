@@ -17,12 +17,13 @@
 #include "../utils.h"
 #include "stddef.h"
 
+// TODO: move that to cluster
 /**
  * @brief The presence of a node in the stream.
  */
 typedef struct {
-	NodeId node_id;		    ///< The id of the node.
-	IntervalArrayList presence; ///< The intervals where the node is present.
+	SGA_NodeId node_id;		///< The id of the node.
+	SGA_IntervalArrayList presence; ///< The intervals where the node is present.
 } NodePresence;
 
 DeclareArrayList(NodePresence);

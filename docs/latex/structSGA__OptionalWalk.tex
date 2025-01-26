@@ -1,0 +1,74 @@
+\doxysection{SGA\+\_\+\+Optional\+Walk Struct Reference}
+\hypertarget{structSGA__OptionalWalk}{}\label{structSGA__OptionalWalk}\index{SGA\_OptionalWalk@{SGA\_OptionalWalk}}
+
+
+May contain a walk or a reason why a walk is not possible.  
+
+
+
+
+\doxysubsection{Detailed Description}
+May contain a walk or a reason why a walk is not possible. 
+
+{\ttfamily \#include $<$walks.\+h$>$}
+
+
+
+Collaboration diagram for SGA\+\_\+\+Optional\+Walk\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structSGA__OptionalWalk__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04ad91db25c3daeb3b9ee8c1ecaa9e52c59}{WALK}}
+, \mbox{\hyperlink{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04af2daee285de88d44fc6e33617a5cbbd2}{NO\+\_\+\+WALK}}
+ \}
+\begin{DoxyCompactList}\small\item\em The type of the result. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structSGA__OptionalWalk_a60f28846c13b10d40357d6b3ce558ab7}\label{structSGA__OptionalWalk_a60f28846c13b10d40357d6b3ce558ab7} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{structSGA__Walk}{SGA\_Walk}} {\bfseries walk}\\
+\>\>{\em The walk if it exists. }\\
+\>\mbox{\hyperlink{structSGA__NoWalkReason}{SGA\_NoWalkReason}} {\bfseries no\_walk\_reason}\\
+\>\>{\em The reason why the walk does not exist. }\\
+\} {\bfseries result}\\
+
+\end{tabbing}\begin{DoxyCompactList}\small\item\em The walk or the reason why the walk is not possible. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__OptionalWalk_a2a6045b5751e259b781234bd9b2d39a2}\label{structSGA__OptionalWalk_a2a6045b5751e259b781234bd9b2d39a2} 
+enum SGA\+\_\+\+Optional\+Walk\+:: \{ ... \}  {\bfseries type}
+\begin{DoxyCompactList}\small\item\em The type of the result. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04}\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily \label{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04} 
+anonymous enum}
+
+
+
+The type of the result. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WALK@{WALK}!SGA\_OptionalWalk@{SGA\_OptionalWalk}}\index{SGA\_OptionalWalk@{SGA\_OptionalWalk}!WALK@{WALK}}}\Hypertarget{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04ad91db25c3daeb3b9ee8c1ecaa9e52c59}\label{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04ad91db25c3daeb3b9ee8c1ecaa9e52c59} 
+WALK&The walk exists. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NO\_WALK@{NO\_WALK}!SGA\_OptionalWalk@{SGA\_OptionalWalk}}\index{SGA\_OptionalWalk@{SGA\_OptionalWalk}!NO\_WALK@{NO\_WALK}}}\Hypertarget{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04af2daee285de88d44fc6e33617a5cbbd2}\label{structSGA__OptionalWalk_a8168ae47b911eb635f72e858359f8c04af2daee285de88d44fc6e33617a5cbbd2} 
+NO\+\_\+\+WALK&The walk does not exist. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/analysis/\mbox{\hyperlink{walks_8h}{walks.\+h}}\end{DoxyCompactItemize}

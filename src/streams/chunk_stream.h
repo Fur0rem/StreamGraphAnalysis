@@ -27,7 +27,7 @@
  */
 typedef struct {
 	SGA_StreamGraph* underlying_stream_graph; ///< The StreamGraph from which the chunk was extracted.
-	Interval snapshot;			  ///< The time interval of the chunk.
+	SGA_Interval snapshot;			  ///< The time interval of the chunk.
 	BitArray nodes_present;			  ///< Nodes present in the chunk.
 						  ///< It works like an array of booleans optimised as a bit array.
 						  ///< If nodes_present[i] is true, then the node i is present in the chunk.
@@ -48,8 +48,8 @@ extern const MetricsFunctions ChunkStream_metrics_functions; ///< Functions to c
  * @param[in] snapshot The time interval at which the chunk exists.
  * @return The created ChunkStream.
  */
-SGA_Stream SGA_ChunkStream_with(SGA_StreamGraph* stream_graph, NodeIdArrayList* nodes_present, LinkIdArrayList* links_present,
-				Interval snapshot);
+SGA_Stream SGA_ChunkStream_with(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList* nodes_present, SGA_LinkIdArrayList* links_present,
+				SGA_Interval snapshot);
 
 /**
  * @brief Create a ChunkStream from a StreamGraph, without a subset of nodes and links.
@@ -59,8 +59,8 @@ SGA_Stream SGA_ChunkStream_with(SGA_StreamGraph* stream_graph, NodeIdArrayList* 
  * @param[in] snapshot The time interval at which the chunk exists.
  * @return The created ChunkStream.
  */
-SGA_Stream SGA_ChunkStream_without(SGA_StreamGraph* stream_graph, NodeIdArrayList* nodes_absent, LinkIdArrayList* links_absent,
-				   Interval snapshot);
+SGA_Stream SGA_ChunkStream_without(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList* nodes_absent, SGA_LinkIdArrayList* links_absent,
+				   SGA_Interval snapshot);
 
 /**
  * @brief Destroy a ChunkStream.

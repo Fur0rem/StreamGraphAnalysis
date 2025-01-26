@@ -1,0 +1,7 @@
+<map id="src/analysis/metrics.h" name="src/analysis/metrics.h">
+<area shape="rect" id="Node000001" title="Functions to compute metrics on a Stream." alt="" coords="107,5,270,33"/>
+<area shape="rect" id="Node000002" href="$StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="5,81,180,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,45,111,83,108,78,158,41"/>
+<area shape="rect" id="Node000003" href="$metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="203,81,366,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,41,269,78,266,83,216,45"/>
+</map>

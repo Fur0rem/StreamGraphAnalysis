@@ -1,4 +1,5 @@
 <map id="InformationCache" name="InformationCache">
-<area shape="rect" id="node1" title=" " alt="" coords="5,139,144,165"/>
-<area shape="rect" id="node2" href="$structOptionalSizeT.html" title=" " alt="" coords="19,5,131,32"/>
+<area shape="rect" id="Node000001" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="5,234,143,262"/>
+<area shape="rect" id="Node000002" href="$structOptionalSizeT.html" title="A size_t that can be optional." alt="" coords="18,5,130,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,48,77,234,71,234,71,48"/>
 </map>

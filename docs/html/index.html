@@ -121,10 +121,10 @@ Regarding the paper</h1>
 Basic information about the implementation</h1>
 <p>The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics. Anything related to the library (data types, functions, ect...) contain the prefix SGA_ to avoid conflicts with other libraries. There are 2 main data structures in the library :</p><ul>
 <li>StreamGraph, which is the main data structure, and contains the entire stream graph.</li>
-<li><a class="el" href="structStream.html">Stream</a>, which is a wrapper around the StreamGraph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.</li>
+<li>Stream, which is a wrapper around the StreamGraph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.</li>
 </ul>
-<p>You need to first load the StreamGraph, and then wrap it in a <a class="el" href="structStream.html">Stream</a> to compute metrics on it. The stream contains a reference to the StreamGraph, so be careful to not delete the StreamGraph before the <a class="el" href="structStream.html">Stream</a>.</p>
-<p><a class="el" href="structStream.html">Stream</a>'s are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried. For example, a LinkStream will only have a reference to the StreamGraph, and return the full lifespan of the stream graph when asked for the lifespan of node. All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a LinkStream can optimise the computation of the coverage, which is always 1.</p>
+<p>You need to first load the StreamGraph, and then wrap it in a Stream to compute metrics on it. The stream contains a reference to the StreamGraph, so be careful to not delete the StreamGraph before the Stream.</p>
+<p>Stream's are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried. For example, a LinkStream will only have a reference to the StreamGraph, and return the full lifespan of the stream graph when asked for the lifespan of node. All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a LinkStream can optimise the computation of the coverage, which is always 1.</p>
 <p>The different streams are :</p><ul>
 <li>FullStreamGraph : The entire stream graph, no modifications</li>
 <li>LinkStream : All nodes are present at all times, and the links are the only thing that changes</li>
@@ -142,19 +142,13 @@ Basic information about the implementation</h1>
 How to use the library</h1>
 <p>Clone the repository, and then run make libSGA to compile the library. You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library. There is a header <a class="el" href="StreamGraphAnalysis_8h.html" title="The main header file of the library.">StreamGraphAnalysis.h</a> in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory. TODO: explanation of a code sample</p>
 <h1><a class="anchor" id="autotoc_md6"></a>
-Common mistakes</h1>
-<ul>
-<li>Not initialising the events table before using some functions that need it, if you get a segmentation fault, that might be the reason. It will have an explicit error in debug mode, but not in release mode, for performance reasons.</li>
-<li>Make sure that the initialisation of a stream graph or an event table does not happen in a multithreaded context, as it is not thread-safe.</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md7"></a>
 Data format</h1>
 <p>You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it's recommended to write your data in the external format, and then convert it to the internal format using the InternalFormat_from_External_str function, and save that for future use.</p>
 <p>External format : </p><div class="fragment"><div class="line">SGA External Format &lt;version&gt;</div>
 <div class="line"> </div>
 <div class="line">[General]</div>
 <div class="line">Lifespan=(&lt;start&gt;, &lt;end&gt;)</div>
-<div class="line">Scaling=&lt;scale&gt;</div>
+<div class="line">TimeScale=&lt;scale&gt;</div>
 <div class="line"> </div>
 <div class="line">[Events]</div>
 <div class="line">&lt;Timestamp&gt; &lt;+ (for appearance) or - (for disappearance)&gt; &lt;N (for node) or L (for link)&gt; (&lt;NodeId&gt; for a node or &lt;Node1&gt; &lt;Node2&gt; for a link)</div>
@@ -164,19 +158,19 @@ Data format</h1>
 <div class="line">Any text before this line will be ignored, and can be used for comments or metadata</div>
 </div><!-- fragment --><p>All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.5, 1.5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.</p>
 <p>There are some example data files in the data/ directory.</p>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 What it can do</h1>
 <ul>
 <li>Read a stream graph from a file</li>
 <li>Compute different metrics on the stream graph, the list of which is available below</li>
 <li>Support concurrent access to the stream graph, since it is read-only</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 What it cannot do</h1>
 <ul>
 <li>Modify the stream graph : the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Specifications of the stream graph data</h1>
 <ul>
 <li>The stream graph is continuous, undirected and unweighted</li>
@@ -184,14 +178,21 @@ Specifications of the stream graph data</h1>
 <li>The stream graph uses closed on the left intervals, i.e. a link (u, v) is active at time t if and only if t is in [t_start, t_end[</li>
 <li>If a link is present at time t, the nodes u and v must be present at time t</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 Project guidelines and organisation</h1>
 <ul>
 <li>Guidelines : None for now, I'm focusing on having something that works first, rather than something that is perfect but with no results. Things I'm considering for guidelines are namespacing to work with other libraries. Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro magic for the genericity specified above, so I'm not sure how to do that.</li>
 <li>Organisation :</li>
 </ul>
-<p>The src/ directory contains the entire source code of the library. The src/stream_graph/ directory contains the source code of the StreamGraph data structure. The src/streams/ directory contains the source code of the different streams. The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-cores, etc... The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework. One test exists per source file, and each test must have the same name as the source file it tests. The benchmarks/ directory contains the benchmarks for the library. The examples/ directory contains examples of how to use the library. The data/ directory contains example data files. You can run them using the run_tests.sh script in the main directory.</p>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<p>The src/ directory contains the entire source code of the library.</p>
+<p>The src/stream_graph/ directory contains the source code of the StreamGraph data structure.</p>
+<p>The src/streams/ directory contains the source code of the different streams.</p>
+<p>The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-cores, etc...</p>
+<p>The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework. You can run them using the run_tests.sh script in the main directory.</p>
+<p>The benchmarks/ directory contains the benchmarks for the library. You can run them using the run_benchmarks.sh script in the main directory.</p>
+<p>The examples/ directory contains examples of how to use the library.</p>
+<p>The data/ directory contains example data files.</p>
+<h1><a class="anchor" id="autotoc_md11"></a>
 Supported metrics and analysis</h1>
 <ul>
 <li>|W|, |V|, |E|, |T| : Section 3</li>
@@ -200,8 +201,8 @@ Supported metrics and analysis</h1>
 <li>Number of nodes : Section 4</li>
 <li>Contribution of a link : Section 4</li>
 <li>Number of links : Section 4</li>
-<li><a class="el" href="structNode.html" title="The structure of a node in a StreamGraph.">Node</a> duration : Section 4</li>
-<li><a class="el" href="structLink.html">Link</a> duration : Section 4</li>
+<li>Node duration : Section 4</li>
+<li>Link duration : Section 4</li>
 <li>Uniformity : Section 4</li>
 <li>Uniformity of a pair of nodes : Section 4</li>
 <li>Compactness : Section 4</li>
@@ -213,9 +214,9 @@ Supported metrics and analysis</h1>
 <li>Degree of a node : Section 8</li>
 <li>Average node degree : Section 8</li>
 <li>Clustering coefficient of a node : Section 9</li>
-<li><a class="el" href="structNode.html" title="The structure of a node in a StreamGraph.">Node</a> clustering coefficient : Section 9</li>
+<li>Node clustering coefficient : Section 9</li>
 <li>K-cores : Section 13</li>
-<li>Paths and distances : Section 14</li>
+<li>Walks and distances : Section 14 (The paper mentionned paths but for now I only implemented walks)</li>
 <li>Robustness by length : Outside of the paper</li>
 <li>Isomorphism : Outside of the paper </li>
 </ul>

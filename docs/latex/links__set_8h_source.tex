@@ -11,26 +11,29 @@
 \DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
 \DoxyCodeLine{00008\ }
 \DoxyCodeLine{00009\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{structIntervalsSet}{IntervalsSet}}\ presence;}
-\DoxyCodeLine{00011\ \ \ \ \ NodeId\ nodes[2];}
-\DoxyCodeLine{00012\ \}\ \mbox{\hyperlink{structLink}{Link}};}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{structSGA__IntervalsSet}{SGA\_IntervalsSet}}\ presence;}
+\DoxyCodeLine{00011\ \ \ \ \ SGA\_NodeId\ nodes[2];}
+\DoxyCodeLine{00012\ \}\ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}};}
 \DoxyCodeLine{00013\ }
 \DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_links;}
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structLink}{Link}}*\ links;}
+\DoxyCodeLine{00015\ \ \ \ \ SGA\_LinkId\ nb\_links;}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}*\ links;}
 \DoxyCodeLine{00017\ \}\ \mbox{\hyperlink{structLinksSet}{LinksSet}};}
 \DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ LinksSet\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_links);}
-\DoxyCodeLine{00020\ DeclareToString(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{00021\ DeclareEquals(\mbox{\hyperlink{structLink}{Link}});}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00020\ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ LinksSet\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_links);}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ DeclareArrayList(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{00024\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{00025\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{00026\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structLink}{Link}});}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ NodeId\ Link\_get\_other\_node(\textcolor{keyword}{const}\ \mbox{\hyperlink{structLink}{Link}}*\ link,\ NodeId\ node\_id);}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_GRAPH\_LINKS\_SET\_H}}
+\DoxyCodeLine{00023\ DeclareToString(\mbox{\hyperlink{structSGA__Link}{SGA\_Link}});}
+\DoxyCodeLine{00024\ DeclareEquals(\mbox{\hyperlink{structSGA__Link}{SGA\_Link}});}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ DeclareArrayList(\mbox{\hyperlink{structSGA__Link}{SGA\_Link}});}
+\DoxyCodeLine{00027\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structSGA__Link}{SGA\_Link}});}
+\DoxyCodeLine{00028\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structSGA__Link}{SGA\_Link}});}
+\DoxyCodeLine{00029\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structSGA__Link}{SGA\_Link}});}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ SGA\_NodeId\ SGA\_Link\_get\_other\_node(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}*\ link,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_GRAPH\_LINKS\_SET\_H}}
 
 \end{DoxyCode}

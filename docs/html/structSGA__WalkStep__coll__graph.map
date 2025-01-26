@@ -1,0 +1,5 @@
+<map id="SGA_WalkStep" name="SGA_WalkStep">
+<area shape="rect" id="Node000001" title="A step in a Walk." alt="" coords="5,98,122,126"/>
+<area shape="rect" id="Node000002" href="$structSGA__Interval.html" title=" " alt="" coords="11,5,116,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,48,66,98,61,98,61,48"/>
+</map>

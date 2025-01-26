@@ -2,7 +2,7 @@ SGA Internal version 1.0.0
 
 [General]
 Lifespan=(0 12)
-Scaling=1
+TimeScale=1
 
 [Memory]
 NumberOfNodes=4

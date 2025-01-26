@@ -29,19 +29,19 @@ bool test_isomorphism_chunk() {
 	SGA_StreamGraph sg	    = SGA_StreamGraph_from_external("data/kcores_with_L.txt");
 	SGA_StreamGraph kcores_only = SGA_StreamGraph_from_external("data/kcores_test.txt");
 
-	LinkIdArrayList links = LinkIdArrayList_new();
+	SGA_LinkIdArrayList links = SGA_LinkIdArrayList_new();
 	for (size_t i = 0; i < sg.links.nb_links; i++) {
-		LinkIdArrayList_push(&links, i);
+		SGA_LinkIdArrayList_push(&links, i);
 		printf("Link %zu (%zu, %zu)\n", i, sg.links.links[i].nodes[0], sg.links.links[i].nodes[1]);
 	}
 
-	NodeIdArrayList nodes = NodeIdArrayList_new();
-	NodeIdArrayList_push(&nodes, 0);
-	NodeIdArrayList_push(&nodes, 2);
-	NodeIdArrayList_push(&nodes, 4);
-	NodeIdArrayList_push(&nodes, 6);
+	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_new();
+	SGA_NodeIdArrayList_push(&nodes, 0);
+	SGA_NodeIdArrayList_push(&nodes, 2);
+	SGA_NodeIdArrayList_push(&nodes, 4);
+	SGA_NodeIdArrayList_push(&nodes, 6);
 
-	Interval snapshot = Interval_from(0, 10);
+	SGA_Interval snapshot = SGA_Interval_from(0, 10);
 	// SGA_Stream st	  = CS_with(&sg, &nodes, &links, snapshot.start, snapshot.end);
 	SGA_Stream st = SGA_ChunkStream_with(&sg, &nodes, &links, snapshot);
 	// SGA_Stream og	  = SGA_LinkStream_from(&kcores_only);
@@ -53,8 +53,8 @@ bool test_isomorphism_chunk() {
 	SGA_StreamGraph_destroy(kcores_only);
 	SGA_LinkStream_destroy(og);
 	SGA_ChunkStream_destroy(st);
-	LinkIdArrayList_destroy(links);
-	NodeIdArrayList_destroy(nodes);
+	SGA_LinkIdArrayList_destroy(links);
+	SGA_NodeIdArrayList_destroy(nodes);
 
 	return result;
 

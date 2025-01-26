@@ -21,7 +21,7 @@
  */
 typedef struct {
 	SGA_StreamGraph* underlying_stream_graph; ///< The StreamGraph from which the snapshot was extracted.
-	Interval snapshot;			  ///< The time interval of the snapshot.
+	SGA_Interval snapshot;			  ///< The time interval of the snapshot.
 } SnapshotStream;
 
 extern const StreamFunctions SnapshotStream_stream_functions;	///< Functions to access the data of a SnapshotStream.
@@ -35,7 +35,7 @@ extern const MetricsFunctions SnapshotStream_metrics_functions; ///< Functions t
  * @param[in] snapshot The time interval of the snapshot.
  * @return The created SnapshotStream.
  */
-SGA_Stream SGA_SnapshotStream_from(SGA_StreamGraph* stream_graph, Interval snapshot);
+SGA_Stream SGA_SnapshotStream_from(SGA_StreamGraph* stream_graph, SGA_Interval snapshot);
 
 /**
  * @brief Destroy a SnapshotStream.

@@ -7,24 +7,27 @@
 #include <stdint.h>
 
 typedef struct {
-	IntervalsSet presence;
-	NodeId nodes[2];
-} Link;
+	SGA_IntervalsSet presence;
+	SGA_NodeId nodes[2];
+} SGA_Link;
 
 typedef struct {
-	size_t nb_links;
-	Link* links;
+	SGA_LinkId nb_links;
+	SGA_Link* links;
 } LinksSet;
 
+#ifdef SGA_INTERNAL
 LinksSet LinksSet_alloc(size_t nb_links);
-DeclareToString(Link);
-DeclareEquals(Link);
+#endif // SGA_INTERNAL
 
-DeclareArrayList(Link);
-DeclareArrayListDeriveEquals(Link);
-DeclareArrayListDeriveToString(Link);
-DeclareArrayListDeriveRemove(Link);
+DeclareToString(SGA_Link);
+DeclareEquals(SGA_Link);
 
-NodeId Link_get_other_node(const Link* link, NodeId node_id);
+DeclareArrayList(SGA_Link);
+DeclareArrayListDeriveEquals(SGA_Link);
+DeclareArrayListDeriveToString(SGA_Link);
+DeclareArrayListDeriveRemove(SGA_Link);
+
+SGA_NodeId SGA_Link_get_other_node(const SGA_Link* link, SGA_NodeId node_id);
 
 #endif // STREAM_GRAPH_LINKS_SET_H

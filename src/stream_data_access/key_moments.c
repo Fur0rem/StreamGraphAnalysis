@@ -19,7 +19,7 @@
 // 	size_t current_moment;
 // } KeyMomentsTableIterator;
 
-Interval KeyMomentsTableIterator_next(TimesIterator* iter) {
+SGA_Interval KeyMomentsTableIterator_next(SGA_TimesIterator* iter) {
 	KeyMomentsTableIterator* key_moments_iter_data = iter->iterator_data;
 	SGA_StreamGraph* stream_graph		       = iter->stream_graph.stream_data;
 
@@ -31,7 +31,7 @@ Interval KeyMomentsTableIterator_next(TimesIterator* iter) {
 
 	// Check if you're at the end of the slices
 	if (key_moments_iter_data->current_slice >= stream_graph->key_moments.nb_slices) {
-		return TIMES_ITERATOR_END;
+		return SGA_TIMES_ITERATOR_END;
 	}
 
 	// Get the relative moment start
@@ -41,7 +41,7 @@ Interval KeyMomentsTableIterator_next(TimesIterator* iter) {
 	size_t absolute_moment = relative_moment_start + (key_moments_iter_data->current_slice * SLICE_SIZE);
 
 	if (absolute_moment >= stream_graph->lifespan.end) {
-		return TIMES_ITERATOR_END;
+		return SGA_TIMES_ITERATOR_END;
 	}
 
 	// Get the relative moment end
@@ -68,14 +68,14 @@ Interval KeyMomentsTableIterator_next(TimesIterator* iter) {
 
 	printf("returning %zu %zu\n", absolute_moment, absolute_moment_end);
 
-	return Interval_from(absolute_moment, absolute_moment_end);
+	return SGA_Interval_from(absolute_moment, absolute_moment_end);
 }
 
-void KeyMomentsTableIterator_destroy(TimesIterator* iter) {
+void KeyMomentsTableIterator_destroy(SGA_TimesIterator* iter) {
 	free(iter->iterator_data);
 }
 
-TimesIterator SGA_StreamGraph_key_moments(SGA_StreamGraph* stream_graph) {
+SGA_TimesIterator SGA_StreamGraph_key_moments(SGA_StreamGraph* stream_graph) {
 	SGA_Stream stream			       = {.stream_data = stream_graph};
 	KeyMomentsTableIterator* key_moments_iter_data = MALLOC(sizeof(KeyMomentsTableIterator));
 	*key_moments_iter_data			       = (KeyMomentsTableIterator){
@@ -83,7 +83,7 @@ TimesIterator SGA_StreamGraph_key_moments(SGA_StreamGraph* stream_graph) {
 				    .current_moment = 0,
 	};
 
-	TimesIterator key_moments_iter = {
+	SGA_TimesIterator key_moments_iter = {
 	    .stream_graph  = stream,
 	    .iterator_data = key_moments_iter_data,
 	    .next	   = KeyMomentsTableIterator_next,
@@ -99,12 +99,12 @@ TimesIterator SGA_StreamGraph_key_moments(SGA_StreamGraph* stream_graph) {
 typedef struct {
 	size_t current_moment;
 	size_t current_slice;
-	Interval interval;
+	SGA_Interval interval;
 } KeyMomentsTableBetweenIterator;
 
-Interval KeyMomentsTableIterator_next_between(TimesIterator* iter) {
+SGA_Interval KeyMomentsTableIterator_next_between(SGA_TimesIterator* iter) {
 	KeyMomentsTableBetweenIterator* key_moments_iter_data = iter->iterator_data;
-	Interval interval				      = key_moments_iter_data->interval;
+	SGA_Interval interval				      = key_moments_iter_data->interval;
 	SGA_StreamGraph* stream_graph			      = iter->stream_graph.stream_data;
 
 	// Check if you're at the end of the relative moment
@@ -116,7 +116,7 @@ Interval KeyMomentsTableIterator_next_between(TimesIterator* iter) {
 	// Check if you're at the end of the slices or the interval
 	if (key_moments_iter_data->current_slice >= stream_graph->key_moments.nb_slices) {
 		printf("reached end of slices\n");
-		return TIMES_ITERATOR_END;
+		return SGA_TIMES_ITERATOR_END;
 	}
 
 	// Get the relative moment start
@@ -128,8 +128,8 @@ Interval KeyMomentsTableIterator_next_between(TimesIterator* iter) {
 	absolute_moment = MAX(absolute_moment, interval.start);
 
 	// Check if the moment is in the interval
-	if (!Interval_contains(interval, absolute_moment)) {
-		return TIMES_ITERATOR_END;
+	if (!SGA_Interval_contains(interval, absolute_moment)) {
+		return SGA_TIMES_ITERATOR_END;
 	}
 
 	// Get the relative moment end
@@ -157,10 +157,10 @@ Interval KeyMomentsTableIterator_next_between(TimesIterator* iter) {
 	// Increment the current moment
 	key_moments_iter_data->current_moment++;
 
-	return Interval_from(absolute_moment, absolute_moment_end);
+	return SGA_Interval_from(absolute_moment, absolute_moment_end);
 }
 
-TimesIterator SGA_StreamGraph_key_moments_between(SGA_StreamGraph* stream_graph, Interval interval) {
+SGA_TimesIterator SGA_StreamGraph_key_moments_between(SGA_StreamGraph* stream_graph, SGA_Interval interval) {
 	SGA_Stream stream				      = {.stream_data = stream_graph};
 	KeyMomentsTableBetweenIterator* key_moments_iter_data = MALLOC(sizeof(KeyMomentsTableBetweenIterator));
 
@@ -172,7 +172,7 @@ TimesIterator SGA_StreamGraph_key_moments_between(SGA_StreamGraph* stream_graph,
 	    .interval	    = interval,
 	};
 
-	TimesIterator key_moments_iter = {
+	SGA_TimesIterator key_moments_iter = {
 	    .stream_graph  = stream,
 	    .iterator_data = key_moments_iter_data,
 	    .next	   = KeyMomentsTableIterator_next_between,

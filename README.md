@@ -63,11 +63,6 @@ There is a header StreamGraphAnalysis.h in the main directory that you can inclu
 You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory.
 TODO: explanation of a code sample
 
-Common mistakes
-----------------
-- Not initialising the events table before using some functions that need it, if you get a segmentation fault, that might be the reason. It will have an explicit error in debug mode, but not in release mode, for performance reasons.
-- Make sure that the initialisation of a stream graph or an event table does not happen in a multithreaded context, as it is not thread-safe.
-
 Data format
 -----------
 
@@ -81,7 +76,7 @@ SGA External Format <version>
 
 [General]
 Lifespan=(<start>, <end>)
-Scaling=<scale>
+TimeScale=<scale>
 
 [Events]
 <Timestamp> <+ (for appearance) or - (for disappearance)> <N (for node) or L (for link)> (<NodeId> for a node or <Node1> <Node2> for a link)
@@ -125,15 +120,22 @@ Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro
 - Organisation :
 
 The src/ directory contains the entire source code of the library.
+
 The src/stream_graph/ directory contains the source code of the StreamGraph data structure.
+
 The src/streams/ directory contains the source code of the different streams.
+
 The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-cores, etc...
+
 The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework.
-One test exists per source file, and each test must have the same name as the source file it tests.
-The benchmarks/ directory contains the benchmarks for the library.
-The examples/ directory contains examples of how to use the library.
-The data/ directory contains example data files.
 You can run them using the run_tests.sh script in the main directory.
+
+The benchmarks/ directory contains the benchmarks for the library.
+You can run them using the run_benchmarks.sh script in the main directory.
+
+The examples/ directory contains examples of how to use the library.
+
+The data/ directory contains example data files.
 
 Supported metrics and analysis
 -----------------------------------------------------------
@@ -158,6 +160,6 @@ Supported metrics and analysis
 - Clustering coefficient of a node : Section 9
 - Node clustering coefficient : Section 9
 - K-cores : Section 13
-- Paths and distances : Section 14
+- Walks and distances : Section 14 (The paper mentionned paths but for now I only implemented walks)
 - Robustness by length : Outside of the paper
 - Isomorphism : Outside of the paper

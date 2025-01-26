@@ -1,0 +1,49 @@
+\doxysection{SGA\+\_\+\+Nodes\+Iterator Struct Reference}
+\hypertarget{structSGA__NodesIterator}{}\label{structSGA__NodesIterator}\index{SGA\_NodesIterator@{SGA\_NodesIterator}}
+
+
+Collaboration diagram for SGA\+\_\+\+Nodes\+Iterator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{structSGA__NodesIterator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structSGA__NodesIterator_a8eb4d23be32325b562bd781490b3c2a6}\label{structSGA__NodesIterator_a8eb4d23be32325b562bd781490b3c2a6} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} {\bfseries stream\+\_\+graph}
+\begin{DoxyCompactList}\small\item\em The stream graph from which the iterator is created. \end{DoxyCompactList}\item 
+\Hypertarget{structSGA__NodesIterator_a840afa2bb7444d426d53b04d180a81c6}\label{structSGA__NodesIterator_a840afa2bb7444d426d53b04d180a81c6} 
+void \texorpdfstring{$\ast$}{*} {\bfseries iterator\+\_\+data}
+\begin{DoxyCompactList}\small\item\em Extra data needed to iterate. \end{DoxyCompactList}\item 
+SGA\+\_\+\+Node\+Id(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structSGA__NodesIterator_a29cd35d899e383a93ae0504779c3a053}{next}} )(\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \texorpdfstring{$\ast$}{*})
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structSGA__NodesIterator_a793749496f55d228407832f023ea5edf}{destroy}} )(\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Takes itself as the argument. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structSGA__NodesIterator_a793749496f55d228407832f023ea5edf}\index{SGA\_NodesIterator@{SGA\_NodesIterator}!destroy@{destroy}}
+\index{destroy@{destroy}!SGA\_NodesIterator@{SGA\_NodesIterator}}
+\doxysubsubsection{\texorpdfstring{destroy}{destroy}}
+{\footnotesize\ttfamily \label{structSGA__NodesIterator_a793749496f55d228407832f023ea5edf} 
+void(\texorpdfstring{$\ast$}{*} SGA\+\_\+\+Nodes\+Iterator\+::destroy) (\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \texorpdfstring{$\ast$}{*})}
+
+
+
+Takes itself as the argument. 
+
+Function to destroy the iterator. \Hypertarget{structSGA__NodesIterator_a29cd35d899e383a93ae0504779c3a053}\index{SGA\_NodesIterator@{SGA\_NodesIterator}!next@{next}}
+\index{next@{next}!SGA\_NodesIterator@{SGA\_NodesIterator}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily \label{structSGA__NodesIterator_a29cd35d899e383a93ae0504779c3a053} 
+SGA\+\_\+\+Node\+Id(\texorpdfstring{$\ast$}{*} SGA\+\_\+\+Nodes\+Iterator\+::next) (\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \texorpdfstring{$\ast$}{*})}
+
+Function to get the next node id. If there are no more nodes, it returns NODES\+\_\+\+ITERATOR\+\_\+\+END. Takes itself as the argument. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{iterators_8h}{iterators.\+h}}\end{DoxyCompactItemize}

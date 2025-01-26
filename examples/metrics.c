@@ -32,8 +32,8 @@ int main() {
 	printf("Transitivity ratio: %f\n", SGA_Stream_transitivity_ratio(&st));
 
 	printf("\n------ Node and link metrics ------\n");
-	NodesIterator nodes_set = SGA_Stream_nodes_set(&st);
-	FOR_EACH_NODE(node, nodes_set) {
+	SGA_NodesIterator nodes_set = SGA_Stream_nodes_set(&st);
+	SGA_FOR_EACH_NODE(node, nodes_set) {
 		printf("Node %lu | Contribution: %f | Density: %f | Degree: %f | Clustering coefficient: %f\n",
 		       node,
 		       SGA_Stream_contribution_of_node(&st, node),

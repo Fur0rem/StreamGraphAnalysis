@@ -1,0 +1,11 @@
+<map id="SGA_Walk" name="SGA_Walk">
+<area shape="rect" id="Node000001" title="A walk in a stream A walk is a sequence of steps that goes from a node to another node in a stream...." alt="" coords="65,419,152,447"/>
+<area shape="rect" id="Node000002" href="$structSGA__Interval.html" title=" " alt="" coords="5,327,111,354"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,368,75,394,94,417,90,420,70,397,60,370"/>
+<area shape="rect" id="Node000003" href="$structSGA__Stream.html" title="The structure of a Stream." alt="" coords="135,327,237,354"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,368,145,397,123,421,120,417,141,394,165,365"/>
+<area shape="rect" id="Node000004" href="$structInformationCache.html" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="117,234,255,262"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="189,277,189,326,183,326,183,277"/>
+<area shape="rect" id="Node000005" href="$structOptionalSizeT.html" title="A size_t that can be optional." alt="" coords="130,5,242,33"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="189,48,189,234,183,234,183,48"/>
+</map>

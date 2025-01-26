@@ -1,0 +1,13 @@
+<map id="src/streams.h" name="src/streams.h">
+<area shape="rect" id="Node000001" title="Utility header to include all types of streams at once." alt="" coords="427,5,536,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,90,188,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="427,35,174,88,173,83,426,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="211,81,382,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="453,36,361,77,359,72,451,31"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="406,81,558,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="484,34,484,65,479,65,479,34"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="582,90,750,117"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="512,31,624,80,621,85,510,36"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="774,90,976,117"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="537,29,797,83,796,88,536,35"/>
+</map>

@@ -6,8 +6,8 @@
 #include <stdint.h>
 
 typedef struct {
-	Interval time;
-	NodeIdArrayList neighbours;
+	SGA_Interval time;
+	SGA_NodeIdArrayList neighbours;
 } KCoreData;
 
 String KCoreData_to_string(const KCoreData* self) {
@@ -21,7 +21,7 @@ String KCoreData_to_string(const KCoreData* self) {
 }
 
 bool KCoreData_equals(const KCoreData* left, const KCoreData* right) {
-	return Interval_equals(&left->time, &right->time) && NodeIdArrayList_equals(&left->neighbours, &right->neighbours);
+	return SGA_Interval_equals(&left->time, &right->time) && SGA_NodeIdArrayList_equals(&left->neighbours, &right->neighbours);
 }
 
 int KCoreData_compare(const KCoreData* left, const KCoreData* right) {
@@ -35,7 +35,7 @@ int KCoreData_compare(const KCoreData* left, const KCoreData* right) {
 }
 
 void KCoreData_destroy(KCoreData data) {
-	NodeIdArrayList_destroy(data.neighbours);
+	SGA_NodeIdArrayList_destroy(data.neighbours);
 }
 
 DeclareArrayList(KCoreData);
@@ -49,7 +49,7 @@ DefineArrayListDeriveToString(KCoreData);
 DefineArrayList(NodePresence);
 
 void NodePresence_destroy(NodePresence node) {
-	IntervalArrayList_destroy(node.presence);
+	SGA_IntervalArrayList_destroy(node.presence);
 }
 
 DefineArrayListDeriveRemove(NodePresence);
@@ -65,45 +65,45 @@ void SGA_KCore_destroy(SGA_KCore self) {
  */
 void KCore_simplify(SGA_KCore* k_core) {
 	for (size_t i = 0; i < k_core->nodes.length; i++) {
-		IntervalsSet intervals = IntervalsSet_from_interval_arraylist(k_core->nodes.array[i].presence);
-		IntervalsSet_sort(&intervals);
-		IntervalsSet_merge(&intervals);
-		k_core->nodes.array[i].presence = IntervalArrayList_from_intervals_set(intervals);
+		SGA_IntervalsSet intervals = SGA_IntervalsSet_from_interval_arraylist(k_core->nodes.array[i].presence);
+		SGA_IntervalsSet_sort(&intervals);
+		SGA_IntervalsSet_merge(&intervals);
+		k_core->nodes.array[i].presence = SGA_IntervalArrayList_from_intervals_set(intervals);
 	}
 }
 
-void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
+void KCores_add(KCoreDataArrayList* k_cores, SGA_Interval time, SGA_NodeId neigh) {
 	// Find if the node is already in the arraylist and with the same interval
 	for (size_t i = 0; i < k_cores->length; i++) {
-		if (Interval_equals(&k_cores->array[i].time, &time)) {
-			NodeIdArrayList_push(&k_cores->array[i].neighbours, neigh);
+		if (SGA_Interval_equals(&k_cores->array[i].time, &time)) {
+			SGA_NodeIdArrayList_push(&k_cores->array[i].neighbours, neigh);
 			return;
 		}
 	}
 
 	// Find if there exists an interval that contains this one
 	for (size_t i = 0; i < k_cores->length; i++) {
-		if (Interval_contains_interval(k_cores->array[i].time, time)) {
-			Interval one   = Interval_from(k_cores->array[i].time.start, time.start);
-			Interval two   = Interval_from(time.start, time.end);
-			Interval three = Interval_from(time.end, k_cores->array[i].time.end);
+		if (SGA_Interval_contains_interval(k_cores->array[i].time, time)) {
+			SGA_Interval one   = SGA_Interval_from(k_cores->array[i].time.start, time.start);
+			SGA_Interval two   = SGA_Interval_from(time.start, time.end);
+			SGA_Interval three = SGA_Interval_from(time.end, k_cores->array[i].time.end);
 
-			KCoreData x		  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
-			NodeIdArrayList old_neigh = x.neighbours;
+			KCoreData x		      = KCoreDataArrayList_pop_nth_swap(k_cores, i);
+			SGA_NodeIdArrayList old_neigh = x.neighbours;
 
 			// Add the new intervals
-			if (!Interval_is_empty(one)) {
+			if (!SGA_Interval_is_empty(one)) {
 				for (size_t i = 0; i < old_neigh.length; i++) {
 					KCores_add(k_cores, one, old_neigh.array[i]);
 				}
 			}
-			if (!Interval_is_empty(two)) {
+			if (!SGA_Interval_is_empty(two)) {
 				for (size_t i = 0; i < old_neigh.length; i++) {
 					KCores_add(k_cores, two, old_neigh.array[i]);
 				}
 				KCores_add(k_cores, two, neigh);
 			}
-			if (!Interval_is_empty(three)) {
+			if (!SGA_Interval_is_empty(three)) {
 				for (size_t i = 0; i < old_neigh.length; i++) {
 					KCores_add(k_cores, three, old_neigh.array[i]);
 				}
@@ -117,26 +117,26 @@ void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
 
 	// Find if there exists an interval that is contained by this one
 	for (size_t i = 0; i < k_cores->length; i++) {
-		if (Interval_contains_interval(time, k_cores->array[i].time)) {
+		if (SGA_Interval_contains_interval(time, k_cores->array[i].time)) {
 			// split the interval into 3
-			Interval one   = Interval_from(time.start, k_cores->array[i].time.start);
-			Interval two   = Interval_from(k_cores->array[i].time.start, k_cores->array[i].time.end);
-			Interval three = Interval_from(k_cores->array[i].time.end, time.end);
+			SGA_Interval one   = SGA_Interval_from(time.start, k_cores->array[i].time.start);
+			SGA_Interval two   = SGA_Interval_from(k_cores->array[i].time.start, k_cores->array[i].time.end);
+			SGA_Interval three = SGA_Interval_from(k_cores->array[i].time.end, time.end);
 
-			KCoreData x		  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
-			NodeIdArrayList old_neigh = x.neighbours;
+			KCoreData x		      = KCoreDataArrayList_pop_nth_swap(k_cores, i);
+			SGA_NodeIdArrayList old_neigh = x.neighbours;
 
 			// Add the new intervals
-			if (!Interval_is_empty(one)) {
+			if (!SGA_Interval_is_empty(one)) {
 				KCores_add(k_cores, one, neigh);
 			}
-			if (!Interval_is_empty(two)) {
+			if (!SGA_Interval_is_empty(two)) {
 				for (size_t i = 0; i < old_neigh.length; i++) {
 					KCores_add(k_cores, two, old_neigh.array[i]);
 				}
 				KCores_add(k_cores, two, neigh);
 			}
-			if (!Interval_is_empty(three)) {
+			if (!SGA_Interval_is_empty(three)) {
 				KCores_add(k_cores, three, neigh);
 			}
 
@@ -149,28 +149,28 @@ void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
 
 	// Find if one interval overlaps the other
 	for (size_t i = 0; i < k_cores->length; i++) {
-		if (Interval_overlaps_interval(k_cores->array[i].time, time)) {
+		if (SGA_Interval_overlaps_interval(k_cores->array[i].time, time)) {
 			// split the interval into 3
-			Interval inter	      = Interval_intersection(k_cores->array[i].time, time);
-			Interval old_excluded = Interval_minus(k_cores->array[i].time, inter);
-			Interval new_excluded = Interval_minus(time, inter);
+			SGA_Interval inter	  = SGA_Interval_intersection(k_cores->array[i].time, time);
+			SGA_Interval old_excluded = SGA_Interval_minus(k_cores->array[i].time, inter);
+			SGA_Interval new_excluded = SGA_Interval_minus(time, inter);
 
-			KCoreData x		  = KCoreDataArrayList_pop_nth_swap(k_cores, i);
-			NodeIdArrayList old_neigh = x.neighbours;
+			KCoreData x		      = KCoreDataArrayList_pop_nth_swap(k_cores, i);
+			SGA_NodeIdArrayList old_neigh = x.neighbours;
 
 			// Add the new intervals
-			if (!Interval_is_empty(inter)) {
+			if (!SGA_Interval_is_empty(inter)) {
 				for (size_t i = 0; i < old_neigh.length; i++) {
 					KCores_add(k_cores, inter, old_neigh.array[i]);
 				}
 				KCores_add(k_cores, inter, neigh);
 			}
 
-			if (!Interval_is_empty(new_excluded)) {
+			if (!SGA_Interval_is_empty(new_excluded)) {
 				KCores_add(k_cores, new_excluded, neigh);
 			}
 
-			if (!Interval_is_empty(old_excluded)) {
+			if (!SGA_Interval_is_empty(old_excluded)) {
 				for (size_t i = 0; i < old_neigh.length; i++) {
 					KCores_add(k_cores, old_excluded, old_neigh.array[i]);
 				}
@@ -186,8 +186,8 @@ void KCores_add(KCoreDataArrayList* k_cores, Interval time, NodeId neigh) {
 	}
 
 	// Otherwise, add the node
-	KCoreData new_data = {time, NodeIdArrayList_new()};
-	NodeIdArrayList_push(&new_data.neighbours, neigh);
+	KCoreData new_data = {time, SGA_NodeIdArrayList_new()};
+	SGA_NodeIdArrayList_push(&new_data.neighbours, neigh);
 	KCoreDataArrayList_push(k_cores, new_data);
 }
 
@@ -202,25 +202,25 @@ void KCoreDataArrayList_merge(KCoreDataArrayList* vec) {
 	// for each node
 	for (size_t i = 0; i < vec->length; i++) {
 		// see if there are duplicate neighbours (for example {0, 3, 3 })
-		NodeIdArrayList neighbours = vec->array[i].neighbours;
-		NodeIdArrayList new_neigh  = NodeIdArrayList_new();
+		SGA_NodeIdArrayList neighbours = vec->array[i].neighbours;
+		SGA_NodeIdArrayList new_neigh  = SGA_NodeIdArrayList_new();
 		for (size_t j = 0; j < neighbours.length; j++) {
-			if (!NodeIdArrayList_contains(new_neigh, neighbours.array[j])) {
-				NodeIdArrayList_push(&new_neigh, neighbours.array[j]);
+			if (!SGA_NodeIdArrayList_contains(new_neigh, neighbours.array[j])) {
+				SGA_NodeIdArrayList_push(&new_neigh, neighbours.array[j]);
 			}
 		}
-		NodeIdArrayList_destroy(neighbours);
+		SGA_NodeIdArrayList_destroy(neighbours);
 		vec->array[i].neighbours = new_neigh;
 	}
 
 	// see for each element in the arraylist that if the next one is the same except for the interval, merge them
 	for (size_t i = 0; i < vec->length - 1; i++) {
-		if (NodeIdArrayList_equals(&vec->array[i].neighbours, &vec->array[i + 1].neighbours)) {
-			Interval i1 = vec->array[i].time;
-			Interval i2 = vec->array[i + 1].time;
+		if (SGA_NodeIdArrayList_equals(&vec->array[i].neighbours, &vec->array[i + 1].neighbours)) {
+			SGA_Interval i1 = vec->array[i].time;
+			SGA_Interval i2 = vec->array[i + 1].time;
 			if (i1.end == i2.start) {
-				Interval new_interval = Interval_from(i1.start, i2.end);
-				vec->array[i].time    = new_interval;
+				SGA_Interval new_interval = SGA_Interval_from(i1.start, i2.end);
+				vec->array[i].time	  = new_interval;
 				KCoreDataArrayList_remove_and_swap(vec, i + 1);
 				i--;
 			}
@@ -235,10 +235,10 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
-	NodesIterator nodes    = fns.nodes_set(stream->stream_data);
-	size_t nb_nodes	       = 0;
-	size_t biggest_node_id = 0;
-	FOR_EACH_NODE(node_id, nodes) {
+	SGA_NodesIterator nodes = fns.nodes_set(stream->stream_data);
+	size_t nb_nodes		= 0;
+	size_t biggest_node_id	= 0;
+	SGA_FOR_EACH_NODE(node_id, nodes) {
 		nb_nodes++;
 		if (node_id > biggest_node_id) {
 			biggest_node_id = node_id;
@@ -257,13 +257,13 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 
 	// Add all the stream data at the beginning (0-core)
 	nodes = fns.nodes_set(stream->stream_data);
-	FOR_EACH_NODE(node_id, nodes) {
-		LinksIterator links = fns.neighbours_of_node(stream->stream_data, node_id);
-		FOR_EACH_LINK(link_id, links) {
-			Link link	    = fns.link_by_id(stream->stream_data, link_id);
-			NodeId neighbour    = Link_get_other_node(&link, node_id);
-			TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
-			FOR_EACH_TIME(interval, times) {
+	SGA_FOR_EACH_NODE(node_id, nodes) {
+		SGA_LinksIterator links = fns.neighbours_of_node(stream->stream_data, node_id);
+		SGA_FOR_EACH_LINK(link_id, links) {
+			SGA_Link link		= fns.link_by_id(stream->stream_data, link_id);
+			SGA_NodeId neighbour	= SGA_Link_get_other_node(&link, node_id);
+			SGA_TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
+			SGA_FOR_EACH_TIME(interval, times) {
 				KCores_add(&neighbourhood[node_id], interval, neighbour);
 			}
 		}
@@ -271,17 +271,17 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 
 	// Then, remove iteratively the nodes with degree < k until the k-cores are stable
 
-	IntervalsSet* nodes_presence = MALLOC(sizeof(IntervalsSet) * biggest_node_id);
+	SGA_IntervalsSet* nodes_presence = MALLOC(sizeof(SGA_IntervalsSet) * biggest_node_id);
 
 	while (true) {
 
 		for (size_t i = 0; i < biggest_node_id; i++) {
-			nodes_presence[i] = IntervalsSet_alloc(neighbourhood[i].length);
+			nodes_presence[i] = SGA_IntervalsSet_alloc(neighbourhood[i].length);
 		}
 
 		for (size_t i = 0; i < biggest_node_id; i++) {
 			for (size_t j = 0; j < neighbourhood[i].length; j++) {
-				IntervalsSet_add_at(&nodes_presence[i], neighbourhood[i].array[j].time, j);
+				SGA_IntervalsSet_add_at(&nodes_presence[i], neighbourhood[i].array[j].time, j);
 			}
 		}
 
@@ -290,7 +290,7 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 				if (neighbourhood[node].array[neighbour].neighbours.length >= degree) {
 					for (size_t x = 0; x < neighbourhood[node].array[neighbour].neighbours.length; x++) {
 						// See if a node that's a neighbour of the current node has been removed
-						IntervalsSet inter = IntervalsSet_intersection_with_single(
+						SGA_IntervalsSet inter = SGA_IntervalsSet_intersection_with_single(
 						    nodes_presence[neighbourhood[node].array[neighbour].neighbours.array[x]],
 						    neighbourhood[node].array[neighbour].time);
 
@@ -300,14 +300,14 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 								   neighbourhood[node].array[neighbour].neighbours.array[x]);
 						}
 
-						IntervalsSet_destroy(inter);
+						SGA_IntervalsSet_destroy(inter);
 					}
 				}
 			}
 		}
 
 		for (size_t i = 0; i < biggest_node_id; i++) {
-			IntervalsSet_destroy(nodes_presence[i]);
+			SGA_IntervalsSet_destroy(nodes_presence[i]);
 		}
 
 		// Stop if the k-cores are stable
@@ -365,7 +365,7 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 		return (SGA_KCore){.nodes = NodePresenceArrayList_new()};
 	}
 
-	NodeId cur_node	       = SIZE_MAX;
+	SGA_NodeId cur_node    = SIZE_MAX;
 	SGA_KCore kcore	       = {.nodes = NodePresenceArrayList_new()};
 	size_t cur_idx_to_push = 0;
 
@@ -374,15 +374,16 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 			if (i != cur_node) {
 				NodePresence new_node = {
 				    .node_id  = i,
-				    .presence = IntervalArrayList_new(),
+				    .presence = SGA_IntervalArrayList_new(),
 				};
-				IntervalArrayList_push(&new_node.presence, neighbourhood[i].array[j].time);
+				SGA_IntervalArrayList_push(&new_node.presence, neighbourhood[i].array[j].time);
 				NodePresenceArrayList_push(&kcore.nodes, new_node);
 				cur_node = i;
 				cur_idx_to_push++;
 			}
 			else {
-				IntervalArrayList_push(&kcore.nodes.array[cur_idx_to_push - 1].presence, neighbourhood[i].array[j].time);
+				SGA_IntervalArrayList_push(&kcore.nodes.array[cur_idx_to_push - 1].presence,
+							   neighbourhood[i].array[j].time);
 			}
 		}
 	}
@@ -402,7 +403,7 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 String SGA_KCore_to_string(const SGA_KCore* k_core) {
 	String str = String_from_duplicate("KCore : { \n");
 	for (size_t i = 0; i < k_core->nodes.length; i++) {
-		String intervals_str = IntervalArrayList_to_string(&k_core->nodes.array[i].presence);
+		String intervals_str = SGA_IntervalArrayList_to_string(&k_core->nodes.array[i].presence);
 		String_append_formatted(&str, "\t%zu : ", k_core->nodes.array[i].node_id);
 		String_concat_consume(&str, intervals_str);
 		if (i != k_core->nodes.length - 1) {
@@ -423,7 +424,7 @@ bool SGA_KCore_equals(const SGA_KCore* left, const SGA_KCore* right) {
 			return false;
 		}
 
-		if (!IntervalArrayList_equals(&left->nodes.array[i].presence, &right->nodes.array[i].presence)) {
+		if (!SGA_IntervalArrayList_equals(&left->nodes.array[i].presence, &right->nodes.array[i].presence)) {
 			return false;
 		}
 	}

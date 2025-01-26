@@ -15,93 +15,101 @@ An iterator is a structure that allows to iterate over a set of data. ~\newline
  There exists 3 types of iterators\+: for nodes, links and times. However, they are very similar in their implementation. Each iterator contains a reference to the stream, extra data it needs to iterate, a function to get the next element, a function to destroy the iterator and a function to skip n elements. Each type of stream can they define how to create an iterator for it, and each function can use them interchangeably. ~\newline
  A consumed iterator should not be used anymore. {\ttfamily \#include "{}interval.\+h"{}}\newline
 {\ttfamily \#include "{}stream.\+h"{}}\newline
+{\ttfamily \#include "{}units.\+h"{}}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 Include dependency graph for iterators.\+h\+:
-% FIG 0
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iterators_8h__incl}
+\end{center}
+\end{figure}
 This graph shows which files directly or indirectly include this file\+:
-% FIG 1
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iterators_8h__dep__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}
+struct \mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}}
 \item 
-struct \mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}
+struct \mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}}
 \item 
-struct \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}
+struct \mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{iterators_8h_aeac2ddc01397f2363066aa8e7e70fbca}\label{iterators_8h_aeac2ddc01397f2363066aa8e7e70fbca} 
-\#define {\bfseries TIMES\+\_\+\+ITERATOR\+\_\+\+END}~((\mbox{\hyperlink{structInterval}{Interval}})\{.start = SIZE\+\_\+\+MAX, .end = 0\})
-\item 
-\Hypertarget{iterators_8h_aa588fc3fc26b4a08b01bce3ca5916fe6}\label{iterators_8h_aa588fc3fc26b4a08b01bce3ca5916fe6} 
-\#define {\bfseries NODES\+\_\+\+ITERATOR\+\_\+\+END}~SIZE\+\_\+\+MAX
-\item 
-\Hypertarget{iterators_8h_ad4f6507ed54cbc249c7ae2e127af4e81}\label{iterators_8h_ad4f6507ed54cbc249c7ae2e127af4e81} 
-\#define {\bfseries LINKS\+\_\+\+ITERATOR\+\_\+\+END}~SIZE\+\_\+\+MAX
-\item 
+\Hypertarget{iterators_8h_abd6f436fe7c602adbe7e2e905d59e325}\label{iterators_8h_abd6f436fe7c602adbe7e2e905d59e325} 
+\#define {\bfseries SGA\+\_\+\+NODES\+\_\+\+ITERATOR\+\_\+\+END}~SIZE\+\_\+\+MAX
+\begin{DoxyCompactList}\small\item\em The value returned by a times iterator when there are no more time intervals. \end{DoxyCompactList}\item 
+\Hypertarget{iterators_8h_a33e0bfd51e34580f5e1dad89441620c4}\label{iterators_8h_a33e0bfd51e34580f5e1dad89441620c4} 
+\#define {\bfseries SGA\+\_\+\+LINKS\+\_\+\+ITERATOR\+\_\+\+END}~SIZE\+\_\+\+MAX
+\begin{DoxyCompactList}\small\item\em The value returned by a links iterator when there are no more links. \end{DoxyCompactList}\item 
+\Hypertarget{iterators_8h_add359329f1040b0ad9a7bea10433cc2c}\label{iterators_8h_add359329f1040b0ad9a7bea10433cc2c} 
+\#define {\bfseries SGA\+\_\+\+TIMES\+\_\+\+ITERATOR\+\_\+\+END}~((\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}})\{.start = SIZE\+\_\+\+MAX, .end = 0\})
+\begin{DoxyCompactList}\small\item\em The value returned by a times iterator when there are no more time intervals. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}{COUNT\+\_\+\+ITERATOR}}(iterator)
 \begin{DoxyCompactList}\small\item\em Counts the number of elements in the given iterator. \end{DoxyCompactList}\item 
-\#define \mbox{\hyperlink{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854}{BREAK\+\_\+\+ITER}}(iterator)
-\end{DoxyCompactItemize}
+\#define \mbox{\hyperlink{iterators_8h_abc57618fa1846c3602a91749a9f6d6c5}{SGA\+\_\+\+BREAK\+\_\+\+ITERATOR}}(iterator)
+\begin{DoxyCompactList}\small\item\em Breaks the iteration over the given iterator and destroys it. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \begin{Indent}\textbf{ Iteration macros}\par
 {\em Macros to iterate over nodes, links and times.
 
 The iterated variable becomes before the iterator in the macro call to mimic a for elem in list syntax. Consumes the iterator. }\begin{DoxyCompactItemize}
 \item 
-\#define \mbox{\hyperlink{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63}{FOR\+\_\+\+EACH\+\_\+\+NODE}}(iterated,  iterator)
+\#define \mbox{\hyperlink{iterators_8h_a635b5acdae2d6a625f6d3eedd6f551c8}{SGA\+\_\+\+FOR\+\_\+\+EACH\+\_\+\+NODE}}(iterated,  iterator)
 \item 
-\#define \mbox{\hyperlink{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21}{FOR\+\_\+\+EACH\+\_\+\+LINK}}(iterated,  iterator)
+\#define \mbox{\hyperlink{iterators_8h_a1b0360d89050ed1ef117763314710f8b}{SGA\+\_\+\+FOR\+\_\+\+EACH\+\_\+\+LINK}}(iterated,  iterator)
 \item 
-\#define \mbox{\hyperlink{iterators_8h_ad486d9e1b33cf495255724764aa03e7c}{FOR\+\_\+\+EACH\+\_\+\+TIME}}(iterated,  iterator)
+\#define \mbox{\hyperlink{iterators_8h_af16a28fd9376ccdf12bb2ec3ac630dc5}{SGA\+\_\+\+FOR\+\_\+\+EACH\+\_\+\+TIME}}(iterated,  iterator)
 \end{DoxyCompactItemize}
 \end{Indent}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{iterators_8h_ac329d89f5f25ae367833ebdaaeeedea4}\label{iterators_8h_ac329d89f5f25ae367833ebdaaeeedea4} 
-typedef struct Nodes\+Iterator {\bfseries Nodes\+Iterator}
-\begin{DoxyCompactList}\small\item\em An iterator over nodes. \end{DoxyCompactList}\item 
-\Hypertarget{iterators_8h_a7cf998d549a9dbc3e839cb6df96ec48b}\label{iterators_8h_a7cf998d549a9dbc3e839cb6df96ec48b} 
-typedef struct Links\+Iterator {\bfseries Links\+Iterator}
+\Hypertarget{iterators_8h_a01b125040501e190816c7f29fb32fb13}\label{iterators_8h_a01b125040501e190816c7f29fb32fb13} 
+typedef struct SGA\+\_\+\+Nodes\+Iterator {\bfseries SGA\+\_\+\+Nodes\+Iterator}
+\begin{DoxyCompactList}\small\item\em An iterator over nodes. Returns the id of the next node. If there are no more nodes, it returns NODES\+\_\+\+ITERATOR\+\_\+\+END. \end{DoxyCompactList}\item 
+\Hypertarget{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}\label{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a} 
+typedef struct SGA\+\_\+\+Links\+Iterator {\bfseries SGA\+\_\+\+Links\+Iterator}
 \begin{DoxyCompactList}\small\item\em An iterator over links. \end{DoxyCompactList}\item 
-\Hypertarget{iterators_8h_a009bcd2a3424fe7a4e05495cc7ed682c}\label{iterators_8h_a009bcd2a3424fe7a4e05495cc7ed682c} 
-typedef struct Times\+Iterator {\bfseries Times\+Iterator}
+\Hypertarget{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}\label{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22} 
+typedef struct SGA\+\_\+\+Times\+Iterator {\bfseries SGA\+\_\+\+Times\+Iterator}
 \begin{DoxyCompactList}\small\item\em An iterator over a set of time intervals. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-size\+\_\+t \mbox{\hyperlink{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}{total\+\_\+time\+\_\+of}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} times)
+size\+\_\+t \mbox{\hyperlink{iterators_8h_a96a9010e44b7cc6d61deb889345a66f5}{SGA\+\_\+total\+\_\+time\+\_\+of}} (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} times)
 \begin{DoxyCompactList}\small\item\em Returns the total time of the given set of time intervals. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} \mbox{\hyperlink{iterators_8h_af1c011e4d83aece24cb4d3096a051264}{Times\+Iterator\+\_\+union}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} a, \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} b)
+\Hypertarget{iterators_8h_a41d130a88b4b587c96fe6e8d93a909d5}\label{iterators_8h_a41d130a88b4b587c96fe6e8d93a909d5} 
+SGA\+\_\+\+Node\+Id {\bfseries SGA\+\_\+count\+\_\+nodes} (\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} nodes)
+\begin{DoxyCompactList}\small\item\em Counts the number of nodes in the given iterator. \end{DoxyCompactList}\item 
+\Hypertarget{iterators_8h_a84a3bf6326d212b2c433159f2ad9dcc6}\label{iterators_8h_a84a3bf6326d212b2c433159f2ad9dcc6} 
+SGA\+\_\+\+Link\+Id {\bfseries SGA\+\_\+count\+\_\+links} (\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} links)
+\begin{DoxyCompactList}\small\item\em Counts the number of links in the given iterator. \end{DoxyCompactList}\item 
+\Hypertarget{iterators_8h_a661c9d6ff412b3944a5b1a4b5306add2}\label{iterators_8h_a661c9d6ff412b3944a5b1a4b5306add2} 
+SGA\+\_\+\+Time\+Id {\bfseries SGA\+\_\+count\+\_\+intervals} (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} times)
+\begin{DoxyCompactList}\small\item\em Counts the number of time intervals in the given iterator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{iterators_8h_a7ae286de73fc769cb8bfa677fc33387a}{SGA\+\_\+\+Times\+Iterator\+\_\+union}} (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} a, \mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} b)
 \begin{DoxyCompactList}\small\item\em Creates an iterator over the union of two sets of time intervals. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} \mbox{\hyperlink{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}{Times\+Iterator\+\_\+intersection}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} a, \mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} b)
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{iterators_8h_a2a0865899e6f18e3546eb1c004ca91c5}{SGA\+\_\+\+Times\+Iterator\+\_\+intersection}} (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} a, \mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} b)
 \begin{DoxyCompactList}\small\item\em Creates an iterator over the intersection of two sets of time intervals. \end{DoxyCompactList}\item 
-Interval\+Array\+List \mbox{\hyperlink{iterators_8h_a69faa5c141ed72b11aeec1f1dbc8385c}{SGA\+\_\+collect\+\_\+times}} (\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} times)
+SGA\+\_\+\+Interval\+Array\+List \mbox{\hyperlink{iterators_8h_ab200b3eb940bc0109d449348d100d70a}{SGA\+\_\+collect\+\_\+times}} (\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} times)
 \begin{DoxyCompactList}\small\item\em Collects all the time intervals of the given iterator into a arraylist. \end{DoxyCompactList}\item 
-Node\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_aaa6b52b21eac2fd2e781f38e340dc42a}{SGA\+\_\+collect\+\_\+node\+\_\+ids}} (\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}} nodes)
+SGA\+\_\+\+Node\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_a2ca4fd444437a8a5cb7b01e0ea1519f4}{SGA\+\_\+collect\+\_\+node\+\_\+ids}} (\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} nodes)
 \begin{DoxyCompactList}\small\item\em Collects all the nodes of the given iterator into a arraylist. \end{DoxyCompactList}\item 
-Link\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_ac7dc4788ae462fd75f8c5dd125d7534f}{SGA\+\_\+collect\+\_\+link\+\_\+ids}} (\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}} links)
+SGA\+\_\+\+Link\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_a2a61514148030237a3a40e85c3e646b6}{SGA\+\_\+collect\+\_\+link\+\_\+ids}} (\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} links)
 \begin{DoxyCompactList}\small\item\em Collects all the links of the given iterator into a arraylist. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Macro Definition Documentation}
-\Hypertarget{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854}\index{iterators.h@{iterators.h}!BREAK\_ITER@{BREAK\_ITER}}
-\index{BREAK\_ITER@{BREAK\_ITER}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{BREAK\_ITER}{BREAK\_ITER}}
-{\footnotesize\ttfamily \label{iterators_8h_affc33d4ce1cef04276af9f8e3cd93854} 
-\#define BREAK\+\_\+\+ITER(\begin{DoxyParamCaption}\item[{}]{iterator}{}\end{DoxyParamCaption})}
-
-{\bfseries Value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ (iterator).destroy(\&(iterator));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \})}
-
-\end{DoxyCode}
 \Hypertarget{iterators_8h_aa8ec356ff1234cc9217cd023635fb4a3}\index{iterators.h@{iterators.h}!COUNT\_ITERATOR@{COUNT\_ITERATOR}}
 \index{COUNT\_ITERATOR@{COUNT\_ITERATOR}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{COUNT\_ITERATOR}{COUNT\_ITERATOR}}
@@ -110,7 +118,10 @@ Link\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_ac7dc4788ae462fd75f8c5dd125d
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\ \ \ \ \_Generic((iterator),\ \mbox{\hyperlink{structNodesIterator}{NodesIterator}}:\ count\_nodes,\ \mbox{\hyperlink{structLinksIterator}{LinksIterator}}:\ count\_links,\ \mbox{\hyperlink{structTimesIterator}{TimesIterator}}:\ count\_times)(iterator)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \_Generic((iterator),\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}:\ SGA\_count\_nodes,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}:\ SGA\_count\_links,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}:\ SGA\_count\_intervals)(iterator)}
 
 \end{DoxyCode}
 
@@ -125,47 +136,65 @@ Consumes the iterator.
 \begin{DoxyReturn}{Returns}
 The number of elements in the iterator. 
 \end{DoxyReturn}
-\Hypertarget{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21}\index{iterators.h@{iterators.h}!FOR\_EACH\_LINK@{FOR\_EACH\_LINK}}
-\index{FOR\_EACH\_LINK@{FOR\_EACH\_LINK}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{FOR\_EACH\_LINK}{FOR\_EACH\_LINK}}
-{\footnotesize\ttfamily \label{iterators_8h_a06717312bf2dff8b5d62cd6db7216c21} 
-\#define FOR\+\_\+\+EACH\+\_\+\+LINK(\begin{DoxyParamCaption}\item[{}]{iterated}{, }\item[{}]{iterator}{}\end{DoxyParamCaption})}
+\Hypertarget{iterators_8h_abc57618fa1846c3602a91749a9f6d6c5}\index{iterators.h@{iterators.h}!SGA\_BREAK\_ITERATOR@{SGA\_BREAK\_ITERATOR}}
+\index{SGA\_BREAK\_ITERATOR@{SGA\_BREAK\_ITERATOR}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_BREAK\_ITERATOR}{SGA\_BREAK\_ITERATOR}}
+{\footnotesize\ttfamily \label{iterators_8h_abc57618fa1846c3602a91749a9f6d6c5} 
+\#define SGA\+\_\+\+BREAK\+\_\+\+ITERATOR(\begin{DoxyParamCaption}\item[{}]{iterator}{}\end{DoxyParamCaption})}
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{FOR\_EACH(LinkId,\ iterated,\ iterator,\ (iterated)\ !=\ LINKS\_ITERATOR\_END)}
+\DoxyCodeLine{\ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ (iterator).destroy(\&(iterator));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \})}
 
 \end{DoxyCode}
-\Hypertarget{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63}\index{iterators.h@{iterators.h}!FOR\_EACH\_NODE@{FOR\_EACH\_NODE}}
-\index{FOR\_EACH\_NODE@{FOR\_EACH\_NODE}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{FOR\_EACH\_NODE}{FOR\_EACH\_NODE}}
-{\footnotesize\ttfamily \label{iterators_8h_aa738b0e1e62f1fb32bfa2290b436bc63} 
-\#define FOR\+\_\+\+EACH\+\_\+\+NODE(\begin{DoxyParamCaption}\item[{}]{iterated}{, }\item[{}]{iterator}{}\end{DoxyParamCaption})}
+
+
+Breaks the iteration over the given iterator and destroys it. 
+
+\Hypertarget{iterators_8h_a1b0360d89050ed1ef117763314710f8b}\index{iterators.h@{iterators.h}!SGA\_FOR\_EACH\_LINK@{SGA\_FOR\_EACH\_LINK}}
+\index{SGA\_FOR\_EACH\_LINK@{SGA\_FOR\_EACH\_LINK}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_FOR\_EACH\_LINK}{SGA\_FOR\_EACH\_LINK}}
+{\footnotesize\ttfamily \label{iterators_8h_a1b0360d89050ed1ef117763314710f8b} 
+\#define SGA\+\_\+\+FOR\+\_\+\+EACH\+\_\+\+LINK(\begin{DoxyParamCaption}\item[{}]{iterated}{, }\item[{}]{iterator}{}\end{DoxyParamCaption})}
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{FOR\_EACH(NodeId,\ iterated,\ iterator,\ (iterated)\ !=\ NODES\_ITERATOR\_END)}
+\DoxyCodeLine{SGA\_FOR\_EACH(SGA\_LinkId,\ iterated,\ iterator,\ (iterated)\ !=\ \mbox{\hyperlink{iterators_8h_a33e0bfd51e34580f5e1dad89441620c4}{SGA\_LINKS\_ITERATOR\_END}})}
 
 \end{DoxyCode}
-\Hypertarget{iterators_8h_ad486d9e1b33cf495255724764aa03e7c}\index{iterators.h@{iterators.h}!FOR\_EACH\_TIME@{FOR\_EACH\_TIME}}
-\index{FOR\_EACH\_TIME@{FOR\_EACH\_TIME}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{FOR\_EACH\_TIME}{FOR\_EACH\_TIME}}
-{\footnotesize\ttfamily \label{iterators_8h_ad486d9e1b33cf495255724764aa03e7c} 
-\#define FOR\+\_\+\+EACH\+\_\+\+TIME(\begin{DoxyParamCaption}\item[{}]{iterated}{, }\item[{}]{iterator}{}\end{DoxyParamCaption})}
+\Hypertarget{iterators_8h_a635b5acdae2d6a625f6d3eedd6f551c8}\index{iterators.h@{iterators.h}!SGA\_FOR\_EACH\_NODE@{SGA\_FOR\_EACH\_NODE}}
+\index{SGA\_FOR\_EACH\_NODE@{SGA\_FOR\_EACH\_NODE}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_FOR\_EACH\_NODE}{SGA\_FOR\_EACH\_NODE}}
+{\footnotesize\ttfamily \label{iterators_8h_a635b5acdae2d6a625f6d3eedd6f551c8} 
+\#define SGA\+\_\+\+FOR\+\_\+\+EACH\+\_\+\+NODE(\begin{DoxyParamCaption}\item[{}]{iterated}{, }\item[{}]{iterator}{}\end{DoxyParamCaption})}
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{FOR\_EACH(\mbox{\hyperlink{structInterval}{Interval}},\ iterated,\ iterator,\ (iterated).start\ !=\ SIZE\_MAX)}
+\DoxyCodeLine{SGA\_FOR\_EACH(SGA\_NodeId,\ iterated,\ iterator,\ (iterated)\ !=\ \mbox{\hyperlink{iterators_8h_abd6f436fe7c602adbe7e2e905d59e325}{SGA\_NODES\_ITERATOR\_END}})}
+
+\end{DoxyCode}
+\Hypertarget{iterators_8h_af16a28fd9376ccdf12bb2ec3ac630dc5}\index{iterators.h@{iterators.h}!SGA\_FOR\_EACH\_TIME@{SGA\_FOR\_EACH\_TIME}}
+\index{SGA\_FOR\_EACH\_TIME@{SGA\_FOR\_EACH\_TIME}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_FOR\_EACH\_TIME}{SGA\_FOR\_EACH\_TIME}}
+{\footnotesize\ttfamily \label{iterators_8h_af16a28fd9376ccdf12bb2ec3ac630dc5} 
+\#define SGA\+\_\+\+FOR\+\_\+\+EACH\+\_\+\+TIME(\begin{DoxyParamCaption}\item[{}]{iterated}{, }\item[{}]{iterator}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ SGA\_FOR\_EACH(\mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}},\ iterated,\ iterator,\ !SGA\_Interval\_equals(\&(iterated),\ \&\mbox{\hyperlink{iterators_8h_add359329f1040b0ad9a7bea10433cc2c}{SGA\_TIMES\_ITERATOR\_END}}))}
 
 \end{DoxyCode}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{iterators_8h_ac7dc4788ae462fd75f8c5dd125d7534f}\index{iterators.h@{iterators.h}!SGA\_collect\_link\_ids@{SGA\_collect\_link\_ids}}
+\Hypertarget{iterators_8h_a2a61514148030237a3a40e85c3e646b6}\index{iterators.h@{iterators.h}!SGA\_collect\_link\_ids@{SGA\_collect\_link\_ids}}
 \index{SGA\_collect\_link\_ids@{SGA\_collect\_link\_ids}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_collect\_link\_ids()}{SGA\_collect\_link\_ids()}}
-{\footnotesize\ttfamily \label{iterators_8h_ac7dc4788ae462fd75f8c5dd125d7534f} 
-Link\+Id\+Array\+List SGA\+\_\+collect\+\_\+link\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLinksIterator}{Links\+Iterator}}}]{links}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{iterators_8h_a2a61514148030237a3a40e85c3e646b6} 
+SGA\+\_\+\+Link\+Id\+Array\+List SGA\+\_\+collect\+\_\+link\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}}}]{links}{}\end{DoxyParamCaption})}
 
 
 
@@ -179,11 +208,11 @@ Consumes the iterator.
 \begin{DoxyReturn}{Returns}
 A arraylist containing all the link ids of the iterator. 
 \end{DoxyReturn}
-\Hypertarget{iterators_8h_aaa6b52b21eac2fd2e781f38e340dc42a}\index{iterators.h@{iterators.h}!SGA\_collect\_node\_ids@{SGA\_collect\_node\_ids}}
+\Hypertarget{iterators_8h_a2ca4fd444437a8a5cb7b01e0ea1519f4}\index{iterators.h@{iterators.h}!SGA\_collect\_node\_ids@{SGA\_collect\_node\_ids}}
 \index{SGA\_collect\_node\_ids@{SGA\_collect\_node\_ids}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_collect\_node\_ids()}{SGA\_collect\_node\_ids()}}
-{\footnotesize\ttfamily \label{iterators_8h_aaa6b52b21eac2fd2e781f38e340dc42a} 
-Node\+Id\+Array\+List SGA\+\_\+collect\+\_\+node\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNodesIterator}{Nodes\+Iterator}}}]{nodes}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{iterators_8h_a2ca4fd444437a8a5cb7b01e0ea1519f4} 
+SGA\+\_\+\+Node\+Id\+Array\+List SGA\+\_\+collect\+\_\+node\+\_\+ids (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}}}]{nodes}{}\end{DoxyParamCaption})}
 
 
 
@@ -197,11 +226,11 @@ Consumes the iterator.
 \begin{DoxyReturn}{Returns}
 A arraylist containing all the node ids of the iterator. 
 \end{DoxyReturn}
-\Hypertarget{iterators_8h_a69faa5c141ed72b11aeec1f1dbc8385c}\index{iterators.h@{iterators.h}!SGA\_collect\_times@{SGA\_collect\_times}}
+\Hypertarget{iterators_8h_ab200b3eb940bc0109d449348d100d70a}\index{iterators.h@{iterators.h}!SGA\_collect\_times@{SGA\_collect\_times}}
 \index{SGA\_collect\_times@{SGA\_collect\_times}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_collect\_times()}{SGA\_collect\_times()}}
-{\footnotesize\ttfamily \label{iterators_8h_a69faa5c141ed72b11aeec1f1dbc8385c} 
-Interval\+Array\+List SGA\+\_\+collect\+\_\+times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{times}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{iterators_8h_ab200b3eb940bc0109d449348d100d70a} 
+SGA\+\_\+\+Interval\+Array\+List SGA\+\_\+collect\+\_\+times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}}]{times}{}\end{DoxyParamCaption})}
 
 
 
@@ -215,11 +244,11 @@ Consumes the iterator.
 \begin{DoxyReturn}{Returns}
 A arraylist containing all the time intervals of the iterator. 
 \end{DoxyReturn}
-\Hypertarget{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e}\index{iterators.h@{iterators.h}!TimesIterator\_intersection@{TimesIterator\_intersection}}
-\index{TimesIterator\_intersection@{TimesIterator\_intersection}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{TimesIterator\_intersection()}{TimesIterator\_intersection()}}
-{\footnotesize\ttfamily \label{iterators_8h_a9907f8eeea980f6996d18bbdfd01424e} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} Times\+Iterator\+\_\+intersection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{a}{, }\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{b}{}\end{DoxyParamCaption})}
+\Hypertarget{iterators_8h_a2a0865899e6f18e3546eb1c004ca91c5}\index{iterators.h@{iterators.h}!SGA\_TimesIterator\_intersection@{SGA\_TimesIterator\_intersection}}
+\index{SGA\_TimesIterator\_intersection@{SGA\_TimesIterator\_intersection}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_TimesIterator\_intersection()}{SGA\_TimesIterator\_intersection()}}
+{\footnotesize\ttfamily \label{iterators_8h_a2a0865899e6f18e3546eb1c004ca91c5} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Times\+Iterator\+\_\+intersection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}}]{a}{, }\item[{\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}}]{b}{}\end{DoxyParamCaption})}
 
 
 
@@ -235,11 +264,11 @@ Consumes both iterators.
 \begin{DoxyReturn}{Returns}
 The iterator over the intersection of the two sets of time intervals. 
 \end{DoxyReturn}
-\Hypertarget{iterators_8h_af1c011e4d83aece24cb4d3096a051264}\index{iterators.h@{iterators.h}!TimesIterator\_union@{TimesIterator\_union}}
-\index{TimesIterator\_union@{TimesIterator\_union}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{TimesIterator\_union()}{TimesIterator\_union()}}
-{\footnotesize\ttfamily \label{iterators_8h_af1c011e4d83aece24cb4d3096a051264} 
-\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}} Times\+Iterator\+\_\+union (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{a}{, }\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{b}{}\end{DoxyParamCaption})}
+\Hypertarget{iterators_8h_a7ae286de73fc769cb8bfa677fc33387a}\index{iterators.h@{iterators.h}!SGA\_TimesIterator\_union@{SGA\_TimesIterator\_union}}
+\index{SGA\_TimesIterator\_union@{SGA\_TimesIterator\_union}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_TimesIterator\_union()}{SGA\_TimesIterator\_union()}}
+{\footnotesize\ttfamily \label{iterators_8h_a7ae286de73fc769cb8bfa677fc33387a} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Times\+Iterator\+\_\+union (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}}]{a}{, }\item[{\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}}]{b}{}\end{DoxyParamCaption})}
 
 
 
@@ -255,11 +284,11 @@ Consumes both iterators.
 \begin{DoxyReturn}{Returns}
 The iterator over the union of the two sets of time intervals. 
 \end{DoxyReturn}
-\Hypertarget{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08}\index{iterators.h@{iterators.h}!total\_time\_of@{total\_time\_of}}
-\index{total\_time\_of@{total\_time\_of}!iterators.h@{iterators.h}}
-\doxysubsubsection{\texorpdfstring{total\_time\_of()}{total\_time\_of()}}
-{\footnotesize\ttfamily \label{iterators_8h_aba80f0a57ae795e7f431bfba2d162a08} 
-size\+\_\+t total\+\_\+time\+\_\+of (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTimesIterator}{Times\+Iterator}}}]{times}{}\end{DoxyParamCaption})}
+\Hypertarget{iterators_8h_a96a9010e44b7cc6d61deb889345a66f5}\index{iterators.h@{iterators.h}!SGA\_total\_time\_of@{SGA\_total\_time\_of}}
+\index{SGA\_total\_time\_of@{SGA\_total\_time\_of}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_total\_time\_of()}{SGA\_total\_time\_of()}}
+{\footnotesize\ttfamily \label{iterators_8h_a96a9010e44b7cc6d61deb889345a66f5} 
+size\+\_\+t SGA\+\_\+total\+\_\+time\+\_\+of (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}}}]{times}{}\end{DoxyParamCaption})}
 
 
 

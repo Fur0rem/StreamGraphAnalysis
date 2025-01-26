@@ -6,118 +6,118 @@
 #include <stdlib.h>
 
 bool test_size_1() {
-	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT_EQ(Interval_duration(i), 5);
+	SGA_Interval i = (SGA_Interval){.start = 5, .end = 10};
+	return EXPECT_EQ(SGA_Interval_duration(i), 5);
 }
 
 bool test_size_2() {
-	Interval i = (Interval){.start = 0, .end = 0};
-	return EXPECT_EQ(Interval_duration(i), 0);
+	SGA_Interval i = (SGA_Interval){.start = 0, .end = 0};
+	return EXPECT_EQ(SGA_Interval_duration(i), 0);
 }
 
 bool test_size_none() {
-	Interval i = (Interval){.start = SIZE_MAX, .end = 0};
-	return EXPECT_EQ(Interval_duration(i), 0);
+	SGA_Interval i = (SGA_Interval){.start = SIZE_MAX, .end = 0};
+	return EXPECT_EQ(SGA_Interval_duration(i), 0);
 }
 
 bool test_contains() {
-	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT(Interval_contains(i, 7));
+	SGA_Interval i = (SGA_Interval){.start = 5, .end = 10};
+	return EXPECT(SGA_Interval_contains(i, 7));
 }
 
 bool test_contains_start() {
-	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT(Interval_contains(i, 5));
+	SGA_Interval i = (SGA_Interval){.start = 5, .end = 10};
+	return EXPECT(SGA_Interval_contains(i, 5));
 }
 
 bool test_doesnt_contains_end() {
-	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT(!Interval_contains(i, 10));
+	SGA_Interval i = (SGA_Interval){.start = 5, .end = 10};
+	return EXPECT(!SGA_Interval_contains(i, 10));
 }
 
 bool test_doesnt_contain() {
-	Interval i = (Interval){.start = 5, .end = 10};
-	return EXPECT(!Interval_contains(i, 0));
+	SGA_Interval i = (SGA_Interval){.start = 5, .end = 10};
+	return EXPECT(!SGA_Interval_contains(i, 0));
 }
 
 bool test_intersection_1() {
-	Interval a	      = (Interval){.start = 5, .end = 10};
-	Interval b	      = (Interval){.start = 7, .end = 12};
-	Interval intersection = Interval_intersection(a, b);
+	SGA_Interval a		  = (SGA_Interval){.start = 5, .end = 10};
+	SGA_Interval b		  = (SGA_Interval){.start = 7, .end = 12};
+	SGA_Interval intersection = SGA_Interval_intersection(a, b);
 	return EXPECT_EQ(intersection.start, 7) && EXPECT_EQ(intersection.end, 10);
 }
 
 bool test_intersection_2() {
-	Interval a	      = (Interval){.start = 5, .end = 10};
-	Interval b	      = (Interval){.start = 10, .end = 12};
-	Interval intersection = Interval_intersection(a, b);
+	SGA_Interval a		  = (SGA_Interval){.start = 5, .end = 10};
+	SGA_Interval b		  = (SGA_Interval){.start = 10, .end = 12};
+	SGA_Interval intersection = SGA_Interval_intersection(a, b);
 	return EXPECT_EQ(intersection.start, 10) && EXPECT_EQ(intersection.end, 10);
 }
 
 bool test_intersection_none() {
-	Interval a	      = (Interval){.start = 5, .end = 10};
-	Interval b	      = (Interval){.start = 11, .end = 12};
-	Interval intersection = Interval_intersection(a, b);
-	return EXPECT_EQ(Interval_duration(intersection), 0);
+	SGA_Interval a		  = (SGA_Interval){.start = 5, .end = 10};
+	SGA_Interval b		  = (SGA_Interval){.start = 11, .end = 12};
+	SGA_Interval intersection = SGA_Interval_intersection(a, b);
+	return EXPECT_EQ(SGA_Interval_duration(intersection), 0);
 }
 
 bool test_intervals_set_merge_contained() {
-	IntervalsSet a = IntervalsSet_alloc(2);
-	a.intervals[0] = (Interval){.start = 0, .end = 10};
-	a.intervals[1] = (Interval){.start = 5, .end = 7};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
+	a.intervals[0]	   = (SGA_Interval){.start = 0, .end = 10};
+	a.intervals[1]	   = (SGA_Interval){.start = 5, .end = 7};
+	SGA_IntervalsSet_merge(&a);
 	bool result = EXPECT_EQ(a.nb_intervals, 1) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 10);
-	IntervalsSet_destroy(a);
+	SGA_IntervalsSet_destroy(a);
 	return result;
 }
 
 bool test_intervals_set_merge_overlap() {
-	IntervalsSet a = IntervalsSet_alloc(2);
-	a.intervals[0] = (Interval){.start = 0, .end = 10};
-	a.intervals[1] = (Interval){.start = 5, .end = 15};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
+	a.intervals[0]	   = (SGA_Interval){.start = 0, .end = 10};
+	a.intervals[1]	   = (SGA_Interval){.start = 5, .end = 15};
+	SGA_IntervalsSet_merge(&a);
 	bool result = EXPECT_EQ(a.nb_intervals, 1) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 15);
-	IntervalsSet_destroy(a);
+	SGA_IntervalsSet_destroy(a);
 	return result;
 }
 
 bool test_intervals_set_merge_contiguous() {
-	IntervalsSet a = IntervalsSet_alloc(2);
-	a.intervals[0] = (Interval){.start = 0, .end = 10};
-	a.intervals[1] = (Interval){.start = 10, .end = 15};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
+	a.intervals[0]	   = (SGA_Interval){.start = 0, .end = 10};
+	a.intervals[1]	   = (SGA_Interval){.start = 10, .end = 15};
+	SGA_IntervalsSet_merge(&a);
 	bool result = EXPECT_EQ(a.nb_intervals, 1) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 15);
-	IntervalsSet_destroy(a);
+	SGA_IntervalsSet_destroy(a);
 	return result;
 }
 
 bool test_intervals_set_merge_independent() {
-	IntervalsSet a = IntervalsSet_alloc(2);
-	a.intervals[0] = (Interval){.start = 0, .end = 10};
-	a.intervals[1] = (Interval){.start = 15, .end = 20};
-	IntervalsSet_merge(&a);
+	SGA_IntervalsSet a = SGA_IntervalsSet_alloc(2);
+	a.intervals[0]	   = (SGA_Interval){.start = 0, .end = 10};
+	a.intervals[1]	   = (SGA_Interval){.start = 15, .end = 20};
+	SGA_IntervalsSet_merge(&a);
 	bool result = EXPECT_EQ(a.nb_intervals, 2) && EXPECT_EQ(a.intervals[0].start, 0) && EXPECT_EQ(a.intervals[0].end, 10) &&
 		      EXPECT_EQ(a.intervals[1].start, 15) && EXPECT_EQ(a.intervals[1].end, 20);
-	IntervalsSet_destroy(a);
+	SGA_IntervalsSet_destroy(a);
 	return result;
 }
 
 bool test_intervals_set_union_overlap() {
-	IntervalsSet a	      = IntervalsSet_alloc(1);
-	a.intervals[0]	      = (Interval){.start = 0, .end = 10};
-	IntervalsSet b	      = IntervalsSet_alloc(2);
-	b.intervals[0]	      = (Interval){.start = 0, .end = 4};
-	b.intervals[1]	      = (Interval){.start = 5, .end = 10};
-	IntervalsSet union_ab = IntervalsSet_union(a, b);
+	SGA_IntervalsSet a	  = SGA_IntervalsSet_alloc(1);
+	a.intervals[0]		  = (SGA_Interval){.start = 0, .end = 10};
+	SGA_IntervalsSet b	  = SGA_IntervalsSet_alloc(2);
+	b.intervals[0]		  = (SGA_Interval){.start = 0, .end = 4};
+	b.intervals[1]		  = (SGA_Interval){.start = 5, .end = 10};
+	SGA_IntervalsSet union_ab = SGA_IntervalsSet_union(a, b);
 	for (size_t i = 0; i < union_ab.nb_intervals; i++) {
 		printf("[%lu, %lu]\n", union_ab.intervals[i].start, union_ab.intervals[i].end);
 	}
 	bool result =
 	    EXPECT_EQ(union_ab.nb_intervals, 1) && EXPECT_EQ(union_ab.intervals[0].start, 0) && EXPECT_EQ(union_ab.intervals[0].end, 10);
 
-	IntervalsSet_destroy(a);
-	IntervalsSet_destroy(b);
-	IntervalsSet_destroy(union_ab);
+	SGA_IntervalsSet_destroy(a);
+	SGA_IntervalsSet_destroy(b);
+	SGA_IntervalsSet_destroy(union_ab);
 
 	return result;
 }
@@ -142,5 +142,5 @@ int main() {
 	    NULL,
 	};
 
-	return test("Interval", tests);
+	return test("SGA_Interval", tests);
 }

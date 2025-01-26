@@ -22,10 +22,10 @@
  * @brief Structure representing a clique.
  */
 typedef struct {
-	TimeId time_start; ///< When the clique starts.
-	TimeId time_end;   ///< When the clique ends.
-	NodeId* nodes;	   ///< The nodes in the clique.
-	size_t nb_nodes;   ///< The number of nodes in the clique.
+	SGA_Time time_start; ///< When the clique starts.
+	SGA_Time time_end;   ///< When the clique ends.
+	SGA_NodeId* nodes;   ///< The nodes in the clique.
+	size_t nb_nodes;     ///< The number of nodes in the clique.
 } SGA_Clique;
 
 DeclareToString(SGA_Clique);

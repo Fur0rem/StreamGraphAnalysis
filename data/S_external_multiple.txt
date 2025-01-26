@@ -2,7 +2,7 @@ SGA External version 1.0.0
 
 [General]
 Lifespan=(0 1000)
-Scaling=100
+TimeScale=100
 
 [Events]
 0 + N 0

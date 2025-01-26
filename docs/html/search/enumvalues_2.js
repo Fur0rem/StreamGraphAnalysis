@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['link_5fstream_0',['LINK_STREAM',['../structStream.html#a47f89969d03d12fd239eee2e65fd8e7ea52d5949a558d6325a2db2c6dc17ec1bc',1,'Stream']]]
+  ['link_5fstream_0',['LINK_STREAM',['../structSGA__Stream.html#a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2',1,'SGA_Stream']]]
 ];
