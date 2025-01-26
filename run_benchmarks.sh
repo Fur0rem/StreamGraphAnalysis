@@ -44,7 +44,7 @@ if [ $# -eq 1 ]; then
     if [ $global_success -eq 0 ]; then
         echo "All benchmarks passed!"
     else
-        echo "${TEXT_BOLD}${TEXT_RED}TEST FAILED FOR $filename !!!${TEXT_RESET}"
+        echo "${TEXT_BOLD}${TEXT_RED}BENCHMARK FAILED FOR $filename !!!${TEXT_RESET}"
     fi
 
     exit $global_success
