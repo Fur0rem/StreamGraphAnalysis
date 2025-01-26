@@ -7,8 +7,8 @@ SGA_Stream stream;
 
 DONT_OPTIMISE void kcores() {
 	for (size_t i = 0; i < 10; i++) {
-		SGA_KCore kcore = SGA_Stream_k_core(&stream, i);
-		SGA_KCore_destroy(kcore);
+		SGA_Cluster kcore = SGA_Stream_k_core(&stream, i);
+		SGA_Cluster_destroy(kcore);
 	}
 }
 

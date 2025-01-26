@@ -18,7 +18,7 @@ Regarding the paper
 --------------------------------
 I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences :
 - The paper defines the stream graph as a tuple of 4 sets (W : Temporal nodes, V : distinct nodes, E : links, T : time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).
-- For their cardinals, which are often used in the paper, I renamed them to |W| : temporal_cardinal_of_node_set, |V| : distinct_cardinal_of_node_set, |E| : distinct_cardinal_of_link_set, |T| : duration.
+- For their cardinals, which are often used in the paper, I renamed them to |W| : temporal_cardinal_of_node_set, |V| : distinct_cardinal_of_node_set, |E| : distinct_cardinal_of_link_set, |T| : duration (for the stream, not for a node or a link).
 - For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.
 - The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.
 
@@ -114,7 +114,6 @@ Project guidelines and organisation
 --------------------
 - Guidelines :
 None for now, I'm focusing on having something that works first, rather than something that is perfect but with no results.
-Things I'm considering for guidelines are namespacing to work with other libraries.
 Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro magic for the genericity specified above, so I'm not sure how to do that.
 
 - Organisation :

@@ -12,7 +12,7 @@ It is highly recommended to read the paper before using the library, or at least
 I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences \+:
 \begin{DoxyItemize}
 \item The paper defines the stream graph as a tuple of 4 sets (W \+: Temporal nodes, V \+: distinct nodes, E \+: links, T \+: time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).
-\item For their cardinals, which are often used in the paper, I renamed them to \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} \+: temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: duration.
+\item For their cardinals, which are often used in the paper, I renamed them to \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} \+: temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: duration (for the stream, not for a node or a link).
 \item For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.
 \item The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.
 \end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{Basic information about the implementation}{Basic information about the implementation}}\label{index_autotoc_md4}
@@ -87,7 +87,7 @@ There are some example data files in the data/ directory.\hypertarget{index_auto
 \end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{Project guidelines and organisation}{Project guidelines and organisation}}\label{index_autotoc_md10}
 
 \begin{DoxyItemize}
-\item Guidelines \+: None for now, I\textquotesingle{}m focusing on having something that works first, rather than something that is perfect but with no results. Things I\textquotesingle{}m considering for guidelines are namespacing to work with other libraries. Maybe I could make it standardised like ISO C, or C99, but I\textquotesingle{}m doing weird macro magic for the genericity specified above, so I\textquotesingle{}m not sure how to do that.
+\item Guidelines \+: None for now, I\textquotesingle{}m focusing on having something that works first, rather than something that is perfect but with no results. Maybe I could make it standardised like ISO C, or C99, but I\textquotesingle{}m doing weird macro magic for the genericity specified above, so I\textquotesingle{}m not sure how to do that.
 \item Organisation \+:
 \end{DoxyItemize}
 

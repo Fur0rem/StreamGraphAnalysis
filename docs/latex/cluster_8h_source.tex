@@ -1,0 +1,56 @@
+\doxysection{cluster.\+h}
+\hypertarget{cluster_8h_source}{}\label{cluster_8h_source}\index{src/analysis/cluster.h@{src/analysis/cluster.h}}
+\mbox{\hyperlink{cluster_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ SGA\_CLUSTER\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ SGA\_CLUSTER\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../stream\_data\_access/node\_access.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00017\ \ \ \ \ SGA\_NodeId\ \mbox{\hyperlink{structSGA__ClusterNode_a10103d61d8e6699ba7046d440a366e20}{node\_id}};\ \ \ \ \ \ }
+\DoxyCodeLine{00018\ \ \ \ \ SGA\_IntervalArrayList\ \mbox{\hyperlink{structSGA__ClusterNode_ad2932bf347afd5c285b9d946a8e701ff}{presence}};\ }
+\DoxyCodeLine{00019\ \}\ \mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00026\ \mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}}\ \mbox{\hyperlink{cluster_8h_aa370aaf462f7eda1345e70c5539ee455}{SGA\_ClusterNode\_from}}(SGA\_NodeId\ node\_id,\ SGA\_IntervalArrayList\ presence);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ DeclareDestroy(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00029\ DeclareEquals(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00030\ DeclareToString(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ DeclareArrayList(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00033\ DeclareArrayListDeriveRemove(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00034\ DeclareArrayListDeriveEquals(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00035\ DeclareArrayListDeriveToString(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}});}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00042\ \mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}}\ \mbox{\hyperlink{cluster_8h_a371dfbba9e4008907da296dbc30081fb}{SGA\_ClusterNode\_empty}}(SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00050\ \mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}}\ \mbox{\hyperlink{cluster_8h_a7b73daf7e28ac77b143afaa5eb6e55c7}{SGA\_ClusterNode\_with\_presence}}(SGA\_NodeId\ node\_id,\ SGA\_IntervalArrayList\ presence);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00058\ \mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}}\ \mbox{\hyperlink{cluster_8h_adc6fa1218ecfe5db2fa2daff88cabeef}{SGA\_ClusterNode\_single\_interval}}(SGA\_NodeId\ node\_id,\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ interval);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{cluster_8h_ae2e6a13981e36a1fe7d6c8b028750404}{SGA\_ClusterNode\_add\_interval}}(\mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}}*\ node,\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ interval);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00071\ \ \ \ \ SGA\_ClusterNodeArrayList\ \mbox{\hyperlink{structSGA__Cluster_ab00dfed722e45869e80522edecd20f1e}{nodes}};\ }
+\DoxyCodeLine{00072\ \}\ \mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00078\ \mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}}\ \mbox{\hyperlink{cluster_8h_a320fc7fd70fe7fcaaba5acf5fdf6fd83}{SGA\_Cluster\_from\_nodes}}(SGA\_ClusterNodeArrayList\ nodes);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ DeclareEquals(\mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}});}
+\DoxyCodeLine{00081\ DeclareDestroy(\mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}});}
+\DoxyCodeLine{00082\ DeclareToString(\mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}});}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00088\ \mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}}\ \mbox{\hyperlink{cluster_8h_a0f98a3aa4a939df41f6f3474f7a68d76}{SGA\_Cluster\_empty}}();}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00096\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{cluster_8h_a54c4f2931a448245fa65f84f0fac7ad0}{SGA\_Cluster\_add\_node}}(\mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}}*\ cluster,\ \mbox{\hyperlink{structSGA__ClusterNode}{SGA\_ClusterNode}}\ node);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00104\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{cluster_8h_afdc88eeb10a6d6f49b5706efada717e8}{SGA\_Cluster\_contains\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}}*\ cluster,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00111\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{cluster_8h_a4ac07506983751e54ca1cbf9b67724e9}{SGA\_Cluster\_simplify}}(\mbox{\hyperlink{structSGA__Cluster}{SGA\_Cluster}}*\ cluseter);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_CLUSTER\_H}}
+
+\end{DoxyCode}

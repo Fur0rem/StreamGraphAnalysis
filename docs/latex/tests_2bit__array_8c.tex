@@ -1,0 +1,87 @@
+\doxysection{tests/bit\+\_\+array.c File Reference}
+\hypertarget{tests_2bit__array_8c}{}\label{tests_2bit__array_8c}\index{tests/bit\_array.c@{tests/bit\_array.c}}
+
+
+Tests regarding \doxylink{structBitArray}{Bit\+Array}.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Tests regarding \doxylink{structBitArray}{Bit\+Array}. 
+
+{\ttfamily \#include "{}../\+Stream\+Graph\+Analysis.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+Include dependency graph for bit\+\_\+array.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_2bit__array_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tests_2bit__array_8c_aedd17d994ea044ec4e52378d2de91f26}\label{tests_2bit__array_8c_aedd17d994ea044ec4e52378d2de91f26} 
+bool {\bfseries test\+\_\+create} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a532516b3ed2b9a88a947fa1a2aa173c9}\label{tests_2bit__array_8c_a532516b3ed2b9a88a947fa1a2aa173c9} 
+bool {\bfseries test\+\_\+set\+\_\+one} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a0e565c16f07b7748d2ae4306b7aab56a}\label{tests_2bit__array_8c_a0e565c16f07b7748d2ae4306b7aab56a} 
+bool {\bfseries test\+\_\+set\+\_\+zero} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a3304d1e9209cc5c3da3ba9b10fbe5531}\label{tests_2bit__array_8c_a3304d1e9209cc5c3da3ba9b10fbe5531} 
+bool {\bfseries test\+\_\+is\+\_\+one} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_aa0bf64b07f47a94a8b516a76e8a4ee97}\label{tests_2bit__array_8c_aa0bf64b07f47a94a8b516a76e8a4ee97} 
+bool {\bfseries test\+\_\+is\+\_\+zero} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a08b7467e1396d48dcf1b4733c398f516}\label{tests_2bit__array_8c_a08b7467e1396d48dcf1b4733c398f516} 
+bool {\bfseries test\+\_\+all\+\_\+zeros\+\_\+small} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_ae17c70eae5476dbbe293483a2d9eea66}\label{tests_2bit__array_8c_ae17c70eae5476dbbe293483a2d9eea66} 
+bool {\bfseries test\+\_\+all\+\_\+ones\+\_\+small} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_ac35e5ec9e6e2247bc0ac1e0ca04964c1}\label{tests_2bit__array_8c_ac35e5ec9e6e2247bc0ac1e0ca04964c1} 
+bool {\bfseries test\+\_\+all\+\_\+zeros\+\_\+big} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a116f7fa8ba9fded09e2296443f2e49e0}\label{tests_2bit__array_8c_a116f7fa8ba9fded09e2296443f2e49e0} 
+bool {\bfseries test\+\_\+all\+\_\+ones\+\_\+big} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_acc731f60edcbcc653b7d04be60d6680f}\label{tests_2bit__array_8c_acc731f60edcbcc653b7d04be60d6680f} 
+bool {\bfseries test\+\_\+to\+\_\+string} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a827908246748e95c62acd10edffc0af0}\label{tests_2bit__array_8c_a827908246748e95c62acd10edffc0af0} 
+bool {\bfseries test\+\_\+to\+\_\+string\+\_\+big} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a6509128edc93360c478081c71931ffea}\label{tests_2bit__array_8c_a6509128edc93360c478081c71931ffea} 
+bool {\bfseries test\+\_\+to\+\_\+string2} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a1fa28ad3cf7ee86324ddb732db898a16}\label{tests_2bit__array_8c_a1fa28ad3cf7ee86324ddb732db898a16} 
+bool {\bfseries test\+\_\+random\+\_\+string} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a1a838291746801f89d2efc542bb2003e}\label{tests_2bit__array_8c_a1a838291746801f89d2efc542bb2003e} 
+bool {\bfseries test\+\_\+leading\+\_\+zeros\+\_\+small\+\_\+zeros} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_abe51ce884a64d4295228bbdca9035d41}\label{tests_2bit__array_8c_abe51ce884a64d4295228bbdca9035d41} 
+bool {\bfseries test\+\_\+leading\+\_\+zeros\+\_\+small\+\_\+ones} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a1e8831e069120e5d4d46a2e510e79ece}\label{tests_2bit__array_8c_a1e8831e069120e5d4d46a2e510e79ece} 
+bool {\bfseries test\+\_\+leading\+\_\+zeros\+\_\+small\+\_\+1} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a02d2db6b92a40271c5a9d911799b9735}\label{tests_2bit__array_8c_a02d2db6b92a40271c5a9d911799b9735} 
+bool {\bfseries test\+\_\+leading\+\_\+zeros\+\_\+big\+\_\+zeros} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a441f8208f2dfff8f1be9bd71764a76a6}\label{tests_2bit__array_8c_a441f8208f2dfff8f1be9bd71764a76a6} 
+bool {\bfseries test\+\_\+leading\+\_\+zeros\+\_\+big\+\_\+ones} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_a5657e90737e746559dd44fa1f0ef1260}\label{tests_2bit__array_8c_a5657e90737e746559dd44fa1f0ef1260} 
+bool {\bfseries test\+\_\+leading\+\_\+zeros\+\_\+big\+\_\+1} ()
+\item 
+\Hypertarget{tests_2bit__array_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{tests_2bit__array_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int {\bfseries main} ()
+\end{DoxyCompactItemize}

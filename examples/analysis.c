@@ -19,17 +19,17 @@ int main() {
 	printf("Maximal cliques: %s\n", str.data);
 	String_destroy(str);
 
-	SGA_KCore kcore;
+	SGA_Cluster kcore;
 	for (size_t k = 1;; k++) {
 		kcore = SGA_Stream_k_core(&st, k);
 		if (kcore.nodes.length == 0) {
-			SGA_KCore_destroy(kcore);
+			SGA_Cluster_destroy(kcore);
 			break;
 		}
-		str = SGA_KCore_to_string(&kcore);
+		str = SGA_Cluster_to_string(&kcore);
 		printf("K-core for k=%zu: %s\n", k, str.data);
 		String_destroy(str);
-		SGA_KCore_destroy(kcore);
+		SGA_Cluster_destroy(kcore);
 	}
 
 	printf("Robustness by length: %f\n", SGA_Stream_robustness_by_length(&st));

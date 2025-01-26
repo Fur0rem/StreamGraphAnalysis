@@ -10,11 +10,11 @@
 SGA_Stream stream;
 
 DONT_OPTIMISE void robustness_by_length() {
-	Stream_robustness_by_length(&stream);
+	SGA_Stream_robustness_by_length(&stream);
 }
 
 DONT_OPTIMISE void robustness_by_duration() {
-	Stream_robustness_by_duration(&stream);
+	SGA_Stream_robustness_by_duration(&stream);
 }
 
 DONT_OPTIMISE void fastest() {
@@ -26,8 +26,8 @@ DONT_OPTIMISE void fastest() {
 				continue;
 			}
 			printf("Optimal walks between %zu and %zu\n", i, j);
-			WalkInfoArrayList optimal_walks = optimal_walks_between_two_nodes(&stream, i, j, SGA_fastest_walk);
-			WalkInfoArrayList_destroy(optimal_walks);
+			SGA_OptionalWalkArrayList optimal_walks = SGA_optimal_walks_between_two_nodes(&stream, i, j, SGA_fastest_walk);
+			SGA_OptionalWalkArrayList_destroy(optimal_walks);
 		}
 	}
 }

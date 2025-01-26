@@ -26,10 +26,10 @@ var NAVTREE =
 [
   [ "StreamGraphAnalysis", "index.html", [
     [ "StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs", "index.html", "index" ],
-    [ "Classes", "annotated.html", [
-      [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Members", "functions.html", [
+    [ "Data Structures", "annotated.html", [
+      [ "Data Structures", "annotated.html", "annotated_dup" ],
+      [ "Data Structure Index", "classes.html", null ],
+      [ "Data Fields", "functions.html", [
         [ "All", "functions.html", null ],
         [ "Variables", "functions_vars.html", null ],
         [ "Enumerator", "functions_eval.html", null ]
@@ -37,7 +37,7 @@ var NAVTREE =
     ] ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
-      [ "File Members", "globals.html", [
+      [ "Globals", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
         [ "Typedefs", "globals_type.html", null ],
@@ -50,7 +50,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "StreamGraphAnalysis_8h.html",
-"structSGA__TimesIterator.html#abcae2537735ec5ae5cdb92625e8dc30b"
+"structSGA__NoWalkReason.html#a16b0e780fa5d30092eef6f31f1879ea2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
