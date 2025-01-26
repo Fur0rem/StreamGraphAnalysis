@@ -3,6 +3,7 @@
  * @brief Benchmarks for metrics
  */
 
+#include <stdio.h>
 #define SGA_INTERNAL
 #include "../StreamGraphAnalysis.h"
 #include "benchmark.h"
@@ -75,11 +76,6 @@ int main() {
 	SGA_StreamGraph sg4 = SGA_StreamGraph_from_external("data/facebooklike_1_transformed.txt");
 	SGA_Stream stream4  = SGA_FullStreamGraph_from(&sg4);
 
-	init_events_table(&sg1);
-	init_events_table(&sg2);
-	init_events_table(&sg3);
-	init_events_table(&sg4);
-
 	// stream = stream1;
 	// benchmark(number_of_links, "number_of_links S_concat_L", 10);
 	// stream = stream2;
@@ -137,10 +133,6 @@ int main() {
 	// BENCHMARK_METRIC("clustering_coeff", clustering_coeff);
 	BENCHMARK_METRIC("density_at_instant", density_at_instant);
 
-	events_destroy(&sg1);
-	events_destroy(&sg2);
-	events_destroy(&sg3);
-	events_destroy(&sg4);
 	SGA_StreamGraph_destroy(sg1);
 	SGA_FullStreamGraph_destroy(stream1);
 	SGA_StreamGraph_destroy(sg2);
