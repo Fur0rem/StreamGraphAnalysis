@@ -414,3 +414,16 @@ SGA_Offset SGA_Interval_offset_of(const SGA_Interval* self, const SGA_Interval* 
 	}
 	return SGA_Offset_ok(offset_start);
 }
+
+String SGA_IntervalsSet_to_string(const SGA_IntervalsSet* self) {
+	String str = String_from_duplicate("");
+	String_push_str(&str, "{");
+	for (size_t i = 0; i < self->nb_intervals; i++) {
+		String_concat_consume(&str, SGA_Interval_to_string(&self->intervals[i]));
+		if (i != self->nb_intervals - 1) {
+			String_push_str(&str, " U ");
+		}
+	}
+	String_push_str(&str, "}");
+	return str;
+}

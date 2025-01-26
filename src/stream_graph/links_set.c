@@ -13,16 +13,8 @@ LinksSet LinksSet_alloc(size_t nb_links) {
 
 String SGA_Link_to_string(const SGA_Link* link) {
 	String str = String_with_capacity(100);
-	String_append_formatted(&str, "(%lu - %lu), Intervals : [", link->nodes[0], link->nodes[1]);
-
-	for (size_t i = 0; i < link->presence.nb_intervals; i++) {
-		String interval_str = SGA_Interval_to_string(&link->presence.intervals[i]);
-		String_concat_consume(&str, interval_str);
-		String_push_str(&str, " U ");
-	}
-
-	String_pop_n(&str, 3);
-	String_push_str(&str, "]\n");
+	String_append_formatted(&str, "(%lu - %lu), Presence : ", link->nodes[0], link->nodes[1]);
+	String_concat_consume(&str, SGA_IntervalsSet_to_string(&link->presence));
 	return str;
 }
 

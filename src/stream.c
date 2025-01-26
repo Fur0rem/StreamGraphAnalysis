@@ -140,6 +140,8 @@ void init_events_table(SGA_StreamGraph* sg);
 // TODO : More explicit and helpful (with context and expected values) error messages
 SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 
+	printf("Parsing stream graph :\n%s\n", str);
+
 	SGA_StreamGraph sg;
 	char* current_header = NULL;
 
@@ -191,10 +193,6 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 	str = new_ptr;
 
 	sg.time_scale = scaling;
-
-#ifdef DEBUG
-	sg.events_inited = false;
-#endif
 
 	// Parse the Memory section
 	NEXT_HEADER([Memory]);
@@ -353,6 +351,7 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			// sg.nodes.nodes[node].neighbours[j] = link;
 			char* end;
 			size_t link = strtol(str, &end, 10);
+			printf("link : %zu\n", link);
 			if (end == str) {
 				fprintf(stderr, "Could not parse the link\n");
 				PRINT_LINE(str);
@@ -860,6 +859,11 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 			// push the neighbours
 			if (node_id > biggest_node_id) {
 				biggest_node_id = node_id;
+				// Init the rest of the nodes in the array
+				for (size_t i = nodes.length; i <= biggest_node_id; i++) {
+					LinkInfo info = {.nodes = {i, i}, .nb_intervals = 0};
+					LinkInfoArrayList_push(&nodes, info);
+				}
 			}
 			if (biggest_node_id >= node_neighbours.length) {
 				for (size_t i = node_neighbours.length; i <= biggest_node_id; i++) {
@@ -1050,7 +1054,9 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 				String_append_formatted(&out_str, "%zu ", link_id);
 			}
 		}
-		String_pop(&out_str);
+		if (out_str.data[out_str.size - 1] != '(') {
+			String_pop(&out_str);
+		}
 		String_push_str(&out_str, ")\n");
 	}
 
@@ -1105,27 +1111,19 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 }
 
 // TODO: WHY ISN'T THIS IN NODES_SET.C ??
+// TODO: it's because i need the neighbours and all of that...
 String SGA_Node_to_string(SGA_StreamGraph* sg, size_t node_idx) {
 
 	SGA_Node* node = &sg->nodes.nodes[node_idx];
 
 	String str = String_from_duplicate("Node ");
 	String_append_formatted(&str, "%zu {\n", node_idx);
-	String_push_str(&str, "\tIntervals=[\n");
+	String_push_str(&str, "\tPresence : ");
 
-	// Append the first interval
-	String_push_str(&str, "\t\t");
-	String interval_str = SGA_Interval_to_string(&node->presence.intervals[0]);
-	String_concat_consume(&str, interval_str);
+	String presence_str = SGA_IntervalsSet_to_string(&node->presence);
+	String_concat_consume(&str, presence_str);
 
-	// Append the other intervals
-	for (size_t i = 1; i < node->presence.nb_intervals; i++) {
-		String_push_str(&str, " U ");
-		interval_str = SGA_Interval_to_string(&node->presence.intervals[i]);
-		String_concat_consume(&str, interval_str);
-	}
-	String_push_str(&str, "\n\t]\n");
-	String_push_str(&str, "\tNeighbours={\n\t\t");
+	String_push_str(&str, "\n\tNeighbours : [\n\t\t");
 	for (size_t i = 0; i < node->nb_neighbours; i++) {
 		// get the names of the neighbours through the links
 		size_t link_idx	     = node->neighbours[i];
@@ -1134,7 +1132,7 @@ String SGA_Node_to_string(SGA_StreamGraph* sg, size_t node_idx) {
 		size_t neighbour_idx = (node1 == node_idx) ? node2 : node1;
 		String_append_formatted(&str, "%zu, ", neighbour_idx);
 	}
-	String_push_str(&str, "\n\t}\n\n}\n");
+	String_push_str(&str, "\n\t]\n\n}");
 
 	return str;
 }
@@ -1147,6 +1145,7 @@ String SGA_StreamGraph_to_string(SGA_StreamGraph* sg) {
 	String_push_str(&str, "\tNodes=[\n");
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
 		String node_str = SGA_Node_to_string(sg, i);
+		String_push(&node_str, '\n');
 		String_concat_consume(&str, node_str);
 	}
 	String_push_str(&str, "\t]\n");
@@ -1155,6 +1154,7 @@ String SGA_StreamGraph_to_string(SGA_StreamGraph* sg) {
 	String_push_str(&str, "\tLinks=[\n");
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
 		String link_str = SGA_Link_to_string(&sg->links.links[i]);
+		String_push(&link_str, '\n');
 		String_concat_consume(&str, link_str);
 	}
 	String_push_str(&str, "\t]\n");
@@ -1226,6 +1226,11 @@ void init_events_table(SGA_StreamGraph* sg) {
 	// Find the index of the last time a node appears
 	size_t last_node_addition = 0;
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
+		// Skip nodes that never appear
+		if (sg->nodes.nodes[i].presence.nb_intervals == 0) {
+			continue;
+		}
+
 		size_t last_node_time = SGA_IntervalsSet_last(&sg->nodes.nodes[i].presence).start;
 		if (last_node_time > last_node_addition) {
 			last_node_addition = last_node_time;
@@ -1234,6 +1239,10 @@ void init_events_table(SGA_StreamGraph* sg) {
 
 	size_t last_link_addition = 0;
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
+		// Skip links that never appear
+		if (sg->links.links[i].presence.nb_intervals == 0) {
+			continue;
+		}
 		size_t last_link_time = SGA_IntervalsSet_last(&sg->links.links[i].presence).start;
 		if (last_link_time > last_link_addition) {
 			last_link_addition = last_link_time;

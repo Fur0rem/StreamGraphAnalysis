@@ -36,6 +36,8 @@ DeclareArrayListDeriveRemove(SGA_Interval);
 DeclareArrayListDeriveEquals(SGA_Interval);
 DeclareArrayListDeriveToString(SGA_Interval);
 
+DeclareToString(SGA_IntervalsSet);
+
 // int SGA_Interval_starts_before(const void* a, const void* b);
 
 size_t SGA_IntervalsSet_size(SGA_IntervalsSet intervals_set);

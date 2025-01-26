@@ -89,6 +89,43 @@ bool test_external_format() {
 	return true;
 }
 
+bool test_unordered_nodes() {
+	// SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/FIX_CRASH_2.txt");
+	char* content = read_file("data/empty_nodes.txt");
+	printf("content : %s\n", content);
+	char* to_internal = SGA_InternalFormat_from_External_str(content);
+	printf("to_internal : %s\n", to_internal);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_string(to_internal);
+	String str	   = SGA_StreamGraph_to_string(&sg);
+	String_push(&str, '\0');
+	printf("%s\n", str.data);
+	String_destroy(str);
+	free(to_internal);
+	free(content);
+	SGA_StreamGraph_destroy(sg);
+	return true;
+}
+
+bool test_no_links() {
+	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/no_link.txt");
+	String str	   = SGA_StreamGraph_to_string(&sg);
+	String_push(&str, '\0');
+	printf("%s\n", str.data);
+	String_destroy(str);
+	SGA_StreamGraph_destroy(sg);
+	return true;
+}
+
+bool test_wrong_order_internal() {
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/internal_wrong_order.txt");
+	String str	   = SGA_StreamGraph_to_string(&sg);
+	String_push(&str, '\0');
+	printf("%s\n", str.data);
+	String_destroy(str);
+	SGA_StreamGraph_destroy(sg);
+	return true;
+}
+
 bool test_from_external_format() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/S_external.txt");
 	String str	   = SGA_StreamGraph_to_string(&sg);
@@ -108,6 +145,9 @@ int main() {
 	    TEST(test_find_index_of_time_not_found),
 	    TEST(test_external_format),
 	    TEST(test_from_external_format),
+	    TEST(test_unordered_nodes),
+	    TEST(test_no_links),
+	    TEST(test_wrong_order_internal),
 	    NULL,
 	};
 
