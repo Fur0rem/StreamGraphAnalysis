@@ -15,55 +15,35 @@ The k-\/core of a stream graph is the largest sub-\/stream of nodes where each n
 {\ttfamily \#include "{}../interval.\+h"{}}\newline
 {\ttfamily \#include "{}../stream.\+h"{}}\newline
 {\ttfamily \#include "{}../utils.\+h"{}}\newline
+{\ttfamily \#include "{}cluster.\+h"{}}\newline
 {\ttfamily \#include "{}stddef.\+h"{}}\newline
-Include dependency graph for kcores.\+h\+:
-\nopagebreak
+Include dependency graph for kcores.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{kcores_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=211pt]{kcores_8h__dep__incl}
+\includegraphics[width=350pt]{kcores_8h__dep__incl}
 \end{center}
 \end{figure}
-\doxysubsubsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \mbox{\hyperlink{structNodePresence}{Node\+Presence}}
-\begin{DoxyCompactList}\small\item\em The presence of a node in the stream. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}}
-\begin{DoxyCompactList}\small\item\em The k-\/core of a stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{kcores_8h_a8823dda27ece06b01229578736652a37}\label{kcores_8h_a8823dda27ece06b01229578736652a37} 
-{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structNodePresence}{Node\+Presence}})
-\item 
-\Hypertarget{kcores_8h_a6644220432ea3c7725776200cd9baf9b}\label{kcores_8h_a6644220432ea3c7725776200cd9baf9b} 
-{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}})
-\item 
-\Hypertarget{kcores_8h_adf8a34de3f6a68c233e9355551491d2f}\label{kcores_8h_adf8a34de3f6a68c233e9355551491d2f} 
-{\bfseries Declare\+Equals} (\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}})
-\item 
-\Hypertarget{kcores_8h_abba98e468686e83990623f43efd77d50}\label{kcores_8h_abba98e468686e83990623f43efd77d50} 
-{\bfseries Declare\+Destroy} (\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}})
-\item 
-\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}} \mbox{\hyperlink{kcores_8h_afd2433d00730da88463168b197f52118}{SGA\+\_\+\+Stream\+\_\+k\+\_\+core}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t k)
+\mbox{\hyperlink{structSGA__Cluster}{SGA\+\_\+\+Cluster}} \mbox{\hyperlink{kcores_8h_acf4eff021bca72dfb2b2301c5641a18a}{SGA\+\_\+\+Stream\+\_\+k\+\_\+core}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t k)
 \begin{DoxyCompactList}\small\item\em Compute the k-\/core of a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{kcores_8h_afd2433d00730da88463168b197f52118}\index{kcores.h@{kcores.h}!SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}}
+\Hypertarget{kcores_8h_acf4eff021bca72dfb2b2301c5641a18a}\index{kcores.h@{kcores.h}!SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}}
 \index{SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}!kcores.h@{kcores.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_k\_core()}{SGA\_Stream\_k\_core()}}
-{\footnotesize\ttfamily \label{kcores_8h_afd2433d00730da88463168b197f52118} 
-\mbox{\hyperlink{structSGA__KCore}{SGA\+\_\+\+KCore}} SGA\+\_\+\+Stream\+\_\+k\+\_\+core (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{size\+\_\+t}]{degree}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{kcores_8h_acf4eff021bca72dfb2b2301c5641a18a} 
+\mbox{\hyperlink{structSGA__Cluster}{SGA\+\_\+\+Cluster}} SGA\+\_\+\+Stream\+\_\+k\+\_\+core (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{size\+\_\+t}]{degree}{}\end{DoxyParamCaption})}
 
 
 

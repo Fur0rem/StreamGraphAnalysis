@@ -1,5 +1,5 @@
-#ifndef ArrayList_H
-#define ArrayList_H
+#ifndef ARRAYLIST_H
+#define ARRAYLIST_H
 
 #include "../utils.h"
 #include <stdio.h>
@@ -30,7 +30,8 @@
 	type type##ArrayList_pop_last(type##ArrayList* list);                                                                              \
 	type type##ArrayList_pop_nth(type##ArrayList* list, size_t idx);                                                                   \
 	type type##ArrayList_pop_nth_swap(type##ArrayList* list, size_t idx);                                                              \
-	void type##ArrayList_swap(type##ArrayList* list, size_t idx1, size_t idx2);
+	void type##ArrayList_swap(type##ArrayList* list, size_t idx1, size_t idx2);                                                        \
+	void type##ArrayList_from_c_array(type##ArrayList* list, type* array, size_t length);
 
 #define DefineArrayList(type)                                                                                                              \
                                                                                                                                            \
@@ -129,6 +130,12 @@
 		type tmp	  = list->array[idx1];                                                                                     \
 		list->array[idx1] = list->array[idx2];                                                                                     \
 		list->array[idx2] = tmp;                                                                                                   \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	void type##ArrayList_from_c_array(type##ArrayList* list, type* array, size_t length) {                                             \
+		list->array    = array;                                                                                                    \
+		list->length   = length;                                                                                                   \
+		list->capacity = length;                                                                                                   \
 	}
 
 /// Derives functions to the ArrayList to remove elements, given a way to free the elements
@@ -229,4 +236,4 @@
 		return str;                                                                                                                \
 	}
 
-#endif // ArrayList_H
+#endif // ARRAYLIST_H

@@ -1,0 +1,140 @@
+\doxysection{tests/metrics.c File Reference}
+\hypertarget{tests_2metrics_8c}{}\label{tests_2metrics_8c}\index{tests/metrics.c@{tests/metrics.c}}
+
+
+Tests regarding metrics.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Tests regarding metrics. 
+
+{\ttfamily \#include "{}../\+Stream\+Graph\+Analysis.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+Include dependency graph for metrics.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_2metrics_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tests_2metrics_8c_a8e26962e308f9fcf62b9a8594edf4536}\label{tests_2metrics_8c_a8e26962e308f9fcf62b9a8594edf4536} 
+\#define {\bfseries SGA\+\_\+\+INTERNAL}
+\item 
+\#define \mbox{\hyperlink{tests_2metrics_8c_ac3d10bea8ac8506f513ba74b72fcb844}{TEST\+\_\+\+METRIC\+\_\+F}}(name,  value,  graph,  type)
+\item 
+\#define \mbox{\hyperlink{tests_2metrics_8c_a42c657705b0938161da9a86605e8640e}{TEST\+\_\+\+METRIC\+\_\+I}}(name,  value,  graph,  type)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tests_2metrics_8c_a58438e3ae125b78c4e8366ea056bd851}\label{tests_2metrics_8c_a58438e3ae125b78c4e8366ea056bd851} 
+bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+T\+\_\+\+S\+\_\+0} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a13a93575878c086e3f3413a9540cbfac}\label{tests_2metrics_8c_a13a93575878c086e3f3413a9540cbfac} 
+bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+T\+\_\+\+S\+\_\+1} ()
+\item 
+\Hypertarget{tests_2metrics_8c_ac6eb97a47e7741ac730c02eaf9c64810}\label{tests_2metrics_8c_ac6eb97a47e7741ac730c02eaf9c64810} 
+bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+T\+\_\+\+S\+\_\+2} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a5988100c564779299f7e97c099ea5f3a}\label{tests_2metrics_8c_a5988100c564779299f7e97c099ea5f3a} 
+bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+T\+\_\+\+S\+\_\+3} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a4fa849134d129b044069c31aeff2b497}\label{tests_2metrics_8c_a4fa849134d129b044069c31aeff2b497} 
+bool {\bfseries test\+\_\+times\+\_\+node\+\_\+present} ()
+\item 
+\Hypertarget{tests_2metrics_8c_afc67d83e6a24bf3612a7fb839f58c11f}\label{tests_2metrics_8c_afc67d83e6a24bf3612a7fb839f58c11f} 
+bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+W\+\_\+S} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a5a00c21b3f245cf3bd1d82dd9251eaa4}\label{tests_2metrics_8c_a5a00c21b3f245cf3bd1d82dd9251eaa4} 
+bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+W\+\_\+L} ()
+\item 
+\Hypertarget{tests_2metrics_8c_adb4bcace4f23e1904d6d48930c95c1f5}\label{tests_2metrics_8c_adb4bcace4f23e1904d6d48930c95c1f5} 
+bool {\bfseries test\+\_\+coverage\+\_\+S} ()
+\item 
+\Hypertarget{tests_2metrics_8c_ad4afb8aa51d6c5d61beac89cf39c4b1b}\label{tests_2metrics_8c_ad4afb8aa51d6c5d61beac89cf39c4b1b} 
+bool {\bfseries test\+\_\+coverage\+\_\+L} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a2f8e97f7346bbc6ebacbb1e7e49976d7}\label{tests_2metrics_8c_a2f8e97f7346bbc6ebacbb1e7e49976d7} 
+bool {\bfseries test\+\_\+node\+\_\+duration\+\_\+S} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a087bd042e0d0e09b9c4b036ec623d365}\label{tests_2metrics_8c_a087bd042e0d0e09b9c4b036ec623d365} 
+bool {\bfseries test\+\_\+contribution\+\_\+of\+\_\+nodes} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a7f6d6745c9907c093cabe8c1759d6c62}\label{tests_2metrics_8c_a7f6d6745c9907c093cabe8c1759d6c62} 
+bool {\bfseries test\+\_\+contributions\+\_\+of\+\_\+links} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a067332aedb5f7346e556fc8e4920bfe2}\label{tests_2metrics_8c_a067332aedb5f7346e556fc8e4920bfe2} 
+bool {\bfseries test\+\_\+density\+\_\+linkstream} ()
+\item 
+\Hypertarget{tests_2metrics_8c_ab4de66d3c63f386043d8c7f80ce9147c}\label{tests_2metrics_8c_ab4de66d3c63f386043d8c7f80ce9147c} 
+bool {\bfseries test\+\_\+density\+\_\+of\+\_\+link} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a3379884859a928af395aa078cf2bfe0c}\label{tests_2metrics_8c_a3379884859a928af395aa078cf2bfe0c} 
+bool {\bfseries test\+\_\+density\+\_\+of\+\_\+node} ()
+\item 
+\Hypertarget{tests_2metrics_8c_a4f42a56c3eb97f47575860341caeb994}\label{tests_2metrics_8c_a4f42a56c3eb97f47575860341caeb994} 
+bool {\bfseries test\+\_\+density\+\_\+at\+\_\+instant} ()
+\item 
+\Hypertarget{tests_2metrics_8c_ab0431f156f9e69f448d694159f169ef8}\label{tests_2metrics_8c_ab0431f156f9e69f448d694159f169ef8} 
+bool {\bfseries test\+\_\+degree\+\_\+of\+\_\+node} ()
+\item 
+\Hypertarget{tests_2metrics_8c_aab049b59fb44bd625270d3d541729bab}\label{tests_2metrics_8c_aab049b59fb44bd625270d3d541729bab} 
+bool {\bfseries test\+\_\+cache} ()
+\item 
+\Hypertarget{tests_2metrics_8c_abb37b665f5cccdef2cbf3b3f934d867a}\label{tests_2metrics_8c_abb37b665f5cccdef2cbf3b3f934d867a} 
+bool {\bfseries test\+\_\+clustering\+\_\+coeff\+\_\+of\+\_\+node} ()
+\item 
+\Hypertarget{tests_2metrics_8c_ac1e65f23e245fb8b4eb4af73f3535cf0}\label{tests_2metrics_8c_ac1e65f23e245fb8b4eb4af73f3535cf0} 
+bool {\bfseries test\+\_\+compactness} ()
+\item 
+\Hypertarget{tests_2metrics_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{tests_2metrics_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int {\bfseries main} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{tests_2metrics_8c_ac3d10bea8ac8506f513ba74b72fcb844}\index{metrics.c@{metrics.c}!TEST\_METRIC\_F@{TEST\_METRIC\_F}}
+\index{TEST\_METRIC\_F@{TEST\_METRIC\_F}!metrics.c@{metrics.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_METRIC\_F}{TEST\_METRIC\_F}}
+{\footnotesize\ttfamily \label{tests_2metrics_8c_ac3d10bea8ac8506f513ba74b72fcb844} 
+\#define TEST\+\_\+\+METRIC\+\_\+F(\begin{DoxyParamCaption}\item[{}]{name}{, }\item[{}]{value}{, }\item[{}]{graph}{, }\item[{}]{type}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ test\_\#\#name()\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ SGA\_StreamGraph\_from\_external(\textcolor{stringliteral}{"{}data/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.txt"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ type\#\#\_from(\&sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ \ \ \ =\ EXPECT\_F\_APPROX\_EQ(SGA\_Stream\_\#\#name(\&st),\ value,\ 1e-\/5);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_StreamGraph\_destroy(sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ type\#\#\_destroy(st);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tests_2metrics_8c_a42c657705b0938161da9a86605e8640e}\index{metrics.c@{metrics.c}!TEST\_METRIC\_I@{TEST\_METRIC\_I}}
+\index{TEST\_METRIC\_I@{TEST\_METRIC\_I}!metrics.c@{metrics.c}}
+\doxysubsubsection{\texorpdfstring{TEST\_METRIC\_I}{TEST\_METRIC\_I}}
+{\footnotesize\ttfamily \label{tests_2metrics_8c_a42c657705b0938161da9a86605e8640e} 
+\#define TEST\+\_\+\+METRIC\+\_\+I(\begin{DoxyParamCaption}\item[{}]{name}{, }\item[{}]{value}{, }\item[{}]{graph}{, }\item[{}]{type}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ test\_\#\#name()\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ SGA\_StreamGraph\_from\_external(\textcolor{stringliteral}{"{}data/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.txt"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ type\#\#\_from(\&sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ \ \ \ =\ EXPECT\_EQ(SGA\_Stream\_\#\#name(st),\ value);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_StreamGraph\_destroy(sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ type\#\#\_destroy(st);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}

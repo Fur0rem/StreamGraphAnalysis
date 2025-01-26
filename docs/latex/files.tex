@@ -1,6 +1,10 @@
 \doxysection{File List}
 Here is a list of all documented files with brief descriptions\+:\begin{DoxyCompactList}
 \item\contentsline{section}{\mbox{\hyperlink{StreamGraphAnalysis_8h}{Stream\+Graph\+Analysis.\+h}} \\*The main header file of the library }{\pageref{StreamGraphAnalysis_8h}}{}
+\item\contentsline{section}{benchmarks/\mbox{\hyperlink{benchmark_8h_source}{benchmark.\+h}} }{\pageref{benchmark_8h_source}}{}
+\item\contentsline{section}{benchmarks/\mbox{\hyperlink{benchmarks_2metrics_8c}{metrics.\+c}} \\*Benchmarks for metrics }{\pageref{benchmarks_2metrics_8c}}{}
+\item\contentsline{section}{benchmarks/\mbox{\hyperlink{benchmarks_2stream_8c}{stream.\+c}} \\*Benchmarks for loading a Stream\+Graph }{\pageref{benchmarks_2stream_8c}}{}
+\item\contentsline{section}{benchmarks/\mbox{\hyperlink{benchmarks_2walks_8c}{walks.\+c}} \\*Benchmarks for walks }{\pageref{benchmarks_2walks_8c}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{arena_8h_source}{arena.\+h}} }{\pageref{arena_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{bit__array_8h}{bit\+\_\+array.\+h}} \\*A variable length array of bits and functions to manipulate it }{\pageref{bit__array_8h}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{defaults_8h_source}{defaults.\+h}} }{\pageref{defaults_8h_source}}{}
@@ -13,16 +17,29 @@ Here is a list of all documented files with brief descriptions\+:\begin{DoxyComp
 \item\contentsline{section}{src/\mbox{\hyperlink{streams_8h}{streams.\+h}} \\*Utility header to include all types of streams at once }{\pageref{streams_8h}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{units_8h_source}{units.\+h}} }{\pageref{units_8h_source}}{}
 \item\contentsline{section}{src/\mbox{\hyperlink{utils_8h_source}{utils.\+h}} }{\pageref{utils_8h_source}}{}
-\item\contentsline{section}{src/analysis/\mbox{\hyperlink{cliques_8c}{cliques.\+c}} \\*Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
- The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}} }{\pageref{cliques_8c}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{src_2analysis_2cliques_8c}{cliques.\+c}} \\*Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
+ The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}} }{\pageref{src_2analysis_2cliques_8c}}{}
 \item\contentsline{section}{src/analysis/\mbox{\hyperlink{cliques_8h}{cliques.\+h}} \\*Find maximal cliques in a Stream }{\pageref{cliques_8h}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{cluster_8c}{cluster.\+c}} \\*Implementation of clusters in a stream }{\pageref{cluster_8c}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{cluster_8h}{cluster.\+h}} \\*Clusters in a stream ~\newline
+ Clusters are a subset of the set of nodes }{\pageref{cluster_8h}}{}
 \item\contentsline{section}{src/analysis/\mbox{\hyperlink{isomorphism_8h}{isomorphism.\+h}} \\*Functions to check if two streamgraphs are isomorphic }{\pageref{isomorphism_8h}}{}
 \item\contentsline{section}{src/analysis/\mbox{\hyperlink{kcores_8h}{kcores.\+h}} \\*Functions to compute the k-\/cores of a Stream }{\pageref{kcores_8h}}{}
-\item\contentsline{section}{src/analysis/\mbox{\hyperlink{metrics_8c}{metrics.\+c}} \\*Functions to compute metrics on a Stream }{\pageref{metrics_8c}}{}
+\item\contentsline{section}{src/analysis/\mbox{\hyperlink{src_2analysis_2metrics_8c}{metrics.\+c}} \\*Functions to compute metrics on a Stream }{\pageref{src_2analysis_2metrics_8c}}{}
 \item\contentsline{section}{src/analysis/\mbox{\hyperlink{metrics_8h}{metrics.\+h}} \\*Functions to compute metrics on a Stream }{\pageref{metrics_8h}}{}
 \item\contentsline{section}{src/analysis/\mbox{\hyperlink{walks_8h}{walks.\+h}} \\*Analysis regarding walks in streams and computations related to it }{\pageref{walks_8h}}{}
 \item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{events__table_8h}{events\+\_\+table.\+h}} }{\pageref{events__table_8h}}{}
 \item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{key__moments__table_8h}{key\+\_\+moments\+\_\+table.\+h}} \\*Table of all key moments }{\pageref{key__moments__table_8h}}{}
 \item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{links__set_8h_source}{links\+\_\+set.\+h}} }{\pageref{links__set_8h_source}}{}
 \item\contentsline{section}{src/stream\+\_\+graph/\mbox{\hyperlink{nodes__set_8h}{nodes\+\_\+set.\+h}} \\*A node and a set of nodes of a Stream\+Graph }{\pageref{nodes__set_8h}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{tests_2bit__array_8c}{bit\+\_\+array.\+c}} \\*Tests regarding \doxylink{structBitArray}{Bit\+Array} }{\pageref{tests_2bit__array_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{chunk__stream_8c}{chunk\+\_\+stream.\+c}} \\*Tests regarding Chunk\+Stream }{\pageref{chunk__stream_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{chunk__stream__small_8c}{chunk\+\_\+stream\+\_\+small.\+c}} \\*Tests regarding Chunk\+Stream\+Small }{\pageref{chunk__stream__small_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{full__stream__graph_8c}{full\+\_\+stream\+\_\+graph.\+c}} \\*Tests regarding Full\+Stream\+Graph }{\pageref{full__stream__graph_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{tests_2isomorphism_8c}{isomorphism.\+c}} \\*Tests regarding isomorphism }{\pageref{tests_2isomorphism_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{tests_2kcores_8c}{kcores.\+c}} \\*Tests regarding K-\/\+Cores }{\pageref{tests_2kcores_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{link__stream_8c}{link\+\_\+stream.\+c}} \\*Tests regarding Link\+Stream }{\pageref{link__stream_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{tests_2metrics_8c}{metrics.\+c}} \\*Tests regarding metrics }{\pageref{tests_2metrics_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{tests_2stream_8c}{stream.\+c}} \\*Tests regarding Stream\+Graph }{\pageref{tests_2stream_8c}}{}
+\item\contentsline{section}{tests/\mbox{\hyperlink{test_8h_source}{test.\+h}} }{\pageref{test_8h_source}}{}
 \end{DoxyCompactList}

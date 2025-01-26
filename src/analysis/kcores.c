@@ -1,8 +1,9 @@
+#include "cluster.h"
 #define SGA_INTERNAL
 
-#include "kcores.h"
 #include "../stream_functions.h"
 #include "../streams.h"
+#include "kcores.h"
 #include <stdint.h>
 
 typedef struct {
@@ -45,32 +46,6 @@ DefineArrayListDeriveOrdered(KCoreData);
 DefineArrayListDeriveEquals(KCoreData);
 DefineArrayListDeriveToString(KCoreData);
 // TODO: that's neighbourhood -> KCoreDataArrayList
-
-DefineArrayList(NodePresence);
-
-void NodePresence_destroy(NodePresence node) {
-	SGA_IntervalArrayList_destroy(node.presence);
-}
-
-DefineArrayListDeriveRemove(NodePresence);
-
-void SGA_KCore_destroy(SGA_KCore self) {
-	NodePresenceArrayList_destroy(self.nodes);
-}
-
-/**
- * @brief Simplifies the intervals of all the nodes in the k-core
- * It merges the intervals and sorts them to have a more compact representation
- * @param k_core[in, out] The k-core to simplify
- */
-void KCore_simplify(SGA_KCore* k_core) {
-	for (size_t i = 0; i < k_core->nodes.length; i++) {
-		SGA_IntervalsSet intervals = SGA_IntervalsSet_from_interval_arraylist(k_core->nodes.array[i].presence);
-		SGA_IntervalsSet_sort(&intervals);
-		SGA_IntervalsSet_merge(&intervals);
-		k_core->nodes.array[i].presence = SGA_IntervalArrayList_from_intervals_set(intervals);
-	}
-}
 
 void KCores_add(KCoreDataArrayList* k_cores, SGA_Interval time, SGA_NodeId neigh) {
 	// Find if the node is already in the arraylist and with the same interval
@@ -231,7 +206,7 @@ void KCoreDataArrayList_merge(KCoreDataArrayList* vec) {
 }
 
 /// Doesn't work with 0 but who cares about 0-core cause it's the same as the initial graph
-SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
+SGA_Cluster SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
@@ -362,22 +337,19 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 		}
 		free(neighbourhood);
 
-		return (SGA_KCore){.nodes = NodePresenceArrayList_new()};
+		return SGA_Cluster_empty();
 	}
 
-	SGA_NodeId cur_node    = SIZE_MAX;
-	SGA_KCore kcore	       = {.nodes = NodePresenceArrayList_new()};
+	SGA_NodeId cur_node = SIZE_MAX;
+	// SGA_KCore kcore	       = {.nodes = NodePresenceArrayList_new()};
+	SGA_Cluster kcore      = SGA_Cluster_empty();
 	size_t cur_idx_to_push = 0;
 
 	for (size_t i = 0; i < biggest_node_id; i++) {
 		for (size_t j = 0; j < neighbourhood[i].length; j++) {
 			if (i != cur_node) {
-				NodePresence new_node = {
-				    .node_id  = i,
-				    .presence = SGA_IntervalArrayList_new(),
-				};
-				SGA_IntervalArrayList_push(&new_node.presence, neighbourhood[i].array[j].time);
-				NodePresenceArrayList_push(&kcore.nodes, new_node);
+				SGA_ClusterNode new_node = SGA_ClusterNode_single_interval(i, neighbourhood[i].array[j].time);
+				SGA_Cluster_add_node(&kcore, new_node);
 				cur_node = i;
 				cur_idx_to_push++;
 			}
@@ -388,46 +360,12 @@ SGA_KCore SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 		}
 	}
 
-	// KCoreDataArrayList_destroy(k_cores);
-
 	for (size_t i = 0; i < biggest_node_id; i++) {
 		KCoreDataArrayList_destroy(neighbourhood[i]);
 	}
 	free(neighbourhood);
 
-	KCore_simplify(&kcore);
+	SGA_Cluster_simplify(&kcore);
 
 	return kcore;
-}
-
-String SGA_KCore_to_string(const SGA_KCore* k_core) {
-	String str = String_from_duplicate("KCore : { \n");
-	for (size_t i = 0; i < k_core->nodes.length; i++) {
-		String intervals_str = SGA_IntervalArrayList_to_string(&k_core->nodes.array[i].presence);
-		String_append_formatted(&str, "\t%zu : ", k_core->nodes.array[i].node_id);
-		String_concat_consume(&str, intervals_str);
-		if (i != k_core->nodes.length - 1) {
-			String_push_str(&str, "\n");
-		}
-	}
-	String_push_str(&str, "\n}");
-	return str;
-}
-
-bool SGA_KCore_equals(const SGA_KCore* left, const SGA_KCore* right) {
-	if (left->nodes.length != right->nodes.length) {
-		return false;
-	}
-
-	for (size_t i = 0; i < left->nodes.length; i++) {
-		if (left->nodes.array[i].node_id != right->nodes.array[i].node_id) {
-			return false;
-		}
-
-		if (!SGA_IntervalArrayList_equals(&left->nodes.array[i].presence, &right->nodes.array[i].presence)) {
-			return false;
-		}
-	}
-
-	return true;
 }

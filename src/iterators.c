@@ -116,15 +116,15 @@ SGA_TimesIterator SGA_TimesIterator_intersection(SGA_TimesIterator a, SGA_TimesI
 }
 
 size_t SGA_count_nodes(SGA_NodesIterator nodes) {
-	return COUNT_ITERATOR(nodes);
+	return _COUNT_ITERATOR(SGA_NodeId, node, nodes, node != SGA_NODES_ITERATOR_END);
 }
 
 size_t SGA_count_links(SGA_LinksIterator links) {
-	return COUNT_ITERATOR(links);
+	return _COUNT_ITERATOR(SGA_LinkId, link, links, link != SGA_LINKS_ITERATOR_END);
 }
 
 size_t SGA_count_intervals(SGA_TimesIterator times) {
-	return COUNT_ITERATOR(times);
+	return _COUNT_ITERATOR(SGA_Interval, interval, times, !SGA_Interval_equals(&interval, &SGA_TIMES_ITERATOR_END));
 }
 
 SGA_IntervalArrayList SGA_collect_times(SGA_TimesIterator times) {

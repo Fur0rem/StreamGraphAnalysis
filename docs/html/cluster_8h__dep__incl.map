@@ -1,0 +1,33 @@
+<map id="src/analysis/cluster.h" name="src/analysis/cluster.h">
+<area shape="rect" id="Node000001" title="Clusters in a stream &#160;&#160;Clusters are a subset of the set of nodes." alt="" coords="895,5,1052,33"/>
+<area shape="rect" id="Node000002" href="$cluster_8c.html" title="Implementation of clusters in a stream." alt="" coords="804,81,961,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="947,45,900,83,897,78,944,41"/>
+<area shape="rect" id="Node000003" href="$kcores_8h.html" title="Functions to compute the k&#45;cores of a Stream." alt="" coords="985,81,1143,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1003,41,1050,78,1046,83,1000,45"/>
+<area shape="rect" id="Node000004" href="$StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="977,157,1151,184"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1067,124,1067,156,1061,156,1061,124"/>
+<area shape="rect" id="Node000005" href="$benchmarks_2metrics_8c.html" title="Benchmarks for metrics." alt="" coords="5,241,171,268"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="962,177,810,182,616,192,400,209,183,235,141,243,140,238,182,230,399,204,615,187,810,177,962,171"/>
+<area shape="rect" id="Node000006" href="$benchmarks_2stream_8c.html" title="Benchmarks for loading a StreamGraph." alt="" coords="195,241,357,268"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="961,179,693,198,531,214,370,235,329,243,328,238,369,230,530,208,692,192,961,174"/>
+<area shape="rect" id="Node000007" href="$benchmarks_2walks_8c.html" title="Benchmarks for walks." alt="" coords="382,241,536,268"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="962,183,769,203,548,235,510,243,509,238,548,230,769,198,961,178"/>
+<area shape="rect" id="Node000008" href="$tests_2bit__array_8c.html" title="Tests regarding BitArray." alt="" coords="560,241,685,268"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="962,188,835,208,698,235,667,243,666,238,697,230,834,203,961,183"/>
+<area shape="rect" id="Node000009" href="$chunk__stream_8c.html" title="Tests regarding ChunkStream." alt="" coords="709,241,870,268"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="1006,192,834,243,833,238,1005,187"/>
+<area shape="rect" id="Node000010" href="$chunk__stream__small_8c.html" title="Tests regarding ChunkStreamSmall." alt="" coords="893,232,1043,277"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="1039,197,995,234,992,230,1035,193"/>
+<area shape="rect" id="Node000011" href="$full__stream__graph_8c.html" title="Tests regarding FullStreamGraph." alt="" coords="1067,241,1253,268"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="1092,192,1147,239,1143,243,1089,196"/>
+<area shape="rect" id="Node000012" href="$tests_2isomorphism_8c.html" title="Tests regarding isomorphism." alt="" coords="1277,241,1430,268"/>
+<area shape="poly" id="edge11_Node000004_Node000012" title=" " alt="" coords="1126,186,1308,238,1306,243,1124,192"/>
+<area shape="rect" id="Node000013" href="$tests_2kcores_8c.html" title="Tests regarding K&#45;Cores." alt="" coords="1454,241,1565,268"/>
+<area shape="poly" id="edge12_Node000004_Node000013" title=" " alt="" coords="1167,181,1299,201,1443,230,1472,238,1470,243,1442,235,1298,206,1166,187"/>
+<area shape="rect" id="Node000014" href="$link__stream_8c.html" title="Tests regarding LinkStream." alt="" coords="1589,241,1734,268"/>
+<area shape="poly" id="edge13_Node000004_Node000014" title=" " alt="" coords="1167,177,1358,197,1578,230,1614,238,1613,243,1577,235,1358,203,1166,183"/>
+<area shape="rect" id="Node000015" href="$tests_2metrics_8c.html" title="Tests regarding metrics." alt="" coords="1759,241,1876,268"/>
+<area shape="poly" id="edge14_Node000004_Node000015" title=" " alt="" coords="1167,172,1431,188,1589,205,1747,230,1779,238,1778,243,1746,235,1589,210,1430,193,1166,177"/>
+<area shape="rect" id="Node000016" href="$tests_2stream_8c.html" title="Tests regarding StreamGraph." alt="" coords="1900,241,2014,268"/>
+<area shape="poly" id="edge15_Node000004_Node000016" title=" " alt="" coords="1167,169,1309,173,1490,182,1689,200,1889,230,1920,238,1919,243,1887,235,1689,206,1490,188,1309,178,1166,175"/>
+</map>

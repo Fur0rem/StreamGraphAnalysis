@@ -9,8 +9,8 @@ var searchData=
   ['no_5fwalk_5freason_6',['no_walk_reason',['../structSGA__OptionalWalk.html#a848b7bbdd0e89dd2b52bc6bc98bbfa41',1,'SGA_OptionalWalk']]],
   ['node_5fabsent_5fbetween_7',['node_absent_between',['../structSGA__NoWalkReason.html#acc262035194560bb7b37d816d35d7c28',1,'SGA_NoWalkReason']]],
   ['node_5fby_5fid_8',['node_by_id',['../structStreamFunctions.html#a9623eef32f3aec29c249679be2c817c3',1,'StreamFunctions']]],
-  ['node_5fid_9',['node_id',['../structNodePresence.html#a78b419969a7cfff2b130575c8dc89451',1,'NodePresence']]],
-  ['nodes_10',['nodes',['../structSGA__StreamGraph.html#a452cddb1c0e6a0c7f47b007979fe9abe',1,'SGA_StreamGraph::nodes'],['../structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849',1,'NodesSet::nodes'],['../structSGA__Clique.html#a0c3bcdece20cca08bf1b6c26a8152ef1',1,'SGA_Clique::nodes'],['../structSGA__KCore.html#aa323516f86aa3456a8951d31a913af1a',1,'SGA_KCore::nodes']]],
+  ['node_5fid_9',['node_id',['../structSGA__ClusterNode.html#a10103d61d8e6699ba7046d440a366e20',1,'SGA_ClusterNode']]],
+  ['nodes_10',['nodes',['../structSGA__StreamGraph.html#a452cddb1c0e6a0c7f47b007979fe9abe',1,'SGA_StreamGraph::nodes'],['../structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849',1,'NodesSet::nodes'],['../structSGA__Clique.html#a0c3bcdece20cca08bf1b6c26a8152ef1',1,'SGA_Clique::nodes'],['../structSGA__Cluster.html#ab00dfed722e45869e80522edecd20f1e',1,'SGA_Cluster::nodes']]],
   ['nodes_5fpresent_5fat_5ft_11',['nodes_present_at_t',['../structStreamFunctions.html#a1413e5e3b7a9ee21c9b71f47a31fcac9',1,'StreamFunctions']]],
   ['nodes_5fset_12',['nodes_set',['../structStreamFunctions.html#ac6678cd13ed80f23ae64e7de3224b246',1,'StreamFunctions']]]
 ];

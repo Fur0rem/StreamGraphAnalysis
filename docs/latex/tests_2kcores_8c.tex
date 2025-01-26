@@ -1,0 +1,56 @@
+\doxysection{tests/kcores.c File Reference}
+\hypertarget{tests_2kcores_8c}{}\label{tests_2kcores_8c}\index{tests/kcores.c@{tests/kcores.c}}
+
+
+Tests regarding K-\/\+Cores.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Tests regarding K-\/\+Cores. 
+
+{\ttfamily \#include "{}../\+Stream\+Graph\+Analysis.\+h"{}}\newline
+{\ttfamily \#include "{}test.\+h"{}}\newline
+Include dependency graph for kcores.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_2kcores_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tests_2kcores_8c_a8e26962e308f9fcf62b9a8594edf4536}\label{tests_2kcores_8c_a8e26962e308f9fcf62b9a8594edf4536} 
+\#define {\bfseries SGA\+\_\+\+INTERNAL}
+\item 
+\#define \mbox{\hyperlink{tests_2kcores_8c_a02ba629d0557983782f15aa559bd1f72}{PUSH\+\_\+\+SINGLE\+\_\+\+INTERVAL}}(kcore,  node,  start,  end)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tests_2kcores_8c_a4891a865eeed28d1f036d8630046ed9b}\label{tests_2kcores_8c_a4891a865eeed28d1f036d8630046ed9b} 
+bool {\bfseries test\+\_\+k\+\_\+cores} ()
+\item 
+\Hypertarget{tests_2kcores_8c_a7bdb1ee72b9bc8be746ab4c2e092fe3f}\label{tests_2kcores_8c_a7bdb1ee72b9bc8be746ab4c2e092fe3f} 
+bool {\bfseries test\+\_\+k\+\_\+cores\+\_\+chunk} ()
+\item 
+\Hypertarget{tests_2kcores_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{tests_2kcores_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int {\bfseries main} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{tests_2kcores_8c_a02ba629d0557983782f15aa559bd1f72}\index{kcores.c@{kcores.c}!PUSH\_SINGLE\_INTERVAL@{PUSH\_SINGLE\_INTERVAL}}
+\index{PUSH\_SINGLE\_INTERVAL@{PUSH\_SINGLE\_INTERVAL}!kcores.c@{kcores.c}}
+\doxysubsubsection{\texorpdfstring{PUSH\_SINGLE\_INTERVAL}{PUSH\_SINGLE\_INTERVAL}}
+{\footnotesize\ttfamily \label{tests_2kcores_8c_a02ba629d0557983782f15aa559bd1f72} 
+\#define PUSH\+\_\+\+SINGLE\+\_\+\+INTERVAL(\begin{DoxyParamCaption}\item[{}]{kcore}{, }\item[{}]{node}{, }\item[{}]{start}{, }\item[{}]{end}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ NodePresenceArrayList\_push(\&(kcore).nodes,\ (NodePresence)\{.node\_id\ =\ (node),\ .presence\ =\ SGA\_IntervalArrayList\_new()\});\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ SGA\_IntervalArrayList\_push(\&(kcore).nodes.array[node].presence,\ SGA\_Interval\_from(start,\ end));}
+
+\end{DoxyCode}

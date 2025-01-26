@@ -13,11 +13,10 @@ var searchData=
   ['node_5fabsent_10',['NODE_ABSENT',['../structSGA__NoWalkReason.html#a84e55bf8f4123f94d858eeed54576ceaa3eddeebd0bb052be0dfb480b65b0a3c7',1,'SGA_NoWalkReason']]],
   ['node_5fabsent_5fbetween_11',['node_absent_between',['../structSGA__NoWalkReason.html#acc262035194560bb7b37d816d35d7c28',1,'SGA_NoWalkReason']]],
   ['node_5fby_5fid_12',['node_by_id',['../structStreamFunctions.html#a9623eef32f3aec29c249679be2c817c3',1,'StreamFunctions']]],
-  ['node_5fid_13',['node_id',['../structNodePresence.html#a78b419969a7cfff2b130575c8dc89451',1,'NodePresence']]],
-  ['nodepresence_14',['NodePresence',['../structNodePresence.html',1,'']]],
-  ['nodes_15',['nodes',['../structSGA__StreamGraph.html#a452cddb1c0e6a0c7f47b007979fe9abe',1,'SGA_StreamGraph::nodes'],['../structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849',1,'NodesSet::nodes'],['../structSGA__Clique.html#a0c3bcdece20cca08bf1b6c26a8152ef1',1,'SGA_Clique::nodes'],['../structSGA__KCore.html#aa323516f86aa3456a8951d31a913af1a',1,'SGA_KCore::nodes']]],
-  ['nodes_5fpresent_5fat_5ft_16',['nodes_present_at_t',['../structStreamFunctions.html#a1413e5e3b7a9ee21c9b71f47a31fcac9',1,'StreamFunctions']]],
-  ['nodes_5fset_17',['nodes_set',['../structStreamFunctions.html#ac6678cd13ed80f23ae64e7de3224b246',1,'StreamFunctions']]],
-  ['nodes_5fset_2eh_18',['nodes_set.h',['../nodes__set_8h.html',1,'']]],
-  ['nodesset_19',['NodesSet',['../structNodesSet.html',1,'']]]
+  ['node_5fid_13',['node_id',['../structSGA__ClusterNode.html#a10103d61d8e6699ba7046d440a366e20',1,'SGA_ClusterNode']]],
+  ['nodes_14',['nodes',['../structSGA__StreamGraph.html#a452cddb1c0e6a0c7f47b007979fe9abe',1,'SGA_StreamGraph::nodes'],['../structNodesSet.html#a84e66c4a70bdc5ee4cdf6c060a129849',1,'NodesSet::nodes'],['../structSGA__Clique.html#a0c3bcdece20cca08bf1b6c26a8152ef1',1,'SGA_Clique::nodes'],['../structSGA__Cluster.html#ab00dfed722e45869e80522edecd20f1e',1,'SGA_Cluster::nodes']]],
+  ['nodes_5fpresent_5fat_5ft_15',['nodes_present_at_t',['../structStreamFunctions.html#a1413e5e3b7a9ee21c9b71f47a31fcac9',1,'StreamFunctions']]],
+  ['nodes_5fset_16',['nodes_set',['../structStreamFunctions.html#ac6678cd13ed80f23ae64e7de3224b246',1,'StreamFunctions']]],
+  ['nodes_5fset_2eh_17',['nodes_set.h',['../nodes__set_8h.html',1,'']]],
+  ['nodesset_18',['NodesSet',['../structNodesSet.html',1,'']]]
 ];

@@ -109,38 +109,16 @@ $(function(){initNavTree('kcores_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;../interval.h&quot;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="stream_8h.html">../stream.h</a>&quot;</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;../utils.h&quot;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;stddef.h&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">// TODO: move that to cluster</span></div>
-<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structNodePresence.html">   24</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structNodePresence.html#a78b419969a7cfff2b130575c8dc89451">   25</a></span>    SGA_NodeId <a class="code hl_variable" href="structNodePresence.html#a78b419969a7cfff2b130575c8dc89451">node_id</a>;      </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structNodePresence.html#ad9cd6e07e7b2ec63e03b9842c2e77b82">   26</a></span>    SGA_IntervalArrayList <a class="code hl_variable" href="structNodePresence.html#ad9cd6e07e7b2ec63e03b9842c2e77b82">presence</a>; </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <a class="code hl_struct" href="structNodePresence.html">NodePresence</a>;</div>
-</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>DeclareArrayList(<a class="code hl_struct" href="structNodePresence.html">NodePresence</a>);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span></div>
-<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structSGA__KCore.html">   34</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structSGA__KCore.html#aa323516f86aa3456a8951d31a913af1a">   35</a></span>    NodePresenceArrayList <a class="code hl_variable" href="structSGA__KCore.html#aa323516f86aa3456a8951d31a913af1a">nodes</a>; </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>} <a class="code hl_struct" href="structSGA__KCore.html">SGA_KCore</a>;</div>
-</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>DeclareToString(<a class="code hl_struct" href="structSGA__KCore.html">SGA_KCore</a>);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>DeclareEquals(<a class="code hl_struct" href="structSGA__KCore.html">SGA_KCore</a>);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>DeclareDestroy(<a class="code hl_struct" href="structSGA__KCore.html">SGA_KCore</a>);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><a class="code hl_struct" href="structSGA__KCore.html">SGA_KCore</a> <a class="code hl_function" href="kcores_8h.html#afd2433d00730da88463168b197f52118">SGA_Stream_k_core</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structSGA__Stream.html">SGA_Stream</a>* stream, <span class="keywordtype">size_t</span> k);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif </span><span class="comment">// K_CORES_H</span></div>
-<div class="ttc" id="akcores_8h_html_afd2433d00730da88463168b197f52118"><div class="ttname"><a href="kcores_8h.html#afd2433d00730da88463168b197f52118">SGA_Stream_k_core</a></div><div class="ttdeci">SGA_KCore SGA_Stream_k_core(const SGA_Stream *stream, size_t k)</div><div class="ttdoc">Compute the k-core of a Stream.</div><div class="ttdef"><b>Definition</b> kcores.c:234</div></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="cluster_8h.html">cluster.h</a>&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;stddef.h&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><a class="code hl_struct" href="structSGA__Cluster.html">SGA_Cluster</a> <a class="code hl_function" href="kcores_8h.html#acf4eff021bca72dfb2b2301c5641a18a">SGA_Stream_k_core</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structSGA__Stream.html">SGA_Stream</a>* stream, <span class="keywordtype">size_t</span> k);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif </span><span class="comment">// K_CORES_H</span></div>
+<div class="ttc" id="acluster_8h_html"><div class="ttname"><a href="cluster_8h.html">cluster.h</a></div><div class="ttdoc">Clusters in a stream   Clusters are a subset of the set of nodes.</div></div>
+<div class="ttc" id="akcores_8h_html_acf4eff021bca72dfb2b2301c5641a18a"><div class="ttname"><a href="kcores_8h.html#acf4eff021bca72dfb2b2301c5641a18a">SGA_Stream_k_core</a></div><div class="ttdeci">SGA_Cluster SGA_Stream_k_core(const SGA_Stream *stream, size_t k)</div><div class="ttdoc">Compute the k-core of a Stream.</div><div class="ttdef"><b>Definition</b> kcores.c:209</div></div>
 <div class="ttc" id="astream_8h_html"><div class="ttname"><a href="stream_8h.html">stream.h</a></div><div class="ttdoc">Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep...</div></div>
-<div class="ttc" id="astructNodePresence_html"><div class="ttname"><a href="structNodePresence.html">NodePresence</a></div><div class="ttdoc">The presence of a node in the stream.</div><div class="ttdef"><b>Definition</b> kcores.h:24</div></div>
-<div class="ttc" id="astructNodePresence_html_a78b419969a7cfff2b130575c8dc89451"><div class="ttname"><a href="structNodePresence.html#a78b419969a7cfff2b130575c8dc89451">NodePresence::node_id</a></div><div class="ttdeci">SGA_NodeId node_id</div><div class="ttdoc">The id of the node.</div><div class="ttdef"><b>Definition</b> kcores.h:25</div></div>
-<div class="ttc" id="astructNodePresence_html_ad9cd6e07e7b2ec63e03b9842c2e77b82"><div class="ttname"><a href="structNodePresence.html#ad9cd6e07e7b2ec63e03b9842c2e77b82">NodePresence::presence</a></div><div class="ttdeci">SGA_IntervalArrayList presence</div><div class="ttdoc">The intervals where the node is present.</div><div class="ttdef"><b>Definition</b> kcores.h:26</div></div>
-<div class="ttc" id="astructSGA__KCore_html"><div class="ttname"><a href="structSGA__KCore.html">SGA_KCore</a></div><div class="ttdoc">The k-core of a stream.</div><div class="ttdef"><b>Definition</b> kcores.h:34</div></div>
-<div class="ttc" id="astructSGA__KCore_html_aa323516f86aa3456a8951d31a913af1a"><div class="ttname"><a href="structSGA__KCore.html#aa323516f86aa3456a8951d31a913af1a">SGA_KCore::nodes</a></div><div class="ttdeci">NodePresenceArrayList nodes</div><div class="ttdoc">The nodes of the k-core.</div><div class="ttdef"><b>Definition</b> kcores.h:35</div></div>
+<div class="ttc" id="astructSGA__Cluster_html"><div class="ttname"><a href="structSGA__Cluster.html">SGA_Cluster</a></div><div class="ttdoc">A cluster of nodes.</div><div class="ttdef"><b>Definition</b> cluster.h:70</div></div>
 <div class="ttc" id="astructSGA__Stream_html"><div class="ttname"><a href="structSGA__Stream.html">SGA_Stream</a></div><div class="ttdoc">The structure of a Stream.</div><div class="ttdef"><b>Definition</b> stream.h:114</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
