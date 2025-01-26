@@ -140,8 +140,6 @@ void init_events_table(SGA_StreamGraph* sg);
 // TODO : More explicit and helpful (with context and expected values) error messages
 SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 
-	printf("Parsing stream graph :\n%s\n", str);
-
 	SGA_StreamGraph sg;
 	char* current_header = NULL;
 
@@ -351,7 +349,6 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 			// sg.nodes.nodes[node].neighbours[j] = link;
 			char* end;
 			size_t link = strtol(str, &end, 10);
-			printf("link : %zu\n", link);
 			if (end == str) {
 				fprintf(stderr, "Could not parse the link\n");
 				PRINT_LINE(str);
