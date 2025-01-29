@@ -1,3 +1,8 @@
+/**
+ * @file tests/test.c
+ * @brief Framework for a test suite
+ */
+
 #include "test.h"
 #include "../src/utils.h"
 

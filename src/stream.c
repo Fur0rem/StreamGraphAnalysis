@@ -1,4 +1,14 @@
+/**
+ * @file src/stream.c
+ * @brief Implementation of the functions to create StreamGraph's and manipulate generic Stream's.
+ */
+
 #define SGA_INTERNAL
+
+#include "units.h"
+#include <stdarg.h>
+
+#include "stream.h"
 
 #include "stream_graph/key_moments_table.h"
 
@@ -43,8 +53,19 @@ char* get_to_header(const char* str, const char* header) {
 }
 
 #define NEXT_HEADER(section)                                                                                                               \
-	current_header = "" #section "";                                                                                                   \
-	(str)	       = get_to_header(str, current_header);
+	current_header_hierarchy[0] = "" #section "";                                                                                      \
+	current_header_hierarchy[1] = NULL;                                                                                                \
+	current_header_hierarchy[2] = NULL;                                                                                                \
+	(str)			    = get_to_header(str, current_header_hierarchy[0]);
+
+#define NEXT_SUB_HEADER(subsection)                                                                                                        \
+	current_header_hierarchy[1] = "" #subsection "";                                                                                   \
+	current_header_hierarchy[2] = NULL;                                                                                                \
+	(str)			    = get_to_header(str, current_header_hierarchy[1]);
+
+#define NEXT_SUB_SUB_HEADER(subsubsection)                                                                                                 \
+	current_header_hierarchy[2] = "" #subsubsection "";                                                                                \
+	(str)			    = get_to_header(str, current_header_hierarchy[2]);
 
 #define EXPECTED_NB_SCANNED(expected)                                                                                                      \
 	if (nb_scanned != (expected)) {                                                                                                    \
@@ -74,7 +95,7 @@ char* get_to_header(const char* str, const char* header) {
 		exit(1);                                                                                                                   \
 	}
 
-#define PRINT_LINE(str)                                                                                                                    \
+#define PRINT_LINE_ERR(str, column_of_err)                                                                                                 \
 	{                                                                                                                                  \
 		const char* begin = (str);                                                                                                 \
 		while (*begin != '\n') {                                                                                                   \
@@ -85,8 +106,13 @@ char* get_to_header(const char* str, const char* header) {
 		char* line = (char*)MALLOC(end - begin + 1);                                                                               \
 		strncpy(line, begin, end - begin);                                                                                         \
 		line[end - begin] = '\0';                                                                                                  \
-		printf("line: %s\n", line);                                                                                                \
+		fprintf(stderr, "%s\n", line);                                                                                             \
 		free(line);                                                                                                                \
+		/* Print some red squiggly lines under it */                                                                               \
+		for (size_t i = 1; i < (column_of_err); i++) {                                                                             \
+			fprintf(stderr, " ");                                                                                              \
+		}                                                                                                                          \
+		fprintf(stderr, TEXT_RED "^" TEXT_RESET "\n");                                                                             \
 	}
 
 #define NEXT_TUPLE(str)                                                                                                                    \
@@ -104,259 +130,281 @@ char* get_to_header(const char* str, const char* header) {
 		}                                                                                                                          \
 	}
 
+/**
+ * @brief Checks if a condition is true and prints an error message if it is not, along with some context information
+ * @param[in] err_cond The condition to check
+ * @param[in] err_cond_str The string representation of the condition
+ * @param[in] where_it_stopped The position where the parsing stopped
+ * @param[in] full_str The full string that was parsed
+ * @param[in] src_code_file_name The name of the source code file
+ * @param[in] src_code_line_number The line number in the source code
+ * @param[in] current_header_hierarchy The hierarchy of the current header
+ * @param[in] error_format The format of the error message
+ * @param[in] ... The arguments to the format string
+ */
+void check_parse_error(bool err_cond, const char* err_cond_str, const char* where_it_stopped, const char* full_str,
+		       const char* src_code_file_name, int src_code_line_number, const char* const current_header_hierarchy[3],
+		       const char* error_format, ...) {
+
+	if UNLIKELY (err_cond) {
+		// Print the error message
+		fprintf(stderr, TEXT_BOLD TEXT_RED "Error" TEXT_RESET " while parsing : ");
+		va_list args;
+		va_start(args, error_format);
+		vfprintf(stderr, error_format, args);
+		va_end(args);
+
+		// Print the context of the file
+		// Calculate the line and column
+		size_t line	= 1;
+		size_t column	= 1;
+		const char* ptr = full_str;
+		while (ptr != where_it_stopped) {
+			if (*ptr == '\n') {
+				line++;
+				column = 1;
+			}
+			else {
+				column++;
+			}
+			ptr++;
+		}
+		fprintf(stderr, "\nError in stream file line %zu, column %zu\nContents of faulty line:\n", line, column);
+		// PRINT_LINE(stderr, where_it_stopped);
+		PRINT_LINE_ERR(where_it_stopped, column);
+
+		// Print additional information and source code reference
+		fprintf(stderr,
+			"Backtrace:\n\tCondition failed: %s\n\tSource code reference: %s:%d\n",
+			err_cond_str,
+			src_code_file_name,
+			src_code_line_number);
+		fprintf(stderr, "\tIn headers ");
+		for (size_t i = 0; i < 3; i++) {
+			if (current_header_hierarchy[i] == NULL) {
+				break;
+			}
+			fprintf(stderr, " %s ", current_header_hierarchy[i]);
+		}
+		exit(1);
+	}
+}
+
+/**
+ * @brief Expects a character in a string and moves the pointer to the next character. Panics if the character is not found
+ * @param[in, out] str The string to parse, gets modified to point to the next character after the expected character
+ * @param[in] character The character to expect
+ */
 #define EXPECT_AND_MOVE(str, character)                                                                                                    \
-	if UNLIKELY ((str)[0] != (character)) {                                                                                            \
-		fprintf(stderr, "Expected %c\n", character);                                                                               \
-		PRINT_LINE(str);                                                                                                           \
-		fprintf(stderr, "Current header: %s\n", current_header);                                                                   \
-		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                                     \
-		exit(1);                                                                                                                   \
-	}                                                                                                                                  \
+	CHECK_PARSE_ERROR((str)[0] != (character), "Expected '%c', got '%c'\n", character, (str)[0]);                                      \
 	(str) += 1;
 
-#define EXPECT_OR_MOVE(str, character1, character2)                                                                                        \
-	if UNLIKELY ((str)[0] != (character1) && (str)[0] != (character2)) {                                                               \
-		fprintf(stderr, "Expected %c or %c\n", character1, character2);                                                            \
-		PRINT_LINE(str);                                                                                                           \
-		fprintf(stderr, "Current header: %s\n", current_header);                                                                   \
-		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                                     \
-		exit(1);                                                                                                                   \
-	}                                                                                                                                  \
+/**
+ * @brief Expects either character1 or character2 in a string and moves the pointer to the next character. Panics if neither character is
+ * found
+ * @param[in, out] str The string to parse, gets modified to point to the next character after the expected character
+ * @param[in] character1 The first character to expect
+ * @param[in] character2 The second character to expect
+ */
+#define EXPECT_EITHER_AND_MOVE(str, character1, character2)                                                                                \
+	CHECK_PARSE_ERROR(                                                                                                                 \
+	    (str)[0] != (character1) && (str)[0] != (character2), "Expected %c or %c, got %c\n", character1, character2, (str)[0]);        \
 	(str) += 1;
 
-#define EXPECT_SEQ_AND_MOVE(str, sequence)                                                                                                 \
-	if UNLIKELY (strncmp(str, sequence, strlen(sequence)) != 0) {                                                                      \
-		fprintf(stderr, "Expected %s\n", sequence);                                                                                \
-		PRINT_LINE(str);                                                                                                           \
-		fprintf(stderr, "Current header: %s\n", current_header);                                                                   \
-		fprintf(stderr, "Source code reference: %s:%d\n", __FILE__, __LINE__);                                                     \
-		exit(1);                                                                                                                   \
+/**
+ * @brief Expects a sequence of characters in a string and moves the pointer to the next character. Panics if the sequence is not found
+ * @param[in, out] str The string to parse, gets modified to point to the next character after the sequence
+ * @param sequence The sequence to expect
+ */
+#define EXPECT_SEQUENCE_AND_MOVE(str, sequence)                                                                                            \
+	if (strncmp(str, sequence, strlen(sequence)) != 0) {                                                                               \
+		char* next_space = str;                                                                                                    \
+		while (*next_space != ' ' && *next_space != '\n') {                                                                        \
+			next_space++;                                                                                                      \
+		}                                                                                                                          \
+		char* trimmed = (char*)MALLOC(next_space - str + 1);                                                                       \
+		strncpy(trimmed, str, next_space - str);                                                                                   \
+		trimmed[next_space - str] = '\0';                                                                                          \
+		CHECK_PARSE_ERROR(true, "Expected %s, got %s", sequence, trimmed);                                                         \
 	}                                                                                                                                  \
 	(str) += strlen(sequence);
 
 void init_events_table(SGA_StreamGraph* sg);
 
-// TODO : Make the code better and less unreadable copy pasted code
-// TODO : More explicit and helpful (with context and expected values) error messages
-SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
+/**
+ * @brief A wrapper macro around check_parse_error that automatically fills some of the arguments
+ * @param err_cond The condition to check
+ * @param where_it_stopped The position where the parsing stopped
+ * @param full_str The full string that was parsed
+ * @param error_format The format of the error message
+ * @param ... The arguments to the format string
+ */
+#define CHECK_PARSE_ERROR(err_cond, error_format, ...)                                                                                     \
+	check_parse_error(                                                                                                                 \
+	    err_cond, #err_cond, str, format->data, __FILE__, __LINE__, current_header_hierarchy, error_format, ##__VA_ARGS__);
 
+/**
+ * @brief Tries to parse a number in a string and moves the pointer to the character after the number. Panics if the number is not found
+ * @param[in, out] str The string to parse, gets modified to point to the next character after the number
+ * @param[in] ... The arguments to the format string for additional information in case of an error
+ */
+#define PARSE_NUMBER_AND_MOVE(str, ...)                                                                                                    \
+	({                                                                                                                                 \
+		char* new_ptr;                                                                                                             \
+		long number = strtol(str, &new_ptr, 10);                                                                                   \
+		if (str == new_ptr) {                                                                                                      \
+			char* next_space = str;                                                                                            \
+			while (*next_space != ' ' && *next_space != '\n') {                                                                \
+				next_space++;                                                                                              \
+			}                                                                                                                  \
+			char* trimmed = (char*)MALLOC(next_space - str + 1);                                                               \
+			strncpy(trimmed, str, next_space - str);                                                                           \
+			trimmed[next_space - str] = '\0';                                                                                  \
+			CHECK_PARSE_ERROR((str) == new_ptr, "Could not parse the " #__VA_ARGS__ " : Expected a number, got %s", trimmed);  \
+		}                                                                                                                          \
+		(str) = new_ptr;                                                                                                           \
+		number;                                                                                                                    \
+	})
+
+SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* format) {
 	SGA_StreamGraph sg;
-	char* current_header = NULL;
+	const char* current_header_hierarchy[3] = {
+	    NULL,
+	    NULL,
+	    NULL,
+	};
+	char* str = format->data;
 
 	// Skip first line (version control)
+
+	// Parse the General section
 	NEXT_HEADER([General]);
 
-	// size_t lifespan_start;
-	// size_t lifespan_end;
-	// nb_scanned = sscanf(str, "Lifespan=(%zu %zu)\n", &lifespan_start, &lifespan_end);
-	// EXPECTED_NB_SCANNED(2);
-	// GO_TO_NEXT_LINE(str);
-	// size_t scaling;
-	// nb_scanned = sscanf(str, "TimeScale=%zu\n", &scaling);
-	// sg.scaling = scaling;
-	// EXPECTED_NB_SCANNED(1);
-	// GO_TO_NEXT_LINE(str);
-
-	EXPECT_SEQ_AND_MOVE(str, "Lifespan=(");
-	char* new_ptr;
-	size_t lifespan_start = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the start of the lifespan\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, ' ');
-	str = new_ptr;
-
-	size_t lifespan_end = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the end of the lifespan\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
+	// Parse the lifespan
+	EXPECT_SEQUENCE_AND_MOVE(str, "Lifespan=(");
+	size_t lifespan_start = PARSE_NUMBER_AND_MOVE(str, "start of the lifespan");
+	EXPECT_AND_MOVE(str, ' ');
+	size_t lifespan_end = PARSE_NUMBER_AND_MOVE(str, "end of the lifespan");
+	EXPECT_SEQUENCE_AND_MOVE(str, ")\n");
 	sg.lifespan = SGA_Interval_from(lifespan_start, lifespan_end);
-	EXPECT_AND_MOVE(new_ptr, ')');
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
 
-	// TODO: RENAME scaling to timescale
-	EXPECT_SEQ_AND_MOVE(str, "TimeScale=");
-	size_t scaling = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the scaling\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
-
-	sg.time_scale = scaling;
+	// Parse the time scale
+	EXPECT_SEQUENCE_AND_MOVE(str, "TimeScale=");
+	sg.time_scale = PARSE_NUMBER_AND_MOVE(str, "time scale");
 
 	// Parse the Memory section
 	NEXT_HEADER([Memory]);
+
 	// Count how many slices are needed
 	size_t nb_slices = (lifespan_end / SLICE_SIZE) + 1;
 
-	// Parse the memory header
-	// size_t nb_nodes;
-	// nb_scanned = sscanf(str, "NumberOfNodes=%zu\n", &nb_nodes);
-	// EXPECTED_NB_SCANNED(1);
-	// GO_TO_NEXT_LINE(str);
-	// size_t nb_links;
-	// nb_scanned = sscanf(str, "NumberOfLinks=%zu\n", &nb_links);
-	// EXPECTED_NB_SCANNED(1);
-	// GO_TO_NEXT_LINE(str);
-	// size_t nb_key_moments;
-	// nb_scanned = sscanf(str, "NumberOfKeyMoments=%zu\n", &nb_key_moments);
-	// EXPECTED_NB_SCANNED(1);
-	// GO_TO_NEXT_LINE(str);
+	// Parse the number of nodes
+	EXPECT_SEQUENCE_AND_MOVE(str, "NumberOfNodes=");
+	size_t nb_nodes = PARSE_NUMBER_AND_MOVE(str, "number of nodes");
 
-	EXPECT_SEQ_AND_MOVE(str, "NumberOfNodes=");
-	size_t nb_nodes = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the number of nodes\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
+	EXPECT_AND_MOVE(str, '\n');
 
-	EXPECT_SEQ_AND_MOVE(str, "NumberOfLinks=");
-	size_t nb_links = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the number of links\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
+	// Parse the number of links
+	EXPECT_SEQUENCE_AND_MOVE(str, "NumberOfLinks=");
+	size_t nb_links = PARSE_NUMBER_AND_MOVE(str, "number of links");
 
-	EXPECT_SEQ_AND_MOVE(str, "NumberOfKeyMoments=");
-	size_t nb_key_moments = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the number of key moments\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
+	EXPECT_AND_MOVE(str, '\n');
 
-	size_t* key_moments = MALLOC(nb_key_moments * sizeof(size_t));
+	// Parse the number of key moments
+	EXPECT_SEQUENCE_AND_MOVE(str, "NumberOfKeyMoments=");
+	size_t nb_key_moments = PARSE_NUMBER_AND_MOVE(str, "number of key moments");
+
+	EXPECT_AND_MOVE(str, '\n');
+
 	// Allocate the stream graph
-	sg.key_moments = KeyMomentsTable_alloc(nb_slices);
-	sg.nodes       = NodesSet_alloc(nb_nodes);
-	sg.links       = LinksSet_alloc(nb_links);
+	size_t* key_moments = MALLOC(nb_key_moments * sizeof(size_t));
+	sg.key_moments	    = KeyMomentsTable_alloc(nb_slices);
+	sg.events.nb_events = nb_key_moments;
+	sg.nodes	    = NodesSet_alloc(nb_nodes);
+	sg.links	    = LinksSet_alloc(nb_links);
 
 	// Parse the memory needed for the nodes
-	NEXT_HEADER([[Nodes]]);
-	NEXT_HEADER([[[NumberOfNeighbours]]]);
-	for (size_t node = 0; node < nb_nodes; node++) {
-		// Parse the node
-		// size_t nb_neighbours;
-		// nb_scanned = sscanf(str, "%zu\n", &nb_neighbours);
-		// EXPECTED_NB_SCANNED(1);
-		// GO_TO_NEXT_LINE(str);
+	NEXT_SUB_HEADER([[Nodes]]);
 
-		char* new_ptr;
-		size_t nb_neighbours = strtol(str, &new_ptr, 10);
-		// printf("nb_neighbours 1 : %zu\n", nb_neighbours);
-		if (new_ptr == str) {
-			fprintf(stderr, "Could not parse the number of neighbours\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		EXPECT_AND_MOVE(new_ptr, '\n');
-		str = new_ptr;
+	// Parse the number of neighbours for each node
+	NEXT_SUB_SUB_HEADER([[[NumberOfNeighbours]]]);
+	for (size_t node = 0; node < nb_nodes; node++) {
+		// Parse the number of neighbours
+		size_t nb_neighbours = PARSE_NUMBER_AND_MOVE(str, "number of neighbours for node %zu", node);
+
 		// Allocate the neighbours
 		sg.nodes.nodes[node].nb_neighbours = nb_neighbours;
 		sg.nodes.nodes[node].neighbours	   = MALLOC(nb_neighbours * sizeof(SGA_LinkId));
+
+		// Next line
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	NEXT_HEADER([[[NumberOfIntervals]]]);
+	// Parse the number of intervals for each node
+	NEXT_SUB_SUB_HEADER([[[NumberOfIntervals]]]);
 	for (size_t node = 0; node < nb_nodes; node++) {
-		// Parse the node
-		// size_t nb_intervals;
-		// nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
-		// EXPECTED_NB_SCANNED(1);
-		// GO_TO_NEXT_LINE(str);
-		char* new_ptr;
-		size_t nb_intervals = strtol(str, &new_ptr, 10);
-		// printf("nb_neighbours 2 : %zu\n", nb_intervals);
-		if (new_ptr == str) {
-			fprintf(stderr, "Could not parse the number of intervals\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		str = new_ptr + 1;
+		// Parse the number of intervals
+		size_t nb_intervals = PARSE_NUMBER_AND_MOVE(str, "number of presence intervals for node %zu", node);
+
 		// Allocate the intervals
-		SGA_IntervalsSet presence     = SGA_IntervalsSet_alloc(nb_intervals);
-		sg.nodes.nodes[node].presence = presence;
+		sg.nodes.nodes[node].presence = SGA_IntervalsSet_alloc(nb_intervals);
+
+		// Next line
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	NEXT_HEADER([[Links]]);
-	NEXT_HEADER([[[NumberOfIntervals]]]);
+	// Parse the memory needed for the links
+	NEXT_SUB_HEADER([[Links]]);
+
+	// Parse the number of intervals for each link
+	NEXT_SUB_SUB_HEADER([[[NumberOfIntervals]]]);
 	for (size_t link = 0; link < nb_links; link++) {
-		// Parse the edge
-		// size_t nb_intervals;
-		// nb_scanned = sscanf(str, "%zu\n", &nb_intervals);
-		// EXPECTED_NB_SCANNED(1);
-		// GO_TO_NEXT_LINE(str);
-		char* new_ptr;
-		size_t nb_intervals = strtol(str, &new_ptr, 10);
-		// printf("nb_neighbours 3 : %zu\n", nb_intervals);
-		if (new_ptr == str) {
-			fprintf(stderr, "Could not parse the number of intervals\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		str = new_ptr + 1;
+		// Parse the number of intervals
+		size_t nb_intervals = PARSE_NUMBER_AND_MOVE(str, "number of presence intervals for link %zu", link);
+
 		// Allocate the intervals
-		SGA_IntervalsSet presence     = SGA_IntervalsSet_alloc(nb_intervals);
-		sg.links.links[link].presence = presence;
+		sg.links.links[link].presence = SGA_IntervalsSet_alloc(nb_intervals);
+
+		// Next line
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	NEXT_HEADER([[[NumberOfSlices]]]);
+	// Parse the key moments
+	NEXT_SUB_SUB_HEADER([[[NumberOfKeyMomentsPerSlice]]]);
+
+	// Parse the number of key moments in each slice
 	for (size_t i = 0; i < nb_slices; i++) {
-		// nb_scanned = sscanf(str, "%zu\n", &moments_in_slice);
-		// EXPECTED_NB_SCANNED(1);
-		// GO_TO_NEXT_LINE(str);
+		// Parse the number of key moments in the slice
+		size_t moments_in_slice = PARSE_NUMBER_AND_MOVE(str, "number of key moments in the slice %zu", i);
 
-		char* new_ptr;
-		size_t moments_in_slice = strtol(str, &new_ptr, 10);
-		if (new_ptr == str) {
-			fprintf(stderr, "Could not parse the number of moments_in_slice\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		// str = new_ptr + 1;
-		EXPECT_AND_MOVE(new_ptr, '\n');
-		str = new_ptr;
-
-		// printf("moments_in_slice : %zu\n", moments_in_slice);
+		// Allocate the slice
 		KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
+
+		// Next slice
+		EXPECT_AND_MOVE(str, '\n');
 	}
 
+	// Parse the Data section
 	NEXT_HEADER([Data]);
-	NEXT_HEADER([[Neighbours]]);
 
-	NEXT_HEADER([[[NodesToLinks]]]);
+	// Parse the neighbours
+	NEXT_SUB_HEADER([[Neighbours]]);
+
+	// Parse the neighbouring links for each node
+	NEXT_SUB_SUB_HEADER([[[NodesToLinks]]]);
 	for (size_t node = 0; node < nb_nodes; node++) {
+		// Find beginning of list of neighbouring links
 		str = strchr(str, '(') + 1;
+
+		// Parse the neighbouring links
 		for (size_t j = 0; j < sg.nodes.nodes[node].nb_neighbours; j++) {
-			// size_t link;
-			// nb_scanned = sscanf(str, "%zu", &link);
-			// EXPECTED_NB_SCANNED(1);
-			// sg.nodes.nodes[node].neighbours[j] = link;
-			char* end;
-			size_t link = strtol(str, &end, 10);
-			if (end == str) {
-				fprintf(stderr, "Could not parse the link\n");
-				PRINT_LINE(str);
-				exit(1);
-			}
+			// Get the link id
+			size_t link = PARSE_NUMBER_AND_MOVE(str, "link id of the %zu-th neighbour of node %zu", j, node);
+
+			// Store the link id
 			sg.nodes.nodes[node].neighbours[j] = link;
 
-			str = end;
+			// Next link
 			while ((*str != '(') && (*str != ' ') && (*str != '\n')) {
 				str++;
 			}
@@ -364,196 +412,126 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 		}
 	}
 
-	NEXT_HEADER([[[LinksToNodes]]]);
+	// Parse the two nodes each link connects
+	NEXT_SUB_SUB_HEADER([[[LinksToNodes]]]);
+
+	// Parse the two nodes each link connects
 	for (size_t link = 0; link < nb_links; link++) {
-		// size_t node1, node2;
-		// sscanf(str, "(%zu %zu)", &node1, &node2);
+		// Parse the tuple
 		EXPECT_AND_MOVE(str, '(');
-		char* end;
+		size_t node1 = PARSE_NUMBER_AND_MOVE(str, "first node of link %zu", link);
+		EXPECT_AND_MOVE(str, ' ');
+		size_t node2 = PARSE_NUMBER_AND_MOVE(str, "second node of link %zu", link);
 
-		size_t node1 = strtol(str, &end, 10);
-		if (end == str) {
-			fprintf(stderr, "Could not parse the first node\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		EXPECT_AND_MOVE(end, ' ');
-		str = end;
-
-		size_t node2 = strtol(str, &end, 10);
-		if (end == str) {
-			fprintf(stderr, "Could not parse the second node\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
+		// Store the nodes
 		sg.links.links[link].nodes[0] = node1;
 		sg.links.links[link].nodes[1] = node2;
-		EXPECT_SEQ_AND_MOVE(end, ")\n");
-		str = end;
+
+		// End of tuple and go to next line
+		EXPECT_SEQUENCE_AND_MOVE(str, ")\n");
 	}
 
+	// Parse the events
+	NEXT_SUB_HEADER([[Events]]);
 	size_t last_event_parsed = lifespan_start;
 
-	NEXT_HEADER([[Events]]);
-	// Parse all the tuples afterwards
+	// Arrays to keep track how many tiems a node/link was pushed and removed
+	// OPTIMISATION: Both arrays are allocated in one calloc call to prevent two separate allocations and better cache locality
 	int* buffer		 = calloc(nb_nodes + nb_links, sizeof(int));
 	int* nb_pushed_for_nodes = buffer;
 	int* nb_pushed_for_links = buffer + nb_nodes;
-	// for (size_t i = 0; i < nb_nodes; i++) {
-	// 	nb_pushed_for_nodes[i] = 0;
-	// }
-	// for (size_t i = 0; i < nb_links; i++) {
-	// 	nb_pushed_for_links[i] = 0;
-	// }
 
+	// Parse all the lists of events
 	for (size_t i = 0; i < nb_key_moments; i++) {
-		// size_t key_moment;
-		// nb_scanned = sscanf(str, "%zu=", &key_moment);
-		// EXPECTED_NB_SCANNED(1);
-		// str = strchr(str, '(') + 1;
-		// PRINT_LINE(str);
+		size_t key_moment = PARSE_NUMBER_AND_MOVE(str, "%zu-th key moment", i);
+		CHECK_PARSE_ERROR((key_moment <= last_event_parsed) && (key_moment != lifespan_start),
+				  "Key moments are not sorted in increasing order (last event: %zu >= current event: %zu)\n",
+				  last_event_parsed,
+				  key_moment);
 
-		char* new_ptr;
-		size_t key_moment = strtol(str, &new_ptr, 10);
-		if (new_ptr == str) {
-			fprintf(stderr, "Could not parse the key moment\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		if ((key_moment <= last_event_parsed) && (key_moment != lifespan_start)) {
-			fprintf(stderr, TEXT_RED "Key moments are not in increasing order\n" TEXT_RESET);
-			PRINT_LINE(str);
-			exit(1);
-		}
-		last_event_parsed = key_moment;
-		// PRINT_LINE(str);
+		// Push the key moment in the table
 		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		EXPECT_SEQ_AND_MOVE(new_ptr, "=(");
-		str = new_ptr;
+		last_event_parsed = key_moment;
 
+		// Parse the list of events
+		EXPECT_SEQUENCE_AND_MOVE(str, "=(");
 		while (*str != '\n') {
-			// char letter, sign;
-			// size_t id;
-			// nb_scanned = sscanf(str, "(%c %c %zu)", &sign, &letter, &id);
-			// EXPECTED_NB_SCANNED(3);
+			// Parse the next event
 			EXPECT_AND_MOVE(str, '(');
 
-			char* new_ptr;
-			char sign;
-			char letter;
-			size_t id;
-
-			sign = *str;
-			if (sign != '+' && sign != '-') {
-				fprintf(stderr, "Could not parse the sign %c\n", sign);
-				PRINT_LINE(str);
-				exit(1);
-			}
-			str++;
+			// Get whether its an appearance or disappearance
+			char sign = *str;
+			EXPECT_EITHER_AND_MOVE(str, '+', '-');
 
 			EXPECT_AND_MOVE(str, ' ');
 
-			letter = *str;
-			if (letter != 'N' && letter != 'L') {
-				fprintf(stderr, "Could not parse the letter %c\n", letter);
-				PRINT_LINE(str);
-				exit(1);
-			}
-			str++;
+			// Get whether its a node or a link
+			char letter = *str;
+			EXPECT_EITHER_AND_MOVE(str, 'N', 'L');
 
 			EXPECT_AND_MOVE(str, ' ');
-			id = strtol(str, &new_ptr, 10);
-			// printf("sign: %c, letter: %c, id: %zu\n", sign, letter, id);
-			if (new_ptr == str) {
-				fprintf(stderr, "Could not parse the id\n");
-				PRINT_LINE(str);
-				exit(1);
-			}
 
-			if (id >= (letter == 'N' ? nb_nodes : nb_links)) {
-				fprintf(stderr, "Id %zu is out of bounds\n", id);
-				PRINT_LINE(str);
-				exit(1);
-			}
-
-			// str = new_ptr + 2;
-			// EXPECT_SEQ_AND_MOVE(new_ptr, ")");
-			// EXPECT_AND_MOVE(new_ptr, ')');
-			// new_ptr++;
-			EXPECT_AND_MOVE(new_ptr, ')');
-			EXPECT_OR_MOVE(new_ptr, ')', ' ');
-			str = new_ptr;
-			// TODO : refactor this
+			// Get the id of the node or link
+			size_t id = PARSE_NUMBER_AND_MOVE(str, "id of the %s", letter == 'N' ? "node" : "link");
+			// Add the node or link to the stream graph
+			// Check if the id is in bounds and if the operation is valid (i.e. not two appearances or two disappearances)
 			if (letter == 'N') {
-				if (nb_pushed_for_nodes[id] % 2 == 0) {
-					if (sign != '+') {
-						fprintf(stderr, "Node %zu added twice without being removed\n", id);
-						exit(1);
-					}
-					nb_pushed_for_nodes[id]++;
+				CHECK_PARSE_ERROR(id >= nb_nodes, "Node id %zu is out of bounds (%zu nodes announced)\n", id, nb_nodes);
+				if (sign == '+') {
+					CHECK_PARSE_ERROR(
+					    nb_pushed_for_nodes[id] % 2 != 0, "Node %zu was pushed twice without being removed\n", id);
 					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].start = key_moment;
 				}
 				else {
-					if (sign != '-') {
-						fprintf(stderr, "Node %zu removed twice without being added\n", id);
-						exit(1);
-					}
+					CHECK_PARSE_ERROR(
+					    nb_pushed_for_nodes[id] % 2 == 0, "Node %zu was removed twice without being added\n", id);
 					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].end = key_moment;
-					nb_pushed_for_nodes[id]++;
 				}
+				nb_pushed_for_nodes[id]++;
 			}
-			else { // letter equals 'L'
-				if (nb_pushed_for_links[id] % 2 == 0) {
-					if (sign != '+') {
-						fprintf(stderr, "Link %zu added twice without being removed\n", id);
-						exit(1);
-					}
-					nb_pushed_for_links[id]++;
-					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start =
-					    key_moment; // FIXME: crashes if link not found (for example link 1 - 1)
+			else {
+				CHECK_PARSE_ERROR(id >= nb_links, "Link id %zu is out of bounds (%zu links announced)\n", id, nb_links);
+				if (sign == '+') {
+					CHECK_PARSE_ERROR(
+					    nb_pushed_for_links[id] % 2 != 0, "Link %zu was pushed twice without being removed\n", id);
+					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start = key_moment;
 				}
 				else {
-					if (sign != '-') {
-						fprintf(stderr,
-							"Link %zu (from %zu to %zu) removed twice without being added\n",
-							id,
-							sg.links.links[id].nodes[0],
-							sg.links.links[id].nodes[1]);
-						PRINT_LINE(str);
-						printf("line: %zu\n", i);
-						exit(1);
-					}
+					CHECK_PARSE_ERROR(
+					    nb_pushed_for_links[id] % 2 == 0, "Link %zu was removed twice without being added\n", id);
 					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].end = key_moment;
-					nb_pushed_for_links[id]++;
 				}
+				nb_pushed_for_links[id]++;
 			}
-			// NEXT_TUPLE(str);
-			// str++;
+
+			// Go to the next event
+			str += 2;
 		}
-		// GO_TO_NEXT_LINE(str);
+
+		// Go to the next line
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	sg.events.nb_events = nb_key_moments;
+	// Check if each appearance has a corresponding disappearance
+	for (SGA_NodeId n = 0; n < nb_nodes; n++) {
+		CHECK_PARSE_ERROR(nb_pushed_for_nodes[n] % 2 != 0,
+				  "Node %zu doesn't have a balanced number of appearances and disappearances (%zu <- Should be even), "
+				  "perhaps you forgot to make it disappear at the end of the stream?\n",
+				  n,
+				  nb_pushed_for_nodes[n]);
+	}
+	for (SGA_LinkId l = 0; l < nb_links; l++) {
+		CHECK_PARSE_ERROR(nb_pushed_for_links[l] % 2 != 0,
+				  "Link %zu doesn't have a balanced number of appearances and disappearances (%zu <- Should be even), "
+				  "perhaps you forgot to make it disappear at the end of the stream?\n",
+				  l,
+				  nb_pushed_for_links[l]);
+	}
 
+	// Close and clean up
 	NEXT_HEADER([EndOfStream]);
-
-	free(key_moments);
-
-	// for each thing pushed, check if it is even
-	// TODO : better checking and error messages
-	for (size_t i = 0; i < nb_nodes; i++) {
-		if (nb_pushed_for_nodes[i] % 2 != 0) {
-			fprintf(stderr, TEXT_RED TEXT_BOLD "Node %zu was pushed/removed %d times\n" TEXT_RESET, i, nb_pushed_for_nodes[i]);
-		}
-	}
-	for (size_t i = 0; i < nb_links; i++) {
-		if (nb_pushed_for_links[i] % 2 != 0) {
-			fprintf(stderr, TEXT_RED TEXT_BOLD "Link %zu was pushed/removed %d times\n" TEXT_RESET, i, nb_pushed_for_links[i]);
-		}
-	}
-
 	free(buffer);
+	free(key_moments);
 
 	init_events_table(&sg);
 
@@ -561,30 +539,9 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const char* str) {
 }
 
 SGA_StreamGraph SGA_StreamGraph_from_file(const char* filename) {
-	// Load the file
-	FILE* file = fopen(filename, "r");
-	if (file == NULL) {
-		fprintf(stderr, "Could not open file %s\n", filename);
-		exit(1);
-	}
-
-	// Read the whole file
-	fseek(file, 0, SEEK_END);
-	size_t size = ftell(file);
-	rewind(file);
-	char* buffer = (char*)malloc(size + 2);
-	if (buffer == NULL) {
-		fprintf(stderr, "Memory allocation failed\n");
-		exit(1);
-	}
-	fread(buffer, 1, size, file);
-	buffer[size]	 = '\0';
-	buffer[size + 1] = '\0';
-	fclose(file);
-
-	// Parse the stream graph
-	SGA_StreamGraph sg = SGA_StreamGraph_from_string(buffer);
-	free(buffer);
+	String file_content = String_from_file(filename);
+	SGA_StreamGraph sg  = SGA_StreamGraph_from_string(&file_content);
+	String_destroy(file_content);
 	return sg;
 }
 
@@ -649,7 +606,7 @@ typedef struct {
 } LinkInfo;
 
 String LinkInfo_to_string(LinkInfo* info) {
-	char* str = (char*)malloc(50);
+	char* str = (char*)MALLOC(50);
 	sprintf(str, "(%zu %zu) %zu", info->nodes[0], info->nodes[1], info->nb_intervals);
 	return String_from_owned(str);
 }
@@ -679,7 +636,7 @@ DefineArrayList(LinkIdMap);
 DeclareHashset(LinkIdMap);
 
 String LinkIdMap_to_string(LinkIdMap* map) {
-	char* str = (char*)malloc(50);
+	char* str = (char*)MALLOC(50);
 	sprintf(str, "(%zu %zu) %zu", map->nodes[0], map->nodes[1], map->id);
 	return String_from_owned(str);
 }
@@ -707,21 +664,22 @@ size_t nb_characters_needed(size_t number) {
 
 // An estimation of the size of the output string for a stream internal format (slightly overestimated most of
 // the time)
-size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, SGA_Time last_event, size_t nb_events,
-				     size_tArrayList nb_events_per_slice) {
+size_t estimate_internal_format_v_1_0_0_size(size_t nb_nodes, size_t nb_links, SGA_Time last_event, size_t nb_events,
+					     size_tArrayList nb_events_per_slice) {
 	// Most of these are magic functions with some trial and error on a few examples
 	// I had between ~2% and ~30% of error on the size estimation
 	// The additions with random 2's, 3's, 4's are to account for the space, newline, and parenthesis
 
 	// The headers + the number of events in each slice * the number of slices
-	size_t headers_size = strlen("[General]\nLifespan=(%zu "
-				     "%zu)\nTimeScale=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
-				     "zu\n\n[["
-				     "Nodes]"
-				     "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
-				     "NumberOfSlices]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]"
-				     "\n") +
-			      100 + (nb_events_per_slice.length * (nb_characters_needed(nb_events / nb_events_per_slice.length)));
+	size_t headers_size =
+	    strlen("[General]\nLifespan=(%zu "
+		   "%zu)\nTimeScale=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
+		   "zu\n\n[["
+		   "Nodes]"
+		   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
+		   "NumberOfKeyMomentsPerSlice]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]"
+		   "\n") +
+	    100 + (nb_events_per_slice.length * (nb_characters_needed(nb_events / nb_events_per_slice.length)));
 
 	// The number of neighbours for each node
 	size_t neighbours_per_node_prediction = (nb_links + nb_links / 2) / nb_nodes;
@@ -746,133 +704,136 @@ size_t estimate_internal_format_size(size_t nb_nodes, size_t nb_links, SGA_Time 
 	return size_prediction;
 }
 
-char* SGA_InternalFormat_from_External_str(const char* str) {
-	char* current_header = "None";
+/**
+ * @brief Structure for parsing the external format of a stream graph
+ */
+// TODO: Better name
+typedef struct {
+	SGA_Interval lifespan;			///< The lifespan of the stream graph
+	size_t time_scale;			///< The time scale of the stream graph
+	LinkInfoArrayList links;		///< The links of the stream graph
+	LinkInfoArrayList nodes;		///< The nodes of the stream graph
+	size_tHashsetArrayList node_neighbours; ///< The neighbours of the nodes
+	EventTupleArrayListArrayList events;	///< The events of the stream graph
+	size_tArrayList nb_events_per_slice;	///< The number of events per slice
+} ParsedStreamGraph;
 
-	str = get_to_header(str, "[General]");
+/**
+ * @brief Parse the external format of a stream graph
+ * @param[in] format The external format of the stream graph
+ * @return The parsed stream graph
+ */
+ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* format) {
 
-	size_tHashsetArrayList node_neighbours = size_tHashsetArrayList_with_capacity(10);
+	// Parse the external format
+	const char* current_header_hierarchy[3] = {
+	    NULL,
+	    NULL,
+	    NULL,
+	};
+	char* str = format->data;
 
-	EXPECT_SEQ_AND_MOVE(str, "Lifespan=(");
-	char* new_ptr;
-	size_t lifespan_start = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the start of the lifespan\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, ' ');
-	str = new_ptr;
+	// Parse the General section
+	NEXT_HEADER([General]);
 
-	size_t lifespan_end = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, "Could not parse the end of the lifespan\n");
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, ')');
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
+	// Parse the lifespan
+	EXPECT_SEQUENCE_AND_MOVE(str, "Lifespan=(");
+	size_t lifespan_start = PARSE_NUMBER_AND_MOVE(str, "start of the lifespan");
+	EXPECT_AND_MOVE(str, ' ');
+	size_t lifespan_end = PARSE_NUMBER_AND_MOVE(str, "end of the lifespan");
+	EXPECT_SEQUENCE_AND_MOVE(str, ")\n");
 
-	EXPECT_SEQ_AND_MOVE(str, "TimeScale=");
-	size_t scaling = strtol(str, &new_ptr, 10);
-	if (new_ptr == str) {
-		fprintf(stderr, TEXT_RED "Could not parse the scaling\n" TEXT_RESET);
-		PRINT_LINE(str);
-		exit(1);
-	}
-	EXPECT_AND_MOVE(new_ptr, '\n');
-	str = new_ptr;
+	// Parse the time scale
+	EXPECT_SEQUENCE_AND_MOVE(str, "TimeScale=");
+	size_t time_scale = PARSE_NUMBER_AND_MOVE(str, "time scale");
+	EXPECT_AND_MOVE(str, '\n');
 
-	// Skip to events section
-	str = get_to_header(str, "[Events]");
+	// Parse the Events section
+	NEXT_HEADER([Events]);
 
-	EventTupleArrayListArrayList events = EventTupleArrayListArrayList_with_capacity(10);
-	LinkInfoArrayList links		    = LinkInfoArrayList_with_capacity(10);
-	LinkInfoArrayList nodes		    = LinkInfoArrayList_with_capacity(10);
-	size_t biggest_node_id		    = 0;
+	// Keep track of the events parsed
+	EventTupleArrayListArrayList events    = EventTupleArrayListArrayList_new();
+	size_tHashsetArrayList node_neighbours = size_tHashsetArrayList_new();
+	LinkInfoArrayList links		       = LinkInfoArrayList_new();
+	LinkInfoArrayList nodes		       = LinkInfoArrayList_new();
+	size_t biggest_node_id		       = 0;
+	size_t nb_events		       = 0;
+	size_t current_vec		       = 0;
+	size_tArrayList nb_events_per_slice    = size_tArrayList_new();
 
-	// Parse the events
-	size_t nb_events		    = 0;
-	size_t current_vec		    = 0;
-	size_tArrayList nb_events_per_slice = size_tArrayList_with_capacity(10);
-	// checking if the events are in order
-	size_t last_event_parsed  = lifespan_start;
-	const char* end_of_stream = "[EndOfStream]";
-	while (strncmp(str, end_of_stream, strlen(end_of_stream)) != 0) {
-		// if the line is empty, skip it
+	// To check if the events are in order
+	size_t last_event_parsed = lifespan_start;
+
+	// Parse the events while the end of the stream is not reached
+	const char* END_OF_STREAM = "[EndOfStream]";
+	while (strncmp(str, END_OF_STREAM, strlen(END_OF_STREAM)) != 0) {
+		// If the line is empty, it should be the end of the stream
 		if (*str == '\n') {
 			break;
 		}
+
+		// Parse the event 4-tuple (moment, sign, letter, id)
 		EventTuple tuple;
-		size_t key_moment = strtol(str, &new_ptr, 10);
-		if (new_ptr == str) {
-			fprintf(stderr, "Could not parse the key moment\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		if (key_moment < last_event_parsed) {
-			fprintf(stderr, "Events are not sorted\n");
-			PRINT_LINE(str);
-			exit(1);
-		}
-		str = new_ptr;
+
+		// Moment
+		size_t key_moment = PARSE_NUMBER_AND_MOVE(str, "key moment");
+		CHECK_PARSE_ERROR(key_moment < last_event_parsed,
+				  "Events are not sorted in increasing order (last event: %zu > current event: %zu)\n",
+				  last_event_parsed,
+				  key_moment);
+
 		EXPECT_AND_MOVE(str, ' ');
 
+		// Sign
 		char sign = *str;
-		if (sign != '+' && sign != '-') {
-			fprintf(stderr, "Could not parse the sign %c\n", sign);
-			PRINT_LINE(str);
-			exit(1);
-		}
+		CHECK_PARSE_ERROR(sign != '+' && sign != '-', "Could not parse the sign %c", sign);
 		str++;
 
 		EXPECT_AND_MOVE(str, ' ');
 
+		// Letter
 		char letter = *str;
-		if (letter != 'N' && letter != 'L') {
-			fprintf(stderr, "Could not parse the letter %c\n", letter);
-			PRINT_LINE(str);
-			exit(1);
-		}
+		CHECK_PARSE_ERROR(letter != 'N' && letter != 'L', "Could not parse the letter %c", letter);
 		str++;
 
 		EXPECT_AND_MOVE(str, ' ');
 
+		// IDs
+		// One node id for a node
 		if (letter == 'N') {
-			size_t node_id = strtol(str, &new_ptr, 10);
-			if (new_ptr == str) {
-				fprintf(stderr, "Could not parse the node\n");
-				PRINT_LINE(str);
-				exit(1);
-			}
-			str   = new_ptr;
+			size_t node_id = PARSE_NUMBER_AND_MOVE(str, "node id");
+
 			tuple = (EventTuple){
 			    .moment  = key_moment,
 			    .sign    = sign,
 			    .letter  = letter,
 			    .id.node = node_id,
 			};
-			// push the neighbours
+
+			// Initialise the rest of the structures that keep track of nodes in the array if you are the new biggest node id
 			if (node_id > biggest_node_id) {
 				biggest_node_id = node_id;
-				// Init the rest of the nodes in the array
 				for (size_t i = nodes.length; i <= biggest_node_id; i++) {
-					LinkInfo info = {.nodes = {i, i}, .nb_intervals = 0};
+					LinkInfo info = {
+					    .nodes	  = {i, i},
+					    .nb_intervals = 0,
+					};
 					LinkInfoArrayList_push(&nodes, info);
 				}
-			}
-			if (biggest_node_id >= node_neighbours.length) {
 				for (size_t i = node_neighbours.length; i <= biggest_node_id; i++) {
-					size_tHashsetArrayList_push(&node_neighbours, size_tHashset_with_capacity(10));
+					size_tHashsetArrayList_push(&node_neighbours, size_tHashset_new());
 				}
 			}
 
-			LinkInfo info = {.nodes = {node_id, node_id}, .nb_intervals = 1};
+			LinkInfo info = {
+			    .nodes	  = {node_id, node_id},
+			    .nb_intervals = 1,
+			};
 
+			// Increment the number of intervals for the node
 			bool found = false;
 			for (size_t i = 0; i < nodes.length; i++) {
-				if (nodes.array[i].nodes[0] == info.nodes[0] && nodes.array[i].nodes[1] == info.nodes[1]) {
+				if (LinkInfo_equals(nodes.array[i], info)) {
 					nodes.array[i].nb_intervals++;
 					found = true;
 					break;
@@ -882,56 +843,44 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 				LinkInfoArrayList_push(&nodes, info);
 			}
 		}
-		else {
-			size_t node_one = strtol(str, &new_ptr, 10);
-			if (new_ptr == str) {
-				fprintf(stderr, "Could not parse the first node\n");
-				PRINT_LINE(str);
-				exit(1);
-			}
-			str = new_ptr;
+		else { // letter == 'L'
+			// Parse the two node ids for a link
+			size_t node1 = PARSE_NUMBER_AND_MOVE(str, "first node");
 			EXPECT_AND_MOVE(str, ' ');
-			size_t node_two = strtol(str, &new_ptr, 10);
-			if (new_ptr == str) {
-				fprintf(stderr, "Could not parse the second node\n");
-				PRINT_LINE(str);
-				exit(1);
-			}
-			if (node_one == node_two) {
-				fprintf(stderr, "Nodes are the same\n");
-				PRINT_LINE(str);
-				exit(1);
-			}
-			str   = new_ptr;
+			size_t node2 = PARSE_NUMBER_AND_MOVE(str, "second node");
+
+			CHECK_PARSE_ERROR(node1 == node2, "Nodes are the same");
+
 			tuple = (EventTuple){
 			    .moment   = key_moment,
 			    .sign     = sign,
 			    .letter   = letter,
-			    .id.node1 = node_one,
-			    .id.node2 = node_two,
+			    .id.node1 = node1,
+			    .id.node2 = node2,
 			};
 
-			// push the neighbours
-			if (node_one > biggest_node_id) {
-				biggest_node_id = node_one;
+			// Initialise the rest of the structures that keep track of nodes in the array if you are the new biggest node id
+			if (node1 > biggest_node_id) {
+				biggest_node_id = node1;
 			}
-			if (node_two > biggest_node_id) {
-				biggest_node_id = node_two;
+			if (node2 > biggest_node_id) {
+				biggest_node_id = node2;
 			}
-			if (biggest_node_id >= node_neighbours.length) {
-				for (size_t i = node_neighbours.length; i <= biggest_node_id; i++) {
-					size_tHashsetArrayList_push(&node_neighbours, size_tHashset_with_capacity(10));
-				}
+			for (size_t i = node_neighbours.length; i <= biggest_node_id; i++) {
+				size_tHashsetArrayList_push(&node_neighbours, size_tHashset_new());
 			}
-			size_tHashset_insert(&node_neighbours.array[node_one], node_two);
-			size_tHashset_insert(&node_neighbours.array[node_two], node_one);
+			size_tHashset_insert(&node_neighbours.array[node1], node2);
+			size_tHashset_insert(&node_neighbours.array[node2], node1);
 
-			LinkInfo info = {.nodes = {node_one, node_two}, .nb_intervals = 1};
+			LinkInfo info = {
+			    .nodes	  = {node1, node2},
+			    .nb_intervals = 1,
+			};
 
+			// Increment the number of intervals for the link
 			bool found = false;
 			for (size_t i = 0; i < links.length; i++) {
-				if ((links.array[i].nodes[0] == info.nodes[0] && links.array[i].nodes[1] == info.nodes[1]) ||
-				    (links.array[i].nodes[0] == info.nodes[1] && links.array[i].nodes[1] == info.nodes[0])) {
+				if (LinkInfo_equals(links.array[i], info)) {
 					links.array[i].nb_intervals++;
 					found = true;
 					break;
@@ -941,25 +890,31 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 				LinkInfoArrayList_push(&links, info);
 			}
 		}
+
+		// If the time instant is a new one, move on to next event and create a new list
+		// Otherwise, add the event to the current list
 		if (nb_events == 0) {
-			EventTupleArrayList events_vec = EventTupleArrayList_with_capacity(10);
+			EventTupleArrayList events_vec = EventTupleArrayList_new();
 			EventTupleArrayList_push(&events_vec, tuple);
 			EventTupleArrayListArrayList_push(&events, events_vec);
 		}
 		else {
+			// If the key moment is the same as the previous event, add it to the current list
 			if (key_moment == events.array[current_vec].array[0].moment) {
 				EventTupleArrayList_push(&events.array[current_vec], tuple);
 			}
 			else {
-				EventTupleArrayList events_vec = EventTupleArrayList_with_capacity(10);
+				// If the key moment is different, create a new list of events
+				EventTupleArrayList events_vec = EventTupleArrayList_new();
 				EventTupleArrayList_push(&events_vec, tuple);
 				EventTupleArrayListArrayList_push(&events, events_vec);
 				current_vec++;
 			}
 		}
+
+		// Move to next event
 		nb_events++;
 		last_event_parsed = key_moment;
-
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
@@ -976,6 +931,7 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 		nb_events_per_slice.array[slice_id]++;
 	}
 
+	// Update the number of events per slice
 	for (size_t i = 0; i < events.length; i++) {
 		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
 		if (slice_id >= nb_events_per_slice.length) {
@@ -986,125 +942,154 @@ char* SGA_InternalFormat_from_External_str(const char* str) {
 		nb_events_per_slice.array[slice_id]++;
 	}
 
-	size_t size_prediction = estimate_internal_format_size(nodes.length, links.length, last_event, nb_events, nb_events_per_slice);
+	// Create the parsed stream graph
+	ParsedStreamGraph parsed = {
+	    .lifespan		 = SGA_Interval_from(lifespan_start, lifespan_end),
+	    .time_scale		 = time_scale,
+	    .links		 = links,
+	    .nodes		 = nodes,
+	    .node_neighbours	 = node_neighbours,
+	    .events		 = events,
+	    .nb_events_per_slice = nb_events_per_slice,
+	};
 
-	String out_str = String_with_capacity(size_prediction);
+	return parsed;
+}
 
-	String_push_str(&out_str, "SGA Internal version 1.0.0\n\n");
+String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
+	// String to store the internal format
+	size_t size_prediction = estimate_internal_format_v_1_0_0_size(parsed.nodes.length,
+								       parsed.links.length,
+								       parsed.events.array[parsed.events.length - 1].array[0].moment,
+								       parsed.events.length,
+								       parsed.nb_events_per_slice);
+	String str	       = String_with_capacity(size_prediction);
 
-	String_push_str(&out_str, "[General]\n");
-	String_append_formatted(&out_str, "Lifespan=(%zu %zu)\n", lifespan_start, lifespan_end);
-	String_append_formatted(&out_str, "TimeScale=%zu\n\n", scaling);
+	// Write the internal format
 
-	String_push_str(&out_str, "[Memory]\n");
-	String_append_formatted(&out_str, "NumberOfNodes=%zu\n", biggest_node_id + 1);
-	String_append_formatted(&out_str, "NumberOfLinks=%zu\n", LinkInfoArrayList_len(&links));
-	String_append_formatted(&out_str, "NumberOfKeyMoments=%zu\n\n", EventTupleArrayListArrayList_len(&events));
+	String_push_str(&str, "SGA Internal version 1.0.0\n");
 
-	String_push_str(&out_str, "[[Nodes]]\n");
+	// Write the General section
+	String_push_str(&str, "\n\n[General]\n");
+	String_append_formatted(&str, "Lifespan=(%zu %zu)\n", parsed.lifespan.start, parsed.lifespan.end);
+	String_append_formatted(&str, "TimeScale=%zu\n", parsed.time_scale);
 
-	String_push_str(&out_str, "[[[NumberOfNeighbours]]]\n");
-	for (size_t i = 0; i <= biggest_node_id; i++) {
-		String_append_formatted(&out_str, "%zu\n", size_tHashset_nb_elems(&node_neighbours.array[i]));
+	// Write the Memory section
+	String_push_str(&str, "\n\n[Memory]\n");
+	String_append_formatted(&str, "NumberOfNodes=%zu\n", parsed.nodes.length);
+	String_append_formatted(&str, "NumberOfLinks=%zu\n", parsed.links.length);
+	String_append_formatted(&str, "NumberOfKeyMoments=%zu\n", parsed.events.length);
+
+	// Write the Nodes subsection
+	String_push_str(&str, "\n[[Nodes]]\n");
+
+	// Write the number of neighbours
+	String_push_str(&str, "[[[NumberOfNeighbours]]]\n");
+	for (size_t i = 0; i < parsed.nodes.length; i++) {
+		String_append_formatted(&str, "%zu\n", size_tHashset_nb_elems(&parsed.node_neighbours.array[i]));
 	}
-	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
-	for (size_t i = 0; i <= biggest_node_id; i++) {
-		String_append_formatted(&out_str, "%zu\n", nodes.array[i].nb_intervals / 2);
+	String_push_str(&str, "[[[NumberOfIntervals]]]\n");
+	for (size_t i = 0; i < parsed.nodes.length; i++) {
+		String_append_formatted(&str, "%zu\n", parsed.nodes.array[i].nb_intervals / 2);
 	}
 
-	String_push_str(&out_str, "[[Links]]\n");
+	// Write the Links subsection
+	String_push_str(&str, "\n[[Links]]\n");
 
-	String_push_str(&out_str, "[[[NumberOfIntervals]]]\n");
-
-	for (size_t i = 0; i < LinkInfoArrayList_len(&links); i++) {
-		String_append_formatted(&out_str, "%zu\n", links.array[i].nb_intervals / 2);
+	// Write the number of intervals
+	String_push_str(&str, "[[[NumberOfIntervals]]]\n");
+	for (size_t i = 0; i < parsed.links.length; i++) {
+		String_append_formatted(&str, "%zu\n", parsed.links.array[i].nb_intervals / 2);
 	}
-	String_push_str(&out_str, "[[[NumberOfSlices]]]\n");
-	for (size_t i = 0; i < nb_events_per_slice.length; i++) {
-		String_append_formatted(&out_str, "%zu\n", nb_events_per_slice.array[i]);
+	String_push_str(&str, "[[[NumberOfKeyMomentsPerSlice]]]\n");
+	for (size_t i = 0; i < parsed.nb_events_per_slice.length; i++) {
+		String_append_formatted(&str, "%zu\n", parsed.nb_events_per_slice.array[i]);
 	}
 
-	String_push_str(&out_str, "[Data]\n");
-	String_push_str(&out_str, "[[Neighbours]]\n");
+	// Write the Data section
+	String_push_str(&str, "\n\n[Data]\n");
 
-	String_push_str(&out_str, "[[[NodesToLinks]]]\n");
+	// Write the Neighbours subsection
+	String_push_str(&str, "\n[[Neighbours]]\n");
 
-	for (size_t i = 0; i < nodes.length; i++) {
-		String_push_str(&out_str, "(");
-		size_tHashset neighs = node_neighbours.array[i];
-		for (size_t j = 0; j < neighs.capacity; j++) {
-			for (size_t k = 0; k < neighs.buckets[j].length; k++) {
-				size_t neighbour = neighs.buckets[j].array[k];
-				// Find the id of the link with the neighbour
-				size_t link_id = SIZE_MAX;
-				for (size_t l = 0; l < links.length; l++) {
-					if ((links.array[l].nodes[0] == i && links.array[l].nodes[1] == neighbour) ||
-					    (links.array[l].nodes[0] == neighbour && links.array[l].nodes[1] == i)) {
-						link_id = l;
-						break;
-					}
+	// Write the NodesToLinks subsubsection
+	String_push_str(&str, "[[[NodesToLinks]]]\n");
+	for (size_t i = 0; i < parsed.nodes.length; i++) {
+		String_push_str(&str, "(");
+		size_tHashset neighbours = parsed.node_neighbours.array[i];
+		FOR_EACH_ELEM(size_t, neighbour, neighbours, {
+			// Find the id of the link with the neighbour
+			size_t link_id = SIZE_MAX;
+			for (size_t j = 0; j < parsed.links.length; j++) {
+				if ((parsed.links.array[j].nodes[0] == i && parsed.links.array[j].nodes[1] == neighbour) ||
+				    (parsed.links.array[j].nodes[0] == neighbour && parsed.links.array[j].nodes[1] == i)) {
+					link_id = j;
+					break;
 				}
-				if (link_id == SIZE_MAX) {
-					fprintf(stderr, "Could not find link with nodes %zu and %zu\n", i, neighbour);
-					exit(1);
-				}
-				String_append_formatted(&out_str, "%zu ", link_id);
 			}
+			DEV_ASSERT(link_id != SIZE_MAX);
+			String_append_formatted(&str, "%zu ", link_id);
+		})
+		if (str.data[str.size - 1] != '(') {
+			String_pop(&str);
 		}
-		if (out_str.data[out_str.size - 1] != '(') {
-			String_pop(&out_str);
-		}
-		String_push_str(&out_str, ")\n");
+		String_push_str(&str, ")\n");
 	}
 
-	String_push_str(&out_str, "[[[LinksToNodes]]]\n");
-
-	for (size_t i = 0; i < links.length; i++) {
-		String_append_formatted(&out_str, "(%zu %zu)\n", links.array[i].nodes[0], links.array[i].nodes[1]);
+	// Write the LinksToNodes subsubsection
+	String_push_str(&str, "[[[LinksToNodes]]]\n");
+	for (size_t i = 0; i < parsed.links.length; i++) {
+		String_append_formatted(&str, "(%zu %zu)\n", parsed.links.array[i].nodes[0], parsed.links.array[i].nodes[1]);
 	}
 
-	String_push_str(&out_str, "[[Events]]\n");
+	// Write the Events subsection
+	String_push_str(&str, "\n[[Events]]\n");
 
-	size_t* link_id_map = MALLOC((biggest_node_id + 1) * (biggest_node_id + 1) * sizeof(size_t));
-	for (size_t i = 0; i < links.length; i++) {
-		link_id_map[links.array[i].nodes[0] * (biggest_node_id + 1) + links.array[i].nodes[1]] = i;
-		link_id_map[links.array[i].nodes[1] * (biggest_node_id + 1) + links.array[i].nodes[0]] = i;
+	// Create a map to find the link id from the two node ids
+	// OPTIMISATION: It's a 2d symmetric matrix, so we store only the upper triangle as a 1d array
+	size_t* link_id_map = MALLOC((parsed.nodes.length) * (parsed.nodes.length) * sizeof(size_t));
+	for (size_t i = 0; i < parsed.links.length; i++) {
+		link_id_map[(parsed.links.array[i].nodes[0] * (parsed.nodes.length)) + parsed.links.array[i].nodes[1]] = i;
+		link_id_map[(parsed.links.array[i].nodes[1] * (parsed.nodes.length)) + parsed.links.array[i].nodes[0]] = i;
 	}
 
-	// printf("parsing events 2\n");
-	for (size_t i = 0; i < events.length; i++) {
-		String_append_formatted(&out_str, "%zu=(", events.array[i].array[0].moment);
-		for (size_t j = 0; j < events.array[i].length; j++) {
-			if (events.array[i].array[j].letter == 'L') {
-				EventTuple e   = events.array[i].array[j];
-				size_t idx1    = e.id.node1;
-				size_t idx2    = e.id.node2;
-				size_t link_id = link_id_map[idx1 * (biggest_node_id + 1) + idx2];
-				String_append_formatted(
-				    &out_str, "(%c %c %zu) ", events.array[i].array[j].sign, events.array[i].array[j].letter, link_id);
+	// Write the events
+	for (size_t i = 0; i < parsed.events.length; i++) {
+		String_append_formatted(&str, "%zu=(", parsed.events.array[i].array[0].moment);
+		for (size_t j = 0; j < parsed.events.array[i].length; j++) {
+			if (parsed.events.array[i].array[j].letter == 'L') {
+				EventTuple event = parsed.events.array[i].array[j];
+				size_t idx1	 = event.id.node1;
+				size_t idx2	 = event.id.node2;
+				size_t link_id	 = link_id_map[(idx1 * (parsed.nodes.length)) + idx2];
+				String_append_formatted(&str, "(%c %c %zu) ", event.sign, event.letter, link_id);
 			}
 			else {
-				String_append_formatted(&out_str,
-							"(%c %c %zu) ",
-							events.array[i].array[j].sign,
-							events.array[i].array[j].letter,
-							events.array[i].array[j].id.node);
+				EventTuple event = parsed.events.array[i].array[j];
+				String_append_formatted(&str, "(%c %c %zu) ", event.sign, event.letter, event.id.node);
 			}
 		}
-		String_pop(&out_str);
-		String_push_str(&out_str, ")\n");
+		String_pop(&str);
+		String_push_str(&str, ")\n");
 	}
 
+	String_push_str(&str, "\n\n[EndOfStream]\0");
+
+	// Clean up
 	free(link_id_map);
-	String_push_str(&out_str, "\n[EndOfStream]\0");
+	size_tHashsetArrayList_destroy(parsed.node_neighbours);
+	EventTupleArrayListArrayList_destroy(parsed.events);
+	LinkInfoArrayList_destroy(parsed.links);
+	LinkInfoArrayList_destroy(parsed.nodes);
+	size_tArrayList_destroy(parsed.nb_events_per_slice);
 
-	size_tHashsetArrayList_destroy(node_neighbours);
-	EventTupleArrayListArrayList_destroy(events);
-	LinkInfoArrayList_destroy(links);
-	LinkInfoArrayList_destroy(nodes);
-	size_tArrayList_destroy(nb_events_per_slice);
+	return str;
+}
 
-	return out_str.data;
+String SGA_external_v_1_0_0_to_internal_v_1_0_0_format(const String* format) {
+	ParsedStreamGraph parsed = StreamGraph_parse_from_external_format_v_1_0_0(format);
+	String internal_format	 = internal_format_v_1_0_0_from_parsed(parsed);
+	return internal_format;
 }
 
 // TODO: WHY ISN'T THIS IN NODES_SET.C ??
@@ -1175,8 +1160,6 @@ void SGA_StreamGraph_destroy(SGA_StreamGraph sg) {
 	free(sg.links.links);
 	KeyMomentsTable_destroy(sg.key_moments);
 	events_destroy(&sg);
-
-	// Free the events if they were initialized
 }
 
 void events_table_write(SGA_StreamGraph* sg, size_tArrayList* node_events, size_tArrayList* link_events) {
@@ -1246,8 +1229,8 @@ void init_events_table(SGA_StreamGraph* sg) {
 		}
 	}
 
-	size_t index_of_last_node_addition = KeyMomentsTable_find_time_index(&sg->key_moments, last_node_addition);
-	size_t index_of_last_link_addition = KeyMomentsTable_find_time_index(&sg->key_moments, last_link_addition);
+	size_t index_of_last_node_addition = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, last_node_addition);
+	size_t index_of_last_link_addition = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, last_link_addition);
 
 	// printf("last_node_addition: %zu\n", last_node_addition);
 	// printf("last_link_addition: %zu\n", last_link_addition);
@@ -1273,8 +1256,8 @@ void init_events_table(SGA_StreamGraph* sg) {
 		// For each interval
 		for (size_t j = 0; j < node->presence.nb_intervals; j++) {
 			SGA_Interval interval = node->presence.intervals[j];
-			size_t start	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
-			size_t end	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			size_t start	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.start);
+			size_t end	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.end);
 			// Invalidate the bit of the presence mask
 			if (end < sg->events.node_events.disappearance_index) {
 				// printf("invalidating %zu\n", end);
@@ -1290,19 +1273,6 @@ void init_events_table(SGA_StreamGraph* sg) {
 		}
 	}
 
-	/*printf("node presence mask: ");
-	char* str = BitArray_to_string(sg->events.node_events.presence_mask);
-	printf("%s\n", str);
-	free(str);*/
-
-	// print all the node events
-	/*for (size_t i = 0; i < sg->events.nb_events; i++) {
-		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
-		str = size_tArrayList_to_string(node_events[i]);
-		printf("%s\n", str);
-		free(str);
-	}*/
-
 	// Do the same for links
 	sg->events.link_events.presence_mask = BitArray_n_ones(sg->events.link_events.disappearance_index + 1);
 
@@ -1315,10 +1285,10 @@ void init_events_table(SGA_StreamGraph* sg) {
 		SGA_Link* link = &sg->links.links[i];
 		for (size_t j = 0; j < link->presence.nb_intervals; j++) {
 			SGA_Interval interval = link->presence.intervals[j];
-			size_t start	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.start);
-			size_t end	      = KeyMomentsTable_find_time_index(&sg->key_moments, interval.end);
+			size_t start	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.start);
+			size_t end	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.end);
 			if (end < sg->events.link_events.disappearance_index) {
-				BitArray_set_zero(sg->events.link_events.presence_mask, end);
+				BitArray_set_zero(sg->events.link_events.presence_mask, end - 1);
 			}
 			size_tArrayList_push(&link_events[start], i);
 			if (end > sg->events.link_events.disappearance_index) {
@@ -1367,18 +1337,6 @@ void init_events_table(SGA_StreamGraph* sg) {
 		}
 	}
 
-	// print all the link events
-	/*printf("After propagation (links)\n");
-	char* mask_str = BitArray_to_string(sg->events.link_events.presence_mask);
-	printf("link presence mask: %s\n", mask_str);
-	free(mask_str);
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		printf("Event %zu (time %zu): ", i, KeyMomentsTable_nth_key_moment(&sg->key_moments, i));
-		str = size_tArrayList_to_string(link_events[i]);
-		printf("%s\n", str);
-		free(str);
-	}*/
-
 	// Write the events
 	events_table_write(sg, node_events, link_events);
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
@@ -1387,6 +1345,22 @@ void init_events_table(SGA_StreamGraph* sg) {
 	}
 	free(node_events);
 	free(link_events);
+}
+
+void print_events_table(SGA_StreamGraph* sg) {
+	for (size_t i = 0; i < sg->events.nb_events; i++) {
+		printf("Event %zu\n", i);
+		printf("Node events: ");
+		for (size_t j = 0; j < sg->events.node_events.events[i].nb_info; j++) {
+			printf("%zu ", sg->events.node_events.events[i].events[j]);
+		}
+		printf("\n");
+		printf("Link events: ");
+		for (size_t j = 0; j < sg->events.link_events.events[i].nb_info; j++) {
+			printf("%zu ", sg->events.link_events.events[i].events[j]);
+		}
+		printf("\n");
+	}
 }
 
 void events_destroy(SGA_StreamGraph* sg) {
@@ -1404,42 +1378,10 @@ void events_destroy(SGA_StreamGraph* sg) {
 	BitArray_destroy(sg->events.link_events.presence_mask);
 }
 
-SGA_StreamGraph SGA_StreamGraph_from_external(const char* filename) {
-	// printf("calling from_external\n");
-	// read the file
-	FILE* file = fopen(filename, "r");
-	if (file == NULL) {
-		fprintf(stderr, "Error: could not open file %s\n", filename);
-		exit(1);
-	}
-
-	// Read the file by seeking the end
-	fseek(file, 0, SEEK_END);
-	size_t file_size = ftell(file);
-	rewind(file);
-
-	// Read the file into a buffer
-	char* buffer = (char*)malloc(file_size * sizeof(char) + 1);
-	size_t read  = fread(buffer, sizeof(char), file_size, file);
-	if (read != file_size) {
-		fprintf(stderr, "Error: could not read the file %s\n", filename);
-		exit(1);
-	}
-	buffer[file_size] = '\0';
-
-	// Close the file
-	fclose(file);
-	// printf("file read\n");
-
-	// turn the external format into a stream graph
-	char* internal_format = SGA_InternalFormat_from_External_str(buffer);
-	// printf("internal_format done\n");
-
-	SGA_StreamGraph sg = SGA_StreamGraph_from_string(internal_format);
-	// printf("streamgraph done\n");
-	free(internal_format);
-	free(buffer);
-
+SGA_StreamGraph SGA_StreamGraph_from_external_format_v_1_0_0(const String* external_format) {
+	String internal_format = SGA_external_v_1_0_0_to_internal_v_1_0_0_format(external_format);
+	SGA_StreamGraph sg     = SGA_StreamGraph_from_string(&internal_format);
+	String_destroy(internal_format);
 	return sg;
 }
 
@@ -1463,4 +1405,26 @@ SGA_Interval SGA_StreamGraph_lifespan(SGA_StreamGraph* sg) {
 
 size_t SGA_StreamGraph_time_scale(SGA_StreamGraph* sg) {
 	return sg->time_scale;
+}
+
+SGA_StreamGraph SGA_StreamGraph_from_string(const String* sg_as_str) {
+	// Read the header
+	char* str = sg_as_str->data;
+	char format[20];
+	int major, minor, patch;
+	sscanf(str, "SGA %19s format version %d.%d.%d\n", format, &major, &minor, &patch);
+
+	// Call the appropriate function
+	if (strcmp(format, "Internal") == 0) {
+		// No modifications of format for now
+		return SGA_StreamGraph_from_internal_format_v_1_0_0(sg_as_str);
+	}
+	else if (strcmp(format, "External") == 0) {
+		// No modifications of format for now
+		return SGA_StreamGraph_from_external_format_v_1_0_0(sg_as_str);
+	}
+	else {
+		fprintf(stderr, "Unknown format %s\n", format);
+		exit(1);
+	}
 }

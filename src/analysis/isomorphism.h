@@ -28,6 +28,7 @@
  * This is why there is also an alternative function are_probably_isomorphic which is way faster, but may return false positives.
  */
 // TODO: return mapping instead of boolean
+// TODO: prefix guard it with SGA_
 bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2);
 
 /**
@@ -49,6 +50,7 @@ bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2);
  * - The uniformity of the two streamgraphs
  * All these properties can be computed in <= O(n) time, where n is the number of nodes in the streamgraphs.
  */
+// TODO: prefix guard it with SGA_
 bool are_probably_isomorphic(SGA_Stream* s1, SGA_Stream* s2);
 
 #endif

@@ -129,6 +129,7 @@ typedef struct {
 
 String String_from_owned(char* str);
 String String_from_duplicate(const char* str);
+String String_from_file(const char* filename);
 
 // TODO: mis namings between push and append
 // plus push str and append formatted can be merged
@@ -155,11 +156,16 @@ DeclareToString(String);
 		return String_from_owned(str);                                                                                             \
 	}
 
-char* read_file(const char* filename);
-
 void String_pop_n(String* self, size_t n);
 void String_pop(String* self);
 
 String String_with_capacity(size_t capacity);
+
+/**
+ * @brief Write the string to a file
+ * @param[in] self The string to write
+ * @param[in] filename The name of the file
+ */
+void String_write_to_file(const String* self, const char* filename);
 
 #endif

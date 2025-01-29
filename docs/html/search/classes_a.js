@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queueinfo_0',['QueueInfo',['../structQueueInfo.html',1,'']]]
+  ['parsedstreamgraph_0',['ParsedStreamGraph',['../structParsedStreamGraph.html',1,'']]]
 ];

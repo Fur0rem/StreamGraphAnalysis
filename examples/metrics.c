@@ -3,15 +3,8 @@
 #include <stdlib.h>
 
 int main() {
-	// SGA_StreamGraph sg = SGA_StreamGraph_from_file("../data/S_external.txt");
-	// SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
-
-	// char* content	   = read_file("../data/S_external.txt");
-	char* content	   = read_file("../data/FIX_CRASH_2.txt");
-	char* to_internal  = SGA_InternalFormat_from_External_str(content);
-	SGA_StreamGraph sg = SGA_StreamGraph_from_string(to_internal);
-
-	SGA_Stream st = SGA_FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("../data/tests/S.sga");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	printf("------ Basic information ------\n");
 	printf("Temporal cardinal of nodes: %lu\n", SGA_Stream_temporal_cardinal_of_node_set(&st));

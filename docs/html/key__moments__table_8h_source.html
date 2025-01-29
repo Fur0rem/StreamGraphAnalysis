@@ -149,14 +149,17 @@ $(function(){initNavTree('key__moments__table_8h_source.html',''); initResizable
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>SGA_Time KeyMomentsTable_last_moment(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a>* kmt);</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">void</span> KeyMomentsTable_destroy(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a> kmt);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// Assumes the times are sorted, returns the index of a certain time if all of them were in a single array</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>SGA_TimeId KeyMomentsTable_find_time_index(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a>* kmt, SGA_Time t);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// Assumes the times are sorted, returns the index of a certain time if it was pushed in that array, all of them were in a single array</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>SGA_TimeId KeyMomentsTable_find_time_index_if_pushed(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a>* kmt, SGA_Time t);</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keywordtype">void</span> print_key_moments_table(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a>* kmt);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif </span><span class="comment">// SGA_KEY_MOMENTS_TABLE_H</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">// Returns the index of the the moment which has equivalent events to time t</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>SGA_TimeId KeyMomentsTable_find_time_index_equivalent(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a>* kmt, SGA_Time t);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">void</span> print_key_moments_table(<a class="code hl_struct" href="structKeyMomentsTable.html">KeyMomentsTable</a>* kmt);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#endif </span><span class="comment">// SGA_KEY_MOMENTS_TABLE_H</span></div>
 <div class="ttc" id="astructKeyMomentsTableIterator_html"><div class="ttname"><a href="structKeyMomentsTableIterator.html">KeyMomentsTableIterator</a></div><div class="ttdef"><b>Definition</b> key_moments_table.h:23</div></div>
 <div class="ttc" id="astructKeyMomentsTable_html"><div class="ttname"><a href="structKeyMomentsTable.html">KeyMomentsTable</a></div><div class="ttdef"><b>Definition</b> key_moments_table.h:28</div></div>
 <div class="ttc" id="astructMomentsSlice_html"><div class="ttname"><a href="structMomentsSlice.html">MomentsSlice</a></div><div class="ttdef"><b>Definition</b> key_moments_table.h:18</div></div>

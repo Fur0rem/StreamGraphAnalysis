@@ -8,7 +8,7 @@
 
 bool test_maximal_cliques() {
 	// StreamGraph sg = StreamGraph_from_file("data/internal_cliques.txt");
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/cliques.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/cliques.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	SGA_CliqueArrayList cliques = SGA_Stream_maximal_cliques(&st);

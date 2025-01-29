@@ -7,11 +7,10 @@
 
 #include "../StreamGraphAnalysis.h"
 #include "test.h"
-#include <stdint.h>
 
 bool test_chunk_stream_nodes_and_links_set() {
 	bool result		  = true;
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(2);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 2);
@@ -48,7 +47,7 @@ bool test_chunk_stream_nodes_and_links_set() {
 }
 
 bool test_neighbours_of_node_chunk_stream() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(2);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);
@@ -82,7 +81,7 @@ bool test_neighbours_of_node_chunk_stream() {
 }
 
 bool test_times_node_present_chunk_stream() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);
@@ -117,7 +116,7 @@ bool test_times_node_present_chunk_stream() {
 }
 
 bool test_times_node_present_chunk_stream_2() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);
@@ -152,7 +151,7 @@ bool test_times_node_present_chunk_stream_2() {
 }
 
 bool test_link_presence_chunk_stream() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);
@@ -187,7 +186,7 @@ bool test_link_presence_chunk_stream() {
 }
 
 bool test_nodes_and_links_present_at_t_chunk_stream() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);
@@ -229,7 +228,7 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 }
 
 bool test_key_moments() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);

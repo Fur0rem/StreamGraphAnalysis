@@ -18,20 +18,6 @@ An iterator is a structure that allows to iterate over a set of data. ~\newline
 {\ttfamily \#include "{}units.\+h"{}}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
-Include dependency graph for iterators.\+h\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{iterators_8h__incl}
-\end{center}
-\end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{iterators_8h__dep__incl}
-\end{center}
-\end{figure}
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
@@ -104,7 +90,13 @@ SGA\+\_\+\+Interval\+Array\+List \mbox{\hyperlink{iterators_8h_ab200b3eb940bc010
 SGA\+\_\+\+Node\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_a2ca4fd444437a8a5cb7b01e0ea1519f4}{SGA\+\_\+collect\+\_\+node\+\_\+ids}} (\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} nodes)
 \begin{DoxyCompactList}\small\item\em Collects all the nodes of the given iterator into a arraylist. \end{DoxyCompactList}\item 
 SGA\+\_\+\+Link\+Id\+Array\+List \mbox{\hyperlink{iterators_8h_a2a61514148030237a3a40e85c3e646b6}{SGA\+\_\+collect\+\_\+link\+\_\+ids}} (\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} links)
-\begin{DoxyCompactList}\small\item\em Collects all the links of the given iterator into a arraylist. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Collects all the links of the given iterator into a arraylist. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{iterators_8h_a41f9958d597d60dd4967871f8aded5cf}{SGA\+\_\+\+Nodes\+Iterator\+\_\+empty}} ()
+\begin{DoxyCompactList}\small\item\em Gives an empty nodes iterator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{iterators_8h_aaf38ea32a235ecc74407ca3f829e404a}{SGA\+\_\+\+Links\+Iterator\+\_\+empty}} ()
+\begin{DoxyCompactList}\small\item\em Gives an empty links iterator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{iterators_8h_ab393b33801af1af7fb6a0e3d41da076c}{SGA\+\_\+\+Times\+Iterator\+\_\+empty}} ()
+\begin{DoxyCompactList}\small\item\em Gives an empty times iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -242,6 +234,45 @@ Consumes the iterator.
 \begin{DoxyReturn}{Returns}
 A arraylist containing all the time intervals of the iterator. 
 \end{DoxyReturn}
+\Hypertarget{iterators_8h_aaf38ea32a235ecc74407ca3f829e404a}\index{iterators.h@{iterators.h}!SGA\_LinksIterator\_empty@{SGA\_LinksIterator\_empty}}
+\index{SGA\_LinksIterator\_empty@{SGA\_LinksIterator\_empty}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_LinksIterator\_empty()}{SGA\_LinksIterator\_empty()}}
+{\footnotesize\ttfamily \label{iterators_8h_aaf38ea32a235ecc74407ca3f829e404a} 
+\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Links\+Iterator\+\_\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Gives an empty links iterator. 
+
+\begin{DoxyReturn}{Returns}
+An empty links iterator. 
+\end{DoxyReturn}
+\Hypertarget{iterators_8h_a41f9958d597d60dd4967871f8aded5cf}\index{iterators.h@{iterators.h}!SGA\_NodesIterator\_empty@{SGA\_NodesIterator\_empty}}
+\index{SGA\_NodesIterator\_empty@{SGA\_NodesIterator\_empty}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_NodesIterator\_empty()}{SGA\_NodesIterator\_empty()}}
+{\footnotesize\ttfamily \label{iterators_8h_a41f9958d597d60dd4967871f8aded5cf} 
+\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Nodes\+Iterator\+\_\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Gives an empty nodes iterator. 
+
+\begin{DoxyReturn}{Returns}
+An empty nodes iterator. 
+\end{DoxyReturn}
+\Hypertarget{iterators_8h_ab393b33801af1af7fb6a0e3d41da076c}\index{iterators.h@{iterators.h}!SGA\_TimesIterator\_empty@{SGA\_TimesIterator\_empty}}
+\index{SGA\_TimesIterator\_empty@{SGA\_TimesIterator\_empty}!iterators.h@{iterators.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_TimesIterator\_empty()}{SGA\_TimesIterator\_empty()}}
+{\footnotesize\ttfamily \label{iterators_8h_ab393b33801af1af7fb6a0e3d41da076c} 
+\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Times\+Iterator\+\_\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Gives an empty times iterator. 
+
+\begin{DoxyReturn}{Returns}
+An empty times iterator. 
+\end{DoxyReturn}
 \Hypertarget{iterators_8h_a2a0865899e6f18e3546eb1c004ca91c5}\index{iterators.h@{iterators.h}!SGA\_TimesIterator\_intersection@{SGA\_TimesIterator\_intersection}}
 \index{SGA\_TimesIterator\_intersection@{SGA\_TimesIterator\_intersection}!iterators.h@{iterators.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_TimesIterator\_intersection()}{SGA\_TimesIterator\_intersection()}}
@@ -300,3 +331,17 @@ Consumes the iterator.
 \begin{DoxyReturn}{Returns}
 The total time of the set of time intervals. 
 \end{DoxyReturn}
+Include dependency graph for iterators.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iterators_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iterators_8h__dep__incl}
+\end{center}
+\end{figure}

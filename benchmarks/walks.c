@@ -34,20 +34,20 @@ DONT_OPTIMISE void fastest() {
 
 int main() {
 	SGA_StreamGraph sg;
-	sg     = SGA_StreamGraph_from_external("data/S_external.txt");
+	sg     = SGA_StreamGraph_from_file("data/tests/S.sga");
 	stream = SGA_FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length Figure_8", 1000);
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(stream);
 
-	sg     = SGA_StreamGraph_from_external("data/S_concat_L.txt");
+	sg     = SGA_StreamGraph_from_file("data/tests/S_concat_L.sga");
 	stream = SGA_FullStreamGraph_from(&sg);
 	benchmark(robustness_by_length, "robustness_by_length S_concat_L", 1000);
 	benchmark(robustness_by_duration, "robustness_by_duration S_concat_L", 1000);
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(stream);
 
-	sg     = SGA_StreamGraph_from_external("data/LS_90.txt");
+	sg     = SGA_StreamGraph_from_file("data/benchmarks/LS_90.sga");
 	stream = SGA_FullStreamGraph_from(&sg);
 	benchmark(robustness_by_duration, "robustness_by_duration LS_90", 1);
 	benchmark(fastest, "fastest LS_90", 1);

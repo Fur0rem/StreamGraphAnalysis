@@ -2,6 +2,7 @@
 #define UNITS_H
 
 #include "defaults.h"
+#include "generic_data_structures/arraylist.h"
 #include <stddef.h>
 
 typedef size_t SGA_NodeId; ///< Used to index nodes in a StreamGraph.
@@ -9,12 +10,14 @@ DeclareArrayList(SGA_NodeId);
 DeclareArrayListDeriveEquals(SGA_NodeId);
 DeclareArrayListDeriveRemove(SGA_NodeId);
 DeclareArrayListDeriveToString(SGA_NodeId);
+DeclareArrayListDeriveOrdered(SGA_NodeId);
 
 typedef size_t SGA_LinkId; ///< Used to index links in a StreamGraph.
 DeclareArrayList(SGA_LinkId);
 DeclareArrayListDeriveEquals(SGA_LinkId);
 DeclareArrayListDeriveRemove(SGA_LinkId);
 DeclareArrayListDeriveToString(SGA_LinkId);
+DeclareArrayListDeriveOrdered(SGA_LinkId);
 
 typedef size_t SGA_TimeId; ///< Used to index times in a StreamGraph.
 DeclareArrayList(SGA_TimeId);

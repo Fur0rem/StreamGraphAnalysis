@@ -13,9 +13,9 @@
 #include <string.h>
 
 bool test_split_nodes() {
-	SGA_StreamGraph S	= SGA_StreamGraph_from_external("data/S_external.txt");
-	SGA_Stream split_first	= SGA_SnapshotStream_from(&S, SGA_Interval_from(0, 50));
-	SGA_Stream split_second = SGA_SnapshotStream_from(&S, SGA_Interval_from(50, 100));
+	SGA_StreamGraph sg	= SGA_StreamGraph_from_file("data/tests/S.sga");
+	SGA_Stream split_first	= SGA_SnapshotStream_from(&sg, SGA_Interval_from(0, 50));
+	SGA_Stream split_second = SGA_SnapshotStream_from(&sg, SGA_Interval_from(50, 100));
 
 	StreamFunctions fns		   = SnapshotStream_stream_functions;
 	SGA_NodesIterator nodes_iter_first = fns.nodes_set(split_first.stream_data);
@@ -37,14 +37,14 @@ bool test_split_nodes() {
 
 	SGA_SnapshotStream_destroy(split_first);
 	SGA_SnapshotStream_destroy(split_second);
-	SGA_StreamGraph_destroy(S);
+	SGA_StreamGraph_destroy(sg);
 	return okay;
 }
 
 bool test_split_links() {
-	SGA_StreamGraph S	= SGA_StreamGraph_from_external("data/S_external.txt");
-	SGA_Stream split_first	= SGA_SnapshotStream_from(&S, SGA_Interval_from(0, 50));
-	SGA_Stream split_second = SGA_SnapshotStream_from(&S, SGA_Interval_from(50, 100));
+	SGA_StreamGraph sg	= SGA_StreamGraph_from_file("data/tests/S.sga");
+	SGA_Stream split_first	= SGA_SnapshotStream_from(&sg, SGA_Interval_from(0, 50));
+	SGA_Stream split_second = SGA_SnapshotStream_from(&sg, SGA_Interval_from(50, 100));
 
 	StreamFunctions fns		   = SnapshotStream_stream_functions;
 	SGA_LinksIterator links_iter_first = fns.links_set(split_first.stream_data);
@@ -62,15 +62,15 @@ bool test_split_links() {
 
 	SGA_SnapshotStream_destroy(split_first);
 	SGA_SnapshotStream_destroy(split_second);
-	SGA_StreamGraph_destroy(S);
+	SGA_StreamGraph_destroy(sg);
 	return okay;
 }
 
 bool test_same_nodes() {
-	SGA_StreamGraph S	= SGA_StreamGraph_from_external("data/S_external.txt");
-	SGA_Stream split_first	= SGA_SnapshotStream_from(&S, SGA_Interval_from(0, 50));
-	SGA_Stream split_second = SGA_SnapshotStream_from(&S, SGA_Interval_from(50, 100));
-	SGA_Stream full		= SGA_FullStreamGraph_from(&S);
+	SGA_StreamGraph sg	= SGA_StreamGraph_from_file("data/tests/S.sga");
+	SGA_Stream split_first	= SGA_SnapshotStream_from(&sg, SGA_Interval_from(0, 50));
+	SGA_Stream split_second = SGA_SnapshotStream_from(&sg, SGA_Interval_from(50, 100));
+	SGA_Stream full		= SGA_FullStreamGraph_from(&sg);
 
 	StreamFunctions fns		      = SnapshotStream_stream_functions;
 	SGA_NodeIdArrayList nodes_iter_first  = SGA_collect_node_ids(fns.nodes_set(split_first.stream_data));
@@ -88,7 +88,7 @@ bool test_same_nodes() {
 	SGA_SnapshotStream_destroy(split_first);
 	SGA_SnapshotStream_destroy(split_second);
 	SGA_FullStreamGraph_destroy(full);
-	SGA_StreamGraph_destroy(S);
+	SGA_StreamGraph_destroy(sg);
 
 	return okay;
 }

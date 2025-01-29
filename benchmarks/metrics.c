@@ -43,7 +43,7 @@ DONT_OPTIMISE void clustering_coeff() {
 	SGA_Stream_node_clustering_coeff(&stream);
 }
 
-// FIXME: Segmentation fault for primaryschool
+// FIXME: Segmentation fault for primaryschool and LS_90
 DONT_OPTIMISE void density_at_instant() {
 	StreamFunctions fns   = STREAM_FUNCS(fns, &stream);
 	SGA_Interval lifespan = fns.lifespan(stream.stream_data);
@@ -64,16 +64,16 @@ DONT_OPTIMISE void density_at_instant() {
 	// printf("\n");
 
 int main() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/S_concat_L.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/S_concat_L.sga");
 	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/LS_90.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/benchmarks/LS_90.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	SGA_StreamGraph sg3 = SGA_StreamGraph_from_external("data/primaryschool_3125_transformed.txt");
+	SGA_StreamGraph sg3 = SGA_StreamGraph_from_file("data/benchmarks/primaryschool_3125_transformed.sga");
 	SGA_Stream stream3  = SGA_FullStreamGraph_from(&sg3);
 
-	SGA_StreamGraph sg4 = SGA_StreamGraph_from_external("data/facebooklike_1_transformed.txt");
+	SGA_StreamGraph sg4 = SGA_StreamGraph_from_file("data/benchmarks/facebooklike_1_transformed.sga");
 	SGA_Stream stream4  = SGA_FullStreamGraph_from(&sg4);
 
 	// stream = stream1;

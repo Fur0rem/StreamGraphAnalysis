@@ -17,20 +17,6 @@ The k-\/core of a stream graph is the largest sub-\/stream of nodes where each n
 {\ttfamily \#include "{}../utils.\+h"{}}\newline
 {\ttfamily \#include "{}cluster.\+h"{}}\newline
 {\ttfamily \#include "{}stddef.\+h"{}}\newline
-Include dependency graph for kcores.\+h\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{kcores_8h__incl}
-\end{center}
-\end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{kcores_8h__dep__incl}
-\end{center}
-\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -61,4 +47,17 @@ The k-\/core of the Stream.
 \end{DoxyReturn}
 The algorithm used won\textquotesingle{}t work for the 0-\/core, but it is the same as the initial graph so you can just use the initial graph. It will work for k greaters than the number of nodes in the Stream, but it will be empty, so it\textquotesingle{}s not very useful.
 
-Compute the k-\/core of a Stream. 
+Compute the k-\/core of a Stream. Include dependency graph for kcores.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{kcores_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{kcores_8h__dep__incl}
+\end{center}
+\end{figure}

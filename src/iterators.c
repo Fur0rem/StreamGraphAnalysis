@@ -189,3 +189,48 @@ SGA_LinkIdArrayList SGA_collect_link_ids(SGA_LinksIterator links) {
 
 // 	return filtered;
 // }
+
+SGA_NodeId empty_nodes_next(SGA_NodesIterator* iter) {
+	return SGA_NODES_ITERATOR_END;
+}
+
+void empty_nodes_destroy(SGA_NodesIterator* iter) {
+	// Do nothing
+}
+
+SGA_NodesIterator SGA_NodesIterator_empty() {
+	return (SGA_NodesIterator){
+	    .next    = empty_nodes_next,
+	    .destroy = empty_nodes_destroy,
+	};
+}
+
+SGA_LinkId empty_links_next(SGA_LinksIterator* iter) {
+	return SGA_LINKS_ITERATOR_END;
+}
+
+void empty_links_destroy(SGA_LinksIterator* iter) {
+	// Do nothing
+}
+
+SGA_LinksIterator SGA_LinksIterator_empty() {
+	return (SGA_LinksIterator){
+	    .next    = empty_links_next,
+	    .destroy = empty_links_destroy,
+	};
+}
+
+SGA_Interval empty_times_next(SGA_TimesIterator* iter) {
+	return SGA_TIMES_ITERATOR_END;
+}
+
+void empty_times_destroy(SGA_TimesIterator* iter) {
+	// Do nothing
+}
+
+SGA_TimesIterator SGA_TimesIterator_empty() {
+	return (SGA_TimesIterator){
+	    .next    = empty_times_next,
+	    .destroy = empty_times_destroy,
+	};
+}

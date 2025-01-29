@@ -35,6 +35,30 @@ String String_from_duplicate(const char* str) {
 	return string;
 }
 
+String String_from_file(const char* filename) {
+	FILE* file = fopen(filename, "r");
+	if (file == NULL) {
+		fprintf(stderr, "Error opening file %s\n", filename);
+		exit(1);
+	}
+	fseek(file, 0, SEEK_END);
+	size_t length = ftell(file);
+	fseek(file, 0, SEEK_SET);
+	char* buffer = MALLOC(length + 1);
+	if (buffer == NULL) {
+		fprintf(stderr, "Error allocating memory for file %s\n", filename);
+		exit(1);
+	}
+	size_t read = fread(buffer, 1, length, file);
+	if (read != length) {
+		fprintf(stderr, "Error reading file %s\n", filename);
+		exit(1);
+	}
+	buffer[length] = '\0';
+	fclose(file);
+	return String_from_owned(buffer);
+}
+
 String String_clone(const String* str) {
 	char* data = MALLOC(str->size);
 	memcpy(data, str->data, str->size);
@@ -104,29 +128,29 @@ int String_hash(const String* self) {
 	return hash;
 }
 
-char* read_file(const char* filename) {
-	FILE* file = fopen(filename, "r");
-	if (file == NULL) {
-		fprintf(stderr, "Error opening file %s\n", filename);
-		exit(1);
-	}
-	fseek(file, 0, SEEK_END);
-	size_t length = ftell(file);
-	fseek(file, 0, SEEK_SET);
-	char* buffer = malloc(length + 1);
-	if (buffer == NULL) {
-		fprintf(stderr, "Error allocating memory for file %s\n", filename);
-		exit(1);
-	}
-	size_t read = fread(buffer, 1, length, file);
-	if (read != length) {
-		fprintf(stderr, "Error reading file %s\n", filename);
-		exit(1);
-	}
-	buffer[length] = '\0';
-	fclose(file);
-	return buffer;
-}
+// char* read_file(const char* filename) {
+// 	FILE* file = fopen(filename, "r");
+// 	if (file == NULL) {
+// 		fprintf(stderr, "Error opening file %s\n", filename);
+// 		exit(1);
+// 	}
+// 	fseek(file, 0, SEEK_END);
+// 	size_t length = ftell(file);
+// 	fseek(file, 0, SEEK_SET);
+// 	char* buffer = malloc(length + 1);
+// 	if (buffer == NULL) {
+// 		fprintf(stderr, "Error allocating memory for file %s\n", filename);
+// 		exit(1);
+// 	}
+// 	size_t read = fread(buffer, 1, length, file);
+// 	if (read != length) {
+// 		fprintf(stderr, "Error reading file %s\n", filename);
+// 		exit(1);
+// 	}
+// 	buffer[length] = '\0';
+// 	fclose(file);
+// 	return buffer;
+// }
 
 void String_append_formatted(String* self, const char* format, ...) {
 	va_list args;
@@ -166,4 +190,14 @@ String String_to_string(const String* self) {
 	String cstr = String_clone(self);
 	String_push(&cstr, '\0');
 	return cstr;
+}
+
+void String_write_to_file(const String* self, const char* filename) {
+	FILE* file = fopen(filename, "w");
+	if (file == NULL) {
+		fprintf(stderr, "Error opening file %s\n", filename);
+		exit(1);
+	}
+	fwrite(self->data, 1, self->size, file);
+	fclose(file);
 }

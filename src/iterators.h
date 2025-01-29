@@ -86,7 +86,7 @@ struct SGA_TimesIterator {
 						  ///< Takes itself as the argument.
 						  ///< If there are no more time intervals, it returns TIMES_ITERATOR_END.
 	void (*destroy)(SGA_TimesIterator*);	  ///< Function to destroy the iterator.
-					     ///< Takes itself as the argument.
+						  ///< Takes itself as the argument.
 };
 
 /** @cond */
@@ -222,5 +222,23 @@ SGA_LinkIdArrayList SGA_collect_link_ids(SGA_LinksIterator links);
 		(iterator).destroy(&(iterator));                                                                                           \
 		break;                                                                                                                     \
 	})
+
+/**
+ * @brief Gives an empty nodes iterator.
+ * @return An empty nodes iterator.
+ */
+SGA_NodesIterator SGA_NodesIterator_empty();
+
+/**
+ * @brief Gives an empty links iterator.
+ * @return An empty links iterator.
+ */
+SGA_LinksIterator SGA_LinksIterator_empty();
+
+/**
+ * @brief Gives an empty times iterator.
+ * @return An empty times iterator.
+ */
+SGA_TimesIterator SGA_TimesIterator_empty();
 
 #endif // ITERATORS_H

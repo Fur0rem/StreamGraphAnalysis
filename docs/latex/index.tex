@@ -38,18 +38,22 @@ I plan to add Delta\+Stream\+Graph, to support delta-\/analysis of the stream gr
 
 The library was designed to have efficient access on\+:
 \begin{DoxyItemize}
-\item Access a node\+: which is in \$\+O(1)\$
-\item Access a link\+: which is in \$\+O(1)\$
-\item Access a time\+: which is in \$\+O(1)\$ (actually in \$O(log(255)\$), but it\textquotesingle{}s a constant time)
+\item Access a node\+: which is in O(1)
+\item Access a link\+: which is in O(1)
+\item Access a time\+: which is in O(1) (actually in O(log(255)), but it\textquotesingle{}s a constant time)
 \end{DoxyItemize}
 
 More details about the methods and the data structures are available in the documentation.\hypertarget{index_autotoc_md5}{}\doxysection{\texorpdfstring{How to use the library}{How to use the library}}\label{index_autotoc_md5}
-Clone the repository, and then run make lib\+SGA to compile the library. You will have a lib\+SGA.\+a file in the bin/ directory, which you can link to your project to use the library. There is a header \doxylink{StreamGraphAnalysis_8h}{Stream\+Graph\+Analysis.\+h} in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory. TODO\+: explanation of a code sample\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{Data format}{Data format}}\label{index_autotoc_md6}
-You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it\textquotesingle{}s recommended to write your data in the external format, and then convert it to the internal format using the Internal\+Format\+\_\+from\+\_\+\+External\+\_\+str function, and save that for future use.
+Clone the repository, and then run make lib\+SGA to compile the library. You will have a lib\+SGA.\+a file in the bin/ directory, which you can link to your project to use the library. There is a header \doxylink{StreamGraphAnalysis_8h}{Stream\+Graph\+Analysis.\+h} in the main directory that you can include in your project to use the library.
+
+You can find examples of how to use the library in the examples/ directory. You can find the documentation in the docs/ directory, which is generated using Doxygen, which you can generate using the make docs -\/B command. You can find utility programs in the utilities/ directory, which you can compile using the make utilities -\/B command.\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{Data format}{Data format}}\label{index_autotoc_md6}
+You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it\textquotesingle{}s recommended to write your data in the external format, and then convert it to the internal format using the function, and save that for future use. You can use the utilities/bin/external\+\_\+to\+\_\+internal program to convert your data from the external format to the internal format.
 
 External format \+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{SGA\ External\ Format\ <version>}
+\DoxyCodeLine{}
+\DoxyCodeLine{Any\ text\ between\ the\ version\ and\ the\ [General]\ section\ will\ be\ ignored,\ and\ can\ be\ used\ for\ comments\ or\ metadata}
 \DoxyCodeLine{}
 \DoxyCodeLine{[General]}
 \DoxyCodeLine{Lifespan=(<start>,\ <end>)}
@@ -60,6 +64,7 @@ External format \+:
 \DoxyCodeLine{...}
 \DoxyCodeLine{}
 \DoxyCodeLine{[EndOfStream]}
+\DoxyCodeLine{}
 \DoxyCodeLine{Any\ text\ before\ this\ line\ will\ be\ ignored,\ and\ can\ be\ used\ for\ comments\ or\ metadata}
 
 \end{DoxyCode}
@@ -67,7 +72,9 @@ External format \+:
 
 All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.\+5, 1.\+5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.
 
-There are some example data files in the data/ directory.\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{What it can do}{What it can do}}\label{index_autotoc_md7}
+There are some example data files in the data/examples/ directory, which contains examples of the external format taken from the paper.
+
+You can also find a more detailed documentation of each format in the documentation for SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+internal\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0 and SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+external\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0.\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{What it can do}{What it can do}}\label{index_autotoc_md7}
 
 \begin{DoxyItemize}
 \item Read a stream graph from a file
@@ -105,7 +112,11 @@ The benchmarks/ directory contains the benchmarks for the library. You can run t
 
 The examples/ directory contains examples of how to use the library.
 
-The data/ directory contains example data files.\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Supported metrics and analysis}{Supported metrics and analysis}}\label{index_autotoc_md11}
+The data/ directory contains data files, test data, example data, and benchmark data.
+
+The docs/ directory contains the documentation of the library, which is generated using Doxygen.
+
+The utilities/ directory contains utility programs, which are compiled using the make utilities -\/B command.\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{Supported metrics and analysis}{Supported metrics and analysis}}\label{index_autotoc_md11}
 
 \begin{DoxyItemize}
 \item \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: Section 3

@@ -166,7 +166,7 @@ void KCores_add(KCoreDataArrayList* k_cores, SGA_Interval time, SGA_NodeId neigh
 	KCoreDataArrayList_push(k_cores, new_data);
 }
 
-void KCoreDataArrayList_merge(KCoreDataArrayList* vec) {
+void KCoreDataArrayList_simplify(KCoreDataArrayList* vec) {
 
 	if (vec->length == 0) {
 		return;
@@ -289,7 +289,7 @@ SGA_Cluster SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 		bool stable		  = true;
 		size_t stopped_merging_at = 0;
 		for (size_t node = 0; node < biggest_node_id; node++) {
-			KCoreDataArrayList_merge(&next_neighbourhood[node]);
+			KCoreDataArrayList_simplify(&next_neighbourhood[node]);
 			if (!KCoreDataArrayList_equals(&neighbourhood[node], &next_neighbourhood[node])) {
 				stable		   = false;
 				stopped_merging_at = node;
@@ -310,7 +310,7 @@ SGA_Cluster SGA_Stream_k_core(const SGA_Stream* stream, size_t degree) {
 
 		// Finish the merging
 		for (size_t i = stopped_merging_at + 1; i < biggest_node_id; i++) {
-			KCoreDataArrayList_merge(&next_neighbourhood[i]);
+			KCoreDataArrayList_simplify(&next_neighbourhood[i]);
 		}
 
 		// Swap memory buffers

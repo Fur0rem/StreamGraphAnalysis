@@ -165,7 +165,7 @@ SGA_TimesIterator SGA_StreamGraph_key_moments_between(SGA_StreamGraph* stream_gr
 	KeyMomentsTableBetweenIterator* key_moments_iter_data = MALLOC(sizeof(KeyMomentsTableBetweenIterator));
 
 	// Find where you need to start
-	size_t index	       = KeyMomentsTable_find_time_index(&stream_graph->key_moments, interval.start);
+	size_t index	       = KeyMomentsTable_find_time_index_equivalent(&stream_graph->key_moments, interval.start);
 	*key_moments_iter_data = (KeyMomentsTableBetweenIterator){
 	    .current_slice  = index / SLICE_SIZE,
 	    .current_moment = index % SLICE_SIZE,

@@ -1,3 +1,8 @@
+/**
+ * @file tests/test.h
+ * @brief Framework for a test suite
+ */
+
 #ifndef TEST_H
 #define TEST_H
 

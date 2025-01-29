@@ -13,20 +13,6 @@ Functions to check if two streamgraphs are isomorphic.
 Iso-\/morphism in regular graphs means that two graphs are the same, but with different labels on the nodes. That is, the structure of the graph is the same, but the nodes are different. In mathematical terms, it means there exists a bijection between the nodes of the two graphs that preserves the edges.
 
 In the context of streamgraphs, we add the time dimension to the definition. Now, two streamgraphs are isomorphic if their structure is the same, and if their evolution over time is the same. That means that the bijection between the nodes also preserves the times at which the nodes are present, and the times at which the links are present. Albeit with a possible offset of the time axis between the two streamgraphs. {\ttfamily \#include "{}../stream.\+h"{}}\newline
-Include dependency graph for isomorphism.\+h\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{isomorphism_8h__incl}
-\end{center}
-\end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{isomorphism_8h__dep__incl}
-\end{center}
-\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -86,4 +72,17 @@ This function only checks for fast-\/to-\/compute properties and metrics, and wi
 \item The density of the two streamgraphs
 \item The average node degree of the two streamgraphs
 \item The uniformity of the two streamgraphs All these properties can be computed in \texorpdfstring{$<$}{<}= O(n) time, where n is the number of nodes in the streamgraphs. 
-\end{DoxyItemize}
+\end{DoxyItemize}Include dependency graph for isomorphism.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isomorphism_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isomorphism_8h__dep__incl}
+\end{center}
+\end{figure}

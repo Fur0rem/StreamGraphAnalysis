@@ -17,6 +17,9 @@ var iterators_8h =
     [ "SGA_count_intervals", "iterators_8h.html#a661c9d6ff412b3944a5b1a4b5306add2", null ],
     [ "SGA_count_links", "iterators_8h.html#a84a3bf6326d212b2c433159f2ad9dcc6", null ],
     [ "SGA_count_nodes", "iterators_8h.html#a41d130a88b4b587c96fe6e8d93a909d5", null ],
+    [ "SGA_LinksIterator_empty", "iterators_8h.html#aaf38ea32a235ecc74407ca3f829e404a", null ],
+    [ "SGA_NodesIterator_empty", "iterators_8h.html#a41f9958d597d60dd4967871f8aded5cf", null ],
+    [ "SGA_TimesIterator_empty", "iterators_8h.html#ab393b33801af1af7fb6a0e3d41da076c", null ],
     [ "SGA_TimesIterator_intersection", "iterators_8h.html#a2a0865899e6f18e3546eb1c004ca91c5", null ],
     [ "SGA_TimesIterator_union", "iterators_8h.html#a7ae286de73fc769cb8bfa677fc33387a", null ],
     [ "SGA_total_time_of", "iterators_8h.html#a96a9010e44b7cc6d61deb889345a66f5", null ]

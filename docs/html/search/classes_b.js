@@ -1,23 +1,4 @@
 var searchData=
 [
-  ['sga_5fclique_0',['SGA_Clique',['../structSGA__Clique.html',1,'']]],
-  ['sga_5fcluster_1',['SGA_Cluster',['../structSGA__Cluster.html',1,'']]],
-  ['sga_5fclusternode_2',['SGA_ClusterNode',['../structSGA__ClusterNode.html',1,'']]],
-  ['sga_5finterval_3',['SGA_Interval',['../structSGA__Interval.html',1,'']]],
-  ['sga_5fintervalsiteratordata_4',['SGA_IntervalsIteratorData',['../structSGA__IntervalsIteratorData.html',1,'']]],
-  ['sga_5fintervalsset_5',['SGA_IntervalsSet',['../structSGA__IntervalsSet.html',1,'']]],
-  ['sga_5flink_6',['SGA_Link',['../structSGA__Link.html',1,'']]],
-  ['sga_5flinksiterator_7',['SGA_LinksIterator',['../structSGA__LinksIterator.html',1,'']]],
-  ['sga_5fnode_8',['SGA_Node',['../structSGA__Node.html',1,'']]],
-  ['sga_5fnodesiterator_9',['SGA_NodesIterator',['../structSGA__NodesIterator.html',1,'']]],
-  ['sga_5fnowalkreason_10',['SGA_NoWalkReason',['../structSGA__NoWalkReason.html',1,'']]],
-  ['sga_5foffset_11',['SGA_Offset',['../structSGA__Offset.html',1,'']]],
-  ['sga_5foptionalwalk_12',['SGA_OptionalWalk',['../structSGA__OptionalWalk.html',1,'']]],
-  ['sga_5fstream_13',['SGA_Stream',['../structSGA__Stream.html',1,'']]],
-  ['sga_5fstreamgraph_14',['SGA_StreamGraph',['../structSGA__StreamGraph.html',1,'']]],
-  ['sga_5ftimesiterator_15',['SGA_TimesIterator',['../structSGA__TimesIterator.html',1,'']]],
-  ['sga_5fwalk_16',['SGA_Walk',['../structSGA__Walk.html',1,'']]],
-  ['sga_5fwalkstep_17',['SGA_WalkStep',['../structSGA__WalkStep.html',1,'']]],
-  ['streamfunctions_18',['StreamFunctions',['../structStreamFunctions.html',1,'']]],
-  ['string_19',['String',['../structString.html',1,'']]]
+  ['queueinfo_0',['QueueInfo',['../structQueueInfo.html',1,'']]]
 ];

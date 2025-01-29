@@ -13,7 +13,7 @@
 	SGA_IntervalArrayList_push(&(kcore).nodes.array[node].presence, SGA_Interval_from(start, end));
 
 bool test_k_cores() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/kcores_test.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/kcores.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	SGA_Cluster kcore_1 = SGA_Stream_k_core(&st, 1);
@@ -83,8 +83,8 @@ bool test_k_cores() {
 }
 
 bool test_k_cores_chunk() {
-	SGA_StreamGraph sg	    = SGA_StreamGraph_from_external("data/kcores_with_L.txt");
-	SGA_StreamGraph kcores_only = SGA_StreamGraph_from_external("data/kcores_test.txt");
+	SGA_StreamGraph sg	    = SGA_StreamGraph_from_file("data/tests/kcores_fused_with_L.sga");
+	SGA_StreamGraph kcores_only = SGA_StreamGraph_from_file("data/tests/kcores.sga");
 
 	SGA_LinkIdArrayList links = SGA_LinkIdArrayList_new();
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_new();

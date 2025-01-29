@@ -1,0 +1,150 @@
+\doxysection{tests/test.h File Reference}
+\hypertarget{test_8h}{}\label{test_8h}\index{tests/test.h@{tests/test.h}}
+
+
+Framework for a test suite.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Framework for a test suite. 
+
+{\ttfamily \#include "{}../src/utils.\+h"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structTest}{Test}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{test_8h_a76d13b1910e4df78459e830f9583db8f}{EXPECT}}(expr)
+\item 
+\#define \mbox{\hyperlink{test_8h_a9a651854825dcb45f7b13d3a97b67967}{EXPECT\+\_\+\+EQ\+\_\+\+DEFAULT}}(type,  format)
+\item 
+\#define \mbox{\hyperlink{test_8h_ae8ae99d63b1e57fa5071a51fdbafa48f}{EXPECT\+\_\+\+F\+\_\+\+APPROX\+\_\+\+EQ}}(got,  expected,  eps)
+\item 
+\#define \mbox{\hyperlink{test_8h_a7c198106d8a380a0b194d16c918943d2}{EXPECT\+\_\+\+EQ}}(a,  b)
+\item 
+\#define \mbox{\hyperlink{test_8h_aeeb23a2f625830fa1714697307061d0b}{TEST}}(test\+\_\+name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test_8h_a53a9110de620ba4812ab6daffd1393cf}\label{test_8h_a53a9110de620ba4812ab6daffd1393cf} 
+bool {\bfseries test} (const char \texorpdfstring{$\ast$}{*}suite\+\_\+name, \mbox{\hyperlink{structTest}{Test}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}tests)
+\item 
+\Hypertarget{test_8h_af23ce56243af620115638d1db403e909}\label{test_8h_af23ce56243af620115638d1db403e909} 
+bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+int} (int got, int expected)
+\item 
+\Hypertarget{test_8h_a97c48133374638f243171acfa27cf06d}\label{test_8h_a97c48133374638f243171acfa27cf06d} 
+bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+\+String} (char \texorpdfstring{$\ast$}{*}got, char \texorpdfstring{$\ast$}{*}expected)
+\item 
+\Hypertarget{test_8h_ad6dff5bd2580dea4900a6e27cff5fbc8}\label{test_8h_ad6dff5bd2580dea4900a6e27cff5fbc8} 
+bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+size\+\_\+t} (size\+\_\+t got, size\+\_\+t expected)
+\item 
+\Hypertarget{test_8h_addd03d26e16d58443643ced803ab7ade}\label{test_8h_addd03d26e16d58443643ced803ab7ade} 
+bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+ptr} (void \texorpdfstring{$\ast$}{*}got, void \texorpdfstring{$\ast$}{*}expected)
+\item 
+\Hypertarget{test_8h_a28aa65a972c1a8e1ae7b6fc7724631b5}\label{test_8h_a28aa65a972c1a8e1ae7b6fc7724631b5} 
+bool {\bfseries EXPECT\+\_\+\+ALL} (int expr,...)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{test_8h_a76d13b1910e4df78459e830f9583db8f}\index{test.h@{test.h}!EXPECT@{EXPECT}}
+\index{EXPECT@{EXPECT}!test.h@{test.h}}
+\doxysubsubsection{\texorpdfstring{EXPECT}{EXPECT}}
+{\footnotesize\ttfamily \label{test_8h_a76d13b1910e4df78459e830f9583db8f} 
+\#define EXPECT(\begin{DoxyParamCaption}\item[{}]{expr}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ (expr);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (!result)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ TEXT\_RED\ \textcolor{stringliteral}{"{}FAIL"{}}\ TEXT\_RESET\ \textcolor{stringliteral}{"{}\ :\ \%s\ at\ \%s:\%d\(\backslash\)n"{}},\ \#expr,\ \_\_FILE\_\_,\ \_\_LINE\_\_);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ result;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \})}
+
+\end{DoxyCode}
+\Hypertarget{test_8h_a7c198106d8a380a0b194d16c918943d2}\index{test.h@{test.h}!EXPECT\_EQ@{EXPECT\_EQ}}
+\index{EXPECT\_EQ@{EXPECT\_EQ}!test.h@{test.h}}
+\doxysubsubsection{\texorpdfstring{EXPECT\_EQ}{EXPECT\_EQ}}
+{\footnotesize\ttfamily \label{test_8h_a7c198106d8a380a0b194d16c918943d2} 
+\#define EXPECT\+\_\+\+EQ(\begin{DoxyParamCaption}\item[{}]{a}{, }\item[{}]{b}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\_Generic((a),\ \textcolor{keywordtype}{int}:\ EXPECT\_EQ\_int,\ \textcolor{keywordtype}{char}*:\ EXPECT\_EQ\_String,\ \textcolor{keywordtype}{size\_t}:\ EXPECT\_EQ\_size\_t,\ \textcolor{keywordtype}{void}*:\ EXPECT\_EQ\_ptr)(a,\ b)}
+
+\end{DoxyCode}
+\Hypertarget{test_8h_a9a651854825dcb45f7b13d3a97b67967}\index{test.h@{test.h}!EXPECT\_EQ\_DEFAULT@{EXPECT\_EQ\_DEFAULT}}
+\index{EXPECT\_EQ\_DEFAULT@{EXPECT\_EQ\_DEFAULT}!test.h@{test.h}}
+\doxysubsubsection{\texorpdfstring{EXPECT\_EQ\_DEFAULT}{EXPECT\_EQ\_DEFAULT}}
+{\footnotesize\ttfamily \label{test_8h_a9a651854825dcb45f7b13d3a97b67967} 
+\#define EXPECT\+\_\+\+EQ\+\_\+\+DEFAULT(\begin{DoxyParamCaption}\item[{}]{type}{, }\item[{}]{format}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ EXPECT\_EQ\_\#\#type(type\ a,\ type\ b)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ EXPECT((a)\ ==\ (b));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (!result)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t"{}}\ TEXT\_RED\ \textcolor{stringliteral}{"{}Expected\ (Got)\ "{}}\ format\ \textcolor{stringliteral}{"{}\ to\ be\ equal\ to\ (Expected)\ "{}}\ format\ TEXT\_RESET\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},\ a,\ b);\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{test_8h_ae8ae99d63b1e57fa5071a51fdbafa48f}\index{test.h@{test.h}!EXPECT\_F\_APPROX\_EQ@{EXPECT\_F\_APPROX\_EQ}}
+\index{EXPECT\_F\_APPROX\_EQ@{EXPECT\_F\_APPROX\_EQ}!test.h@{test.h}}
+\doxysubsubsection{\texorpdfstring{EXPECT\_F\_APPROX\_EQ}{EXPECT\_F\_APPROX\_EQ}}
+{\footnotesize\ttfamily \label{test_8h_ae8ae99d63b1e57fa5071a51fdbafa48f} 
+\#define EXPECT\+\_\+\+F\+\_\+\+APPROX\+\_\+\+EQ(\begin{DoxyParamCaption}\item[{}]{got}{, }\item[{}]{expected}{, }\item[{}]{eps}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ EXPECT(F\_EQUALS\_APPROX(got,\ expected,\ eps));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (!result)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t"{}}\ TEXT\_RED\ \textcolor{stringliteral}{"{}Expected\ (Got)\ \%f\ to\ be\ \string~equal\ to\ (Expected)\ \%f"{}}\ TEXT\_RESET\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},\ got,\ expected);\ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)t\(\backslash\)t"{}}\ TEXT\_GREEN\ \textcolor{stringliteral}{"{}\%f\ is\ \string~equal\ to\ \%f"{}}\ TEXT\_RESET\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},\ got,\ expected);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ result;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \})}
+
+\end{DoxyCode}
+\Hypertarget{test_8h_aeeb23a2f625830fa1714697307061d0b}\index{test.h@{test.h}!TEST@{TEST}}
+\index{TEST@{TEST}!test.h@{test.h}}
+\doxysubsubsection{\texorpdfstring{TEST}{TEST}}
+{\footnotesize\ttfamily \label{test_8h_aeeb23a2f625830fa1714697307061d0b} 
+\#define TEST(\begin{DoxyParamCaption}\item[{}]{test\+\_\+name}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \&(\mbox{\hyperlink{structTest}{Test}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .fn\ =\ (test\_name),\ .name\ =\ \#test\_name\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+Include dependency graph for test.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test_8h__dep__incl}
+\end{center}
+\end{figure}

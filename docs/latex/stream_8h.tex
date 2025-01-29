@@ -32,20 +32,6 @@ Create Stream\+Graph\textquotesingle{}s and manipulate generic Stream\textquotes
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
-Include dependency graph for stream.\+h\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{stream_8h__incl}
-\end{center}
-\end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{stream_8h__dep__incl}
-\end{center}
-\end{figure}
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
@@ -77,40 +63,32 @@ typedef struct SGA\+\_\+\+Stream \mbox{\hyperlink{stream_8h_a6e6f770c3645b9702da
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{stream_8h_a5297406dd585b51a0d0af733b46fcc5b}\label{stream_8h_a5297406dd585b51a0d0af733b46fcc5b} 
-\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+string} (const char \texorpdfstring{$\ast$}{*}str)
-\item 
-\Hypertarget{stream_8h_aaf1651fde51147b366ef757df3ae74c7}\label{stream_8h_aaf1651fde51147b366ef757df3ae74c7} 
-\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+file} (const char \texorpdfstring{$\ast$}{*}filename)
-\item 
-\Hypertarget{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf}\label{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf} 
-\mbox{\hyperlink{structString}{String}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+to\+\_\+string} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
-\item 
-\Hypertarget{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b}\label{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b} 
-void {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+destroy} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} sg)
-\item 
-\Hypertarget{stream_8h_a8e4eea886b8bd18c7007334265c7dbc3}\label{stream_8h_a8e4eea886b8bd18c7007334265c7dbc3} 
-char \texorpdfstring{$\ast$}{*} {\bfseries SGA\+\_\+\+Internal\+Format\+\_\+from\+\_\+\+External\+\_\+str} (const char \texorpdfstring{$\ast$}{*}str)
-\item 
-\Hypertarget{stream_8h_a5c0760a9ab0981304d8337b87365eb63}\label{stream_8h_a5c0760a9ab0981304d8337b87365eb63} 
-\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+external} (const char \texorpdfstring{$\ast$}{*}filename)
-\item 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{stream_8h_a3faf5aebc82385c77d67ad2467cc95e3}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+external\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0}} (const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}format)
+\begin{DoxyCompactList}\small\item\em Creates a Stream\+Graph from an external format of the version 1.\+0.\+0 of the library. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{stream_8h_a8dea3f09eec5c37beb5b18c267701fd6}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+internal\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0}} (const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}format)
+\begin{DoxyCompactList}\small\item\em Creates a Stream\+Graph the internal format of the version 1.\+0.\+0 of the library. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{stream_8h_a3da0c73409d0ecabb0743d896492310a}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+string}} (const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}sg\+\_\+as\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Creates a Stream\+Graph from a string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{stream_8h_aaf1651fde51147b366ef757df3ae74c7}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+file}} (const char \texorpdfstring{$\ast$}{*}filename)
+\begin{DoxyCompactList}\small\item\em Loads a Stream\+Graph from a file. Reads the contents of the file and parses it as a Stream\+Graph. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structString}{String}} \mbox{\hyperlink{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf}{SGA\+\_\+\+Stream\+Graph\+\_\+to\+\_\+string}} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
+\begin{DoxyCompactList}\small\item\em Creates a string representation of a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b}{SGA\+\_\+\+Stream\+Graph\+\_\+destroy}} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} sg)
+\begin{DoxyCompactList}\small\item\em Destroys a Stream\+Graph. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structString}{String}} \mbox{\hyperlink{stream_8h_a4f71af6ced2811fb72efae7a4c9deba6}{SGA\+\_\+external\+\_\+v\+\_\+1\+\_\+0\+\_\+0\+\_\+to\+\_\+internal\+\_\+v\+\_\+1\+\_\+0\+\_\+0\+\_\+format}} (const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}format)
+\begin{DoxyCompactList}\small\item\em Converts an external format string to an internal format string. Both from version 1.\+0.\+0. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{stream_8h_aa8e8a255c59a064519663b1ab3a589b6}{init\+\_\+cache}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Initialise the cache of a Stream, starting empty. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{stream_8h_a19b523be46204ad6b126b353469c48f4}{reset\+\_\+cache}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Reset the cache of a Stream, emptying it. \end{DoxyCompactList}\item 
-\Hypertarget{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70}\label{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70} 
-\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+lifespan} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
-\item 
-\Hypertarget{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19}\label{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19} 
-size\+\_\+t {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+time\+\_\+scale} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
-\item 
-\Hypertarget{stream_8h_aaf759b718d8f8e57d1a3d7b5fd4fbc38}\label{stream_8h_aaf759b718d8f8e57d1a3d7b5fd4fbc38} 
-void {\bfseries init\+\_\+events\+\_\+table} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
-\item 
-\Hypertarget{stream_8h_af72bc912e3b50f6c91a4c05e6da98f41}\label{stream_8h_af72bc912e3b50f6c91a4c05e6da98f41} 
-void {\bfseries events\+\_\+destroy} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} \mbox{\hyperlink{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70}{SGA\+\_\+\+Stream\+Graph\+\_\+lifespan}} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
+\begin{DoxyCompactList}\small\item\em Get the lifespan of a Stream\+Graph. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19}{SGA\+\_\+\+Stream\+Graph\+\_\+time\+\_\+scale}} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
+\begin{DoxyCompactList}\small\item\em Get the time scale of a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{stream_8h_aaf759b718d8f8e57d1a3d7b5fd4fbc38}{init\+\_\+events\+\_\+table}} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
+\begin{DoxyCompactList}\small\item\em Initialise the events table of a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{stream_8h_af72bc912e3b50f6c91a4c05e6da98f41}{events\+\_\+destroy}} (\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
+\begin{DoxyCompactList}\small\item\em Destroy the events table of a Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -189,6 +167,21 @@ The structure used to represent a stream graph.
 It is opaque to the user, you should not access its fields directly. 
 
 \doxysubsection{Function Documentation}
+\Hypertarget{stream_8h_af72bc912e3b50f6c91a4c05e6da98f41}\index{stream.h@{stream.h}!events\_destroy@{events\_destroy}}
+\index{events\_destroy@{events\_destroy}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{events\_destroy()}{events\_destroy()}}
+{\footnotesize\ttfamily \label{stream_8h_af72bc912e3b50f6c91a4c05e6da98f41} 
+void events\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{sg}{}\end{DoxyParamCaption})}
+
+
+
+Destroy the events table of a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em sg} & The Stream\+Graph to destroy the events table of. \\
+\hline
+\end{DoxyParams}
 \Hypertarget{stream_8h_aa8e8a255c59a064519663b1ab3a589b6}\index{stream.h@{stream.h}!init\_cache@{init\_cache}}
 \index{init\_cache@{init\_cache}!stream.h@{stream.h}}
 \doxysubsubsection{\texorpdfstring{init\_cache()}{init\_cache()}}
@@ -202,6 +195,21 @@ Initialise the cache of a Stream, starting empty.
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ out}}  & {\em stream} & The Stream to initialise the cache of. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{stream_8h_aaf759b718d8f8e57d1a3d7b5fd4fbc38}\index{stream.h@{stream.h}!init\_events\_table@{init\_events\_table}}
+\index{init\_events\_table@{init\_events\_table}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{init\_events\_table()}{init\_events\_table()}}
+{\footnotesize\ttfamily \label{stream_8h_aaf759b718d8f8e57d1a3d7b5fd4fbc38} 
+void init\+\_\+events\+\_\+table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{sg}{}\end{DoxyParamCaption})}
+
+
+
+Initialise the events table of a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em sg} & The Stream\+Graph to initialise the events table of. \\
 \hline
 \end{DoxyParams}
 \Hypertarget{stream_8h_a19b523be46204ad6b126b353469c48f4}\index{stream.h@{stream.h}!reset\_cache@{reset\_cache}}
@@ -219,3 +227,264 @@ Reset the cache of a Stream, emptying it.
 \mbox{\texttt{ out}}  & {\em stream} & The Stream to reset the cache of. \\
 \hline
 \end{DoxyParams}
+\Hypertarget{stream_8h_a4f71af6ced2811fb72efae7a4c9deba6}\index{stream.h@{stream.h}!SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format@{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format}}
+\index{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format@{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format()}{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format()}}
+{\footnotesize\ttfamily \label{stream_8h_a4f71af6ced2811fb72efae7a4c9deba6} 
+\mbox{\hyperlink{structString}{String}} SGA\+\_\+external\+\_\+v\+\_\+1\+\_\+0\+\_\+0\+\_\+to\+\_\+internal\+\_\+v\+\_\+1\+\_\+0\+\_\+0\+\_\+format (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}}]{format}{}\end{DoxyParamCaption})}
+
+
+
+Converts an external format string to an internal format string. Both from version 1.\+0.\+0. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em format} & The string in external format to parse. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The string of the internal format 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b}\index{stream.h@{stream.h}!SGA\_StreamGraph\_destroy@{SGA\_StreamGraph\_destroy}}
+\index{SGA\_StreamGraph\_destroy@{SGA\_StreamGraph\_destroy}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_destroy()}{SGA\_StreamGraph\_destroy()}}
+{\footnotesize\ttfamily \label{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b} 
+void SGA\+\_\+\+Stream\+Graph\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}}}]{sg}{}\end{DoxyParamCaption})}
+
+
+
+Destroys a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sg} & The Stream\+Graph to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{stream_8h_a3faf5aebc82385c77d67ad2467cc95e3}\index{stream.h@{stream.h}!SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0@{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0}}
+\index{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0@{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0()}{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0()}}
+{\footnotesize\ttfamily \label{stream_8h_a3faf5aebc82385c77d67ad2467cc95e3} 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+external\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}}]{format}{}\end{DoxyParamCaption})}
+
+
+
+Creates a Stream\+Graph from an external format of the version 1.\+0.\+0 of the library. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em external\+\_\+format} & The string to parse. Assumes it is in the external format. The external format is made to be human-\/readable and writable, but a bit longer to parse. It is composed of only a general section, and the events section. The general header section the lifespan and the time scale. Each event contains the time instant, the type of event, whether it concerns a node or a link, and the node/link concerned. The events are ordered by time. A link can only appear after both its nodes have appeared. Multiple events can happen at the same time. Here\textquotesingle{}s how it looks\+: 
+\begin{DoxyCode}{1}
+\DoxyCodeLine{SGA\ External\ Format\ version\ 1.0.0}
+\DoxyCodeLine{}
+\DoxyCodeLine{[General]\ \ \ \ \textcolor{comment}{//\ Header\ of\ the\ general\ section}}
+\DoxyCodeLine{Lifespan=(start\ end)}
+\DoxyCodeLine{TimeScale=scale}
+\DoxyCodeLine{}
+\DoxyCodeLine{[\mbox{\hyperlink{structEvents}{Events}}]\ \ \ \ \ \textcolor{comment}{//\ Header\ of\ the\ events\ section}}
+\DoxyCodeLine{0\ +\ N\ 1\ \ \textcolor{comment}{//\ Node\ 1\ appears\ at\ time\ 0}}
+\DoxyCodeLine{3\ +\ N\ 0\ \ \textcolor{comment}{//\ Node\ 0\ appears\ at\ time\ 3}}
+\DoxyCodeLine{3\ +\ L\ 0\ 1\ \ \ \ \textcolor{comment}{//\ Link\ 0-\/1\ appears\ at\ time\ 3}}
+\DoxyCodeLine{4\ -\/\ L\ 0\ 1\ \ \ \ \textcolor{comment}{//\ Link\ 0-\/1\ disappears\ at\ time\ 4}}
+\DoxyCodeLine{5\ -\/\ N\ 1\ \ \textcolor{comment}{//\ Node\ 1\ disappears\ at\ time\ 5}}
+\DoxyCodeLine{6\ -\/\ N\ 0\ \ \textcolor{comment}{//\ Node\ 0\ disappears\ at\ time\ 6}}
+\DoxyCodeLine{}
+\DoxyCodeLine{[EndOfStream]\ \textcolor{comment}{//\ Signals\ the\ end\ of\ the\ stream}}
+\DoxyCodeLine{Any\ text\ after\ \textcolor{keyword}{this}\ is\ ignored,\ and\ can\ be\ used\ \textcolor{keywordflow}{for}\ comments}
+
+\end{DoxyCode}
+ You can check the {\ttfamily data/} folder which contains some examples of external formats. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Stream\+Graph. 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_aaf1651fde51147b366ef757df3ae74c7}\index{stream.h@{stream.h}!SGA\_StreamGraph\_from\_file@{SGA\_StreamGraph\_from\_file}}
+\index{SGA\_StreamGraph\_from\_file@{SGA\_StreamGraph\_from\_file}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_from\_file()}{SGA\_StreamGraph\_from\_file()}}
+{\footnotesize\ttfamily \label{stream_8h_aaf1651fde51147b366ef757df3ae74c7} 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+file (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename}{}\end{DoxyParamCaption})}
+
+
+
+Loads a Stream\+Graph from a file. Reads the contents of the file and parses it as a Stream\+Graph. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{stream_8h_a3da0c73409d0ecabb0743d896492310a}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+string}. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em filename} & The name of the file to load. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Stream\+Graph. 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_a8dea3f09eec5c37beb5b18c267701fd6}\index{stream.h@{stream.h}!SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0@{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0}}
+\index{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0@{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0()}{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0()}}
+{\footnotesize\ttfamily \label{stream_8h_a8dea3f09eec5c37beb5b18c267701fd6} 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+internal\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}}]{format}{}\end{DoxyParamCaption})}
+
+
+
+Creates a Stream\+Graph the internal format of the version 1.\+0.\+0 of the library. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em internal\+\_\+format} & The string to parse. Assumes it is in the internal format. The internal format is made to be more compact and efficient to parse, but way harder to read and write by hand. It is composed of a general section, a memory section, and a data section. The general header section contains the lifespan and the time scale. The memory section contains the number of nodes, links, and key moments. It is also composed of sub-\/sections \+: One for the nodes, which contains its number of neighbours and number of presence intervals. One for the links, which contains its number of presence intervals. One for the key moments, which contains in how many slices the time is divided. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\doxylink{structKeyMomentsTable}{Key\+Moments\+Table}. The data section is also composed of sub-\/sections \+: One for the neighbours, for nodes it contains its neighbouring links, for links it contains the two nodes it links. One for the events, which contains the time of the event, and each events that happened at that time. Unlike the external format, all events of a same time are grouped together. Here\textquotesingle{}s how it looks\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{SGA\ Internal\ version\ 1.0.0}
+\DoxyCodeLine{}
+\DoxyCodeLine{[General]}
+\DoxyCodeLine{Lifespan=(start\ end)}
+\DoxyCodeLine{TimeScale=scale}
+\DoxyCodeLine{}
+\DoxyCodeLine{[Memory]}
+\DoxyCodeLine{NumberOfNodes=x}
+\DoxyCodeLine{NumberOfLinks=y}
+\DoxyCodeLine{NumberOfKeyMoments=z}
+\DoxyCodeLine{}
+\DoxyCodeLine{[[Nodes]]}
+\DoxyCodeLine{[[[NumberOfNeighbours]]]}
+\DoxyCodeLine{1\ \ \ \ \textcolor{comment}{//\ Node\ 0\ has\ 1\ neighbour}}
+\DoxyCodeLine{2\ \ \ \ \textcolor{comment}{//\ Node\ 1\ has\ 2\ neighbours}}
+\DoxyCodeLine{1\ \ \ \ \textcolor{comment}{//\ Node\ 2\ has\ 1\ neighbour}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{[[[NumberOfIntervals]]]}
+\DoxyCodeLine{2\ \ \ \ \textcolor{comment}{//\ Node\ 0\ has\ 2\ presence\ intervals}}
+\DoxyCodeLine{1\ \ \ \ \textcolor{comment}{//\ Node\ 1\ has\ 1\ presence\ interval}}
+\DoxyCodeLine{3\ \ \ \ \textcolor{comment}{//\ Node\ 2\ has\ 3\ presence\ intervals}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{}
+\DoxyCodeLine{[[Links]]}
+\DoxyCodeLine{[[[NumberOfIntervals]]]}
+\DoxyCodeLine{1\ \ \ \ \textcolor{comment}{//\ Link\ 0\ has\ 1\ presence\ interval}}
+\DoxyCodeLine{2\ \ \ \ \textcolor{comment}{//\ Link\ 1\ has\ 2\ presence\ intervals}}
+\DoxyCodeLine{1\ \ \ \ \textcolor{comment}{//\ Link\ 2\ has\ 1\ presence\ interval}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{}
+\DoxyCodeLine{[[[NumberOfKeyMomentsPerSlice]]]}
+\DoxyCodeLine{2\ \ \ \ \textcolor{comment}{//\ The\ first\ slice\ contains\ 2\ key\ moments}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{}
+\DoxyCodeLine{[Data]}
+\DoxyCodeLine{[[Neighbours]]}
+\DoxyCodeLine{[[[NodesToLinks]]]}
+\DoxyCodeLine{(1)\ \ \ \ \ \ \textcolor{comment}{//\ Node\ 0\ is\ linked\ to\ link\ 1}}
+\DoxyCodeLine{(0\ 2)\ \ \ \ \textcolor{comment}{//\ Node\ 1\ is\ linked\ to\ link\ 0\ and\ 2}}
+\DoxyCodeLine{(1)\ \ \ \ \ \ \textcolor{comment}{//\ Node\ 2\ is\ linked\ to\ link\ 1}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{[[[LinksToNodes]]]}
+\DoxyCodeLine{(1\ 3)\ \ \ \ \textcolor{comment}{//\ Link\ 0\ links\ nodes\ 1\ and\ 3}}
+\DoxyCodeLine{(0\ 2)\ \ \ \ \textcolor{comment}{//\ Link\ 1\ links\ nodes\ 0\ and\ 2}}
+\DoxyCodeLine{(1\ 4)\ \ \ \ \textcolor{comment}{//\ Link\ 2\ links\ nodes\ 1\ and\ 4}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{[[\mbox{\hyperlink{structEvents}{Events}}]]}
+\DoxyCodeLine{0=((+\ N\ 0)\ (+\ N\ 2)\ (+\ L\ 1))\ \ \textcolor{comment}{//\ At\ time\ 0,\ node\ 0\ and\ 2\ appear,\ and\ link\ 1\ appears}}
+\DoxyCodeLine{1=((+\ N\ 1)\ (-\/\ L\ 1))\ \ \ \ \ \ \textcolor{comment}{//\ At\ time\ 1,\ node\ 1\ appears,\ and\ link\ 1\ disappears}}
+\DoxyCodeLine{...}
+\DoxyCodeLine{}
+\DoxyCodeLine{[EndOfStream]\ \textcolor{comment}{//\ Signals\ the\ end\ of\ the\ stream}}
+\DoxyCodeLine{Any\ text\ after\ \textcolor{keyword}{this}\ is\ ignored,\ and\ can\ be\ used\ \textcolor{keywordflow}{for}\ comments}
+
+\end{DoxyCode}
+ 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+The Stream\+Graph. 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_a3da0c73409d0ecabb0743d896492310a}\index{stream.h@{stream.h}!SGA\_StreamGraph\_from\_string@{SGA\_StreamGraph\_from\_string}}
+\index{SGA\_StreamGraph\_from\_string@{SGA\_StreamGraph\_from\_string}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_from\_string()}{SGA\_StreamGraph\_from\_string()}}
+{\footnotesize\ttfamily \label{stream_8h_a3da0c73409d0ecabb0743d896492310a} 
+\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}}]{sg\+\_\+as\+\_\+str}{}\end{DoxyParamCaption})}
+
+
+
+Creates a Stream\+Graph from a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sg\+\_\+as\+\_\+str} & The string to parse. Determines the type and version of the format from the header. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\doxylink{stream_8h_a3faf5aebc82385c77d67ad2467cc95e3}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+external\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0}, 
+
+\doxylink{stream_8h_a8dea3f09eec5c37beb5b18c267701fd6}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+internal\+\_\+format\+\_\+v\+\_\+1\+\_\+0\+\_\+0}. 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+The Stream\+Graph. 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70}\index{stream.h@{stream.h}!SGA\_StreamGraph\_lifespan@{SGA\_StreamGraph\_lifespan}}
+\index{SGA\_StreamGraph\_lifespan@{SGA\_StreamGraph\_lifespan}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_lifespan()}{SGA\_StreamGraph\_lifespan()}}
+{\footnotesize\ttfamily \label{stream_8h_af88ac3f8cd9c51ef6f65bcfb1c66cb70} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} SGA\+\_\+\+Stream\+Graph\+\_\+lifespan (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{sg}{}\end{DoxyParamCaption})}
+
+
+
+Get the lifespan of a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sg} & The Stream\+Graph to get the lifespan of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The lifespan of the Stream\+Graph. 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19}\index{stream.h@{stream.h}!SGA\_StreamGraph\_time\_scale@{SGA\_StreamGraph\_time\_scale}}
+\index{SGA\_StreamGraph\_time\_scale@{SGA\_StreamGraph\_time\_scale}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_time\_scale()}{SGA\_StreamGraph\_time\_scale()}}
+{\footnotesize\ttfamily \label{stream_8h_af819fe6f62a1bb1263348ba4df6d9e19} 
+size\+\_\+t SGA\+\_\+\+Stream\+Graph\+\_\+time\+\_\+scale (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{sg}{}\end{DoxyParamCaption})}
+
+
+
+Get the time scale of a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sg} & The Stream\+Graph to get the time scale of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The time scale of the Stream\+Graph. 
+\end{DoxyReturn}
+\Hypertarget{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf}\index{stream.h@{stream.h}!SGA\_StreamGraph\_to\_string@{SGA\_StreamGraph\_to\_string}}
+\index{SGA\_StreamGraph\_to\_string@{SGA\_StreamGraph\_to\_string}!stream.h@{stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_to\_string()}{SGA\_StreamGraph\_to\_string()}}
+{\footnotesize\ttfamily \label{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf} 
+\mbox{\hyperlink{structString}{String}} SGA\+\_\+\+Stream\+Graph\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{sg}{}\end{DoxyParamCaption})}
+
+
+
+Creates a string representation of a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sg} & The Stream\+Graph to convert to a string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The string representation of the Stream\+Graph. 
+\end{DoxyReturn}
+Include dependency graph for stream.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stream_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stream_8h__dep__incl}
+\end{center}
+\end{figure}

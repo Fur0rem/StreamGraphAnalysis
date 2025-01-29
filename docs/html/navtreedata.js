@@ -50,7 +50,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "StreamGraphAnalysis_8h.html",
-"structSGA__NoWalkReason.html#a16b0e780fa5d30092eef6f31f1879ea2"
+"structLinkInfo.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

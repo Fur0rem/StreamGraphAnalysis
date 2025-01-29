@@ -10,24 +10,17 @@
 
 // TODO : more tests for neighbours and such
 bool load() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/S.txt");
-	printf("Loaded graph\n");
-	String str = SGA_StreamGraph_to_string(&sg);
-	String_push(&str, '\0');
-	printf("%s\n", str.data);
-	String_destroy(str);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_StreamGraph_destroy(sg);
 	return true;
 }
 
 bool test_load_slices() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/S_multiple_slices.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S_multiple_slices.sga");
 	String str	   = SGA_StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
 	String_destroy(str);
-	// EXPECT(SGA_StreamGraph_lifespan_begin(&sg) == 0);
-	// EXPECT(SGA_StreamGraph_lifespan_end(&sg) == 1000);
 	SGA_Interval lifespan = SGA_StreamGraph_lifespan(&sg);
 	EXPECT_EQ(lifespan.start, 0);
 	EXPECT_EQ(lifespan.end, 1000);
@@ -36,78 +29,38 @@ bool test_load_slices() {
 }
 
 bool test_find_index_of_time() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/S.txt");
-	size_t index	   = KeyMomentsTable_find_time_index(&sg.key_moments, 75);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
+	size_t index	   = KeyMomentsTable_find_time_index_if_pushed(&sg.key_moments, 75);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_in_slices() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/S_multiple_slices.txt");
-	size_t index	   = KeyMomentsTable_find_time_index(&sg.key_moments, 750);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S_multiple_slices.sga");
+	size_t index	   = KeyMomentsTable_find_time_index_if_pushed(&sg.key_moments, 750);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_not_found() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/S.txt");
-	size_t index	   = KeyMomentsTable_find_time_index(&sg.key_moments, 999999);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
+	size_t index	   = KeyMomentsTable_find_time_index_if_pushed(&sg.key_moments, 999999);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, sg.events.nb_events);
 }
 
-bool test_external_format() {
-	// Read the file
-	char* filename = "data/S_external.txt";
-	// Open the file
-	FILE* file = fopen(filename, "r");
-	if (file == NULL) {
-		fprintf(stderr, "Error: could not open file %s\n", filename);
-		return false;
-	}
-	// Read everything into a buffer
-	fseek(file, 0, SEEK_END);
-	long length = ftell(file);
-	fseek(file, 0, SEEK_SET);
-	char* buffer = (char*)malloc(length + 1);
-	if (buffer == NULL) {
-		fprintf(stderr, "Error: could not allocate memory for file %s\n", filename);
-		fclose(file);
-		return false;
-	}
-	fread(buffer, 1, length, file);
-
-	fclose(file);
-	buffer[length] = '\0';
-
-	// Parse the buffer
-	char* internal_format = SGA_InternalFormat_from_External_str(buffer);
-	SGA_StreamGraph sg    = SGA_StreamGraph_from_string(internal_format);
-	free(internal_format);
-	SGA_StreamGraph_destroy(sg);
-	free(buffer);
-	return true;
-}
-
-bool test_unordered_nodes() {
-	// SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/FIX_CRASH_2.txt");
-	char* content = read_file("data/empty_nodes.txt");
-	printf("content : %s\n", content);
-	char* to_internal = SGA_InternalFormat_from_External_str(content);
-	printf("to_internal : %s\n", to_internal);
-	SGA_StreamGraph sg = SGA_StreamGraph_from_string(to_internal);
+bool test_missing_nodes() {
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/missing_nodes.sga");
 	String str	   = SGA_StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
 	String_destroy(str);
-	free(to_internal);
-	free(content);
 	SGA_StreamGraph_destroy(sg);
 	return true;
 }
 
 bool test_no_links() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/no_link.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/no_links.sga");
 	String str	   = SGA_StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
@@ -117,17 +70,7 @@ bool test_no_links() {
 }
 
 bool test_wrong_order_internal() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/internal_wrong_order.txt");
-	String str	   = SGA_StreamGraph_to_string(&sg);
-	String_push(&str, '\0');
-	printf("%s\n", str.data);
-	String_destroy(str);
-	SGA_StreamGraph_destroy(sg);
-	return true;
-}
-
-bool test_from_external_format() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S_internal_unordered.sga");
 	String str	   = SGA_StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);
@@ -143,9 +86,7 @@ int main() {
 	    TEST(test_find_index_of_time),
 	    TEST(test_find_index_of_time_in_slices),
 	    TEST(test_find_index_of_time_not_found),
-	    TEST(test_external_format),
-	    TEST(test_from_external_format),
-	    TEST(test_unordered_nodes),
+	    TEST(test_missing_nodes),
 	    TEST(test_no_links),
 	    TEST(test_wrong_order_internal),
 	    NULL,

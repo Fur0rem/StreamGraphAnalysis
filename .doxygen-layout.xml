@@ -110,8 +110,6 @@
     <briefdescription visible="no"/>
     <detaileddescription title=""/>
     <includes visible="$SHOW_INCLUDE_FILES"/>
-    <includegraph visible="$INCLUDE_GRAPH"/>
-    <includedbygraph visible="$INCLUDED_BY_GRAPH"/>
     <sourcelink visible="yes"/>
     <memberdecl>
       <classes visible="yes" title=""/>
@@ -133,6 +131,8 @@
       <variables title=""/>
     </memberdef>
     <authorsection/>
+    <includegraph visible="$INCLUDE_GRAPH"/>
+    <includedbygraph visible="$INCLUDED_BY_GRAPH"/>
   </file>
 
   <!-- Layout definition for a group page -->
