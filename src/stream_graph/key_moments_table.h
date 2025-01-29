@@ -44,8 +44,11 @@ SGA_Time KeyMomentsTable_first_moment(KeyMomentsTable* kmt);
 SGA_Time KeyMomentsTable_last_moment(KeyMomentsTable* kmt);
 void KeyMomentsTable_destroy(KeyMomentsTable kmt);
 
-// Assumes the times are sorted, returns the index of a certain time if all of them were in a single array
-SGA_TimeId KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, SGA_Time t);
+// Assumes the times are sorted, returns the index of a certain time if it was pushed in that array, all of them were in a single array
+SGA_TimeId KeyMomentsTable_find_time_index_if_pushed(KeyMomentsTable* kmt, SGA_Time t);
+
+// Returns the index of the the moment which has equivalent events to time t
+SGA_TimeId KeyMomentsTable_find_time_index_equivalent(KeyMomentsTable* kmt, SGA_Time t);
 
 void print_key_moments_table(KeyMomentsTable* kmt);
 

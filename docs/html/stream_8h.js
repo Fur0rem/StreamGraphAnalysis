@@ -9,6 +9,17 @@ var stream_8h =
     [ "SGA_Stream", "stream_8h.html#a6e6f770c3645b9702da2fd1a41a57c06", null ],
     [ "SGA_StreamData", "stream_8h.html#a3c628d0526c9c7b163801ccc0e24cb4f", null ],
     [ "SGA_StreamGraph", "stream_8h.html#a623e7910ee66c5dd739f381b9f77ed24", null ],
+    [ "events_destroy", "stream_8h.html#af72bc912e3b50f6c91a4c05e6da98f41", null ],
     [ "init_cache", "stream_8h.html#aa8e8a255c59a064519663b1ab3a589b6", null ],
-    [ "reset_cache", "stream_8h.html#a19b523be46204ad6b126b353469c48f4", null ]
+    [ "init_events_table", "stream_8h.html#aaf759b718d8f8e57d1a3d7b5fd4fbc38", null ],
+    [ "reset_cache", "stream_8h.html#a19b523be46204ad6b126b353469c48f4", null ],
+    [ "SGA_external_v_1_0_0_to_internal_v_1_0_0_format", "stream_8h.html#a4f71af6ced2811fb72efae7a4c9deba6", null ],
+    [ "SGA_StreamGraph_destroy", "stream_8h.html#a03e621974d5eab4d6946f3b82c9fb89b", null ],
+    [ "SGA_StreamGraph_from_external_format_v_1_0_0", "stream_8h.html#a3faf5aebc82385c77d67ad2467cc95e3", null ],
+    [ "SGA_StreamGraph_from_file", "stream_8h.html#aaf1651fde51147b366ef757df3ae74c7", null ],
+    [ "SGA_StreamGraph_from_internal_format_v_1_0_0", "stream_8h.html#a8dea3f09eec5c37beb5b18c267701fd6", null ],
+    [ "SGA_StreamGraph_from_string", "stream_8h.html#a3da0c73409d0ecabb0743d896492310a", null ],
+    [ "SGA_StreamGraph_lifespan", "stream_8h.html#af88ac3f8cd9c51ef6f65bcfb1c66cb70", null ],
+    [ "SGA_StreamGraph_time_scale", "stream_8h.html#af819fe6f62a1bb1263348ba4df6d9e19", null ],
+    [ "SGA_StreamGraph_to_string", "stream_8h.html#a71ed7a37932ee7abca6bfd4d353b14cf", null ]
 ];

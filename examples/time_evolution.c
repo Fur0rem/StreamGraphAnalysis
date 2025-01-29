@@ -3,15 +3,8 @@
 #include <stdlib.h>
 
 int main() {
-	// SGA_StreamGraph sg = SGA_StreamGraph_from_file("../data/S_external.txt");
-	// SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
-
-	char* content	   = read_file("../data/S_external_multiple.txt");
-	char* to_internal  = SGA_InternalFormat_from_External_str(content);
-	SGA_StreamGraph sg = SGA_StreamGraph_from_string(to_internal);
-	// SGA_init_events_table(&sg);
-
-	SGA_Stream st = SGA_FullStreamGraph_from(&sg);
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("../data/S_external_multiple.txt");
+	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	SGA_TimesIterator all_key_moments = SGA_Stream_key_moments(&st);
 	SGA_FOR_EACH_TIME(moment, all_key_moments) {

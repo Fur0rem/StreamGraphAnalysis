@@ -16,13 +16,6 @@ Tests regarding metrics.
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$unistd.\+h$>$}\newline
-Include dependency graph for metrics.\+c\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{tests_2metrics_8c__incl}
-\end{center}
-\end{figure}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -47,9 +40,6 @@ bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+T\+\_\+\+S\+\_\+2} ()
 \item 
 \Hypertarget{tests_2metrics_8c_a5988100c564779299f7e97c099ea5f3a}\label{tests_2metrics_8c_a5988100c564779299f7e97c099ea5f3a} 
 bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+T\+\_\+\+S\+\_\+3} ()
-\item 
-\Hypertarget{tests_2metrics_8c_a4fa849134d129b044069c31aeff2b497}\label{tests_2metrics_8c_a4fa849134d129b044069c31aeff2b497} 
-bool {\bfseries test\+\_\+times\+\_\+node\+\_\+present} ()
 \item 
 \Hypertarget{tests_2metrics_8c_afc67d83e6a24bf3612a7fb839f58c11f}\label{tests_2metrics_8c_afc67d83e6a24bf3612a7fb839f58c11f} 
 bool {\bfseries test\+\_\+cardinal\+\_\+of\+\_\+\+W\+\_\+S} ()
@@ -111,7 +101,7 @@ int {\bfseries main} ()
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ test\_\#\#name()\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ SGA\_StreamGraph\_from\_external(\textcolor{stringliteral}{"{}data/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.txt"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}data/tests/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.sga"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ type\#\#\_from(\&sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ \ \ \ =\ EXPECT\_F\_APPROX\_EQ(SGA\_Stream\_\#\#name(\&st),\ value,\ 1e-\/5);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_StreamGraph\_destroy(sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
@@ -129,7 +119,7 @@ int {\bfseries main} ()
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ test\_\#\#name()\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ SGA\_StreamGraph\_from\_external(\textcolor{stringliteral}{"{}data/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.txt"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}data/tests/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.sga"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ type\#\#\_from(\&sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ \ \ \ =\ EXPECT\_EQ(SGA\_Stream\_\#\#name(st),\ value);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_StreamGraph\_destroy(sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
@@ -138,3 +128,10 @@ int {\bfseries main} ()
 \DoxyCodeLine{\ \ \ \ \}}
 
 \end{DoxyCode}
+Include dependency graph for metrics.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_2metrics_8c__incl}
+\end{center}
+\end{figure}

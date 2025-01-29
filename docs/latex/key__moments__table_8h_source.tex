@@ -45,13 +45,16 @@
 \DoxyCodeLine{00044\ SGA\_Time\ KeyMomentsTable\_last\_moment(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt);}
 \DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ KeyMomentsTable\_destroy(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}\ kmt);}
 \DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \textcolor{comment}{//\ Assumes\ the\ times\ are\ sorted,\ returns\ the\ index\ of\ a\ certain\ time\ if\ all\ of\ them\ were\ in\ a\ single\ array}}
-\DoxyCodeLine{00048\ SGA\_TimeId\ KeyMomentsTable\_find\_time\_index(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ SGA\_Time\ t);}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ Assumes\ the\ times\ are\ sorted,\ returns\ the\ index\ of\ a\ certain\ time\ if\ it\ was\ pushed\ in\ that\ array,\ all\ of\ them\ were\ in\ a\ single\ array}}
+\DoxyCodeLine{00048\ SGA\_TimeId\ KeyMomentsTable\_find\_time\_index\_if\_pushed(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ SGA\_Time\ t);}
 \DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \textcolor{keywordtype}{void}\ print\_key\_moments\_table(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt);}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_KEY\_MOMENTS\_TABLE\_H}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ Returns\ the\ index\ of\ the\ the\ moment\ which\ has\ equivalent\ events\ to\ time\ t}}
+\DoxyCodeLine{00051\ SGA\_TimeId\ KeyMomentsTable\_find\_time\_index\_equivalent(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt,\ SGA\_Time\ t);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{void}\ print\_key\_moments\_table(\mbox{\hyperlink{structKeyMomentsTable}{KeyMomentsTable}}*\ kmt);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_KEY\_MOMENTS\_TABLE\_H}}
 
 \end{DoxyCode}

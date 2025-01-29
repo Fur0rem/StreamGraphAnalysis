@@ -1,33 +1,35 @@
 <map id="src/streams.h" name="src/streams.h">
-<area shape="rect" id="Node000001" title="Utility header to include all types of streams at once." alt="" coords="1200,5,1309,33"/>
-<area shape="rect" id="Node000002" href="$StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="977,81,1151,109"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1207,42,1099,83,1097,78,1205,37"/>
-<area shape="rect" id="Node000015" href="$src_2analysis_2cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="1175,81,1334,109"/>
-<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="1257,49,1257,81,1252,81,1252,49"/>
-<area shape="rect" id="Node000016" href="$src_2analysis_2metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="1359,81,1521,109"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1303,37,1408,78,1406,83,1301,41"/>
+<area shape="rect" id="Node000001" title="Utility header to include all types of streams at once." alt="" coords="1296,5,1405,33"/>
+<area shape="rect" id="Node000002" href="$StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="1073,81,1247,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1303,42,1195,83,1193,78,1301,37"/>
+<area shape="rect" id="Node000016" href="$src_2analysis_2cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="1271,81,1430,109"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1353,49,1353,81,1348,81,1348,49"/>
+<area shape="rect" id="Node000017" href="$src_2analysis_2metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="1455,81,1617,109"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="1399,37,1504,78,1502,83,1397,41"/>
 <area shape="rect" id="Node000003" href="$benchmarks_2metrics_8c.html" title="Benchmarks for metrics." alt="" coords="5,165,171,193"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="962,101,810,106,616,117,400,134,183,159,141,167,140,162,182,154,399,128,615,111,810,101,962,96"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1058,100,890,104,672,114,428,132,183,159,141,167,140,162,182,154,428,126,672,109,890,99,1057,95"/>
 <area shape="rect" id="Node000004" href="$benchmarks_2stream_8c.html" title="Benchmarks for loading a StreamGraph." alt="" coords="195,165,357,193"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="961,103,693,122,531,138,370,159,329,167,328,162,369,154,530,133,692,117,961,98"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1057,102,749,119,559,136,370,159,329,167,328,162,369,154,559,130,748,114,1057,97"/>
 <area shape="rect" id="Node000005" href="$benchmarks_2walks_8c.html" title="Benchmarks for walks." alt="" coords="382,165,536,193"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="962,107,769,128,548,159,510,167,509,162,548,154,769,122,961,102"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="1057,105,824,124,686,139,548,159,510,167,509,162,548,154,685,134,823,119,1057,100"/>
 <area shape="rect" id="Node000006" href="$tests_2bit__array_8c.html" title="Tests regarding BitArray." alt="" coords="560,165,685,193"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="962,113,835,133,698,159,667,167,666,162,697,154,834,127,961,107"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="1057,108,888,128,698,159,666,167,664,162,697,154,887,122,1057,103"/>
 <area shape="rect" id="Node000007" href="$chunk__stream_8c.html" title="Tests regarding ChunkStream." alt="" coords="709,165,870,193"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="1006,116,834,167,833,162,1005,111"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="1084,115,882,159,847,167,846,162,881,154,1083,110"/>
 <area shape="rect" id="Node000008" href="$chunk__stream__small_8c.html" title="Tests regarding ChunkStreamSmall." alt="" coords="893,157,1043,201"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="1039,121,995,158,992,154,1035,117"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="1116,118,1020,158,1018,154,1114,113"/>
 <area shape="rect" id="Node000009" href="$full__stream__graph_8c.html" title="Tests regarding FullStreamGraph." alt="" coords="1067,165,1253,193"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="1092,117,1147,163,1143,167,1089,121"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="1163,125,1163,165,1157,165,1157,125"/>
 <area shape="rect" id="Node000010" href="$tests_2isomorphism_8c.html" title="Tests regarding isomorphism." alt="" coords="1277,165,1430,193"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="1126,111,1308,162,1306,167,1124,116"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="1206,113,1323,162,1321,167,1204,118"/>
 <area shape="rect" id="Node000011" href="$tests_2kcores_8c.html" title="Tests regarding K&#45;Cores." alt="" coords="1454,165,1565,193"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="1167,108,1321,132,1443,154,1472,162,1470,167,1442,159,1320,137,1166,113"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="1246,110,1443,154,1470,162,1469,167,1442,159,1245,115"/>
 <area shape="rect" id="Node000012" href="$link__stream_8c.html" title="Tests regarding LinkStream." alt="" coords="1589,165,1734,193"/>
-<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="1167,106,1374,126,1464,136,1578,154,1614,162,1613,167,1577,159,1464,141,1374,131,1167,112"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="1263,107,1437,132,1578,154,1613,162,1612,167,1577,159,1436,137,1262,112"/>
 <area shape="rect" id="Node000013" href="$tests_2metrics_8c.html" title="Tests regarding metrics." alt="" coords="1759,165,1876,193"/>
-<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="1167,106,1331,118,1459,122,1587,130,1747,154,1779,162,1778,167,1746,159,1586,136,1459,127,1331,123,1167,112"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="1263,106,1400,118,1507,124,1613,133,1747,154,1779,162,1777,167,1746,159,1613,138,1507,129,1400,123,1263,112"/>
 <area shape="rect" id="Node000014" href="$tests_2stream_8c.html" title="Tests regarding StreamGraph." alt="" coords="1900,165,2014,193"/>
-<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="1167,106,1277,114,1370,118,1530,120,1688,127,1781,137,1889,154,1920,162,1919,167,1887,159,1780,142,1688,132,1530,125,1370,123,1277,120,1166,112"/>
+<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="1263,106,1440,118,1578,121,1715,129,1795,139,1889,154,1920,162,1919,167,1887,159,1794,144,1715,134,1578,127,1439,123,1263,112"/>
+<area shape="rect" id="Node000015" href="$external__to__internal_8c.html" title="Converts an external format StreamGraph to an internal format StreamGraph." alt="" coords="2038,157,2167,201"/>
+<area shape="poly" id="edge14_Node000002_Node000015" title=" " alt="" coords="1263,106,1380,115,1479,119,1647,121,1815,127,1913,137,2027,154,2039,156,2038,161,2026,159,1912,143,1815,133,1647,126,1478,124,1379,120,1263,112"/>
 </map>

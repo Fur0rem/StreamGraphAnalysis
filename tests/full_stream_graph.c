@@ -12,7 +12,7 @@
 #include <string.h>
 
 bool test_links_at_time_80() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
 	// init_events_table(&sg);
 	SGA_Stream stream   = SGA_FullStreamGraph_from(&sg);
 	StreamFunctions fns = FullStreamGraph_stream_functions;

@@ -8,11 +8,14 @@
 #include "../StreamGraphAnalysis.h"
 #include "test.h"
 
+/**
+ * @brief Test if two identical streams are isomorphic.
+ */
 bool test_equals() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
 	bool result = EXPECT(are_isomorphic(&stream1, &stream2));
@@ -25,9 +28,12 @@ bool test_equals() {
 	return result;
 }
 
+/**
+ * @brief Test if an extracted chunk is isomorphic to the original stream.
+ */
 bool test_isomorphism_chunk() {
-	SGA_StreamGraph sg	    = SGA_StreamGraph_from_external("data/kcores_with_L.txt");
-	SGA_StreamGraph kcores_only = SGA_StreamGraph_from_external("data/kcores_test.txt");
+	SGA_StreamGraph sg	    = SGA_StreamGraph_from_file("data/tests/kcores_fused_with_L.sga");
+	SGA_StreamGraph kcores_only = SGA_StreamGraph_from_file("data/tests/kcores.sga");
 
 	SGA_LinkIdArrayList links = SGA_LinkIdArrayList_new();
 	for (size_t i = 0; i < sg.links.nb_links; i++) {
@@ -61,11 +67,14 @@ bool test_isomorphism_chunk() {
 	// return false;
 }
 
+/**
+ * @brief Test if two different streams are not isomorphic.
+ */
 bool test_not_isomorphic() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/S_concat_L.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S_concat_L.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
 	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
@@ -78,11 +87,14 @@ bool test_not_isomorphic() {
 	return result;
 }
 
+/**
+ * @brief Test if two streams are not isomorphic when one is a time-stretched version of the other.
+ */
 bool test_not_isomorphic_stretched() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream stream1  = SGA_LinkStream_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/L_10.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_stretched_by_10.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
 	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
@@ -95,11 +107,14 @@ bool test_not_isomorphic_stretched() {
 	return result;
 }
 
+/**
+ * @brief Test if two identical streams are still isomorphic when one has a time offset.
+ */
 bool test_isomorphism_offset() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream stream1  = SGA_LinkStream_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/L_offset.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_offset.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
 	bool result = EXPECT(are_isomorphic(&stream1, &stream2));
@@ -112,11 +127,14 @@ bool test_isomorphism_offset() {
 	return result;
 }
 
+/**
+ * @brief Test if two identical streams are still isomorphic when the node IDs are scrambled.
+ */
 bool test_isomorphic_ids_scrambled() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream stream1  = SGA_LinkStream_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/L_scrambled.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_scrambled.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
 	bool result = EXPECT(are_isomorphic(&stream1, &stream2));
@@ -129,11 +147,14 @@ bool test_isomorphic_ids_scrambled() {
 	return result;
 }
 
+/**
+ * @brief Test if two identical streams are not isomorphic when one has different node times.
+ */
 bool test_isomorphism_different_node_times() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/S_external_different_node_time.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S_one_different_appearance.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
 	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
@@ -146,11 +167,14 @@ bool test_isomorphism_different_node_times() {
 	return result;
 }
 
+/**
+ * @brief Test if two streams are not isomorphic when one has a non-constant offset.
+ */
 bool test_isomorphism_not_constant_offset() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream stream1  = SGA_LinkStream_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/L_offset_but_one.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_offset_but_one.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
 	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
@@ -163,11 +187,14 @@ bool test_isomorphism_not_constant_offset() {
 	return result;
 }
 
+/**
+ * @brief Test if two identical streams are not isomorphic when they have different lifespans, but the same events.
+ */
 bool test_different_lifespans() {
-	SGA_StreamGraph sg1 = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream stream1  = SGA_FullStreamGraph_from(&sg1);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/S_external_different_lifespan.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S_different_lifespan.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
 	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));

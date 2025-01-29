@@ -27,6 +27,7 @@ var annotated_dup =
     [ "NeighborListEnd", "structNeighborListEnd.html", null ],
     [ "NodesSet", "structNodesSet.html", "structNodesSet" ],
     [ "OptionalSizeT", "structOptionalSizeT.html", "structOptionalSizeT" ],
+    [ "ParsedStreamGraph", "structParsedStreamGraph.html", "structParsedStreamGraph" ],
     [ "QueueInfo", "structQueueInfo.html", null ],
     [ "SGA_Clique", "structSGA__Clique.html", "structSGA__Clique" ],
     [ "SGA_Cluster", "structSGA__Cluster.html", "structSGA__Cluster" ],

@@ -2,13 +2,13 @@
 #define ARRAYLIST_H
 
 #include "../utils.h"
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 // TODO: maybe change push to push_back and array to elems?
 // TODO: add macro for elem in array?
-// TODO: pointers or no?
 
 /// Declare a ArrayList of a given type, no other functions are defined
 #define DeclareArrayList(type)                                                                                                             \
@@ -20,6 +20,11 @@
                                                                                                                                            \
 	type##ArrayList type##ArrayList_with_capacity(size_t capacity);                                                                    \
 	type##ArrayList type##ArrayList_new();                                                                                             \
+	type##ArrayList type##ArrayList_from(size_t nb_elems, ...);                                                                        \
+	type##ArrayList type##ArrayList_from_c_array_owned(size_t nb_elems, type* array);                                                  \
+	type##ArrayList type##ArrayList_from_c_array_cloned(size_t nb_elems, const type* array);                                           \
+	type##ArrayList type##ArrayList_clone(const type##ArrayList* list);                                                                \
+	type##ArrayList type##ArrayList_empty();                                                                                           \
 	void type##ArrayList_push(type##ArrayList* list, type value);                                                                      \
 	void type##ArrayList_push_unchecked(type##ArrayList* list, type value);                                                            \
 	size_t type##ArrayList_len(const type##ArrayList* list);                                                                           \
@@ -30,8 +35,7 @@
 	type type##ArrayList_pop_last(type##ArrayList* list);                                                                              \
 	type type##ArrayList_pop_nth(type##ArrayList* list, size_t idx);                                                                   \
 	type type##ArrayList_pop_nth_swap(type##ArrayList* list, size_t idx);                                                              \
-	void type##ArrayList_swap(type##ArrayList* list, size_t idx1, size_t idx2);                                                        \
-	void type##ArrayList_from_c_array(type##ArrayList* list, type* array, size_t length);
+	void type##ArrayList_swap(type##ArrayList* list, size_t idx1, size_t idx2);
 
 #define DefineArrayList(type)                                                                                                              \
                                                                                                                                            \
@@ -41,7 +45,23 @@
 	}                                                                                                                                  \
                                                                                                                                            \
 	type##ArrayList type##ArrayList_new() {                                                                                            \
-		return type##ArrayList_with_capacity(2);                                                                                   \
+		return type##ArrayList_with_capacity(10);                                                                                  \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type##ArrayList type##ArrayList_empty() {                                                                                          \
+		return type##ArrayList_with_capacity(0);                                                                                   \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type##ArrayList type##ArrayList_from(size_t nb_elems, ...) {                                                                       \
+		va_list args;                                                                                                              \
+		va_start(args, nb_elems);                                                                                                  \
+		type##ArrayList list = type##ArrayList_with_capacity(nb_elems);                                                            \
+		for (size_t i = 0; i < nb_elems; i++) {                                                                                    \
+			type value = va_arg(args, type);                                                                                   \
+			type##ArrayList_push_unchecked(&list, value);                                                                      \
+		}                                                                                                                          \
+		va_end(args);                                                                                                              \
+		return list;                                                                                                               \
 	}                                                                                                                                  \
                                                                                                                                            \
 	void type##ArrayList_push(type##ArrayList* list, type value) {                                                                     \
@@ -68,6 +88,13 @@
                                                                                                                                            \
 	bool type##ArrayList_is_empty(const type##ArrayList list) {                                                                        \
 		return list.length == 0;                                                                                                   \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type##ArrayList type##ArrayList_clone(const type##ArrayList* list) {                                                               \
+		type##ArrayList new_list = type##ArrayList_with_capacity(list->length);                                                    \
+		memcpy(new_list.array, list->array, sizeof(type) * list->length);                                                          \
+		new_list.length = list->length;                                                                                            \
+		return new_list;                                                                                                           \
 	}                                                                                                                                  \
                                                                                                                                            \
 	void type##ArrayList_reverse(type##ArrayList* list) {                                                                              \
@@ -132,10 +159,18 @@
 		list->array[idx2] = tmp;                                                                                                   \
 	}                                                                                                                                  \
                                                                                                                                            \
-	void type##ArrayList_from_c_array(type##ArrayList* list, type* array, size_t length) {                                             \
-		list->array    = array;                                                                                                    \
-		list->length   = length;                                                                                                   \
-		list->capacity = length;                                                                                                   \
+	type##ArrayList type##ArrayList_from_c_array_owned(size_t nb_elems, type* array) {                                                 \
+		return (type##ArrayList){                                                                                                  \
+		    .array    = array,                                                                                                     \
+		    .length   = nb_elems,                                                                                                  \
+		    .capacity = nb_elems,                                                                                                  \
+		};                                                                                                                         \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type##ArrayList type##ArrayList_from_c_array_cloned(size_t nb_elems, const type* array) {                                          \
+		type##ArrayList list = type##ArrayList_with_capacity(nb_elems);                                                            \
+		type##ArrayList_append(&list, array, nb_elems);                                                                            \
+		return list;                                                                                                               \
 	}
 
 /// Derives functions to the ArrayList to remove elements, given a way to free the elements
@@ -211,10 +246,76 @@
 
 /// Derives functions to the ArrayList, if the elements can be compared
 /// This is a superset of ArrayListDeriveEquals, so you should prefer this one if you need both
-#define DeclareArrayListDeriveOrdered(type) void type##ArrayList_sort_unstable(type##ArrayList* list);
+#define DeclareArrayListDeriveOrdered(type)                                                                                                \
+	void type##ArrayList_sort_stable(type##ArrayList* list);                                                                           \
+	void type##ArrayList_sort_unstable(type##ArrayList* list);
+
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 // TODO: inline a faster version of this
 #define DefineArrayListDeriveOrdered(type)                                                                                                 \
+	/** Timsort */                                                                                                                     \
+	void type##ArrayList_insertion_sort(type##ArrayList* list, size_t left, size_t right) {                                            \
+		for (size_t i = left + 1; i <= right; i++) {                                                                               \
+			type key = list->array[i];                                                                                         \
+			size_t j = i - 1;                                                                                                  \
+			while (j >= left && type##_compare(&list->array[j], &key) > 0) {                                                   \
+				list->array[j + 1] = list->array[j];                                                                       \
+				j--;                                                                                                       \
+			}                                                                                                                  \
+			list->array[j + 1] = key;                                                                                          \
+		}                                                                                                                          \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	void type##ArrayList_merge(type##ArrayList* list, size_t l, size_t m, size_t r) {                                                  \
+		size_t len1 = m - l + 1;                                                                                                   \
+		size_t len2 = r - m;                                                                                                       \
+		type* L	    = (type*)MALLOC(sizeof(type) * len1);                                                                          \
+		type* R	    = (type*)MALLOC(sizeof(type) * len2);                                                                          \
+		memcpy(L, &list->array[l], sizeof(type) * len1);                                                                           \
+		memcpy(R, &list->array[m + 1], sizeof(type) * len2);                                                                       \
+		size_t i = 0;                                                                                                              \
+		size_t j = 0;                                                                                                              \
+		size_t k = l;                                                                                                              \
+		while (i < len1 && j < len2) {                                                                                             \
+			if (type##_compare(&L[i], &R[j]) <= 0) {                                                                           \
+				list->array[k] = L[i];                                                                                     \
+				i++;                                                                                                       \
+			}                                                                                                                  \
+			else {                                                                                                             \
+				list->array[k] = R[j];                                                                                     \
+				j++;                                                                                                       \
+			}                                                                                                                  \
+			k++;                                                                                                               \
+		}                                                                                                                          \
+		while (i < len1) {                                                                                                         \
+			list->array[k] = L[i];                                                                                             \
+			i++;                                                                                                               \
+			k++;                                                                                                               \
+		}                                                                                                                          \
+		while (j < len2) {                                                                                                         \
+			list->array[k] = R[j];                                                                                             \
+			j++;                                                                                                               \
+			k++;                                                                                                               \
+		}                                                                                                                          \
+		free(L);                                                                                                                   \
+		free(R);                                                                                                                   \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	void type##ArrayList_sort_stable(type##ArrayList* list) {                                                                          \
+		size_t n = list->length;                                                                                                   \
+		for (size_t i = 0; i < n; i += 32) {                                                                                       \
+			type##ArrayList_insertion_sort(list, i, MIN(i + 31, n - 1));                                                       \
+		}                                                                                                                          \
+		for (size_t size = 32; size < n; size = 2 * size) {                                                                        \
+			for (size_t left = 0; left < n; left += 2 * size) {                                                                \
+				size_t mid   = left + size - 1;                                                                            \
+				size_t right = MIN(left + 2 * size - 1, n - 1);                                                            \
+				type##ArrayList_merge(list, left, mid, right);                                                             \
+			}                                                                                                                  \
+		}                                                                                                                          \
+	}                                                                                                                                  \
+                                                                                                                                           \
 	void type##ArrayList_sort_unstable(type##ArrayList* list) {                                                                        \
 		qsort(list->array, list->length, sizeof(type), (int (*)(const void*, const void*))type##_compare);                         \
 	}

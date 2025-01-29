@@ -13,5 +13,6 @@ in pkgs.mkShell {
 		clang-tools
 		doxygen
 		graphviz
+		texlive.combined.scheme-full
 	];
 }

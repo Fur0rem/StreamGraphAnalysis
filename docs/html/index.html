@@ -133,18 +133,21 @@ Basic information about the implementation</h1>
 </ul>
 <p>I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.</p>
 <p>The library was designed to have efficient access on:</p><ul>
-<li>Access a node: which is in $O(1)$</li>
-<li>Access a link: which is in $O(1)$</li>
-<li>Access a time: which is in $O(1)$ (actually in $O(log(255)$), but it's a constant time)</li>
+<li>Access a node: which is in O(1)</li>
+<li>Access a link: which is in O(1)</li>
+<li>Access a time: which is in O(1) (actually in O(log(255)), but it's a constant time)</li>
 </ul>
 <p>More details about the methods and the data structures are available in the documentation.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
 How to use the library</h1>
-<p>Clone the repository, and then run make libSGA to compile the library. You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library. There is a header <a class="el" href="StreamGraphAnalysis_8h.html" title="The main header file of the library.">StreamGraphAnalysis.h</a> in the main directory that you can include in your project to use the library. You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory. TODO: explanation of a code sample</p>
+<p>Clone the repository, and then run make libSGA to compile the library. You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library. There is a header <a class="el" href="StreamGraphAnalysis_8h.html" title="The main header file of the library.">StreamGraphAnalysis.h</a> in the main directory that you can include in your project to use the library.</p>
+<p>You can find examples of how to use the library in the examples/ directory. You can find the documentation in the docs/ directory, which is generated using Doxygen, which you can generate using the make docs -B command. You can find utility programs in the utilities/ directory, which you can compile using the make utilities -B command.</p>
 <h1><a class="anchor" id="autotoc_md6"></a>
 Data format</h1>
-<p>You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it's recommended to write your data in the external format, and then convert it to the internal format using the InternalFormat_from_External_str function, and save that for future use.</p>
+<p>You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it's recommended to write your data in the external format, and then convert it to the internal format using the function, and save that for future use. You can use the utilities/bin/external_to_internal program to convert your data from the external format to the internal format.</p>
 <p>External format : </p><div class="fragment"><div class="line">SGA External Format &lt;version&gt;</div>
+<div class="line"> </div>
+<div class="line">Any text between the version and the [General] section will be ignored, and can be used for comments or metadata</div>
 <div class="line"> </div>
 <div class="line">[General]</div>
 <div class="line">Lifespan=(&lt;start&gt;, &lt;end&gt;)</div>
@@ -155,9 +158,11 @@ Data format</h1>
 <div class="line">...</div>
 <div class="line"> </div>
 <div class="line">[EndOfStream]</div>
+<div class="line"> </div>
 <div class="line">Any text before this line will be ignored, and can be used for comments or metadata</div>
 </div><!-- fragment --><p>All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.5, 1.5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.</p>
-<p>There are some example data files in the data/ directory.</p>
+<p>There are some example data files in the data/examples/ directory, which contains examples of the external format taken from the paper.</p>
+<p>You can also find a more detailed documentation of each format in the documentation for SGA_StreamGraph_from_internal_format_v_1_0_0 and SGA_StreamGraph_from_external_format_v_1_0_0.</p>
 <h1><a class="anchor" id="autotoc_md7"></a>
 What it can do</h1>
 <ul>
@@ -191,7 +196,9 @@ Project guidelines and organisation</h1>
 <p>The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework. You can run them using the run_tests.sh script in the main directory.</p>
 <p>The benchmarks/ directory contains the benchmarks for the library. You can run them using the run_benchmarks.sh script in the main directory.</p>
 <p>The examples/ directory contains examples of how to use the library.</p>
-<p>The data/ directory contains example data files.</p>
+<p>The data/ directory contains data files, test data, example data, and benchmark data.</p>
+<p>The docs/ directory contains the documentation of the library, which is generated using Doxygen.</p>
+<p>The utilities/ directory contains utility programs, which are compiled using the make utilities -B command.</p>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Supported metrics and analysis</h1>
 <ul>

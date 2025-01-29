@@ -1,0 +1,41 @@
+SGA External version 1.0.0
+
+It's used to test that you cannot use a node that is not present for a walk, even if it was present before.
+
+0  -----------------
+       {  }    (___)
+1  ----{--}---------
+       {__}    [___]
+2  --------    -----
+               {___}
+3	       -----
+   0   1   2   3   4
+
+Here, to go from 0 to 3 at time 0, you need to go through node 1 at time 3, then node 2 at time 3, then node 3 at time 3.
+The algorithm should try to go to node 2 at time 1 to minimise the length, but should not be able to because node 2 disappears at time 2.
+
+[General]
+Lifespan=(0 4)
+TimeScale=1
+
+[Events]
+0 + N 0
+0 + N 1
+0 + N 2
+1 + L 0 2
+2 - L 0 2
+2 - N 2
+3 + N 2
+3 + N 3
+3 + L 0 1
+3 + L 1 2
+3 + L 2 3
+4 - L 0 1
+4 - L 1 2
+4 - L 2 3
+4 - N 0
+4 - N 1
+4 - N 2
+4 - N 3
+
+[EndOfStream]

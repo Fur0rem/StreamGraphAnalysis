@@ -13,7 +13,7 @@
 #include <string.h>
 
 bool test_links_at_time_8() {
-	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
@@ -30,7 +30,7 @@ bool test_links_at_time_8() {
 }
 
 bool test_nodes_present() {
-	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
@@ -49,7 +49,7 @@ bool test_nodes_present() {
 }
 
 bool test_nodes_presence() {
-	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 
@@ -73,7 +73,7 @@ bool test_nodes_presence() {
 }
 
 bool test_neighbours_of_node() {
-	SGA_StreamGraph sg    = SGA_StreamGraph_from_external("data/S_external.txt");
+	SGA_StreamGraph sg    = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream ls	      = SGA_LinkStream_from(&sg);
 	StreamFunctions funcs = LinkStream_stream_functions;
 

@@ -13,6 +13,7 @@
 	} type##Hashset;                                                                                                                   \
                                                                                                                                            \
 	type##Hashset type##Hashset_with_capacity(size_t capacity);                                                                        \
+	type##Hashset type##Hashset_new();                                                                                                 \
 	bool type##Hashset_insert(type##Hashset* s, type value);                                                                           \
 	bool type##Hashset_contains(type##Hashset s, type value);                                                                          \
 	size_t type##Hashset_nb_elems(type##Hashset* s);
@@ -25,6 +26,10 @@
 			s.buckets[i] = type##ArrayList_with_capacity(10);                                                                  \
 		}                                                                                                                          \
 		return s;                                                                                                                  \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type##Hashset type##Hashset_new() {                                                                                                \
+		return type##Hashset_with_capacity(10);                                                                                    \
 	}                                                                                                                                  \
                                                                                                                                            \
 	bool type##Hashset_insert(type##Hashset* s, type value) {                                                                          \
@@ -66,10 +71,6 @@
 		return NULL;                                                                                                               \
 	}
 
-// DeclareArrayListDeriveEquals(type)
-// DeclareArrayListDeriveCompare(type)
-// DeclareArrayListDeriveToString(type)
-// DeclareArrayListDeriveRemove(type, free_fn)
 #define DeclareHashsetDeriveRemove(type)                                                                                                   \
 	void type##Hashset_destroy(type##Hashset s);                                                                                       \
 	bool type##Hashset_remove(type##Hashset* s, type value);                                                                           \
@@ -137,6 +138,22 @@
 			}                                                                                                                  \
 		}                                                                                                                          \
 		return true;                                                                                                               \
+	}
+
+/**
+ * @brief Helper macro to iterate over all elements of a hashset.
+ * @param[in] type The type of the elements in the hashset.
+ * @param[in] elem The name of the variable to store the current element.
+ * @param[in] hashset The hashset to iterate over.
+ * @param[in] code The code to execute for each element.
+ * @note The code block must not contain any break or continue statements.
+ */
+#define FOR_EACH_ELEM(type, elem, hashset, code)                                                                                           \
+	for (size_t ____i = 0; ____i < hashset.capacity; ____i++) {                                                                        \
+		for (size_t ____j = 0; ____j < hashset.buckets[____i].length; ____j++) {                                                   \
+			type elem = hashset.buckets[____i].array[____j];                                                                   \
+			code;                                                                                                              \
+		}                                                                                                                          \
 	}
 
 #endif // HASHSET_H

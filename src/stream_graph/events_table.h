@@ -16,12 +16,14 @@ struct Event {
 	size_t nb_info;
 	size_t* events;
 };
+DeclareToString(Event);
 #endif // SGA_INTERNAL
 
 typedef struct {
 	Event* events;
 	SGA_TimeId disappearance_index;
-	BitArray presence_mask;
+	BitArray presence_mask; // first and last events are not included because first event cannot have disappearances and last event
+				// cannot have appearances
 } Events;
 
 typedef struct {

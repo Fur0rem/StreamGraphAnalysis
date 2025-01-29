@@ -1,0 +1,5 @@
+<map id="ParsedStreamGraph" name="ParsedStreamGraph">
+<area shape="rect" id="Node000001" title="Structure for parsing the external format of a stream graph." alt="" coords="5,98,156,126"/>
+<area shape="rect" id="Node000002" href="$structSGA__Interval.html" title=" " alt="" coords="28,5,133,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,48,83,98,78,98,78,48"/>
+</map>

@@ -9,7 +9,7 @@
 #include "test.h"
 
 bool test_chunk_stream_small_nodes_set() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(2);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 2);
@@ -38,7 +38,7 @@ bool test_chunk_stream_small_nodes_set() {
 }
 
 bool test_chunk_stream_small_neighbours_of_node() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(2);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);
@@ -68,7 +68,7 @@ bool test_chunk_stream_small_neighbours_of_node() {
 }
 
 bool test_chunk_stream_small_times_node_present() {
-	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/S.txt");
+	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
 	SGA_NodeIdArrayList_push(&nodes, 1);

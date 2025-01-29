@@ -47,9 +47,9 @@ The different streams are :
 I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.
 
 The library was designed to have efficient access on:
-- Access a node: which is in $O(1)$
-- Access a link: which is in $O(1)$
-- Access a time: which is in $O(1)$ (actually in $O(log(255)$), but it's a constant time)
+- Access a node: which is in O(1)
+- Access a link: which is in O(1)
+- Access a time: which is in O(1) (actually in O(log(255)), but it's a constant time)
 
 More details about the methods and the data structures are available in the documentation.
 
@@ -60,19 +60,24 @@ How to use the library
 Clone the repository, and then run make libSGA to compile the library.
 You will have a libSGA.a file in the bin/ directory, which you can link to your project to use the library.
 There is a header StreamGraphAnalysis.h in the main directory that you can include in your project to use the library.
-You can find examples of how to use the library in the examples/ directory, how to format your files in the data/ directory and the documentation of the library in the docs/ directory.
-TODO: explanation of a code sample
+
+You can find examples of how to use the library in the examples/ directory.
+You can find the documentation in the docs/ directory, which is generated using Doxygen, which you can generate using the make docs -B command.
+You can find utility programs in the utilities/ directory, which you can compile using the make utilities -B command.
 
 Data format
 -----------
 
 You have two ways to format your data, either in the external format or in the internal format.
 The external format is easier to write for you, but the internal format is more efficient to read for the program.
-So it's recommended to write your data in the external format, and then convert it to the internal format using the InternalFormat_from_External_str function, and save that for future use.
+So it's recommended to write your data in the external format, and then convert it to the internal format using the  function, and save that for future use.
+You can use the utilities/bin/external_to_internal program to convert your data from the external format to the internal format.
 
 External format :
 ```
 SGA External Format <version>
+
+Any text between the version and the [General] section will be ignored, and can be used for comments or metadata
 
 [General]
 Lifespan=(<start>, <end>)
@@ -83,14 +88,18 @@ TimeScale=<scale>
 ...
 
 [EndOfStream]
+
 Any text before this line will be ignored, and can be used for comments or metadata
+
 ```
 
 All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale.
 For example, if you have a stream with nodes present at 0.5, 1.5, ect...
 You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.
 
-There are some example data files in the data/ directory.
+There are some example data files in the data/examples/ directory, which contains examples of the external format taken from the paper.
+
+You can also find a more detailed documentation of each format in the documentation for SGA_StreamGraph_from_internal_format_v_1_0_0 and SGA_StreamGraph_from_external_format_v_1_0_0.
 
 What it can do
 --------------
@@ -134,7 +143,11 @@ You can run them using the run_benchmarks.sh script in the main directory.
 
 The examples/ directory contains examples of how to use the library.
 
-The data/ directory contains example data files.
+The data/ directory contains data files, test data, example data, and benchmark data.
+
+The docs/ directory contains the documentation of the library, which is generated using Doxygen.
+
+The utilities/ directory contains utility programs, which are compiled using the make utilities -B command.
 
 Supported metrics and analysis
 -----------------------------------------------------------

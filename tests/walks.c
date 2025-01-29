@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 bool test_walk_a_c() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	bool result = true;
@@ -23,7 +23,7 @@ bool test_walk_a_c() {
 	// printf("w2 %s\n", SGA_Walk_to_string(&w2_walk).data);
 	SGA_OptionalWalk_destroy(w2);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/walks.sga");
 	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
 	SGA_OptionalWalk w3 = SGA_shortest_walk(&st2, 0, 3, 0);
@@ -47,7 +47,7 @@ bool test_walk_a_c() {
 }
 
 bool test_walk_optimal() {
-	// StreamGraph sg = StreamGraph_from_external("data/test.txt");
+	// StreamGraph sg = StreamGraph_from_external("data/tests/walks.sga");
 	// FullStreamGraph fsg = (FullStreamGraph){
 	// 	.underlying_stream_graph = &sg,
 	// };
@@ -55,7 +55,7 @@ bool test_walk_optimal() {
 	// 	.type = FULL_STREAM_GRAPH,
 	// 	.stream = &fsg,
 	// };
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/walks.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
@@ -75,7 +75,7 @@ bool test_walk_optimal() {
 }
 
 bool test_fastest_shortest() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	printf("Loaded graph\n");
 
@@ -84,7 +84,7 @@ bool test_fastest_shortest() {
 	printf("w %s\n", str.data);
 	String_destroy(str);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/walks.sga");
 	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
 	SGA_OptionalWalk w2 = Stream_fastest_shortest_walk(&st2, 0, 3, 5);
@@ -109,7 +109,7 @@ bool test_fastest_shortest() {
 }
 
 bool test_fastest() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/L.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/L.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	bool result = true;
@@ -138,7 +138,7 @@ bool test_fastest() {
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(st);
 
-	SGA_StreamGraph sg2 = SGA_StreamGraph_from_external("data/test.txt");
+	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/walks.sga");
 	SGA_Stream st2	    = SGA_FullStreamGraph_from(&sg2);
 
 	SGA_OptionalWalk w4 = SGA_fastest_walk(&st2, 0, 3, 5);
@@ -161,7 +161,7 @@ bool test_fastest() {
 
 bool test_walk_node_not_present() {
 	bool correct	   = true;
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/bridge.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/gap_in_node.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	SGA_OptionalWalk wi = SGA_shortest_walk(&st, 0, 3, 0);
@@ -199,7 +199,7 @@ bool test_walk_node_not_present() {
 // }
 
 bool test_robustness_length_of_1() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/robustness_1.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/robustness_of_1.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	double robustness = SGA_Stream_robustness_by_length(&st);
@@ -211,7 +211,7 @@ bool test_robustness_length_of_1() {
 }
 
 bool test_robustness_duration_of_1() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_external("data/robustness_1.txt");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/robustness_of_1.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 
 	double robustness = SGA_Stream_robustness_by_duration(&st);

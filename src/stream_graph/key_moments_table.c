@@ -88,7 +88,7 @@ void KeyMomentsTable_destroy(KeyMomentsTable kmt) {
 // TODO : Change the slices to contain the number of total moments before rather than only the number of moments in the
 // slice for faster search.
 // Assumes the times are sorted, returns the index of a certain time if all of them were in a single array
-SGA_TimeId KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, SGA_Time t) {
+SGA_TimeId KeyMomentsTable_find_time_index_if_pushed(KeyMomentsTable* kmt, SGA_Time t) {
 	// First we find which slice the time is in
 	SGA_TimeId slice = t / SLICE_SIZE;
 	// Add the number of moments in the previous slices
@@ -121,6 +121,53 @@ SGA_TimeId KeyMomentsTable_find_time_index(KeyMomentsTable* kmt, SGA_Time t) {
 
 	// return the index where the time should be inserted
 	return index + left;
+}
+
+// Returns the index of the the moment which has equivalent events to time t
+SGA_TimeId KeyMomentsTable_find_time_index_equivalent(KeyMomentsTable* kmt, SGA_Time t) {
+	// First we find which slice the time is in
+	SGA_TimeId slice = t / SLICE_SIZE;
+	// Add the number of moments in the previous slices
+	SGA_TimeId index = 0;
+	for (SGA_TimeId i = 0; i < slice; i++) {
+		if (i >= kmt->nb_slices) {
+			return index;
+		}
+		index += kmt->slices[i].nb_moments;
+	}
+	// Then we find the index of the time in the slice
+	RelativeMoment relative_time = t % SLICE_SIZE;
+	// Recherche dichotomique
+	size_t left  = 0;
+	size_t right = kmt->slices[slice].nb_moments;
+	while (left < right) {
+		size_t mid = (left + right) / 2;
+
+		if (kmt->slices[slice].moments[mid] == relative_time) {
+			return index + mid;
+		}
+
+		if (kmt->slices[slice].moments[mid] < relative_time) {
+			left = mid + 1;
+		}
+		else {
+			right = mid;
+		}
+	}
+
+	// return the index where the time should be equivalent
+
+	// If later that the last moment of the slice
+	if (left >= kmt->slices[slice].nb_moments) {
+		return index + kmt->slices[slice].nb_moments - 1;
+	}
+	// If earlier than the moment found
+	if (relative_time < kmt->slices[slice].moments[left]) {
+		return index + left - 1;
+	}
+	else { // (relative_time == kmt->slices[slice].moments[left])
+		return index + left;
+	}
 }
 
 void print_key_moments_table(KeyMomentsTable* kmt) {

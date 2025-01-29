@@ -1,0 +1,23 @@
+<map id="tests/test.h" name="tests/test.h">
+<area shape="rect" id="Node000001" title="Framework for a test suite." alt="" coords="828,5,923,33"/>
+<area shape="rect" id="Node000002" href="$tests_2bit__array_8c.html" title="Tests regarding BitArray." alt="" coords="5,90,130,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="813,24,689,29,522,39,333,56,143,84,109,92,108,86,142,78,332,51,522,33,689,23,813,19"/>
+<area shape="rect" id="Node000003" href="$chunk__stream_8c.html" title="Tests regarding ChunkStream." alt="" coords="154,90,314,117"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="813,28,597,48,462,64,327,84,288,91,286,86,326,78,461,58,597,42,813,22"/>
+<area shape="rect" id="Node000004" href="$chunk__stream__small_8c.html" title="Tests regarding ChunkStreamSmall." alt="" coords="338,81,488,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="813,32,670,53,500,84,488,86,487,81,499,78,669,48,812,26"/>
+<area shape="rect" id="Node000005" href="$full__stream__graph_8c.html" title="Tests regarding FullStreamGraph." alt="" coords="512,90,698,117"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="818,40,649,91,647,86,817,35"/>
+<area shape="rect" id="Node000006" href="$tests_2isomorphism_8c.html" title="Tests regarding isomorphism." alt="" coords="722,90,875,117"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="855,46,812,91,808,87,851,43"/>
+<area shape="rect" id="Node000007" href="$tests_2kcores_8c.html" title="Tests regarding K&#45;Cores." alt="" coords="898,90,1010,117"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="900,43,944,87,940,91,897,46"/>
+<area shape="rect" id="Node000008" href="$link__stream_8c.html" title="Tests regarding LinkStream." alt="" coords="1034,90,1179,117"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="928,36,1070,86,1068,91,926,41"/>
+<area shape="rect" id="Node000009" href="$tests_2metrics_8c.html" title="Tests regarding metrics." alt="" coords="1204,90,1321,117"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="938,28,1057,49,1192,78,1221,86,1220,91,1191,84,1056,54,937,33"/>
+<area shape="rect" id="Node000010" href="$tests_2stream_8c.html" title="Tests regarding StreamGraph." alt="" coords="1345,90,1459,117"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="938,23,1116,42,1225,58,1333,78,1364,86,1362,91,1332,84,1224,63,1116,48,937,28"/>
+<area shape="rect" id="Node000011" href="$test_8c.html" title="Framework for a test suite." alt="" coords="1484,90,1577,117"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="939,19,1041,24,1175,34,1323,51,1472,78,1499,86,1498,92,1471,84,1323,57,1174,39,1041,29,938,25"/>
+</map>

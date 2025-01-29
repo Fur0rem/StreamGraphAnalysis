@@ -7,6 +7,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "defaults.h", "defaults_8h_source.html", null ],
     [ "interval.h", "interval_8h_source.html", null ],
     [ "iterators.h", "iterators_8h.html", "iterators_8h" ],
+    [ "stream.c", "src_2stream_8c.html", "src_2stream_8c" ],
     [ "stream.h", "stream_8h.html", "stream_8h" ],
     [ "stream_functions.h", "stream__functions_8h.html", "stream__functions_8h" ],
     [ "streams.h", "streams_8h.html", null ],

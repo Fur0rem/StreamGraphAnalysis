@@ -133,39 +133,40 @@
 \DoxyCodeLine{00129\ }
 \DoxyCodeLine{00130\ \mbox{\hyperlink{structString}{String}}\ String\_from\_owned(\textcolor{keywordtype}{char}*\ str);}
 \DoxyCodeLine{00131\ \mbox{\hyperlink{structString}{String}}\ String\_from\_duplicate(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
-\DoxyCodeLine{00132\ }
-\DoxyCodeLine{00133\ \textcolor{comment}{//\ TODO:\ mis\ namings\ between\ push\ and\ append}}
-\DoxyCodeLine{00134\ \textcolor{comment}{//\ plus\ push\ str\ and\ append\ formatted\ can\ be\ merged}}
-\DoxyCodeLine{00135\ \textcolor{keywordtype}{void}\ String\_push(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keywordtype}{char}\ character);}
-\DoxyCodeLine{00136\ \textcolor{keywordtype}{void}\ String\_push\_str(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
-\DoxyCodeLine{00137\ \textcolor{keywordtype}{void}\ String\_append\_formatted(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ format,\ ...);}
-\DoxyCodeLine{00138\ \textcolor{keywordtype}{void}\ String\_concat\_copy(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ with);}
-\DoxyCodeLine{00139\ \textcolor{keywordtype}{void}\ String\_concat\_consume(\mbox{\hyperlink{structString}{String}}*\ self,\ \mbox{\hyperlink{structString}{String}}\ with);}
-\DoxyCodeLine{00140\ \mbox{\hyperlink{structString}{String}}\ String\_clone(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ str);}
-\DoxyCodeLine{00141\ }
-\DoxyCodeLine{00142\ DeclareDestroy(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{00143\ DeclareEquals(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{00144\ DeclareCompare(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{00145\ DeclareHash(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{00146\ }
-\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ DeclareToString(type)\ String\ type\#\#\_to\_string(const\ type*\ self);}}
-\DoxyCodeLine{00148\ }
-\DoxyCodeLine{00149\ DeclareToString(\mbox{\hyperlink{structString}{String}});}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ DEFAULT\_TO\_STRING(type,\ format)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00152\ \textcolor{preprocessor}{\ \ \ \ String\ type\#\#\_to\_string(const\ type*\ self)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00153\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ char*\ str\ =\ MALLOC(100);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00154\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ sprintf(str,\ format,\ *self);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00155\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ String\_from\_owned(str);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00156\ \textcolor{preprocessor}{\ \ \ \ \}}}
-\DoxyCodeLine{00157\ }
-\DoxyCodeLine{00158\ \textcolor{keywordtype}{char}*\ read\_file(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
-\DoxyCodeLine{00159\ }
-\DoxyCodeLine{00160\ \textcolor{keywordtype}{void}\ String\_pop\_n(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keywordtype}{size\_t}\ n);}
-\DoxyCodeLine{00161\ \textcolor{keywordtype}{void}\ String\_pop(\mbox{\hyperlink{structString}{String}}*\ self);}
-\DoxyCodeLine{00162\ }
-\DoxyCodeLine{00163\ \mbox{\hyperlink{structString}{String}}\ String\_with\_capacity(\textcolor{keywordtype}{size\_t}\ capacity);}
-\DoxyCodeLine{00164\ }
-\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00132\ \mbox{\hyperlink{structString}{String}}\ String\_from\_file(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{comment}{//\ TODO:\ mis\ namings\ between\ push\ and\ append}}
+\DoxyCodeLine{00135\ \textcolor{comment}{//\ plus\ push\ str\ and\ append\ formatted\ can\ be\ merged}}
+\DoxyCodeLine{00136\ \textcolor{keywordtype}{void}\ String\_push(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keywordtype}{char}\ character);}
+\DoxyCodeLine{00137\ \textcolor{keywordtype}{void}\ String\_push\_str(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00138\ \textcolor{keywordtype}{void}\ String\_append\_formatted(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ format,\ ...);}
+\DoxyCodeLine{00139\ \textcolor{keywordtype}{void}\ String\_concat\_copy(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ with);}
+\DoxyCodeLine{00140\ \textcolor{keywordtype}{void}\ String\_concat\_consume(\mbox{\hyperlink{structString}{String}}*\ self,\ \mbox{\hyperlink{structString}{String}}\ with);}
+\DoxyCodeLine{00141\ \mbox{\hyperlink{structString}{String}}\ String\_clone(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ str);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ DeclareDestroy(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00144\ DeclareEquals(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00145\ DeclareCompare(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00146\ DeclareHash(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ DeclareToString(type)\ String\ type\#\#\_to\_string(const\ type*\ self);}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ DeclareToString(\mbox{\hyperlink{structString}{String}});}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ DEFAULT\_TO\_STRING(type,\ format)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\ \ \ \ String\ type\#\#\_to\_string(const\ type*\ self)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ char*\ str\ =\ MALLOC(100);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ sprintf(str,\ format,\ *self);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ return\ String\_from\_owned(str);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \textcolor{keywordtype}{void}\ String\_pop\_n(\mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{00160\ \textcolor{keywordtype}{void}\ String\_pop(\mbox{\hyperlink{structString}{String}}*\ self);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \mbox{\hyperlink{structString}{String}}\ String\_with\_capacity(\textcolor{keywordtype}{size\_t}\ capacity);}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00169\ \textcolor{keywordtype}{void}\ String\_write\_to\_file(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ self,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

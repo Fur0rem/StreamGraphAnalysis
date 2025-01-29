@@ -1,0 +1,42 @@
+\doxysection{tests/test.c File Reference}
+\hypertarget{test_8c}{}\label{test_8c}\index{tests/test.c@{tests/test.c}}
+
+
+Framework for a test suite.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Framework for a test suite. 
+
+{\ttfamily \#include "{}test.\+h"{}}\newline
+{\ttfamily \#include "{}../src/utils.\+h"{}}\newline
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test_8c_ab4cf5759c3753c2308f163953ee154f0}\label{test_8c_ab4cf5759c3753c2308f163953ee154f0} 
+typedef void \texorpdfstring{$\ast$}{*} {\bfseries ptr}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{test_8c_a53a9110de620ba4812ab6daffd1393cf}\label{test_8c_a53a9110de620ba4812ab6daffd1393cf} 
+bool {\bfseries test} (const char \texorpdfstring{$\ast$}{*}suite\+\_\+name, \mbox{\hyperlink{structTest}{Test}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}tests)
+\item 
+\Hypertarget{test_8c_a28aa65a972c1a8e1ae7b6fc7724631b5}\label{test_8c_a28aa65a972c1a8e1ae7b6fc7724631b5} 
+bool {\bfseries EXPECT\+\_\+\+ALL} (int expr,...)
+\item 
+\Hypertarget{test_8c_a77a0ebaef5c40296a74ae052ff3154b3}\label{test_8c_a77a0ebaef5c40296a74ae052ff3154b3} 
+bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+\+String} (char \texorpdfstring{$\ast$}{*}a, char \texorpdfstring{$\ast$}{*}b)
+\end{DoxyCompactItemize}
+Include dependency graph for test.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test_8c__incl}
+\end{center}
+\end{figure}

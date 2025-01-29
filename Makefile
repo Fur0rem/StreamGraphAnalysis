@@ -1,9 +1,12 @@
 CC ?= gcc
 DEBUG_FLAGS = -g -O0 -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined
-RELEASE_FLAGS = -O4 -lto -march=native -flto -DNDEBUG
+RELEASE_FLAGS = -O4 -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
 CFLAGS = -Wall -Wextra -std=c2x
 LDFLAGS = -lm
+
+UTILITIES_BIN_DIR = utilities/bin
+EXAMPLES_BIN_DIR = examples/bin
 
 compile_mode ?= release
 
@@ -28,6 +31,8 @@ bin:
 	mkdir -p bin/debug
 	mkdir -p bin/release
 	mkdir -p bin/benchmark
+	mkdir -p $(UTILITIES_BIN_DIR)
+	mkdir -p $(EXAMPLES_BIN_DIR)
 
 utils.o: src/utils.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
@@ -125,4 +130,17 @@ docs:
 
 clean:
 	rm -rf bin/**
+	rm -rf $(UTILITIES_BIN_DIR)/**
+	rm -rf $(EXAMPLES_BIN_DIR)/**
 	rmdir bin
+	rmdir $(UTILITIES_BIN_DIR)
+	rmdir $(EXAMPLES_BIN_DIR)
+
+utilities: utilities/external_to_internal.c libSGA | bin
+	$(CC) $(CFLAGS) $(FLAGS) $< -o $(UTILITIES_BIN_DIR)/external_to_internal -L$(BIN_DIR) -lSGA -lm
+
+examples: examples/split.c examples/metrics.c examples/analysis.c examples/time_evolution.c libSGA | bin
+	$(CC) $(CFLAGS) $(FLAGS) examples/split.c -o $(EXAMPLES_BIN_DIR)/split -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) examples/metrics.c -o $(EXAMPLES_BIN_DIR)/metrics -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) examples/analysis.c -o $(EXAMPLES_BIN_DIR)/analysis -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) examples/time_evolution.c -o $(EXAMPLES_BIN_DIR)/time_evolution -L$(BIN_DIR) -lSGA -lm
