@@ -65,10 +65,10 @@ arena.o: src/arena.c | bin
 events_table.o: src/stream_graph/events_table.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
-key_moments_table.o: src/stream_graph/key_moments_table.c | bin
+key_instants_table.o: src/stream_graph/key_instants_table.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
-key_moments_access.o: src/stream_data_access/key_moments.c | bin
+key_instants_access.o: src/stream_data_access/key_instants.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
 links_set.o: src/stream_graph/links_set.c | bin
@@ -90,7 +90,7 @@ chunk_stream.o: src/streams/chunk_stream.c | bin
 chunk_stream_small.o: src/streams/chunk_stream_small.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
-snapshot_stream.o: src/streams/snapshot_stream.c | bin
+timeframe_stream.o: src/streams/timeframe_stream.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
 
@@ -122,7 +122,7 @@ isomorphism.o: src/analysis/isomorphism.c | bin
 walks.o: src/analysis/walks.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
-libSGA: utils.o defaults.o units.o bit_array.o interval.o events_table.o key_moments_table.o links_set.o nodes_set.o stream.o node_access.o link_access.o induced_graph.o full_stream_graph.o link_stream.o chunk_stream.o chunk_stream_small.o snapshot_stream.o iterators.o metrics.o cluster.o arena.o walks.o cliques.o kcores.o isomorphism.o stream_functions.o key_moments_access.o | bin
+libSGA: utils.o defaults.o units.o bit_array.o interval.o events_table.o key_instants_table.o links_set.o nodes_set.o stream.o node_access.o link_access.o induced_graph.o full_stream_graph.o link_stream.o chunk_stream.o chunk_stream_small.o timeframe_stream.o iterators.o metrics.o cluster.o arena.o walks.o cliques.o kcores.o isomorphism.o stream_functions.o key_instants_access.o | bin
 	gcc-ar rcs $(BIN_DIR)/libSGA.a $(foreach obj,$^,$(BIN_DIR)/$(obj))
 
 docs:

@@ -20,7 +20,7 @@ TimeScale=10
 [Memory]
 NumberOfNodes=4
 NumberOfLinks=4
-NumberOfKeyMoments=13
+NumberOfKeyInstants=13
 
 [[Nodes]]
 [[[NumberOfNeighbours]]]
@@ -40,7 +40,7 @@ NumberOfKeyMoments=13
 1
 1
 1
-[[[NumberOfKeyMomentsPerSlice]]]
+[[[NumberOfKeyInstantsPerSlice]]]
 13
 
 

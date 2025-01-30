@@ -10,6 +10,6 @@
 #include "streams/chunk_stream_small.h"
 #include "streams/full_stream_graph.h"
 #include "streams/link_stream.h"
-#include "streams/snapshot_stream.h"
+#include "streams/timeframe_stream.h"
 
 #endif // SGA_STREAMS_H

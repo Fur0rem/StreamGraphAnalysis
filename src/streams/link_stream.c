@@ -4,7 +4,7 @@
 #include "../analysis/metrics.h"
 #include "../interval.h"
 #include "../stream_data_access/induced_graph.h"
-#include "../stream_data_access/key_moments.h" // TODO: maybe rename to time_access
+#include "../stream_data_access/key_instants.h" // TODO: maybe rename to time_access
 #include "../stream_data_access/link_access.h"
 #include "../stream_data_access/node_access.h"
 #include "../utils.h"
@@ -121,11 +121,11 @@ SGA_LinksIterator LinkStream_neighbours_of_node(SGA_StreamData* stream_data, SGA
 	return SGA_StreamGraph_neighbours_of_node(stream_graph, node_id);
 }
 
-SGA_TimesIterator LinkStream_key_moments(SGA_StreamData* stream_data) {
+SGA_TimesIterator LinkStream_key_instants(SGA_StreamData* stream_data) {
 	LinkStream* link_stream	      = (LinkStream*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 
-	return SGA_StreamGraph_key_moments(stream_graph);
+	return SGA_StreamGraph_key_instants(stream_graph);
 }
 
 const StreamFunctions LinkStream_stream_functions = {
@@ -139,7 +139,7 @@ const StreamFunctions LinkStream_stream_functions = {
     .times_link_present = LinkStream_times_link_present,
     .link_by_id		= LinkStream_link_by_id,
     .neighbours_of_node = LinkStream_neighbours_of_node,
-    .key_moments	= LinkStream_key_moments,
+    .key_instants	= LinkStream_key_instants,
 };
 
 double LS_coverage(SGA_Stream* stream_data) {

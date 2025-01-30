@@ -3,13 +3,13 @@
 #include "chunk_stream_small.h"
 #include "../interval.h"
 #include "../iterators.h"
-#include "../stream_data_access/key_moments.h"
+#include "../stream_data_access/key_instants.h"
 #include "full_stream_graph.h"
 
 #include <stddef.h>
 
 SGA_Stream SGA_ChunkStreamSmall_from(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList nodes, SGA_LinkIdArrayList links,
-				     SGA_Interval snapshot) {
+				     SGA_Interval timeframe) {
 	ChunkStreamSmall* chunk_stream = MALLOC(sizeof(ChunkStreamSmall));
 
 	// Initialise the ChunkStreamSmall
@@ -19,7 +19,7 @@ SGA_Stream SGA_ChunkStreamSmall_from(SGA_StreamGraph* stream_graph, SGA_NodeIdAr
 	    .nb_links		     = links.length,
 	    .links_present	     = links.array,
 	    .underlying_stream_graph = stream_graph,
-	    .snapshot		     = snapshot,
+	    .timeframe		     = timeframe,
 	};
 
 	// Remove links whose nodes are not present
@@ -145,7 +145,7 @@ SGA_LinksIterator ChunkStreamSmall_links_set(SGA_StreamData* chunk_stream) {
 
 SGA_Interval ChunkStreamSmall_lifespan(SGA_StreamData* stream_data) {
 	ChunkStreamSmall* chunk_stream = (ChunkStreamSmall*)stream_data;
-	return chunk_stream->snapshot;
+	return chunk_stream->timeframe;
 }
 
 size_t ChunkStreamSmall_time_scale(SGA_StreamData* stream_data) {
@@ -305,7 +305,7 @@ SGA_Interval CSS_TimesNodePresentAt_next(SGA_TimesIterator* iter) {
 		return SGA_TIMES_ITERATOR_END;
 	}
 	SGA_Interval nth_time = stream_graph->nodes.nodes[node].presence.intervals[times_iter_data->current_time];
-	nth_time	      = SGA_Interval_intersection(nth_time, chunk_stream->snapshot);
+	nth_time	      = SGA_Interval_intersection(nth_time, chunk_stream->timeframe);
 
 	times_iter_data->current_time++;
 	return nth_time;
@@ -320,7 +320,7 @@ SGA_TimesIterator ChunkStreamSmall_times_node_present(SGA_StreamData* stream_dat
 	CSS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CSS_TimesIdPresentAtIteratorData));
 	size_t nb_skips					= 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.nb_intervals &&
-	       chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end < chunk_stream->snapshot.start) {
+	       chunk_stream->underlying_stream_graph->nodes.nodes[node].presence.intervals[nb_skips].end < chunk_stream->timeframe.start) {
 		nb_skips++;
 	}
 	*iterator_data = (CSS_TimesIdPresentAtIteratorData){
@@ -350,7 +350,7 @@ SGA_Interval CSS_TimesLinkPresentAt_next(SGA_TimesIterator* iter) {
 		return SGA_TIMES_ITERATOR_END;
 	}
 	SGA_Interval nth_time = stream_graph->links.links[link].presence.intervals[times_iter_data->current_time];
-	nth_time	      = SGA_Interval_intersection(nth_time, chunk_stream->snapshot);
+	nth_time	      = SGA_Interval_intersection(nth_time, chunk_stream->timeframe);
 
 	times_iter_data->current_time++;
 	return nth_time;
@@ -361,7 +361,7 @@ SGA_TimesIterator ChunkStreamSmall_times_link_present(SGA_StreamData* stream_dat
 	CSS_TimesIdPresentAtIteratorData* iterator_data = MALLOC(sizeof(CSS_TimesIdPresentAtIteratorData));
 	size_t nb_skips					= 0;
 	while (nb_skips < chunk_stream->underlying_stream_graph->links.links[link].presence.nb_intervals &&
-	       chunk_stream->underlying_stream_graph->links.links[link].presence.intervals[nb_skips].end < chunk_stream->snapshot.start) {
+	       chunk_stream->underlying_stream_graph->links.links[link].presence.intervals[nb_skips].end < chunk_stream->timeframe.start) {
 		nb_skips++;
 	}
 	*iterator_data = (CSS_TimesIdPresentAtIteratorData){
@@ -401,10 +401,10 @@ SGA_LinkId ChunkStreamSmall_link_between_nodes(SGA_StreamData* stream_data, SGA_
 	return SIZE_MAX;
 }
 
-SGA_TimesIterator ChunkStreamSmall_key_moments(SGA_StreamData* stream_data) {
+SGA_TimesIterator ChunkStreamSmall_key_instants(SGA_StreamData* stream_data) {
 	ChunkStreamSmall* chunk_stream = (ChunkStreamSmall*)stream_data;
 	SGA_StreamGraph* stream_graph  = chunk_stream->underlying_stream_graph;
-	return SGA_StreamGraph_key_moments_between(stream_graph, chunk_stream->snapshot);
+	return SGA_StreamGraph_key_instants_between(stream_graph, chunk_stream->timeframe);
 }
 
 const StreamFunctions ChunkStreamSmall_stream_functions = {
@@ -419,7 +419,7 @@ const StreamFunctions ChunkStreamSmall_stream_functions = {
     .link_by_id		= ChunkStreamSmall_link_by_id,
     .neighbours_of_node = ChunkStreamSmall_neighbours_of_node,
     .link_between_nodes = NULL,
-    .key_moments	= ChunkStreamSmall_key_moments,
+    .key_instants	= ChunkStreamSmall_key_instants,
 };
 
 size_t ChunkStreamSmall_cardinal_of_v(SGA_Stream* stream) {
@@ -429,7 +429,7 @@ size_t ChunkStreamSmall_cardinal_of_v(SGA_Stream* stream) {
 
 size_t ChunkStreamSmall_cardinal_of_t(SGA_Stream* stream) {
 	ChunkStreamSmall* chunk_stream = (ChunkStreamSmall*)stream->stream_data;
-	return SGA_Interval_duration(chunk_stream->snapshot);
+	return SGA_Interval_duration(chunk_stream->timeframe);
 }
 
 size_t ChunkStreamSmall_cardinal_distinct_links(SGA_Stream* stream) {

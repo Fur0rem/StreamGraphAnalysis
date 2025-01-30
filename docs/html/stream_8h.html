@@ -118,14 +118,14 @@ $(function(){initNavTree('stream_8h.html',''); initResizable(true); });
 <li>FullStreamGraph: A StreamGraph as is.</li>
 <li>LinkStream: A StreamGraph where all nodes are present at all times.</li>
 <li>ChunkStream and ChunkStreamSmall: A subset of the StreamGraph.</li>
-<li>SnapshotStream: A StreamGraph at a specific time interval. <br  />
+<li>TimeFrameStream: A StreamGraph at a specific time interval. <br  />
  All of these Stream's use an underlying StreamGraph, but transform the data in different ways. <br  />
  The Stream's do not actually modify the underlying StreamGraph, they only provide a different access to it. Each implementation tries to do lazy evaluation and only compute the data when needed, and transform it on the fly. Each implementation can also specialise some implementations of metrics to be more efficient. You can also manipulate multiple Stream's of the same StreamGraph at the same time. </li>
 </ul>
 </div><div class="textblock"><code>#include &quot;<a class="el" href="bit__array_8h_source.html">bit_array.h</a>&quot;</code><br />
 <code>#include &quot;interval.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="events__table_8h_source.html">stream_graph/events_table.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="key__moments__table_8h_source.html">stream_graph/key_moments_table.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="key__instants__table_8h_source.html">stream_graph/key_instants_table.h</a>&quot;</code><br />
 <code>#include &quot;stream_graph/links_set.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="nodes__set_8h_source.html">stream_graph/nodes_set.h</a>&quot;</code><br />
 <code>#include &quot;units.h&quot;</code><br />
@@ -561,11 +561,11 @@ Functions</h2></td></tr>
 <p>Creates a StreamGraph the internal format of the version 1.0.0 of the library. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">internal_format</td><td>The string to parse. Assumes it is in the internal format. The internal format is made to be more compact and efficient to parse, but way harder to read and write by hand. It is composed of a general section, a memory section, and a data section. The general header section contains the lifespan and the time scale. The memory section contains the number of nodes, links, and key moments. It is also composed of sub-sections : One for the nodes, which contains its number of neighbours and number of presence intervals. One for the links, which contains its number of presence intervals. One for the key moments, which contains in how many slices the time is divided. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">internal_format</td><td>The string to parse. Assumes it is in the internal format. The internal format is made to be more compact and efficient to parse, but way harder to read and write by hand. It is composed of a general section, a memory section, and a data section. The general header section contains the lifespan and the time scale. The memory section contains the number of nodes, links, and key instants. It is also composed of sub-sections : One for the nodes, which contains its number of neighbours and number of presence intervals. One for the links, which contains its number of presence intervals. One for the key instants, which contains in how many slices the time is divided. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="structKeyMomentsTable.html">KeyMomentsTable</a>. The data section is also composed of sub-sections : One for the neighbours, for nodes it contains its neighbouring links, for links it contains the two nodes it links. One for the events, which contains the time of the event, and each events that happened at that time. Unlike the external format, all events of a same time are grouped together. Here's how it looks: <div class="fragment"><div class="line">SGA Internal version 1.0.0</div>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structKeyInstantsTable.html">KeyInstantsTable</a>. The data section is also composed of sub-sections : One for the neighbours, for nodes it contains its neighbouring links, for links it contains the two nodes it links. One for the events, which contains the time of the event, and each events that happened at that time. Unlike the external format, all events of a same time are grouped together. Here's how it looks: <div class="fragment"><div class="line">SGA Internal version 1.0.0</div>
 <div class="line"> </div>
 <div class="line">[General]</div>
 <div class="line">Lifespan=(start end)</div>
@@ -574,7 +574,7 @@ Functions</h2></td></tr>
 <div class="line">[Memory]</div>
 <div class="line">NumberOfNodes=x</div>
 <div class="line">NumberOfLinks=y</div>
-<div class="line">NumberOfKeyMoments=z</div>
+<div class="line">NumberOfKeyInstants=z</div>
 <div class="line"> </div>
 <div class="line">[[Nodes]]</div>
 <div class="line">[[[NumberOfNeighbours]]]</div>
@@ -595,8 +595,8 @@ Functions</h2></td></tr>
 <div class="line">1    <span class="comment">// Link 2 has 1 presence interval</span></div>
 <div class="line">...</div>
 <div class="line"> </div>
-<div class="line">[[[NumberOfKeyMomentsPerSlice]]]</div>
-<div class="line">2    <span class="comment">// The first slice contains 2 key moments</span></div>
+<div class="line">[[[NumberOfKeyInstantsPerSlice]]]</div>
+<div class="line">2    <span class="comment">// The first slice contains 2 key instants</span></div>
 <div class="line">...</div>
 <div class="line"> </div>
 <div class="line">[Data]</div>
@@ -748,10 +748,10 @@ Include dependency graph for stream.h:</div>
 <area shape="poly" title=" " alt="" coords="566,35,554,53,544,76,539,101,544,125,562,151,584,175,636,215,692,244,742,263,740,268,690,248,634,219,581,179,558,155,540,127,534,101,539,75,550,51,562,32"/>
 <area shape="rect" href="events__table_8h.html" title=" " alt="" coords="320,174,479,218"/>
 <area shape="poly" title=" " alt="" coords="557,36,500,83,461,124,427,163,423,160,457,120,496,79,554,32"/>
-<area shape="rect" title=" " alt="" coords="988,266,1058,294"/>
-<area shape="poly" title=" " alt="" coords="626,20,706,26,800,36,886,53,920,65,944,79,960,95,970,110,979,142,983,177,995,217,1012,251,1007,254,990,219,978,178,974,143,965,113,955,98,940,83,917,70,884,59,799,42,706,31,625,25"/>
-<area shape="rect" href="key__moments__table_8h.html" title="Table of all key moments." alt="" coords="1005,174,1212,218"/>
-<area shape="poly" title=" " alt="" coords="626,22,818,42,917,58,957,68,987,79,1016,96,1042,116,1085,160,1081,164,1039,120,1013,100,985,83,956,73,916,63,818,47,625,27"/>
+<area shape="rect" title=" " alt="" coords="986,266,1056,294"/>
+<area shape="poly" title=" " alt="" coords="626,20,706,26,800,36,886,53,920,65,944,79,960,95,970,110,979,142,984,177,995,217,1010,251,1005,253,990,219,979,178,974,143,965,113,955,98,940,83,917,70,884,59,799,42,706,31,625,25"/>
+<area shape="rect" href="key__instants__table_8h.html" title="Table of all key instants." alt="" coords="1005,174,1202,218"/>
+<area shape="poly" title=" " alt="" coords="626,21,819,41,917,58,957,67,987,79,1015,96,1041,117,1081,160,1077,163,1037,120,1012,100,985,83,956,73,916,63,818,46,625,27"/>
 <area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="784,81,930,126"/>
 <area shape="poly" title=" " alt="" coords="620,31,770,74,768,79,619,36"/>
 <area shape="rect" href="nodes__set_8h.html" title="A node and a set of nodes of a StreamGraph." alt="" coords="554,81,708,126"/>
@@ -791,18 +791,18 @@ Include dependency graph for stream.h:</div>
 <area shape="poly" title=" " alt="" coords="372,221,221,335,218,330,369,217"/>
 <area shape="poly" title=" " alt="" coords="396,219,385,268,379,333,381,367,387,401,399,433,417,461,433,472,456,483,518,499,589,510,654,517,654,522,589,516,517,504,454,488,430,477,413,464,394,435,382,402,375,368,374,333,380,267,390,218"/>
 <area shape="poly" title=" " alt="" coords="480,212,499,216,741,266,740,272,497,221,479,217"/>
-<area shape="poly" title=" " alt="" coords="480,205,973,270,972,275,479,210"/>
-<area shape="poly" title=" " alt="" coords="1109,219,1098,259,1087,279,1072,296,1041,312,1000,323,899,334,796,339,717,345,444,392,236,432,235,427,443,387,716,339,796,333,899,329,999,318,1039,307,1068,292,1083,276,1093,257,1104,218"/>
-<area shape="poly" title=" " alt="" coords="1127,218,1157,267,1185,332,1194,367,1196,401,1189,434,1170,464,1149,476,1110,486,997,502,759,522,758,517,996,497,1109,481,1147,471,1167,460,1184,432,1190,401,1189,367,1180,333,1152,269,1122,220"/>
-<area shape="poly" title=" " alt="" coords="1024,222,837,269,835,264,1023,216"/>
-<area shape="poly" title=" " alt="" coords="1088,221,1050,257,1046,253,1084,217"/>
-<area shape="poly" title=" " alt="" coords="931,109,1095,132,1173,150,1203,160,1226,171,1257,193,1279,215,1292,242,1297,279,1297,357,1295,379,1289,397,1269,425,1238,445,1199,465,1163,478,1113,490,991,507,863,518,758,524,758,518,863,513,991,502,1112,485,1161,473,1197,460,1235,440,1265,421,1285,395,1290,378,1291,357,1291,279,1287,244,1275,218,1253,197,1223,176,1201,165,1171,155,1094,137,930,114"/>
+<area shape="poly" title=" " alt="" coords="480,205,970,270,970,275,479,210"/>
+<area shape="poly" title=" " alt="" coords="1104,219,1094,259,1084,279,1069,296,1039,312,998,323,898,334,796,339,717,345,444,392,236,432,235,427,443,387,716,339,795,334,898,329,997,318,1037,307,1066,292,1080,276,1089,257,1099,218"/>
+<area shape="poly" title=" " alt="" coords="1122,217,1154,266,1184,331,1193,366,1195,401,1189,434,1171,464,1149,476,1110,486,997,502,759,522,758,517,996,497,1109,481,1147,471,1167,460,1184,432,1190,401,1188,367,1179,333,1149,269,1118,220"/>
+<area shape="poly" title=" " alt="" coords="1021,222,837,269,836,264,1019,216"/>
+<area shape="poly" title=" " alt="" coords="1083,221,1047,257,1043,253,1080,217"/>
+<area shape="poly" title=" " alt="" coords="930,101,995,106,1069,117,1145,138,1181,153,1215,171,1249,193,1275,214,1291,241,1297,279,1297,357,1295,379,1289,397,1269,425,1238,445,1199,465,1163,478,1113,490,991,507,863,518,758,524,758,518,863,513,991,502,1112,485,1161,473,1197,460,1235,440,1265,421,1285,395,1290,378,1291,357,1291,279,1286,243,1271,218,1246,197,1213,176,1179,158,1143,143,1068,122,994,111,930,107"/>
 <area shape="poly" title=" " alt="" coords="830,128,768,175,765,170,827,124"/>
 <area shape="poly" title=" " alt="" coords="851,127,802,253,797,251,846,125"/>
-<area shape="poly" title=" " alt="" coords="874,125,908,168,951,216,995,255,991,259,947,220,904,172,870,128"/>
+<area shape="poly" title=" " alt="" coords="874,125,908,168,951,216,993,255,990,259,947,220,904,172,870,128"/>
 <area shape="poly" title=" " alt="" coords="608,128,545,189,510,230,478,275,453,323,440,371,438,394,441,417,449,440,463,461,475,471,493,480,543,496,654,515,654,520,541,501,491,485,472,475,459,464,445,442,436,419,433,395,434,370,448,321,473,273,505,227,541,186,604,124"/>
 <area shape="poly" title=" " alt="" coords="658,124,712,170,708,174,655,128"/>
-<area shape="poly" title=" " alt="" coords="682,124,791,171,982,257,980,262,789,176,680,129"/>
+<area shape="poly" title=" " alt="" coords="683,124,791,171,980,257,977,262,789,176,680,129"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">

@@ -3,7 +3,7 @@
 #include "full_stream_graph.h"
 #include "../analysis/metrics.h"
 #include "../stream_data_access/induced_graph.h"
-#include "../stream_data_access/key_moments.h"
+#include "../stream_data_access/key_instants.h"
 #include "../stream_data_access/link_access.h"
 #include "../stream_data_access/node_access.h"
 #include "../units.h"
@@ -116,11 +116,11 @@ SGA_LinkId FullStreamGraph_link_between_nodes(SGA_StreamData* stream_data, SGA_N
 	return SGA_StreamGraph_link_between_nodes(stream_graph, node_id, other_node_id);
 }
 
-SGA_TimesIterator FullStreamGraph_key_moments(SGA_StreamData* stream_data) {
+SGA_TimesIterator FullStreamGraph_key_instants(SGA_StreamData* stream_data) {
 	FullStreamGraph* link_stream  = (FullStreamGraph*)stream_data;
 	SGA_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
 
-	return SGA_StreamGraph_key_moments(stream_graph);
+	return SGA_StreamGraph_key_instants(stream_graph);
 }
 
 const StreamFunctions FullStreamGraph_stream_functions = {
@@ -136,7 +136,7 @@ const StreamFunctions FullStreamGraph_stream_functions = {
     .node_by_id		= FullStreamGraph_node_by_id,
     .neighbours_of_node = FullStreamGraph_neighbours_of_node,
     .link_between_nodes = FullStreamGraph_link_between_nodes,
-    .key_moments	= FullStreamGraph_key_moments,
+    .key_instants	= FullStreamGraph_key_instants,
 };
 
 size_t FullStreamGraph_distinct_cardinal_of_node_set(SGA_Stream* stream) {

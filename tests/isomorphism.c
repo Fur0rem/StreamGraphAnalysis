@@ -47,9 +47,9 @@ bool test_isomorphism_chunk() {
 	SGA_NodeIdArrayList_push(&nodes, 4);
 	SGA_NodeIdArrayList_push(&nodes, 6);
 
-	SGA_Interval snapshot = SGA_Interval_from(0, 10);
-	// SGA_Stream st	  = CS_with(&sg, &nodes, &links, snapshot.start, snapshot.end);
-	SGA_Stream st = SGA_ChunkStream_with(&sg, &nodes, &links, snapshot);
+	SGA_Interval timeframe = SGA_Interval_from(0, 10);
+	// SGA_Stream st	  = CS_with(&sg, &nodes, &links, timeframe.start, timeframe.end);
+	SGA_Stream st = SGA_ChunkStream_with(&sg, &nodes, &links, timeframe);
 	// SGA_Stream og	  = SGA_LinkStream_from(&kcores_only);
 	SGA_Stream og = SGA_LinkStream_from(&kcores_only);
 

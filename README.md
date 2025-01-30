@@ -14,13 +14,15 @@ It is made to be efficient in terms of memory usage and speed, and to support th
 It is highly recommended to read the paper before using the library, or at least have a good enough understanding of what a stream graph is and what the metrics can represent and tell you.
 
 
-Regarding the paper
---------------------------------
+Regarding the paper, definitions and namings
+--------------------------------------------
 I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences :
 - The paper defines the stream graph as a tuple of 4 sets (W : Temporal nodes, V : distinct nodes, E : links, T : time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).
 - For their cardinals, which are often used in the paper, I renamed them to |W| : temporal_cardinal_of_node_set, |V| : distinct_cardinal_of_node_set, |E| : distinct_cardinal_of_link_set, |T| : duration (for the stream, not for a node or a link).
 - For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.
 - The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.
+- I define a key instant as a time where a node or a link appears or disappears, i.e. a time where the stream graph changes.
+- I define an event as a change in the stream graph, i.e. appearance or disappearance of a node or a link. Though I don't think that you will ever need to work with events directly.
 
 Basic information about the implementation
 ------------------------------------------
@@ -41,7 +43,7 @@ All the metrics are made to work with streams, but some types of streams can opt
 The different streams are :
 - FullStreamGraph : The entire stream graph, no modifications
 - LinkStream : All nodes are present at all times, and the links are the only thing that changes
-- SnapshotStream : Study the stream graph only on a subset of the interval it is defined on, doesn't change nodes or links present
+- TimeFrameStream : Study the stream graph only on a subset of the interval it is defined on, doesn't change nodes or links present
 - ChunkStream and ChunkStreamSmall : Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. ChunkStream is optimised for when you have a lot of nodes and links, and ChunkStreamSmall is optimised for more sparse chunks with a small portion of the nodes and links.
 
 I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.

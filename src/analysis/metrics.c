@@ -52,9 +52,9 @@
 			}                                                                                                                  \
 			break;                                                                                                             \
 		}                                                                                                                          \
-		case SNAPSHOT_STREAM: {                                                                                                    \
-			if (SnapshotStream_metrics_functions.function != NULL) {                                                           \
-				return SnapshotStream_metrics_functions.function(stream);                                                  \
+		case TIMEFRAME_STREAM: {                                                                                                   \
+			if (TimeFrameStream_metrics_functions.function != NULL) {                                                          \
+				return TimeFrameStream_metrics_functions.function(stream);                                                 \
 			}                                                                                                                  \
 			break;                                                                                                             \
 		}                                                                                                                          \

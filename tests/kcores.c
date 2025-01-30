@@ -93,9 +93,9 @@ bool test_k_cores_chunk() {
 	SGA_NodeIdArrayList_push(&nodes, 5);
 	SGA_NodeIdArrayList_push(&nodes, 7);
 
-	SGA_Interval snapshot = SGA_Interval_from(0, 10);
-	SGA_Stream st	      = SGA_ChunkStream_without(&sg, &nodes, &links, snapshot);
-	SGA_Stream og	      = SGA_FullStreamGraph_from(&kcores_only);
+	SGA_Interval timeframe = SGA_Interval_from(0, 10);
+	SGA_Stream st	       = SGA_ChunkStream_without(&sg, &nodes, &links, timeframe);
+	SGA_Stream og	       = SGA_FullStreamGraph_from(&kcores_only);
 
 	SGA_NodeIdArrayList_destroy(nodes);
 	SGA_LinkIdArrayList_destroy(links);

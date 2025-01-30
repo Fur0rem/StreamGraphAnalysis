@@ -34,7 +34,7 @@ typedef struct {
 
 #ifdef SGA_INTERNAL
 
-EventsTable EventsTable_alloc(size_t nb_node_regular_key_moments, size_t nb_node_removal_only_key_moments);
+EventsTable EventsTable_alloc(size_t nb_node_regular_key_instants, size_t nb_node_removal_only_key_instants);
 String EventsTable_to_string(EventsTable* events_table);
 // TODO: no destroy ?
 

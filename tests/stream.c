@@ -30,21 +30,21 @@ bool test_load_slices() {
 
 bool test_find_index_of_time() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
-	size_t index	   = KeyMomentsTable_find_time_index_if_pushed(&sg.key_moments, 75);
+	size_t index	   = KeyInstantsTable_find_time_index_if_pushed(&sg.key_instants, 75);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_in_slices() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S_multiple_slices.sga");
-	size_t index	   = KeyMomentsTable_find_time_index_if_pushed(&sg.key_moments, 750);
+	size_t index	   = KeyInstantsTable_find_time_index_if_pushed(&sg.key_instants, 750);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, 9);
 }
 
 bool test_find_index_of_time_not_found() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
-	size_t index	   = KeyMomentsTable_find_time_index_if_pushed(&sg.key_moments, 999999);
+	size_t index	   = KeyInstantsTable_find_time_index_if_pushed(&sg.key_instants, 999999);
 	SGA_StreamGraph_destroy(sg);
 	return EXPECT_EQ(index, sg.events.nb_events);
 }

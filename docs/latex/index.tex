@@ -8,13 +8,15 @@ The library is based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence
 
 It is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6. It is made to be efficient in terms of memory usage and speed, and to support the computation of metrics different transformations of the stream graph without copying much data.
 
-It is highly recommended to read the paper before using the library, or at least have a good enough understanding of what a stream graph is and what the metrics can represent and tell you.\hypertarget{index_autotoc_md3}{}\doxysection{\texorpdfstring{Regarding the paper}{Regarding the paper}}\label{index_autotoc_md3}
+It is highly recommended to read the paper before using the library, or at least have a good enough understanding of what a stream graph is and what the metrics can represent and tell you.\hypertarget{index_autotoc_md3}{}\doxysection{\texorpdfstring{Regarding the paper, definitions and namings}{Regarding the paper, definitions and namings}}\label{index_autotoc_md3}
 I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences \+:
 \begin{DoxyItemize}
 \item The paper defines the stream graph as a tuple of 4 sets (W \+: Temporal nodes, V \+: distinct nodes, E \+: links, T \+: time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).
 \item For their cardinals, which are often used in the paper, I renamed them to \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} \+: temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: duration (for the stream, not for a node or a link).
 \item For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.
 \item The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.
+\item I define a key instant as a time where a node or a link appears or disappears, i.\+e. a time where the stream graph changes.
+\item I define an event as a change in the stream graph, i.\+e. appearance or disappearance of a node or a link. Though I don\textquotesingle{}t think that you will ever need to work with events directly.
 \end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{Basic information about the implementation}{Basic information about the implementation}}\label{index_autotoc_md4}
 The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics. Anything related to the library (data types, functions, ect...) contain the prefix SGA\+\_\+ to avoid conflicts with other libraries. There are 2 main data structures in the library \+:
 \begin{DoxyItemize}
@@ -30,7 +32,7 @@ The different streams are \+:
 \begin{DoxyItemize}
 \item Full\+Stream\+Graph \+: The entire stream graph, no modifications
 \item Link\+Stream \+: All nodes are present at all times, and the links are the only thing that changes
-\item Snapshot\+Stream \+: Study the stream graph only on a subset of the interval it is defined on, doesn\textquotesingle{}t change nodes or links present
+\item Time\+Frame\+Stream \+: Study the stream graph only on a subset of the interval it is defined on, doesn\textquotesingle{}t change nodes or links present
 \item Chunk\+Stream and Chunk\+Stream\+Small \+: Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. Chunk\+Stream is optimised for when you have a lot of nodes and links, and Chunk\+Stream\+Small is optimised for more sparse chunks with a small portion of the nodes and links.
 \end{DoxyItemize}
 

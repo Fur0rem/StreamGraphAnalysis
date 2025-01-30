@@ -13,7 +13,7 @@ Implementation of the functions to create Stream\+Graph\textquotesingle{}s and m
 {\ttfamily \#include "{}units.\+h"{}}\newline
 {\ttfamily \#include $<$stdarg.\+h$>$}\newline
 {\ttfamily \#include "{}stream.\+h"{}}\newline
-{\ttfamily \#include "{}stream\+\_\+graph/key\+\_\+moments\+\_\+table.\+h"{}}\newline
+{\ttfamily \#include "{}stream\+\_\+graph/key\+\_\+instants\+\_\+table.\+h"{}}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include "{}defaults.\+h"{}}\newline
@@ -687,11 +687,11 @@ Creates a Stream\+Graph the internal format of the version 1.\+0.\+0 of the libr
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em internal\+\_\+format} & The string to parse. Assumes it is in the internal format. The internal format is made to be more compact and efficient to parse, but way harder to read and write by hand. It is composed of a general section, a memory section, and a data section. The general header section contains the lifespan and the time scale. The memory section contains the number of nodes, links, and key moments. It is also composed of sub-\/sections \+: One for the nodes, which contains its number of neighbours and number of presence intervals. One for the links, which contains its number of presence intervals. One for the key moments, which contains in how many slices the time is divided. \\
+\mbox{\texttt{ in}}  & {\em internal\+\_\+format} & The string to parse. Assumes it is in the internal format. The internal format is made to be more compact and efficient to parse, but way harder to read and write by hand. It is composed of a general section, a memory section, and a data section. The general header section contains the lifespan and the time scale. The memory section contains the number of nodes, links, and key instants. It is also composed of sub-\/sections \+: One for the nodes, which contains its number of neighbours and number of presence intervals. One for the links, which contains its number of presence intervals. One for the key instants, which contains in how many slices the time is divided. \\
 \hline
 \end{DoxyParams}
 \begin{DoxySeeAlso}{See also}
-\doxylink{structKeyMomentsTable}{Key\+Moments\+Table}. The data section is also composed of sub-\/sections \+: One for the neighbours, for nodes it contains its neighbouring links, for links it contains the two nodes it links. One for the events, which contains the time of the event, and each events that happened at that time. Unlike the external format, all events of a same time are grouped together. Here\textquotesingle{}s how it looks\+: 
+\doxylink{structKeyInstantsTable}{Key\+Instants\+Table}. The data section is also composed of sub-\/sections \+: One for the neighbours, for nodes it contains its neighbouring links, for links it contains the two nodes it links. One for the events, which contains the time of the event, and each events that happened at that time. Unlike the external format, all events of a same time are grouped together. Here\textquotesingle{}s how it looks\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{SGA\ Internal\ version\ 1.0.0}
 \DoxyCodeLine{}
@@ -702,7 +702,7 @@ Creates a Stream\+Graph the internal format of the version 1.\+0.\+0 of the libr
 \DoxyCodeLine{[Memory]}
 \DoxyCodeLine{NumberOfNodes=x}
 \DoxyCodeLine{NumberOfLinks=y}
-\DoxyCodeLine{NumberOfKeyMoments=z}
+\DoxyCodeLine{NumberOfKeyInstants=z}
 \DoxyCodeLine{}
 \DoxyCodeLine{[[Nodes]]}
 \DoxyCodeLine{[[[NumberOfNeighbours]]]}
@@ -723,8 +723,8 @@ Creates a Stream\+Graph the internal format of the version 1.\+0.\+0 of the libr
 \DoxyCodeLine{1\ \ \ \ \textcolor{comment}{//\ Link\ 2\ has\ 1\ presence\ interval}}
 \DoxyCodeLine{...}
 \DoxyCodeLine{}
-\DoxyCodeLine{[[[NumberOfKeyMomentsPerSlice]]]}
-\DoxyCodeLine{2\ \ \ \ \textcolor{comment}{//\ The\ first\ slice\ contains\ 2\ key\ moments}}
+\DoxyCodeLine{[[[NumberOfKeyInstantsPerSlice]]]}
+\DoxyCodeLine{2\ \ \ \ \textcolor{comment}{//\ The\ first\ slice\ contains\ 2\ key\ instants}}
 \DoxyCodeLine{...}
 \DoxyCodeLine{}
 \DoxyCodeLine{[Data]}

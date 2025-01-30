@@ -23,7 +23,7 @@ typedef struct {
 	size_t nb_links;			  ///< Number of links in the chunk.
 	SGA_LinkId* links_present;		  ///< Array of links present in the chunk.
 	SGA_StreamGraph* underlying_stream_graph; ///< The StreamGraph from which the chunk was extracted.
-	SGA_Interval snapshot;			  ///< The time interval of the chunk.
+	SGA_Interval timeframe;			  ///< The time interval of the chunk.
 } ChunkStreamSmall;
 
 extern const StreamFunctions ChunkStreamSmall_stream_functions;	  ///< Functions to access the data of a ChunkStreamSmall.
@@ -36,11 +36,11 @@ extern const MetricsFunctions ChunkStreamSmall_metrics_functions; ///< Functions
  * @param[in] stream_graph The StreamGraph to create the ChunkStreamSmall from.
  * @param[in] nodes The nodes present in the chunk.
  * @param[in] links The links present in the chunk.
- * @param[in] snapshot The time interval of the chunk.
+ * @param[in] timeframe The time interval of the chunk.
  * @return The created ChunkStreamSmall.
  */
 SGA_Stream SGA_ChunkStreamSmall_from(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList nodes, SGA_LinkIdArrayList links,
-				     SGA_Interval snapshot);
+				     SGA_Interval timeframe);
 void SGA_ChunkStreamSmall_destroy(SGA_Stream stream);
 
 #endif // CHUNK_STREAM_SMALL_H

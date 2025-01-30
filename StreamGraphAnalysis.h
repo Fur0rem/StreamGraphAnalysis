@@ -11,7 +11,7 @@
 #include "src/iterators.h"
 #include "src/stream.h"
 #include "src/stream_data_access/induced_graph.h"
-#include "src/stream_data_access/key_moments.h"
+#include "src/stream_data_access/key_instants.h"
 #include "src/stream_data_access/link_access.h"
 #include "src/stream_data_access/node_access.h"
 #include "src/stream_functions.h"
