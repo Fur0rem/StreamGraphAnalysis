@@ -2,7 +2,7 @@ var index =
 [
     [ "Current state of the Project", "index.html#autotoc_md1", null ],
     [ "Before you start", "index.html#autotoc_md2", null ],
-    [ "Regarding the paper", "index.html#autotoc_md3", null ],
+    [ "Regarding the paper, definitions and namings", "index.html#autotoc_md3", null ],
     [ "Basic information about the implementation", "index.html#autotoc_md4", null ],
     [ "How to use the library", "index.html#autotoc_md5", null ],
     [ "Data format", "index.html#autotoc_md6", null ],

@@ -13,7 +13,7 @@
  * - FullStreamGraph: A StreamGraph as is.
  * - LinkStream: A StreamGraph where all nodes are present at all times.
  * - ChunkStream and ChunkStreamSmall: A subset of the StreamGraph.
- * - SnapshotStream: A StreamGraph at a specific time interval.
+ * - TimeFrameStream: A StreamGraph at a specific time interval.
  * <br>
  * All of these Stream's use an underlying StreamGraph, but transform the data in different ways.
  * <br>
@@ -29,7 +29,7 @@
 #include "bit_array.h"
 #include "interval.h"
 #include "stream_graph/events_table.h"
-#include "stream_graph/key_moments_table.h"
+#include "stream_graph/key_instants_table.h"
 #include "stream_graph/links_set.h"
 #include "stream_graph/nodes_set.h"
 #include "units.h"
@@ -48,11 +48,11 @@ typedef struct SGA_StreamGraph SGA_StreamGraph;
  * @brief The internal implementation of a StreamGraph.
  */
 struct SGA_StreamGraph {
-	KeyMomentsTable key_moments; ///< Key moments of the StreamGraph. A key moment is a moment where the StreamGraph changes.
-	NodesSet nodes;		     ///< The nodes of the StreamGraph.
-	LinksSet links;		     ///< The links of the StreamGraph.
-	SGA_Interval lifespan;	     ///< The time interval of the StreamGraph.
-	size_t time_scale;	     ///< By how much the time is scaled. Used to normalise many time-related metrics.
+	KeyInstantsTable key_instants; ///< Key instants of the StreamGraph. A key instant is a instant where the StreamGraph changes.
+	NodesSet nodes;		       ///< The nodes of the StreamGraph.
+	LinksSet links;		       ///< The links of the StreamGraph.
+	SGA_Interval lifespan;	       ///< The time interval of the StreamGraph.
+	size_t time_scale;	       ///< By how much the time is scaled. Used to normalise many time-related metrics.
 
 	EventsTable events; ///< The events of the StreamGraph. An event keeps track of additions and removals of nodes and links.
 			    ///< Needs to be initialised separately with init_events_table. As it is quite memory and time consuming, and
@@ -120,11 +120,11 @@ SGA_StreamGraph SGA_StreamGraph_from_external_format_v_1_0_0(const String* forma
  * The internal format is made to be more compact and efficient to parse, but way harder to read and write by hand.
  * It is composed of a general section, a memory section, and a data section.
  * The general header section contains the lifespan and the time scale.
- * The memory section contains the number of nodes, links, and key moments.
+ * The memory section contains the number of nodes, links, and key instants.
  * It is also composed of sub-sections :
  * One for the nodes, which contains its number of neighbours and number of presence intervals.
  * One for the links, which contains its number of presence intervals.
- * One for the key moments, which contains in how many slices the time is divided. @see KeyMomentsTable.
+ * One for the key instants, which contains in how many slices the time is divided. @see KeyInstantsTable.
  * The data section is also composed of sub-sections :
  * One for the neighbours, for nodes it contains its neighbouring links, for links it contains the two nodes it links.
  * One for the events, which contains the time of the event, and each events that happened at that time.
@@ -140,7 +140,7 @@ SGA_StreamGraph SGA_StreamGraph_from_external_format_v_1_0_0(const String* forma
  * [Memory]
  * NumberOfNodes=x
  * NumberOfLinks=y
- * NumberOfKeyMoments=z
+ * NumberOfKeyInstants=z
  *
  * [[Nodes]]
  * [[[NumberOfNeighbours]]]
@@ -161,8 +161,8 @@ SGA_StreamGraph SGA_StreamGraph_from_external_format_v_1_0_0(const String* forma
  * 1	// Link 2 has 1 presence interval
  * ...
  *
- * [[[NumberOfKeyMomentsPerSlice]]]
- * 2	// The first slice contains 2 key moments
+ * [[[NumberOfKeyInstantsPerSlice]]]
+ * 2	// The first slice contains 2 key instants
  * ...
  *
  * [Data]
@@ -252,7 +252,7 @@ typedef struct SGA_Stream {
 		LINK_STREAM,	    ///< A LinkStream
 		CHUNK_STREAM,	    ///< A ChunkStream
 		CHUNK_STREAM_SMALL, ///< A ChunkStreamSmall
-		SNAPSHOT_STREAM,    ///< A SnapshotStream
+		TIMEFRAME_STREAM,   ///< A TimeFrameStream
 	} type;
 
 	SGA_StreamData* stream_data; ///< The data of the Stream. It is a union of all the different types of StreamData.

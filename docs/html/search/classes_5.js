@@ -1,6 +1,6 @@
 var searchData=
 [
   ['kcoredata_0',['KCoreData',['../structKCoreData.html',1,'']]],
-  ['keymomentstable_1',['KeyMomentsTable',['../structKeyMomentsTable.html',1,'']]],
-  ['keymomentstableiterator_2',['KeyMomentsTableIterator',['../structKeyMomentsTableIterator.html',1,'']]]
+  ['keyinstantstable_1',['KeyInstantsTable',['../structKeyInstantsTable.html',1,'']]],
+  ['keyinstantstableiterator_2',['KeyInstantsTableIterator',['../structKeyInstantsTableIterator.html',1,'']]]
 ];

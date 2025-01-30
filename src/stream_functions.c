@@ -66,7 +66,7 @@ SGA_LinkId SGA_Stream_link_between_nodes(SGA_Stream* stream, SGA_NodeId node_id,
 	return fns.link_between_nodes(stream->stream_data, node_id, other_node_id);
 }
 
-SGA_TimesIterator SGA_Stream_key_moments(SGA_Stream* stream) {
+SGA_TimesIterator SGA_Stream_key_instants(SGA_Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
-	return fns.key_moments(stream->stream_data);
+	return fns.key_instants(stream->stream_data);
 }

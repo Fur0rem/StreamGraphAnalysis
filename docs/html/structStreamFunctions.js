@@ -1,6 +1,6 @@
 var structStreamFunctions =
 [
-    [ "key_moments", "structStreamFunctions.html#a96ccd937d0edd3f94100a24b3241f36b", null ],
+    [ "key_instants", "structStreamFunctions.html#a47b588ec3e5cbb514c85313b77b427a9", null ],
     [ "lifespan", "structStreamFunctions.html#a95ad29be4b5d1cbe419eb00e73a489a4", null ],
     [ "link_between_nodes", "structStreamFunctions.html#a418a5f51dc8ea4f0a5ce30f3bb9ed84e", null ],
     [ "link_by_id", "structStreamFunctions.html#a572da2dcfbfcf288f15916761afdcf91", null ],

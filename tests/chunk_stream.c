@@ -227,7 +227,7 @@ bool test_nodes_and_links_present_at_t_chunk_stream() {
 	return true;
 }
 
-bool test_key_moments() {
+bool test_key_instants() {
 	SGA_StreamGraph sg	  = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_with_capacity(3);
 	SGA_NodeIdArrayList_push(&nodes, 0);
@@ -241,19 +241,19 @@ bool test_key_moments() {
 	SGA_LinkIdArrayList_push(&links, 3);
 
 	// SGA_Stream st		 = CS_with(&sg, &nodes, &links, 20, 80);
-	SGA_Stream st			      = SGA_ChunkStream_with(&sg, &nodes, &links, SGA_Interval_from(20, 80));
-	StreamFunctions funcs		      = ChunkStream_stream_functions;
-	SGA_TimesIterator key_moments	      = funcs.key_moments(st.stream_data);
-	SGA_IntervalArrayList key_moments_vec = SGA_collect_times(key_moments);
-	for (size_t i = 0; i < key_moments_vec.length; i++) {
-		SGA_Interval interval = key_moments_vec.array[i];
-		printf("KEY MOMENT : [%lu, %lu[\n", interval.start, interval.end);
+	SGA_Stream st			       = SGA_ChunkStream_with(&sg, &nodes, &links, SGA_Interval_from(20, 80));
+	StreamFunctions funcs		       = ChunkStream_stream_functions;
+	SGA_TimesIterator key_instants	       = funcs.key_instants(st.stream_data);
+	SGA_IntervalArrayList key_instants_vec = SGA_collect_times(key_instants);
+	for (size_t i = 0; i < key_instants_vec.length; i++) {
+		SGA_Interval interval = key_instants_vec.array[i];
+		printf("KEY INSTANT : [%lu, %lu[\n", interval.start, interval.end);
 	}
-	SGA_IntervalArrayList_destroy(key_moments_vec);
+	SGA_IntervalArrayList_destroy(key_instants_vec);
 
-	// printf("KEY MOMENTS\n");
-	// SGA_FOR_EACH_TIME(interval, key_moments) {
-	// 	printf("KEY MOMENT : [%lu, %lu]\n", interval.start, interval.end);
+	// printf("KEY INSTANTS\n");
+	// SGA_FOR_EACH_TIME(interval, key_instants) {
+	// 	printf("KEY INSTANT : [%lu, %lu]\n", interval.start, interval.end);
 	// }
 
 	// CS_destroy(st);
@@ -274,7 +274,7 @@ int main() {
 	    TEST(test_times_node_present_chunk_stream_2),
 	    TEST(test_link_presence_chunk_stream),
 	    TEST(test_nodes_and_links_present_at_t_chunk_stream),
-	    TEST(test_key_moments),
+	    TEST(test_key_instants),
 	    NULL,
 	};
 	return test("Chunk Stream", tests);

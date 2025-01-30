@@ -27,12 +27,12 @@
  */
 typedef struct {
 	SGA_StreamGraph* underlying_stream_graph; ///< The StreamGraph from which the chunk was extracted.
-	SGA_Interval snapshot;			  ///< The time interval of the chunk.
+	SGA_Interval timeframe;			  ///< The time interval of the chunk.
 	BitArray nodes_present;			  ///< Nodes present in the chunk.
 						  ///< It works like an array of booleans optimised as a bit array.
 						  ///< If nodes_present[i] is true, then the node i is present in the chunk.
 	BitArray links_present;			  ///< Links present in the chunk.
-				///< Same implementation as nodes_present but for links.
+						  ///< Same implementation as nodes_present but for links.
 } ChunkStream;
 
 extern const StreamFunctions ChunkStream_stream_functions;   ///< Functions to access the data of a ChunkStream.
@@ -45,22 +45,22 @@ extern const MetricsFunctions ChunkStream_metrics_functions; ///< Functions to c
  * @param[in] stream_graph The StreamGraph to create the ChunkStream from.
  * @param[in] nodes The nodes present in the chunk.
  * @param[in] links The links present in the chunk.
- * @param[in] snapshot The time interval at which the chunk exists.
+ * @param[in] timeframe The time interval at which the chunk exists.
  * @return The created ChunkStream.
  */
 SGA_Stream SGA_ChunkStream_with(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList* nodes_present, SGA_LinkIdArrayList* links_present,
-				SGA_Interval snapshot);
+				SGA_Interval timeframe);
 
 /**
  * @brief Create a ChunkStream from a StreamGraph, without a subset of nodes and links.
  * @param[in] stream_graph The StreamGraph to create the ChunkStream from.
  * @param[in] nodes The nodes to remove from the chunk.
  * @param[in] links The links to remove from the chunk.
- * @param[in] snapshot The time interval at which the chunk exists.
+ * @param[in] timeframe The time interval at which the chunk exists.
  * @return The created ChunkStream.
  */
 SGA_Stream SGA_ChunkStream_without(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList* nodes_absent, SGA_LinkIdArrayList* links_absent,
-				   SGA_Interval snapshot);
+				   SGA_Interval timeframe);
 
 /**
  * @brief Destroy a ChunkStream.

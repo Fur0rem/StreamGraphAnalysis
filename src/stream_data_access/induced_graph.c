@@ -1,7 +1,7 @@
 #define SGA_INTERNAL
 
 #include "../utils.h"
-#include "key_moments.h"
+#include "key_instants.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -99,10 +99,10 @@ SGA_NodesIterator SGA_StreamGraph_nodes_present_at(SGA_StreamGraph* stream_graph
 		return SGA_NodesIterator_empty();
 	}
 
-	size_t current_event = KeyMomentsTable_find_time_index_equivalent(&stream_graph->key_moments, time);
+	size_t current_event = KeyInstantsTable_find_time_index_equivalent(&stream_graph->key_instants, time);
 
-	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
-	if (time >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.node_events.disappearance_index)) {
+	// If the time is exactly a key instant after disappearance, we need to skip the disappearance event
+	if (time >= KeyInstantsTable_nth_key_instant(&stream_graph->key_instants, stream_graph->events.node_events.disappearance_index)) {
 		current_event++;
 	}
 
@@ -232,11 +232,11 @@ SGA_LinksIterator SGA_StreamGraph_links_present_at(SGA_StreamGraph* stream_graph
 		return SGA_LinksIterator_empty();
 	}
 
-	size_t current_event = KeyMomentsTable_find_time_index_equivalent(&stream_graph->key_moments, time);
+	size_t current_event = KeyInstantsTable_find_time_index_equivalent(&stream_graph->key_instants, time);
 	// printf("Current event: %zu\n", current_event);
 
-	// If the time is exactly a key moment after disappearance, we need to skip the disappearance event
-	if (time >= KeyMomentsTable_nth_key_moment(&stream_graph->key_moments, stream_graph->events.link_events.disappearance_index)) {
+	// If the time is exactly a key instant after disappearance, we need to skip the disappearance event
+	if (time >= KeyInstantsTable_nth_key_instant(&stream_graph->key_instants, stream_graph->events.link_events.disappearance_index)) {
 		current_event++;
 	}
 

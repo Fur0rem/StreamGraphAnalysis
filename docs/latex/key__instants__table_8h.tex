@@ -1,0 +1,54 @@
+\doxysection{src/stream\+\_\+graph/key\+\_\+instants\+\_\+table.h File Reference}
+\hypertarget{key__instants__table_8h}{}\label{key__instants__table_8h}\index{src/stream\_graph/key\_instants\_table.h@{src/stream\_graph/key\_instants\_table.h}}
+
+
+Table of all key instants.  
+
+
+
+
+\doxysubsection{Detailed Description}
+Table of all key instants. 
+
+{\ttfamily \#include "{}../units.\+h"{}}\newline
+{\ttfamily \#include "{}../utils.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structInstantsSlice}{Instants\+Slice}}
+\item 
+struct \mbox{\hyperlink{structKeyInstantsTableIterator}{Key\+Instants\+Table\+Iterator}}
+\item 
+struct \mbox{\hyperlink{structKeyInstantsTable}{Key\+Instants\+Table}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{key__instants__table_8h_a9a22fb4f2f5cd406446733902bab2ef5}\label{key__instants__table_8h_a9a22fb4f2f5cd406446733902bab2ef5} 
+\#define {\bfseries RELATIVE\+\_\+\+INSTANT\+\_\+\+MAX}~((Relative\+Instant)\texorpdfstring{$\sim$}{\string~}0)
+\item 
+\Hypertarget{key__instants__table_8h_acbd539e016f410437814d7029e576971}\label{key__instants__table_8h_acbd539e016f410437814d7029e576971} 
+\#define {\bfseries SLICE\+\_\+\+SIZE}~(((size\+\_\+t)RELATIVE\+\_\+\+INSTANT\+\_\+\+MAX) + 1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{key__instants__table_8h_ad7ca007c3807031666c93ac910c9fff5}\label{key__instants__table_8h_ad7ca007c3807031666c93ac910c9fff5} 
+typedef uint8\+\_\+t {\bfseries Relative\+Instant}
+\end{DoxyCompactItemize}
+Include dependency graph for key\+\_\+instants\+\_\+table.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{key__instants__table_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{key__instants__table_8h__dep__incl}
+\end{center}
+\end{figure}

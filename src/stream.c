@@ -10,7 +10,7 @@
 
 #include "stream.h"
 
-#include "stream_graph/key_moments_table.h"
+#include "stream_graph/key_instants_table.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -310,18 +310,18 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 
 	EXPECT_AND_MOVE(str, '\n');
 
-	// Parse the number of key moments
-	EXPECT_SEQUENCE_AND_MOVE(str, "NumberOfKeyMoments=");
-	size_t nb_key_moments = PARSE_NUMBER_AND_MOVE(str, "number of key moments");
+	// Parse the number of key instants
+	EXPECT_SEQUENCE_AND_MOVE(str, "NumberOfKeyInstants=");
+	size_t nb_key_instants = PARSE_NUMBER_AND_MOVE(str, "number of key instants");
 
 	EXPECT_AND_MOVE(str, '\n');
 
 	// Allocate the stream graph
-	size_t* key_moments = MALLOC(nb_key_moments * sizeof(size_t));
-	sg.key_moments	    = KeyMomentsTable_alloc(nb_slices);
-	sg.events.nb_events = nb_key_moments;
-	sg.nodes	    = NodesSet_alloc(nb_nodes);
-	sg.links	    = LinksSet_alloc(nb_links);
+	size_t* key_instants = MALLOC(nb_key_instants * sizeof(size_t));
+	sg.key_instants	     = KeyInstantsTable_alloc(nb_slices);
+	sg.events.nb_events  = nb_key_instants;
+	sg.nodes	     = NodesSet_alloc(nb_nodes);
+	sg.links	     = LinksSet_alloc(nb_links);
 
 	// Parse the memory needed for the nodes
 	NEXT_SUB_HEADER([[Nodes]]);
@@ -369,16 +369,16 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	// Parse the key moments
-	NEXT_SUB_SUB_HEADER([[[NumberOfKeyMomentsPerSlice]]]);
+	// Parse the key instants
+	NEXT_SUB_SUB_HEADER([[[NumberOfKeyInstantsPerSlice]]]);
 
-	// Parse the number of key moments in each slice
+	// Parse the number of key instants in each slice
 	for (size_t i = 0; i < nb_slices; i++) {
-		// Parse the number of key moments in the slice
-		size_t moments_in_slice = PARSE_NUMBER_AND_MOVE(str, "number of key moments in the slice %zu", i);
+		// Parse the number of key instants in the slice
+		size_t instants_in_slice = PARSE_NUMBER_AND_MOVE(str, "number of key instants in the slice %zu", i);
 
 		// Allocate the slice
-		KeyMomentsTable_alloc_slice(&sg.key_moments, i, moments_in_slice);
+		KeyInstantsTable_alloc_slice(&sg.key_instants, i, instants_in_slice);
 
 		// Next slice
 		EXPECT_AND_MOVE(str, '\n');
@@ -442,16 +442,16 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 	int* nb_pushed_for_links = buffer + nb_nodes;
 
 	// Parse all the lists of events
-	for (size_t i = 0; i < nb_key_moments; i++) {
-		size_t key_moment = PARSE_NUMBER_AND_MOVE(str, "%zu-th key moment", i);
-		CHECK_PARSE_ERROR((key_moment <= last_event_parsed) && (key_moment != lifespan_start),
-				  "Key moments are not sorted in increasing order (last event: %zu >= current event: %zu)\n",
+	for (size_t i = 0; i < nb_key_instants; i++) {
+		size_t key_instant = PARSE_NUMBER_AND_MOVE(str, "%zu-th key instant", i);
+		CHECK_PARSE_ERROR((key_instant <= last_event_parsed) && (key_instant != lifespan_start),
+				  "Key instants are not sorted in increasing order (last event: %zu >= current event: %zu)\n",
 				  last_event_parsed,
-				  key_moment);
+				  key_instant);
 
-		// Push the key moment in the table
-		KeyMomentsTable_push_in_order(&sg.key_moments, key_moment);
-		last_event_parsed = key_moment;
+		// Push the key instant in the table
+		KeyInstantsTable_push_in_order(&sg.key_instants, key_instant);
+		last_event_parsed = key_instant;
 
 		// Parse the list of events
 		EXPECT_SEQUENCE_AND_MOVE(str, "=(");
@@ -480,12 +480,12 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 				if (sign == '+') {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_nodes[id] % 2 != 0, "Node %zu was pushed twice without being removed\n", id);
-					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].start = key_moment;
+					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].start = key_instant;
 				}
 				else {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_nodes[id] % 2 == 0, "Node %zu was removed twice without being added\n", id);
-					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].end = key_moment;
+					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].end = key_instant;
 				}
 				nb_pushed_for_nodes[id]++;
 			}
@@ -494,12 +494,12 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 				if (sign == '+') {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_links[id] % 2 != 0, "Link %zu was pushed twice without being removed\n", id);
-					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start = key_moment;
+					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start = key_instant;
 				}
 				else {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_links[id] % 2 == 0, "Link %zu was removed twice without being added\n", id);
-					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].end = key_moment;
+					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].end = key_instant;
 				}
 				nb_pushed_for_links[id]++;
 			}
@@ -531,7 +531,7 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 	// Close and clean up
 	NEXT_HEADER([EndOfStream]);
 	free(buffer);
-	free(key_moments);
+	free(key_instants);
 
 	init_events_table(&sg);
 
@@ -546,15 +546,15 @@ SGA_StreamGraph SGA_StreamGraph_from_file(const char* filename) {
 }
 
 size_t StreamGraph_lifespan_begin(SGA_StreamGraph* sg) {
-	return KeyMomentsTable_first_moment(&sg->key_moments);
+	return KeyInstantsTable_first_instant(&sg->key_instants);
 }
 
 size_t StreamGraph_lifespan_end(SGA_StreamGraph* sg) {
-	return KeyMomentsTable_last_moment(&sg->key_moments);
+	return KeyInstantsTable_last_instant(&sg->key_instants);
 }
 
 typedef struct {
-	size_t moment;
+	size_t instant;
 	char sign;
 	char letter; // TODO: use an enum instead
 	union {
@@ -570,12 +570,12 @@ String EventTuple_to_string(EventTuple* tuple) {
 	String str = String_with_capacity(50);
 	switch (tuple->letter) {
 		case 'N': {
-			String_append_formatted(&str, "(%zu %c %c %zu)", tuple->moment, tuple->sign, tuple->letter, tuple->id.node);
+			String_append_formatted(&str, "(%zu %c %c %zu)", tuple->instant, tuple->sign, tuple->letter, tuple->id.node);
 			break;
 		}
 		case 'L': {
 			String_append_formatted(
-			    &str, "(%zu %c %c %zu %zu)", tuple->moment, tuple->sign, tuple->letter, tuple->id.node1, tuple->id.node2);
+			    &str, "(%zu %c %c %zu %zu)", tuple->instant, tuple->sign, tuple->letter, tuple->id.node1, tuple->id.node2);
 			break;
 		}
 		default: {
@@ -673,11 +673,11 @@ size_t estimate_internal_format_v_1_0_0_size(size_t nb_nodes, size_t nb_links, S
 	// The headers + the number of events in each slice * the number of slices
 	size_t headers_size =
 	    strlen("[General]\nLifespan=(%zu "
-		   "%zu)\nTimeScale=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyMoments=%"
+		   "%zu)\nTimeScale=%zu\n\n[Memory]\nNumberOfNodes=%zu\nNumberOfLinks=%zu\nNumberOfKeyInstants=%"
 		   "zu\n\n[["
 		   "Nodes]"
 		   "]\n[[[NumberOfNeighbours]]]\n[[[NumberOfIntervals]]]\n[[Links]]\n[[[NumberOfIntervals]]]\n[[["
-		   "NumberOfKeyMomentsPerSlice]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]"
+		   "NumberOfKeyInstantsPerSlice]]]\n[Data]\n[[Neighbours]]\n[[[NodesToLinks]]]\n[[[LinksToNodes]]]\n[[Events]]"
 		   "\n") +
 	    100 + (nb_events_per_slice.length * (nb_characters_needed(nb_events / nb_events_per_slice.length)));
 
@@ -772,15 +772,15 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 			break;
 		}
 
-		// Parse the event 4-tuple (moment, sign, letter, id)
+		// Parse the event 4-tuple (instant, sign, letter, id)
 		EventTuple tuple;
 
-		// Moment
-		size_t key_moment = PARSE_NUMBER_AND_MOVE(str, "key moment");
-		CHECK_PARSE_ERROR(key_moment < last_event_parsed,
+		// Instant
+		size_t key_instant = PARSE_NUMBER_AND_MOVE(str, "key instant");
+		CHECK_PARSE_ERROR(key_instant < last_event_parsed,
 				  "Events are not sorted in increasing order (last event: %zu > current event: %zu)\n",
 				  last_event_parsed,
-				  key_moment);
+				  key_instant);
 
 		EXPECT_AND_MOVE(str, ' ');
 
@@ -804,7 +804,7 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 			size_t node_id = PARSE_NUMBER_AND_MOVE(str, "node id");
 
 			tuple = (EventTuple){
-			    .moment  = key_moment,
+			    .instant = key_instant,
 			    .sign    = sign,
 			    .letter  = letter,
 			    .id.node = node_id,
@@ -852,7 +852,7 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 			CHECK_PARSE_ERROR(node1 == node2, "Nodes are the same");
 
 			tuple = (EventTuple){
-			    .moment   = key_moment,
+			    .instant  = key_instant,
 			    .sign     = sign,
 			    .letter   = letter,
 			    .id.node1 = node1,
@@ -899,12 +899,12 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 			EventTupleArrayListArrayList_push(&events, events_vec);
 		}
 		else {
-			// If the key moment is the same as the previous event, add it to the current list
-			if (key_moment == events.array[current_vec].array[0].moment) {
+			// If the key instant is the same as the previous event, add it to the current list
+			if (key_instant == events.array[current_vec].array[0].instant) {
 				EventTupleArrayList_push(&events.array[current_vec], tuple);
 			}
 			else {
-				// If the key moment is different, create a new list of events
+				// If the key instant is different, create a new list of events
 				EventTupleArrayList events_vec = EventTupleArrayList_new();
 				EventTupleArrayList_push(&events_vec, tuple);
 				EventTupleArrayListArrayList_push(&events, events_vec);
@@ -914,12 +914,12 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 
 		// Move to next event
 		nb_events++;
-		last_event_parsed = key_moment;
+		last_event_parsed = key_instant;
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
 	// Push the lifespan end event if it is not the last event
-	size_t last_event = events.array[events.length - 1].array[0].moment;
+	size_t last_event = events.array[events.length - 1].array[0].instant;
 	if (last_event != lifespan_end) {
 		last_event	= lifespan_end;
 		size_t slice_id = last_event / SLICE_SIZE;
@@ -933,7 +933,7 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 
 	// Update the number of events per slice
 	for (size_t i = 0; i < events.length; i++) {
-		size_t slice_id = events.array[i].array[0].moment / SLICE_SIZE;
+		size_t slice_id = events.array[i].array[0].instant / SLICE_SIZE;
 		if (slice_id >= nb_events_per_slice.length) {
 			for (size_t j = nb_events_per_slice.length; j <= slice_id; j++) {
 				size_tArrayList_push(&nb_events_per_slice, 0);
@@ -960,7 +960,7 @@ String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
 	// String to store the internal format
 	size_t size_prediction = estimate_internal_format_v_1_0_0_size(parsed.nodes.length,
 								       parsed.links.length,
-								       parsed.events.array[parsed.events.length - 1].array[0].moment,
+								       parsed.events.array[parsed.events.length - 1].array[0].instant,
 								       parsed.events.length,
 								       parsed.nb_events_per_slice);
 	String str	       = String_with_capacity(size_prediction);
@@ -978,7 +978,7 @@ String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
 	String_push_str(&str, "\n\n[Memory]\n");
 	String_append_formatted(&str, "NumberOfNodes=%zu\n", parsed.nodes.length);
 	String_append_formatted(&str, "NumberOfLinks=%zu\n", parsed.links.length);
-	String_append_formatted(&str, "NumberOfKeyMoments=%zu\n", parsed.events.length);
+	String_append_formatted(&str, "NumberOfKeyInstants=%zu\n", parsed.events.length);
 
 	// Write the Nodes subsection
 	String_push_str(&str, "\n[[Nodes]]\n");
@@ -1001,7 +1001,7 @@ String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
 	for (size_t i = 0; i < parsed.links.length; i++) {
 		String_append_formatted(&str, "%zu\n", parsed.links.array[i].nb_intervals / 2);
 	}
-	String_push_str(&str, "[[[NumberOfKeyMomentsPerSlice]]]\n");
+	String_push_str(&str, "[[[NumberOfKeyInstantsPerSlice]]]\n");
 	for (size_t i = 0; i < parsed.nb_events_per_slice.length; i++) {
 		String_append_formatted(&str, "%zu\n", parsed.nb_events_per_slice.array[i]);
 	}
@@ -1055,7 +1055,7 @@ String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
 
 	// Write the events
 	for (size_t i = 0; i < parsed.events.length; i++) {
-		String_append_formatted(&str, "%zu=(", parsed.events.array[i].array[0].moment);
+		String_append_formatted(&str, "%zu=(", parsed.events.array[i].array[0].instant);
 		for (size_t j = 0; j < parsed.events.array[i].length; j++) {
 			if (parsed.events.array[i].array[j].letter == 'L') {
 				EventTuple event = parsed.events.array[i].array[j];
@@ -1158,7 +1158,7 @@ void SGA_StreamGraph_destroy(SGA_StreamGraph sg) {
 		free(sg.links.links[i].presence.intervals);
 	}
 	free(sg.links.links);
-	KeyMomentsTable_destroy(sg.key_moments);
+	KeyInstantsTable_destroy(sg.key_instants);
 	events_destroy(&sg);
 }
 
@@ -1229,8 +1229,8 @@ void init_events_table(SGA_StreamGraph* sg) {
 		}
 	}
 
-	size_t index_of_last_node_addition = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, last_node_addition);
-	size_t index_of_last_link_addition = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, last_link_addition);
+	size_t index_of_last_node_addition = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, last_node_addition);
+	size_t index_of_last_link_addition = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, last_link_addition);
 
 	// printf("last_node_addition: %zu\n", last_node_addition);
 	// printf("last_link_addition: %zu\n", last_link_addition);
@@ -1256,8 +1256,8 @@ void init_events_table(SGA_StreamGraph* sg) {
 		// For each interval
 		for (size_t j = 0; j < node->presence.nb_intervals; j++) {
 			SGA_Interval interval = node->presence.intervals[j];
-			size_t start	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.start);
-			size_t end	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.end);
+			size_t start	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
+			size_t end	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
 			// Invalidate the bit of the presence mask
 			if (end < sg->events.node_events.disappearance_index) {
 				// printf("invalidating %zu\n", end);
@@ -1285,8 +1285,8 @@ void init_events_table(SGA_StreamGraph* sg) {
 		SGA_Link* link = &sg->links.links[i];
 		for (size_t j = 0; j < link->presence.nb_intervals; j++) {
 			SGA_Interval interval = link->presence.intervals[j];
-			size_t start	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.start);
-			size_t end	      = KeyMomentsTable_find_time_index_if_pushed(&sg->key_moments, interval.end);
+			size_t start	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
+			size_t end	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
 			if (end < sg->events.link_events.disappearance_index) {
 				BitArray_set_zero(sg->events.link_events.presence_mask, end - 1);
 			}
@@ -1302,8 +1302,9 @@ void init_events_table(SGA_StreamGraph* sg) {
 			for (int j = i - 2; j >= 0; j--) {
 				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
 					for (size_t k = 0; k < node_events[j].length; k++) {
-						if (SGA_IntervalsSet_contains_sorted(sg->nodes.nodes[node_events[j].array[k]].presence,
-										     KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+						if (SGA_IntervalsSet_contains_sorted(
+							sg->nodes.nodes[node_events[j].array[k]].presence,
+							KeyInstantsTable_nth_key_instant(&sg->key_instants, i))) {
 							size_tArrayList_push(&node_events[i], node_events[j].array[k]);
 						}
 					}
@@ -1323,8 +1324,9 @@ void init_events_table(SGA_StreamGraph* sg) {
 					for (size_t k = 0; k < link_events[j].length; k++) {
 
 						// FIXME: WHY DO I HAVE TO COMPILE TWICE TO HAVE THE PERFORMANCE BOOST?
-						if (SGA_IntervalsSet_contains_sorted(sg->links.links[link_events[j].array[k]].presence,
-										     KeyMomentsTable_nth_key_moment(&sg->key_moments, i))) {
+						if (SGA_IntervalsSet_contains_sorted(
+							sg->links.links[link_events[j].array[k]].presence,
+							KeyInstantsTable_nth_key_instant(&sg->key_instants, i))) {
 							size_tArrayList_push(&link_events[i], link_events[j].array[k]);
 						}
 					}

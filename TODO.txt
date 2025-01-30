@@ -23,9 +23,8 @@
 - Scaling -> Timescale
 - Separate the example stream data from the tests
 - Read all the TODOs in the code
-- data_access for key_moments + induced_graph -> time_access
-- Moments/time -> instant
-- Automatic initialisation of key moments table and events
+- data_access for key_instants + induced_graph -> time_access
+- Automatic initialisation of key instants table and events
 - @param[in/out/in,out] for documentation
 
 Metrics (V for implemeted, X for not implemented):
