@@ -65,16 +65,7 @@ bool test_cardinal_of_W_S() {
 	SGA_NodesIterator nodes_iter = funcs.nodes_set(st.stream_data);
 	size_t cardinal		     = 0;
 	SGA_FOR_EACH_NODE(node_id, nodes_iter) {
-		// printf("NODE %zu\n", node_id);
-		size_t before = cardinal;
-		// for each interval of presence of the node
-		SGA_Node node = sg.nodes.nodes[node_id];
-		// for each interval of presence of the node
-		// for (size_t i = 0; i < node.presence.nb_intervals; i++) {
-		// printf("Interval %zu : [%lu, %lu]\n", i, node.presence.intervals[i].start, node.presence.intervals[i].end);
-		// }
 		cardinal += SGA_total_time_of(funcs.times_node_present(st.stream_data, node_id));
-		// printf("Cardinal : %zu\n", cardinal - before);
 	}
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);
@@ -196,8 +187,6 @@ bool test_density_of_link() {
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
 	double density_ab  = SGA_Stream_density_of_link(&st, 0);
 	double density_bd  = SGA_Stream_density_of_link(&st, 1);
-	double density_ac  = SGA_Stream_density_of_link(&st, 2);
-	double density_bc  = SGA_Stream_density_of_link(&st, 3);
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(st);
 	return EXPECT_F_APPROX_EQ(density_ab, 1.0 / 3.0, 1e-2) && EXPECT_F_APPROX_EQ(density_bd, 1.0 / 2.0, 1e-2);
@@ -206,16 +195,11 @@ bool test_density_of_link() {
 bool test_density_of_node() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream st	   = SGA_FullStreamGraph_from(&sg);
-	// SGA_FullStreamGraph* fsg     = malloc(sizeof(FullStreamGraph));
-	// fsg->underlying_stream_graph = &sg;
-	// SGA_Stream* st		     = malloc(sizeof(SGA_Stream));
-	// st->type		     = FULL_STREAM_GRAPH;
-	// st->stream_data		     = fsg;
+
 	double density_d = SGA_Stream_density_of_node(&st, 3);
 	SGA_FullStreamGraph_destroy(st);
 	SGA_StreamGraph_destroy(sg);
-	// free(st);
-	//	free(fsg);
+
 	return EXPECT_F_APPROX_EQ(density_d, 1.0 / 4.0, 1e-2);
 }
 

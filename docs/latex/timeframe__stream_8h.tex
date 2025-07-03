@@ -1,0 +1,72 @@
+\doxysection{src/streams/timeframe\+\_\+stream.h File Reference}
+\hypertarget{timeframe__stream_8h}{}\label{timeframe__stream_8h}\index{src/streams/timeframe\_stream.h@{src/streams/timeframe\_stream.h}}
+
+
+\doxysubsection{Detailed Description}
+A Stream that represents a timeframe of a Stream\+Graph. A Time\+Frame\+Stream is wrapper around a Stream\+Graph to only consider a specific time interval. 
+
+{\ttfamily \#include "{}../analysis/metrics.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+functions.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+graph/links\+\_\+set.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+graph/nodes\+\_\+set.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{timeframe__stream_8h_a0889d4ec55072c80b30ccccca4b1e555}{SGA\+\_\+\+Time\+Frame\+Stream\+\_\+from}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph, \mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} timeframe)
+\begin{DoxyCompactList}\small\item\em Create a Time\+Frame\+Stream from a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{timeframe__stream_8h_a1a6f00296c1a2c43a6a3b9b2771eef3b}{SGA\+\_\+\+Time\+Frame\+Stream\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroy a Time\+Frame\+Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{timeframe__stream_8h_a1a6f00296c1a2c43a6a3b9b2771eef3b}\index{timeframe\_stream.h@{timeframe\_stream.h}!SGA\_TimeFrameStream\_destroy@{SGA\_TimeFrameStream\_destroy}}
+\index{SGA\_TimeFrameStream\_destroy@{SGA\_TimeFrameStream\_destroy}!timeframe\_stream.h@{timeframe\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_TimeFrameStream\_destroy()}{SGA\_TimeFrameStream\_destroy()}}
+{\footnotesize\ttfamily \label{timeframe__stream_8h_a1a6f00296c1a2c43a6a3b9b2771eef3b} 
+void SGA\+\_\+\+Time\+Frame\+Stream\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Destroy a Time\+Frame\+Stream. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Time\+Frame\+Stream to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{timeframe__stream_8h_a0889d4ec55072c80b30ccccca4b1e555}\index{timeframe\_stream.h@{timeframe\_stream.h}!SGA\_TimeFrameStream\_from@{SGA\_TimeFrameStream\_from}}
+\index{SGA\_TimeFrameStream\_from@{SGA\_TimeFrameStream\_from}!timeframe\_stream.h@{timeframe\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_TimeFrameStream\_from()}{SGA\_TimeFrameStream\_from()}}
+{\footnotesize\ttfamily \label{timeframe__stream_8h_a0889d4ec55072c80b30ccccca4b1e555} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Time\+Frame\+Stream\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{, }\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{timeframe}{}\end{DoxyParamCaption})}
+
+
+
+Create a Time\+Frame\+Stream from a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph to create the Time\+Frame\+Stream from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em timeframe} & The time interval of the timeframe. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created Time\+Frame\+Stream. 
+\end{DoxyReturn}
+Include dependency graph for timeframe\+\_\+stream.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{timeframe__stream_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{timeframe__stream_8h__dep__incl}
+\end{center}
+\end{figure}

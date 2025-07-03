@@ -151,50 +151,11 @@ SGA_LinkIdArrayList SGA_collect_link_ids(SGA_LinksIterator links) {
 	return link_ids;
 }
 
-// FIXME: So I made this but never used it apparently
-// typedef struct {
-// 	SGA_NodesIterator* iter;
-// 	bool (*predicate)(SGA_NodeId);
-// } FilteredSGA_NodesIteratorData;
-
-// SGA_NodeId SGA_NodesIterator_filtered_next(SGA_NodesIterator* iter) {
-// 	FilteredSGA_NodesIteratorData* data = (FilteredSGA_NodesIteratorData*)iter->iterator_data;
-// 	SGA_NodeId node			    = data->iter->next(data->iter);
-// 	while (node != SGA_NODES_ITERATOR_END) {
-// 		if (data->predicate(node)) {
-// 			return node;
-// 		}
-// 		node = data->iter->next(data->iter);
-// 	}
-// 	return SGA_NODES_ITERATOR_END;
-// }
-
-// void SGA_NodesIterator_filtered_destroy(SGA_NodesIterator* iter) {
-// 	FilteredSGA_NodesIteratorData* data = (FilteredSGA_NodesIteratorData*)iter->iterator_data;
-// 	data->iter->destroy(data->iter);
-// 	free(data);
-// }
-
-// SGA_NodesIterator SGA_NodesIterator_filtered(SGA_NodesIterator iter, bool (*predicate)(SGA_NodeId)) {
-// 	FilteredSGA_NodesIteratorData* data = MALLOC(sizeof(FilteredSGA_NodesIteratorData));
-// 	data->iter			    = &iter;
-// 	data->predicate			    = predicate;
-
-// 	SGA_NodesIterator filtered = {
-// 	    .stream_graph  = iter.stream_graph,
-// 	    .iterator_data = data,
-// 	    .next	   = SGA_NodesIterator_filtered_next,
-// 	    .destroy	   = SGA_NodesIterator_filtered_destroy,
-// 	};
-
-// 	return filtered;
-// }
-
-SGA_NodeId empty_nodes_next(SGA_NodesIterator* iter) {
+SGA_NodeId empty_nodes_next(__attribute__((unused)) SGA_NodesIterator* iter) {
 	return SGA_NODES_ITERATOR_END;
 }
 
-void empty_nodes_destroy(SGA_NodesIterator* iter) {
+void empty_nodes_destroy(__attribute__((unused)) SGA_NodesIterator* iter) {
 	// Do nothing
 }
 
@@ -205,11 +166,11 @@ SGA_NodesIterator SGA_NodesIterator_empty() {
 	};
 }
 
-SGA_LinkId empty_links_next(SGA_LinksIterator* iter) {
+SGA_LinkId empty_links_next(__attribute__((unused)) SGA_LinksIterator* iter) {
 	return SGA_LINKS_ITERATOR_END;
 }
 
-void empty_links_destroy(SGA_LinksIterator* iter) {
+void empty_links_destroy(__attribute__((unused)) SGA_LinksIterator* iter) {
 	// Do nothing
 }
 
@@ -220,11 +181,11 @@ SGA_LinksIterator SGA_LinksIterator_empty() {
 	};
 }
 
-SGA_Interval empty_times_next(SGA_TimesIterator* iter) {
+SGA_Interval empty_times_next(__attribute__((unused)) SGA_TimesIterator* iter) {
 	return SGA_TIMES_ITERATOR_END;
 }
 
-void empty_times_destroy(SGA_TimesIterator* iter) {
+void empty_times_destroy(__attribute__((unused)) SGA_TimesIterator* iter) {
 	// Do nothing
 }
 

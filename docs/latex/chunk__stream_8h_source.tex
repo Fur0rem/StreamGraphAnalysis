@@ -1,0 +1,41 @@
+\doxysection{chunk\+\_\+stream.\+h}
+\hypertarget{chunk__stream_8h_source}{}\label{chunk__stream_8h_source}\index{src/streams/chunk\_stream.h@{src/streams/chunk\_stream.h}}
+\mbox{\hyperlink{chunk__stream_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ CHUNK\_STREAM\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ CHUNK\_STREAM\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{metrics_8h}{../analysis/metrics.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream__functions_8h}{../stream\_functions.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}../stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{nodes__set_8h}{../stream\_graph/nodes\_set.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ underlying\_stream\_graph;\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ timeframe;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ nodes\_present;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ links\_present;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \}\ ChunkStream;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ StreamFunctions\ ChunkStream\_stream\_functions;\ \ \ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ MetricsFunctions\ ChunkStream\_metrics\_functions;\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00051\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{chunk__stream_8h_a192eb3d6ebad20918281d9485cd3fdac}{SGA\_ChunkStream\_with}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_NodeIdArrayList*\ nodes\_present,\ SGA\_LinkIdArrayList*\ links\_present,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ timeframe);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00062\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{chunk__stream_8h_afe6e904de9c7b030debeb9f9ae76408e}{SGA\_ChunkStream\_without}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_NodeIdArrayList*\ nodes\_absent,\ SGA\_LinkIdArrayList*\ links\_absent,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ timeframe);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00069\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{chunk__stream_8h_a05a81a80659152ff1d9b9c36dc08dd26}{SGA\_ChunkStream\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CHUNK\_STREAM\_H}}
+
+\end{DoxyCode}

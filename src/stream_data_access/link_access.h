@@ -6,6 +6,7 @@
 #ifndef SGA_LINK_ACCESS_H
 #define SGA_LINK_ACCESS_H
 
+#include "../generic_data_structures/arraylist.h"
 #include "../iterators.h"
 
 #ifdef SGA_INTERNAL

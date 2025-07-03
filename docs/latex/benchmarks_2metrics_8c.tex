@@ -2,11 +2,6 @@
 \hypertarget{benchmarks_2metrics_8c}{}\label{benchmarks_2metrics_8c}\index{benchmarks/metrics.c@{benchmarks/metrics.c}}
 
 
-Benchmarks for metrics.  
-
-
-
-
 \doxysubsection{Detailed Description}
 Benchmarks for metrics. 
 
@@ -19,7 +14,7 @@ Benchmarks for metrics.
 \Hypertarget{benchmarks_2metrics_8c_a8e26962e308f9fcf62b9a8594edf4536}\label{benchmarks_2metrics_8c_a8e26962e308f9fcf62b9a8594edf4536} 
 \#define {\bfseries SGA\+\_\+\+INTERNAL}
 \item 
-\#define \mbox{\hyperlink{benchmarks_2metrics_8c_a3d376d590f7bd1ec618ef76cbb60b9aa}{BENCHMARK\+\_\+\+METRIC}}(name,  metric)
+\#define \mbox{\hyperlink{benchmarks_2metrics_8c_a6ebbf47439a88b1b2d4d1e70f6746ef6}{BENCHMARK\+\_\+\+METRIC}}(name,  metric,  nb\+\_\+repeats)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
@@ -32,6 +27,9 @@ DONT\+\_\+\+OPTIMISE void {\bfseries coverage} ()
 \item 
 \Hypertarget{benchmarks_2metrics_8c_aada8a5f997e458f169d318cad1e0d294}\label{benchmarks_2metrics_8c_aada8a5f997e458f169d318cad1e0d294} 
 DONT\+\_\+\+OPTIMISE void {\bfseries uniformity} ()
+\item 
+\Hypertarget{benchmarks_2metrics_8c_af323d289d1085010b0581e5f806166f6}\label{benchmarks_2metrics_8c_af323d289d1085010b0581e5f806166f6} 
+DONT\+\_\+\+OPTIMISE void {\bfseries link\+\_\+times\+\_\+present} ()
 \item 
 \Hypertarget{benchmarks_2metrics_8c_a9329799347159ec38876d7cee1daa02e}\label{benchmarks_2metrics_8c_a9329799347159ec38876d7cee1daa02e} 
 DONT\+\_\+\+OPTIMISE void {\bfseries transitivity\+\_\+ratio} ()
@@ -57,21 +55,23 @@ char \texorpdfstring{$\ast$}{*} {\bfseries file\+\_\+name}
 
 
 \doxysubsection{Macro Definition Documentation}
-\Hypertarget{benchmarks_2metrics_8c_a3d376d590f7bd1ec618ef76cbb60b9aa}\index{metrics.c@{metrics.c}!BENCHMARK\_METRIC@{BENCHMARK\_METRIC}}
+\Hypertarget{benchmarks_2metrics_8c_a6ebbf47439a88b1b2d4d1e70f6746ef6}\index{metrics.c@{metrics.c}!BENCHMARK\_METRIC@{BENCHMARK\_METRIC}}
 \index{BENCHMARK\_METRIC@{BENCHMARK\_METRIC}!metrics.c@{metrics.c}}
 \doxysubsubsection{\texorpdfstring{BENCHMARK\_METRIC}{BENCHMARK\_METRIC}}
-{\footnotesize\ttfamily \label{benchmarks_2metrics_8c_a3d376d590f7bd1ec618ef76cbb60b9aa} 
-\#define BENCHMARK\+\_\+\+METRIC(\begin{DoxyParamCaption}\item[{}]{name}{, }\item[{}]{metric}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{benchmarks_2metrics_8c_a6ebbf47439a88b1b2d4d1e70f6746ef6} 
+\#define BENCHMARK\+\_\+\+METRIC(\begin{DoxyParamCaption}\item[{}]{name}{, }\item[{}]{metric}{, }\item[{}]{nb\+\_\+repeats}{}\end{DoxyParamCaption})}
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\ \ \ \ stream\ =\ stream1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ S\_concat\_L"{}},\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ S\_concat\_L"{}},\ nb\_repeats);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ stream\ =\ stream2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ LS\_90"{}},\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ LS\_90"{}},\ nb\_repeats);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ stream\ =\ stream3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ primaryschool"{}},\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ primaryschool"{}},\ nb\_repeats);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ stream\ =\ stream4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ benchmark(metric,\ name\ \textcolor{stringliteral}{"{}\ facebooklike"{}},\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
 
 \end{DoxyCode}
 Include dependency graph for metrics.\+c\+:\nopagebreak

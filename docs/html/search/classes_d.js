@@ -1,4 +1,25 @@
 var searchData=
 [
-  ['test_0',['Test',['../structTest.html',1,'']]]
+  ['sga_5fclique_0',['SGA_Clique',['../group__CLIQUES.html#structSGA__Clique',1,'']]],
+  ['sga_5fcluster_1',['SGA_Cluster',['../group__CLUSTERS.html#structSGA__Cluster',1,'']]],
+  ['sga_5fclusternode_2',['SGA_ClusterNode',['../group__CLUSTERS.html#structSGA__ClusterNode',1,'']]],
+  ['sga_5finterval_3',['SGA_Interval',['../structSGA__Interval.html',1,'']]],
+  ['sga_5fintervalsiteratordata_4',['SGA_IntervalsIteratorData',['../structSGA__IntervalsIteratorData.html',1,'']]],
+  ['sga_5fintervalsset_5',['SGA_IntervalsSet',['../structSGA__IntervalsSet.html',1,'']]],
+  ['sga_5flink_6',['SGA_Link',['../structSGA__Link.html',1,'']]],
+  ['sga_5flinksiterator_7',['SGA_LinksIterator',['../iterators_8h.html#structSGA__LinksIterator',1,'']]],
+  ['sga_5fnode_8',['SGA_Node',['../nodes__set_8h.html#structSGA__Node',1,'']]],
+  ['sga_5fnodesiterator_9',['SGA_NodesIterator',['../iterators_8h.html#structSGA__NodesIterator',1,'']]],
+  ['sga_5fnowalkreason_10',['SGA_NoWalkReason',['../structSGA__NoWalkReason.html',1,'']]],
+  ['sga_5fnowalkreason_2ereason_11',['SGA_NoWalkReason.reason',['../walks_8h.html#unionSGA__NoWalkReason_8reason',1,'']]],
+  ['sga_5foffset_12',['SGA_Offset',['../structSGA__Offset.html',1,'']]],
+  ['sga_5foptionalwalk_13',['SGA_OptionalWalk',['../structSGA__OptionalWalk.html',1,'']]],
+  ['sga_5foptionalwalk_2eresult_14',['SGA_OptionalWalk.result',['../walks_8h.html#unionSGA__OptionalWalk_8result',1,'']]],
+  ['sga_5fstream_15',['SGA_Stream',['../structSGA__Stream.html',1,'']]],
+  ['sga_5fstreamgraph_16',['SGA_StreamGraph',['../stream_8h.html#structSGA__StreamGraph',1,'']]],
+  ['sga_5ftimesiterator_17',['SGA_TimesIterator',['../iterators_8h.html#structSGA__TimesIterator',1,'']]],
+  ['sga_5fwalk_18',['SGA_Walk',['../walks_8h.html#structSGA__Walk',1,'']]],
+  ['sga_5fwalkstep_19',['SGA_WalkStep',['../walks_8h.html#structSGA__WalkStep',1,'']]],
+  ['sss_5ftimesidpresentatiteratordata_20',['SSS_TimesIdPresentAtIteratorData',['../structSSS__TimesIdPresentAtIteratorData.html',1,'']]],
+  ['string_21',['String',['../structString.html',1,'']]]
 ];

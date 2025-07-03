@@ -83,7 +83,8 @@ void LinkStream_TimesNodePresentIterator_destroy(SGA_TimesIterator* iterator) {
 	free(iterator->iterator_data);
 }
 
-SGA_TimesIterator LinkStream_times_node_present(SGA_StreamData* link_stream, SGA_NodeId node_id) {
+// Every node is always present, so it's no use to specify the node ID
+SGA_TimesIterator LinkStream_times_node_present(SGA_StreamData* link_stream, __attribute__((unused)) SGA_NodeId node_id) {
 	TimesNodePresentIteratorData* iterator_data = MALLOC(sizeof(TimesNodePresentIteratorData));
 	SGA_Stream stream			    = {.stream_data = link_stream};
 	iterator_data->has_been_called		    = false;
@@ -142,7 +143,8 @@ const StreamFunctions LinkStream_stream_functions = {
     .key_instants	= LinkStream_key_instants,
 };
 
-double LS_coverage(SGA_Stream* stream_data) {
+// Every LinkStream has a coverage of 1 by definition, since all nodes are present at all times
+double LS_coverage(__attribute__((unused)) SGA_Stream* stream_data) {
 	return 1.0;
 }
 
@@ -201,10 +203,10 @@ size_t LinkStream_distinct_cardinal_of_node_set(SGA_Stream* stream) {
 }
 
 const MetricsFunctions LinkStream_metrics_functions = {
-    .coverage			   = LS_coverage,
+    .coverage			   = (double (*)(const SGA_Stream*))LS_coverage,
     .duration			   = NULL,
-    .distinct_cardinal_of_node_set = LS_cardinal_of_V,
-    .temporal_cardinal_of_node_set = LS_cardinal_of_W,
+    .distinct_cardinal_of_node_set = (size_t (*)(const SGA_Stream*))LS_cardinal_of_V,
+    .temporal_cardinal_of_node_set = (size_t (*)(const SGA_Stream*))LS_cardinal_of_W,
     .node_duration		   = NULL,
-    .density			   = LinkStream_density,
+    .density			   = (double (*)(const SGA_Stream*))LinkStream_density,
 };

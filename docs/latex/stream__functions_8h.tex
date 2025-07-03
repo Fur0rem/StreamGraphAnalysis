@@ -2,11 +2,6 @@
 \hypertarget{stream__functions_8h}{}\label{stream__functions_8h}\index{src/stream\_functions.h@{src/stream\_functions.h}}
 
 
-Functions to access the data of a Stream\+Graph.  
-
-
-
-
 \doxysubsection{Detailed Description}
 Functions to access the data of a Stream\+Graph. 
 
@@ -15,16 +10,6 @@ Functions to access the data of a Stream\+Graph.
 {\ttfamily \#include "{}stream\+\_\+graph/links\+\_\+set.\+h"{}}\newline
 {\ttfamily \#include "{}stream\+\_\+graph/nodes\+\_\+set.\+h"{}}\newline
 {\ttfamily \#include "{}units.\+h"{}}\newline
-\doxysubsubsection*{Data Structures}
-\begin{DoxyCompactItemize}
-\item 
-struct \mbox{\hyperlink{structStreamFunctions}{Stream\+Functions}}
-\begin{DoxyCompactList}\small\item\em Table of functions to access the data of a Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Macros}
-\begin{DoxyCompactItemize}
-\item 
-\#define \mbox{\hyperlink{stream__functions_8h_ae17a7d6116e27af6de662f904e388af6}{STREAM\+\_\+\+FUNCS}}(variable,  stream\+\_\+var)
-\begin{DoxyCompactList}\small\item\em Get the functions to access the data of a Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -32,80 +17,28 @@ struct \mbox{\hyperlink{structStreamFunctions}{Stream\+Functions}}
 \begin{DoxyCompactList}\small\item\em Get the lifespan of a Stream. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{stream__functions_8h_a25e7295d8384ed682e32b76e33069d06}{SGA\+\_\+\+Stream\+\_\+time\+\_\+scale}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the time scale of a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the set of nodes in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729}{SGA\+\_\+\+Stream\+\_\+links\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729}{SGA\+\_\+\+Stream\+\_\+links\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the set of links in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_ac949bd95b70a1e5a7c8880c84611ef5b}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_ac949bd95b70a1e5a7c8880c84611ef5b}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
 \begin{DoxyCompactList}\small\item\em Get the nodes present at a given instant in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a5c6a1501fd6ec092b5d5656a1981341c}{SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a5c6a1501fd6ec092b5d5656a1981341c}{SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
 \begin{DoxyCompactList}\small\item\em Get the links present at a given instant in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_aa9646259657bd5e58d882bd836af145f}{SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_aa9646259657bd5e58d882bd836af145f}{SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the times a node is present in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a626128d113305f27990dfd929c04e788}{SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a626128d113305f27990dfd929c04e788}{SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the times a link is present in a Stream. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}} \mbox{\hyperlink{stream__functions_8h_aefd53317d066e0cfa3bc0c9dbab480dc}{SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get a link by its id in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} \mbox{\hyperlink{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff}{SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \mbox{\hyperlink{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff}{SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get a node by its id in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a9525463a814213d454ffb20d291d76cc}{SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a9525463a814213d454ffb20d291d76cc}{SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the neighbours of a node in a Stream. \end{DoxyCompactList}\item 
 SGA\+\_\+\+Link\+Id \mbox{\hyperlink{stream__functions_8h_af2d835b83fab8b1a42fff3a30ee507c8}{SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id, SGA\+\_\+\+Node\+Id other\+\_\+node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the id of the link between two nodes in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_addeaa838f3dc7660643b4689a939b23f}{SGA\+\_\+\+Stream\+\_\+key\+\_\+instants}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_addeaa838f3dc7660643b4689a939b23f}{SGA\+\_\+\+Stream\+\_\+key\+\_\+instants}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the key instants of a Stream. A key instant is a time instant where the graph changes. For each time interval \mbox{[}t\+\_\+start, t\+\_\+end\mbox{[} received from this iterator, all induced graphs \{G(t\+\_\+start), ..., G(t\+\_\+end-\/1)\} are the same. \end{DoxyCompactList}\end{DoxyCompactItemize}
-
-
-\doxysubsection{Macro Definition Documentation}
-\Hypertarget{stream__functions_8h_ae17a7d6116e27af6de662f904e388af6}\index{stream\_functions.h@{stream\_functions.h}!STREAM\_FUNCS@{STREAM\_FUNCS}}
-\index{STREAM\_FUNCS@{STREAM\_FUNCS}!stream\_functions.h@{stream\_functions.h}}
-\doxysubsubsection{\texorpdfstring{STREAM\_FUNCS}{STREAM\_FUNCS}}
-{\footnotesize\ttfamily \label{stream__functions_8h_ae17a7d6116e27af6de662f904e388af6} 
-\#define STREAM\+\_\+\+FUNCS(\begin{DoxyParamCaption}\item[{}]{variable}{, }\item[{}]{stream\+\_\+var}{}\end{DoxyParamCaption})}
-
-{\bfseries Value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ switch\ ((stream\_var)-\/>type)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FULL\_STREAM\_GRAPH:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ FullStreamGraph\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ LINK\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ LinkStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CHUNK\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ ChunkStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ CHUNK\_STREAM\_SMALL:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ ChunkStreamSmall\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TIMEFRAME\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ TimeFrameStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UNREACHABLE\_CODE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ (variable);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \})}
-
-\end{DoxyCode}
-
-
-Get the functions to access the data of a Stream\+Graph. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ out}}  & {\em variable} & The variable to store the functions in. \\
-\hline
-\mbox{\texttt{ in}}  & {\em stream\+\_\+var} & The Stream to get the functions for. \\
-\hline
-\end{DoxyParams}
 
 
 \doxysubsection{Function Documentation}
@@ -113,7 +46,7 @@ Get the functions to access the data of a Stream\+Graph.
 \index{SGA\_Stream\_key\_instants@{SGA\_Stream\_key\_instants}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_key\_instants()}{SGA\_Stream\_key\_instants()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_addeaa838f3dc7660643b4689a939b23f} 
-\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+key\+\_\+instants (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+key\+\_\+instants (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -191,7 +124,7 @@ The link with the given id.
 \index{SGA\_Stream\_links\_present\_at\_t@{SGA\_Stream\_links\_present\_at\_t}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_links\_present\_at\_t()}{SGA\_Stream\_links\_present\_at\_t()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_a5c6a1501fd6ec092b5d5656a1981341c} 
-\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
 
 
 
@@ -211,7 +144,7 @@ An iterator over the links present at the given instant.
 \index{SGA\_Stream\_links\_set@{SGA\_Stream\_links\_set}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_links\_set()}{SGA\_Stream\_links\_set()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729} 
-\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -229,7 +162,7 @@ An iterator over the set of links in the Stream.
 \index{SGA\_Stream\_neighbours\_of\_node@{SGA\_Stream\_neighbours\_of\_node}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_neighbours\_of\_node()}{SGA\_Stream\_neighbours\_of\_node()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_a9525463a814213d454ffb20d291d76cc} 
-\mbox{\hyperlink{structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -249,7 +182,7 @@ An iterator over the neighbours of the node.
 \index{SGA\_Stream\_node\_by\_id@{SGA\_Stream\_node\_by\_id}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_node\_by\_id()}{SGA\_Stream\_node\_by\_id()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff} 
-\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -269,7 +202,7 @@ The node with the given id.
 \index{SGA\_Stream\_nodes\_present\_at\_t@{SGA\_Stream\_nodes\_present\_at\_t}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_nodes\_present\_at\_t()}{SGA\_Stream\_nodes\_present\_at\_t()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_ac949bd95b70a1e5a7c8880c84611ef5b} 
-\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
 
 
 
@@ -289,7 +222,7 @@ An iterator over the nodes present at the given instant.
 \index{SGA\_Stream\_nodes\_set@{SGA\_Stream\_nodes\_set}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_nodes\_set()}{SGA\_Stream\_nodes\_set()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1} 
-\mbox{\hyperlink{structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -325,7 +258,7 @@ The time scale of the Stream.
 \index{SGA\_Stream\_times\_link\_present@{SGA\_Stream\_times\_link\_present}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_times\_link\_present()}{SGA\_Stream\_times\_link\_present()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_a626128d113305f27990dfd929c04e788} 
-\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -345,7 +278,7 @@ An iterator over the times the link is present in the Stream.
 \index{SGA\_Stream\_times\_node\_present@{SGA\_Stream\_times\_node\_present}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_times\_node\_present()}{SGA\_Stream\_times\_node\_present()}}
 {\footnotesize\ttfamily \label{stream__functions_8h_aa9646259657bd5e58d882bd836af145f} 
-\mbox{\hyperlink{structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 

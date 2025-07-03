@@ -1,0 +1,104 @@
+\doxysection{src/streams/chunk\+\_\+stream.h File Reference}
+\hypertarget{chunk__stream_8h}{}\label{chunk__stream_8h}\index{src/streams/chunk\_stream.h@{src/streams/chunk\_stream.h}}
+
+
+\doxysubsection{Detailed Description}
+A Stream that represents a chunk of a Stream\+Graph. It contains a subset of the nodes and links of the Stream\+Graph. It also contains a subset of the time present in the Stream\+Graph. ~\newline
+ It is useful to work on a subset of the Stream\+Graph. For example, to work on a specific time interval or on a specific set of nodes. ~\newline
+ It is optimised to work on a big chunk of the Stream\+Graph. If you want to work on a small chunk of the Stream\+Graph, maybe Chunk\+Stream\+Small will be more efficient. 
+
+{\ttfamily \#include "{}../analysis/metrics.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+functions.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+graph/links\+\_\+set.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+graph/nodes\+\_\+set.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{chunk__stream_8h_a192eb3d6ebad20918281d9485cd3fdac}{SGA\+\_\+\+Chunk\+Stream\+\_\+with}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph, SGA\+\_\+\+Node\+Id\+Array\+List \texorpdfstring{$\ast$}{*}nodes\+\_\+present, SGA\+\_\+\+Link\+Id\+Array\+List \texorpdfstring{$\ast$}{*}links\+\_\+present, \mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} timeframe)
+\begin{DoxyCompactList}\small\item\em Create a Chunk\+Stream from a Stream\+Graph, with a subset of nodes and links. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{chunk__stream_8h_afe6e904de9c7b030debeb9f9ae76408e}{SGA\+\_\+\+Chunk\+Stream\+\_\+without}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph, SGA\+\_\+\+Node\+Id\+Array\+List \texorpdfstring{$\ast$}{*}nodes\+\_\+absent, SGA\+\_\+\+Link\+Id\+Array\+List \texorpdfstring{$\ast$}{*}links\+\_\+absent, \mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} timeframe)
+\begin{DoxyCompactList}\small\item\em Create a Chunk\+Stream from a Stream\+Graph, without a subset of nodes and links. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{chunk__stream_8h_a05a81a80659152ff1d9b9c36dc08dd26}{SGA\+\_\+\+Chunk\+Stream\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroy a Chunk\+Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{chunk__stream_8h_a05a81a80659152ff1d9b9c36dc08dd26}\index{chunk\_stream.h@{chunk\_stream.h}!SGA\_ChunkStream\_destroy@{SGA\_ChunkStream\_destroy}}
+\index{SGA\_ChunkStream\_destroy@{SGA\_ChunkStream\_destroy}!chunk\_stream.h@{chunk\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_ChunkStream\_destroy()}{SGA\_ChunkStream\_destroy()}}
+{\footnotesize\ttfamily \label{chunk__stream_8h_a05a81a80659152ff1d9b9c36dc08dd26} 
+void SGA\+\_\+\+Chunk\+Stream\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Destroy a Chunk\+Stream. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Chunk\+Stream to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{chunk__stream_8h_a192eb3d6ebad20918281d9485cd3fdac}\index{chunk\_stream.h@{chunk\_stream.h}!SGA\_ChunkStream\_with@{SGA\_ChunkStream\_with}}
+\index{SGA\_ChunkStream\_with@{SGA\_ChunkStream\_with}!chunk\_stream.h@{chunk\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_ChunkStream\_with()}{SGA\_ChunkStream\_with()}}
+{\footnotesize\ttfamily \label{chunk__stream_8h_a192eb3d6ebad20918281d9485cd3fdac} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Chunk\+Stream\+\_\+with (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{, }\item[{SGA\+\_\+\+Node\+Id\+Array\+List \texorpdfstring{$\ast$}{*}}]{nodes\+\_\+present}{, }\item[{SGA\+\_\+\+Link\+Id\+Array\+List \texorpdfstring{$\ast$}{*}}]{links\+\_\+present}{, }\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{timeframe}{}\end{DoxyParamCaption})}
+
+
+
+Create a Chunk\+Stream from a Stream\+Graph, with a subset of nodes and links. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph to create the Chunk\+Stream from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em nodes} & The nodes present in the chunk. \\
+\hline
+\mbox{\texttt{ in}}  & {\em links} & The links present in the chunk. \\
+\hline
+\mbox{\texttt{ in}}  & {\em timeframe} & The time interval at which the chunk exists. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created Chunk\+Stream. 
+\end{DoxyReturn}
+\Hypertarget{chunk__stream_8h_afe6e904de9c7b030debeb9f9ae76408e}\index{chunk\_stream.h@{chunk\_stream.h}!SGA\_ChunkStream\_without@{SGA\_ChunkStream\_without}}
+\index{SGA\_ChunkStream\_without@{SGA\_ChunkStream\_without}!chunk\_stream.h@{chunk\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_ChunkStream\_without()}{SGA\_ChunkStream\_without()}}
+{\footnotesize\ttfamily \label{chunk__stream_8h_afe6e904de9c7b030debeb9f9ae76408e} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Chunk\+Stream\+\_\+without (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{, }\item[{SGA\+\_\+\+Node\+Id\+Array\+List \texorpdfstring{$\ast$}{*}}]{nodes\+\_\+absent}{, }\item[{SGA\+\_\+\+Link\+Id\+Array\+List \texorpdfstring{$\ast$}{*}}]{links\+\_\+absent}{, }\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{timeframe}{}\end{DoxyParamCaption})}
+
+
+
+Create a Chunk\+Stream from a Stream\+Graph, without a subset of nodes and links. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph to create the Chunk\+Stream from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em nodes} & The nodes to remove from the chunk. \\
+\hline
+\mbox{\texttt{ in}}  & {\em links} & The links to remove from the chunk. \\
+\hline
+\mbox{\texttt{ in}}  & {\em timeframe} & The time interval at which the chunk exists. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created Chunk\+Stream. 
+\end{DoxyReturn}
+Include dependency graph for chunk\+\_\+stream.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chunk__stream_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chunk__stream_8h__dep__incl}
+\end{center}
+\end{figure}

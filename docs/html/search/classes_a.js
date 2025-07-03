@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parsedstreamgraph_0',['ParsedStreamGraph',['../structParsedStreamGraph.html',1,'']]]
+  ['optionalsizet_0',['OptionalSizeT',['../stream_8h.html#structOptionalSizeT',1,'']]]
 ];

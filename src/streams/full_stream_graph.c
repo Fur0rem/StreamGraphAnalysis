@@ -154,8 +154,8 @@ size_t FullStreamGraph_distinct_cardinal_of_link_set(SGA_Stream* stream) {
 const MetricsFunctions FullStreamGraph_metrics_functions = {
     .temporal_cardinal_of_node_set = NULL,
     .duration			   = NULL,
-    .distinct_cardinal_of_node_set = FullStreamGraph_distinct_cardinal_of_node_set,
-    .distinct_cardinal_of_link_set = FullStreamGraph_distinct_cardinal_of_link_set,
+    .distinct_cardinal_of_node_set = (size_t (*)(const SGA_Stream *))FullStreamGraph_distinct_cardinal_of_node_set,
+    .distinct_cardinal_of_link_set = (size_t (*)(const SGA_Stream *))FullStreamGraph_distinct_cardinal_of_link_set,
     .coverage			   = NULL,
     .node_duration		   = NULL,
 };

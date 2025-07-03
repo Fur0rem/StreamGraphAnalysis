@@ -287,8 +287,8 @@ void init_cache(SGA_Stream* stream);
  * @param[in] value The value to write to the cache.
  */
 #	define UPDATE_CACHE(stream, field, value)                                                                                         \
-		(stream)->cache.field.present = true;                                                                                      \
-		(stream)->cache.field.data    = value;
+		((SGA_Stream*)(stream))->cache.field.present = true;                                                                                      \
+		((SGA_Stream*)(stream))->cache.field.data    = value;
 
 /**
  * @brief Reset the cache of a Stream, emptying it.

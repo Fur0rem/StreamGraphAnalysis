@@ -2,11 +2,6 @@
 \hypertarget{nodes__set_8h}{}\label{nodes__set_8h}\index{src/stream\_graph/nodes\_set.h@{src/stream\_graph/nodes\_set.h}}
 
 
-A node and a set of nodes of a Stream\+Graph.  
-
-
-
-
 \doxysubsection{Detailed Description}
 A node and a set of nodes of a Stream\+Graph. 
 
@@ -16,17 +11,78 @@ A node and a set of nodes of a Stream\+Graph.
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}}
-\begin{DoxyCompactList}\small\item\em The structure of a node in a Stream\+Graph. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{structNodesSet}{Nodes\+Set}}
-\begin{DoxyCompactList}\small\item\em The structure of a set of nodes in a Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+struct \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}}
+\begin{DoxyCompactList}\small\item\em The structure of a node in a Stream\+Graph.  \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{More...}}\end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{nodes__set_8h_structNodesSet}{Nodes\+Set}}
+\begin{DoxyCompactList}\small\item\em The structure of a set of nodes in a Stream\+Graph.  \mbox{\hyperlink{nodes__set_8h_structNodesSet}{More...}}\end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-size\+\_\+t \mbox{\hyperlink{nodes__set_8h_ade3fa780afef02897497fc25e3856c3e}{SGA\+\_\+\+Node\+\_\+first\+\_\+appearance}} (\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}node)
+size\+\_\+t \mbox{\hyperlink{nodes__set_8h_ade3fa780afef02897497fc25e3856c3e}{SGA\+\_\+\+Node\+\_\+first\+\_\+appearance}} (\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}node)
 \begin{DoxyCompactList}\small\item\em Get the first time the node appears in the Stream\+Graph. \end{DoxyCompactList}\item 
-size\+\_\+t \mbox{\hyperlink{nodes__set_8h_a08af617f36c544a272f20f943db880c4}{SGA\+\_\+\+Node\+\_\+last\+\_\+disappearance}} (\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}node)
+size\+\_\+t \mbox{\hyperlink{nodes__set_8h_a08af617f36c544a272f20f943db880c4}{SGA\+\_\+\+Node\+\_\+last\+\_\+disappearance}} (\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}node)
 \begin{DoxyCompactList}\small\item\em Get the last time the node disappears in the Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Data Structure Documentation}
+\index{SGA\_Node@{SGA\_Node}}\label{structSGA__Node}
+\Hypertarget{nodes__set_8h_structSGA__Node}
+\doxysubsubsection{struct SGA\+\_\+\+Node}
+
+
+Collaboration diagram for SGA\+\_\+\+Node\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{structSGA__Node__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{nodes__set_8h_a1757eb726945b972c4580b3548e58afd}\label{nodes__set_8h_a1757eb726945b972c4580b3548e58afd}} 
+size\_t&
+nb\_neighbours&
+Number of neighbours of the node. \\
+\hline
+
+\mbox{\Hypertarget{nodes__set_8h_a35ab4a4675fc2c9a19b63333de3504da}\label{nodes__set_8h_a35ab4a4675fc2c9a19b63333de3504da}} 
+SGA\_LinkId \texorpdfstring{$\ast$}{*}&
+neighbours&
+Array of neighbours of the node. \\
+\hline
+
+\mbox{\Hypertarget{nodes__set_8h_aa3d0ed353886aae7b2d03f6ddcc0d424}\label{nodes__set_8h_aa3d0ed353886aae7b2d03f6ddcc0d424}} 
+\mbox{\hyperlink{structSGA__IntervalsSet}{SGA\_IntervalsSet}}&
+presence&
+All the time intervals the node is present. \\
+\hline
+
+\end{DoxyFields}
+\index{NodesSet@{NodesSet}}\label{structNodesSet}
+\Hypertarget{nodes__set_8h_structNodesSet}
+\doxysubsubsection{struct Nodes\+Set}
+
+
+Collaboration diagram for Nodes\+Set\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{structNodesSet__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{nodes__set_8h_a91eddce3c8a85482291887fb3afdf8f5}\label{nodes__set_8h_a91eddce3c8a85482291887fb3afdf8f5}} 
+size\_t&
+nb\_nodes&
+Number of nodes in the set. \\
+\hline
+
+\mbox{\Hypertarget{nodes__set_8h_a84e66c4a70bdc5ee4cdf6c060a129849}\label{nodes__set_8h_a84e66c4a70bdc5ee4cdf6c060a129849}} 
+\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\_Node}} \texorpdfstring{$\ast$}{*}&
+nodes&
+Array of nodes. \\
+\hline
+
+\end{DoxyFields}
 
 
 \doxysubsection{Function Documentation}
@@ -34,7 +90,7 @@ size\+\_\+t \mbox{\hyperlink{nodes__set_8h_a08af617f36c544a272f20f943db880c4}{SG
 \index{SGA\_Node\_first\_appearance@{SGA\_Node\_first\_appearance}!nodes\_set.h@{nodes\_set.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Node\_first\_appearance()}{SGA\_Node\_first\_appearance()}}
 {\footnotesize\ttfamily \label{nodes__set_8h_ade3fa780afef02897497fc25e3856c3e} 
-size\+\_\+t SGA\+\_\+\+Node\+\_\+first\+\_\+appearance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}}]{node}{}\end{DoxyParamCaption})}
+size\+\_\+t SGA\+\_\+\+Node\+\_\+first\+\_\+appearance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}}]{node}{}\end{DoxyParamCaption})}
 
 
 
@@ -49,7 +105,7 @@ Get the first time the node appears in the Stream\+Graph.
 \index{SGA\_Node\_last\_disappearance@{SGA\_Node\_last\_disappearance}!nodes\_set.h@{nodes\_set.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Node\_last\_disappearance()}{SGA\_Node\_last\_disappearance()}}
 {\footnotesize\ttfamily \label{nodes__set_8h_a08af617f36c544a272f20f943db880c4} 
-size\+\_\+t SGA\+\_\+\+Node\+\_\+last\+\_\+disappearance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}}]{node}{}\end{DoxyParamCaption})}
+size\+\_\+t SGA\+\_\+\+Node\+\_\+last\+\_\+disappearance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \texorpdfstring{$\ast$}{*}}]{node}{}\end{DoxyParamCaption})}
 
 
 

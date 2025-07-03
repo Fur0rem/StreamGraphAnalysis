@@ -1,9 +1,23 @@
 var iterators_8h =
 [
-    [ "SGA_NodesIterator", "structSGA__NodesIterator.html", "structSGA__NodesIterator" ],
-    [ "SGA_LinksIterator", "structSGA__LinksIterator.html", "structSGA__LinksIterator" ],
-    [ "SGA_TimesIterator", "structSGA__TimesIterator.html", "structSGA__TimesIterator" ],
-    [ "COUNT_ITERATOR", "iterators_8h.html#aa8ec356ff1234cc9217cd023635fb4a3", null ],
+    [ "SGA_NodesIterator", "iterators_8h.html#structSGA__NodesIterator", [
+      [ "destroy", "iterators_8h.html#a793749496f55d228407832f023ea5edf", null ],
+      [ "iterator_data", "iterators_8h.html#a840afa2bb7444d426d53b04d180a81c6", null ],
+      [ "next", "iterators_8h.html#a29cd35d899e383a93ae0504779c3a053", null ],
+      [ "stream_graph", "iterators_8h.html#a8eb4d23be32325b562bd781490b3c2a6", null ]
+    ] ],
+    [ "SGA_LinksIterator", "iterators_8h.html#structSGA__LinksIterator", [
+      [ "destroy", "iterators_8h.html#adc4944d37356b2982e5a0a2555c1a95b", null ],
+      [ "iterator_data", "iterators_8h.html#aaa2b330483efe7f0c42c02b2725cac50", null ],
+      [ "next", "iterators_8h.html#ad4efc5f003c0ab6c984e940b269da51e", null ],
+      [ "stream_graph", "iterators_8h.html#a14524570ce991bf4511e2f4481e4fe3b", null ]
+    ] ],
+    [ "SGA_TimesIterator", "iterators_8h.html#structSGA__TimesIterator", [
+      [ "destroy", "iterators_8h.html#adf5325ec20dd2d0356cac708a911673a", null ],
+      [ "iterator_data", "iterators_8h.html#aff888fa22a69047a18dc30e63f551ccc", null ],
+      [ "next", "iterators_8h.html#abcae2537735ec5ae5cdb92625e8dc30b", null ],
+      [ "stream_graph", "iterators_8h.html#a0f93c220c8d8281961d7af7977d0100a", null ]
+    ] ],
     [ "SGA_BREAK_ITERATOR", "iterators_8h.html#abc57618fa1846c3602a91749a9f6d6c5", null ],
     [ "SGA_LINKS_ITERATOR_END", "iterators_8h.html#a33e0bfd51e34580f5e1dad89441620c4", null ],
     [ "SGA_NODES_ITERATOR_END", "iterators_8h.html#abd6f436fe7c602adbe7e2e905d59e325", null ],

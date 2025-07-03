@@ -2,6 +2,16 @@
 
 #include "node_access.h"
 
+// DEFAULT_EQUALS(SGA_NodeId);
+// NO_FREE(SGA_NodeId);
+// DEFAULT_COMPARE(SGA_NodeId);
+// DEFAULT_TO_STRING(SGA_NodeId, "%zu");
+// DefineArrayList(SGA_NodeId);
+// DefineArrayListDeriveEquals(SGA_NodeId);
+// DefineArrayListDeriveRemove(SGA_NodeId);
+// DefineArrayListDeriveToString(SGA_NodeId);
+// DefineArrayListDeriveOrdered(SGA_NodeId);
+
 typedef struct {
 	SGA_NodeId current_node;
 } NodesSetIteratorData;

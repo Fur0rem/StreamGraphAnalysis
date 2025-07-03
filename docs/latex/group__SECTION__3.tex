@@ -1,0 +1,141 @@
+\doxysubsubsection{"{}\+Section 3"{}}
+\hypertarget{group__SECTION__3}{}\label{group__SECTION__3}\index{"{}Section 3"{}@{""Section 3""}}
+
+
+\doxysubsubsubsection{Detailed Description}
+\+: Stream graphs and link streams Collaboration diagram for "{}\+Section 3"{}\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{group__SECTION__3}
+\end{center}
+\end{figure}
+\doxysubsubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{group__SECTION__3_gad09d1c80c5d3e5a77559998bed4343c4}{SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the temporal cardinal of node set of a Stream. It is noted \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all nodes. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{group__SECTION__3_gabed366c44e1691e90a930721f1570bd0}{SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the temporal cardinal of link set of a Stream. It is noted \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all links. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{group__SECTION__3_ga665bb878f964e612c190f431dc710652}{SGA\+\_\+\+Stream\+\_\+duration}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the duration of the Stream. It is noted \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} in the paper. It is defined as the length of its lifespan. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{group__SECTION__3_ga7bf36a4c55f1f803ec12da687b2403f4}{SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the distinct cardinal of node set of a Stream. It is noted \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} in the paper. It is defined as the number of distinct nodes present in the Stream. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{group__SECTION__3_ga8be329011584d504d6ffec3a4b4654bc}{SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the distinct cardinal of link set of a Stream. It isn\textquotesingle{}t defined in the paper. It is defined as the number of distinct links present in the Stream. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{group__SECTION__3_ga6fc0aa70250cb72eab4ca4ac0d3bae8c}{SGA\+\_\+\+Stream\+\_\+coverage}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the coverage of the Stream. It is noted \$cov\$ in the paper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsubsection{Function Documentation}
+\Hypertarget{group__SECTION__3_ga6fc0aa70250cb72eab4ca4ac0d3bae8c}\index{"{}Section 3"{}@{""Section 3""}!SGA\_Stream\_coverage@{SGA\_Stream\_coverage}}
+\index{SGA\_Stream\_coverage@{SGA\_Stream\_coverage}!"{}Section 3"{}@{""Section 3""}}
+\doxysubsubsubsubsection{\texorpdfstring{SGA\_Stream\_coverage()}{SGA\_Stream\_coverage()}}
+{\footnotesize\ttfamily \label{group__SECTION__3_ga6fc0aa70250cb72eab4ca4ac0d3bae8c} 
+double SGA\+\_\+\+Stream\+\_\+coverage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the coverage of the Stream. It is noted \$cov\$ in the paper. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The coverage of the Stream. 
+\end{DoxyReturn}
+\Hypertarget{group__SECTION__3_ga8be329011584d504d6ffec3a4b4654bc}\index{"{}Section 3"{}@{""Section 3""}!SGA\_Stream\_distinct\_cardinal\_of\_link\_set@{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}}
+\index{SGA\_Stream\_distinct\_cardinal\_of\_link\_set@{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}!"{}Section 3"{}@{""Section 3""}}
+\doxysubsubsubsubsection{\texorpdfstring{SGA\_Stream\_distinct\_cardinal\_of\_link\_set()}{SGA\_Stream\_distinct\_cardinal\_of\_link\_set()}}
+{\footnotesize\ttfamily \label{group__SECTION__3_ga8be329011584d504d6ffec3a4b4654bc} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the distinct cardinal of link set of a Stream. It isn\textquotesingle{}t defined in the paper. It is defined as the number of distinct links present in the Stream. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distinct cardinal of the link set. 
+\end{DoxyReturn}
+\Hypertarget{group__SECTION__3_ga7bf36a4c55f1f803ec12da687b2403f4}\index{"{}Section 3"{}@{""Section 3""}!SGA\_Stream\_distinct\_cardinal\_of\_node\_set@{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}}
+\index{SGA\_Stream\_distinct\_cardinal\_of\_node\_set@{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}!"{}Section 3"{}@{""Section 3""}}
+\doxysubsubsubsubsection{\texorpdfstring{SGA\_Stream\_distinct\_cardinal\_of\_node\_set()}{SGA\_Stream\_distinct\_cardinal\_of\_node\_set()}}
+{\footnotesize\ttfamily \label{group__SECTION__3_ga7bf36a4c55f1f803ec12da687b2403f4} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the distinct cardinal of node set of a Stream. It is noted \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} in the paper. It is defined as the number of distinct nodes present in the Stream. 
+
+For example, if the stream contains 2 nodes A and B, the distinct cardinal is 2. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distinct cardinal of the node set. 
+\end{DoxyReturn}
+\Hypertarget{group__SECTION__3_ga665bb878f964e612c190f431dc710652}\index{"{}Section 3"{}@{""Section 3""}!SGA\_Stream\_duration@{SGA\_Stream\_duration}}
+\index{SGA\_Stream\_duration@{SGA\_Stream\_duration}!"{}Section 3"{}@{""Section 3""}}
+\doxysubsubsubsubsection{\texorpdfstring{SGA\_Stream\_duration()}{SGA\_Stream\_duration()}}
+{\footnotesize\ttfamily \label{group__SECTION__3_ga665bb878f964e612c190f431dc710652} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+duration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the duration of the Stream. It is noted \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} in the paper. It is defined as the length of its lifespan. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The duration of the Stream.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+In the paper, T is defined as a set of time instants, meaning it could be split in multiple intervals. Here, we consider it as a single interval. 
+\end{DoxyNote}
+\Hypertarget{group__SECTION__3_gabed366c44e1691e90a930721f1570bd0}\index{"{}Section 3"{}@{""Section 3""}!SGA\_Stream\_temporal\_cardinal\_of\_link\_set@{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}}
+\index{SGA\_Stream\_temporal\_cardinal\_of\_link\_set@{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}!"{}Section 3"{}@{""Section 3""}}
+\doxysubsubsubsubsection{\texorpdfstring{SGA\_Stream\_temporal\_cardinal\_of\_link\_set()}{SGA\_Stream\_temporal\_cardinal\_of\_link\_set()}}
+{\footnotesize\ttfamily \label{group__SECTION__3_gabed366c44e1691e90a930721f1570bd0} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the temporal cardinal of link set of a Stream. It is noted \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all links. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The temporal cardinal of the link set. 
+\end{DoxyReturn}
+\Hypertarget{group__SECTION__3_gad09d1c80c5d3e5a77559998bed4343c4}\index{"{}Section 3"{}@{""Section 3""}!SGA\_Stream\_temporal\_cardinal\_of\_node\_set@{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}}
+\index{SGA\_Stream\_temporal\_cardinal\_of\_node\_set@{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}!"{}Section 3"{}@{""Section 3""}}
+\doxysubsubsubsubsection{\texorpdfstring{SGA\_Stream\_temporal\_cardinal\_of\_node\_set()}{SGA\_Stream\_temporal\_cardinal\_of\_node\_set()}}
+{\footnotesize\ttfamily \label{group__SECTION__3_gad09d1c80c5d3e5a77559998bed4343c4} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the temporal cardinal of node set of a Stream. It is noted \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} in the paper. It is defined as the sum of the duration of the presence of all nodes. 
+
+For example, if the stream contains 2 nodes A present at \mbox{[}0, 2\mbox{[} and B present at \mbox{[}1, 4\mbox{[}, the temporal cardinal of the node set is (2 -\/ 0) + (4 -\/ 1) = 2 + 3 = 5. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The temporal cardinal of the node set. 
+\end{DoxyReturn}

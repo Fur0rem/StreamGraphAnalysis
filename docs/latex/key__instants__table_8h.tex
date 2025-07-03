@@ -2,11 +2,6 @@
 \hypertarget{key__instants__table_8h}{}\label{key__instants__table_8h}\index{src/stream\_graph/key\_instants\_table.h@{src/stream\_graph/key\_instants\_table.h}}
 
 
-Table of all key instants.  
-
-
-
-
 \doxysubsection{Detailed Description}
 Table of all key instants. 
 
@@ -17,11 +12,11 @@ Table of all key instants.
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structInstantsSlice}{Instants\+Slice}}
+struct \mbox{\hyperlink{key__instants__table_8h_structInstantsSlice}{Instants\+Slice}}
 \item 
-struct \mbox{\hyperlink{structKeyInstantsTableIterator}{Key\+Instants\+Table\+Iterator}}
+struct \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTableIterator}{Key\+Instants\+Table\+Iterator}}
 \item 
-struct \mbox{\hyperlink{structKeyInstantsTable}{Key\+Instants\+Table}}
+struct \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{Key\+Instants\+Table}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
@@ -38,6 +33,81 @@ struct \mbox{\hyperlink{structKeyInstantsTable}{Key\+Instants\+Table}}
 \Hypertarget{key__instants__table_8h_ad7ca007c3807031666c93ac910c9fff5}\label{key__instants__table_8h_ad7ca007c3807031666c93ac910c9fff5} 
 typedef uint8\+\_\+t {\bfseries Relative\+Instant}
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Data Structure Documentation}
+\index{InstantsSlice@{InstantsSlice}}\label{structInstantsSlice}
+\Hypertarget{key__instants__table_8h_structInstantsSlice}
+\doxysubsubsection{struct Instants\+Slice}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{key__instants__table_8h_acf10cfc62b8e77e98a4fb81be5cfe1b4}\label{key__instants__table_8h_acf10cfc62b8e77e98a4fb81be5cfe1b4}} 
+RelativeInstant \texorpdfstring{$\ast$}{*}&
+instants&
+\\
+\hline
+
+\mbox{\Hypertarget{key__instants__table_8h_a350eb5c86fd63a8ae6cbab048c89f191}\label{key__instants__table_8h_a350eb5c86fd63a8ae6cbab048c89f191}} 
+size\_t&
+nb\_instants&
+\\
+\hline
+
+\end{DoxyFields}
+\index{KeyInstantsTableIterator@{KeyInstantsTableIterator}}\label{structKeyInstantsTableIterator}
+\Hypertarget{key__instants__table_8h_structKeyInstantsTableIterator}
+\doxysubsubsection{struct Key\+Instants\+Table\+Iterator}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{key__instants__table_8h_a9c3bc70c0ec14509ce14e0d588f7f961}\label{key__instants__table_8h_a9c3bc70c0ec14509ce14e0d588f7f961}} 
+RelativeInstant&
+current\_instant&
+\\
+\hline
+
+\mbox{\Hypertarget{key__instants__table_8h_ac3b3f54e81362321f4e127a735967d7d}\label{key__instants__table_8h_ac3b3f54e81362321f4e127a735967d7d}} 
+SGA\_TimeId&
+current\_slice&
+\\
+\hline
+
+\mbox{\Hypertarget{key__instants__table_8h_a7e04f3eef734a227308219d3160ca4df}\label{key__instants__table_8h_a7e04f3eef734a227308219d3160ca4df}} 
+SGA\_TimeId&
+last\_event&
+\\
+\hline
+
+\end{DoxyFields}
+\index{KeyInstantsTable@{KeyInstantsTable}}\label{structKeyInstantsTable}
+\Hypertarget{key__instants__table_8h_structKeyInstantsTable}
+\doxysubsubsection{struct Key\+Instants\+Table}
+
+
+Collaboration diagram for Key\+Instants\+Table\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=310pt]{structKeyInstantsTable__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{key__instants__table_8h_a79b1d6e088347d52f9b3d7140c0f33d0}\label{key__instants__table_8h_a79b1d6e088347d52f9b3d7140c0f33d0}} 
+\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTableIterator}{KeyInstantsTableIterator}}&
+fill\_info&
+\\
+\hline
+
+\mbox{\Hypertarget{key__instants__table_8h_a759f59e9aa55794e95399fbd0a88e298}\label{key__instants__table_8h_a759f59e9aa55794e95399fbd0a88e298}} 
+SGA\_TimeId&
+nb\_slices&
+\\
+\hline
+
+\mbox{\Hypertarget{key__instants__table_8h_a5fd95a5b67213f0e6a8e36260fa8e9c4}\label{key__instants__table_8h_a5fd95a5b67213f0e6a8e36260fa8e9c4}} 
+\mbox{\hyperlink{key__instants__table_8h_structInstantsSlice}{InstantsSlice}} \texorpdfstring{$\ast$}{*}&
+slices&
+\\
+\hline
+
+\end{DoxyFields}
 Include dependency graph for key\+\_\+instants\+\_\+table.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}

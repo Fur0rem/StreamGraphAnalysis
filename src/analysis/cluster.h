@@ -1,8 +1,20 @@
 /**
  * @file src/analysis/cluster.h
+ */
+
+/**
+ * @ingroup EXTERNAL_API
+ * @defgroup CLUSTERS Clusters
  * @brief Clusters in a stream
- * <br>
- * Clusters are a subset of the set of nodes
+ *
+ * A cluster in a stream is defined as a subset of the temporal nodes of the stream.
+ * The links included in the cluster are the subset of the links of the stream that have both their nodes in the cluster.
+ * @see Section 6 of the paper for more information.
+ *
+ * Here's an example on how to use SGA to do so : @ref examples/clusters.c
+ * @include examples/clusters.c
+ *
+ * @{
  */
 
 #ifndef SGA_CLUSTER_H
@@ -35,7 +47,7 @@ DeclareArrayListDeriveEquals(SGA_ClusterNode);
 DeclareArrayListDeriveToString(SGA_ClusterNode);
 
 /**
- * @brief Creates an empty cluster node
+ * @brief Creates an empty cluster node, with no presence
  * @param[in] node_id The id of the node
  * @return An empty cluster node
  */
@@ -106,8 +118,10 @@ bool SGA_Cluster_contains_node(const SGA_Cluster* cluster, SGA_NodeId node_id);
 /**
  * @brief Simplifies the intervals of all the nodes in the cluster
  * It merges the intervals and sorts them to have a more compact representation
- * @param cluseter[in, out] The cluster to simplify
+ * @param cluster[in, out] The cluster to simplify
  */
-void SGA_Cluster_simplify(SGA_Cluster* cluseter);
+void SGA_Cluster_simplify(SGA_Cluster* cluster);
+
+/** @} */
 
 #endif // SGA_CLUSTER_H

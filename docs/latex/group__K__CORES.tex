@@ -1,0 +1,88 @@
+\doxysubsection{k-\/cores}
+\hypertarget{group__K__CORES}{}\label{group__K__CORES}\index{k-\/cores@{k-\/cores}}
+
+
+\doxysubsubsection{Detailed Description}
+Compute the k-\/cores of a stream. 
+
+The k-\/core of a stream graph is the largest sub-\/stream of nodes where each node is connected to at least k other nodes during a maximal time interval. \begin{DoxySeeAlso}{See also}
+Section 13 of the paper for more information.
+\end{DoxySeeAlso}
+Here\textquotesingle{}s an example on how to use SGA to do so \+: \doxylink{examples_2kcores_8c}{examples/kcores.\+c} 
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}../StreamGraphAnalysis.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Load\ the\ stream\ into\ memory}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}../data/tests/S.sga"{}});}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ SGA\_FullStreamGraph\_from(\&sg);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Compute\ all\ k-\/cores}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ k\ =\ 1;;\ k++)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compute\ the\ k-\/core\ for\ the\ given\ k}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\_Cluster}}\ k\_core\ =\ \mbox{\hyperlink{group__K__CORES_gacf4eff021bca72dfb2b2301c5641a18a}{SGA\_Stream\_k\_core}}(\&st,\ k);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ empty,\ all\ further\ k-\/cores\ will\ be\ empty}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (k\_core.\mbox{\hyperlink{group__CLUSTERS_ab00dfed722e45869e80522edecd20f1e}{nodes}}.length\ ==\ 0)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ SGA\_Cluster\_destroy(k\_core);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}K-\/core\ for\ k=\%zu\ is\ empty\(\backslash\)n"{}},\ k);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise,\ print\ it}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structString}{String}}\ str\ =\ SGA\_Cluster\_to\_string(\&k\_core);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}K-\/core\ for\ k=\%zu:\ \%s\(\backslash\)n"{}},\ k,\ str.data);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ String\_destroy(str);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ forget\ to\ release\ the\ memory\ used}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_Cluster\_destroy(k\_core);}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Cleanup}}
+\DoxyCodeLine{\ \ \ \ SGA\_FullStreamGraph\_destroy(st);}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{src_2stream_8c_a03e621974d5eab4d6946f3b82c9fb89b}{SGA\_StreamGraph\_destroy}}(sg);}
+\DoxyCodeLine{\ \ \ \ exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCodeInclude}
+ Collaboration diagram for k-\/cores\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=321pt]{group__K__CORES}
+\end{center}
+\end{figure}
+\doxysubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \mbox{\hyperlink{group__K__CORES_gacf4eff021bca72dfb2b2301c5641a18a}{SGA\+\_\+\+Stream\+\_\+k\+\_\+core}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t k)
+\begin{DoxyCompactList}\small\item\em Compute the k-\/core of a \doxylink{structSGA__Stream}{stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Function Documentation}
+\Hypertarget{group__K__CORES_gacf4eff021bca72dfb2b2301c5641a18a}\index{k-\/cores@{k-\/cores}!SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}}
+\index{SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}!k-\/cores@{k-\/cores}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Stream\_k\_core()}{SGA\_Stream\_k\_core()}}
+{\footnotesize\ttfamily \label{group__K__CORES_gacf4eff021bca72dfb2b2301c5641a18a} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} SGA\+\_\+\+Stream\+\_\+k\+\_\+core (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{size\+\_\+t}]{degree}{}\end{DoxyParamCaption})}
+
+
+
+Compute the k-\/core of a \doxylink{structSGA__Stream}{stream}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The stream. \\
+\hline
+\mbox{\texttt{ in}}  & {\em k} & The k to compute the k-\/core for. Should be between 1 and the \doxylink{group__METRICS_ga18bc62431dda5a7f068068afbfb800e4}{distinct number of nodes} in the stream, both bounds included. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The k-\/core of the Stream.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+It won\textquotesingle{}t work for the 0-\/core, but it is the same as the initial stream, so it\textquotesingle{}s not useful to compute it. It will work for k greaters than the \doxylink{group__METRICS_ga18bc62431dda5a7f068068afbfb800e4}{distinct number of nodes} in the stream, but it will be empty, so it\textquotesingle{}s not very useful.
+\end{DoxyNote}
+Compute the k-\/core of a \doxylink{structSGA__Stream}{stream}. 

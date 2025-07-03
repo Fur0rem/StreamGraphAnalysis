@@ -1,6 +1,10 @@
 var bit__array_8h =
 [
-    [ "BitArray", "structBitArray.html", "structBitArray" ],
+    [ "BitArray", "bit__array_8h.html#structBitArray", [
+      [ "bits", "bit__array_8h.html#a5898b55f85eeb18ff29cd27c608c63bc", null ],
+      [ "nb_bits", "bit__array_8h.html#ac24ea25e981a8997edf3b8f1d422ab5d", null ]
+    ] ],
+    [ "FOR_EACH_ONE", "bit__array_8h.html#a4d4fcedaf0d0a111b10fdaaf4d50afd5", null ],
     [ "BitArray", "bit__array_8h.html#a44f9a1312aeadcbf8ec7561cea0525e2", null ],
     [ "BitArray_all_to_one", "bit__array_8h.html#a0a6b465196254ea81c9bfa809a687a4f", null ],
     [ "BitArray_all_to_zero", "bit__array_8h.html#a3de4906a9ce0ca8128315b5df0413c67", null ],

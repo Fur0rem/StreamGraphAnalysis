@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS="-Wall -Wextra -g -Wno-unused-function -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined"
+CFLAGS="-Wall -Wextra -g -Wno-unused-function -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined -fsanitize=bounds -fno-sanitize-recover=all -Iinclude -Itests -IlibSGA/include"
 
 SRC_DIR=src
 TEST_DIR=tests
@@ -76,6 +76,7 @@ for file in $TEST_DIR/*.c; do
 
     # Run the test
     $BIN_DIR/test_$filename
+    echo "Running test for $BIN_DIR/test_$filename"
     # Check the return code
     if [ $? -ne 0 ]; then
         every_test_that_failed="$every_test_that_failed $filename"

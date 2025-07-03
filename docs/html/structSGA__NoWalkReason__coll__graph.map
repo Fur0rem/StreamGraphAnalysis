@@ -1,5 +1,0 @@
-<map id="SGA_NoWalkReason" name="SGA_NoWalkReason">
-<area shape="rect" id="Node000001" title="A reason why a walk is not possible It can be because a node does not exist in the stream at the time..." alt="" coords="5,98,159,126"/>
-<area shape="rect" id="Node000002" href="$structSGA__Interval.html" title=" " alt="" coords="29,5,135,33"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,48,85,98,79,98,79,48"/>
-</map>

@@ -1,0 +1,53 @@
+\chapter{Metrics.}
+\hypertarget{METRICS}{}\label{METRICS}\index{Metrics.@{Metrics.}}
+Compute various metrics on a stream.
+
+TODO\+: description
+
+Here\textquotesingle{}s an example on how to use SGA to do so \+: examples/metrics.\+c 
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#undef\ SGA\_INTERNAL\ }\textcolor{comment}{//\ TODO\ just\ don't\ define\ it}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}../StreamGraphAnalysis.h"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}../data/tests/S.sga"{}});}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ SGA\_FullStreamGraph\_from(\&sg);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/\ Basic\ information\ -\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Temporal\ cardinal\ of\ nodes:\ \%lu\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_gad09d1c80c5d3e5a77559998bed4343c4}{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Distinct\ cardinal\ of\ nodes:\ \%lu\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga7bf36a4c55f1f803ec12da687b2403f4}{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Temporal\ cardinal\ of\ links:\ \%lu\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_gabed366c44e1691e90a930721f1570bd0}{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Distinct\ cardinal\ of\ links:\ \%lu\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga8be329011584d504d6ffec3a4b4654bc}{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Duration:\ \%lu\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga665bb878f964e612c190f431dc710652}{SGA\_Stream\_duration}}(\&st));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n-\/-\/-\/-\/-\/-\/\ Stream\ metrics\ -\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Coverage:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga6fc0aa70250cb72eab4ca4ac0d3bae8c}{SGA\_Stream\_coverage}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Number\ of\ nodes:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga430aaaf295657f6ab38f7c3ba8b86690}{SGA\_Stream\_number\_of\_nodes}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Node\ duration:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_gac45151c1b3de45e3ea56379cf777cb67}{SGA\_Stream\_node\_duration}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Link\ duration:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga92db2a07174bf1d1962a711b87f2b66a}{SGA\_Stream\_link\_duration}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Uniformity:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga5a918ea31ade0db5dfec2bf3fabccb34}{SGA\_Stream\_uniformity}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Compactness:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga686a6cd691fe83cb689555988269bbdd}{SGA\_Stream\_compactness}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Density:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga090dfb59208803c054a0c83e6ed7bf13}{SGA\_Stream\_density}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Average\ node\ degree:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_gaf786c5baadaa0c383cac77610b52bf86}{SGA\_Stream\_average\_node\_degree}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Node\ clustering\ coefficient:\ \%f\(\backslash\)n"{}},\ \mbox{\hyperlink{group__EXTERNAL__API_ga16b834a99d761eaf4b418809b4be8706}{SGA\_Stream\_node\_clustering\_coeff}}(\&st));}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Transitivity\ ratio:\ \%f\(\backslash\)n"{}},\ SGA\_Stream\_transitivity\_ratio(\&st));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n-\/-\/-\/-\/-\/-\/\ Node\ and\ link\ metrics\ -\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ nodes\_set\ =\ SGA\_Stream\_nodes\_set(\&st);}
+\DoxyCodeLine{\ \ \ \ SGA\_FOR\_EACH\_NODE(node,\ nodes\_set)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Node\ \%lu\ |\ Contribution:\ \%f\ |\ Density:\ \%f\ |\ Degree:\ \%f\ |\ Clustering\ coefficient:\ \%f\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ node,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{group__EXTERNAL__API_ga254d9c9f3c9de6faf5d228938c01f491}{SGA\_Stream\_contribution\_of\_node}}(\&st,\ node),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{group__EXTERNAL__API_ga947145e29b1ff876cb8f78c9cbd9525a}{SGA\_Stream\_density\_of\_node}}(\&st,\ node),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{group__EXTERNAL__API_ga23151d70a4c338e59803dcabed7c663d}{SGA\_Stream\_degree\_of\_node}}(\&st,\ node),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{group__EXTERNAL__API_gab44c84ee92129ae7477f29e6d1a49e25}{SGA\_Stream\_clustering\_coeff\_of\_node}}(\&st,\ node));}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ SGA\_FullStreamGraph\_destroy(st);}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{src_2stream_8c_a03e621974d5eab4d6946f3b82c9fb89b}{SGA\_StreamGraph\_destroy}}(sg);}
+\DoxyCodeLine{\ \ \ \ exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCodeInclude}
+ 

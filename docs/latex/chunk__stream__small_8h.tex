@@ -1,0 +1,60 @@
+\doxysection{src/streams/chunk\+\_\+stream\+\_\+small.h File Reference}
+\hypertarget{chunk__stream__small_8h}{}\label{chunk__stream__small_8h}\index{src/streams/chunk\_stream\_small.h@{src/streams/chunk\_stream\_small.h}}
+
+
+\doxysubsection{Detailed Description}
+Like Chunk\+Stream\textquotesingle{}s, but with a memory representation more efficient for small chunks of the Stream\+Graph. 
+
+{\ttfamily \#include "{}../analysis/metrics.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+functions.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{chunk__stream__small_8h_af5670c76a423a0ac1859be30b3bcd6c0}{SGA\+\_\+\+Chunk\+Stream\+Small\+\_\+from}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph, SGA\+\_\+\+Node\+Id\+Array\+List nodes, SGA\+\_\+\+Link\+Id\+Array\+List links, \mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} timeframe)
+\begin{DoxyCompactList}\small\item\em Create a Chunk\+Stream\+Small from a Stream\+Graph. \end{DoxyCompactList}\item 
+\Hypertarget{chunk__stream__small_8h_a323de2d4bfcfe6667f32dd5e9df8745d}\label{chunk__stream__small_8h_a323de2d4bfcfe6667f32dd5e9df8745d} 
+void {\bfseries SGA\+\_\+\+Chunk\+Stream\+Small\+\_\+destroy} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{chunk__stream__small_8h_af5670c76a423a0ac1859be30b3bcd6c0}\index{chunk\_stream\_small.h@{chunk\_stream\_small.h}!SGA\_ChunkStreamSmall\_from@{SGA\_ChunkStreamSmall\_from}}
+\index{SGA\_ChunkStreamSmall\_from@{SGA\_ChunkStreamSmall\_from}!chunk\_stream\_small.h@{chunk\_stream\_small.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_ChunkStreamSmall\_from()}{SGA\_ChunkStreamSmall\_from()}}
+{\footnotesize\ttfamily \label{chunk__stream__small_8h_af5670c76a423a0ac1859be30b3bcd6c0} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Chunk\+Stream\+Small\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{, }\item[{SGA\+\_\+\+Node\+Id\+Array\+List}]{nodes}{, }\item[{SGA\+\_\+\+Link\+Id\+Array\+List}]{links}{, }\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{timeframe}{}\end{DoxyParamCaption})}
+
+
+
+Create a Chunk\+Stream\+Small from a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph to create the Chunk\+Stream\+Small from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em nodes} & The nodes present in the chunk. \\
+\hline
+\mbox{\texttt{ in}}  & {\em links} & The links present in the chunk. \\
+\hline
+\mbox{\texttt{ in}}  & {\em timeframe} & The time interval of the chunk. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created Chunk\+Stream\+Small. 
+\end{DoxyReturn}
+Include dependency graph for chunk\+\_\+stream\+\_\+small.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chunk__stream__small_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chunk__stream__small_8h__dep__incl}
+\end{center}
+\end{figure}

@@ -1,4 +1,8 @@
-#undef SGA_INTERNAL // TODO just don't define it
+/**
+ * @file examples/analysis.c
+ * @brief Example program for how to compute cliques, or walks
+ */
+
 #include "../StreamGraphAnalysis.h"
 #include <stdlib.h>
 
@@ -12,19 +16,6 @@ int main() {
 	String str		    = SGA_CliqueArrayList_to_string(&cliques);
 	printf("Maximal cliques: %s\n", str.data);
 	String_destroy(str);
-
-	SGA_Cluster kcore;
-	for (size_t k = 1;; k++) {
-		kcore = SGA_Stream_k_core(&st, k);
-		if (kcore.nodes.length == 0) {
-			SGA_Cluster_destroy(kcore);
-			break;
-		}
-		str = SGA_Cluster_to_string(&kcore);
-		printf("K-core for k=%zu: %s\n", k, str.data);
-		String_destroy(str);
-		SGA_Cluster_destroy(kcore);
-	}
 
 	printf("Robustness by length: %f\n", SGA_Stream_robustness_by_length(&st));
 	printf("Robustness by duration: %f\n", SGA_Stream_robustness_by_duration(&st));

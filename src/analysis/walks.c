@@ -940,15 +940,15 @@ size_t Walk_duration(SGA_Walk* walk) {
 }
 
 double Walk_duration_integral(SGA_Interval waiting_period, SGA_Interval instantaneous_perioud, SGA_Time reached_at) {
-	size_t a = waiting_period.start;
-	size_t b = waiting_period.end;
-	size_t c = instantaneous_perioud.start;
-	size_t d = instantaneous_perioud.end;
+	size_t a			 = waiting_period.start;
+	size_t b			 = waiting_period.end;
+	__attribute__((unused)) size_t c = instantaneous_perioud.start;
+	__attribute__((unused)) size_t d = instantaneous_perioud.end;
 	// integral of S(x = a -> b) reached_at - x dx + integral of S(x = c -> d) 0
 	// dx
-	double integral = (reached_at - a) * (b - a) / 2;
+	size_t integral = ((reached_at - a) * (b - a)) / 2;
 
-	return integral;
+	return (double)integral;
 }
 
 double Walk_duration_integral_1_over_x(SGA_Walk* walk) {

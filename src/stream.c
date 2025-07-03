@@ -16,7 +16,6 @@
 #include <stddef.h>
 
 #include "defaults.h"
-#include <memory.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -553,17 +552,20 @@ size_t StreamGraph_lifespan_end(SGA_StreamGraph* sg) {
 	return KeyInstantsTable_last_instant(&sg->key_instants);
 }
 
+/**
+ * @brief A single event, signifies the appearance of disappearance of a certain link or node
+ */
 typedef struct {
-	size_t instant;
-	char sign;
-	char letter; // TODO: use an enum instead
+	size_t instant; ///< The instant at which the event occurs
+	char sign;	///< '+' for appearance, '-' for disappearance
+	char letter;	///< 'N' for node, 'L' for link
 	union {
-		size_t node;
+		size_t node; ///< The id of the node
 		struct {
-			size_t node1;
-			size_t node2;
-		};
-	} id;
+			size_t node1; ///< The id of the first node of the link
+			size_t node2; ///< The id of the second node of the link
+		} link;		      ///< A link is represented by two nodes
+	} id;			      ///< The id of the node or link
 } EventTuple;
 
 String EventTuple_to_string(EventTuple* tuple) {
@@ -574,8 +576,13 @@ String EventTuple_to_string(EventTuple* tuple) {
 			break;
 		}
 		case 'L': {
-			String_append_formatted(
-			    &str, "(%zu %c %c %zu %zu)", tuple->instant, tuple->sign, tuple->letter, tuple->id.node1, tuple->id.node2);
+			String_append_formatted(&str,
+						"(%zu %c %c %zu %zu)",
+						tuple->instant,
+						tuple->sign,
+						tuple->letter,
+						tuple->id.link.node1,
+						tuple->id.link.node2);
 			break;
 		}
 		default: {
@@ -767,9 +774,11 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 	// Parse the events while the end of the stream is not reached
 	const char* END_OF_STREAM = "[EndOfStream]";
 	while (strncmp(str, END_OF_STREAM, strlen(END_OF_STREAM)) != 0) {
-		// If the line is empty, it should be the end of the stream
+
+		// If the line is empty, skip it
 		if (*str == '\n') {
-			break;
+			str++;
+			continue;
 		}
 
 		// Parse the event 4-tuple (instant, sign, letter, id)
@@ -777,10 +786,17 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 
 		// Instant
 		size_t key_instant = PARSE_NUMBER_AND_MOVE(str, "key instant");
+		CHECK_PARSE_ERROR(key_instant < lifespan_start || key_instant > lifespan_end,
+				  "Event %zu is out of bounds of the lifespan of the stream [%zu, %zu)\n",
+				  key_instant,
+				  lifespan_start,
+				  lifespan_end);
 		CHECK_PARSE_ERROR(key_instant < last_event_parsed,
 				  "Events are not sorted in increasing order (last event: %zu > current event: %zu)\n",
 				  last_event_parsed,
 				  key_instant);
+
+		// printf("Parsed Key instant: %zu\n", key_instant);
 
 		EXPECT_AND_MOVE(str, ' ');
 
@@ -852,11 +868,11 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 			CHECK_PARSE_ERROR(node1 == node2, "Nodes are the same");
 
 			tuple = (EventTuple){
-			    .instant  = key_instant,
-			    .sign     = sign,
-			    .letter   = letter,
-			    .id.node1 = node1,
-			    .id.node2 = node2,
+			    .instant	   = key_instant,
+			    .sign	   = sign,
+			    .letter	   = letter,
+			    .id.link.node1 = node1,
+			    .id.link.node2 = node2,
 			};
 
 			// Initialise the rest of the structures that keep track of nodes in the array if you are the new biggest node id
@@ -918,7 +934,11 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
+	// printf("Parsed %zu events\n", nb_events);
+
 	// Push the lifespan end event if it is not the last event
+	// printf("Lifespan end: %zu\n", lifespan_end);
+	// printf("events length: %zu\n", events.length);
 	size_t last_event = events.array[events.length - 1].array[0].instant;
 	if (last_event != lifespan_end) {
 		last_event	= lifespan_end;
@@ -941,6 +961,16 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 		}
 		nb_events_per_slice.array[slice_id]++;
 	}
+
+	// If the last event is not the lifespan end, remove the last event
+	// printf("Last event: %zu, lifespan end: %zu\n", last_event, lifespan_end);
+	// if (last_event != lifespan_end) {
+	// 	printf("Last event is not the lifespan end, removing it\n");
+	// 	// Remove the last event from the last slice
+	// 	if (nb_events_per_slice.length > 0) {
+	// 		nb_events_per_slice.array[nb_events_per_slice.length - 1]--;
+	// 	}
+	// }
 
 	// Create the parsed stream graph
 	ParsedStreamGraph parsed = {
@@ -1001,7 +1031,14 @@ String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
 	for (size_t i = 0; i < parsed.links.length; i++) {
 		String_append_formatted(&str, "%zu\n", parsed.links.array[i].nb_intervals / 2);
 	}
+
 	String_push_str(&str, "[[[NumberOfKeyInstantsPerSlice]]]\n");
+	// If the last key instant is not the lifespan end, it's not a real event.
+	// Therefore decrease by 1 the number of events in the last slice
+	if (parsed.events.array[parsed.events.length - 1].array[0].instant != parsed.lifespan.end) {
+		parsed.nb_events_per_slice.array[parsed.nb_events_per_slice.length - 1]--;
+	}
+
 	for (size_t i = 0; i < parsed.nb_events_per_slice.length; i++) {
 		String_append_formatted(&str, "%zu\n", parsed.nb_events_per_slice.array[i]);
 	}
@@ -1059,8 +1096,8 @@ String internal_format_v_1_0_0_from_parsed(ParsedStreamGraph parsed) {
 		for (size_t j = 0; j < parsed.events.array[i].length; j++) {
 			if (parsed.events.array[i].array[j].letter == 'L') {
 				EventTuple event = parsed.events.array[i].array[j];
-				size_t idx1	 = event.id.node1;
-				size_t idx2	 = event.id.node2;
+				size_t idx1	 = event.id.link.node1;
+				size_t idx2	 = event.id.link.node2;
 				size_t link_id	 = link_id_map[(idx1 * (parsed.nodes.length)) + idx2];
 				String_append_formatted(&str, "(%c %c %zu) ", event.sign, event.letter, link_id);
 			}

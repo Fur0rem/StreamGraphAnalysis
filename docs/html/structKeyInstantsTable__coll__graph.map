@@ -1,7 +1,7 @@
 <map id="KeyInstantsTable" name="KeyInstantsTable">
 <area shape="rect" id="Node000001" title=" " alt="" coords="74,98,206,126"/>
-<area shape="rect" id="Node000002" href="$structInstantsSlice.html" title=" " alt="" coords="5,5,110,33"/>
+<area shape="rect" id="Node000002" href="$key__instants__table_8h.html#structInstantsSlice" title=" " alt="" coords="5,5,110,33"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,42,130,96,126,99,77,46"/>
-<area shape="rect" id="Node000003" href="$structKeyInstantsTableIterator.html" title=" " alt="" coords="133,5,312,33"/>
+<area shape="rect" id="Node000003" href="$key__instants__table_8h.html#structKeyInstantsTableIterator" title=" " alt="" coords="133,5,312,33"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,46,154,99,150,96,199,42"/>
 </map>

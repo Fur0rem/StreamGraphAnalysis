@@ -37,14 +37,15 @@ bool check_interval_lists_match(SGA_IntervalArrayList* l1, SGA_IntervalArrayList
 }
 
 bool check_all_possible_mappings(const SGA_Stream* s1, const SGA_Stream* s2, size_t n, SGA_IntervalArrayList** graph1,
-				 SGA_IntervalArrayList** graph2, int* mapping, bool* visited, int vertex, size_t universal_offset_amount) {
+				 SGA_IntervalArrayList** graph2, SGA_NodeId* mapping, BitArray* visited, size_t vertex,
+				 size_t universal_offset_amount) {
 	StreamFunctions fns1 = STREAM_FUNCS(fns1, s1);
 	StreamFunctions fns2 = STREAM_FUNCS(fns2, s2);
 
 	if (vertex == n) {
 		// Check if the mapping preserves adjacency
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
+		for (size_t i = 0; i < n; i++) {
+			for (size_t j = 0; j < n; j++) {
 
 				// Check if the intervals of the links match
 				if (!check_interval_lists_match(&graph1[i][j], &graph2[mapping[i]][mapping[j]], universal_offset_amount)) {
@@ -70,16 +71,19 @@ bool check_all_possible_mappings(const SGA_Stream* s1, const SGA_Stream* s2, siz
 		return true;
 	}
 
-	for (int i = 0; i < n; i++) {
-		if (!visited[i]) {
-			visited[i]	= true;
+	for (size_t i = 0; i < n; i++) {
+		// if (!visited[i]) {
+		if (BitArray_is_zero(*visited, i)) {
+			// visited[i]	= true;
+			BitArray_set_one(*visited, i);
 			mapping[vertex] = i;
 
 			if (check_all_possible_mappings(s1, s2, n, graph1, graph2, mapping, visited, vertex + 1, universal_offset_amount)) {
 				return true;
 			}
 
-			visited[i] = false;
+			// visited[i] = false;
+			BitArray_set_zero(*visited, i);
 		}
 	}
 
@@ -102,11 +106,11 @@ void print_adjacency_matrix(size_t n, SGA_IntervalArrayList** graph) {
 	printf("]\n");
 }
 
-bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2) {
+SGA_NodeId* SGA_Stream_isomorphing_mapping(const SGA_Stream* s1, const SGA_Stream* s2) {
 	// Check if the two streamgraphs have the same number of nodes and links
 	if ((SGA_Stream_distinct_cardinal_of_node_set(s1) != SGA_Stream_distinct_cardinal_of_node_set(s2)) ||
 	    (SGA_Stream_temporal_cardinal_of_link_set(s1) != SGA_Stream_temporal_cardinal_of_link_set(s2))) {
-		return false;
+		return NULL;
 	}
 
 	size_t nb_nodes = SGA_Stream_distinct_cardinal_of_node_set(s1);
@@ -122,17 +126,17 @@ bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2) {
 
 	// Different lifespans, can't be isomorphic time-wise
 	if (SGA_Offset_is_not_matching(universal_offset)) {
-		return false;
+		return NULL;
 	}
 
 	size_t universal_offset_amount = SGA_Offset_unwrap(universal_offset);
 
 	SGA_IntervalArrayList** streamgraph1 = MALLOC(nb_nodes * sizeof(SGA_IntervalArrayList*));
 	SGA_IntervalArrayList** streamgraph2 = MALLOC(nb_nodes * sizeof(SGA_IntervalArrayList*));
-	for (int i = 0; i < nb_nodes; i++) {
+	for (size_t i = 0; i < nb_nodes; i++) {
 		streamgraph1[i] = MALLOC(nb_nodes * sizeof(SGA_IntervalArrayList));
 		streamgraph2[i] = MALLOC(nb_nodes * sizeof(SGA_IntervalArrayList));
-		for (int j = 0; j < nb_nodes; j++) {
+		for (size_t j = 0; j < nb_nodes; j++) {
 			streamgraph1[i][j] = SGA_IntervalArrayList_with_capacity(1);
 			streamgraph2[i][j] = SGA_IntervalArrayList_with_capacity(1);
 		}
@@ -207,34 +211,54 @@ bool are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2) {
 		}
 	}
 
-	int* mapping  = MALLOC(nb_nodes * sizeof(int));
-	bool* visited = MALLOC(nb_nodes * sizeof(bool));
-	for (int i = 0; i < nb_nodes; i++) {
-		visited[i] = false;
-	}
+	SGA_NodeId* mapping = MALLOC(nb_nodes * sizeof(SGA_NodeId));
+	BitArray visited    = BitArray_n_zeros(nb_nodes);
+	// bool* visited = MALLOC(nb_nodes * sizeof(bool));
+	// for (int i = 0; i < nb_nodes; i++) {
+	// 	visited[i] = false;
+	// }
 
-	bool result =
-	    check_all_possible_mappings(s1, s2, nb_nodes, streamgraph1, streamgraph2, mapping, visited, 0, universal_offset_amount);
+	bool are_isomorphic =
+	    check_all_possible_mappings(s1, s2, nb_nodes, streamgraph1, streamgraph2, mapping, &visited, 0, universal_offset_amount);
 
 	// Cleanup
-	free(mapping);
-	free(visited);
-	for (int i = 0; i < nb_nodes; i++) {
-		for (int j = 0; j < nb_nodes; j++) {
+	// free(mapping);
+	// free(visited);
+	BitArray_destroy(visited);
+	for (size_t i = 0; i < nb_nodes; i++) {
+		for (size_t j = 0; j < nb_nodes; j++) {
 			SGA_IntervalArrayList_destroy(streamgraph1[i][j]);
 			SGA_IntervalArrayList_destroy(streamgraph2[i][j]);
 		}
 		free(streamgraph1[i]);
 		free(streamgraph2[i]);
 	}
-	free(streamgraph1);
-	free(streamgraph2);
-	SGA_NodeIdArrayList_destroy(nodes_mapping_1);
-	SGA_NodeIdArrayList_destroy(nodes_mapping_2);
 	free(nodes_map_1);
 	free(nodes_map_2);
+	free(streamgraph1);
+	free(streamgraph2);
 
-	return result;
+	if (are_isomorphic) {
+		SGA_NodeId* actual_mapping = MALLOC((max_node_index_1 + 1) * sizeof(SGA_NodeId));
+		// printf("allocated actual_mapping of size %zu\n", (max_node_index_1 + 1));
+		for (size_t i = 0; i < nb_nodes_1; i++) {
+			// printf("nodes_mapping_1.array[%zu] = %zu\n", i, nodes_mapping_1.array[i]);
+			// printf("nodes_mapping_2.array[%zu] = %zu\n", i, nodes_mapping_2.array[mapping[i]]);
+			// printf("mapping[%zu] = %zu\n", i, mapping[i]);
+			// printf("actual_mapping[%zu] = %zu\n", nodes_mapping_1.array[i], nodes_mapping_2.array[mapping[i]]);
+			actual_mapping[nodes_mapping_2.array[i]] = nodes_mapping_1.array[mapping[i]];
+		}
+		free(mapping);
+		SGA_NodeIdArrayList_destroy(nodes_mapping_1);
+		SGA_NodeIdArrayList_destroy(nodes_mapping_2);
+		return actual_mapping;
+	}
+	else {
+		free(mapping);
+		SGA_NodeIdArrayList_destroy(nodes_mapping_1);
+		SGA_NodeIdArrayList_destroy(nodes_mapping_2);
+		return NULL;
+	}
 }
 
 #define COMPARE_METRIC(fn, s1, s2)                                                                                                         \

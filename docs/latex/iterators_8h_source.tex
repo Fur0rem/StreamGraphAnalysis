@@ -16,24 +16,24 @@
 \DoxyCodeLine{00031\ \textcolor{comment}{//\ TODO:\ switch\ to\ LINK\_MAX,\ TIME\_MAX,\ NODE\_MAX\ when\ it\ is\ defined}}
 \DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ SGA\_NODES\_ITERATOR\_END\ SIZE\_MAX}}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}};}
-\DoxyCodeLine{00039\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}\ \{}
-\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{structSGA__NodesIterator_a8eb4d23be32325b562bd781490b3c2a6}{stream\_graph}};\ \ \ \ \ \ }
-\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{structSGA__NodesIterator_a840afa2bb7444d426d53b04d180a81c6}{iterator\_data}};\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00042\ \ \ \ \ SGA\_NodeId\ (*\mbox{\hyperlink{structSGA__NodesIterator_a29cd35d899e383a93ae0504779c3a053}{next}})(\mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}*);\ }
-\DoxyCodeLine{00045\ \ \ \ \ void\ (*\mbox{\hyperlink{structSGA__NodesIterator_a793749496f55d228407832f023ea5edf}{destroy}})(\mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}*);\ \ \ \ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}};}
+\DoxyCodeLine{00039\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{iterators_8h_a8eb4d23be32325b562bd781490b3c2a6}{stream\_graph}};\ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{iterators_8h_a840afa2bb7444d426d53b04d180a81c6}{iterator\_data}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ SGA\_NodeId\ (*\mbox{\hyperlink{iterators_8h_a29cd35d899e383a93ae0504779c3a053}{next}})(\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}*);\ }
+\DoxyCodeLine{00045\ \ \ \ \ void\ (*\mbox{\hyperlink{iterators_8h_a793749496f55d228407832f023ea5edf}{destroy}})(\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}*);\ \ \ \ }
 \DoxyCodeLine{00047\ }
 \DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{//\ void\ (*skip\_n)(void*,\ size\_t);\ //\ TODO\ :\ those}}
 \DoxyCodeLine{00049\ \};}
 \DoxyCodeLine{00050\ }
 \DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ SGA\_LINKS\_ITERATOR\_END\ SIZE\_MAX}}
 \DoxyCodeLine{00055\ }
-\DoxyCodeLine{00059\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}};}
-\DoxyCodeLine{00060\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}\ \{}
-\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{structSGA__LinksIterator_a14524570ce991bf4511e2f4481e4fe3b}{stream\_graph}};\ \ \ \ \ \ }
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{structSGA__LinksIterator_aaa2b330483efe7f0c42c02b2725cac50}{iterator\_data}};\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00063\ \ \ \ \ SGA\_LinkId\ (*\mbox{\hyperlink{structSGA__LinksIterator_ad4efc5f003c0ab6c984e940b269da51e}{next}})(\mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}*);\ }
-\DoxyCodeLine{00066\ \ \ \ \ void\ (*\mbox{\hyperlink{structSGA__LinksIterator_adc4944d37356b2982e5a0a2555c1a95b}{destroy}})(\mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}*);\ \ \ \ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}};}
+\DoxyCodeLine{00060\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{iterators_8h_a14524570ce991bf4511e2f4481e4fe3b}{stream\_graph}};\ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{iterators_8h_aaa2b330483efe7f0c42c02b2725cac50}{iterator\_data}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ SGA\_LinkId\ (*\mbox{\hyperlink{iterators_8h_ad4efc5f003c0ab6c984e940b269da51e}{next}})(\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}*);\ }
+\DoxyCodeLine{00066\ \ \ \ \ void\ (*\mbox{\hyperlink{iterators_8h_adc4944d37356b2982e5a0a2555c1a95b}{destroy}})(\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}*);\ \ \ \ }
 \DoxyCodeLine{00068\ }
 \DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ void\ (*skip\_n)(void*,\ size\_t);\ //\ TODO\ :\ those}}
 \DoxyCodeLine{00070\ \};}
@@ -41,12 +41,12 @@
 \DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ SGA\_TIMES\_ITERATOR\_END\ ((SGA\_Interval)\{.start\ =\ SIZE\_MAX,\ .end\ =\ 0\})}}
 \DoxyCodeLine{00076\ }
 \DoxyCodeLine{00080\ \textcolor{comment}{//\ TODO:\ rename\ to\ SGA\_TimeIntervalsIterator}}
-\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}};}
-\DoxyCodeLine{00082\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ \{}
-\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{structSGA__TimesIterator_a0f93c220c8d8281961d7af7977d0100a}{stream\_graph}};\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{structSGA__TimesIterator_aff888fa22a69047a18dc30e63f551ccc}{iterator\_data}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ (*\mbox{\hyperlink{structSGA__TimesIterator_abcae2537735ec5ae5cdb92625e8dc30b}{next}})(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}*);\ }
-\DoxyCodeLine{00088\ \ \ \ \ void\ (*\mbox{\hyperlink{structSGA__TimesIterator_adf5325ec20dd2d0356cac708a911673a}{destroy}})(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}*);\ \ \ \ \ \ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}};}
+\DoxyCodeLine{00082\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{iterators_8h_a0f93c220c8d8281961d7af7977d0100a}{stream\_graph}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{iterators_8h_aff888fa22a69047a18dc30e63f551ccc}{iterator\_data}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ (*\mbox{\hyperlink{iterators_8h_abcae2537735ec5ae5cdb92625e8dc30b}{next}})(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}*);\ }
+\DoxyCodeLine{00088\ \ \ \ \ void\ (*\mbox{\hyperlink{iterators_8h_adf5325ec20dd2d0356cac708a911673a}{destroy}})(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}*);\ \ \ \ \ \ }
 \DoxyCodeLine{00090\ \};}
 \DoxyCodeLine{00091\ }
 \DoxyCodeLine{00093\ \textcolor{comment}{//\ TRICK\ :\ The\ ||\ (\{\ x.destroy(\&x);\ 0;\ \})\ executes\ the\ destroy\ function\ of\ the\ iterator\ when\ it\ ends}}
@@ -64,7 +64,7 @@
 \DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ SGA\_FOR\_EACH\_TIME(iterated,\ iterator)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
 \DoxyCodeLine{00115\ \textcolor{preprocessor}{\ \ \ \ SGA\_FOR\_EACH(SGA\_Interval,\ iterated,\ iterator,\ !SGA\_Interval\_equals(\&(iterated),\ \&SGA\_TIMES\_ITERATOR\_END))}\textcolor{preprocessor}{}}
 \DoxyCodeLine{00117\ }
-\DoxyCodeLine{00125\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{iterators_8h_a96a9010e44b7cc6d61deb889345a66f5}{SGA\_total\_time\_of}}(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ times);}
+\DoxyCodeLine{00125\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{iterators_8h_a96a9010e44b7cc6d61deb889345a66f5}{SGA\_total\_time\_of}}(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ times);}
 \DoxyCodeLine{00126\ }
 \DoxyCodeLine{00127\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}\textcolor{preprocessor}{}}
 \DoxyCodeLine{00129\ \textcolor{preprocessor}{\#\ \ \ define\ \_COUNT\_ITERATOR(type,\ iterated,\ iterator,\ end\_cond)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
@@ -77,11 +77,11 @@
 \DoxyCodeLine{00136\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \})}\textcolor{preprocessor}{}}
 \DoxyCodeLine{00138\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
 \DoxyCodeLine{00139\ }
-\DoxyCodeLine{00143\ SGA\_NodeId\ \mbox{\hyperlink{iterators_8h_a41d130a88b4b587c96fe6e8d93a909d5}{SGA\_count\_nodes}}(\mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}\ nodes);}
+\DoxyCodeLine{00143\ SGA\_NodeId\ \mbox{\hyperlink{iterators_8h_a41d130a88b4b587c96fe6e8d93a909d5}{SGA\_count\_nodes}}(\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ nodes);}
 \DoxyCodeLine{00144\ }
-\DoxyCodeLine{00148\ SGA\_LinkId\ \mbox{\hyperlink{iterators_8h_a84a3bf6326d212b2c433159f2ad9dcc6}{SGA\_count\_links}}(\mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}\ links);}
+\DoxyCodeLine{00148\ SGA\_LinkId\ \mbox{\hyperlink{iterators_8h_a84a3bf6326d212b2c433159f2ad9dcc6}{SGA\_count\_links}}(\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ links);}
 \DoxyCodeLine{00149\ }
-\DoxyCodeLine{00153\ SGA\_TimeId\ \mbox{\hyperlink{iterators_8h_a661c9d6ff412b3944a5b1a4b5306add2}{SGA\_count\_intervals}}(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ times);}
+\DoxyCodeLine{00153\ SGA\_TimeId\ \mbox{\hyperlink{iterators_8h_a661c9d6ff412b3944a5b1a4b5306add2}{SGA\_count\_intervals}}(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ times);}
 \DoxyCodeLine{00154\ }
 \DoxyCodeLine{00155\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}\textcolor{preprocessor}{}}
 \DoxyCodeLine{00163\ \textcolor{preprocessor}{\#\ \ \ define\ COUNT\_ITERATOR(iterator)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
@@ -91,15 +91,15 @@
 \DoxyCodeLine{00167\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ SGA\_TimesIterator:\ SGA\_count\_intervals)(iterator)}}
 \DoxyCodeLine{00168\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
 \DoxyCodeLine{00169\ }
-\DoxyCodeLine{00178\ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_a7ae286de73fc769cb8bfa677fc33387a}{SGA\_TimesIterator\_union}}(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ a,\ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ b);}
+\DoxyCodeLine{00178\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_a7ae286de73fc769cb8bfa677fc33387a}{SGA\_TimesIterator\_union}}(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ a,\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ b);}
 \DoxyCodeLine{00179\ }
-\DoxyCodeLine{00188\ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_a2a0865899e6f18e3546eb1c004ca91c5}{SGA\_TimesIterator\_intersection}}(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ a,\ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ b);}
+\DoxyCodeLine{00188\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_a2a0865899e6f18e3546eb1c004ca91c5}{SGA\_TimesIterator\_intersection}}(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ a,\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ b);}
 \DoxyCodeLine{00189\ }
-\DoxyCodeLine{00197\ SGA\_IntervalArrayList\ \mbox{\hyperlink{iterators_8h_ab200b3eb940bc0109d449348d100d70a}{SGA\_collect\_times}}(\mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ times);}
+\DoxyCodeLine{00197\ SGA\_IntervalArrayList\ \mbox{\hyperlink{iterators_8h_ab200b3eb940bc0109d449348d100d70a}{SGA\_collect\_times}}(\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ times);}
 \DoxyCodeLine{00198\ }
-\DoxyCodeLine{00206\ SGA\_NodeIdArrayList\ \mbox{\hyperlink{iterators_8h_a2ca4fd444437a8a5cb7b01e0ea1519f4}{SGA\_collect\_node\_ids}}(\mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}\ nodes);}
+\DoxyCodeLine{00206\ SGA\_NodeIdArrayList\ \mbox{\hyperlink{iterators_8h_a2ca4fd444437a8a5cb7b01e0ea1519f4}{SGA\_collect\_node\_ids}}(\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ nodes);}
 \DoxyCodeLine{00207\ }
-\DoxyCodeLine{00215\ SGA\_LinkIdArrayList\ \mbox{\hyperlink{iterators_8h_a2a61514148030237a3a40e85c3e646b6}{SGA\_collect\_link\_ids}}(\mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}\ links);}
+\DoxyCodeLine{00215\ SGA\_LinkIdArrayList\ \mbox{\hyperlink{iterators_8h_a2a61514148030237a3a40e85c3e646b6}{SGA\_collect\_link\_ids}}(\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ links);}
 \DoxyCodeLine{00216\ }
 \DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ SGA\_BREAK\_ITERATOR(iterator)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
 \DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
@@ -107,11 +107,11 @@
 \DoxyCodeLine{00223\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
 \DoxyCodeLine{00224\ \textcolor{preprocessor}{\ \ \ \ \})}}
 \DoxyCodeLine{00225\ }
-\DoxyCodeLine{00230\ \mbox{\hyperlink{structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{iterators_8h_a41f9958d597d60dd4967871f8aded5cf}{SGA\_NodesIterator\_empty}}();}
+\DoxyCodeLine{00230\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{iterators_8h_a41f9958d597d60dd4967871f8aded5cf}{SGA\_NodesIterator\_empty}}();}
 \DoxyCodeLine{00231\ }
-\DoxyCodeLine{00236\ \mbox{\hyperlink{structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{iterators_8h_aaf38ea32a235ecc74407ca3f829e404a}{SGA\_LinksIterator\_empty}}();}
+\DoxyCodeLine{00236\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{iterators_8h_aaf38ea32a235ecc74407ca3f829e404a}{SGA\_LinksIterator\_empty}}();}
 \DoxyCodeLine{00237\ }
-\DoxyCodeLine{00242\ \mbox{\hyperlink{structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_ab393b33801af1af7fb6a0e3d41da076c}{SGA\_TimesIterator\_empty}}();}
+\DoxyCodeLine{00242\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{iterators_8h_ab393b33801af1af7fb6a0e3d41da076c}{SGA\_TimesIterator\_empty}}();}
 \DoxyCodeLine{00243\ }
 \DoxyCodeLine{00244\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ITERATORS\_H}}
 
