@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['kcoredata_0',['KCoreData',['../structKCoreData.html',1,'']]],
-  ['keyinstantstable_1',['KeyInstantsTable',['../structKeyInstantsTable.html',1,'']]],
-  ['keyinstantstableiterator_2',['KeyInstantsTableIterator',['../structKeyInstantsTableIterator.html',1,'']]]
+  ['informationcache_0',['InformationCache',['../stream_8h.html#structInformationCache',1,'']]],
+  ['innerarena_1',['InnerArena',['../group__testgroup.html#structInnerArena',1,'']]],
+  ['instantsslice_2',['InstantsSlice',['../key__instants__table_8h.html#structInstantsSlice',1,'']]]
 ];

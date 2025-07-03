@@ -1,0 +1,16 @@
+SGA External Format 1.0.0
+
+Each link appearance lasts 90 units.
+
+[General]
+Lifespan=(0 21245)
+TimeScale=1
+
+[Events]
+
+1100 + N 0
+5755 + N 1
+11510 - N 1
+11510 - N 0
+
+[EndOfStream]

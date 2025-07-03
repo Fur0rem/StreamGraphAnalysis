@@ -1,0 +1,29 @@
+\doxysection{link\+\_\+access.\+h}
+\hypertarget{link__access_8h_source}{}\label{link__access_8h_source}\index{src/stream\_data\_access/link\_access.h@{src/stream\_data\_access/link\_access.h}}
+\mbox{\hyperlink{link__access_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ SGA\_LINK\_ACCESS\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ SGA\_LINK\_ACCESS\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{iterators_8h}{../iterators.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00019\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ SGA\_StreamGraph\_links\_set(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00027\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ SGA\_StreamGraph\_links\_present\_at(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_Time\ t);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00035\ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}\ SGA\_StreamGraph\_link\_by\_id(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_LinkId\ link\_id);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00043\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ SGA\_StreamGraph\_times\_link\_present(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_LinkId\ link\_id);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00052\ SGA\_LinkId\ SGA\_StreamGraph\_link\_between\_nodes(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_NodeId\ node\_id,\ SGA\_NodeId\ other\_node\_id);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,26 @@
+\doxysection{node\+\_\+access.\+h}
+\hypertarget{node__access_8h_source}{}\label{node__access_8h_source}\index{src/stream\_data\_access/node\_access.h@{src/stream\_data\_access/node\_access.h}}
+\mbox{\hyperlink{node__access_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ SGA\_NODE\_ACCESS\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ SGA\_NODE\_ACCESS\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{iterators_8h}{../iterators.h}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00019\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ SGA\_StreamGraph\_neighbours\_of\_node(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00027\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ SGA\_StreamGraph\_times\_node\_present(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ SGA\_StreamGraph\_nodes\_set(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\_Node}}\ SGA\_StreamGraph\_node\_by\_id(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

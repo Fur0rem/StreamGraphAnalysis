@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['unreachable_5fafter_0',['unreachable_after',['../structSGA__NoWalkReason.html#aed9c4eacdf0235ae6362c8fda6147955',1,'SGA_NoWalkReason']]]
+  ['unreachable_5fafter_0',['unreachable_after',['../walks_8h.html#a9b10ff6a51b95a4b08680368fdfebae9',1,'SGA_NoWalkReason.reason']]]
 ];

@@ -63,7 +63,7 @@
 // TODO : rename the functions to be more explicit
 // TODO : rewrite them to be cleaner
 // TODO: move them somewhere else
-size_t SGA_Stream_duration(SGA_Stream* stream) {
+size_t SGA_Stream_duration(const SGA_Stream* stream) {
 	FETCH_CACHE(stream, duration);
 	CATCH_METRICS_IMPLEM(duration, stream);
 	StreamFunctions fns   = STREAM_FUNCS(fns, stream);
@@ -72,7 +72,7 @@ size_t SGA_Stream_duration(SGA_Stream* stream) {
 	return SGA_Interval_duration(lifespan);
 }
 
-size_t SGA_Stream_distinct_cardinal_of_node_set(SGA_Stream* stream) {
+size_t SGA_Stream_distinct_cardinal_of_node_set(const SGA_Stream* stream) {
 	FETCH_CACHE(stream, distinct_cardinal_of_node_set);
 	CATCH_METRICS_IMPLEM(distinct_cardinal_of_node_set, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
@@ -82,7 +82,7 @@ size_t SGA_Stream_distinct_cardinal_of_node_set(SGA_Stream* stream) {
 	return count;
 }
 
-size_t SGA_Stream_distinct_cardinal_of_link_set(SGA_Stream* stream) {
+size_t SGA_Stream_distinct_cardinal_of_link_set(const SGA_Stream* stream) {
 	FETCH_CACHE(stream, distinct_cardinal_of_link_set);
 	CATCH_METRICS_IMPLEM(distinct_cardinal_of_link_set, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
@@ -92,7 +92,7 @@ size_t SGA_Stream_distinct_cardinal_of_link_set(SGA_Stream* stream) {
 	return count;
 }
 
-size_t SGA_Stream_temporal_cardinal_of_link_set(SGA_Stream* stream) {
+size_t SGA_Stream_temporal_cardinal_of_link_set(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(temporal_cardinal_of_link_set, stream);
 	FETCH_CACHE(stream, temporal_cardinal_of_link_set);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
@@ -106,7 +106,7 @@ size_t SGA_Stream_temporal_cardinal_of_link_set(SGA_Stream* stream) {
 	return count;
 }
 
-size_t SGA_Stream_temporal_cardinal_of_node_set(SGA_Stream* stream) {
+size_t SGA_Stream_temporal_cardinal_of_node_set(const SGA_Stream* stream) {
 	FETCH_CACHE(stream, temporal_cardinal_of_node_set);
 	CATCH_METRICS_IMPLEM(temporal_cardinal_of_node_set, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
@@ -120,7 +120,7 @@ size_t SGA_Stream_temporal_cardinal_of_node_set(SGA_Stream* stream) {
 	return count;
 }
 
-double SGA_Stream_coverage(SGA_Stream* stream) {
+double SGA_Stream_coverage(const SGA_Stream* stream) {
 	CATCH_METRICS_IMPLEM(coverage, stream);
 	size_t w = SGA_Stream_temporal_cardinal_of_node_set(stream);
 	size_t t = SGA_Stream_duration(stream);
@@ -129,7 +129,7 @@ double SGA_Stream_coverage(SGA_Stream* stream) {
 	return (double)w / (double)(t * v);
 }
 
-double SGA_Stream_node_duration(SGA_Stream* stream) {
+double SGA_Stream_node_duration(const SGA_Stream* stream) {
 	CATCH_METRICS_IMPLEM(node_duration, stream);
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t w	    = SGA_Stream_temporal_cardinal_of_node_set(stream);
@@ -138,7 +138,7 @@ double SGA_Stream_node_duration(SGA_Stream* stream) {
 	return (double)w / (double)(v * time_scale);
 }
 
-double SGA_Stream_contribution_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
+double SGA_Stream_contribution_of_node(const SGA_Stream* stream, SGA_NodeId node_id) {
 	// CATCH_METRICS_IMPLEM(contribution_of_node, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	SGA_TimesIterator times = fns.times_node_present(stream->stream_data, node_id);
@@ -147,7 +147,7 @@ double SGA_Stream_contribution_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
 	return (double)t_v / (double)t;
 }
 
-double SGA_Stream_contribution_of_link(SGA_Stream* stream, SGA_LinkId link_id) {
+double SGA_Stream_contribution_of_link(const SGA_Stream* stream, SGA_LinkId link_id) {
 	// CATCH_METRICS_IMPLEM(contribution_of_link, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	SGA_TimesIterator times = fns.times_link_present(stream->stream_data, link_id);
@@ -156,21 +156,21 @@ double SGA_Stream_contribution_of_link(SGA_Stream* stream, SGA_LinkId link_id) {
 	return (double)t_v / (double)(t);
 }
 
-double SGA_Stream_number_of_nodes(SGA_Stream* stream) {
+double SGA_Stream_number_of_nodes(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(number_of_nodes, stream);
 	size_t w = SGA_Stream_temporal_cardinal_of_node_set(stream);
 	size_t t = SGA_Stream_duration(stream);
 	return (double)w / (double)t;
 }
 
-double SGA_Stream_number_of_links(SGA_Stream* stream) {
+double SGA_Stream_number_of_links(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(number_of_links, stream);
 	size_t e = SGA_Stream_temporal_cardinal_of_link_set(stream);
 	size_t t = SGA_Stream_duration(stream);
 	return (double)e / (double)t;
 }
 
-double SGA_Stream_node_contribution_at_instant(SGA_Stream* stream, SGA_Time instant) {
+double SGA_Stream_node_contribution_at_instant(const SGA_Stream* stream, SGA_Time instant) {
 	// CATCH_METRICS_IMPLEM(node_contribution_at_time, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	SGA_NodesIterator nodes = fns.nodes_present_at_t(stream->stream_data, instant);
@@ -184,7 +184,7 @@ size_t size_set_unordered_pairs_itself(size_t n) {
 	return n * (n - 1) / 2;
 }
 
-double SGA_Stream_link_contribution_at_instant(SGA_Stream* stream, SGA_Time instant) {
+double SGA_Stream_link_contribution_at_instant(const SGA_Stream* stream, SGA_Time instant) {
 	// CATCH_METRICS_IMPLEM(link_contribution_at_time, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	SGA_LinksIterator links = fns.links_present_at_t(stream->stream_data, instant);
@@ -195,7 +195,7 @@ double SGA_Stream_link_contribution_at_instant(SGA_Stream* stream, SGA_Time inst
 	return (double)e_t / (double)(vxv * time_scale);
 }
 
-double SGA_Stream_link_duration(SGA_Stream* stream) {
+double SGA_Stream_link_duration(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(link_duration, stream);
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 	size_t e	    = SGA_Stream_temporal_cardinal_of_link_set(stream);
@@ -205,7 +205,7 @@ double SGA_Stream_link_duration(SGA_Stream* stream) {
 	return (double)e / (double)(vxv * time_scale);
 }
 
-double SGA_Stream_uniformity(SGA_Stream* stream) {
+double SGA_Stream_uniformity(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(uniformity, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	size_t sum_num		= 0;
@@ -234,7 +234,7 @@ double SGA_Stream_uniformity(SGA_Stream* stream) {
 	return (double)sum_num / (double)sum_den;
 }
 
-double SGA_Stream_uniformity_pair_nodes(SGA_Stream* stream, SGA_NodeId node1, SGA_NodeId node2) {
+double SGA_Stream_uniformity_pair_nodes(const SGA_Stream* stream, SGA_NodeId node1, SGA_NodeId node2) {
 	// CATCH_METRICS_IMPLEM(uniformity_pair_nodes, stream);
 	StreamFunctions fns	      = STREAM_FUNCS(fns, stream);
 	SGA_TimesIterator times_node1 = fns.times_node_present(stream->stream_data, node1);
@@ -250,7 +250,7 @@ double SGA_Stream_uniformity_pair_nodes(SGA_Stream* stream, SGA_NodeId node1, SG
 	return (double)t_i / (double)t_u;
 }
 
-double SGA_Stream_compactness(SGA_Stream* stream) {
+double SGA_Stream_compactness(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(compactness, stream);
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
@@ -283,7 +283,7 @@ double SGA_Stream_compactness(SGA_Stream* stream) {
 	       (double)((last_node_apparition - first_node_apparition) * nb_nodes_exist);
 }
 
-double SGA_Stream_density(SGA_Stream* stream) {
+double SGA_Stream_density(const SGA_Stream* stream) {
 	CATCH_METRICS_IMPLEM(density, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	size_t sum_den		= 0;
@@ -311,7 +311,7 @@ double SGA_Stream_density(SGA_Stream* stream) {
 	return (double)sum_num / (double)sum_den;
 }
 
-double SGA_Stream_density_of_link(SGA_Stream* stream, SGA_LinkId link_id) {
+double SGA_Stream_density_of_link(const SGA_Stream* stream, SGA_LinkId link_id) {
 	StreamFunctions fns	     = STREAM_FUNCS(fns, stream);
 	SGA_TimesIterator times_link = fns.times_link_present(stream->stream_data, link_id);
 	size_t sum_num		     = SGA_total_time_of(times_link);
@@ -324,7 +324,7 @@ double SGA_Stream_density_of_link(SGA_Stream* stream, SGA_LinkId link_id) {
 	return (double)sum_num / (double)sum_den;
 }
 
-double SGA_Stream_density_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
+double SGA_Stream_density_of_node(const SGA_Stream* stream, SGA_NodeId node_id) {
 	// CATCH_METRICS_IMPLEM(density_of_node, stream);
 	StreamFunctions fns	     = STREAM_FUNCS(fns, stream);
 	SGA_LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, node_id);
@@ -349,7 +349,7 @@ double SGA_Stream_density_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
 	return (double)sum_num / (double)sum_den;
 }
 
-double SGA_Stream_density_at_instant(SGA_Stream* stream, SGA_TimeId time_id) {
+double SGA_Stream_density_at_instant(const SGA_Stream* stream, SGA_TimeId time_id) {
 	// CATCH_METRICS_IMPLEM(density_at_instant, stream);
 	StreamFunctions fns	     = STREAM_FUNCS(fns, stream);
 	SGA_LinksIterator links_at_t = fns.links_present_at_t(stream->stream_data, time_id);
@@ -370,10 +370,11 @@ double SGA_Stream_density_at_instant(SGA_Stream* stream, SGA_TimeId time_id) {
 	// size_t et = COUNT_ITERATOR(links_at_t);
 	// size_t vt = COUNT_ITERATOR(nodes_at_t);
 	// printf("et = %zu, vt = %zu\n", et, vt);
+	// printf("time_id = %zu, et = %zu, vt = %zu\n", time_id, et, vt);
 	return (double)et / (double)(size_set_unordered_pairs_itself(vt));
 }
 
-double SGA_Stream_degree_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
+double SGA_Stream_degree_of_node(const SGA_Stream* stream, SGA_NodeId node_id) {
 	// CATCH_METRICS_IMPLEM(degree_of_node, stream);
 	StreamFunctions fns	     = STREAM_FUNCS(fns, stream);
 	SGA_LinksIterator neighbours = fns.neighbours_of_node(stream->stream_data, node_id);
@@ -386,7 +387,7 @@ double SGA_Stream_degree_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
 	return (double)sum_num / (double)sum_den;
 }
 
-double SGA_Stream_average_node_degree(SGA_Stream* stream) {
+double SGA_Stream_average_node_degree(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(average_node_degree, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	double sum		= 0;
@@ -400,7 +401,7 @@ double SGA_Stream_average_node_degree(SGA_Stream* stream) {
 	return sum;
 }
 
-double SGA_Stream_degree(SGA_Stream* stream) {
+double SGA_Stream_degree(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(degree, stream);
 	size_t number_of_links = SGA_Stream_temporal_cardinal_of_link_set(stream);
 	size_t t	       = SGA_Stream_duration(stream);
@@ -408,14 +409,14 @@ double SGA_Stream_degree(SGA_Stream* stream) {
 	return (double)(2 * number_of_links) / (double)(t * v);
 }
 
-double SGA_Stream_average_expected_degree(SGA_Stream* stream) {
+double SGA_Stream_average_expected_degree(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(degree, stream);
 	size_t number_of_links = SGA_Stream_temporal_cardinal_of_link_set(stream);
 	size_t number_of_nodes = SGA_Stream_temporal_cardinal_of_node_set(stream);
 	return (double)(2 * number_of_links) / (double)number_of_nodes;
 }
 
-double SGA_Stream_clustering_coeff_of_node(SGA_Stream* stream, SGA_NodeId node_id) {
+double SGA_Stream_clustering_coeff_of_node(const SGA_Stream* stream, SGA_NodeId node_id) {
 	SGA_NodeId v	    = node_id;
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
 
@@ -474,7 +475,7 @@ double SGA_Stream_clustering_coeff_of_node(SGA_Stream* stream, SGA_NodeId node_i
 	return (double)sum_num / (double)sum_den;
 }
 
-double SGA_Stream_node_clustering_coeff(SGA_Stream* stream) {
+double SGA_Stream_node_clustering_coeff(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(node_clustering_coeff, stream);
 	StreamFunctions fns	= STREAM_FUNCS(fns, stream);
 	double sum		= 0;
@@ -488,7 +489,7 @@ double SGA_Stream_node_clustering_coeff(SGA_Stream* stream) {
 	return sum;
 }
 
-double SGA_Stream_transitivity_ratio(SGA_Stream* stream) {
+double SGA_Stream_transitivity_ratio(const SGA_Stream* stream) {
 	// CATCH_METRICS_IMPLEM(transitivity_ratio, stream);
 
 	// Compute the number of triangles

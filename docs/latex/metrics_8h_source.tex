@@ -2,88 +2,91 @@
 \hypertarget{metrics_8h_source}{}\label{metrics_8h_source}\index{src/analysis/metrics.h@{src/analysis/metrics.h}}
 \mbox{\hyperlink{metrics_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ METRICS\_H}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ METRICS\_H}}
-\DoxyCodeLine{00003\ }
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
-\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{iterators_8h}{../iterators.h}}"{}}}
-\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
-\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}\textcolor{preprocessor}{}}
-\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00030\ \ \ \ \ size\_t\ (*temporal\_cardinal\_of\_node\_set)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ |W|}}
-\DoxyCodeLine{00031\ \ \ \ \ size\_t\ (*temporal\_cardinal\_of\_link\_set)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ |E|}}
-\DoxyCodeLine{00032\ \ \ \ \ size\_t\ (*distinct\_cardinal\_of\_node\_set)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ |V|}}
-\DoxyCodeLine{00033\ \ \ \ \ size\_t\ (*distinct\_cardinal\_of\_link\_set)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ Not\ defined\ in\ the\ paper}}
-\DoxyCodeLine{00034\ \ \ \ \ size\_t\ (*duration)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ |T|}}
-\DoxyCodeLine{00035\ \ \ \ \ double\ (*coverage)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);}
-\DoxyCodeLine{00036\ \ \ \ \ double\ (*node\_duration)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);}
-\DoxyCodeLine{00037\ \ \ \ \ double\ (*density)(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);}
-\DoxyCodeLine{00038\ \}\ \mbox{\hyperlink{structMetricsFunctions}{MetricsFunctions}};}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ METRICS\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ METRICS\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../generic\_data\_structures/arraylist.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../interval.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{iterators_8h}{../iterators.h}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ size\_t\ (*temporal\_cardinal\_of\_node\_set)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ |W|}}
+\DoxyCodeLine{00038\ \ \ \ \ size\_t\ (*temporal\_cardinal\_of\_link\_set)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ |E|}}
+\DoxyCodeLine{00039\ \ \ \ \ size\_t\ (*distinct\_cardinal\_of\_node\_set)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ |V|}}
+\DoxyCodeLine{00040\ \ \ \ \ size\_t\ (*distinct\_cardinal\_of\_link\_set)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \textcolor{comment}{//\ Not\ defined\ in\ the\ paper}}
+\DoxyCodeLine{00041\ \ \ \ \ size\_t\ (*duration)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ |T|}}
+\DoxyCodeLine{00042\ \ \ \ \ double\ (*coverage)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);}
+\DoxyCodeLine{00043\ \ \ \ \ double\ (*node\_duration)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);}
+\DoxyCodeLine{00044\ \ \ \ \ double\ (*density)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*);}
+\DoxyCodeLine{00045\ \}\ MetricsFunctions;}
 \DoxyCodeLine{00046\ }
-\DoxyCodeLine{00055\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{metrics_8h_ad09d1c80c5d3e5a77559998bed4343c4}{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00063\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{metrics_8h_abed366c44e1691e90a930721f1570bd0}{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00074\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{metrics_8h_a665bb878f964e612c190f431dc710652}{SGA\_Stream\_duration}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00075\ }
-\DoxyCodeLine{00083\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{metrics_8h_a7bf36a4c55f1f803ec12da687b2403f4}{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00091\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{metrics_8h_a8be329011584d504d6ffec3a4b4654bc}{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00098\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a6fc0aa70250cb72eab4ca4ac0d3bae8c}{SGA\_Stream\_coverage}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00105\ }
-\DoxyCodeLine{00112\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a254d9c9f3c9de6faf5d228938c01f491}{SGA\_Stream\_contribution\_of\_node}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00119\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a430aaaf295657f6ab38f7c3ba8b86690}{SGA\_Stream\_number\_of\_nodes}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__METRICS_ga424cbf165c58e0c8accfd10eff5d20b4}{SGA\_Stream\_temporal\_cardinal\_of\_node\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00070\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__METRICS_ga8b6923cd17d4a2428447570215d5e34c}{SGA\_Stream\_temporal\_cardinal\_of\_link\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__METRICS_ga4a2135ab810e46c40d61ddad47062e56}{SGA\_Stream\_duration}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__METRICS_ga18bc62431dda5a7f068068afbfb800e4}{SGA\_Stream\_distinct\_cardinal\_of\_node\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00098\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__METRICS_gab8666399644a26b410226a0118e0457c}{SGA\_Stream\_distinct\_cardinal\_of\_link\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00105\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga4410d4aa64dd6d86b18ce2f923e1bb84}{SGA\_Stream\_coverage}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00119\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gaaf12872df428611c57a66112936f5fd1}{SGA\_Stream\_contribution\_of\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
 \DoxyCodeLine{00120\ }
-\DoxyCodeLine{00127\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a79a7957c15e156924016bd3d102fae0a}{SGA\_Stream\_contribution\_of\_link}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
-\DoxyCodeLine{00128\ }
-\DoxyCodeLine{00134\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a956c08e9d67ca05ca04e3e7b4a48f7de}{SGA\_Stream\_number\_of\_links}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga979fc8fcc63a3c8f80e459dc6f579074}{SGA\_Stream\_number\_of\_nodes}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00134\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga15dd8c2bea7db1053e371da2dc3f7e2b}{SGA\_Stream\_contribution\_of\_link}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
 \DoxyCodeLine{00135\ }
-\DoxyCodeLine{00142\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_adbd17a44c378bb7632e433d8f75d9eb9}{SGA\_Stream\_node\_contribution\_at\_instant}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
-\DoxyCodeLine{00143\ }
-\DoxyCodeLine{00150\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_ab2a8face1b0c0a6be18dcd734905057e}{SGA\_Stream\_link\_contribution\_at\_instant}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
-\DoxyCodeLine{00151\ }
-\DoxyCodeLine{00157\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_ac45151c1b3de45e3ea56379cf777cb67}{SGA\_Stream\_node\_duration}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga02ece504a68ebc454c0bff374cca73f8}{SGA\_Stream\_number\_of\_links}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00149\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gac29bb3daaeeeeb8be8974dbeefdba197}{SGA\_Stream\_node\_contribution\_at\_instant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00157\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gab05073e53986512b83cc8a56b2e06f37}{SGA\_Stream\_link\_contribution\_at\_instant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
 \DoxyCodeLine{00158\ }
-\DoxyCodeLine{00164\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a92db2a07174bf1d1962a711b87f2b66a}{SGA\_Stream\_link\_duration}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00164\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gad6f8536e42018749df3d391119b871ba}{SGA\_Stream\_node\_duration}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
 \DoxyCodeLine{00165\ }
-\DoxyCodeLine{00171\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a5a918ea31ade0db5dfec2bf3fabccb34}{SGA\_Stream\_uniformity}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00171\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gaef42fba242c1f32f111e74f0379c9d20}{SGA\_Stream\_link\_duration}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
 \DoxyCodeLine{00172\ }
-\DoxyCodeLine{00177\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a686a6cd691fe83cb689555988269bbdd}{SGA\_Stream\_compactness}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00178\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gaa7bc31202b86d92d4606c6f51e7d215c}{SGA\_Stream\_uniformity}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
 \DoxyCodeLine{00179\ }
-\DoxyCodeLine{00184\ }
-\DoxyCodeLine{00189\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a090dfb59208803c054a0c83e6ed7bf13}{SGA\_Stream\_density}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00190\ }
-\DoxyCodeLine{00196\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a5c259f16d29621f7331a1fa6a0210277}{SGA\_Stream\_density\_of\_link}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
+\DoxyCodeLine{00184\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga962db1b01fc889386426300eb77b86d4}{SGA\_Stream\_compactness}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00196\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga0b527b80a60c14d9623b9a74cdb47867}{SGA\_Stream\_density}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
 \DoxyCodeLine{00197\ }
-\DoxyCodeLine{00202\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a947145e29b1ff876cb8f78c9cbd9525a}{SGA\_Stream\_density\_of\_node}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00203\ }
-\DoxyCodeLine{00208\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a9572cd263e810b654e96aca41a5e9397}{SGA\_Stream\_density\_at\_instant}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
+\DoxyCodeLine{00203\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga87dcd7e58a4cc61e5aef8e410506a98a}{SGA\_Stream\_density\_of\_link}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00209\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gaf744f509e1eb201c1c88e7f3a49e6334}{SGA\_Stream\_density\_of\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
 \DoxyCodeLine{00210\ }
-\DoxyCodeLine{00215\ }
-\DoxyCodeLine{00220\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a23151d70a4c338e59803dcabed7c663d}{SGA\_Stream\_degree\_of\_node}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00221\ }
-\DoxyCodeLine{00225\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_af786c5baadaa0c383cac77610b52bf86}{SGA\_Stream\_average\_node\_degree}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00227\ }
-\DoxyCodeLine{00232\ }
-\DoxyCodeLine{00237\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_ab44c84ee92129ae7477f29e6d1a49e25}{SGA\_Stream\_clustering\_coeff\_of\_node}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00238\ }
-\DoxyCodeLine{00242\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{metrics_8h_a16b834a99d761eaf4b418809b4be8706}{SGA\_Stream\_node\_clustering\_coeff}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00243\ }
-\DoxyCodeLine{00244\ \textcolor{keywordtype}{double}\ SGA\_Stream\_transitivity\_ratio(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00215\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga77af3bc397973da051d6b7c0a5f2cae8}{SGA\_Stream\_density\_at\_instant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00227\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gac78a485b62d8e29b68c4c168a9981b1f}{SGA\_Stream\_degree\_of\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00232\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_gae669808bac994b15d4f5f0d6dad2b030}{SGA\_Stream\_average\_node\_degree}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00244\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga06348a0b433fb71c9bcfb9c01a9d9e00}{SGA\_Stream\_clustering\_coeff\_of\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
 \DoxyCodeLine{00245\ }
-\DoxyCodeLine{00247\ }
-\DoxyCodeLine{00248\ \mbox{\hyperlink{structString}{String}}\ SGA\_Stream\_to\_string(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00249\ }
-\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ METRICS\_H}}
+\DoxyCodeLine{00250\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga7a004c6f71305774fac638afdbbef547}{SGA\_Stream\_node\_clustering\_coeff}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00256\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{group__METRICS_ga1a069b597b75f5196be961fc19eef425}{SGA\_Stream\_transitivity\_ratio}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00264\ \mbox{\hyperlink{structString}{String}}\ \mbox{\hyperlink{group__METRICS_ga7ad8579e8a133c11083e02758dca3a03}{SGA\_Stream\_to\_string}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ METRICS\_H}}
 
 \end{DoxyCode}

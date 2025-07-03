@@ -1,0 +1,9 @@
+<map id="TimesNodePresentIteratorData" name="TimesNodePresentIteratorData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,283,229,311"/>
+<area shape="rect" id="Node000002" href="$nodes__set_8h.html#structSGA__Node" title="The structure of a node in a StreamGraph." alt="" coords="72,191,162,218"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,234,120,283,114,283,114,234"/>
+<area shape="rect" id="Node000003" href="$structSGA__IntervalsSet.html" title=" " alt="" coords="50,98,184,126"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="120,141,120,190,114,190,114,141"/>
+<area shape="rect" id="Node000004" href="$structSGA__Interval.html" title=" " alt="" coords="64,5,170,33"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="120,48,120,98,114,98,114,48"/>
+</map>

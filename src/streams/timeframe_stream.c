@@ -210,8 +210,8 @@ size_t TimeFrameStream_distinct_cardinal_of_node_set(SGA_Stream* stream) {
 const MetricsFunctions TimeFrameStream_metrics_functions = {
     .temporal_cardinal_of_node_set = NULL,
     .duration			   = NULL,
-    .distinct_cardinal_of_node_set = TimeFrameStream_distinct_cardinal_of_node_set,
-    .distinct_cardinal_of_link_set = TimeFrameStream_distinct_cardinal_of_link_set,
+    .distinct_cardinal_of_node_set =  (size_t (*)(const SGA_Stream *))TimeFrameStream_distinct_cardinal_of_node_set,
+    .distinct_cardinal_of_link_set = (size_t (*)(const SGA_Stream *)) TimeFrameStream_distinct_cardinal_of_link_set,
     .coverage			   = NULL,
     .node_duration		   = NULL,
 };

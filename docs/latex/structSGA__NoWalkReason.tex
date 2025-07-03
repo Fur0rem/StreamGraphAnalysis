@@ -2,25 +2,11 @@
 \hypertarget{structSGA__NoWalkReason}{}\label{structSGA__NoWalkReason}\index{SGA\_NoWalkReason@{SGA\_NoWalkReason}}
 
 
-A reason why a walk is not possible It can be because a node does not exist in the stream at the time of the walk or because the node is simply unreachable.  
-
-
-
-
 \doxysubsection{Detailed Description}
 A reason why a walk is not possible It can be because a node does not exist in the stream at the time of the walk or because the node is simply unreachable. 
 
 {\ttfamily \#include $<$walks.\+h$>$}
 
-
-
-Collaboration diagram for SGA\+\_\+\+No\+Walk\+Reason\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=250pt]{structSGA__NoWalkReason__coll__graph}
-\end{center}
-\end{figure}
 \doxysubsubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -35,9 +21,11 @@ enum \{ \mbox{\hyperlink{structSGA__NoWalkReason_a84e55bf8f4123f94d858eeed54576c
 \begin{tabbing}
 xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
 union \{\\
-\>\mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}} {\bfseries node\_absent\_between}\\
+\Hypertarget{structSGA__NoWalkReason_af25380fc53e2b4022f7acea7187cdb25}\label{structSGA__NoWalkReason_af25380fc53e2b4022f7acea7187cdb25} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}} {\bfseries node\_absent\_between}\\
 \>\>{\em The interval of time at which the node is absent. }\\
-\>SGA\_Time {\bfseries unreachable\_after}\\
+\Hypertarget{structSGA__NoWalkReason_a150c4e9127ec102ba4c45ad309d917d0}\label{structSGA__NoWalkReason_a150c4e9127ec102ba4c45ad309d917d0} 
+SGA\_Time {\bfseries unreachable\_after}\\
 \>\>{\em The first time at which the node is unreachable. }\\
 \} {\bfseries reason}\\
 

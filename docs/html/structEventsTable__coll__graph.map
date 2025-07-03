@@ -1,9 +1,7 @@
 <map id="EventsTable" name="EventsTable">
-<area shape="rect" id="Node000001" title=" " alt="" coords="30,208,130,235"/>
-<area shape="rect" id="Node000002" href="$structEvents.html" title=" " alt="" coords="47,98,112,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,141,82,208,77,208,77,141"/>
-<area shape="rect" id="Node000003" href="$structEvent.html" title=" " alt="" coords="5,5,64,33"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="41,48,50,73,68,96,64,99,45,75,36,49"/>
-<area shape="rect" id="Node000004" href="$structBitArray.html" title=" " alt="" coords="88,5,162,33"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="114,48,89,99,84,96,110,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,208,105,235"/>
+<area shape="rect" id="Node000002" href="$events__table_8h.html#structEvents" title=" " alt="" coords="22,98,88,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="58,141,58,208,52,208,52,141"/>
+<area shape="rect" id="Node000003" href="$bit__array_8h.html#structBitArray" title=" " alt="" coords="18,5,92,33"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="58,48,58,98,52,98,52,48"/>
 </map>

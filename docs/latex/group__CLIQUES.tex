@@ -1,0 +1,127 @@
+\doxysubsection{Cliques}
+\hypertarget{group__CLIQUES}{}\label{group__CLIQUES}\index{Cliques@{Cliques}}
+
+
+\doxysubsubsection{Detailed Description}
+Compute the maximal cliques of a stream. 
+
+A clique in a stream is a set of nodes over a time interval where each node is connected to all the other nodes in the set during that time. A maximal clique is a clique that is not included in a larger clique. \begin{DoxySeeAlso}{See also}
+Section 7 of the paper for more information.
+\end{DoxySeeAlso}
+Here\textquotesingle{}s an example on how to use SGA to do so \+: \doxylink{examples_2cliques_8c}{examples/cliques.\+c} 
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}../StreamGraphAnalysis.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Load\ the\ stream\ into\ memory}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}../data/tests/S.sga"{}});}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ SGA\_FullStreamGraph\_from(\&sg);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Compute\ the\ maximal\ cliques}}
+\DoxyCodeLine{\ \ \ \ SGA\_CliqueArrayList\ cliques\ =\ \mbox{\hyperlink{group__CLIQUES_ga2eb6ce869a1373dedfa311a0ce84086f}{SGA\_Stream\_maximal\_cliques}}(\&st);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Print\ the\ maximal\ cliques}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structString}{String}}\ str\ =\ SGA\_CliqueArrayList\_to\_string(\&cliques);}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Maximal\ cliques:\ \%s\(\backslash\)n"{}},\ str.data);}
+\DoxyCodeLine{\ \ \ \ String\_destroy(str);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Don't\ forget\ to\ release\ the\ memory\ used}}
+\DoxyCodeLine{\ \ \ \ SGA\_CliqueArrayList\_destroy(cliques);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Cleanup}}
+\DoxyCodeLine{\ \ \ \ SGA\_FullStreamGraph\_destroy(st);}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{src_2stream_8c_a03e621974d5eab4d6946f3b82c9fb89b}{SGA\_StreamGraph\_destroy}}(sg);}
+\DoxyCodeLine{\ \ \ \ exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCodeInclude}
+ Collaboration diagram for Cliques\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=321pt]{group__CLIQUES}
+\end{center}
+\end{figure}
+\doxysubsubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}}
+\begin{DoxyCompactList}\small\item\em Structure representing a clique.  \mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{More...}}\end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group__CLIQUES_ga1d29ed8253f1304a7f5a6c2106a5d799}\label{group__CLIQUES_ga1d29ed8253f1304a7f5a6c2106a5d799} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{group__CLIQUES_ga5ec62eac8f33de56e83755ca21c32036}\label{group__CLIQUES_ga5ec62eac8f33de56e83755ca21c32036} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{group__CLIQUES_ga76c6ee1752296e2b345ba3c845c17ba2}\label{group__CLIQUES_ga76c6ee1752296e2b345ba3c845c17ba2} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{group__CLIQUES_ga1ac2054aa3644cfdea109e67242ea3c4}\label{group__CLIQUES_ga1ac2054aa3644cfdea109e67242ea3c4} 
+{\bfseries Declare\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{group__CLIQUES_ga8f6bd28e9ef2f40f514eded2467882da}\label{group__CLIQUES_ga8f6bd28e9ef2f40f514eded2467882da} 
+{\bfseries Declare\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+\Hypertarget{group__CLIQUES_ga5fa1e4d652b6e96fb14b545336746668}\label{group__CLIQUES_ga5fa1e4d652b6e96fb14b545336746668} 
+{\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{group__CLIQUES_ga2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
+\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Data Structure Documentation}
+\index{SGA\_Clique@{SGA\_Clique}}\label{structSGA__Clique}
+\Hypertarget{group__CLIQUES_structSGA__Clique}
+\doxysubsubsubsection{struct SGA\+\_\+\+Clique}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{group__CLIQUES_ac49048fe91871b0723f74dc08c3f58a8}\label{group__CLIQUES_ac49048fe91871b0723f74dc08c3f58a8}} 
+size\_t&
+nb\_nodes&
+The number of nodes in the clique. \\
+\hline
+
+\mbox{\Hypertarget{group__CLIQUES_a0c3bcdece20cca08bf1b6c26a8152ef1}\label{group__CLIQUES_a0c3bcdece20cca08bf1b6c26a8152ef1}} 
+SGA\_NodeId \texorpdfstring{$\ast$}{*}&
+nodes&
+The nodes in the clique. \\
+\hline
+
+\mbox{\Hypertarget{group__CLIQUES_a61f0b62636ad4b012b100b89e1b7444e}\label{group__CLIQUES_a61f0b62636ad4b012b100b89e1b7444e}} 
+SGA\_Time&
+time\_end&
+When the clique ends. \\
+\hline
+
+\mbox{\Hypertarget{group__CLIQUES_a9741fb2993e9645001c42933b0ab9151}\label{group__CLIQUES_a9741fb2993e9645001c42933b0ab9151}} 
+SGA\_Time&
+time\_start&
+When the clique starts. \\
+\hline
+
+\end{DoxyFields}
+
+
+\doxysubsubsection{Function Documentation}
+\Hypertarget{group__CLIQUES_ga2eb6ce869a1373dedfa311a0ce84086f}\index{Cliques@{Cliques}!SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}}
+\index{SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}!Cliques@{Cliques}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Stream\_maximal\_cliques()}{SGA\_Stream\_maximal\_cliques()}}
+{\footnotesize\ttfamily \label{group__CLIQUES_ga2eb6ce869a1373dedfa311a0ce84086f} 
+SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
+
+
+
+Find the maximal cliques in a Stream. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Stream to find the maximal cliques in. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximal cliques as an Array\+List. 
+\end{DoxyReturn}

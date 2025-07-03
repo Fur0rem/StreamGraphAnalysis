@@ -1,7 +1,5 @@
 var stream__functions_8h =
 [
-    [ "StreamFunctions", "structStreamFunctions.html", "structStreamFunctions" ],
-    [ "STREAM_FUNCS", "stream__functions_8h.html#ae17a7d6116e27af6de662f904e388af6", null ],
     [ "SGA_Stream_key_instants", "stream__functions_8h.html#addeaa838f3dc7660643b4689a939b23f", null ],
     [ "SGA_Stream_lifespan", "stream__functions_8h.html#ab804879e23ee919fbe81eb1bfcd77168", null ],
     [ "SGA_Stream_link_between_nodes", "stream__functions_8h.html#af2d835b83fab8b1a42fff3a30ee507c8", null ],

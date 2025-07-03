@@ -2,7 +2,7 @@ CC ?= gcc
 DEBUG_FLAGS = -g -O0 -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined
 RELEASE_FLAGS = -O4 -march=native -flto -DNDEBUG
 BENCHMARK_FLAGS = -O3 -g
-CFLAGS = -Wall -Wextra -std=c2x
+CFLAGS = -Wall -Wextra -std=c2x -Wno-cpp
 LDFLAGS = -lm
 
 UTILITIES_BIN_DIR = utilities/bin
@@ -144,3 +144,12 @@ examples: examples/split.c examples/metrics.c examples/analysis.c examples/time_
 	$(CC) $(CFLAGS) $(FLAGS) examples/metrics.c -o $(EXAMPLES_BIN_DIR)/metrics -L$(BIN_DIR) -lSGA -lm
 	$(CC) $(CFLAGS) $(FLAGS) examples/analysis.c -o $(EXAMPLES_BIN_DIR)/analysis -L$(BIN_DIR) -lSGA -lm
 	$(CC) $(CFLAGS) $(FLAGS) examples/time_evolution.c -o $(EXAMPLES_BIN_DIR)/time_evolution -L$(BIN_DIR) -lSGA -lm
+
+benchmarks: benchmarks/benchmark.c benchmarks/bit_array.c benchmarks/cliques.c benchmarks/kcores.c benchmarks/metrics.c benchmarks/stream.c benchmarks/walks.c libSGA | bin
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/benchmark.c -c -o $(EXAMPLES_BIN_DIR)/benchmark.o -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/bit_array.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/bit_array -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/cliques.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/cliques -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/kcores.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/kcores -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/metrics.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/metrics -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/stream.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/stream -L$(BIN_DIR) -lSGA -lm
+	$(CC) $(CFLAGS) $(FLAGS) benchmarks/walks.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/walks -L$(BIN_DIR) -lSGA -lm

@@ -1,4 +1,4 @@
 var test_8h =
 [
-    [ "Test", "structTest.html", null ]
+    [ "Test", "test_8h.html#structTest", null ]
 ];

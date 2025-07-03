@@ -1,0 +1,31 @@
+\doxysection{link\+\_\+stream.\+h}
+\hypertarget{link__stream_8h_source}{}\label{link__stream_8h_source}\index{src/streams/link\_stream.h@{src/streams/link\_stream.h}}
+\mbox{\hyperlink{link__stream_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ LINK\_STREAM\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ LINK\_STREAM\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{metrics_8h}{../analysis/metrics.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream__functions_8h}{../stream\_functions.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ underlying\_stream\_graph;\ }
+\DoxyCodeLine{00022\ \}\ LinkStream;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ StreamFunctions\ LinkStream\_stream\_functions;\ \ \ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ MetricsFunctions\ LinkStream\_metrics\_functions;\ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{link__stream_8h_a5e264587ec380a585e9674a92b2538f9}{SGA\_LinkStream\_from}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{link__stream_8h_ac149387382df376b01443d2f0c01b97a}{SGA\_LinkStream\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LINK\_STREAM\_H}}
+
+\end{DoxyCode}

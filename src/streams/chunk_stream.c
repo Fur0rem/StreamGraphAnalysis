@@ -445,8 +445,8 @@ size_t ChunkStream_cardinal_distinct_links(SGA_Stream* stream) {
 const MetricsFunctions ChunkStream_metrics_functions = {
     .temporal_cardinal_of_node_set = NULL,
     .duration			   = NULL,
-    .distinct_cardinal_of_node_set = ChunkStream_cardinal_of_v,
-    .distinct_cardinal_of_link_set = ChunkStream_cardinal_distinct_links,
+    .distinct_cardinal_of_node_set =  (size_t (*)(const SGA_Stream *))ChunkStream_cardinal_of_v,
+    .distinct_cardinal_of_link_set =  (size_t (*)(const SGA_Stream *))ChunkStream_cardinal_distinct_links,
     .coverage			   = NULL,
     .node_duration		   = NULL,
 };

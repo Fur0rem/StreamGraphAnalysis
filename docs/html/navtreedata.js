@@ -25,7 +25,22 @@
 var NAVTREE =
 [
   [ "StreamGraphAnalysis", "index.html", [
-    [ "StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs", "index.html", "index" ],
+    [ "Introduction", "index.html#intro_sec", null ],
+    [ "What you can use", "index.html#external_api_section", null ],
+    [ "Internal API", "index.html#internal_api_section", null ],
+    [ "StreamGraphAnalysis : A C library for processing and analysing undirected unweighted stream graphs", "md_README.html", [
+      [ "Current state of the Project", "md_README.html#autotoc_md1", null ],
+      [ "Before you start", "md_README.html#autotoc_md2", null ],
+      [ "Regarding the paper, definitions and namings", "md_README.html#autotoc_md3", null ],
+      [ "Basic information about the implementation", "md_README.html#autotoc_md4", null ],
+      [ "How to use the library", "md_README.html#autotoc_md5", null ],
+      [ "Data format", "md_README.html#autotoc_md6", null ],
+      [ "What it can do", "md_README.html#autotoc_md7", null ],
+      [ "What it cannot do", "md_README.html#autotoc_md8", null ],
+      [ "Specifications of the stream graph data", "md_README.html#autotoc_md9", null ],
+      [ "Project guidelines and organisation", "md_README.html#autotoc_md10", null ],
+      [ "Supported metrics and analysis", "md_README.html#autotoc_md11", null ]
+    ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -50,7 +65,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "StreamGraphAnalysis_8h.html",
-"structEventsTable.html"
+"stream__functions_8h.html#a824c36df39b9f04309195df3b499e0a1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

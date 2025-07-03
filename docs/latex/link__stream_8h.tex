@@ -1,0 +1,67 @@
+\doxysection{src/streams/link\+\_\+stream.h File Reference}
+\hypertarget{link__stream_8h}{}\label{link__stream_8h}\index{src/streams/link\_stream.h@{src/streams/link\_stream.h}}
+
+
+\doxysubsection{Detailed Description}
+A Stream that represents a Stream\+Graph as a Link\+Stream. A Link\+Stream is a Stream where all nodes are present during the entire lifespan of the Stream. You can check Section 7 of the article for more information. 
+
+{\ttfamily \#include "{}../analysis/metrics.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+functions.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{link__stream_8h_a5e264587ec380a585e9674a92b2538f9}{SGA\+\_\+\+Link\+Stream\+\_\+from}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph)
+\begin{DoxyCompactList}\small\item\em Create a Link\+Stream from a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{link__stream_8h_ac149387382df376b01443d2f0c01b97a}{SGA\+\_\+\+Link\+Stream\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroy a Link\+Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{link__stream_8h_ac149387382df376b01443d2f0c01b97a}\index{link\_stream.h@{link\_stream.h}!SGA\_LinkStream\_destroy@{SGA\_LinkStream\_destroy}}
+\index{SGA\_LinkStream\_destroy@{SGA\_LinkStream\_destroy}!link\_stream.h@{link\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_LinkStream\_destroy()}{SGA\_LinkStream\_destroy()}}
+{\footnotesize\ttfamily \label{link__stream_8h_ac149387382df376b01443d2f0c01b97a} 
+void SGA\+\_\+\+Link\+Stream\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Destroy a Link\+Stream. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Link\+Stream to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{link__stream_8h_a5e264587ec380a585e9674a92b2538f9}\index{link\_stream.h@{link\_stream.h}!SGA\_LinkStream\_from@{SGA\_LinkStream\_from}}
+\index{SGA\_LinkStream\_from@{SGA\_LinkStream\_from}!link\_stream.h@{link\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_LinkStream\_from()}{SGA\_LinkStream\_from()}}
+{\footnotesize\ttfamily \label{link__stream_8h_a5e264587ec380a585e9674a92b2538f9} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Link\+Stream\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{}\end{DoxyParamCaption})}
+
+
+
+Create a Link\+Stream from a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph to create the Link\+Stream from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created Link\+Stream. 
+\end{DoxyReturn}
+Include dependency graph for link\+\_\+stream.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{link__stream_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{link__stream_8h__dep__incl}
+\end{center}
+\end{figure}

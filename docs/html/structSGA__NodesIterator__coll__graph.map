@@ -2,8 +2,8 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,419,150,447"/>
 <area shape="rect" id="Node000002" href="$structSGA__Stream.html" title="The structure of a Stream." alt="" coords="26,327,129,354"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,370,80,419,75,419,75,370"/>
-<area shape="rect" id="Node000003" href="$structInformationCache.html" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="9,234,146,262"/>
+<area shape="rect" id="Node000003" href="$stream_8h.html#structInformationCache" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="9,234,146,262"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,277,80,326,75,326,75,277"/>
-<area shape="rect" id="Node000004" href="$structOptionalSizeT.html" title="A size_t that can be optional." alt="" coords="22,5,133,33"/>
+<area shape="rect" id="Node000004" href="$stream_8h.html#structOptionalSizeT" title="A size_t that can be optional." alt="" coords="22,5,133,33"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="80,48,80,234,75,234,75,48"/>
 </map>

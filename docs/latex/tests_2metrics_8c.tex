@@ -2,11 +2,6 @@
 \hypertarget{tests_2metrics_8c}{}\label{tests_2metrics_8c}\index{tests/metrics.c@{tests/metrics.c}}
 
 
-Tests regarding metrics.  
-
-
-
-
 \doxysubsection{Detailed Description}
 Tests regarding metrics. 
 
@@ -101,7 +96,7 @@ int {\bfseries main} ()
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ test\_\#\#name()\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}data/tests/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.sga"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}data/tests/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.sga"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ type\#\#\_from(\&sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ \ \ \ =\ EXPECT\_F\_APPROX\_EQ(SGA\_Stream\_\#\#name(\&st),\ value,\ 1e-\/5);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_StreamGraph\_destroy(sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
@@ -119,7 +114,7 @@ int {\bfseries main} ()
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ test\_\#\#name()\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}data/tests/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.sga"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg\ =\ \mbox{\hyperlink{src_2stream_8c_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{stringliteral}{"{}data/tests/"{}}\ \#graph\ \textcolor{stringliteral}{"{}.sga"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ st\ \ \ \ =\ type\#\#\_from(\&sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ \ \ \ =\ EXPECT\_EQ(SGA\_Stream\_\#\#name(st),\ value);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ SGA\_StreamGraph\_destroy(sg);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}

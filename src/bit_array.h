@@ -12,6 +12,8 @@
 
 typedef size_t BitArraySlice;
 
+// TODO: pointers to functions instead of raw bit array
+
 /**
  * @brief The structure of a variable length array of bits.
  */
@@ -159,5 +161,15 @@ DeclareEquals(BitArray);
  * @return The number of 1s in the BitArray.
  */
 size_t BitArray_count_ones(const BitArray* array);
+
+/**
+ * @brief Helper macro to get the index of each bit set to 1 in a BitArray.
+ */
+#define FOR_EACH_ONE(index, array, code)                                                                                                   \
+	for (size_t index = 0; (index) < (array).nb_bits; (index)++) {                                                                     \
+		if (BitArray_is_one(array, index)) {                                                                                       \
+			code;                                                                                                              \
+		}                                                                                                                          \
+	}
 
 #endif // BIT_ARRAY_H

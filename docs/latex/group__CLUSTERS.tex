@@ -1,0 +1,287 @@
+\doxysubsection{Clusters}
+\hypertarget{group__CLUSTERS}{}\label{group__CLUSTERS}\index{Clusters@{Clusters}}
+
+
+\doxysubsubsection{Detailed Description}
+Clusters in a stream. 
+
+A cluster in a stream is defined as a subset of the temporal nodes of the stream. The links included in the cluster are the subset of the links of the stream that have both their nodes in the cluster. \begin{DoxySeeAlso}{See also}
+Section 6 of the paper for more information.
+\end{DoxySeeAlso}
+Here\textquotesingle{}s an example on how to use SGA to do so \+: examples/clusters.\+c 
+\begin{DoxyCodeInclude}{0}
+
+\end{DoxyCodeInclude}
+ Collaboration diagram for Clusters\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=325pt]{group__CLUSTERS}
+\end{center}
+\end{figure}
+\doxysubsubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}}
+\begin{DoxyCompactList}\small\item\em A node in a cluster.  \mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{More...}}\end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}}
+\begin{DoxyCompactList}\small\item\em A cluster of nodes.  \mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{More...}}\end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} \mbox{\hyperlink{group__CLUSTERS_gaa370aaf462f7eda1345e70c5539ee455}{SGA\+\_\+\+Cluster\+Node\+\_\+from}} (SGA\+\_\+\+Node\+Id node\+\_\+id, SGA\+\_\+\+Interval\+Array\+List presence)
+\begin{DoxyCompactList}\small\item\em Creates a new cluster node. \end{DoxyCompactList}\item 
+\Hypertarget{group__CLUSTERS_gad6b5b731d9995097c41a8e0cd16380dc}\label{group__CLUSTERS_gad6b5b731d9995097c41a8e0cd16380dc} 
+{\bfseries Declare\+Destroy} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\Hypertarget{group__CLUSTERS_gaab5caa201d2a8a25687821140d4ee7f2}\label{group__CLUSTERS_gaab5caa201d2a8a25687821140d4ee7f2} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\Hypertarget{group__CLUSTERS_gaaa898328c625dc15ec0deffe097e3104}\label{group__CLUSTERS_gaaa898328c625dc15ec0deffe097e3104} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\Hypertarget{group__CLUSTERS_ga74eaf35388654a8a04c82c789d546605}\label{group__CLUSTERS_ga74eaf35388654a8a04c82c789d546605} 
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\Hypertarget{group__CLUSTERS_gab3bb05d070a2c3b2e1a3162fb1620053}\label{group__CLUSTERS_gab3bb05d070a2c3b2e1a3162fb1620053} 
+{\bfseries Declare\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\Hypertarget{group__CLUSTERS_ga2a06b9388f22fd008cddf0dfd0be24c6}\label{group__CLUSTERS_ga2a06b9388f22fd008cddf0dfd0be24c6} 
+{\bfseries Declare\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\Hypertarget{group__CLUSTERS_gadf7134d4d1e37277350a4410973808fe}\label{group__CLUSTERS_gadf7134d4d1e37277350a4410973808fe} 
+{\bfseries Declare\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}})
+\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} \mbox{\hyperlink{group__CLUSTERS_ga371dfbba9e4008907da296dbc30081fb}{SGA\+\_\+\+Cluster\+Node\+\_\+empty}} (SGA\+\_\+\+Node\+Id node\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Creates an empty cluster node, with no presence. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} \mbox{\hyperlink{group__CLUSTERS_ga7b73daf7e28ac77b143afaa5eb6e55c7}{SGA\+\_\+\+Cluster\+Node\+\_\+with\+\_\+presence}} (SGA\+\_\+\+Node\+Id node\+\_\+id, SGA\+\_\+\+Interval\+Array\+List presence)
+\begin{DoxyCompactList}\small\item\em Creates a cluster node with the given presence. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} \mbox{\hyperlink{group__CLUSTERS_gadc6fa1218ecfe5db2fa2daff88cabeef}{SGA\+\_\+\+Cluster\+Node\+\_\+single\+\_\+interval}} (SGA\+\_\+\+Node\+Id node\+\_\+id, \mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} interval)
+\begin{DoxyCompactList}\small\item\em Creates a cluster node present in one interval. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__CLUSTERS_gae2e6a13981e36a1fe7d6c8b028750404}{SGA\+\_\+\+Cluster\+Node\+\_\+add\+\_\+interval}} (\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} \texorpdfstring{$\ast$}{*}node, \mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} interval)
+\begin{DoxyCompactList}\small\item\em Adds an interval to the presence of the node. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \mbox{\hyperlink{group__CLUSTERS_ga320fc7fd70fe7fcaaba5acf5fdf6fd83}{SGA\+\_\+\+Cluster\+\_\+from\+\_\+nodes}} (SGA\+\_\+\+Cluster\+Node\+Array\+List nodes)
+\begin{DoxyCompactList}\small\item\em Creates a new cluster from the nodes. \end{DoxyCompactList}\item 
+\Hypertarget{group__CLUSTERS_ga2aff1707b011e0527f45e4b021943ae3}\label{group__CLUSTERS_ga2aff1707b011e0527f45e4b021943ae3} 
+{\bfseries Declare\+Equals} (\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}})
+\item 
+\Hypertarget{group__CLUSTERS_gadbb300adfecee2868896f058da36c685}\label{group__CLUSTERS_gadbb300adfecee2868896f058da36c685} 
+{\bfseries Declare\+Destroy} (\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}})
+\item 
+\Hypertarget{group__CLUSTERS_ga7df4914e7bc1bc4923d3f7529b61d045}\label{group__CLUSTERS_ga7df4914e7bc1bc4923d3f7529b61d045} 
+{\bfseries Declare\+To\+String} (\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}})
+\item 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \mbox{\hyperlink{group__CLUSTERS_ga0f98a3aa4a939df41f6f3474f7a68d76}{SGA\+\_\+\+Cluster\+\_\+empty}} ()
+\begin{DoxyCompactList}\small\item\em Creates an empty cluster. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__CLUSTERS_ga54c4f2931a448245fa65f84f0fac7ad0}{SGA\+\_\+\+Cluster\+\_\+add\+\_\+node}} (\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \texorpdfstring{$\ast$}{*}cluster, \mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} node)
+\begin{DoxyCompactList}\small\item\em Adds a node to the cluster Checks and panics in debug mode if the node is already in the cluster. Does not check in release mode. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{group__CLUSTERS_gafdc88eeb10a6d6f49b5706efada717e8}{SGA\+\_\+\+Cluster\+\_\+contains\+\_\+node}} (const \mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \texorpdfstring{$\ast$}{*}cluster, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Checks if a node is in the cluster. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__CLUSTERS_ga997a0d38d0ad4f8e9e004c2f23293ac6}{SGA\+\_\+\+Cluster\+\_\+simplify}} (\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \texorpdfstring{$\ast$}{*}cluster)
+\begin{DoxyCompactList}\small\item\em Simplifies the intervals of all the nodes in the cluster It merges the intervals and sorts them to have a more compact representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Data Structure Documentation}
+\index{SGA\_ClusterNode@{SGA\_ClusterNode}}\label{structSGA__ClusterNode}
+\Hypertarget{group__CLUSTERS_structSGA__ClusterNode}
+\doxysubsubsubsection{struct SGA\+\_\+\+Cluster\+Node}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{group__CLUSTERS_a10103d61d8e6699ba7046d440a366e20}\label{group__CLUSTERS_a10103d61d8e6699ba7046d440a366e20}} 
+SGA\_NodeId&
+node\_id&
+The id of the node. \\
+\hline
+
+\mbox{\Hypertarget{group__CLUSTERS_ad2932bf347afd5c285b9d946a8e701ff}\label{group__CLUSTERS_ad2932bf347afd5c285b9d946a8e701ff}} 
+SGA\_IntervalArrayList&
+presence&
+The intervals where the node is present. \\
+\hline
+
+\end{DoxyFields}
+\index{SGA\_Cluster@{SGA\_Cluster}}\label{structSGA__Cluster}
+\Hypertarget{group__CLUSTERS_structSGA__Cluster}
+\doxysubsubsubsection{struct SGA\+\_\+\+Cluster}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{group__CLUSTERS_ab00dfed722e45869e80522edecd20f1e}\label{group__CLUSTERS_ab00dfed722e45869e80522edecd20f1e}} 
+SGA\_ClusterNodeArrayList&
+nodes&
+The nodes in the cluster. \\
+\hline
+
+\end{DoxyFields}
+
+
+\doxysubsubsection{Function Documentation}
+\Hypertarget{group__CLUSTERS_ga54c4f2931a448245fa65f84f0fac7ad0}\index{Clusters@{Clusters}!SGA\_Cluster\_add\_node@{SGA\_Cluster\_add\_node}}
+\index{SGA\_Cluster\_add\_node@{SGA\_Cluster\_add\_node}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Cluster\_add\_node()}{SGA\_Cluster\_add\_node()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_ga54c4f2931a448245fa65f84f0fac7ad0} 
+void SGA\+\_\+\+Cluster\+\_\+add\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \texorpdfstring{$\ast$}{*}}]{cluster}{, }\item[{\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}}}]{node}{}\end{DoxyParamCaption})}
+
+
+
+Adds a node to the cluster Checks and panics in debug mode if the node is already in the cluster. Does not check in release mode. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em cluster} & The cluster to add the node to \\
+\hline
+\mbox{\texttt{ in}}  & {\em node} & The node to add \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__CLUSTERS_gafdc88eeb10a6d6f49b5706efada717e8}\index{Clusters@{Clusters}!SGA\_Cluster\_contains\_node@{SGA\_Cluster\_contains\_node}}
+\index{SGA\_Cluster\_contains\_node@{SGA\_Cluster\_contains\_node}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Cluster\_contains\_node()}{SGA\_Cluster\_contains\_node()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_gafdc88eeb10a6d6f49b5706efada717e8} 
+bool SGA\+\_\+\+Cluster\+\_\+contains\+\_\+node (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \texorpdfstring{$\ast$}{*}}]{cluster}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Checks if a node is in the cluster. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em cluster} & The cluster to check \\
+\hline
+\mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the node is in the cluster, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{group__CLUSTERS_ga0f98a3aa4a939df41f6f3474f7a68d76}\index{Clusters@{Clusters}!SGA\_Cluster\_empty@{SGA\_Cluster\_empty}}
+\index{SGA\_Cluster\_empty@{SGA\_Cluster\_empty}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Cluster\_empty()}{SGA\_Cluster\_empty()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_ga0f98a3aa4a939df41f6f3474f7a68d76} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} SGA\+\_\+\+Cluster\+\_\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Creates an empty cluster. 
+
+\begin{DoxyReturn}{Returns}
+An empty cluster 
+\end{DoxyReturn}
+\Hypertarget{group__CLUSTERS_ga320fc7fd70fe7fcaaba5acf5fdf6fd83}\index{Clusters@{Clusters}!SGA\_Cluster\_from\_nodes@{SGA\_Cluster\_from\_nodes}}
+\index{SGA\_Cluster\_from\_nodes@{SGA\_Cluster\_from\_nodes}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Cluster\_from\_nodes()}{SGA\_Cluster\_from\_nodes()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_ga320fc7fd70fe7fcaaba5acf5fdf6fd83} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} SGA\+\_\+\+Cluster\+\_\+from\+\_\+nodes (\begin{DoxyParamCaption}\item[{SGA\+\_\+\+Cluster\+Node\+Array\+List}]{nodes}{}\end{DoxyParamCaption})}
+
+
+
+Creates a new cluster from the nodes. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nodes} & The nodes in the cluster. Takes ownership of it and therefore should not be used after this call \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__CLUSTERS_ga997a0d38d0ad4f8e9e004c2f23293ac6}\index{Clusters@{Clusters}!SGA\_Cluster\_simplify@{SGA\_Cluster\_simplify}}
+\index{SGA\_Cluster\_simplify@{SGA\_Cluster\_simplify}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Cluster\_simplify()}{SGA\_Cluster\_simplify()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_ga997a0d38d0ad4f8e9e004c2f23293ac6} 
+void SGA\+\_\+\+Cluster\+\_\+simplify (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \texorpdfstring{$\ast$}{*}}]{cluster}{}\end{DoxyParamCaption})}
+
+
+
+Simplifies the intervals of all the nodes in the cluster It merges the intervals and sorts them to have a more compact representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cluster\mbox{[}in,out\mbox{]}} & The cluster to simplify \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__CLUSTERS_gae2e6a13981e36a1fe7d6c8b028750404}\index{Clusters@{Clusters}!SGA\_ClusterNode\_add\_interval@{SGA\_ClusterNode\_add\_interval}}
+\index{SGA\_ClusterNode\_add\_interval@{SGA\_ClusterNode\_add\_interval}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_ClusterNode\_add\_interval()}{SGA\_ClusterNode\_add\_interval()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_gae2e6a13981e36a1fe7d6c8b028750404} 
+void SGA\+\_\+\+Cluster\+Node\+\_\+add\+\_\+interval (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} \texorpdfstring{$\ast$}{*}}]{node}{, }\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{interval}{}\end{DoxyParamCaption})}
+
+
+
+Adds an interval to the presence of the node. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em node} & The node to add the interval to \\
+\hline
+\mbox{\texttt{ in}}  & {\em interval} & The interval to add \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__CLUSTERS_ga371dfbba9e4008907da296dbc30081fb}\index{Clusters@{Clusters}!SGA\_ClusterNode\_empty@{SGA\_ClusterNode\_empty}}
+\index{SGA\_ClusterNode\_empty@{SGA\_ClusterNode\_empty}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_ClusterNode\_empty()}{SGA\_ClusterNode\_empty()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_ga371dfbba9e4008907da296dbc30081fb} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} SGA\+\_\+\+Cluster\+Node\+\_\+empty (\begin{DoxyParamCaption}\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+
+
+
+Creates an empty cluster node, with no presence. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An empty cluster node 
+\end{DoxyReturn}
+\Hypertarget{group__CLUSTERS_gaa370aaf462f7eda1345e70c5539ee455}\index{Clusters@{Clusters}!SGA\_ClusterNode\_from@{SGA\_ClusterNode\_from}}
+\index{SGA\_ClusterNode\_from@{SGA\_ClusterNode\_from}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_ClusterNode\_from()}{SGA\_ClusterNode\_from()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_gaa370aaf462f7eda1345e70c5539ee455} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} SGA\+\_\+\+Cluster\+Node\+\_\+from (\begin{DoxyParamCaption}\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{, }\item[{SGA\+\_\+\+Interval\+Array\+List}]{presence}{}\end{DoxyParamCaption})}
+
+
+
+Creates a new cluster node. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node \\
+\hline
+\mbox{\texttt{ in}}  & {\em presence} & The intervals where the node is present. Takes ownership of it and therefore should not be used after this call \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__CLUSTERS_gadc6fa1218ecfe5db2fa2daff88cabeef}\index{Clusters@{Clusters}!SGA\_ClusterNode\_single\_interval@{SGA\_ClusterNode\_single\_interval}}
+\index{SGA\_ClusterNode\_single\_interval@{SGA\_ClusterNode\_single\_interval}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_ClusterNode\_single\_interval()}{SGA\_ClusterNode\_single\_interval()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_gadc6fa1218ecfe5db2fa2daff88cabeef} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} SGA\+\_\+\+Cluster\+Node\+\_\+single\+\_\+interval (\begin{DoxyParamCaption}\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{, }\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{interval}{}\end{DoxyParamCaption})}
+
+
+
+Creates a cluster node present in one interval. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node \\
+\hline
+\mbox{\texttt{ in}}  & {\em interval} & The interval where the node is present \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A cluster node present in one interval 
+\end{DoxyReturn}
+\Hypertarget{group__CLUSTERS_ga7b73daf7e28ac77b143afaa5eb6e55c7}\index{Clusters@{Clusters}!SGA\_ClusterNode\_with\_presence@{SGA\_ClusterNode\_with\_presence}}
+\index{SGA\_ClusterNode\_with\_presence@{SGA\_ClusterNode\_with\_presence}!Clusters@{Clusters}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_ClusterNode\_with\_presence()}{SGA\_ClusterNode\_with\_presence()}}
+{\footnotesize\ttfamily \label{group__CLUSTERS_ga7b73daf7e28ac77b143afaa5eb6e55c7} 
+\mbox{\hyperlink{group__CLUSTERS_structSGA__ClusterNode}{SGA\+\_\+\+Cluster\+Node}} SGA\+\_\+\+Cluster\+Node\+\_\+with\+\_\+presence (\begin{DoxyParamCaption}\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{, }\item[{SGA\+\_\+\+Interval\+Array\+List}]{presence}{}\end{DoxyParamCaption})}
+
+
+
+Creates a cluster node with the given presence. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node\+\_\+id} & The id of the node \\
+\hline
+\mbox{\texttt{ in}}  & {\em presence} & The intervals where the node is present. Takes ownership of it and therefore should not be used after this call \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A cluster node with the given presence 
+\end{DoxyReturn}

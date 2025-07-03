@@ -14,15 +14,16 @@ bool test_maximal_cliques() {
 	SGA_CliqueArrayList cliques = SGA_Stream_maximal_cliques(&st);
 
 	String cliques_str = SGA_CliqueArrayList_to_string(&cliques);
-	printf("%s\n", cliques_str.data);
+	printf("Cliques 1\n%s\n", cliques_str.data);
 	String_destroy(cliques_str);
 
 	SGA_StreamGraph_destroy(sg);
 	SGA_FullStreamGraph_destroy(st);
-	/*1 5 1 2
-	2 4 0 1 2
-	3 11 2 3
-	6 10 1 2 3
+	/*
+	[1 5[ 1 2
+	[2 4[ 0 1 2
+	[3 11[ 2 3
+	[6 10[ 1 2 3
 	*/
 	bool result =
 	    EXPECT(cliques.length == 4) && EXPECT(cliques.array[0].time_start == 1) && EXPECT(cliques.array[0].time_end == 5) &&
@@ -36,6 +37,32 @@ bool test_maximal_cliques() {
 
 	SGA_CliqueArrayList_destroy(cliques);
 	// LinkArrayList_destroy(v);
+
+	sg = SGA_StreamGraph_from_file("data/tests/cliques_2.sga");
+	st = SGA_FullStreamGraph_from(&sg);
+
+	cliques = SGA_Stream_maximal_cliques(&st);
+
+	cliques_str = SGA_CliqueArrayList_to_string(&cliques);
+	printf("Cliques 2\n%s\n", cliques_str.data);
+	String_destroy(cliques_str);
+
+	SGA_StreamGraph_destroy(sg);
+	SGA_FullStreamGraph_destroy(st);
+	/*
+	[1 5[ 0 1 3 2
+	[1 7[ 0 1
+	[1 7[ 2 3
+	*/
+	result &=
+	    EXPECT(cliques.length == 3) && EXPECT(cliques.array[0].time_start == 1) && EXPECT(cliques.array[0].time_end == 5) &&
+	    EXPECT(cliques.array[0].nb_nodes == 4) && EXPECT(cliques.array[0].nodes[0] == 0) && EXPECT(cliques.array[0].nodes[1] == 1) &&
+	    EXPECT(cliques.array[0].nodes[2] == 3) && EXPECT(cliques.array[0].nodes[3] == 2) && EXPECT(cliques.array[1].time_start == 1) &&
+	    EXPECT(cliques.array[1].time_end == 7) && EXPECT(cliques.array[1].nb_nodes == 2) && EXPECT(cliques.array[1].nodes[0] == 0) &&
+	    EXPECT(cliques.array[1].nodes[1] == 1) && EXPECT(cliques.array[2].time_start == 1) && EXPECT(cliques.array[2].time_end == 7) &&
+	    EXPECT(cliques.array[2].nb_nodes == 2) && EXPECT(cliques.array[2].nodes[0] == 2) && EXPECT(cliques.array[2].nodes[1] == 3);
+
+	SGA_CliqueArrayList_destroy(cliques);
 
 	return result;
 }

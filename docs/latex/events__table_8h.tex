@@ -7,11 +7,9 @@
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structEvent}{Event}}
+struct \mbox{\hyperlink{events__table_8h_structEvents}{Events}}
 \item 
-struct \mbox{\hyperlink{structEvents}{Events}}
-\item 
-struct \mbox{\hyperlink{structEventsTable}{Events\+Table}}
+struct \mbox{\hyperlink{events__table_8h_structEventsTable}{Events\+Table}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -19,18 +17,73 @@ struct \mbox{\hyperlink{structEventsTable}{Events\+Table}}
 \Hypertarget{events__table_8h_a607b119a19e65e2c1c7a606f21ab7a46}\label{events__table_8h_a607b119a19e65e2c1c7a606f21ab7a46} 
 typedef struct Event {\bfseries Event}
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Functions}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{events__table_8h_afb2bf61653f2cc5a4f2c6298e39e287e}\label{events__table_8h_afb2bf61653f2cc5a4f2c6298e39e287e} 
-{\bfseries Declare\+To\+String} (\mbox{\hyperlink{structEvent}{Event}})
-\item 
-\Hypertarget{events__table_8h_a031d8e8dee53cbea8b5f9de0b11f1f0b}\label{events__table_8h_a031d8e8dee53cbea8b5f9de0b11f1f0b} 
-\mbox{\hyperlink{structEventsTable}{Events\+Table}} {\bfseries Events\+Table\+\_\+alloc} (size\+\_\+t nb\+\_\+node\+\_\+regular\+\_\+key\+\_\+instants, size\+\_\+t nb\+\_\+node\+\_\+removal\+\_\+only\+\_\+key\+\_\+instants)
-\item 
-\Hypertarget{events__table_8h_ae033df226c5309dd48b7af48fbca9a80}\label{events__table_8h_ae033df226c5309dd48b7af48fbca9a80} 
-\mbox{\hyperlink{structString}{String}} {\bfseries Events\+Table\+\_\+to\+\_\+string} (\mbox{\hyperlink{structEventsTable}{Events\+Table}} \texorpdfstring{$\ast$}{*}events\+\_\+table)
-\end{DoxyCompactItemize}
+
+
+\doxysubsection{Data Structure Documentation}
+\index{Events@{Events}}\label{structEvents}
+\Hypertarget{events__table_8h_structEvents}
+\doxysubsubsection{struct Events}
+
+
+Collaboration diagram for Events\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{structEvents__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{events__table_8h_a52a594ef9f89cd8acdb2e08e19e22077}\label{events__table_8h_a52a594ef9f89cd8acdb2e08e19e22077}} 
+SGA\_TimeId&
+disappearance\_index&
+\\
+\hline
+
+\mbox{\Hypertarget{events__table_8h_ae9ddf883a075ccba52ac94bfb0142ce2}\label{events__table_8h_ae9ddf883a075ccba52ac94bfb0142ce2}} 
+Event \texorpdfstring{$\ast$}{*}&
+events&
+\\
+\hline
+
+\mbox{\Hypertarget{events__table_8h_a6c58378ef1f00b466b013e50965ec026}\label{events__table_8h_a6c58378ef1f00b466b013e50965ec026}} 
+\mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}&
+presence\_mask&
+\\
+\hline
+
+\end{DoxyFields}
+\index{EventsTable@{EventsTable}}\label{structEventsTable}
+\Hypertarget{events__table_8h_structEventsTable}
+\doxysubsubsection{struct Events\+Table}
+
+
+Collaboration diagram for Events\+Table\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{structEventsTable__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{events__table_8h_a5efdaf591392bed7721cebceaaff4cc1}\label{events__table_8h_a5efdaf591392bed7721cebceaaff4cc1}} 
+\mbox{\hyperlink{events__table_8h_structEvents}{Events}}&
+link\_events&
+\\
+\hline
+
+\mbox{\Hypertarget{events__table_8h_ab9479ef60f3c347083b9d3d4ab9909b9}\label{events__table_8h_ab9479ef60f3c347083b9d3d4ab9909b9}} 
+size\_t&
+nb\_events&
+\\
+\hline
+
+\mbox{\Hypertarget{events__table_8h_a60d59c81b2d8d0f9774f6f2c28ee07cd}\label{events__table_8h_a60d59c81b2d8d0f9774f6f2c28ee07cd}} 
+\mbox{\hyperlink{events__table_8h_structEvents}{Events}}&
+node\_events&
+\\
+\hline
+
+\end{DoxyFields}
 Include dependency graph for events\+\_\+table.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}

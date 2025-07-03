@@ -25,43 +25,42 @@ DONT_OPTIMISE void uniformity() {
 	reset_cache(&stream);
 }
 
+DONT_OPTIMISE void link_times_present() {
+	StreamFunctions fns  = STREAM_FUNCS(fns, &stream);
+	SGA_TimesIterator it = fns.times_link_present(stream.stream_data, 1);
+	size_t sum	     = 0;
+	SGA_FOR_EACH_TIME(interval, it) {
+		sum += interval.end - interval.start;
+	}
+}
+
 char* file_name;
 
 DONT_OPTIMISE void transitivity_ratio() {
 	SGA_Stream_transitivity_ratio(&stream);
 }
 
-// // TODO: move to analytics or smth
-// DONT_OPTIMISE void kcores() {
-// 	for (size_t i = 0; i < 10; i++) {
-// 		KCore kcore = Stream_k_cores(&stream, i);
-// 		KCore_destroy(kcore);
-// 	}
-// }
-
 DONT_OPTIMISE void clustering_coeff() {
 	SGA_Stream_node_clustering_coeff(&stream);
 }
 
-// FIXME: Segmentation fault for primaryschool and LS_90
 DONT_OPTIMISE void density_at_instant() {
-	StreamFunctions fns   = STREAM_FUNCS(fns, &stream);
-	SGA_Interval lifespan = fns.lifespan(stream.stream_data);
-	for (SGA_Time t = lifespan.start; t < lifespan.end; t++) {
-		SGA_Stream_density_at_instant(&stream, t);
+	SGA_TimesIterator key_instants = SGA_Stream_key_instants(&stream);
+	SGA_FOR_EACH_TIME(time, key_instants) {
+		SGA_Stream_density_at_instant(&stream, time.start);
 	}
 }
 
-#define BENCHMARK_METRIC(name, metric)                                                                                                     \
+#define BENCHMARK_METRIC(name, metric, nb_repeats)                                                                                         \
 	stream = stream1;                                                                                                                  \
-	benchmark(metric, name " S_concat_L", 1);                                                                                          \
+	benchmark(metric, name " S_concat_L", nb_repeats);                                                                                 \
 	stream = stream2;                                                                                                                  \
-	benchmark(metric, name " LS_90", 1);                                                                                               \
+	benchmark(metric, name " LS_90", nb_repeats);                                                                                      \
 	stream = stream3;                                                                                                                  \
-	benchmark(metric, name " primaryschool", 1);                                                                                       \
+	benchmark(metric, name " primaryschool", nb_repeats);                                                                              \
 	stream = stream4;                                                                                                                  \
-	// benchmark(metric, name " facebooklike", 1);                                                                                            \
-	// printf("\n");
+	benchmark(metric, name " facebooklike", 1);                                                                                        \
+	printf("\n");
 
 int main() {
 	SGA_StreamGraph sg1 = SGA_StreamGraph_from_file("data/tests/S_concat_L.sga");
@@ -76,62 +75,13 @@ int main() {
 	SGA_StreamGraph sg4 = SGA_StreamGraph_from_file("data/benchmarks/facebooklike_1_transformed.sga");
 	SGA_Stream stream4  = SGA_FullStreamGraph_from(&sg4);
 
-	// stream = stream1;
-	// benchmark(number_of_links, "number_of_links S_concat_L", 10);
-	// stream = stream2;
-	// benchmark(number_of_links, "number_of_links LS_90", 10);
-	// stream = stream3;
-	// benchmark(number_of_links, "number_of_links primaryschool", 10);
-	// stream = stream4;
-	// benchmark(number_of_links, "number_of_links facebooklike", 10);
-	// printf("\n");
-
-	// stream = stream1;
-	// benchmark(coverage, "coverage S_concat_L", 10);
-	// stream = stream2;
-	// benchmark(coverage, "coverage LS_90", 10);
-	// stream = stream3;
-	// benchmark(coverage, "coverage primaryschool", 10);
-	// stream = stream4;
-	// benchmark(coverage, "coverage facebooklike", 10);
-	// printf("\n");
-
-	// stream = stream1;
-	// benchmark(uniformity, "uniformity S_concat_L", 10);
-	// stream = stream2;
-	// benchmark(uniformity, "uniformity LS_90", 10);
-	// stream = stream3;
-	// benchmark(uniformity, "uniformity primaryschool", 10);
-	// stream = stream4;
-	// benchmark(uniformity, "uniformity facebooklike", 10);
-	// printf("\n");
-
-	// stream = stream1;
-	// benchmark(transitivity_ratio, "transitivity_ratio S_concat_L", 10);
-	// stream = stream2;
-	// benchmark(transitivity_ratio, "transitivity_ratio LS_90", 10);
-	// stream = stream3;
-	// benchmark(transitivity_ratio, "transitivity_ratio primaryschool", 10);
-	// stream = stream4;
-	// benchmark(transitivity_ratio, "transitivity_ratio facebooklike", 10);
-	// printf("\n");
-
-	// stream = stream1;
-	// benchmark(clustering_coeff, "clustering_coeff S_concat_L", 10);
-	// stream = stream2;
-	// benchmark(clustering_coeff, "clustering_coeff LS_90", 10);
-	// stream = stream3;
-	// benchmark(clustering_coeff, "clustering_coeff primaryschool", 10);
-	// stream = stream4;
-	// benchmark(clustering_coeff, "clustering_coeff facebooklike", 10);
-	// printf("\n");
-
-	// BENCHMARK_METRIC("number_of_links", number_of_links);
-	// BENCHMARK_METRIC("coverage", coverage);
-	// BENCHMARK_METRIC("uniformity", uniformity);
-	// BENCHMARK_METRIC("transitivity_ratio", transitivity_ratio);
-	// BENCHMARK_METRIC("clustering_coeff", clustering_coeff);
-	BENCHMARK_METRIC("density_at_instant", density_at_instant);
+	// BENCHMARK_METRIC("number_of_links", number_of_links, 1000);
+	// BENCHMARK_METRIC("coverage", coverage, 10);
+	// BENCHMARK_METRIC("uniformity", uniformity, 10);
+	// BENCHMARK_METRIC("transitivity_ratio", transitivity_ratio, 10);
+	// BENCHMARK_METRIC("clustering_coeff", clustering_coeff, 10);
+	BENCHMARK_METRIC("density_at_instant", density_at_instant, 3);
+	// BENCHMARK_METRIC("link_times_present", link_times_present, 2000);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_FullStreamGraph_destroy(stream1);

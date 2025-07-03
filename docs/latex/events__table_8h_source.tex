@@ -12,32 +12,32 @@
 \DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
 \DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structEvent}{Event}}\ \mbox{\hyperlink{structEvent}{Event}};}
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }Event\ Event;}
 \DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
-\DoxyCodeLine{00015\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structEvent}{Event}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{struct\ }Event\ \{}
 \DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_info;}
 \DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{size\_t}*\ events;}
 \DoxyCodeLine{00018\ \};}
-\DoxyCodeLine{00019\ DeclareToString(\mbox{\hyperlink{structEvent}{Event}});}
+\DoxyCodeLine{00019\ DeclareToString(Event);}
 \DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
 \DoxyCodeLine{00021\ }
 \DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{structEvent}{Event}}*\ events;}
+\DoxyCodeLine{00023\ \ \ \ \ Event*\ events;}
 \DoxyCodeLine{00024\ \ \ \ \ SGA\_TimeId\ disappearance\_index;}
-\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structBitArray}{BitArray}}\ presence\_mask;\ \textcolor{comment}{//\ first\ and\ last\ events\ are\ not\ included\ because\ first\ event\ cannot\ have\ disappearances\ and\ last\ event}}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ presence\_mask;\ \textcolor{comment}{//\ first\ and\ last\ events\ are\ not\ included\ because\ first\ event\ cannot\ have\ disappearances\ and\ last\ event}}
 \DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cannot\ have\ appearances}}
-\DoxyCodeLine{00027\ \}\ \mbox{\hyperlink{structEvents}{Events}};}
+\DoxyCodeLine{00027\ \}\ \mbox{\hyperlink{events__table_8h_structEvents}{Events}};}
 \DoxyCodeLine{00028\ }
 \DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
 \DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_events;}
-\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{structEvents}{Events}}\ node\_events;}
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{structEvents}{Events}}\ link\_events;}
-\DoxyCodeLine{00033\ \}\ \mbox{\hyperlink{structEventsTable}{EventsTable}};}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEvents}{Events}}\ node\_events;}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEvents}{Events}}\ link\_events;}
+\DoxyCodeLine{00033\ \}\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}};}
 \DoxyCodeLine{00034\ }
 \DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
 \DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \mbox{\hyperlink{structEventsTable}{EventsTable}}\ EventsTable\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_node\_regular\_key\_instants,\ \textcolor{keywordtype}{size\_t}\ nb\_node\_removal\_only\_key\_instants);}
-\DoxyCodeLine{00038\ \mbox{\hyperlink{structString}{String}}\ EventsTable\_to\_string(\mbox{\hyperlink{structEventsTable}{EventsTable}}*\ events\_table);}
+\DoxyCodeLine{00037\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}\ EventsTable\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_node\_regular\_key\_instants,\ \textcolor{keywordtype}{size\_t}\ nb\_node\_removal\_only\_key\_instants);}
+\DoxyCodeLine{00038\ \mbox{\hyperlink{structString}{String}}\ EventsTable\_to\_string(\mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}*\ events\_table);}
 \DoxyCodeLine{00039\ \textcolor{comment}{//\ TODO:\ no\ destroy\ ?}}
 \DoxyCodeLine{00040\ }
 \DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}

@@ -19,6 +19,21 @@
 #include <stdbool.h>
 
 /**
+ * @ingroup EXTERNAL_API
+ * @defgroup CLIQUES Cliques
+ * @brief Compute the maximal cliques of a stream.
+ *
+ * A clique in a stream is a set of nodes over a time interval where each node is connected to all the other nodes in the set during that
+ * time. A maximal clique is a clique that is not included in a larger clique.
+ * @see Section 7 of the paper for more information.
+ *
+ * Here's an example on how to use SGA to do so : @ref examples/cliques.c
+ * @include examples/cliques.c
+ *
+ * @{
+ */
+
+/**
  * @brief Structure representing a clique.
  */
 typedef struct {
@@ -42,5 +57,7 @@ DeclareArrayListDeriveRemove(SGA_Clique);
  * @return The maximal cliques as an ArrayList.
  */
 SGA_CliqueArrayList SGA_Stream_maximal_cliques(SGA_Stream* st);
+
+/** @} */
 
 #endif // CLIQUES_H

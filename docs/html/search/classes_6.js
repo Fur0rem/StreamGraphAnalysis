@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['linkidmap_0',['LinkIdMap',['../structLinkIdMap.html',1,'']]],
-  ['linkinfo_1',['LinkInfo',['../structLinkInfo.html',1,'']]],
-  ['linkpresence_2',['LinkPresence',['../structLinkPresence.html',1,'']]],
-  ['linkpresencestream_3',['LinkPresenceStream',['../structLinkPresenceStream.html',1,'']]],
-  ['linksset_4',['LinksSet',['../structLinksSet.html',1,'']]]
+  ['kcoredata_0',['KCoreData',['../structKCoreData.html',1,'']]],
+  ['keyinstantstable_1',['KeyInstantsTable',['../key__instants__table_8h.html#structKeyInstantsTable',1,'']]],
+  ['keyinstantstablebetweeniterator_2',['KeyInstantsTableBetweenIterator',['../structKeyInstantsTableBetweenIterator.html',1,'']]],
+  ['keyinstantstableiterator_3',['KeyInstantsTableIterator',['../key__instants__table_8h.html#structKeyInstantsTableIterator',1,'']]]
 ];

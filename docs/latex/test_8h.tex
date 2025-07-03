@@ -2,11 +2,6 @@
 \hypertarget{test_8h}{}\label{test_8h}\index{tests/test.h@{tests/test.h}}
 
 
-Framework for a test suite.  
-
-
-
-
 \doxysubsection{Detailed Description}
 Framework for a test suite. 
 
@@ -17,7 +12,7 @@ Framework for a test suite.
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structTest}{Test}}
+struct \mbox{\hyperlink{test_8h_structTest}{Test}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
@@ -36,7 +31,7 @@ struct \mbox{\hyperlink{structTest}{Test}}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{test_8h_a53a9110de620ba4812ab6daffd1393cf}\label{test_8h_a53a9110de620ba4812ab6daffd1393cf} 
-bool {\bfseries test} (const char \texorpdfstring{$\ast$}{*}suite\+\_\+name, \mbox{\hyperlink{structTest}{Test}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}tests)
+bool {\bfseries test} (const char \texorpdfstring{$\ast$}{*}suite\+\_\+name, \mbox{\hyperlink{test_8h_structTest}{Test}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}tests)
 \item 
 \Hypertarget{test_8h_af23ce56243af620115638d1db403e909}\label{test_8h_af23ce56243af620115638d1db403e909} 
 bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+int} (int got, int expected)
@@ -53,6 +48,26 @@ bool {\bfseries EXPECT\+\_\+\+EQ\+\_\+ptr} (void \texorpdfstring{$\ast$}{*}got, 
 \Hypertarget{test_8h_a28aa65a972c1a8e1ae7b6fc7724631b5}\label{test_8h_a28aa65a972c1a8e1ae7b6fc7724631b5} 
 bool {\bfseries EXPECT\+\_\+\+ALL} (int expr,...)
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Data Structure Documentation}
+\index{Test@{Test}}\label{structTest}
+\Hypertarget{test_8h_structTest}
+\doxysubsubsection{struct Test}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{test_8h_aca00b97fd8346456a6504386a2a712b2}\label{test_8h_aca00b97fd8346456a6504386a2a712b2}} 
+bool(\texorpdfstring{$\ast$}{*})()&
+fn&
+\\
+\hline
+
+\mbox{\Hypertarget{test_8h_ae44674e48b203d9c26e04e09b6fe5b61}\label{test_8h_ae44674e48b203d9c26e04e09b6fe5b61}} 
+const char \texorpdfstring{$\ast$}{*}&
+name&
+\\
+\hline
+
+\end{DoxyFields}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -129,7 +144,7 @@ bool {\bfseries EXPECT\+\_\+\+ALL} (int expr,...)
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\ \ \ \ \&(\mbox{\hyperlink{structTest}{Test}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \&(\mbox{\hyperlink{test_8h_structTest}{Test}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ .fn\ =\ (test\_name),\ .name\ =\ \#test\_name\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \}}
 

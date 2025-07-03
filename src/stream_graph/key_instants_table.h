@@ -21,6 +21,7 @@ typedef struct {
 } InstantsSlice;
 
 typedef struct {
+	SGA_TimeId last_event;
 	SGA_TimeId current_slice;
 	RelativeInstant current_instant;
 } KeyInstantsTableIterator;

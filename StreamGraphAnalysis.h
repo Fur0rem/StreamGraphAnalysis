@@ -3,6 +3,30 @@
  * @brief The main header file of the library.
  */
 
+/**
+ * @defgroup EXTERNAL_API External API Documentation
+ * @defgroup INTERNAL_API Internal API Documentation
+ */
+
+/**
+ * @mainpage StreamGraphAnalysis
+ *
+ * @section intro_sec Introduction
+ *
+ * Welcome to the documentation of the project! I highly advise you to read the README.md file before this one for context on the library.
+ *
+ * @section external_api_section What you can use
+ *
+ * Here is everything that you can do using this library!
+ * @ref EXTERNAL_API "External API".
+ *
+ * @section internal_api_section Internal API
+ *
+ * This section is dedicated to the documentation of the inner workings of the library, you can check it to understand how it works behind
+ the scenes but you are not meant to directly interact with these.
+ * @ref INTERNAL_API "Internal API".
+ */
+
 #include "src/analysis/cliques.h"
 #include "src/analysis/isomorphism.h"
 #include "src/analysis/kcores.h"

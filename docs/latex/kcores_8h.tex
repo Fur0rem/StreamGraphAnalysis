@@ -1,17 +1,6 @@
 \doxysection{src/analysis/kcores.h File Reference}
 \hypertarget{kcores_8h}{}\label{kcores_8h}\index{src/analysis/kcores.h@{src/analysis/kcores.h}}
-
-
-Functions to compute the k-\/cores of a Stream.  
-
-
-
-
-\doxysubsection{Detailed Description}
-Functions to compute the k-\/cores of a Stream. 
-
-The k-\/core of a stream graph is the largest sub-\/stream of nodes where each node is connected to at least k other nodes during a maximal time interval. ~\newline
- You can check Section 13 of the paper for more information. {\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
+{\ttfamily \#include "{}../generic\+\_\+data\+\_\+structures/arraylist.\+h"{}}\newline
 {\ttfamily \#include "{}../interval.\+h"{}}\newline
 {\ttfamily \#include "{}../stream.\+h"{}}\newline
 {\ttfamily \#include "{}../utils.\+h"{}}\newline
@@ -20,34 +9,9 @@ The k-\/core of a stream graph is the largest sub-\/stream of nodes where each n
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structSGA__Cluster}{SGA\+\_\+\+Cluster}} \mbox{\hyperlink{kcores_8h_acf4eff021bca72dfb2b2301c5641a18a}{SGA\+\_\+\+Stream\+\_\+k\+\_\+core}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t k)
-\begin{DoxyCompactList}\small\item\em Compute the k-\/core of a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
-
-
-\doxysubsection{Function Documentation}
-\Hypertarget{kcores_8h_acf4eff021bca72dfb2b2301c5641a18a}\index{kcores.h@{kcores.h}!SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}}
-\index{SGA\_Stream\_k\_core@{SGA\_Stream\_k\_core}!kcores.h@{kcores.h}}
-\doxysubsubsection{\texorpdfstring{SGA\_Stream\_k\_core()}{SGA\_Stream\_k\_core()}}
-{\footnotesize\ttfamily \label{kcores_8h_acf4eff021bca72dfb2b2301c5641a18a} 
-\mbox{\hyperlink{structSGA__Cluster}{SGA\+\_\+\+Cluster}} SGA\+\_\+\+Stream\+\_\+k\+\_\+core (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{size\+\_\+t}]{degree}{}\end{DoxyParamCaption})}
-
-
-
-Compute the k-\/core of a Stream. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The Stream. \\
-\hline
-\mbox{\texttt{ in}}  & {\em k} & The k to compute the k-\/core for. Should be greater between 1 and the number of nodes in the Stream. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The k-\/core of the Stream.
-\end{DoxyReturn}
-The algorithm used won\textquotesingle{}t work for the 0-\/core, but it is the same as the initial graph so you can just use the initial graph. It will work for k greaters than the number of nodes in the Stream, but it will be empty, so it\textquotesingle{}s not very useful.
-
-Compute the k-\/core of a Stream. Include dependency graph for kcores.\+h\+:\nopagebreak
+\mbox{\hyperlink{group__CLUSTERS_structSGA__Cluster}{SGA\+\_\+\+Cluster}} \mbox{\hyperlink{group__K__CORES_gacf4eff021bca72dfb2b2301c5641a18a}{SGA\+\_\+\+Stream\+\_\+k\+\_\+core}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, size\+\_\+t k)
+\begin{DoxyCompactList}\small\item\em Compute the k-\/core of a \doxylink{structSGA__Stream}{stream}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+Include dependency graph for kcores.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

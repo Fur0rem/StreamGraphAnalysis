@@ -14,4 +14,5 @@ in pkgs.mkShell {
 		doxygen
 		graphviz
 	];
+	NIX_ENFORCE_NO_NATIVE=1; # -march=native flag
 }

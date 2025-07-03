@@ -1,0 +1,35 @@
+\doxysection{timeframe\+\_\+stream.\+h}
+\hypertarget{timeframe__stream_8h_source}{}\label{timeframe__stream_8h_source}\index{src/streams/timeframe\_stream.h@{src/streams/timeframe\_stream.h}}
+\mbox{\hyperlink{timeframe__stream_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ SGA\_TIMEFRAME\_STREAM\_H}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ SGA\_TIMEFRAME\_STREAM\_H}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{metrics_8h}{../analysis/metrics.h}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream__functions_8h}{../stream\_functions.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../stream\_graph/links\_set.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{nodes__set_8h}{../stream\_graph/nodes\_set.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ underlying\_stream\_graph;\ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ timeframe;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00025\ \}\ TimeFrameStream;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ StreamFunctions\ TimeFrameStream\_stream\_functions;\ \ \ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ MetricsFunctions\ TimeFrameStream\_metrics\_functions;\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00038\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{timeframe__stream_8h_a0889d4ec55072c80b30ccccca4b1e555}{SGA\_TimeFrameStream\_from}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ timeframe);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{timeframe__stream_8h_a1a6f00296c1a2c43a6a3b9b2771eef3b}{SGA\_TimeFrameStream\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_TIMEFRAME\_STREAM\_H}}
+
+\end{DoxyCode}

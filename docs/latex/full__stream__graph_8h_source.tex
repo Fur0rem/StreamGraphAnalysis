@@ -1,0 +1,32 @@
+\doxysection{full\+\_\+stream\+\_\+graph.\+h}
+\hypertarget{full__stream__graph_8h_source}{}\label{full__stream__graph_8h_source}\index{src/streams/full\_stream\_graph.h@{src/streams/full\_stream\_graph.h}}
+\mbox{\hyperlink{full__stream__graph_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ FULL\_STREAM\_GRAPH\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ FULL\_STREAM\_GRAPH\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{metrics_8h}{../analysis/metrics.h}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream__functions_8h}{../stream\_functions.h}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ underlying\_stream\_graph;\ }
+\DoxyCodeLine{00020\ \}\ FullStreamGraph;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ StreamFunctions\ FullStreamGraph\_stream\_functions;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ MetricsFunctions\ FullStreamGraph\_metrics\_functions;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00039\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{full__stream__graph_8h_a67d7f67b5a970df9b64bfbb3b6347515}{SGA\_FullStreamGraph\_from}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{full__stream__graph_8h_ae5bb32df9262a3951b2bfb289d8cce68}{SGA\_FullStreamGraph\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FULL\_STREAM\_GRAPH\_H}}
+
+\end{DoxyCode}

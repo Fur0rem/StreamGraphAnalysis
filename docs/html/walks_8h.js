@@ -1,9 +1,27 @@
 var walks_8h =
 [
-    [ "SGA_WalkStep", "structSGA__WalkStep.html", "structSGA__WalkStep" ],
-    [ "SGA_Walk", "structSGA__Walk.html", "structSGA__Walk" ],
+    [ "SGA_WalkStep", "walks_8h.html#structSGA__WalkStep", [
+      [ "interval_taken", "walks_8h.html#a8777f68a9e87538be1cb54e54ec0568b", null ],
+      [ "link", "walks_8h.html#a7d1de3bb73977cfad954f292e71fa85d", null ],
+      [ "time", "walks_8h.html#a49eeb08ee029d1737518e9d1136c85f5", null ]
+    ] ],
+    [ "SGA_Walk", "walks_8h.html#structSGA__Walk", [
+      [ "end", "walks_8h.html#a34893363a103ce5b250e34ee30d9abcf", null ],
+      [ "optimality", "walks_8h.html#ab6b72bb6e9d27917781a604cbcefcbe7", null ],
+      [ "start", "walks_8h.html#a0be156249d852c4bea593e087afc0682", null ],
+      [ "steps", "walks_8h.html#ac557a7eea59c807d10f007bdb726ed41", null ],
+      [ "stream", "walks_8h.html#ad2b8dced84b74d0dd2ded124fda2cab1", null ]
+    ] ],
     [ "SGA_NoWalkReason", "structSGA__NoWalkReason.html", "structSGA__NoWalkReason" ],
     [ "SGA_OptionalWalk", "structSGA__OptionalWalk.html", "structSGA__OptionalWalk" ],
+    [ "SGA_NoWalkReason.reason", "walks_8h.html#unionSGA__NoWalkReason_8reason", [
+      [ "node_absent_between", "walks_8h.html#a25c9ed6f420a444c0e1d0fbcea5fa5cd", null ],
+      [ "unreachable_after", "walks_8h.html#a9b10ff6a51b95a4b08680368fdfebae9", null ]
+    ] ],
+    [ "SGA_OptionalWalk.result", "walks_8h.html#unionSGA__OptionalWalk_8result", [
+      [ "no_walk_reason", "walks_8h.html#a174d7b3eb43849ceae28c10bd89cad35", null ],
+      [ "walk", "walks_8h.html#a46f9631576015f35f527af2bc67351a6", null ]
+    ] ],
     [ "SGA_fastest_walk", "walks_8h.html#aa6f82faf304d94b3c3154326f70d2a8d", null ],
     [ "SGA_optimal_walks_between_two_nodes", "walks_8h.html#a4e8e389ec492d1d506fc81f3819682d1", null ],
     [ "SGA_OptionalWalk_destroy", "walks_8h.html#af541e38c917e9734bd0d88679027048e", null ],

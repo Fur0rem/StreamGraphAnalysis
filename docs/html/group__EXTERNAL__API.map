@@ -1,0 +1,8 @@
+<map id="External API Documentation" name="External API Documentation">
+<area shape="rect" id="Node000002" href="$group__CLIQUES.html" title="Compute the maximal cliques of a stream." alt="" coords="276,5,346,33"/>
+<area shape="rect" id="Node000003" href="$group__CLUSTERS.html" title="Clusters in a stream." alt="" coords="274,57,348,85"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,109,210,137"/>
+<area shape="rect" id="Node000004" href="$group__ISOMORPHISM.html" title="Check if two streams are isomorphic." alt="" coords="258,109,364,137"/>
+<area shape="rect" id="Node000005" href="$group__K__CORES.html" title="Compute the k&#45;cores of a stream." alt="" coords="276,161,346,189"/>
+<area shape="rect" id="Node000006" href="$group__METRICS.html" title="Compute various metrics on a stream." alt="" coords="276,213,346,241"/>
+</map>

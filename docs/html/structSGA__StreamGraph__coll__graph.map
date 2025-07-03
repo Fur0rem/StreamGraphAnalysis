@@ -1,14 +1,14 @@
 <map id="SGA_StreamGraph" name="SGA_StreamGraph">
 <area shape="rect" id="Node000001" title="The internal implementation of a StreamGraph." alt="" coords="410,393,551,421"/>
-<area shape="rect" id="Node000002" href="$structKeyInstantsTable.html" title=" " alt="" coords="157,300,288,328"/>
+<area shape="rect" id="Node000002" href="$key__instants__table_8h.html#structKeyInstantsTable" title=" " alt="" coords="157,300,288,328"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,341,245,355,257,367,283,378,321,386,410,398,409,403,320,392,281,383,254,371,241,359,231,343"/>
-<area shape="rect" id="Node000003" href="$structInstantsSlice.html" title=" " alt="" coords="5,191,110,218"/>
+<area shape="rect" id="Node000003" href="$key__instants__table_8h.html#structInstantsSlice" title=" " alt="" coords="5,191,110,218"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="92,225,204,298,201,302,89,229"/>
-<area shape="rect" id="Node000004" href="$structKeyInstantsTableIterator.html" title=" " alt="" coords="133,191,312,218"/>
+<area shape="rect" id="Node000004" href="$key__instants__table_8h.html#structKeyInstantsTableIterator" title=" " alt="" coords="133,191,312,218"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="226,234,226,300,220,300,220,234"/>
-<area shape="rect" id="Node000005" href="$structNodesSet.html" title="The structure of a set of nodes in a StreamGraph." alt="" coords="438,300,522,328"/>
+<area shape="rect" id="Node000005" href="$nodes__set_8h.html#structNodesSet" title="The structure of a set of nodes in a StreamGraph." alt="" coords="438,300,522,328"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="483,343,483,393,478,393,478,343"/>
-<area shape="rect" id="Node000006" href="$structSGA__Node.html" title="The structure of a node in a StreamGraph." alt="" coords="441,191,530,218"/>
+<area shape="rect" id="Node000006" href="$nodes__set_8h.html#structSGA__Node" title="The structure of a node in a StreamGraph." alt="" coords="441,191,530,218"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="487,234,483,300,478,300,481,234"/>
 <area shape="rect" id="Node000007" href="$structSGA__IntervalsSet.html" title=" " alt="" coords="419,98,552,126"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="488,141,488,190,483,190,483,141"/>
@@ -20,12 +20,10 @@
 <area shape="rect" id="Node000009" href="$structLinksSet.html" title=" " alt="" coords="546,300,622,328"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="563,341,530,371,500,395,497,390,526,367,559,337"/>
 <area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="595,234,588,301,583,300,589,233"/>
-<area shape="rect" id="Node000011" href="$structEventsTable.html" title=" " alt="" coords="646,300,746,328"/>
+<area shape="rect" id="Node000011" href="$events__table_8h.html#structEventsTable" title=" " alt="" coords="646,300,746,328"/>
 <area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="659,338,587,371,523,395,521,390,584,367,657,333"/>
-<area shape="rect" id="Node000012" href="$structEvents.html" title=" " alt="" coords="664,191,729,218"/>
+<area shape="rect" id="Node000012" href="$events__table_8h.html#structEvents" title=" " alt="" coords="664,191,729,218"/>
 <area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="699,234,699,300,694,300,694,234"/>
-<area shape="rect" id="Node000013" href="$structEvent.html" title=" " alt="" coords="659,98,717,126"/>
-<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="693,141,698,190,692,191,688,141"/>
-<area shape="rect" id="Node000014" href="$structBitArray.html" title=" " alt="" coords="742,98,816,126"/>
-<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="768,141,749,168,720,192,717,188,745,165,764,138"/>
+<area shape="rect" id="Node000013" href="$bit__array_8h.html#structBitArray" title=" " alt="" coords="659,98,733,126"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="699,141,699,190,694,190,694,141"/>
 </map>

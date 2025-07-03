@@ -1,0 +1,11 @@
+<map id="ChunkStreamSmallLPATIterData" name="ChunkStreamSmallLPATIterData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,512,235,540"/>
+<area shape="rect" id="Node000002" href="$iterators_8h.html#structSGA__LinksIterator" title=" " alt="" coords="51,419,189,447"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,462,123,512,117,512,117,462"/>
+<area shape="rect" id="Node000003" href="$structSGA__Stream.html" title="The structure of a Stream." alt="" coords="69,327,171,354"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="123,370,123,419,117,419,117,370"/>
+<area shape="rect" id="Node000004" href="$stream_8h.html#structInformationCache" title="A cache of information about the 4 main sets of a Stream: the temporal nodes W, the temporal links E,..." alt="" coords="51,234,189,262"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="123,277,123,326,117,326,117,277"/>
+<area shape="rect" id="Node000005" href="$stream_8h.html#structOptionalSizeT" title="A size_t that can be optional." alt="" coords="64,5,176,33"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="123,48,123,234,117,234,117,48"/>
+</map>

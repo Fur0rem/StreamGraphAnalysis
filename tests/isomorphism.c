@@ -3,6 +3,7 @@
  * @brief Tests regarding isomorphism
  */
 
+#include <stdio.h>
 #define SGA_INTERNAL
 
 #include "../StreamGraphAnalysis.h"
@@ -18,14 +19,20 @@ bool test_equals() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	bool result = EXPECT(are_isomorphic(&stream1, &stream2));
+	// bool result = EXPECT(are_isomorphic(&stream1, &stream2));
+	SGA_NodeId* mapping = SGA_Stream_isomorphing_mapping(&stream1, &stream2);
+	bool success	    = EXPECT(mapping != NULL);
+	for (size_t i = 0; i < SGA_Stream_distinct_cardinal_of_node_set(&stream1); i++) {
+		success &= EXPECT_EQ(mapping[i], i);
+	}
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_FullStreamGraph_destroy(stream1);
 	SGA_FullStreamGraph_destroy(stream2);
+	free(mapping);
 
-	return result;
+	return success;
 }
 
 /**
@@ -38,7 +45,6 @@ bool test_isomorphism_chunk() {
 	SGA_LinkIdArrayList links = SGA_LinkIdArrayList_new();
 	for (size_t i = 0; i < sg.links.nb_links; i++) {
 		SGA_LinkIdArrayList_push(&links, i);
-		printf("Link %zu (%zu, %zu)\n", i, sg.links.links[i].nodes[0], sg.links.links[i].nodes[1]);
 	}
 
 	SGA_NodeIdArrayList nodes = SGA_NodeIdArrayList_new();
@@ -53,7 +59,10 @@ bool test_isomorphism_chunk() {
 	// SGA_Stream og	  = SGA_LinkStream_from(&kcores_only);
 	SGA_Stream og = SGA_LinkStream_from(&kcores_only);
 
-	bool result = EXPECT(are_isomorphic(&st, &og));
+	// bool result = EXPECT(are_isomorphic(&st, &og));
+	SGA_NodeId* mapping = SGA_Stream_isomorphing_mapping(&st, &og);
+	bool success	    = EXPECT(mapping != NULL) && EXPECT(mapping[0] == 0) && EXPECT(mapping[1] == 2) && EXPECT(mapping[2] == 4) &&
+		       EXPECT(mapping[3] == 6);
 
 	SGA_StreamGraph_destroy(sg);
 	SGA_StreamGraph_destroy(kcores_only);
@@ -61,8 +70,9 @@ bool test_isomorphism_chunk() {
 	SGA_ChunkStream_destroy(st);
 	SGA_LinkIdArrayList_destroy(links);
 	SGA_NodeIdArrayList_destroy(nodes);
+	free(mapping);
 
-	return result;
+	return success;
 
 	// return false;
 }
@@ -77,14 +87,15 @@ bool test_not_isomorphic() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S_concat_L.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	// bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	bool success = EXPECT(SGA_Stream_isomorphing_mapping(&stream1, &stream2) == NULL);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_FullStreamGraph_destroy(stream1);
 	SGA_FullStreamGraph_destroy(stream2);
 
-	return result;
+	return success;
 }
 
 /**
@@ -97,14 +108,15 @@ bool test_not_isomorphic_stretched() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_stretched_by_10.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
-	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	// bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	bool success = EXPECT(SGA_Stream_isomorphing_mapping(&stream1, &stream2) == NULL);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_LinkStream_destroy(stream1);
 	SGA_LinkStream_destroy(stream2);
 
-	return result;
+	return success;
 }
 
 /**
@@ -117,14 +129,20 @@ bool test_isomorphism_offset() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_offset.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
-	bool result = EXPECT(are_isomorphic(&stream1, &stream2));
+	// bool result = EXPECT(are_isomorphic(&stream1, &stream2));
+	SGA_NodeId* mapping = SGA_Stream_isomorphing_mapping(&stream1, &stream2);
+	bool success	    = EXPECT(mapping != NULL);
+	for (size_t i = 0; i < SGA_Stream_distinct_cardinal_of_node_set(&stream1); i++) {
+		success &= EXPECT_EQ(mapping[i], i);
+	}
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_LinkStream_destroy(stream1);
 	SGA_LinkStream_destroy(stream2);
+	free(mapping);
 
-	return result;
+	return success;
 }
 
 /**
@@ -137,14 +155,18 @@ bool test_isomorphic_ids_scrambled() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_scrambled.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
-	bool result = EXPECT(are_isomorphic(&stream1, &stream2));
+	// bool result = EXPECT(are_isomorphic(&stream1, &stream2));
+	SGA_NodeId* mapping = SGA_Stream_isomorphing_mapping(&stream1, &stream2);
+	bool success	    = EXPECT(mapping != NULL) && EXPECT_EQ(mapping[0], 3) && EXPECT_EQ(mapping[1], 2) && EXPECT_EQ(mapping[2], 1) &&
+		       EXPECT_EQ(mapping[3], 0);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_LinkStream_destroy(stream1);
 	SGA_LinkStream_destroy(stream2);
+	free(mapping);
 
-	return result;
+	return success;
 }
 
 /**
@@ -157,14 +179,14 @@ bool test_isomorphism_different_node_times() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S_one_different_appearance.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	bool success = EXPECT(SGA_Stream_isomorphing_mapping(&stream1, &stream2) == NULL);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_FullStreamGraph_destroy(stream1);
 	SGA_FullStreamGraph_destroy(stream2);
 
-	return result;
+	return success;
 }
 
 /**
@@ -177,14 +199,14 @@ bool test_isomorphism_not_constant_offset() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/L_offset_but_one.sga");
 	SGA_Stream stream2  = SGA_LinkStream_from(&sg2);
 
-	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	bool success = EXPECT(SGA_Stream_isomorphing_mapping(&stream1, &stream2) == NULL);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
-	SGA_LinkStream_destroy(stream1);
-	SGA_LinkStream_destroy(stream2);
+	SGA_FullStreamGraph_destroy(stream1);
+	SGA_FullStreamGraph_destroy(stream2);
 
-	return result;
+	return success;
 }
 
 /**
@@ -197,14 +219,14 @@ bool test_different_lifespans() {
 	SGA_StreamGraph sg2 = SGA_StreamGraph_from_file("data/tests/S_different_lifespan.sga");
 	SGA_Stream stream2  = SGA_FullStreamGraph_from(&sg2);
 
-	bool result = EXPECT(!are_isomorphic(&stream1, &stream2));
+	bool success = EXPECT(SGA_Stream_isomorphing_mapping(&stream1, &stream2) == NULL);
 
 	SGA_StreamGraph_destroy(sg1);
 	SGA_StreamGraph_destroy(sg2);
 	SGA_FullStreamGraph_destroy(stream1);
 	SGA_FullStreamGraph_destroy(stream2);
 
-	return result;
+	return success;
 }
 
 int main() {

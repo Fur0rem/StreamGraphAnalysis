@@ -2,12 +2,6 @@
 \hypertarget{src_2analysis_2cliques_8c}{}\label{src_2analysis_2cliques_8c}\index{src/analysis/cliques.c@{src/analysis/cliques.c}}
 
 
-Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
- The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}}.  
-
-
-
-
 \doxysubsection{Detailed Description}
 Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
  The algorithm to find the maximal cliques is a temporal version of the Bron-\/\+Kerbosch algorithm. Special thanks to Alexis Baudin for letting me use his implementation. I chose the non-\/parallel with pivot version. You can find the original code at \href{https://gitlab.lip6.fr/baudin/maxcliques-linkstream}{\texttt{ https\+://gitlab.\+lip6.\+fr/baudin/maxcliques-\/linkstream}}. 
@@ -31,261 +25,432 @@ Implementation of the algorithm to find maximal cliques in a Stream. ~\newline
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structLinkPresence}{Link\+Presence}}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}}
 \item 
-struct \mbox{\hyperlink{structXPR}{XPR}}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}}
 \item 
-struct \mbox{\hyperlink{structNeighborList}{Neighbor\+List}}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}}
 \item 
-struct \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}}
 \item 
-struct \mbox{\hyperlink{structMySet}{My\+Set}}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}}
 \item 
-struct \mbox{\hyperlink{structLinkPresenceStream}{Link\+Presence\+Stream}}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresenceStream}{Link\+Presence\+Stream}}
 \item 
-struct \mbox{\hyperlink{structDatastructure}{Datastructure}}
-\item 
-struct \mbox{\hyperlink{structMyCounter}{My\+Counter}}
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Typedefs}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{src_2analysis_2cliques_8c_a203f48b9380feb3ac35aa9bfcc3aa6ed}\label{src_2analysis_2cliques_8c_a203f48b9380feb3ac35aa9bfcc3aa6ed} 
-typedef struct Link\+Presence {\bfseries Link\+Presence}
+struct \mbox{\hyperlink{src_2analysis_2cliques_8c_structBKPTemporalArgs}{BKPTemporal\+Args}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af21da83d5ae7eb2cc4ee02beee3ecc3a}\label{src_2analysis_2cliques_8c_af21da83d5ae7eb2cc4ee02beee3ecc3a} 
-{\bfseries NO\+\_\+\+FREE} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}})
+SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{group__CLIQUES_ga2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
+\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a49a548cd31dd3c66ccdfe9be82378841}\label{src_2analysis_2cliques_8c_a49a548cd31dd3c66ccdfe9be82378841} 
-{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}})
+typedef struct Link\+Presence {\bfseries Link\+Presence}
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a6074ab942463db2fe931d95dca06f674}\label{src_2analysis_2cliques_8c_a6074ab942463db2fe931d95dca06f674} 
-{\bfseries Define\+Array\+List} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}})
+{\bfseries NO\+\_\+\+FREE} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a8919548f3da2de39752fe96f28da82f8}\label{src_2analysis_2cliques_8c_a8919548f3da2de39752fe96f28da82f8} 
-{\bfseries Define\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}})
+{\bfseries Declare\+Array\+List} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a3010a8d4d70400078e6887b0074ecd38}\label{src_2analysis_2cliques_8c_a3010a8d4d70400078e6887b0074ecd38} 
-bool {\bfseries Link\+Presence\+\_\+equals} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l1, \mbox{\hyperlink{structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l2)
+{\bfseries Define\+Array\+List} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a04f152cf6de9c5dd63f424bdaa110d28}\label{src_2analysis_2cliques_8c_a04f152cf6de9c5dd63f424bdaa110d28} 
-{\bfseries Define\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}})
+{\bfseries Define\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_aefa87f3a4a9ef99f943afc30adc58abd}\label{src_2analysis_2cliques_8c_aefa87f3a4a9ef99f943afc30adc58abd} 
-int {\bfseries Link\+Presence\+\_\+compare} (const \mbox{\hyperlink{structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l1, const \mbox{\hyperlink{structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l2)
+bool {\bfseries Link\+Presence\+\_\+equals} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l1, \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l2)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a95a11c297f758c68d9edaabc1b225a5d}\label{src_2analysis_2cliques_8c_a95a11c297f758c68d9edaabc1b225a5d} 
-{\bfseries Define\+Array\+List\+Derive\+Ordered} (\mbox{\hyperlink{structLinkPresence}{Link\+Presence}})
+{\bfseries Define\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ad3a760c8d95347e3b9084f226e62ab35}\label{src_2analysis_2cliques_8c_ad3a760c8d95347e3b9084f226e62ab35} 
-bool {\bfseries SGA\+\_\+\+Clique\+\_\+equals} (const \mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}} \texorpdfstring{$\ast$}{*}c1, const \mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}} \texorpdfstring{$\ast$}{*}c2)
+int {\bfseries Link\+Presence\+\_\+compare} (const \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l1, const \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l2)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a7df5cf51b273548851a69386881afaab}\label{src_2analysis_2cliques_8c_a7df5cf51b273548851a69386881afaab} 
-\mbox{\hyperlink{structString}{String}} {\bfseries SGA\+\_\+\+Clique\+\_\+to\+\_\+string} (const \mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}} \texorpdfstring{$\ast$}{*}c)
+{\bfseries Define\+Array\+List\+Derive\+Ordered} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a953ea04873c8734ab064fd1a83e54cef}\label{src_2analysis_2cliques_8c_a953ea04873c8734ab064fd1a83e54cef} 
-void {\bfseries SGA\+\_\+\+Clique\+\_\+destroy} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}} c)
+bool {\bfseries SGA\+\_\+\+Clique\+\_\+equals} (const \mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}} \texorpdfstring{$\ast$}{*}c1, const \mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}} \texorpdfstring{$\ast$}{*}c2)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a06291c02c2588ecf751e2b1658be09ee}\label{src_2analysis_2cliques_8c_a06291c02c2588ecf751e2b1658be09ee} 
-{\bfseries Define\+Array\+List} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+\mbox{\hyperlink{structString}{String}} {\bfseries SGA\+\_\+\+Clique\+\_\+to\+\_\+string} (const \mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}} \texorpdfstring{$\ast$}{*}c)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a30c178236c3a3ed0572a58fca217b8c9}\label{src_2analysis_2cliques_8c_a30c178236c3a3ed0572a58fca217b8c9} 
-{\bfseries Define\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+void {\bfseries SGA\+\_\+\+Clique\+\_\+destroy} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}} c)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a6fbcb9641162585fc44c62180875da86}\label{src_2analysis_2cliques_8c_a6fbcb9641162585fc44c62180875da86} 
-{\bfseries Define\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+{\bfseries Define\+Array\+List} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a70ce718306214e32ebb35f367700a9d3}\label{src_2analysis_2cliques_8c_a70ce718306214e32ebb35f367700a9d3} 
-{\bfseries Define\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{structSGA__Clique}{SGA\+\_\+\+Clique}})
+{\bfseries Define\+Array\+List\+Derive\+Remove} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a3e6851d246c535cfbc22ed333e9d9372}\label{src_2analysis_2cliques_8c_a3e6851d246c535cfbc22ed333e9d9372} 
+{\bfseries Define\+Array\+List\+Derive\+Equals} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
+{\bfseries Define\+Array\+List\+Derive\+To\+String} (\mbox{\hyperlink{group__CLIQUES_structSGA__Clique}{SGA\+\_\+\+Clique}})
+\item 
 void {\bfseries swap} (size\+\_\+t \texorpdfstring{$\ast$}{*}tab, size\+\_\+t i, size\+\_\+t j)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ab7b25ccd67748ffebe0035888085b109}\label{src_2analysis_2cliques_8c_ab7b25ccd67748ffebe0035888085b109} 
-\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*} {\bfseries alloc\+XPR} (size\+\_\+t n, size\+\_\+t depth\+Max)
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*} {\bfseries alloc\+XPR} (size\+\_\+t n, size\+\_\+t depth\+Max)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ad9547127695a2b0a883ef11ebede7662}\label{src_2analysis_2cliques_8c_ad9547127695a2b0a883ef11ebede7662} 
-void {\bfseries XPR\+\_\+free} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr)
+void {\bfseries XPR\+\_\+free} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a7d2ea56fd2272fe3c4af5d3953658cb6}\label{src_2analysis_2cliques_8c_a7d2ea56fd2272fe3c4af5d3953658cb6} 
-bool {\bfseries is\+\_\+in\+\_\+P} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+bool {\bfseries is\+\_\+in\+\_\+P} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a5c162a6d945a328c9511f2df72abe3e0}\label{src_2analysis_2cliques_8c_a5c162a6d945a328c9511f2df72abe3e0} 
-bool {\bfseries is\+\_\+in\+\_\+X} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+bool {\bfseries is\+\_\+in\+\_\+X} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a3904f5c40a50ae4885beac913d0ae575}\label{src_2analysis_2cliques_8c_a3904f5c40a50ae4885beac913d0ae575} 
-bool {\bfseries is\+\_\+in\+\_\+\+PUX} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+bool {\bfseries is\+\_\+in\+\_\+\+PUX} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a97dc53980ac104e2721819367648bec3}\label{src_2analysis_2cliques_8c_a97dc53980ac104e2721819367648bec3} 
-bool {\bfseries is\+\_\+in\+\_\+R} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w)
+bool {\bfseries is\+\_\+in\+\_\+R} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a4e3a2b6c617a1c7a09412f7fffe3e97e}\label{src_2analysis_2cliques_8c_a4e3a2b6c617a1c7a09412f7fffe3e97e} 
-void {\bfseries add\+\_\+to\+\_\+P} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+void {\bfseries add\+\_\+to\+\_\+P} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a8e8efa8ca15d83256bcc1de829546b4f}\label{src_2analysis_2cliques_8c_a8e8efa8ca15d83256bcc1de829546b4f} 
-void {\bfseries swap\+\_\+from\+\_\+\+P\+\_\+to\+\_\+X} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+void {\bfseries swap\+\_\+from\+\_\+\+P\+\_\+to\+\_\+X} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ab47fad702bca73910eeb414dd8a839da}\label{src_2analysis_2cliques_8c_ab47fad702bca73910eeb414dd8a839da} 
-void {\bfseries swap\+\_\+from\+\_\+\+X\+\_\+to\+\_\+P} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+void {\bfseries swap\+\_\+from\+\_\+\+X\+\_\+to\+\_\+P} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ae334fb91e27b02c7a99746db84e31614}\label{src_2analysis_2cliques_8c_ae334fb91e27b02c7a99746db84e31614} 
-void {\bfseries add\+\_\+to\+\_\+\+X0} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+void {\bfseries add\+\_\+to\+\_\+\+X0} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a892ee63ad833b7470f109ea63dc8c5db}\label{src_2analysis_2cliques_8c_a892ee63ad833b7470f109ea63dc8c5db} 
-void {\bfseries keep\+\_\+in\+\_\+X} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
+void {\bfseries keep\+\_\+in\+\_\+X} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af758bc40562d85fa0e48a8a5000197af}\label{src_2analysis_2cliques_8c_af758bc40562d85fa0e48a8a5000197af} 
-void {\bfseries swap\+\_\+\+P\+\_\+node\+\_\+position} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t u, size\+\_\+t iv)
+void {\bfseries swap\+\_\+\+P\+\_\+node\+\_\+position} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t u, size\+\_\+t iv)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a0ee8568c7bbfc669d34b1dbbbdc3a946}\label{src_2analysis_2cliques_8c_a0ee8568c7bbfc669d34b1dbbbdc3a946} 
 size\+\_\+t {\bfseries local\+\_\+size\+\_\+t\+\_\+min} (size\+\_\+t a, size\+\_\+t b)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ae2001b3e331b8137af2e5e1ef10fa3e7}\label{src_2analysis_2cliques_8c_ae2001b3e331b8137af2e5e1ef10fa3e7} 
 size\+\_\+t {\bfseries local\+\_\+size\+\_\+t\+\_\+max} (size\+\_\+t a, size\+\_\+t b)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a53bc2dd05c78fe63e7568a102801372c}\label{src_2analysis_2cliques_8c_a53bc2dd05c78fe63e7568a102801372c} 
-void {\bfseries init\+\_\+time\+End\+RNode} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t e1, size\+\_\+t e2, size\+\_\+t e3, size\+\_\+t depth)
+void {\bfseries init\+\_\+time\+End\+RNode} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t w, size\+\_\+t e1, size\+\_\+t e2, size\+\_\+t e3, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_aa2529331f8351c08bd8fc5428370d449}\label{src_2analysis_2cliques_8c_aa2529331f8351c08bd8fc5428370d449} 
-void {\bfseries update\+\_\+time\+End\+RNode} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t v, size\+\_\+t e, size\+\_\+t depth)
+void {\bfseries update\+\_\+time\+End\+RNode} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t v, size\+\_\+t e, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a66bab4fb911e8192209303b4c3963a2c}\label{src_2analysis_2cliques_8c_a66bab4fb911e8192209303b4c3963a2c} 
-void {\bfseries print\+\_\+P} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t depth)
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} {\bfseries alloc\+\_\+\+Neighbor\+List} (size\+\_\+t degree\+Max, size\+\_\+t depth\+Max)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a1639d34a9911e13ba720a075665b62c8}\label{src_2analysis_2cliques_8c_a1639d34a9911e13ba720a075665b62c8} 
-void {\bfseries print\+\_\+X} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t depth)
+void {\bfseries free\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a8868e8d276145bc848546794e12f8cfa}\label{src_2analysis_2cliques_8c_a8868e8d276145bc848546794e12f8cfa} 
-void {\bfseries print\+\_\+R} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr)
+void {\bfseries add\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t u)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a93c9ff48f1a8e9651db51393dc150ab9}\label{src_2analysis_2cliques_8c_a93c9ff48f1a8e9651db51393dc150ab9} 
-\mbox{\hyperlink{structNeighborList}{Neighbor\+List}} {\bfseries alloc\+\_\+\+Neighbor\+List} (size\+\_\+t degree\+Max, size\+\_\+t depth\+Max)
+void {\bfseries remove\+\_\+ind\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t i, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ae94ebecd33b557e6149180944b2ec2b7}\label{src_2analysis_2cliques_8c_ae94ebecd33b557e6149180944b2ec2b7} 
-void {\bfseries free\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl)
+void {\bfseries clear\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af73338cad707f391de541dc8ecb63c2a}\label{src_2analysis_2cliques_8c_af73338cad707f391de541dc8ecb63c2a} 
-void {\bfseries add\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t u)
+bool {\bfseries is\+\_\+in\+\_\+\+Neighbor\+List} (size\+\_\+t u, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af23c0b976a96afc89ab0dd46536763bd}\label{src_2analysis_2cliques_8c_af23c0b976a96afc89ab0dd46536763bd} 
-void {\bfseries remove\+\_\+ind\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t i, size\+\_\+t depth)
+void {\bfseries keep\+\_\+in\+\_\+\+Neighbor\+List} (size\+\_\+t i, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a0df84a9700733019ab0a74f689f6e208}\label{src_2analysis_2cliques_8c_a0df84a9700733019ab0a74f689f6e208} 
-void {\bfseries clear\+\_\+\+Neighbor\+List} (\mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl)
+void {\bfseries reorder\+S\+\_\+P} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}S, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a29d0201dd7f57d00136be1ab0cacc7d8}\label{src_2analysis_2cliques_8c_a29d0201dd7f57d00136be1ab0cacc7d8} 
-bool {\bfseries is\+\_\+in\+\_\+\+Neighbor\+List} (size\+\_\+t u, \mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t depth)
+void {\bfseries print\+\_\+\+Neighbor\+List\+\_\+nodes} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a7f32495a4829f54f72fe599dd7fda93f}\label{src_2analysis_2cliques_8c_a7f32495a4829f54f72fe599dd7fda93f} 
-void {\bfseries keep\+\_\+in\+\_\+\+Neighbor\+List} (size\+\_\+t i, \mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t depth)
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} {\bfseries alloc\+\_\+\+Neighbor\+List\+End} (size\+\_\+t degree\+Max)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a0c8db9a806f3ae5bd922b2233475d008}\label{src_2analysis_2cliques_8c_a0c8db9a806f3ae5bd922b2233475d008} 
-void {\bfseries reorder\+S\+\_\+P} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}S, size\+\_\+t depth)
+void {\bfseries free\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a1b241e03b4614d65973ade7d03a712c4}\label{src_2analysis_2cliques_8c_a1b241e03b4614d65973ade7d03a712c4} 
-void {\bfseries print\+\_\+\+Neighbor\+List\+\_\+nodes} (\mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}Nl, size\+\_\+t depth)
+void {\bfseries add\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t u, size\+\_\+t e)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a7919e01f44cbe96fec65b6e811f3e0a9}\label{src_2analysis_2cliques_8c_a7919e01f44cbe96fec65b6e811f3e0a9} 
-\mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} {\bfseries alloc\+\_\+\+Neighbor\+List\+End} (size\+\_\+t degree\+Max)
+void {\bfseries remove\+\_\+node\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t u)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a8455b0c6533f552a96e42e48fe805050}\label{src_2analysis_2cliques_8c_a8455b0c6533f552a96e42e48fe805050} 
-void {\bfseries free\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle)
+void {\bfseries remove\+\_\+ind\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t i, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_ac86c241be7631727b80c46db135e86d1}\label{src_2analysis_2cliques_8c_ac86c241be7631727b80c46db135e86d1} 
-void {\bfseries add\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t u, size\+\_\+t e)
+size\+\_\+t {\bfseries ind\+\_\+in\+\_\+\+Neighbor\+List\+End} (size\+\_\+t u, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_aa3120cc133e93c4d4b29bb61abf1ee4e}\label{src_2analysis_2cliques_8c_aa3120cc133e93c4d4b29bb61abf1ee4e} 
-void {\bfseries remove\+\_\+node\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t u)
+void {\bfseries keep\+\_\+in\+\_\+\+Neighbor\+List\+End} (size\+\_\+t i, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_adbbbbcfabeabb35bd9f471a46f818d58}\label{src_2analysis_2cliques_8c_adbbbbcfabeabb35bd9f471a46f818d58} 
-void {\bfseries remove\+\_\+ind\+\_\+\+Neighbor\+List\+End} (\mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t i, size\+\_\+t depth)
+void {\bfseries reorder\+N\+\_\+\+XUP} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a631066967f24f539d9ea79090fd60441}\label{src_2analysis_2cliques_8c_a631066967f24f539d9ea79090fd60441} 
-size\+\_\+t {\bfseries ind\+\_\+in\+\_\+\+Neighbor\+List\+End} (size\+\_\+t u, \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t depth)
+void {\bfseries print\+\_\+\+Neighbor\+List\+End\+\_\+nodes} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a270bc3ba4ab0cab9e8f1a6841904cf38}\label{src_2analysis_2cliques_8c_a270bc3ba4ab0cab9e8f1a6841904cf38} 
-void {\bfseries keep\+\_\+in\+\_\+\+Neighbor\+List\+End} (size\+\_\+t i, \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t depth)
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}} {\bfseries set\+\_\+with\+\_\+capacity} (size\+\_\+t capacity)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af2261fbe6652058af326a83dbc3869b7}\label{src_2analysis_2cliques_8c_af2261fbe6652058af326a83dbc3869b7} 
-void {\bfseries reorder\+N\+\_\+\+XUP} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, size\+\_\+t depth)
+bool {\bfseries is\+In\+My\+Set} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s, size\+\_\+t x)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a7d7fdcccd5649f2244c92006cbdf4c22}\label{src_2analysis_2cliques_8c_a7d7fdcccd5649f2244c92006cbdf4c22} 
-void {\bfseries print\+\_\+\+Neighbor\+List\+End\+\_\+nodes} (\mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}Nle, size\+\_\+t depth)
+void {\bfseries add\+To\+My\+Set} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s, size\+\_\+t x)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_adc019b8eafb53910e0831dc12e7a2847}\label{src_2analysis_2cliques_8c_adc019b8eafb53910e0831dc12e7a2847} 
-\mbox{\hyperlink{structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*} {\bfseries alloc\+My\+Set} (size\+\_\+t init\+\_\+size)
+void {\bfseries clear\+My\+Set} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a3effefa3ef4065d9021d8efd8578e905}\label{src_2analysis_2cliques_8c_a3effefa3ef4065d9021d8efd8578e905} 
-bool {\bfseries is\+In\+My\+Set} (\mbox{\hyperlink{structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s, size\+\_\+t x)
+int {\bfseries endlink\+\_\+sorter} (const \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l1, const \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l2)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af840d78c0c2150c055379cfd61c2ca46}\label{src_2analysis_2cliques_8c_af840d78c0c2150c055379cfd61c2ca46} 
-void {\bfseries add\+To\+My\+Set} (\mbox{\hyperlink{structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s, size\+\_\+t x)
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresenceStream}{Link\+Presence\+Stream}} {\bfseries alloc\+Link\+Stream\+\_\+end\+\_\+from\+\_\+links} (Link\+Presence\+Array\+List links, size\+\_\+t m, size\+\_\+t ntimestep)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a8c4e1a2c2cbc08d1a3136ca2eaf5f25e}\label{src_2analysis_2cliques_8c_a8c4e1a2c2cbc08d1a3136ca2eaf5f25e} 
-void {\bfseries clear\+My\+Set} (\mbox{\hyperlink{structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s)
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structBKPTemporalArgs}{BKPTemporal\+Args}} {\bfseries prepare\+\_\+bkp} (Link\+Presence\+Array\+List links)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a8b36af47595cd407cb42584831651c75}\label{src_2analysis_2cliques_8c_a8b36af47595cd407cb42584831651c75} 
-int {\bfseries endlink\+\_\+sorter} (const \mbox{\hyperlink{structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l1, const \mbox{\hyperlink{structLinkPresence}{Link\+Presence}} \texorpdfstring{$\ast$}{*}l2)
+void {\bfseries free\+My\+Set} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}} s)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_af31055c92426546d437b77f7177f241b}\label{src_2analysis_2cliques_8c_af31055c92426546d437b77f7177f241b} 
-\mbox{\hyperlink{structLinkPresenceStream}{Link\+Presence\+Stream}} \texorpdfstring{$\ast$}{*} {\bfseries alloc\+Link\+Stream\+\_\+end\+\_\+from\+\_\+links} (Link\+Presence\+Array\+List links, size\+\_\+t m, size\+\_\+t ntimestep)
+void {\bfseries free\+Link\+Presence\+Stream} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresenceStream}{Link\+Presence\+Stream}} ls)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_afd0e3dc6d1f5392862091d9404d3c904}\label{src_2analysis_2cliques_8c_afd0e3dc6d1f5392862091d9404d3c904} 
-\mbox{\hyperlink{structDatastructure}{Datastructure}} \texorpdfstring{$\ast$}{*} {\bfseries alloc\+Datastrucure\+\_\+from\+\_\+links} (Link\+Presence\+Array\+List links)
+void {\bfseries free\+\_\+bkp\+\_\+args} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structBKPTemporalArgs}{BKPTemporal\+Args}} d)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a6bf175accdc207c7b82094eb4b7436a2}\label{src_2analysis_2cliques_8c_a6bf175accdc207c7b82094eb4b7436a2} 
-void {\bfseries free\+My\+Set} (\mbox{\hyperlink{structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}s)
+size\+\_\+t {\bfseries choose\+\_\+pivot} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, size\+\_\+t depth)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a954cb3b725658b1253295b82a64555c2}\label{src_2analysis_2cliques_8c_a954cb3b725658b1253295b82a64555c2} 
-void {\bfseries free\+Link\+Presence\+Stream} (\mbox{\hyperlink{structLinkPresenceStream}{Link\+Presence\+Stream}} \texorpdfstring{$\ast$}{*}ls)
+void {\bfseries BKtemporal} (\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t b, size\+\_\+t e, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}S, size\+\_\+t depth, SGA\+\_\+\+Clique\+Array\+List \texorpdfstring{$\ast$}{*}cliques)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a95ad3a0da4ec5f6987e7d700e5940cc8}\label{src_2analysis_2cliques_8c_a95ad3a0da4ec5f6987e7d700e5940cc8} 
-void {\bfseries Data\+Structure\+\_\+free} (\mbox{\hyperlink{structDatastructure}{Datastructure}} \texorpdfstring{$\ast$}{*}d)
+void {\bfseries Max\+Cliques\+From\+Edges} (const size\+\_\+t\+Array\+List New\+Edges, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}S, \mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}Snodes, size\+\_\+t b, \mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, \mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, SGA\+\_\+\+Clique\+Array\+List \texorpdfstring{$\ast$}{*}cliques)
 \item 
-\Hypertarget{src_2analysis_2cliques_8c_a32c80af2e92387a2e0e9e18b02ebee7c}\label{src_2analysis_2cliques_8c_a32c80af2e92387a2e0e9e18b02ebee7c} 
-size\+\_\+t {\bfseries choose\+\_\+pivot} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, size\+\_\+t depth)
-\item 
-\Hypertarget{src_2analysis_2cliques_8c_a7afb470a1777921d65a2c0847f7b5a03}\label{src_2analysis_2cliques_8c_a7afb470a1777921d65a2c0847f7b5a03} 
-\mbox{\hyperlink{structMyCounter}{My\+Counter}} \texorpdfstring{$\ast$}{*} {\bfseries alloc\+\_\+\+My\+Counter} ()
-\item 
-\Hypertarget{src_2analysis_2cliques_8c_aa7c167eb18045148a2c6ee4696552a69}\label{src_2analysis_2cliques_8c_aa7c167eb18045148a2c6ee4696552a69} 
-void {\bfseries My\+Counter\+\_\+free} (\mbox{\hyperlink{structMyCounter}{My\+Counter}} \texorpdfstring{$\ast$}{*}mc)
-\item 
-\Hypertarget{src_2analysis_2cliques_8c_a6d192e2d3dd72969c7dc1f204321ad6c}\label{src_2analysis_2cliques_8c_a6d192e2d3dd72969c7dc1f204321ad6c} 
-void {\bfseries BKtemporal} (\mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, size\+\_\+t b, size\+\_\+t e, \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, \mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}S, \mbox{\hyperlink{structMyCounter}{My\+Counter}} \texorpdfstring{$\ast$}{*}mc, size\+\_\+t depth, SGA\+\_\+\+Clique\+Array\+List \texorpdfstring{$\ast$}{*}cliques)
-\item 
-\Hypertarget{src_2analysis_2cliques_8c_a6a63641782349dd55223c9c2cca3088c}\label{src_2analysis_2cliques_8c_a6a63641782349dd55223c9c2cca3088c} 
-void {\bfseries Max\+Cliques\+From\+Edges} (const size\+\_\+t\+Array\+List New\+Edges, \mbox{\hyperlink{structNeighborList}{Neighbor\+List}} \texorpdfstring{$\ast$}{*}S, \mbox{\hyperlink{structMySet}{My\+Set}} \texorpdfstring{$\ast$}{*}Snodes, size\+\_\+t b, \mbox{\hyperlink{structNeighborListEnd}{Neighbor\+List\+End}} \texorpdfstring{$\ast$}{*}N, \mbox{\hyperlink{structXPR}{XPR}} \texorpdfstring{$\ast$}{*}xpr, \mbox{\hyperlink{structMyCounter}{My\+Counter}} \texorpdfstring{$\ast$}{*}mc, SGA\+\_\+\+Clique\+Array\+List \texorpdfstring{$\ast$}{*}cliques)
-\item 
-\Hypertarget{src_2analysis_2cliques_8c_af75771f32c0b9fe7f2a16f998d3d5634}\label{src_2analysis_2cliques_8c_af75771f32c0b9fe7f2a16f998d3d5634} 
-SGA\+\_\+\+Clique\+Array\+List {\bfseries cliques\+\_\+sequential} (const \mbox{\hyperlink{structLinkPresenceStream}{Link\+Presence\+Stream}} \texorpdfstring{$\ast$}{*}ls\+\_\+end, \mbox{\hyperlink{structDatastructure}{Datastructure}} \texorpdfstring{$\ast$}{*}d, \mbox{\hyperlink{structMyCounter}{My\+Counter}} \texorpdfstring{$\ast$}{*}mc)
-\item 
-SGA\+\_\+\+Clique\+Array\+List \mbox{\hyperlink{src_2analysis_2cliques_8c_a2eb6ce869a1373dedfa311a0ce84086f}{SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}st)
-\begin{DoxyCompactList}\small\item\em Find the maximal cliques in a Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+SGA\+\_\+\+Clique\+Array\+List {\bfseries cliques\+\_\+sequential} (const \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresenceStream}{Link\+Presence\+Stream}} \texorpdfstring{$\ast$}{*}ls\+\_\+end, \mbox{\hyperlink{src_2analysis_2cliques_8c_structBKPTemporalArgs}{BKPTemporal\+Args}} \texorpdfstring{$\ast$}{*}d)
+\end{DoxyCompactItemize}
 
 
-\doxysubsection{Function Documentation}
-\Hypertarget{src_2analysis_2cliques_8c_a2eb6ce869a1373dedfa311a0ce84086f}\index{cliques.c@{cliques.c}!SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}}
-\index{SGA\_Stream\_maximal\_cliques@{SGA\_Stream\_maximal\_cliques}!cliques.c@{cliques.c}}
-\doxysubsubsection{\texorpdfstring{SGA\_Stream\_maximal\_cliques()}{SGA\_Stream\_maximal\_cliques()}}
-{\footnotesize\ttfamily \label{src_2analysis_2cliques_8c_a2eb6ce869a1373dedfa311a0ce84086f} 
-SGA\+\_\+\+Clique\+Array\+List SGA\+\_\+\+Stream\+\_\+maximal\+\_\+cliques (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{st}{}\end{DoxyParamCaption})}
-
-
-
-Find the maximal cliques in a Stream. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em stream} & The Stream to find the maximal cliques in. \\
+\doxysubsection{Data Structure Documentation}
+\index{LinkPresence@{LinkPresence}}\label{structLinkPresence}
+\Hypertarget{src_2analysis_2cliques_8c_structLinkPresence}
+\doxysubsubsection{struct Link\+Presence}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a8a38c28c00753597c53a5b91df635735}\label{src_2analysis_2cliques_8c_a8a38c28c00753597c53a5b91df635735}} 
+size\_t&
+end&
+\\
 \hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The maximal cliques as an Array\+List. 
-\end{DoxyReturn}
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_af2e0f0c2ab042af90bd5857418f81b0c}\label{src_2analysis_2cliques_8c_af2e0f0c2ab042af90bd5857418f81b0c}} 
+size\_t&
+nodes\mbox{[}2\mbox{]}&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_acf4b7532685b33e82174618a26c1e087}\label{src_2analysis_2cliques_8c_acf4b7532685b33e82174618a26c1e087}} 
+size\_t&
+start&
+\\
+\hline
+
+\end{DoxyFields}
+\index{XPR@{XPR}}\label{structXPR}
+\Hypertarget{src_2analysis_2cliques_8c_structXPR}
+\doxysubsubsection{struct XPR}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a20ab90c25b5f1d715cb95a55ac888c83}\label{src_2analysis_2cliques_8c_a20ab90c25b5f1d715cb95a55ac888c83}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+beginP&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a45ad13c8562fdc1452b9c9dbb807b7ad}\label{src_2analysis_2cliques_8c_a45ad13c8562fdc1452b9c9dbb807b7ad}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+beginX&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ad7f02944b3483af904f173be1e3678f8}\label{src_2analysis_2cliques_8c_ad7f02944b3483af904f173be1e3678f8}} 
+size\_tArrayList \texorpdfstring{$\ast$}{*}&
+candidates\_to\_iterate&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_af8ed5e88737b9058cb674d81a09aadca}\label{src_2analysis_2cliques_8c_af8ed5e88737b9058cb674d81a09aadca}} 
+size\_t&
+depth\_pour\_free\_jsp&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a3f7c3f40601d46ae87b8531c1adcaedb}\label{src_2analysis_2cliques_8c_a3f7c3f40601d46ae87b8531c1adcaedb}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+e&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ab685b59c97b1e9c10c34550b872ff47c}\label{src_2analysis_2cliques_8c_ab685b59c97b1e9c10c34550b872ff47c}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+endP&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ad11e4821e0376c1d5a9f4b4dde111cfe}\label{src_2analysis_2cliques_8c_ad11e4821e0376c1d5a9f4b4dde111cfe}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+i&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a56786eb25ac72d9ab2f229506d28f673}\label{src_2analysis_2cliques_8c_a56786eb25ac72d9ab2f229506d28f673}} 
+size\_tArrayList&
+R&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a77b10d4e3794b7e82c83e8b18d5488ef}\label{src_2analysis_2cliques_8c_a77b10d4e3794b7e82c83e8b18d5488ef}} 
+size\_t \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}&
+timeEndRNode&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a64013d5f556cfebb5a377f595e441609}\label{src_2analysis_2cliques_8c_a64013d5f556cfebb5a377f595e441609}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+XPindex&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_adb4465f30c5f1758e9ab1d7622393d33}\label{src_2analysis_2cliques_8c_adb4465f30c5f1758e9ab1d7622393d33}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+XPnode&
+\\
+\hline
+
+\end{DoxyFields}
+\index{NeighborList@{NeighborList}}\label{structNeighborList}
+\Hypertarget{src_2analysis_2cliques_8c_structNeighborList}
+\doxysubsubsection{struct Neighbor\+List}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a9d64190ec159cd405ce3d416d447877b}\label{src_2analysis_2cliques_8c_a9d64190ec159cd405ce3d416d447877b}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+n&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a5c7d686bcb82ed7c0076daff42b38156}\label{src_2analysis_2cliques_8c_a5c7d686bcb82ed7c0076daff42b38156}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+node&
+\\
+\hline
+
+\end{DoxyFields}
+\index{NeighborListEnd@{NeighborListEnd}}\label{structNeighborListEnd}
+\Hypertarget{src_2analysis_2cliques_8c_structNeighborListEnd}
+\doxysubsubsection{struct Neighbor\+List\+End}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_af39bf96830e2b4d092fc7fab4ac1b2bf}\label{src_2analysis_2cliques_8c_af39bf96830e2b4d092fc7fab4ac1b2bf}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+end&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a7922d2638c3a12f7c0bd107d3661ab4c}\label{src_2analysis_2cliques_8c_a7922d2638c3a12f7c0bd107d3661ab4c}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+n&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ad38151735ec1c1667805729a7851d4d9}\label{src_2analysis_2cliques_8c_ad38151735ec1c1667805729a7851d4d9}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+node&
+\\
+\hline
+
+\end{DoxyFields}
+\index{MySet@{MySet}}\label{structMySet}
+\Hypertarget{src_2analysis_2cliques_8c_structMySet}
+\doxysubsubsection{struct My\+Set}
+
+
+Collaboration diagram for My\+Set\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{structMySet__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a094945c9fa924a3b13096ceb68374812}\label{src_2analysis_2cliques_8c_a094945c9fa924a3b13096ceb68374812}} 
+size\_t \texorpdfstring{$\ast$}{*}&
+list&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ac52dddc2af4e351ffa57bf729acea8cd}\label{src_2analysis_2cliques_8c_ac52dddc2af4e351ffa57bf729acea8cd}} 
+size\_t&
+n&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a647b09b62b99f2330cda2754b75ea746}\label{src_2analysis_2cliques_8c_a647b09b62b99f2330cda2754b75ea746}} 
+\mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}&
+tab&
+\\
+\hline
+
+\end{DoxyFields}
+\index{LinkPresenceStream@{LinkPresenceStream}}\label{structLinkPresenceStream}
+\Hypertarget{src_2analysis_2cliques_8c_structLinkPresenceStream}
+\doxysubsubsection{struct Link\+Presence\+Stream}
+
+
+Collaboration diagram for Link\+Presence\+Stream\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{structLinkPresenceStream__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_acebc2c76376cab468cf430c17e568537}\label{src_2analysis_2cliques_8c_acebc2c76376cab468cf430c17e568537}} 
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresence}{LinkPresence}} \texorpdfstring{$\ast$}{*}&
+link&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ab444fb86eb41c8ad7cd48106b4d226d4}\label{src_2analysis_2cliques_8c_ab444fb86eb41c8ad7cd48106b4d226d4}} 
+size\_t&
+m&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_aab36b67c9e1e2f8c235cbc2309f92752}\label{src_2analysis_2cliques_8c_aab36b67c9e1e2f8c235cbc2309f92752}} 
+size\_tArrayList&
+timesteps&
+\\
+\hline
+
+\end{DoxyFields}
+\index{BKPTemporalArgs@{BKPTemporalArgs}}\label{structBKPTemporalArgs}
+\Hypertarget{src_2analysis_2cliques_8c_structBKPTemporalArgs}
+\doxysubsubsection{struct BKPTemporal\+Args}
+
+
+Collaboration diagram for BKPTemporal\+Args\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structBKPTemporalArgs__coll__graph}
+\end{center}
+\end{figure}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ac1269e4f509a5f826f2227011fdfd082}\label{src_2analysis_2cliques_8c_ac1269e4f509a5f826f2227011fdfd082}} 
+size\_t&
+degmax&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_ae9e73b2b35e7eaa432d7c6092dc4a30f}\label{src_2analysis_2cliques_8c_ae9e73b2b35e7eaa432d7c6092dc4a30f}} 
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresenceStream}{LinkPresenceStream}}&
+ls\_end&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a6083d340f615903058cead6a36461d38}\label{src_2analysis_2cliques_8c_a6083d340f615903058cead6a36461d38}} 
+size\_t&
+m&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_afc994477590a8695282650da029d0315}\label{src_2analysis_2cliques_8c_afc994477590a8695282650da029d0315}} 
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborListEnd}{NeighborListEnd}} \texorpdfstring{$\ast$}{*}&
+N&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a8870ad32c0c65a0887ff1ea379fcf1cc}\label{src_2analysis_2cliques_8c_a8870ad32c0c65a0887ff1ea379fcf1cc}} 
+size\_t&
+n&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a12adcc00617737a148835233a95b4d5b}\label{src_2analysis_2cliques_8c_a12adcc00617737a148835233a95b4d5b}} 
+size\_tArrayList&
+NewEdges&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a429b769a28db92c64969002c8ff51f84}\label{src_2analysis_2cliques_8c_a429b769a28db92c64969002c8ff51f84}} 
+size\_t&
+ntimestep&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a4f2228b64d44c7291fa567ee1deb65ec}\label{src_2analysis_2cliques_8c_a4f2228b64d44c7291fa567ee1deb65ec}} 
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structNeighborList}{NeighborList}} \texorpdfstring{$\ast$}{*}&
+S&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a7c42832cff98c07c9d25853a293c7d01}\label{src_2analysis_2cliques_8c_a7c42832cff98c07c9d25853a293c7d01}} 
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structMySet}{MySet}}&
+Snodes&
+\\
+\hline
+
+\mbox{\Hypertarget{src_2analysis_2cliques_8c_a1d879eeea80d2d400ba8680c93a9ba33}\label{src_2analysis_2cliques_8c_a1d879eeea80d2d400ba8680c93a9ba33}} 
+\mbox{\hyperlink{src_2analysis_2cliques_8c_structXPR}{XPR}} \texorpdfstring{$\ast$}{*}&
+xpr&
+\\
+\hline
+
+\end{DoxyFields}
 Include dependency graph for cliques.\+c\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}

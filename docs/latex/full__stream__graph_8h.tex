@@ -1,0 +1,67 @@
+\doxysection{src/streams/full\+\_\+stream\+\_\+graph.h File Reference}
+\hypertarget{full__stream__graph_8h}{}\label{full__stream__graph_8h}\index{src/streams/full\_stream\_graph.h@{src/streams/full\_stream\_graph.h}}
+
+
+\doxysubsection{Detailed Description}
+A wrapper around a Stream\+Graph to use it as a Stream. It does not do any transformation on the Stream\+Graph. 
+
+{\ttfamily \#include "{}../analysis/metrics.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+functions.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{full__stream__graph_8h_a67d7f67b5a970df9b64bfbb3b6347515}{SGA\+\_\+\+Full\+Stream\+Graph\+\_\+from}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph)
+\begin{DoxyCompactList}\small\item\em Creates a Stream of a Full\+Stream\+Graph from a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{full__stream__graph_8h_ae5bb32df9262a3951b2bfb289d8cce68}{SGA\+\_\+\+Full\+Stream\+Graph\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroys a Stream of a Full\+Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{full__stream__graph_8h_ae5bb32df9262a3951b2bfb289d8cce68}\index{full\_stream\_graph.h@{full\_stream\_graph.h}!SGA\_FullStreamGraph\_destroy@{SGA\_FullStreamGraph\_destroy}}
+\index{SGA\_FullStreamGraph\_destroy@{SGA\_FullStreamGraph\_destroy}!full\_stream\_graph.h@{full\_stream\_graph.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_FullStreamGraph\_destroy()}{SGA\_FullStreamGraph\_destroy()}}
+{\footnotesize\ttfamily \label{full__stream__graph_8h_ae5bb32df9262a3951b2bfb289d8cce68} 
+void SGA\+\_\+\+Full\+Stream\+Graph\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Destroys a Stream of a Full\+Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Full\+Stream\+Graph to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{full__stream__graph_8h_a67d7f67b5a970df9b64bfbb3b6347515}\index{full\_stream\_graph.h@{full\_stream\_graph.h}!SGA\_FullStreamGraph\_from@{SGA\_FullStreamGraph\_from}}
+\index{SGA\_FullStreamGraph\_from@{SGA\_FullStreamGraph\_from}!full\_stream\_graph.h@{full\_stream\_graph.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_FullStreamGraph\_from()}{SGA\_FullStreamGraph\_from()}}
+{\footnotesize\ttfamily \label{full__stream__graph_8h_a67d7f67b5a970df9b64bfbb3b6347515} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Full\+Stream\+Graph\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{}\end{DoxyParamCaption})}
+
+
+
+Creates a Stream of a Full\+Stream\+Graph from a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Full\+Stream\+Graph. 
+\end{DoxyReturn}
+Include dependency graph for full\+\_\+stream\+\_\+graph.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{full__stream__graph_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{full__stream__graph_8h__dep__incl}
+\end{center}
+\end{figure}
