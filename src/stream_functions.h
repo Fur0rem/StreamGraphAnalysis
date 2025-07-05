@@ -20,8 +20,8 @@
 typedef struct {
 	SGA_Interval (*lifespan)(SGA_StreamData*); ///< Lifespan of the Stream.
 	size_t (*time_scale)(SGA_StreamData*);	   ///< By how much the time is scaled. Used to normalise many time-related metrics.
-						   ///< It is useful if you scaled up the time of your data to have only integers.
-						   ///< And you want to compute the metrics on the original time scale.
+					       ///< It is useful if you scaled up the time of your data to have only integers.
+					       ///< And you want to compute the metrics on the original time scale.
 
 	SGA_NodesIterator (*nodes_set)(SGA_StreamData*); ///< Set of nodes in the Stream.
 	SGA_LinksIterator (*links_set)(SGA_StreamData*); ///< Set of links in the Stream.

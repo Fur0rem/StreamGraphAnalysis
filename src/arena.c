@@ -1,12 +1,11 @@
 #include "arena.h"
-#include "generic_data_structures/arraylist.h"
 #include "utils.h"
 
 InnerArena InnerArena_init() {
 	InnerArena arena = {
-		.memory	  = MALLOC(ARENA_SIZE),
-		.size	  = 0,
-		.capacity = ARENA_SIZE,
+	    .memory   = MALLOC(ARENA_SIZE),
+	    .size     = 0,
+	    .capacity = ARENA_SIZE,
 	};
 	return arena;
 }
@@ -26,10 +25,10 @@ void* InnerArena_alloc(InnerArena* arena, size_t size) {
 
 Arena Arena_init() {
 	Arena arena = {
-		.arenas		  = MALLOC(sizeof(InnerArena) * 2),
-		.nb_arenas	  = 1,
-		.capacity	  = 2,
-		.nb_allocated = 1,
+	    .arenas	  = MALLOC(sizeof(InnerArena) * 2),
+	    .nb_arenas	  = 1,
+	    .capacity	  = 2,
+	    .nb_allocated = 1,
 	};
 	arena.arenas[0] = InnerArena_init();
 	return arena;

@@ -20,6 +20,5 @@ var searchData=
   ['sga_5ftimesiterator_17',['SGA_TimesIterator',['../iterators_8h.html#structSGA__TimesIterator',1,'']]],
   ['sga_5fwalk_18',['SGA_Walk',['../walks_8h.html#structSGA__Walk',1,'']]],
   ['sga_5fwalkstep_19',['SGA_WalkStep',['../walks_8h.html#structSGA__WalkStep',1,'']]],
-  ['sss_5ftimesidpresentatiteratordata_20',['SSS_TimesIdPresentAtIteratorData',['../structSSS__TimesIdPresentAtIteratorData.html',1,'']]],
-  ['string_21',['String',['../structString.html',1,'']]]
+  ['string_20',['String',['../structString.html',1,'']]]
 ];

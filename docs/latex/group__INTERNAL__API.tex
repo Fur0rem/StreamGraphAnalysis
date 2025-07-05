@@ -3,6 +3,11 @@
 
 
 \doxysubsection{Detailed Description}
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{group__INTERNAL__API_structInnerArena}{Inner\+Arena}}
+\begin{DoxyCompactList}\small\item\em An chunk of memory to allocate stuff close to each other and with one allocation.  \mbox{\hyperlink{group__INTERNAL__API_structInnerArena}{More...}}\end{DoxyCompactList}\end{DoxyCompactItemize}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{group__INTERNAL__API_ga203f48b9380feb3ac35aa9bfcc3aa6ed}\label{group__INTERNAL__API_ga203f48b9380feb3ac35aa9bfcc3aa6ed} 
@@ -200,3 +205,111 @@ void {\bfseries Max\+Cliques\+From\+Edges} (const size\+\_\+t\+Array\+List New\+
 \Hypertarget{group__INTERNAL__API_gae50a3d8183f6fd597da171ec32352179}\label{group__INTERNAL__API_gae50a3d8183f6fd597da171ec32352179} 
 SGA\+\_\+\+Clique\+Array\+List {\bfseries cliques\+\_\+sequential} (const \mbox{\hyperlink{src_2analysis_2cliques_8c_structLinkPresenceStream}{Link\+Presence\+Stream}} \texorpdfstring{$\ast$}{*}ls\+\_\+end, \mbox{\hyperlink{src_2analysis_2cliques_8c_structBKPTemporalArgs}{BKPTemporal\+Args}} \texorpdfstring{$\ast$}{*}d)
 \end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group__INTERNAL__API_ga62e338fe611fa244e2747302b2fdc70a}\label{group__INTERNAL__API_ga62e338fe611fa244e2747302b2fdc70a} 
+typedef struct Inner\+Arena {\bfseries Inner\+Arena}
+\begin{DoxyCompactList}\small\item\em An chunk of memory to allocate stuff close to each other and with one allocation. \end{DoxyCompactList}\item 
+\Hypertarget{group__INTERNAL__API_ga98751b1b43f160fe72c8148775ae1734}\label{group__INTERNAL__API_ga98751b1b43f160fe72c8148775ae1734} 
+typedef struct Arena {\bfseries Arena}
+\begin{DoxyCompactList}\small\item\em An arena-\/like allocator made with a list of smaller arenas inside to be able to be dynamic in size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structArena}{Arena}} \mbox{\hyperlink{group__INTERNAL__API_ga3b5a93445f5b78ac047952381c11932b}{Arena\+\_\+init}} ()
+\begin{DoxyCompactList}\small\item\em Create an arena with a default size. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__INTERNAL__API_ga664df80e38cce29bef225720fe0381a3}{Arena\+\_\+destroy}} (\mbox{\hyperlink{structArena}{Arena}} arena)
+\begin{DoxyCompactList}\small\item\em Destroy an arena. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__INTERNAL__API_ga21e6c86efc8a04981fd804d1d51d373c}{Arena\+\_\+clear}} (\mbox{\hyperlink{structArena}{Arena}} \texorpdfstring{$\ast$}{*}arena)
+\begin{DoxyCompactList}\small\item\em Clear an arena. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group__INTERNAL__API_ga6170347e114455aaf247dc92eec44b74}{Arena\+\_\+alloc}} (\mbox{\hyperlink{structArena}{Arena}} \texorpdfstring{$\ast$}{*}arena, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Allocate memory in an arena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Data Structure Documentation}
+\index{InnerArena@{InnerArena}}\label{structInnerArena}
+\Hypertarget{group__INTERNAL__API_structInnerArena}
+\doxysubsubsection{struct Inner\+Arena}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{group__INTERNAL__API_a1e9461f27125cdba6ba9aa0f01fced0c}\label{group__INTERNAL__API_a1e9461f27125cdba6ba9aa0f01fced0c}} 
+size\_t&
+capacity&
+Capacity of the arena (how many bytes can be allocated before needing to allocate more) \\
+\hline
+
+\mbox{\Hypertarget{group__INTERNAL__API_a170d0823cb882d7bd5b61b02a44050f4}\label{group__INTERNAL__API_a170d0823cb882d7bd5b61b02a44050f4}} 
+uint8\_t \texorpdfstring{$\ast$}{*}&
+memory&
+Pointer to the memory allocated for this arena. \\
+\hline
+
+\mbox{\Hypertarget{group__INTERNAL__API_ab36fb42e787292c6e12011b6072dc771}\label{group__INTERNAL__API_ab36fb42e787292c6e12011b6072dc771}} 
+size\_t&
+size&
+Size of the memory allocated for this arena. \\
+\hline
+
+\end{DoxyFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group__INTERNAL__API_ga6170347e114455aaf247dc92eec44b74}\index{Internal API Documentation@{Internal API Documentation}!Arena\_alloc@{Arena\_alloc}}
+\index{Arena\_alloc@{Arena\_alloc}!Internal API Documentation@{Internal API Documentation}}
+\doxysubsubsection{\texorpdfstring{Arena\_alloc()}{Arena\_alloc()}}
+{\footnotesize\ttfamily \label{group__INTERNAL__API_ga6170347e114455aaf247dc92eec44b74} 
+void \texorpdfstring{$\ast$}{*} Arena\+\_\+alloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structArena}{Arena}} \texorpdfstring{$\ast$}{*}}]{arena}{, }\item[{size\+\_\+t}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Allocate memory in an arena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arena} & The arena to allocate memory in. \\
+\hline
+{\em size} & The size of the memory to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated memory. 
+\end{DoxyReturn}
+\Hypertarget{group__INTERNAL__API_ga21e6c86efc8a04981fd804d1d51d373c}\index{Internal API Documentation@{Internal API Documentation}!Arena\_clear@{Arena\_clear}}
+\index{Arena\_clear@{Arena\_clear}!Internal API Documentation@{Internal API Documentation}}
+\doxysubsubsection{\texorpdfstring{Arena\_clear()}{Arena\_clear()}}
+{\footnotesize\ttfamily \label{group__INTERNAL__API_ga21e6c86efc8a04981fd804d1d51d373c} 
+void Arena\+\_\+clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structArena}{Arena}} \texorpdfstring{$\ast$}{*}}]{arena}{}\end{DoxyParamCaption})}
+
+
+
+Clear an arena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arena} & The arena to clear. All memory used by the arenas is now available, but not freed, so it can be reused. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__INTERNAL__API_ga664df80e38cce29bef225720fe0381a3}\index{Internal API Documentation@{Internal API Documentation}!Arena\_destroy@{Arena\_destroy}}
+\index{Arena\_destroy@{Arena\_destroy}!Internal API Documentation@{Internal API Documentation}}
+\doxysubsubsection{\texorpdfstring{Arena\_destroy()}{Arena\_destroy()}}
+{\footnotesize\ttfamily \label{group__INTERNAL__API_ga664df80e38cce29bef225720fe0381a3} 
+void Arena\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structArena}{Arena}}}]{arena}{}\end{DoxyParamCaption})}
+
+
+
+Destroy an arena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arena} & The arena to destroy. Frees all the memory allocated for the arenas and clears the arenas array. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__INTERNAL__API_ga3b5a93445f5b78ac047952381c11932b}\index{Internal API Documentation@{Internal API Documentation}!Arena\_init@{Arena\_init}}
+\index{Arena\_init@{Arena\_init}!Internal API Documentation@{Internal API Documentation}}
+\doxysubsubsection{\texorpdfstring{Arena\_init()}{Arena\_init()}}
+{\footnotesize\ttfamily \label{group__INTERNAL__API_ga3b5a93445f5b78ac047952381c11932b} 
+\mbox{\hyperlink{structArena}{Arena}} Arena\+\_\+init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Create an arena with a default size. 
+
+\begin{DoxyReturn}{Returns}
+An initialized arena. 
+\end{DoxyReturn}

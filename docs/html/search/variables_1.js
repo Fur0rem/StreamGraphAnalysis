@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cache_0',['cache',['../structSGA__Stream.html#ad50e9e6167fed3e723994d3909e0496f',1,'SGA_Stream']]]
+  ['bits_0',['bits',['../bit__array_8h.html#a5898b55f85eeb18ff29cd27c608c63bc',1,'BitArray']]]
 ];

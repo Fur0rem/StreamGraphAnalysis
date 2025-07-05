@@ -41,13 +41,10 @@ bool QueueInfo_equals(const QueueInfo* a, const QueueInfo* b) {
 }
 
 String QueueInfo_to_string(const QueueInfo* info) {
-	/*char* str = malloc(100);
-	sprintf(str, "QueueInfo(node:%zu, time:%zu, interval taken:%s, depth:%zu)",
-	info->node, info->time, SGA_Interval_to_string(&info->interval_taken),
-	info->depth); return str;*/
-	String str = String_from_duplicate("");
-	char buf[100];
-	sprintf(buf, "QueueInfo(node:%zu, time:%zu, interval taken:", info->node, info->time);
+	String str	      = String_from_duplicate("");
+	const size_t BUF_SIZE = 100;
+	char buf[BUF_SIZE];
+	snprintf(buf, BUF_SIZE, "QueueInfo(node:%zu, time:%zu, interval taken:", info->node, info->time);
 	String_push_str(&str, buf);
 	String interval_str = SGA_Interval_to_string(&info->interval_taken);
 	String_concat_copy(&str, &interval_str);

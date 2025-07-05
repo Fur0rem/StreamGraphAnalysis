@@ -102,13 +102,17 @@ $(function(){initNavTree('structArena.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Arena Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>An arena-like allocator made with a list of smaller arenas inside to be able to be dynamic in size. </p>
+</div>
+<p><code>#include &lt;<a class="el" href="arena_8h_source.html">arena.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for Arena:</div>
 <div class="dyncontent">
 <div class="center"><img src="structArena__coll__graph.png" border="0" usemap="#aArena_coll__map" alt="Collaboration graph"/></div>
 <map name="aArena_coll__map" id="aArena_coll__map">
-<area shape="rect" title=" " alt="" coords="22,98,81,126"/>
-<area shape="rect" href="group__testgroup.html#structInnerArena" title=" " alt="" coords="5,5,98,33"/>
+<area shape="rect" title="An arena&#45;like allocator made with a list of smaller arenas inside to be able to be dynamic in size." alt="" coords="22,98,81,126"/>
+<area shape="rect" href="group__INTERNAL__API.html#structInnerArena" title="An chunk of memory to allocate stuff close to each other and with one allocation." alt="" coords="5,5,98,33"/>
 <area shape="poly" title=" " alt="" coords="54,48,54,98,49,98,49,48"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -116,16 +120,20 @@ Collaboration diagram for Arena:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a2a6e7151b3b9e265380635777d2722fb" id="r_a2a6e7151b3b9e265380635777d2722fb"><td class="memItemLeft" align="right" valign="top"><a id="a2a6e7151b3b9e265380635777d2722fb" name="a2a6e7151b3b9e265380635777d2722fb"></a>
-<a class="el" href="group__testgroup.html#structInnerArena">InnerArena</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>arenas</b></td></tr>
+<a class="el" href="group__INTERNAL__API.html#structInnerArena">InnerArena</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>arenas</b></td></tr>
+<tr class="memdesc:a2a6e7151b3b9e265380635777d2722fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of arenas. <br /></td></tr>
 <tr class="separator:a2a6e7151b3b9e265380635777d2722fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d6a802148868f8bea56e322a761ae66" id="r_a4d6a802148868f8bea56e322a761ae66"><td class="memItemLeft" align="right" valign="top"><a id="a4d6a802148868f8bea56e322a761ae66" name="a4d6a802148868f8bea56e322a761ae66"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nb_arenas</b></td></tr>
+<tr class="memdesc:a4d6a802148868f8bea56e322a761ae66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the arenas array. <br /></td></tr>
 <tr class="separator:a4d6a802148868f8bea56e322a761ae66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca584e0541032c88456c89383621586b" id="r_aca584e0541032c88456c89383621586b"><td class="memItemLeft" align="right" valign="top"><a id="aca584e0541032c88456c89383621586b" name="aca584e0541032c88456c89383621586b"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>capacity</b></td></tr>
+<tr class="memdesc:aca584e0541032c88456c89383621586b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capacity of the arenas array (uninitialized inner arenas) <br /></td></tr>
 <tr class="separator:aca584e0541032c88456c89383621586b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac14befc5bcdc832bce81fe2c9990929d" id="r_ac14befc5bcdc832bce81fe2c9990929d"><td class="memItemLeft" align="right" valign="top"><a id="ac14befc5bcdc832bce81fe2c9990929d" name="ac14befc5bcdc832bce81fe2c9990929d"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nb_allocated</b></td></tr>
+<tr class="memdesc:ac14befc5bcdc832bce81fe2c9990929d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of inner arenas already allocated. <br /></td></tr>
 <tr class="separator:ac14befc5bcdc832bce81fe2c9990929d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
@@ -136,10 +144,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nb_allocated</b></t
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__testgroup.html#structInnerArena">InnerArena</a>* Arena::arenas</td>
+          <td class="memname"><a class="el" href="group__INTERNAL__API.html#structInnerArena">InnerArena</a>* Arena::arenas</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Array of arenas. </p>
 
 </div>
 </div>
@@ -155,6 +165,8 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nb_allocated</b></t
       </table>
 </div><div class="memdoc">
 
+<p>Capacity of the arenas array (uninitialized inner arenas) </p>
+
 </div>
 </div>
 <a id="ac14befc5bcdc832bce81fe2c9990929d" name="ac14befc5bcdc832bce81fe2c9990929d"></a>
@@ -169,6 +181,8 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nb_allocated</b></t
       </table>
 </div><div class="memdoc">
 
+<p>Number of inner arenas already allocated. </p>
+
 </div>
 </div>
 <a id="a4d6a802148868f8bea56e322a761ae66" name="a4d6a802148868f8bea56e322a761ae66"></a>
@@ -182,6 +196,8 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nb_allocated</b></t
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Size of the arenas array. </p>
 
 </div>
 </div>

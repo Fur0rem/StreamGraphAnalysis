@@ -103,7 +103,7 @@ $(function(){initNavTree('md_README.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Current state of the Project</h1>
-<p>Quite usable, but not fully fleshed out yet.</p>
+<p>Quite usable, but not fully fleshed out yet. If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Also it'd be appreciated if you linked to the project in your paper or project if you use it.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Before you start</h1>
 <p>The library is based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at <a href="https://arxiv.org/abs/1710.04073">https://arxiv.org/abs/1710.04073</a>.</p>
@@ -111,9 +111,10 @@ Before you start</h1>
 <p>It is highly recommended to read the paper before using the library, or at least have a good enough understanding of what a stream graph is and what the metrics can represent and tell you.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Regarding the paper, definitions and namings</h1>
-<p>I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences :</p><ul>
+<p>I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences :</p>
+<ul>
 <li>The paper defines the stream graph as a tuple of 4 sets (W : Temporal nodes, V : distinct nodes, E : links, T : time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).</li>
-<li>For their cardinals, which are often used in the paper, I renamed them to |W| : temporal_cardinal_of_node_set, |V| : distinct_cardinal_of_node_set, |E| : distinct_cardinal_of_link_set, |T| : duration (for the stream, not for a node or a link).</li>
+<li>For their cardinals, which are often used in the paper, I renamed them to |W| : temporal_cardinal_of_node_set, |V| : distinct_cardinal_of_node_set, |E| : temporal_cardinal_of_link_set, |T| : duration (for the stream, not for a node or a link).</li>
 <li>For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.</li>
 <li>The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.</li>
 <li>I define a key instant as a time where a node or a link appears or disappears, i.e. a time where the stream graph changes.</li>
@@ -121,20 +122,23 @@ Regarding the paper, definitions and namings</h1>
 </ul>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Basic information about the implementation</h1>
-<p>The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics. Anything related to the library (data types, functions, ect...) contain the prefix SGA_ to avoid conflicts with other libraries. There are 2 main data structures in the library :</p><ul>
+<p>The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics. Anything related to the library (data types, functions, ect...) contain the prefix SGA_ to avoid conflicts with other libraries. There are 2 main data structures in the library :</p>
+<ul>
 <li>StreamGraph, which is the main data structure, and contains the entire stream graph.</li>
 <li>Stream, which is a wrapper around the StreamGraph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.</li>
 </ul>
 <p>You need to first load the StreamGraph, and then wrap it in a Stream to compute metrics on it. The stream contains a reference to the StreamGraph, so be careful to not delete the StreamGraph before the Stream.</p>
 <p>Stream's are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried. For example, a LinkStream will only have a reference to the StreamGraph, and return the full lifespan of the stream graph when asked for the lifespan of node. All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a LinkStream can optimise the computation of the coverage, which is always 1.</p>
-<p>The different streams are :</p><ul>
+<p>The different streams are :</p>
+<ul>
 <li>FullStreamGraph : The entire stream graph, no modifications</li>
 <li>LinkStream : All nodes are present at all times, and the links are the only thing that changes</li>
 <li>TimeFrameStream : Study the stream graph only on a subset of the interval it is defined on, doesn't change nodes or links present</li>
 <li>ChunkStream and ChunkStreamSmall : Study the stream graph only on a subset of the interval, subset of the nodes, and subset of the links. Note that deleting a node will cause the deletion of all its links. ChunkStream is optimised for when you have a lot of nodes and links, and ChunkStreamSmall is optimised for more sparse chunks with a small portion of the nodes and links.</li>
 </ul>
 <p>I plan to add DeltaStreamGraph, to support delta-analysis of the stream graph, and maybe a few others.</p>
-<p>The library was designed to have efficient access on:</p><ul>
+<p>The library was designed to have efficient access on:</p>
+<ul>
 <li>Access a node: which is in O(1)</li>
 <li>Access a link: which is in O(1)</li>
 <li>Access a time: which is in O(1) (actually in O(log(255)), but it's a constant time)</li>
@@ -147,7 +151,8 @@ How to use the library</h1>
 <h1><a class="anchor" id="autotoc_md6"></a>
 Data format</h1>
 <p>You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it's recommended to write your data in the external format, and then convert it to the internal format using the function, and save that for future use. You can use the utilities/bin/external_to_internal program to convert your data from the external format to the internal format.</p>
-<p>External format : </p><div class="fragment"><div class="line">SGA External Format &lt;version&gt;</div>
+<p>External format :</p>
+<div class="fragment"><div class="line">SGA External Format &lt;version&gt;</div>
 <div class="line"> </div>
 <div class="line">Any text between the version and the [General] section will be ignored, and can be used for comments or metadata</div>
 <div class="line"> </div>
@@ -176,6 +181,7 @@ What it can do</h1>
 What it cannot do</h1>
 <ul>
 <li>Modify the stream graph : the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.</li>
+<li>Support directed or weighted stream graphs : the library is made to support undirected unweighted stream graphs only, as defined in the paper. (Maybe in the future, but not for now)</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md9"></a>
 Specifications of the stream graph data</h1>
@@ -191,16 +197,18 @@ Project guidelines and organisation</h1>
 <li>Guidelines : None for now, I'm focusing on having something that works first, rather than something that is perfect but with no results. Maybe I could make it standardised like ISO C, or C99, but I'm doing weird macro magic for the genericity specified above, so I'm not sure how to do that.</li>
 <li>Organisation :</li>
 </ul>
-<p>The src/ directory contains the entire source code of the library.</p>
-<p>The src/stream_graph/ directory contains the source code of the StreamGraph data structure.</p>
-<p>The src/streams/ directory contains the source code of the different streams.</p>
-<p>The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-cores, etc...</p>
-<p>The tests/ directory contains the tests for the library, which are written using a home-made very basic testing framework. You can run them using the run_tests.sh script in the main directory.</p>
-<p>The benchmarks/ directory contains the benchmarks for the library. You can run them using the run_benchmarks.sh script in the main directory.</p>
-<p>The examples/ directory contains examples of how to use the library.</p>
-<p>The data/ directory contains data files, test data, example data, and benchmark data.</p>
-<p>The docs/ directory contains the documentation of the library, which is generated using Doxygen.</p>
-<p>The utilities/ directory contains utility programs, which are compiled using the make utilities -B command.</p>
+<p>The <code>src</code> directory contains the entire source code of the library.</p>
+<p>The <code>src/stream_graph</code> directory contains the source code of the StreamGraph data structure.</p>
+<p>The <code>src/streams</code> directory contains the source code of the different streams.</p>
+<p>The <code>src/analysis</code> directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-cores, etc...</p>
+<p>The <code>tests</code> directory contains the tests for the library, which are written using a home-made very basic testing framework. You can run them using the run_tests.sh script in the main directory.</p>
+<p>The <code>benchmarks</code> directory contains the benchmarks for the library. You can run them using the run_benchmarks.sh script in the main directory.</p>
+<p>The <code>examples</code> directory contains examples of how to use the library.</p>
+<p>The <code>data</code> directory contains data files, test data, example data, and benchmark data.</p>
+<p>The <code>docs</code> directory contains the documentation of the library, which is generated using Doxygen.</p>
+<p>The <code>utilities</code> directory contains utility programs, which are compiled using the</p>
+<div class="fragment"><div class="line">make utilities -B</div>
+</div><!-- fragment --><p>command.</p>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Supported metrics and analysis</h1>
 <ul>

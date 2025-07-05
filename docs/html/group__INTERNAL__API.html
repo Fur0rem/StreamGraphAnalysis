@@ -97,11 +97,18 @@ $(function(){initNavTree('group__INTERNAL__API.html',''); initResizable(true); }
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Data Structures</a>  </div>
   <div class="headertitle"><div class="title">Internal API Documentation</div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:structInnerArena" id="r_structInnerArena"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structInnerArena">InnerArena</a></td></tr>
+<tr class="memdesc:structInnerArena"><td class="mdescLeft">&#160;</td><td class="mdescRight">An chunk of memory to allocate stuff close to each other and with one allocation.  <a href="#structInnerArena">More...</a><br /></td></tr>
+<tr class="separator:structInnerArena"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga203f48b9380feb3ac35aa9bfcc3aa6ed" id="r_ga203f48b9380feb3ac35aa9bfcc3aa6ed"><td class="memItemLeft" align="right" valign="top"><a id="ga203f48b9380feb3ac35aa9bfcc3aa6ed" name="ga203f48b9380feb3ac35aa9bfcc3aa6ed"></a>
 typedef struct LinkPresence&#160;</td><td class="memItemRight" valign="bottom"><b>LinkPresence</b></td></tr>
 <tr class="separator:ga203f48b9380feb3ac35aa9bfcc3aa6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -297,7 +304,165 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>MaxCliquesFromEdges</
 <tr class="memitem:gae50a3d8183f6fd597da171ec32352179" id="r_gae50a3d8183f6fd597da171ec32352179"><td class="memItemLeft" align="right" valign="top"><a id="gae50a3d8183f6fd597da171ec32352179" name="gae50a3d8183f6fd597da171ec32352179"></a>
 SGA_CliqueArrayList&#160;</td><td class="memItemRight" valign="bottom"><b>cliques_sequential</b> (const <a class="el" href="src_2analysis_2cliques_8c.html#structLinkPresenceStream">LinkPresenceStream</a> *ls_end, <a class="el" href="src_2analysis_2cliques_8c.html#structBKPTemporalArgs">BKPTemporalArgs</a> *d)</td></tr>
 <tr class="separator:gae50a3d8183f6fd597da171ec32352179"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62e338fe611fa244e2747302b2fdc70a" id="r_ga62e338fe611fa244e2747302b2fdc70a"><td class="memItemLeft" align="right" valign="top"><a id="ga62e338fe611fa244e2747302b2fdc70a" name="ga62e338fe611fa244e2747302b2fdc70a"></a>
+typedef struct InnerArena&#160;</td><td class="memItemRight" valign="bottom"><b>InnerArena</b></td></tr>
+<tr class="memdesc:ga62e338fe611fa244e2747302b2fdc70a"><td class="mdescLeft">&#160;</td><td class="mdescRight">An chunk of memory to allocate stuff close to each other and with one allocation. <br /></td></tr>
+<tr class="separator:ga62e338fe611fa244e2747302b2fdc70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98751b1b43f160fe72c8148775ae1734" id="r_ga98751b1b43f160fe72c8148775ae1734"><td class="memItemLeft" align="right" valign="top"><a id="ga98751b1b43f160fe72c8148775ae1734" name="ga98751b1b43f160fe72c8148775ae1734"></a>
+typedef struct Arena&#160;</td><td class="memItemRight" valign="bottom"><b>Arena</b></td></tr>
+<tr class="memdesc:ga98751b1b43f160fe72c8148775ae1734"><td class="mdescLeft">&#160;</td><td class="mdescRight">An arena-like allocator made with a list of smaller arenas inside to be able to be dynamic in size. <br /></td></tr>
+<tr class="separator:ga98751b1b43f160fe72c8148775ae1734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b5a93445f5b78ac047952381c11932b" id="r_ga3b5a93445f5b78ac047952381c11932b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArena.html">Arena</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3b5a93445f5b78ac047952381c11932b">Arena_init</a> ()</td></tr>
+<tr class="memdesc:ga3b5a93445f5b78ac047952381c11932b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an arena with a default size.  <br /></td></tr>
+<tr class="separator:ga3b5a93445f5b78ac047952381c11932b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga664df80e38cce29bef225720fe0381a3" id="r_ga664df80e38cce29bef225720fe0381a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga664df80e38cce29bef225720fe0381a3">Arena_destroy</a> (<a class="el" href="structArena.html">Arena</a> arena)</td></tr>
+<tr class="memdesc:ga664df80e38cce29bef225720fe0381a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy an arena.  <br /></td></tr>
+<tr class="separator:ga664df80e38cce29bef225720fe0381a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga21e6c86efc8a04981fd804d1d51d373c" id="r_ga21e6c86efc8a04981fd804d1d51d373c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga21e6c86efc8a04981fd804d1d51d373c">Arena_clear</a> (<a class="el" href="structArena.html">Arena</a> *arena)</td></tr>
+<tr class="memdesc:ga21e6c86efc8a04981fd804d1d51d373c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear an arena.  <br /></td></tr>
+<tr class="separator:ga21e6c86efc8a04981fd804d1d51d373c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6170347e114455aaf247dc92eec44b74" id="r_ga6170347e114455aaf247dc92eec44b74"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6170347e114455aaf247dc92eec44b74">Arena_alloc</a> (<a class="el" href="structArena.html">Arena</a> *arena, size_t size)</td></tr>
+<tr class="memdesc:ga6170347e114455aaf247dc92eec44b74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate memory in an arena.  <br /></td></tr>
+<tr class="separator:ga6170347e114455aaf247dc92eec44b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<hr/><h2 class="groupheader">Data Structure Documentation</h2>
+<a name="structInnerArena" id="structInnerArena"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structInnerArena">&#9670;&#160;</a></span>InnerArena</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct InnerArena</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a1e9461f27125cdba6ba9aa0f01fced0c" name="a1e9461f27125cdba6ba9aa0f01fced0c"></a>size_t</td>
+<td class="fieldname">
+capacity</td>
+<td class="fielddoc">
+Capacity of the arena (how many bytes can be allocated before needing to allocate more) </td></tr>
+<tr><td class="fieldtype">
+<a id="a170d0823cb882d7bd5b61b02a44050f4" name="a170d0823cb882d7bd5b61b02a44050f4"></a>uint8_t *</td>
+<td class="fieldname">
+memory</td>
+<td class="fielddoc">
+Pointer to the memory allocated for this arena. </td></tr>
+<tr><td class="fieldtype">
+<a id="ab36fb42e787292c6e12011b6072dc771" name="ab36fb42e787292c6e12011b6072dc771"></a>size_t</td>
+<td class="fieldname">
+size</td>
+<td class="fielddoc">
+Size of the memory allocated for this arena. </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga6170347e114455aaf247dc92eec44b74" name="ga6170347e114455aaf247dc92eec44b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6170347e114455aaf247dc92eec44b74">&#9670;&#160;</a></span>Arena_alloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * Arena_alloc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structArena.html">Arena</a> *</td>          <td class="paramname"><span class="paramname"><em>arena</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocate memory in an arena. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arena</td><td>The arena to allocate memory in. </td></tr>
+    <tr><td class="paramname">size</td><td>The size of the memory to allocate. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the allocated memory. </dd></dl>
+
+</div>
+</div>
+<a id="ga21e6c86efc8a04981fd804d1d51d373c" name="ga21e6c86efc8a04981fd804d1d51d373c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga21e6c86efc8a04981fd804d1d51d373c">&#9670;&#160;</a></span>Arena_clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Arena_clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structArena.html">Arena</a> *</td>          <td class="paramname"><span class="paramname"><em>arena</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear an arena. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arena</td><td>The arena to clear. All memory used by the arenas is now available, but not freed, so it can be reused. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga664df80e38cce29bef225720fe0381a3" name="ga664df80e38cce29bef225720fe0381a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga664df80e38cce29bef225720fe0381a3">&#9670;&#160;</a></span>Arena_destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Arena_destroy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structArena.html">Arena</a></td>          <td class="paramname"><span class="paramname"><em>arena</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroy an arena. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arena</td><td>The arena to destroy. Frees all the memory allocated for the arenas and clears the arenas array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga3b5a93445f5b78ac047952381c11932b" name="ga3b5a93445f5b78ac047952381c11932b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3b5a93445f5b78ac047952381c11932b">&#9670;&#160;</a></span>Arena_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structArena.html">Arena</a> Arena_init </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an arena with a default size. </p>
+<dl class="section return"><dt>Returns</dt><dd>An initialized arena. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

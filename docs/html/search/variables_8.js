@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['optimality_0',['optimality',['../walks_8h.html#ab6b72bb6e9d27917781a604cbcefcbe7',1,'SGA_Walk']]]
+  ['memory_0',['memory',['../group__INTERNAL__API.html#a170d0823cb882d7bd5b61b02a44050f4',1,'InnerArena']]]
 ];

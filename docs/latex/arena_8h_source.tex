@@ -13,29 +13,29 @@
 \DoxyCodeLine{00009\ }
 \DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ ARENA\_SIZE\ 1024}}
 \DoxyCodeLine{00011\ }
-\DoxyCodeLine{00017\ \ \textcolor{comment}{//\ end\ of\ testgroup}}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{group__testgroup_structInnerArena}{InnerArena}}\ \{}
-\DoxyCodeLine{00026\ \ \ \ \ uint8\_t*\ memory;}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size;}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ capacity;}
-\DoxyCodeLine{00029\ \}\ \mbox{\hyperlink{group__testgroup_structInnerArena}{InnerArena}};}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structArena}{Arena}}\ \{}
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{group__testgroup_structInnerArena}{InnerArena}}*\ arenas;\ \ \textcolor{comment}{//\ array\ of\ arenas}}
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_arenas;\ \ \ \ \textcolor{comment}{//\ size\ of\ the\ arenas\ array}}
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ capacity;\ \ \ \ \ \textcolor{comment}{//\ capacity\ of\ the\ arenas\ array\ (uninitialized\ inner\ arenas)}}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_allocated;\ \textcolor{comment}{//\ number\ of\ inner\ arenas\ already\ allocated}}
-\DoxyCodeLine{00036\ \}\ \mbox{\hyperlink{structArena}{Arena}};}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \mbox{\hyperlink{structArena}{Arena}}\ Arena\_init();}
-\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ Arena\_destroy(\mbox{\hyperlink{structArena}{Arena}}\ arena);}
-\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ Arena\_clear(\mbox{\hyperlink{structArena}{Arena}}*\ arena);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{group__INTERNAL__API_structInnerArena}{InnerArena}}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ uint8\_t*\ \mbox{\hyperlink{group__INTERNAL__API_a170d0823cb882d7bd5b61b02a44050f4}{memory}};\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__INTERNAL__API_ab36fb42e787292c6e12011b6072dc771}{size}};\ \ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{group__INTERNAL__API_a1e9461f27125cdba6ba9aa0f01fced0c}{capacity}};\ }
+\DoxyCodeLine{00024\ \}\ \mbox{\hyperlink{group__INTERNAL__API_structInnerArena}{InnerArena}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structArena}{Arena}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{group__INTERNAL__API_structInnerArena}{InnerArena}}*\ \mbox{\hyperlink{structArena_a2a6e7151b3b9e265380635777d2722fb}{arenas}};\ \ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structArena_a4d6a802148868f8bea56e322a761ae66}{nb\_arenas}};\ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structArena_aca584e0541032c88456c89383621586b}{capacity}};\ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structArena_ac14befc5bcdc832bce81fe2c9990929d}{nb\_allocated}};\ }
+\DoxyCodeLine{00034\ \}\ \mbox{\hyperlink{structArena}{Arena}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00040\ \mbox{\hyperlink{structArena}{Arena}}\ \mbox{\hyperlink{group__INTERNAL__API_ga3b5a93445f5b78ac047952381c11932b}{Arena\_init}}();}
 \DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}*\ Arena\_alloc(\mbox{\hyperlink{structArena}{Arena}}*\ arena,\ \textcolor{keywordtype}{size\_t}\ size);}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ARENA\_H}}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__INTERNAL__API_ga664df80e38cce29bef225720fe0381a3}{Arena\_destroy}}(\mbox{\hyperlink{structArena}{Arena}}\ arena);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__INTERNAL__API_ga21e6c86efc8a04981fd804d1d51d373c}{Arena\_clear}}(\mbox{\hyperlink{structArena}{Arena}}*\ arena);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{group__INTERNAL__API_ga6170347e114455aaf247dc92eec44b74}{Arena\_alloc}}(\mbox{\hyperlink{structArena}{Arena}}*\ arena,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ARENA\_H}}
 
 \end{DoxyCode}
