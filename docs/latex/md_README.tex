@@ -3,22 +3,26 @@
 \label{md_README_autotoc_md0}%
 \Hypertarget{md_README_autotoc_md0}%
 \hypertarget{md_README_autotoc_md1}{}\doxysection{\texorpdfstring{Current state of the Project}{Current state of the Project}}\label{md_README_autotoc_md1}
-Quite usable, but not fully fleshed out yet.\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Before you start}{Before you start}}\label{md_README_autotoc_md2}
+Quite usable, but not fully fleshed out yet. If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Also it\textquotesingle{}d be appreciated if you linked to the project in your paper or project if you use it.\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Before you start}{Before you start}}\label{md_README_autotoc_md2}
 The library is based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at \href{https://arxiv.org/abs/1710.04073}{\texttt{ https\+://arxiv.\+org/abs/1710.\+04073}}.
 
 It is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6. It is made to be efficient in terms of memory usage and speed, and to support the computation of metrics different transformations of the stream graph without copying much data.
 
 It is highly recommended to read the paper before using the library, or at least have a good enough understanding of what a stream graph is and what the metrics can represent and tell you.\hypertarget{md_README_autotoc_md3}{}\doxysection{\texorpdfstring{Regarding the paper, definitions and namings}{Regarding the paper, definitions and namings}}\label{md_README_autotoc_md3}
 I tried to follow the paper namings as closely as possible, but I had to make some decisions for the implementation, so here are the differences \+:
+
+
 \begin{DoxyItemize}
 \item The paper defines the stream graph as a tuple of 4 sets (W \+: Temporal nodes, V \+: distinct nodes, E \+: links, T \+: time), but in the implementation, I only use 3 sets (W, E, T), and renamed to their more explicit names (Nodes, Links, Times).
-\item For their cardinals, which are often used in the paper, I renamed them to \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} \+: temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: duration (for the stream, not for a node or a link).
+\item For their cardinals, which are often used in the paper, I renamed them to \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|} \+: temporal\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} \+: distinct\+\_\+cardinal\+\_\+of\+\_\+node\+\_\+set, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} \+: temporal\+\_\+cardinal\+\_\+of\+\_\+link\+\_\+set, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: duration (for the stream, not for a node or a link).
 \item For the rest, most of the same names are used, and I put the corresponding notation in the documentation of the functions.
 \item The documentation is split by sections of the paper, in the same order as the first mention of the metrics in the paper, to make it easier to find the corresponding function for a metric.
 \item I define a key instant as a time where a node or a link appears or disappears, i.\+e. a time where the stream graph changes.
 \item I define an event as a change in the stream graph, i.\+e. appearance or disappearance of a node or a link. Though I don\textquotesingle{}t think that you will ever need to work with events directly.
 \end{DoxyItemize}\hypertarget{md_README_autotoc_md4}{}\doxysection{\texorpdfstring{Basic information about the implementation}{Basic information about the implementation}}\label{md_README_autotoc_md4}
 The library is written in C, and is designed to be very generic, to be able to support different types of stream graphs, and different types of metrics. Anything related to the library (data types, functions, ect...) contain the prefix SGA\+\_\+ to avoid conflicts with other libraries. There are 2 main data structures in the library \+:
+
+
 \begin{DoxyItemize}
 \item Stream\+Graph, which is the main data structure, and contains the entire stream graph.
 \item Stream, which is a wrapper around the Stream\+Graph, and allows for different transformations of the stream graph. For example, only considering a subset of the stream graph, or considering it as a link stream.
@@ -29,6 +33,8 @@ You need to first load the Stream\+Graph, and then wrap it in a Stream to comput
 Stream\textquotesingle{}s are optimised to be very lightweight, to not copy much data, and will just transform the data on the fly when it is queried. For example, a Link\+Stream will only have a reference to the Stream\+Graph, and return the full lifespan of the stream graph when asked for the lifespan of node. All the metrics are made to work with streams, but some types of streams can optimise the computation of some metrics, for example, a Link\+Stream can optimise the computation of the coverage, which is always 1.
 
 The different streams are \+:
+
+
 \begin{DoxyItemize}
 \item Full\+Stream\+Graph \+: The entire stream graph, no modifications
 \item Link\+Stream \+: All nodes are present at all times, and the links are the only thing that changes
@@ -39,6 +45,8 @@ The different streams are \+:
 I plan to add Delta\+Stream\+Graph, to support delta-\/analysis of the stream graph, and maybe a few others.
 
 The library was designed to have efficient access on\+:
+
+
 \begin{DoxyItemize}
 \item Access a node\+: which is in O(1)
 \item Access a link\+: which is in O(1)
@@ -51,7 +59,9 @@ Clone the repository, and then run make lib\+SGA to compile the library. You wil
 You can find examples of how to use the library in the examples/ directory. You can find the documentation in the docs/ directory, which is generated using Doxygen, which you can generate using the make docs -\/B command. You can find utility programs in the utilities/ directory, which you can compile using the make utilities -\/B command.\hypertarget{md_README_autotoc_md6}{}\doxysection{\texorpdfstring{Data format}{Data format}}\label{md_README_autotoc_md6}
 You have two ways to format your data, either in the external format or in the internal format. The external format is easier to write for you, but the internal format is more efficient to read for the program. So it\textquotesingle{}s recommended to write your data in the external format, and then convert it to the internal format using the function, and save that for future use. You can use the utilities/bin/external\+\_\+to\+\_\+internal program to convert your data from the external format to the internal format.
 
-External format \+: 
+External format \+:
+
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{SGA\ External\ Format\ <version>}
 \DoxyCodeLine{}
@@ -86,6 +96,7 @@ You can also find a more detailed documentation of each format in the documentat
 
 \begin{DoxyItemize}
 \item Modify the stream graph \+: the library was made to analyse huge stream graphs, so the data structured is optimised for reading only.
+\item Support directed or weighted stream graphs \+: the library is made to support undirected unweighted stream graphs only, as defined in the paper. (Maybe in the future, but not for now)
 \end{DoxyItemize}\hypertarget{md_README_autotoc_md9}{}\doxysection{\texorpdfstring{Specifications of the stream graph data}{Specifications of the stream graph data}}\label{md_README_autotoc_md9}
 
 \begin{DoxyItemize}
@@ -100,25 +111,34 @@ You can also find a more detailed documentation of each format in the documentat
 \item Organisation \+:
 \end{DoxyItemize}
 
-The src/ directory contains the entire source code of the library.
+The {\ttfamily src} directory contains the entire source code of the library.
 
-The src/stream\+\_\+graph/ directory contains the source code of the Stream\+Graph data structure.
+The {\ttfamily src/stream\+\_\+graph} directory contains the source code of the Stream\+Graph data structure.
 
-The src/streams/ directory contains the source code of the different streams.
+The {\ttfamily src/streams} directory contains the source code of the different streams.
 
-The src/analysis/ directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-\/cores, etc...
+The {\ttfamily src/analysis} directory contains implementations of the different ways to analyse the stream graph which are not metrics. For example, maximal cliques, walks, k-\/cores, etc...
 
-The tests/ directory contains the tests for the library, which are written using a home-\/made very basic testing framework. You can run them using the run\+\_\+tests.\+sh script in the main directory.
+The {\ttfamily tests} directory contains the tests for the library, which are written using a home-\/made very basic testing framework. You can run them using the run\+\_\+tests.\+sh script in the main directory.
 
-The benchmarks/ directory contains the benchmarks for the library. You can run them using the run\+\_\+benchmarks.\+sh script in the main directory.
+The {\ttfamily benchmarks} directory contains the benchmarks for the library. You can run them using the run\+\_\+benchmarks.\+sh script in the main directory.
 
-The examples/ directory contains examples of how to use the library.
+The {\ttfamily examples} directory contains examples of how to use the library.
 
-The data/ directory contains data files, test data, example data, and benchmark data.
+The {\ttfamily data} directory contains data files, test data, example data, and benchmark data.
 
-The docs/ directory contains the documentation of the library, which is generated using Doxygen.
+The {\ttfamily docs} directory contains the documentation of the library, which is generated using Doxygen.
 
-The utilities/ directory contains utility programs, which are compiled using the make utilities -\/B command.\hypertarget{md_README_autotoc_md11}{}\doxysection{\texorpdfstring{Supported metrics and analysis}{Supported metrics and analysis}}\label{md_README_autotoc_md11}
+The {\ttfamily utilities} directory contains utility programs, which are compiled using the
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make\ utilities\ -\/B}
+
+\end{DoxyCode}
+
+
+command.\hypertarget{md_README_autotoc_md11}{}\doxysection{\texorpdfstring{Supported metrics and analysis}{Supported metrics and analysis}}\label{md_README_autotoc_md11}
 
 \begin{DoxyItemize}
 \item \texorpdfstring{$\vert$}{|}\+W\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}, \texorpdfstring{$\vert$}{|}\+T\texorpdfstring{$\vert$}{|} \+: Section 3

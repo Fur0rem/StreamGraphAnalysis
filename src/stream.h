@@ -234,8 +234,6 @@ String SGA_external_v_1_0_0_to_internal_v_1_0_0_format(const String* format);
  * Otherwise a circular dependency would be created since these files need stream.h.
  * It is safe to cast this to the actual type of the Stream (which is known in the Stream struct).
  */
-// typedef struct {
-// } SGA_StreamData;
 typedef void SGA_StreamData;
 
 /**
@@ -287,7 +285,7 @@ void init_cache(SGA_Stream* stream);
  * @param[in] value The value to write to the cache.
  */
 #	define UPDATE_CACHE(stream, field, value)                                                                                         \
-		((SGA_Stream*)(stream))->cache.field.present = true;                                                                                      \
+		((SGA_Stream*)(stream))->cache.field.present = true;                                                                       \
 		((SGA_Stream*)(stream))->cache.field.data    = value;
 
 /**

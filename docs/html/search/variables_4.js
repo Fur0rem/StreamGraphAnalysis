@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['id_0',['id',['../src_2stream_8c.html#aff386bff3ff7535ac355c44e02084a40',1,'EventTuple']]],
-  ['instant_1',['instant',['../src_2stream_8c.html#a036b38fd38f1dd6e6f69ba5bf316e653',1,'EventTuple']]],
-  ['interval_5ftaken_2',['interval_taken',['../walks_8h.html#a8777f68a9e87538be1cb54e54ec0568b',1,'SGA_WalkStep']]],
-  ['iterator_5fdata_3',['iterator_data',['../iterators_8h.html#a840afa2bb7444d426d53b04d180a81c6',1,'SGA_NodesIterator::iterator_data'],['../iterators_8h.html#aaa2b330483efe7f0c42c02b2725cac50',1,'SGA_LinksIterator::iterator_data'],['../iterators_8h.html#aff888fa22a69047a18dc30e63f551ccc',1,'SGA_TimesIterator::iterator_data']]]
+  ['end_0',['end',['../walks_8h.html#a34893363a103ce5b250e34ee30d9abcf',1,'SGA_Walk']]],
+  ['events_1',['events',['../src_2stream_8c.html#a5ee3d34e865184a76a83f69d87563060',1,'ParsedStreamGraph::events'],['../stream_8h.html#ad269df9026ff816a66b3deb2b4e5bd21',1,'SGA_StreamGraph::events']]]
 ];

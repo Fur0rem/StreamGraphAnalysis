@@ -1,0 +1,58 @@
+\doxysection{Internal API}
+\hypertarget{group__internal__group}{}\label{group__internal__group}\index{Internal API@{Internal API}}
+
+
+\doxysubsection{Detailed Description}
+Functions and types for internal use. 
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{group__internal__group_structInnerArena}{Inner\+Arena}}
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group__internal__group_ga62e338fe611fa244e2747302b2fdc70a}\label{group__internal__group_ga62e338fe611fa244e2747302b2fdc70a} 
+typedef struct Inner\+Arena {\bfseries Inner\+Arena}
+\item 
+\Hypertarget{group__internal__group_ga98751b1b43f160fe72c8148775ae1734}\label{group__internal__group_ga98751b1b43f160fe72c8148775ae1734} 
+typedef struct Arena {\bfseries Arena}
+\item 
+\Hypertarget{group__internal__group_ga3b5a93445f5b78ac047952381c11932b}\label{group__internal__group_ga3b5a93445f5b78ac047952381c11932b} 
+\mbox{\hyperlink{structArena}{Arena}} {\bfseries Arena\+\_\+init} ()
+\item 
+\Hypertarget{group__internal__group_ga664df80e38cce29bef225720fe0381a3}\label{group__internal__group_ga664df80e38cce29bef225720fe0381a3} 
+void {\bfseries Arena\+\_\+destroy} (\mbox{\hyperlink{structArena}{Arena}} arena)
+\item 
+\Hypertarget{group__internal__group_ga21e6c86efc8a04981fd804d1d51d373c}\label{group__internal__group_ga21e6c86efc8a04981fd804d1d51d373c} 
+void {\bfseries Arena\+\_\+clear} (\mbox{\hyperlink{structArena}{Arena}} \texorpdfstring{$\ast$}{*}arena)
+\item 
+\Hypertarget{group__internal__group_ga6170347e114455aaf247dc92eec44b74}\label{group__internal__group_ga6170347e114455aaf247dc92eec44b74} 
+void \texorpdfstring{$\ast$}{*} {\bfseries Arena\+\_\+alloc} (\mbox{\hyperlink{structArena}{Arena}} \texorpdfstring{$\ast$}{*}arena, size\+\_\+t size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Data Structure Documentation}
+\index{InnerArena@{InnerArena}}\label{structInnerArena}
+\Hypertarget{group__internal__group_structInnerArena}
+\doxysubsubsection{struct Inner\+Arena}
+\begin{DoxyFields}{Data Fields}
+\mbox{\Hypertarget{group__internal__group_a1e9461f27125cdba6ba9aa0f01fced0c}\label{group__internal__group_a1e9461f27125cdba6ba9aa0f01fced0c}} 
+size\_t&
+capacity&
+\\
+\hline
+
+\mbox{\Hypertarget{group__internal__group_a170d0823cb882d7bd5b61b02a44050f4}\label{group__internal__group_a170d0823cb882d7bd5b61b02a44050f4}} 
+uint8\_t \texorpdfstring{$\ast$}{*}&
+memory&
+\\
+\hline
+
+\mbox{\Hypertarget{group__internal__group_ab36fb42e787292c6e12011b6072dc771}\label{group__internal__group_ab36fb42e787292c6e12011b6072dc771}} 
+size\_t&
+size&
+\\
+\hline
+
+\end{DoxyFields}

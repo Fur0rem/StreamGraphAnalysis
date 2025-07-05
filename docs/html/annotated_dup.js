@@ -1,6 +1,6 @@
 var annotated_dup =
 [
-    [ "Arena", "structArena.html", null ],
+    [ "Arena", "structArena.html", "structArena" ],
     [ "BitArray", "bit__array_8h.html#structBitArray", "bit__array_8h_structBitArray" ],
     [ "BKPTemporalArgs", "src_2analysis_2cliques_8c.html#structBKPTemporalArgs", null ],
     [ "ChunkStreamLPATIterData", "structChunkStreamLPATIterData.html", null ],
@@ -22,7 +22,7 @@ var annotated_dup =
     [ "EventTuple.id.link", "src_2stream_8c.html#structEventTuple_8id_8link", "src_2stream_8c_structEventTuple_8id_8link" ],
     [ "ExploredState", "structExploredState.html", null ],
     [ "InformationCache", "stream_8h.html#structInformationCache", "stream_8h_structInformationCache" ],
-    [ "InnerArena", "group__testgroup.html#structInnerArena", null ],
+    [ "InnerArena", "group__INTERNAL__API.html#structInnerArena", "group__INTERNAL__API_structInnerArena" ],
     [ "InstantsSlice", "key__instants__table_8h.html#structInstantsSlice", null ],
     [ "KCoreData", "structKCoreData.html", null ],
     [ "KeyInstantsTable", "key__instants__table_8h.html#structKeyInstantsTable", null ],
@@ -65,9 +65,9 @@ var annotated_dup =
     [ "SGA_TimesIterator", "iterators_8h.html#structSGA__TimesIterator", "iterators_8h_structSGA__TimesIterator" ],
     [ "SGA_Walk", "walks_8h.html#structSGA__Walk", "walks_8h_structSGA__Walk" ],
     [ "SGA_WalkStep", "walks_8h.html#structSGA__WalkStep", "walks_8h_structSGA__WalkStep" ],
-    [ "SSS_TimesIdPresentAtIteratorData", "structSSS__TimesIdPresentAtIteratorData.html", null ],
     [ "String", "structString.html", null ],
     [ "Test", "test_8h.html#structTest", null ],
+    [ "TFS_TimesIDPresentAtIteratorData", "structTFS__TimesIDPresentAtIteratorData.html", "structTFS__TimesIDPresentAtIteratorData" ],
     [ "TimesLinkPresentIteratorData", "structTimesLinkPresentIteratorData.html", null ],
     [ "TimesNodePresentIteratorData", "structTimesNodePresentIteratorData.html", null ],
     [ "XPR", "src_2analysis_2cliques_8c.html#structXPR", null ]

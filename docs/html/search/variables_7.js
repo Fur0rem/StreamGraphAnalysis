@@ -1,17 +1,7 @@
 var searchData=
 [
-  ['nb_5fbits_0',['nb_bits',['../bit__array_8h.html#ac24ea25e981a8997edf3b8f1d422ab5d',1,'BitArray']]],
-  ['nb_5fevents_5fper_5fslice_1',['nb_events_per_slice',['../src_2stream_8c.html#a2c1f03fd80ebb43ca5401c8ad6f43a62',1,'ParsedStreamGraph']]],
-  ['nb_5fneighbours_2',['nb_neighbours',['../nodes__set_8h.html#a1757eb726945b972c4580b3548e58afd',1,'SGA_Node']]],
-  ['nb_5fnodes_3',['nb_nodes',['../group__CLIQUES.html#ac49048fe91871b0723f74dc08c3f58a8',1,'SGA_Clique::nb_nodes'],['../nodes__set_8h.html#a91eddce3c8a85482291887fb3afdf8f5',1,'NodesSet::nb_nodes']]],
-  ['neighbours_4',['neighbours',['../nodes__set_8h.html#a35ab4a4675fc2c9a19b63333de3504da',1,'SGA_Node']]],
-  ['next_5',['next',['../iterators_8h.html#a29cd35d899e383a93ae0504779c3a053',1,'SGA_NodesIterator::next'],['../iterators_8h.html#ad4efc5f003c0ab6c984e940b269da51e',1,'SGA_LinksIterator::next'],['../iterators_8h.html#abcae2537735ec5ae5cdb92625e8dc30b',1,'SGA_TimesIterator::next']]],
-  ['no_5fwalk_5freason_6',['no_walk_reason',['../walks_8h.html#a174d7b3eb43849ceae28c10bd89cad35',1,'SGA_OptionalWalk.result']]],
-  ['node_7',['node',['../src_2stream_8c.html#a36c4536996ca5615dcf9911f068786dc',1,'EventTuple.id']]],
-  ['node1_8',['node1',['../src_2stream_8c.html#a164546f60261c7e4be0c5f5f9aaeec86',1,'EventTuple.id.link']]],
-  ['node2_9',['node2',['../src_2stream_8c.html#a78882aaeb08e9a4c81687b5de2add74f',1,'EventTuple.id.link']]],
-  ['node_5fabsent_5fbetween_10',['node_absent_between',['../walks_8h.html#a25c9ed6f420a444c0e1d0fbcea5fa5cd',1,'SGA_NoWalkReason.reason']]],
-  ['node_5fid_11',['node_id',['../group__CLUSTERS.html#a10103d61d8e6699ba7046d440a366e20',1,'SGA_ClusterNode']]],
-  ['node_5fneighbours_12',['node_neighbours',['../src_2stream_8c.html#af993fb80690ed5ec2c2da49c891263a2',1,'ParsedStreamGraph']]],
-  ['nodes_13',['nodes',['../group__CLIQUES.html#a0c3bcdece20cca08bf1b6c26a8152ef1',1,'SGA_Clique::nodes'],['../group__CLUSTERS.html#ab00dfed722e45869e80522edecd20f1e',1,'SGA_Cluster::nodes'],['../src_2stream_8c.html#aa55aa1f710a2a011e0fe138249d16b0f',1,'ParsedStreamGraph::nodes'],['../stream_8h.html#a452cddb1c0e6a0c7f47b007979fe9abe',1,'SGA_StreamGraph::nodes'],['../nodes__set_8h.html#a84e66c4a70bdc5ee4cdf6c060a129849',1,'NodesSet::nodes']]]
+  ['letter_0',['letter',['../src_2stream_8c.html#a76aeb565e288e419cd5dd67aa61c7fbf',1,'EventTuple']]],
+  ['lifespan_1',['lifespan',['../src_2stream_8c.html#ae77025daa6e15b953af14b59d8867aa2',1,'ParsedStreamGraph::lifespan'],['../stream_8h.html#aea5025df02df725f85dea7385529ef7c',1,'SGA_StreamGraph::lifespan']]],
+  ['link_2',['link',['../walks_8h.html#a7d1de3bb73977cfad954f292e71fa85d',1,'SGA_WalkStep::link'],['../src_2stream_8c.html#a2a304a1348456ccd2234cd71a81bd338',1,'EventTuple.id::link']]],
+  ['links_3',['links',['../src_2stream_8c.html#a2caaafb588ab1f896613c2b730237030',1,'ParsedStreamGraph::links'],['../stream_8h.html#a01c4a3b8a9aa603938f08c025a73206a',1,'SGA_StreamGraph::links']]]
 ];

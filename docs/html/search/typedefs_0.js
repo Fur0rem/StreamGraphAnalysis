@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bitarray_0',['BitArray',['../bit__array_8h.html#a44f9a1312aeadcbf8ec7561cea0525e2',1,'bit_array.h']]]
+  ['arena_0',['Arena',['../group__INTERNAL__API.html#ga98751b1b43f160fe72c8148775ae1734',1,'arena.h']]]
 ];

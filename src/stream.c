@@ -714,7 +714,6 @@ size_t estimate_internal_format_v_1_0_0_size(size_t nb_nodes, size_t nb_links, S
 /**
  * @brief Structure for parsing the external format of a stream graph
  */
-// TODO: Better name
 typedef struct {
 	SGA_Interval lifespan;			///< The lifespan of the stream graph
 	size_t time_scale;			///< The time scale of the stream graph
@@ -795,8 +794,6 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 				  "Events are not sorted in increasing order (last event: %zu > current event: %zu)\n",
 				  last_event_parsed,
 				  key_instant);
-
-		// printf("Parsed Key instant: %zu\n", key_instant);
 
 		EXPECT_AND_MOVE(str, ' ');
 
@@ -934,11 +931,7 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 		EXPECT_AND_MOVE(str, '\n');
 	}
 
-	// printf("Parsed %zu events\n", nb_events);
-
 	// Push the lifespan end event if it is not the last event
-	// printf("Lifespan end: %zu\n", lifespan_end);
-	// printf("events length: %zu\n", events.length);
 	size_t last_event = events.array[events.length - 1].array[0].instant;
 	if (last_event != lifespan_end) {
 		last_event	= lifespan_end;
@@ -961,16 +954,6 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 		}
 		nb_events_per_slice.array[slice_id]++;
 	}
-
-	// If the last event is not the lifespan end, remove the last event
-	// printf("Last event: %zu, lifespan end: %zu\n", last_event, lifespan_end);
-	// if (last_event != lifespan_end) {
-	// 	printf("Last event is not the lifespan end, removing it\n");
-	// 	// Remove the last event from the last slice
-	// 	if (nb_events_per_slice.length > 0) {
-	// 		nb_events_per_slice.array[nb_events_per_slice.length - 1]--;
-	// 	}
-	// }
 
 	// Create the parsed stream graph
 	ParsedStreamGraph parsed = {
@@ -1182,8 +1165,6 @@ String SGA_StreamGraph_to_string(SGA_StreamGraph* sg) {
 
 	return str;
 }
-
-void events_destroy(SGA_StreamGraph* sg);
 
 void SGA_StreamGraph_destroy(SGA_StreamGraph sg) {
 	for (size_t i = 0; i < sg.nodes.nb_nodes; i++) {

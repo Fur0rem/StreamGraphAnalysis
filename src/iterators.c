@@ -73,7 +73,6 @@ SGA_TimesIterator SGA_TimesIterator_union(SGA_TimesIterator a, SGA_TimesIterator
 	return times;
 }
 
-// FIXME: apparently this leaks memory
 SGA_TimesIterator SGA_TimesIterator_intersection(SGA_TimesIterator a, SGA_TimesIterator b) {
 	// Build an array of intervals
 	SGA_IntervalArrayList intervals = SGA_IntervalArrayList_new();
