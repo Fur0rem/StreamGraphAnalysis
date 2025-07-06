@@ -38,16 +38,9 @@
 #include <stdint.h>
 
 /**
- * @brief The structure used to represent a stream graph.
- *
- * It is opaque to the user, you should not access its fields directly.
- */
-typedef struct SGA_StreamGraph SGA_StreamGraph;
-
-/**
  * @brief The internal implementation of a StreamGraph.
  */
-struct SGA_StreamGraph {
+typedef struct {
 	KeyInstantsTable key_instants; ///< Key instants of the StreamGraph. A key instant is a instant where the StreamGraph changes.
 	NodesSet nodes;		       ///< The nodes of the StreamGraph.
 	LinksSet links;		       ///< The links of the StreamGraph.
@@ -57,7 +50,7 @@ struct SGA_StreamGraph {
 	EventsTable events; ///< The events of the StreamGraph. An event keeps track of additions and removals of nodes and links.
 			    ///< Needs to be initialised separately with init_events_table. As it is quite memory and time consuming, and
 			    ///< not needed in all cases.
-};
+} SGA_StreamGraph;
 
 /**
  * @brief A size_t that can be optional.
@@ -190,6 +183,19 @@ SGA_StreamGraph SGA_StreamGraph_from_external_format_v_1_0_0(const String* forma
 SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* format);
 
 /**
+ * @brief Creates a StreamGraph
+ * @param lifespan The lifespan of the StreamGraph.
+ * @param time_scale The time scale of the StreamGraph.
+ * @param nodes The set of nodes in the StreamGraph.
+ * @param links The set of links in the StreamGraph.
+ * @param key_instants The key instants of the StreamGraph. A key instant is a instant where the StreamGraph changes.
+ * @param nb_key_instants The number of key instants in the StreamGraph.
+ * @return The StreamGraph.
+ */
+SGA_StreamGraph SGA_StreamGraph_from(SGA_Interval lifespan, size_t time_scale, NodesSet nodes, LinksSet links,
+				     KeyInstantsTable key_instants, size_t nb_key_instants);
+
+/**
  * @brief Creates a StreamGraph from a string.
  * @param sg_as_str The string to parse. Determines the type and version of the format from the header.
  * @see SGA_StreamGraph_from_external_format_v_1_0_0, @see SGA_StreamGraph_from_internal_format_v_1_0_0.
@@ -245,7 +251,7 @@ typedef struct SGA_Stream {
 	/**
 	 * @brief The type of the Stream.
 	 */
-	enum {
+	enum StreamType {
 		FULL_STREAM_GRAPH,  ///< A FullStreamGraph
 		LINK_STREAM,	    ///< A LinkStream
 		CHUNK_STREAM,	    ///< A ChunkStream

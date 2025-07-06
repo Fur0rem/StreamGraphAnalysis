@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['external_20api_20documentation_0',['External API Documentation',['../group__EXTERNAL__API.html',1,'']]]
+  ['stream_0',['Line stream',['../group__LINE__STREAM.html',1,'']]]
 ];

@@ -11,7 +11,7 @@ In the context of streamgraphs, we add the time dimension to the definition. Now
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=349pt]{group__ISOMORPHISM}
+\includegraphics[width=271pt]{group__ISOMORPHISM}
 \end{center}
 \end{figure}
 \doxysubsubsubsection*{Functions}
@@ -19,12 +19,34 @@ In the context of streamgraphs, we add the time dimension to the definition. Now
 \item 
 SGA\+\_\+\+Node\+Id \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group__ISOMORPHISM_gafa869039da4c3676c952c4855f3b0d28}{SGA\+\_\+\+Stream\+\_\+isomorphing\+\_\+mapping}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
 \begin{DoxyCompactList}\small\item\em Check if two streams are isomorphic, and get the node mapping if they are. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{group__ISOMORPHISM_gaf4e22012bdf792104b5dd4412f66d581}{SGA\+\_\+\+Stream\+\_\+are\+\_\+isomorphic}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
+\begin{DoxyCompactList}\small\item\em Check if two streams are isomorphic. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{group__ISOMORPHISM_ga930d9e0a9ac4a19da8e3cfceb052526d}{SGA\+\_\+\+Streams\+\_\+are\+\_\+probably\+\_\+isomorphic}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s1, \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}s2)
 \begin{DoxyCompactList}\small\item\em Check if two streamgraphs are probably isomorphic. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsubsection{Function Documentation}
-\Hypertarget{group__ISOMORPHISM_gafa869039da4c3676c952c4855f3b0d28}\index{Isomorphism@{Isomorphism}!SGA\_Stream\_isomorphing\_mapping@{SGA\_Stream\_isomorphing\_mapping}}
+\Hypertarget{group__ISOMORPHISM_gaf4e22012bdf792104b5dd4412f66d581}\index{Isomorphism@{Isomorphism}!SGA\_Stream\_are\_isomorphic@{SGA\_Stream\_are\_isomorphic}}
+\index{SGA\_Stream\_are\_isomorphic@{SGA\_Stream\_are\_isomorphic}!Isomorphism@{Isomorphism}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_Stream\_are\_isomorphic()}{SGA\_Stream\_are\_isomorphic()}}
+{\footnotesize\ttfamily \label{group__ISOMORPHISM_gaf4e22012bdf792104b5dd4412f66d581} 
+bool SGA\+\_\+\+Stream\+\_\+are\+\_\+isomorphic (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s1}{, }\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{s2}{}\end{DoxyParamCaption})}
+
+
+
+Check if two streams are isomorphic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & The first stream \\
+\hline
+{\em s2} & The second stream \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if they are isomorphic, false otherwise.
+\end{DoxyReturn}
+This function is a wrapper around SGA\+\_\+\+Stream\+\_\+isomorphing\+\_\+mapping, and returns true if the mapping is not NULL. It is a convenience function if you just need to know if they are isomorphic but not interested in the mapping \Hypertarget{group__ISOMORPHISM_gafa869039da4c3676c952c4855f3b0d28}\index{Isomorphism@{Isomorphism}!SGA\_Stream\_isomorphing\_mapping@{SGA\_Stream\_isomorphing\_mapping}}
 \index{SGA\_Stream\_isomorphing\_mapping@{SGA\_Stream\_isomorphing\_mapping}!Isomorphism@{Isomorphism}}
 \doxysubsubsubsection{\texorpdfstring{SGA\_Stream\_isomorphing\_mapping()}{SGA\_Stream\_isomorphing\_mapping()}}
 {\footnotesize\ttfamily \label{group__ISOMORPHISM_gafa869039da4c3676c952c4855f3b0d28} 

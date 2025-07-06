@@ -76,7 +76,6 @@ for file in $TEST_DIR/*.c; do
 
     # Run the test
     $BIN_DIR/test_$filename
-    echo "Running test for $BIN_DIR/test_$filename"
     # Check the return code
     if [ $? -ne 0 ]; then
         every_test_that_failed="$every_test_that_failed $filename"

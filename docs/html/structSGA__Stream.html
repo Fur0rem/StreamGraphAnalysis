@@ -123,24 +123,23 @@ Collaboration diagram for SGA_Stream:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a8bb509f9bb4cb83acb5dc665981b31c7" id="r_a8bb509f9bb4cb83acb5dc665981b31c7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="#a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a">FULL_STREAM_GRAPH</a>
-, <a class="el" href="#a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2">LINK_STREAM</a>
-, <a class="el" href="#a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198">CHUNK_STREAM</a>
-, <a class="el" href="#a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4">CHUNK_STREAM_SMALL</a>
+<tr class="memitem:aa6208239395d3ece5cad22f2632b1025" id="r_aa6208239395d3ece5cad22f2632b1025"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6208239395d3ece5cad22f2632b1025">StreamType</a> { <br />
+&#160;&#160;<a class="el" href="#aa6208239395d3ece5cad22f2632b1025aad4bc086a7c1f970925f3b892a6d300a">FULL_STREAM_GRAPH</a>
+, <a class="el" href="#aa6208239395d3ece5cad22f2632b1025a6198bbb565c430c8840b4785399c43e2">LINK_STREAM</a>
+, <a class="el" href="#aa6208239395d3ece5cad22f2632b1025a2da18a08e5d80a2cd0c2949bfdb2c198">CHUNK_STREAM</a>
+, <a class="el" href="#aa6208239395d3ece5cad22f2632b1025ab91d34b0833aa7276735e7a0a89409e4">CHUNK_STREAM_SMALL</a>
 , <br />
-&#160;&#160;<a class="el" href="#a8bb509f9bb4cb83acb5dc665981b31c7a63a3d749b56ebe23e17881a3970189a3">TIMEFRAME_STREAM</a>
+&#160;&#160;<a class="el" href="#aa6208239395d3ece5cad22f2632b1025a63a3d749b56ebe23e17881a3970189a3">TIMEFRAME_STREAM</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a8bb509f9bb4cb83acb5dc665981b31c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the Stream.  <a href="#a8bb509f9bb4cb83acb5dc665981b31c7">More...</a><br /></td></tr>
-<tr class="separator:a8bb509f9bb4cb83acb5dc665981b31c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:aa6208239395d3ece5cad22f2632b1025"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the Stream.  <a href="#aa6208239395d3ece5cad22f2632b1025">More...</a><br /></td></tr>
+<tr class="separator:aa6208239395d3ece5cad22f2632b1025"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a9ab32867f0838c335107d3d6fb958278" id="r_a9ab32867f0838c335107d3d6fb958278"><td class="memItemLeft" align="right" valign="top"><a id="a9ab32867f0838c335107d3d6fb958278" name="a9ab32867f0838c335107d3d6fb958278"></a>
-enum SGA_Stream:: { ... } &#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="memdesc:a9ab32867f0838c335107d3d6fb958278"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the Stream. <br /></td></tr>
-<tr class="separator:a9ab32867f0838c335107d3d6fb958278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d401ca39e1d110972862b667d358a47" id="r_a2d401ca39e1d110972862b667d358a47"><td class="memItemLeft" align="right" valign="top"><a id="a2d401ca39e1d110972862b667d358a47" name="a2d401ca39e1d110972862b667d358a47"></a>
+enum <a class="el" href="#aa6208239395d3ece5cad22f2632b1025">SGA_Stream::StreamType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr class="separator:a2d401ca39e1d110972862b667d358a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bdffced49b473c2ebcc6b15cde87e85" id="r_a6bdffced49b473c2ebcc6b15cde87e85"><td class="memItemLeft" align="right" valign="top"><a id="a6bdffced49b473c2ebcc6b15cde87e85" name="a6bdffced49b473c2ebcc6b15cde87e85"></a>
 <a class="el" href="stream_8h.html#a3c628d0526c9c7b163801ccc0e24cb4f">SGA_StreamData</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>stream_data</b></td></tr>
 <tr class="memdesc:a6bdffced49b473c2ebcc6b15cde87e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">The data of the Stream. It is a union of all the different types of StreamData. <br /></td></tr>
@@ -151,29 +150,29 @@ enum SGA_Stream:: { ... } &#160;</td><td class="memItemRight" valign="bottom"><b
 <tr class="separator:ad50e9e6167fed3e723994d3909e0496f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a8bb509f9bb4cb83acb5dc665981b31c7" name="a8bb509f9bb4cb83acb5dc665981b31c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bb509f9bb4cb83acb5dc665981b31c7">&#9670;&#160;</a></span>anonymous enum</h2>
+<a id="aa6208239395d3ece5cad22f2632b1025" name="aa6208239395d3ece5cad22f2632b1025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6208239395d3ece5cad22f2632b1025">&#9670;&#160;</a></span>StreamType</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">anonymous enum</td>
+          <td class="memname">enum <a class="el" href="#aa6208239395d3ece5cad22f2632b1025">SGA_Stream::StreamType</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The type of the Stream. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a" name="a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a"></a>FULL_STREAM_GRAPH&#160;</td><td class="fielddoc"><p>A FullStreamGraph. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa6208239395d3ece5cad22f2632b1025aad4bc086a7c1f970925f3b892a6d300a" name="aa6208239395d3ece5cad22f2632b1025aad4bc086a7c1f970925f3b892a6d300a"></a>FULL_STREAM_GRAPH&#160;</td><td class="fielddoc"><p>A FullStreamGraph. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2" name="a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2"></a>LINK_STREAM&#160;</td><td class="fielddoc"><p>A LinkStream. </p>
+<tr><td class="fieldname"><a id="aa6208239395d3ece5cad22f2632b1025a6198bbb565c430c8840b4785399c43e2" name="aa6208239395d3ece5cad22f2632b1025a6198bbb565c430c8840b4785399c43e2"></a>LINK_STREAM&#160;</td><td class="fielddoc"><p>A LinkStream. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198" name="a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198"></a>CHUNK_STREAM&#160;</td><td class="fielddoc"><p>A ChunkStream. </p>
+<tr><td class="fieldname"><a id="aa6208239395d3ece5cad22f2632b1025a2da18a08e5d80a2cd0c2949bfdb2c198" name="aa6208239395d3ece5cad22f2632b1025a2da18a08e5d80a2cd0c2949bfdb2c198"></a>CHUNK_STREAM&#160;</td><td class="fielddoc"><p>A ChunkStream. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4" name="a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4"></a>CHUNK_STREAM_SMALL&#160;</td><td class="fielddoc"><p>A ChunkStreamSmall. </p>
+<tr><td class="fieldname"><a id="aa6208239395d3ece5cad22f2632b1025ab91d34b0833aa7276735e7a0a89409e4" name="aa6208239395d3ece5cad22f2632b1025ab91d34b0833aa7276735e7a0a89409e4"></a>CHUNK_STREAM_SMALL&#160;</td><td class="fielddoc"><p>A ChunkStreamSmall. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a8bb509f9bb4cb83acb5dc665981b31c7a63a3d749b56ebe23e17881a3970189a3" name="a8bb509f9bb4cb83acb5dc665981b31c7a63a3d749b56ebe23e17881a3970189a3"></a>TIMEFRAME_STREAM&#160;</td><td class="fielddoc"><p>A TimeFrameStream. </p>
+<tr><td class="fieldname"><a id="aa6208239395d3ece5cad22f2632b1025a63a3d749b56ebe23e17881a3970189a3" name="aa6208239395d3ece5cad22f2632b1025a63a3d749b56ebe23e17881a3970189a3"></a>TIMEFRAME_STREAM&#160;</td><td class="fielddoc"><p>A TimeFrameStream. </p>
 </td></tr>
 </table>
 

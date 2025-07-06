@@ -99,7 +99,7 @@ $(function(){initNavTree('group__ISOMORPHISM.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">Isomorphism<div class="ingroups"><a class="el" href="group__EXTERNAL__API.html">External API Documentation</a></div></div></div>
+  <div class="headertitle"><div class="title">Isomorphism<div class="ingroups"><a class="el" href="group__EXTERNAL__API.html">External API</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -111,8 +111,8 @@ Collaboration diagram for Isomorphism:</div>
 <div class="dyncontent">
 <div class="center"><img src="group__ISOMORPHISM.png" border="0" usemap="#agroup____ISOMORPHISM" alt=""/></div>
 <map name="agroup____ISOMORPHISM" id="agroup____ISOMORPHISM">
-<area shape="rect" href="group__EXTERNAL__API.html" title=" " alt="" coords="5,5,210,33"/>
-<area shape="rect" title="Check if two streams are isomorphic." alt="" coords="258,5,364,33"/>
+<area shape="rect" href="group__EXTERNAL__API.html" title=" " alt="" coords="5,5,106,33"/>
+<area shape="rect" title="Check if two streams are isomorphic." alt="" coords="154,5,260,33"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -121,11 +121,46 @@ Functions</h2></td></tr>
 <tr class="memitem:gafa869039da4c3676c952c4855f3b0d28" id="r_gafa869039da4c3676c952c4855f3b0d28"><td class="memItemLeft" align="right" valign="top">SGA_NodeId *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gafa869039da4c3676c952c4855f3b0d28">SGA_Stream_isomorphing_mapping</a> (const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *s1, const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *s2)</td></tr>
 <tr class="memdesc:gafa869039da4c3676c952c4855f3b0d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if two streams are isomorphic, and get the node mapping if they are.  <br /></td></tr>
 <tr class="separator:gafa869039da4c3676c952c4855f3b0d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4e22012bdf792104b5dd4412f66d581" id="r_gaf4e22012bdf792104b5dd4412f66d581"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaf4e22012bdf792104b5dd4412f66d581">SGA_Stream_are_isomorphic</a> (const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *s1, const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *s2)</td></tr>
+<tr class="memdesc:gaf4e22012bdf792104b5dd4412f66d581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if two streams are isomorphic.  <br /></td></tr>
+<tr class="separator:gaf4e22012bdf792104b5dd4412f66d581"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga930d9e0a9ac4a19da8e3cfceb052526d" id="r_ga930d9e0a9ac4a19da8e3cfceb052526d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga930d9e0a9ac4a19da8e3cfceb052526d">SGA_Streams_are_probably_isomorphic</a> (<a class="el" href="structSGA__Stream.html">SGA_Stream</a> *s1, <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *s2)</td></tr>
 <tr class="memdesc:ga930d9e0a9ac4a19da8e3cfceb052526d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if two streamgraphs are probably isomorphic.  <br /></td></tr>
 <tr class="separator:ga930d9e0a9ac4a19da8e3cfceb052526d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gaf4e22012bdf792104b5dd4412f66d581" name="gaf4e22012bdf792104b5dd4412f66d581"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf4e22012bdf792104b5dd4412f66d581">&#9670;&#160;</a></span>SGA_Stream_are_isomorphic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SGA_Stream_are_isomorphic </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>s1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structSGA__Stream.html">SGA_Stream</a> *</td>          <td class="paramname"><span class="paramname"><em>s2</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if two streams are isomorphic. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s1</td><td>The first stream </td></tr>
+    <tr><td class="paramname">s2</td><td>The second stream </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if they are isomorphic, false otherwise.</dd></dl>
+<p>This function is a wrapper around SGA_Stream_isomorphing_mapping, and returns true if the mapping is not NULL. It is a convenience function if you just need to know if they are isomorphic but not interested in the mapping </p>
+
+</div>
+</div>
 <a id="gafa869039da4c3676c952c4855f3b0d28" name="gafa869039da4c3676c952c4855f3b0d28"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gafa869039da4c3676c952c4855f3b0d28">&#9670;&#160;</a></span>SGA_Stream_isomorphing_mapping()</h2>
 

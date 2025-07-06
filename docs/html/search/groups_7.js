@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['section_5f4_0',['SECTION_4',['../group__SECTION__4.html',1,'']]]
+  ['stream_0',['Line stream',['../group__LINE__STREAM.html',1,'']]]
 ];

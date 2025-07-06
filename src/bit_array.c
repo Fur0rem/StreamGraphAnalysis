@@ -24,7 +24,10 @@ size_t BitArray_nb_bytes(size_t nb_bits) {
 }
 
 BitArray BitArray_with_n_bits(size_t nb_bits) {
-	BitArray bit_array = (BitArray){.nb_bits = nb_bits, .bits = MALLOC(BitArray_nb_slices(nb_bits) * SLICE_SIZE_IN_BYTES)};
+	BitArray bit_array = (BitArray){
+	    .nb_bits = nb_bits,
+	    .bits    = MALLOC(BitArray_nb_slices(nb_bits) * SLICE_SIZE_IN_BYTES),
+	};
 	return bit_array;
 }
 

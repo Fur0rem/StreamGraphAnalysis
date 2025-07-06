@@ -144,23 +144,27 @@ $(function(){initNavTree('key__instants__table_8h_source.html',''); initResizabl
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keywordtype">void</span> KeyInstantsTable_push_in_order(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_Time key_instant);</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a> KeyInstantsTable_alloc(<span class="keywordtype">size_t</span> nb_slices);</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keywordtype">void</span> KeyInstantsTable_alloc_slice(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_TimeId slice, RelativeInstant nb_instants);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>SGA_Time KeyInstantsTable_first_instant(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>SGA_Time KeyInstantsTable_last_instant(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keywordtype">void</span> KeyInstantsTable_destroy(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a> kmt);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">// Assumes the times are sorted, returns the index of a certain time if it was pushed in that array, all of them were in a single array</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>SGA_TimeId KeyInstantsTable_find_time_index_if_pushed(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_Time t);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">// Returns the index of the the instant which has equivalent events to time t</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>SGA_TimeId KeyInstantsTable_find_time_index_equivalent(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_Time t);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keywordtype">void</span> print_key_instants_table(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a> KeyInstantsTable_from_list(SGA_TimeArrayList* key_instants);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keywordtype">void</span> KeyInstantsTable_alloc_slice(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_TimeId slice, RelativeInstant nb_instants);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>SGA_Time KeyInstantsTable_first_instant(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>SGA_Time KeyInstantsTable_last_instant(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keywordtype">void</span> KeyInstantsTable_destroy(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a> kmt);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">// Assumes the times are sorted, returns the index of a certain time if it was pushed in that array, all of them were in a single array</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>SGA_TimeId KeyInstantsTable_find_time_index_if_pushed(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_Time t);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="comment">// Returns the index of the the instant which has equivalent events to time t</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>SGA_TimeId KeyInstantsTable_find_time_index_equivalent(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_Time t);</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#endif </span><span class="comment">// SGA_KEY_INSTANTS_TABLE_H</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keywordtype">void</span> print_key_instants_table(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keywordtype">size_t</span> KeyInstantsTable_in_which_slice_is(<a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* kmt, SGA_Time t);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#endif </span><span class="comment">// SGA_KEY_INSTANTS_TABLE_H</span></div>
 <div class="ttc" id="akey__instants__table_8h_html_structInstantsSlice"><div class="ttname"><a href="key__instants__table_8h.html#structInstantsSlice">InstantsSlice</a></div><div class="ttdef"><b>Definition</b> key_instants_table.h:18</div></div>
 <div class="ttc" id="akey__instants__table_8h_html_structKeyInstantsTable"><div class="ttname"><a href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a></div><div class="ttdef"><b>Definition</b> key_instants_table.h:29</div></div>
 <div class="ttc" id="akey__instants__table_8h_html_structKeyInstantsTableIterator"><div class="ttname"><a href="key__instants__table_8h.html#structKeyInstantsTableIterator">KeyInstantsTableIterator</a></div><div class="ttdef"><b>Definition</b> key_instants_table.h:23</div></div>

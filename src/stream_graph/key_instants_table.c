@@ -1,8 +1,8 @@
 #define SGA_INTERNAL
 
+#include "key_instants_table.h"
 #include "../units.h"
 #include "../utils.h"
-#include "key_instants_table.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -56,6 +56,52 @@ void KeyInstantsTable_alloc_slice(KeyInstantsTable* kmt, SGA_TimeId slice, Relat
 	else {
 		kmt->slices[slice].instants = (RelativeInstant*)MALLOC(nb_instants * sizeof(RelativeInstant));
 	}
+}
+
+KeyInstantsTable KeyInstantsTable_from_list(SGA_TimeArrayList* key_instants) {
+	// Allocate the table
+	KeyInstantsTable kmt = KeyInstantsTable_alloc((key_instants->length / SLICE_SIZE) + 1);
+	// Fill the table
+
+	// For each window of instants whose timestamps are separated by SLICE_SIZE, count how many instants there are to allocate the
+	// slices
+	size_tArrayList nb_instants_per_slice = size_tArrayList_with_capacity(kmt.nb_slices);
+	for (size_t i = 0; i < kmt.nb_slices; i++) {
+		size_tArrayList_push(&nb_instants_per_slice, 0);
+	}
+	for (size_t i = 0; i < key_instants->length; i++) {
+		// Get in which slice it should be in
+		SGA_Time key_instant = key_instants->array[i];
+		SGA_TimeId slice     = key_instant / SLICE_SIZE;
+		// Check bounds
+		ASSERT(slice < kmt.nb_slices);
+
+		// Increment the number of instants in the slice
+		nb_instants_per_slice.array[slice]++;
+	}
+
+	// Allocate the slices
+	for (size_t i = 0; i < kmt.nb_slices; i++) {
+		KeyInstantsTable_alloc_slice(&kmt, i, nb_instants_per_slice.array[i]);
+	}
+
+	// Not needed anymore
+	size_tArrayList_destroy(nb_instants_per_slice);
+
+	// Fill the slices with the instants
+	for (size_t i = 0; i < key_instants->length; i++) {
+		SGA_Time key_instant		 = key_instants->array[i];
+		SGA_TimeId slice		 = key_instant / SLICE_SIZE;
+		RelativeInstant relative_instant = key_instant % SLICE_SIZE;
+
+		ASSERT(slice < kmt.nb_slices);
+		ASSERT(kmt.slices[slice].nb_instants > 0);
+
+		kmt.slices[slice].instants[kmt.fill_info.current_instant] = relative_instant;
+		kmt.fill_info.current_instant++;
+	}
+
+	return kmt;
 }
 
 SGA_Time KeyInstantsTable_first_instant(KeyInstantsTable* kmt) {
@@ -179,4 +225,12 @@ void print_key_instants_table(KeyInstantsTable* kmt) {
 		}
 		printf("\n");
 	}
+}
+
+size_t KeyInstantsTable_in_which_slice_is(KeyInstantsTable* kmt, SGA_Time t) {
+	SGA_TimeId slice = t / SLICE_SIZE;
+	if (slice >= kmt->nb_slices) {
+		return SIZE_MAX; // Out of bounds
+	}
+	return slice;
 }

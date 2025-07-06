@@ -13,40 +13,57 @@ Functions to access the data of a Stream\+Graph.
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} \mbox{\hyperlink{stream__functions_8h_ab804879e23ee919fbe81eb1bfcd77168}{SGA\+\_\+\+Stream\+\_\+lifespan}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} \mbox{\hyperlink{stream__functions_8h_aef2238c9e43985dc1471fbea11b77600}{SGA\+\_\+\+Stream\+\_\+lifespan}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the lifespan of a Stream. \end{DoxyCompactList}\item 
-size\+\_\+t \mbox{\hyperlink{stream__functions_8h_a25e7295d8384ed682e32b76e33069d06}{SGA\+\_\+\+Stream\+\_\+time\+\_\+scale}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+size\+\_\+t \mbox{\hyperlink{stream__functions_8h_aa706c447ff8e0dfca3b68a0c9a536062}{SGA\+\_\+\+Stream\+\_\+time\+\_\+scale}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the time scale of a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a82af5bc4056cccd83a3d8433d5e3883c}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the set of nodes in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729}{SGA\+\_\+\+Stream\+\_\+links\+\_\+set}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_acc84ae3fa5733a461fad5f288b4608c6}{SGA\+\_\+\+Stream\+\_\+links\+\_\+set}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
 \begin{DoxyCompactList}\small\item\em Get the set of links in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_ac949bd95b70a1e5a7c8880c84611ef5b}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} \mbox{\hyperlink{stream__functions_8h_abb95c82a0d85a9e0b2c6715bd89d1948}{SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
 \begin{DoxyCompactList}\small\item\em Get the nodes present at a given instant in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a5c6a1501fd6ec092b5d5656a1981341c}{SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a5a1f772321f49674c50f13c96fec60d7}{SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Time time)
 \begin{DoxyCompactList}\small\item\em Get the links present at a given instant in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_aa9646259657bd5e58d882bd836af145f}{SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a88b43398f7fb3ef7f82bca1d9a91eb05}{SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the times a node is present in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a626128d113305f27990dfd929c04e788}{SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a418d54630a00859c26409db3d5186543}{SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the times a link is present in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}} \mbox{\hyperlink{stream__functions_8h_aefd53317d066e0cfa3bc0c9dbab480dc}{SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
+\mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}} \mbox{\hyperlink{stream__functions_8h_a5a9a6f6f16897f985243f33afd5806d8}{SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Link\+Id link\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get a link by its id in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \mbox{\hyperlink{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff}{SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} \mbox{\hyperlink{stream__functions_8h_aa3ccf2dc59d9e29135c3dab2b7442057}{SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get a node by its id in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a9525463a814213d454ffb20d291d76cc}{SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} \mbox{\hyperlink{stream__functions_8h_a6e8114686e7599bd485b3b9c9e0335e2}{SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the neighbours of a node in a Stream. \end{DoxyCompactList}\item 
-SGA\+\_\+\+Link\+Id \mbox{\hyperlink{stream__functions_8h_af2d835b83fab8b1a42fff3a30ee507c8}{SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id, SGA\+\_\+\+Node\+Id other\+\_\+node\+\_\+id)
+SGA\+\_\+\+Link\+Id \mbox{\hyperlink{stream__functions_8h_ae329de03f4711815721e6ed8757a7999}{SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream, SGA\+\_\+\+Node\+Id node\+\_\+id, SGA\+\_\+\+Node\+Id other\+\_\+node\+\_\+id)
 \begin{DoxyCompactList}\small\item\em Get the id of the link between two nodes in a Stream. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_addeaa838f3dc7660643b4689a939b23f}{SGA\+\_\+\+Stream\+\_\+key\+\_\+instants}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
-\begin{DoxyCompactList}\small\item\em Get the key instants of a Stream. A key instant is a time instant where the graph changes. For each time interval \mbox{[}t\+\_\+start, t\+\_\+end\mbox{[} received from this iterator, all induced graphs \{G(t\+\_\+start), ..., G(t\+\_\+end-\/1)\} are the same. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} \mbox{\hyperlink{stream__functions_8h_ad24078226ec9830e1a64b9157cd9914d}{SGA\+\_\+\+Stream\+\_\+key\+\_\+instants}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Get the key instants of a Stream. A key instant is a time instant where the graph changes. For each time interval \mbox{[}t\+\_\+start, t\+\_\+end\mbox{[} received from this iterator, all induced graphs \{G(t\+\_\+start), ..., G(t\+\_\+end-\/1)\} are the same. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{stream__functions_8h_ac72707a499b6b2ab5ac0ef159c4cf24f}{SGA\+\_\+\+Stream\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroy a Stream and free its resources. Doesn\textquotesingle{}t destroy the underlying Stream\+Graph, just the Stream structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{stream__functions_8h_addeaa838f3dc7660643b4689a939b23f}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_key\_instants@{SGA\_Stream\_key\_instants}}
+\Hypertarget{stream__functions_8h_ac72707a499b6b2ab5ac0ef159c4cf24f}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_destroy@{SGA\_Stream\_destroy}}
+\index{SGA\_Stream\_destroy@{SGA\_Stream\_destroy}!stream\_functions.h@{stream\_functions.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_Stream\_destroy()}{SGA\_Stream\_destroy()}}
+{\footnotesize\ttfamily \label{stream__functions_8h_ac72707a499b6b2ab5ac0ef159c4cf24f} 
+void SGA\+\_\+\+Stream\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Destroy a Stream and free its resources. Doesn\textquotesingle{}t destroy the underlying Stream\+Graph, just the Stream structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & The Stream to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{stream__functions_8h_ad24078226ec9830e1a64b9157cd9914d}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_key\_instants@{SGA\_Stream\_key\_instants}}
 \index{SGA\_Stream\_key\_instants@{SGA\_Stream\_key\_instants}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_key\_instants()}{SGA\_Stream\_key\_instants()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_addeaa838f3dc7660643b4689a939b23f} 
-\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+key\+\_\+instants (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_ad24078226ec9830e1a64b9157cd9914d} 
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+key\+\_\+instants (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -60,11 +77,11 @@ Get the key instants of a Stream. A key instant is a time instant where the grap
 \begin{DoxyReturn}{Returns}
 An iterator over the key instants of the Stream. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_ab804879e23ee919fbe81eb1bfcd77168}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_lifespan@{SGA\_Stream\_lifespan}}
+\Hypertarget{stream__functions_8h_aef2238c9e43985dc1471fbea11b77600}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_lifespan@{SGA\_Stream\_lifespan}}
 \index{SGA\_Stream\_lifespan@{SGA\_Stream\_lifespan}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_lifespan()}{SGA\_Stream\_lifespan()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_ab804879e23ee919fbe81eb1bfcd77168} 
-\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} SGA\+\_\+\+Stream\+\_\+lifespan (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_aef2238c9e43985dc1471fbea11b77600} 
+\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} SGA\+\_\+\+Stream\+\_\+lifespan (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -78,11 +95,11 @@ Get the lifespan of a Stream.
 \begin{DoxyReturn}{Returns}
 The lifespan of the Stream. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_af2d835b83fab8b1a42fff3a30ee507c8}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_link\_between\_nodes@{SGA\_Stream\_link\_between\_nodes}}
+\Hypertarget{stream__functions_8h_ae329de03f4711815721e6ed8757a7999}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_link\_between\_nodes@{SGA\_Stream\_link\_between\_nodes}}
 \index{SGA\_Stream\_link\_between\_nodes@{SGA\_Stream\_link\_between\_nodes}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_link\_between\_nodes()}{SGA\_Stream\_link\_between\_nodes()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_af2d835b83fab8b1a42fff3a30ee507c8} 
-SGA\+\_\+\+Link\+Id SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{, }\item[{SGA\+\_\+\+Node\+Id}]{other\+\_\+node\+\_\+id}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_ae329de03f4711815721e6ed8757a7999} 
+SGA\+\_\+\+Link\+Id SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{, }\item[{SGA\+\_\+\+Node\+Id}]{other\+\_\+node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -100,11 +117,11 @@ Get the id of the link between two nodes in a Stream.
 \begin{DoxyReturn}{Returns}
 The id of the link between the two nodes. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_aefd53317d066e0cfa3bc0c9dbab480dc}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_link\_by\_id@{SGA\_Stream\_link\_by\_id}}
+\Hypertarget{stream__functions_8h_a5a9a6f6f16897f985243f33afd5806d8}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_link\_by\_id@{SGA\_Stream\_link\_by\_id}}
 \index{SGA\_Stream\_link\_by\_id@{SGA\_Stream\_link\_by\_id}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_link\_by\_id()}{SGA\_Stream\_link\_by\_id()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_aefd53317d066e0cfa3bc0c9dbab480dc} 
-\mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}} SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_a5a9a6f6f16897f985243f33afd5806d8} 
+\mbox{\hyperlink{structSGA__Link}{SGA\+\_\+\+Link}} SGA\+\_\+\+Stream\+\_\+link\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -120,11 +137,11 @@ Get a link by its id in a Stream.
 \begin{DoxyReturn}{Returns}
 The link with the given id. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_a5c6a1501fd6ec092b5d5656a1981341c}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_links\_present\_at\_t@{SGA\_Stream\_links\_present\_at\_t}}
+\Hypertarget{stream__functions_8h_a5a1f772321f49674c50f13c96fec60d7}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_links\_present\_at\_t@{SGA\_Stream\_links\_present\_at\_t}}
 \index{SGA\_Stream\_links\_present\_at\_t@{SGA\_Stream\_links\_present\_at\_t}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_links\_present\_at\_t()}{SGA\_Stream\_links\_present\_at\_t()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_a5c6a1501fd6ec092b5d5656a1981341c} 
-\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_a5a1f772321f49674c50f13c96fec60d7} 
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
 
 
 
@@ -140,11 +157,11 @@ Get the links present at a given instant in a Stream.
 \begin{DoxyReturn}{Returns}
 An iterator over the links present at the given instant. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_links\_set@{SGA\_Stream\_links\_set}}
+\Hypertarget{stream__functions_8h_acc84ae3fa5733a461fad5f288b4608c6}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_links\_set@{SGA\_Stream\_links\_set}}
 \index{SGA\_Stream\_links\_set@{SGA\_Stream\_links\_set}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_links\_set()}{SGA\_Stream\_links\_set()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_aa3906fe09d860a010beb791d62cb5729} 
-\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_acc84ae3fa5733a461fad5f288b4608c6} 
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+links\+\_\+set (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -158,11 +175,11 @@ Get the set of links in a Stream.
 \begin{DoxyReturn}{Returns}
 An iterator over the set of links in the Stream. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_a9525463a814213d454ffb20d291d76cc}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_neighbours\_of\_node@{SGA\_Stream\_neighbours\_of\_node}}
+\Hypertarget{stream__functions_8h_a6e8114686e7599bd485b3b9c9e0335e2}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_neighbours\_of\_node@{SGA\_Stream\_neighbours\_of\_node}}
 \index{SGA\_Stream\_neighbours\_of\_node@{SGA\_Stream\_neighbours\_of\_node}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_neighbours\_of\_node()}{SGA\_Stream\_neighbours\_of\_node()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_a9525463a814213d454ffb20d291d76cc} 
-\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_a6e8114686e7599bd485b3b9c9e0335e2} 
+\mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\+\_\+\+Links\+Iterator}} SGA\+\_\+\+Stream\+\_\+neighbours\+\_\+of\+\_\+node (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -178,11 +195,11 @@ Get the neighbours of a node in a Stream.
 \begin{DoxyReturn}{Returns}
 An iterator over the neighbours of the node. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_node\_by\_id@{SGA\_Stream\_node\_by\_id}}
+\Hypertarget{stream__functions_8h_aa3ccf2dc59d9e29135c3dab2b7442057}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_node\_by\_id@{SGA\_Stream\_node\_by\_id}}
 \index{SGA\_Stream\_node\_by\_id@{SGA\_Stream\_node\_by\_id}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_node\_by\_id()}{SGA\_Stream\_node\_by\_id()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_a1d336352f7c8fc7ac9d06e62f9c365ff} 
-\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_aa3ccf2dc59d9e29135c3dab2b7442057} 
+\mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\+\_\+\+Node}} SGA\+\_\+\+Stream\+\_\+node\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -198,11 +215,11 @@ Get a node by its id in a Stream.
 \begin{DoxyReturn}{Returns}
 The node with the given id. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_ac949bd95b70a1e5a7c8880c84611ef5b}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_nodes\_present\_at\_t@{SGA\_Stream\_nodes\_present\_at\_t}}
+\Hypertarget{stream__functions_8h_abb95c82a0d85a9e0b2c6715bd89d1948}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_nodes\_present\_at\_t@{SGA\_Stream\_nodes\_present\_at\_t}}
 \index{SGA\_Stream\_nodes\_present\_at\_t@{SGA\_Stream\_nodes\_present\_at\_t}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_nodes\_present\_at\_t()}{SGA\_Stream\_nodes\_present\_at\_t()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_ac949bd95b70a1e5a7c8880c84611ef5b} 
-\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_abb95c82a0d85a9e0b2c6715bd89d1948} 
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+present\+\_\+at\+\_\+t (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Time}]{time}{}\end{DoxyParamCaption})}
 
 
 
@@ -218,11 +235,11 @@ Get the nodes present at a given instant in a Stream.
 \begin{DoxyReturn}{Returns}
 An iterator over the nodes present at the given instant. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_nodes\_set@{SGA\_Stream\_nodes\_set}}
+\Hypertarget{stream__functions_8h_a82af5bc4056cccd83a3d8433d5e3883c}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_nodes\_set@{SGA\_Stream\_nodes\_set}}
 \index{SGA\_Stream\_nodes\_set@{SGA\_Stream\_nodes\_set}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_nodes\_set()}{SGA\_Stream\_nodes\_set()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_a824c36df39b9f04309195df3b499e0a1} 
-\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_a82af5bc4056cccd83a3d8433d5e3883c} 
+\mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\+\_\+\+Nodes\+Iterator}} SGA\+\_\+\+Stream\+\_\+nodes\+\_\+set (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -236,11 +253,11 @@ Get the set of nodes in a Stream.
 \begin{DoxyReturn}{Returns}
 An iterator over the set of nodes in the Stream. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_a25e7295d8384ed682e32b76e33069d06}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_time\_scale@{SGA\_Stream\_time\_scale}}
+\Hypertarget{stream__functions_8h_aa706c447ff8e0dfca3b68a0c9a536062}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_time\_scale@{SGA\_Stream\_time\_scale}}
 \index{SGA\_Stream\_time\_scale@{SGA\_Stream\_time\_scale}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_time\_scale()}{SGA\_Stream\_time\_scale()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_a25e7295d8384ed682e32b76e33069d06} 
-size\+\_\+t SGA\+\_\+\+Stream\+\_\+time\+\_\+scale (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_aa706c447ff8e0dfca3b68a0c9a536062} 
+size\+\_\+t SGA\+\_\+\+Stream\+\_\+time\+\_\+scale (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
 
 
 
@@ -254,11 +271,11 @@ Get the time scale of a Stream.
 \begin{DoxyReturn}{Returns}
 The time scale of the Stream. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_a626128d113305f27990dfd929c04e788}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_times\_link\_present@{SGA\_Stream\_times\_link\_present}}
+\Hypertarget{stream__functions_8h_a418d54630a00859c26409db3d5186543}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_times\_link\_present@{SGA\_Stream\_times\_link\_present}}
 \index{SGA\_Stream\_times\_link\_present@{SGA\_Stream\_times\_link\_present}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_times\_link\_present()}{SGA\_Stream\_times\_link\_present()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_a626128d113305f27990dfd929c04e788} 
-\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_a418d54630a00859c26409db3d5186543} 
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+link\+\_\+present (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Link\+Id}]{link\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 
@@ -274,11 +291,11 @@ Get the times a link is present in a Stream.
 \begin{DoxyReturn}{Returns}
 An iterator over the times the link is present in the Stream. 
 \end{DoxyReturn}
-\Hypertarget{stream__functions_8h_aa9646259657bd5e58d882bd836af145f}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_times\_node\_present@{SGA\_Stream\_times\_node\_present}}
+\Hypertarget{stream__functions_8h_a88b43398f7fb3ef7f82bca1d9a91eb05}\index{stream\_functions.h@{stream\_functions.h}!SGA\_Stream\_times\_node\_present@{SGA\_Stream\_times\_node\_present}}
 \index{SGA\_Stream\_times\_node\_present@{SGA\_Stream\_times\_node\_present}!stream\_functions.h@{stream\_functions.h}}
 \doxysubsubsection{\texorpdfstring{SGA\_Stream\_times\_node\_present()}{SGA\_Stream\_times\_node\_present()}}
-{\footnotesize\ttfamily \label{stream__functions_8h_aa9646259657bd5e58d882bd836af145f} 
-\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{stream__functions_8h_a88b43398f7fb3ef7f82bca1d9a91eb05} 
+\mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\+\_\+\+Times\+Iterator}} SGA\+\_\+\+Stream\+\_\+times\+\_\+node\+\_\+present (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{, }\item[{SGA\+\_\+\+Node\+Id}]{node\+\_\+id}{}\end{DoxyParamCaption})}
 
 
 

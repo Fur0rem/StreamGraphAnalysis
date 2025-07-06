@@ -39,6 +39,8 @@ SGA_Time KeyInstantsTable_nth_key_instant(KeyInstantsTable* kmt, SGA_TimeId n);
 void KeyInstantsTable_push_in_order(KeyInstantsTable* kmt, SGA_Time key_instant);
 KeyInstantsTable KeyInstantsTable_alloc(size_t nb_slices);
 
+KeyInstantsTable KeyInstantsTable_from_list(SGA_TimeArrayList* key_instants);
+
 void KeyInstantsTable_alloc_slice(KeyInstantsTable* kmt, SGA_TimeId slice, RelativeInstant nb_instants);
 SGA_Time KeyInstantsTable_first_instant(KeyInstantsTable* kmt);
 
@@ -52,6 +54,14 @@ SGA_TimeId KeyInstantsTable_find_time_index_if_pushed(KeyInstantsTable* kmt, SGA
 SGA_TimeId KeyInstantsTable_find_time_index_equivalent(KeyInstantsTable* kmt, SGA_Time t);
 
 void print_key_instants_table(KeyInstantsTable* kmt);
+
+/**
+ * @brief Compute the index of the slice in which the time instant is.
+ * @param kmt The key instants table.
+ * @param t The time instant.
+ * @return The index of the slice in which the time instant is.
+ */
+size_t KeyInstantsTable_in_which_slice_is(KeyInstantsTable* kmt, SGA_Time t);
 
 #endif // SGA_INTERNAL
 
