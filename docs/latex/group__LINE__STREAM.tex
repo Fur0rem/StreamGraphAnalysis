@@ -1,0 +1,51 @@
+\doxysubsection{Line stream}
+\hypertarget{group__LINE__STREAM}{}\label{group__LINE__STREAM}\index{Line stream@{Line stream}}
+
+
+\doxysubsubsection{Detailed Description}
+Compute the line stream of a stream. 
+
+The line stream is a transformation where the nodes represent the links of the original stream, and the links represent the times when two links have a node in common.
+
+\begin{DoxySeeAlso}{See also}
+Section 12 of the paper for more information. 
+\end{DoxySeeAlso}
+Collaboration diagram for Line stream\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=265pt]{group__LINE__STREAM}
+\end{center}
+\end{figure}
+\doxysubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{group__LINE__STREAM_ga90f9ab24ea93a649978bca321dca6eb4}{SGA\+\_\+line\+\_\+stream\+\_\+of}} (const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}stream)
+\begin{DoxyCompactList}\small\item\em Compute the line stream of a given stream. The line stream is a transformation where the nodes represent the links of the original stream, and the links represent the times when two links have a node in common. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Function Documentation}
+\Hypertarget{group__LINE__STREAM_ga90f9ab24ea93a649978bca321dca6eb4}\index{Line stream@{Line stream}!SGA\_line\_stream\_of@{SGA\_line\_stream\_of}}
+\index{SGA\_line\_stream\_of@{SGA\_line\_stream\_of}!Line stream@{Line stream}}
+\doxysubsubsubsection{\texorpdfstring{SGA\_line\_stream\_of()}{SGA\_line\_stream\_of()}}
+{\footnotesize\ttfamily \label{group__LINE__STREAM_ga90f9ab24ea93a649978bca321dca6eb4} 
+\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} SGA\+\_\+line\+\_\+stream\+\_\+of (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \texorpdfstring{$\ast$}{*}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Compute the line stream of a given stream. The line stream is a transformation where the nodes represent the links of the original stream, and the links represent the times when two links have a node in common. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & The stream to compute the line stream of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Its line stream, as a Stream\+Graph. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+If two links have a node in common but are never present at the same time, the corresponding link in the line stream will not be included. ~\newline
+The nodes are in the same order as the links of the original stream, links however are only ordered by the first node in the original pair, but the second node is not guaranteed to be in any order. ~\newline
+Although all line streams representation of the same original stream are isomorphic to each other so it doesn\textquotesingle{}t really matter. ~\newline
+You can still query a particular link between two nodes using SGA\+\_\+\+Stream\+\_\+link\+\_\+between\+\_\+nodes on the original stream and check which node does a link correspond to by looking which node is in common between the two original pairs. 
+\end{DoxyNote}

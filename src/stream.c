@@ -94,24 +94,52 @@ char* get_to_header(const char* str, const char* header) {
 		exit(1);                                                                                                                   \
 	}
 
+void check_error(bool err_cond, const char* err_cond_str, const char* src_code_file_name, int src_code_line_number,
+		 const char* error_format, ...) {
+	if UNLIKELY (err_cond) {
+		// Print the error message
+		fprintf(stderr, TEXT_BOLD TEXT_RED "Error" TEXT_RESET " while parsing : ");
+		va_list args;
+		va_start(args, error_format);
+		vfprintf(stderr, error_format, args);
+		va_end(args);
+
+		fprintf(stderr,
+			"Backtrace:\n\tCondition failed: %s\n\tSource code reference: %s:%d\n",
+			err_cond_str,
+			src_code_file_name,
+			src_code_line_number);
+		fprintf(stderr, "\tIn headers ");
+		exit(1);
+	}
+}
+
+#define CHECK_ERROR(err_cond, error_format, ...) check_error(err_cond, #err_cond, __FILE__, __LINE__, error_format, ##__VA_ARGS__)
+
 #define PRINT_LINE_ERR(str, column_of_err)                                                                                                 \
 	{                                                                                                                                  \
-		const char* begin = (str);                                                                                                 \
-		while (*begin != '\n') {                                                                                                   \
-			begin--;                                                                                                           \
+		if (*(str) != '\0') {                                                                                                      \
+			const char* begin = (str);                                                                                         \
+			while (*begin != '\n') {                                                                                           \
+				begin--;                                                                                                   \
+			}                                                                                                                  \
+			begin++;                                                                                                           \
+			char* end = strchr(begin, '\n');                                                                                   \
+			char* eof = strchr(begin, '\0');                                                                                   \
+			if (end == NULL) {                                                                                                 \
+				end = eof;                                                                                                 \
+			}                                                                                                                  \
+			char* line = (char*)MALLOC(end - begin + 1);                                                                       \
+			strncpy(line, begin, end - begin);                                                                                 \
+			line[end - begin] = '\0';                                                                                          \
+			fprintf(stderr, "%s\n", line);                                                                                     \
+			free(line);                                                                                                        \
+			/* Print some red squiggly lines under it */                                                                       \
+			for (size_t i = 1; i < (column_of_err); i++) {                                                                     \
+				fprintf(stderr, " ");                                                                                      \
+			}                                                                                                                  \
+			fprintf(stderr, TEXT_RED "^" TEXT_RESET "\n");                                                                     \
 		}                                                                                                                          \
-		begin++;                                                                                                                   \
-		char* end  = strchr(begin, '\n');                                                                                          \
-		char* line = (char*)MALLOC(end - begin + 1);                                                                               \
-		strncpy(line, begin, end - begin);                                                                                         \
-		line[end - begin] = '\0';                                                                                                  \
-		fprintf(stderr, "%s\n", line);                                                                                             \
-		free(line);                                                                                                                \
-		/* Print some red squiggly lines under it */                                                                               \
-		for (size_t i = 1; i < (column_of_err); i++) {                                                                             \
-			fprintf(stderr, " ");                                                                                              \
-		}                                                                                                                          \
-		fprintf(stderr, TEXT_RED "^" TEXT_RESET "\n");                                                                             \
 	}
 
 #define NEXT_TUPLE(str)                                                                                                                    \
@@ -479,12 +507,30 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 				if (sign == '+') {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_nodes[id] % 2 != 0, "Node %zu was pushed twice without being removed\n", id);
-					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].start = key_instant;
+
+					size_t idx = nb_pushed_for_nodes[id] / 2;
+					CHECK_PARSE_ERROR(
+					    idx >= sg.nodes.nodes[id].presence.nb_intervals,
+					    "Node %zu was declared has having %zu intervals, but another one was encountered at time %zu\n",
+					    id,
+					    sg.nodes.nodes[id].presence.nb_intervals,
+					    key_instant);
+
+					sg.nodes.nodes[id].presence.intervals[idx].start = key_instant;
 				}
 				else {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_nodes[id] % 2 == 0, "Node %zu was removed twice without being added\n", id);
-					sg.nodes.nodes[id].presence.intervals[nb_pushed_for_nodes[id] / 2].end = key_instant;
+
+					size_t idx = nb_pushed_for_nodes[id] / 2;
+					CHECK_PARSE_ERROR(
+					    idx >= sg.nodes.nodes[id].presence.nb_intervals,
+					    "Node %zu was declared has having %zu intervals, but another one was encountered at time %zu\n",
+					    id,
+					    sg.nodes.nodes[id].presence.nb_intervals,
+					    key_instant);
+
+					sg.nodes.nodes[id].presence.intervals[idx].end = key_instant;
 				}
 				nb_pushed_for_nodes[id]++;
 			}
@@ -493,12 +539,30 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 				if (sign == '+') {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_links[id] % 2 != 0, "Link %zu was pushed twice without being removed\n", id);
-					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].start = key_instant;
+
+					size_t idx = nb_pushed_for_links[id] / 2;
+					CHECK_PARSE_ERROR(
+					    idx >= sg.links.links[id].presence.nb_intervals,
+					    "Link %zu was declared has having %zu intervals, but another one was encountered at time %zu\n",
+					    id,
+					    sg.links.links[id].presence.nb_intervals,
+					    key_instant);
+
+					sg.links.links[id].presence.intervals[idx].start = key_instant;
 				}
 				else {
 					CHECK_PARSE_ERROR(
 					    nb_pushed_for_links[id] % 2 == 0, "Link %zu was removed twice without being added\n", id);
-					sg.links.links[id].presence.intervals[nb_pushed_for_links[id] / 2].end = key_instant;
+
+					size_t idx = nb_pushed_for_links[id] / 2;
+					CHECK_PARSE_ERROR(
+					    idx >= sg.links.links[id].presence.nb_intervals,
+					    "Link %zu was declared has having %zu intervals, but another one was encountered at time %zu\n",
+					    id,
+					    sg.links.links[id].presence.nb_intervals,
+					    key_instant);
+
+					sg.links.links[id].presence.intervals[idx].end = key_instant;
 				}
 				nb_pushed_for_links[id]++;
 			}
@@ -955,6 +1019,23 @@ ParsedStreamGraph StreamGraph_parse_from_external_format_v_1_0_0(const String* f
 		nb_events_per_slice.array[slice_id]++;
 	}
 
+	// Check if any node or link forgot to be removed at the end of the stream
+	for (size_t i = 0; i < nodes.length; i++) {
+		CHECK_ERROR(nodes.array[i].nb_intervals % 2 != 0,
+			    "Node (%zu) doesn't have a balanced number of appearances and disappearances (%zu <- Should be even), "
+			    "perhaps you forgot to make it disappear at the end of the stream?\n",
+			    nodes.array[i].nodes[0],
+			    nodes.array[i].nb_intervals);
+	}
+	for (size_t i = 0; i < links.length; i++) {
+		CHECK_ERROR(links.array[i].nb_intervals % 2 != 0,
+			    "Link (%zu - %zu) doesn't have a balanced number of appearances and disappearances (%zu <- Should be even), "
+			    "perhaps you forgot to make it disappear at the end of the stream?\n",
+			    links.array[i].nodes[0],
+			    links.array[i].nodes[1],
+			    links.array[i].nb_intervals);
+	}
+
 	// Create the parsed stream graph
 	ParsedStreamGraph parsed = {
 	    .lifespan		 = SGA_Interval_from(lifespan_start, lifespan_end),
@@ -1259,7 +1340,6 @@ void init_events_table(SGA_StreamGraph* sg) {
 	sg->events.link_events.disappearance_index = index_of_last_link_addition;
 
 	// Allocate the accumulator for the events
-	// printf("nb_events: %zu\n", sg->events.nb_events);
 	size_tArrayList* node_events = MALLOC(sizeof(size_tArrayList) * sg->events.nb_events);
 	for (size_t i = 0; i < sg->events.nb_events; i++) {
 		node_events[i] = size_tArrayList_new();
@@ -1447,4 +1527,20 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const String* sg_as_str) {
 		fprintf(stderr, "Unknown format %s\n", format);
 		exit(1);
 	}
+}
+
+SGA_StreamGraph SGA_StreamGraph_from(SGA_Interval lifespan, size_t time_scale, NodesSet nodes, LinksSet links,
+				     KeyInstantsTable key_instants, size_t nb_key_instants) {
+	SGA_StreamGraph sg = {
+	    .lifespan	  = lifespan,
+	    .time_scale	  = time_scale,
+	    .nodes	  = nodes,
+	    .links	  = links,
+	    .key_instants = key_instants,
+	};
+	sg.events.nb_events = nb_key_instants;
+	// Initialise the events table
+	init_events_table(&sg);
+
+	return sg;
 }

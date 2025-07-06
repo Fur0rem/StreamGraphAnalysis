@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['k_20cores_0',['k-cores',['../group__K__CORES.html',1,'']]]
+  ['line_20stream_0',['Line stream',['../group__LINE__STREAM.html',1,'']]]
 ];

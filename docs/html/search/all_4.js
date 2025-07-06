@@ -10,6 +10,5 @@ var searchData=
   ['distinct_5fcardinal_5fof_5flink_5fset_7',['distinct_cardinal_of_link_set',['../stream_8h.html#ab62de569648c8d79a50c281718b561d9',1,'InformationCache']]],
   ['distinct_5fcardinal_5fof_5fnode_5fset_8',['distinct_cardinal_of_node_set',['../stream_8h.html#af88ff6c5a24810eaa686047b409912f6',1,'InformationCache']]],
   ['do_9',['do',['../md_README.html#autotoc_md7',1,'What it can do'],['../md_README.html#autotoc_md8',1,'What it cannot do']]],
-  ['documentation_10',['Documentation',['../group__EXTERNAL__API.html',1,'External API Documentation'],['../group__INTERNAL__API.html',1,'Internal API Documentation']]],
-  ['duration_11',['duration',['../stream_8h.html#ae6f1a0b399763d3b9a5bc55f3d51198c',1,'InformationCache']]]
+  ['duration_10',['duration',['../stream_8h.html#ae6f1a0b399763d3b9a5bc55f3d51198c',1,'InformationCache']]]
 ];

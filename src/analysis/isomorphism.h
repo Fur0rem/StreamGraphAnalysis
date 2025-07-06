@@ -39,6 +39,17 @@
 SGA_NodeId* SGA_Stream_isomorphing_mapping(const SGA_Stream* s1, const SGA_Stream* s2);
 
 /**
+ * @brief Check if two streams are isomorphic.
+ * @param s1 The first stream
+ * @param s2 The second stream
+ * @return true if they are isomorphic, false otherwise.
+ *
+ * This function is a wrapper around SGA_Stream_isomorphing_mapping, and returns true if the mapping is not NULL.
+ * It is a convenience function if you just need to know if they are isomorphic but not interested in the mapping
+ */
+bool SGA_Stream_are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2);
+
+/**
  * @brief Check if two streamgraphs are probably isomorphic.
  * @param s1 The first streamgraph
  * @param s2 The second streamgraph

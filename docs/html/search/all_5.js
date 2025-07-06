@@ -12,6 +12,6 @@ var searchData=
   ['expect_5feither_5fand_5fmove_9',['EXPECT_EITHER_AND_MOVE',['../src_2stream_8c.html#ae7e1a47adad5b2f17fb65270f18fcddd',1,'stream.c']]],
   ['expect_5fsequence_5fand_5fmove_10',['EXPECT_SEQUENCE_AND_MOVE',['../src_2stream_8c.html#a49121f47737a8abe653bc310003f75e3',1,'stream.c']]],
   ['exploredstate_11',['ExploredState',['../structExploredState.html',1,'']]],
-  ['external_20api_20documentation_12',['External API Documentation',['../group__EXTERNAL__API.html',1,'']]],
+  ['external_20api_12',['External API',['../group__EXTERNAL__API.html',1,'']]],
   ['external_5fto_5finternal_2ec_13',['external_to_internal.c',['../external__to__internal_8c.html',1,'']]]
 ];

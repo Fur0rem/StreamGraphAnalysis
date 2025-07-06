@@ -4,8 +4,8 @@
  */
 
 /**
- * @defgroup EXTERNAL_API External API Documentation
- * @defgroup INTERNAL_API Internal API Documentation
+ * @defgroup EXTERNAL_API External API
+ * @defgroup INTERNAL_API Internal API
  */
 
 /**
@@ -30,6 +30,7 @@
 #include "src/analysis/cliques.h"
 #include "src/analysis/isomorphism.h"
 #include "src/analysis/kcores.h"
+#include "src/analysis/line_stream.h"
 #include "src/analysis/metrics.h"
 #include "src/analysis/walks.h"
 #include "src/iterators.h"

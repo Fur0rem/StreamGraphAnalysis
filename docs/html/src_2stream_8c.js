@@ -33,6 +33,7 @@ var src_2stream_8c =
     [ "check_parse_error", "src_2stream_8c.html#a59059fdb4a044573cd2055143efbd8c8", null ],
     [ "SGA_external_v_1_0_0_to_internal_v_1_0_0_format", "src_2stream_8c.html#a4f71af6ced2811fb72efae7a4c9deba6", null ],
     [ "SGA_StreamGraph_destroy", "src_2stream_8c.html#a03e621974d5eab4d6946f3b82c9fb89b", null ],
+    [ "SGA_StreamGraph_from", "src_2stream_8c.html#a91ce7ec66436bb7a3ae6b2c8c1c26078", null ],
     [ "SGA_StreamGraph_from_external_format_v_1_0_0", "src_2stream_8c.html#a7bd658d7b3dbf37137d1b8b186ffe7aa", null ],
     [ "SGA_StreamGraph_from_file", "src_2stream_8c.html#aaf1651fde51147b366ef757df3ae74c7", null ],
     [ "SGA_StreamGraph_from_internal_format_v_1_0_0", "src_2stream_8c.html#a8dea3f09eec5c37beb5b18c267701fd6", null ],

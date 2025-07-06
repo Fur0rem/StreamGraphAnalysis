@@ -103,8 +103,10 @@ link_access.o: src/stream_data_access/link_access.c | bin
 induced_graph.o: src/stream_data_access/induced_graph.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
-
 metrics.o: src/analysis/metrics.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
+
+line_stream.o: src/analysis/line_stream.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
 cluster.o: src/analysis/cluster.c | bin
@@ -122,7 +124,7 @@ isomorphism.o: src/analysis/isomorphism.c | bin
 walks.o: src/analysis/walks.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
-libSGA: utils.o defaults.o units.o bit_array.o interval.o events_table.o key_instants_table.o links_set.o nodes_set.o stream.o node_access.o link_access.o induced_graph.o full_stream_graph.o link_stream.o chunk_stream.o chunk_stream_small.o timeframe_stream.o iterators.o metrics.o cluster.o arena.o walks.o cliques.o kcores.o isomorphism.o stream_functions.o key_instants_access.o | bin
+libSGA: utils.o defaults.o units.o bit_array.o interval.o events_table.o key_instants_table.o links_set.o nodes_set.o stream.o node_access.o link_access.o induced_graph.o full_stream_graph.o link_stream.o chunk_stream.o chunk_stream_small.o timeframe_stream.o iterators.o metrics.o cluster.o arena.o walks.o cliques.o kcores.o isomorphism.o stream_functions.o key_instants_access.o line_stream.o | bin
 	gcc-ar rcs $(BIN_DIR)/libSGA.a $(foreach obj,$^,$(BIN_DIR)/$(obj))
 
 docs:

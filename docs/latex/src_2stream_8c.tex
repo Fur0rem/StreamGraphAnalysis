@@ -54,6 +54,8 @@ struct \mbox{\hyperlink{src_2stream_8c_structEventTuple_8id_8link}{Event\+Tuple.
 \item 
 \#define \mbox{\hyperlink{src_2stream_8c_a2a34953c8ff78ee4062eda330501774d}{GO\+\_\+\+TO\+\_\+\+NEXT\+\_\+\+LINE}}(str)
 \item 
+\#define \mbox{\hyperlink{src_2stream_8c_aafb70300039125e55094d8c56dcf6aa6}{CHECK\+\_\+\+ERROR}}(err\+\_\+cond,  error\+\_\+format, ...)
+\item 
 \#define \mbox{\hyperlink{src_2stream_8c_a64524cb51da364b2ee8d668eadff04f5}{PRINT\+\_\+\+LINE\+\_\+\+ERR}}(str,  column\+\_\+of\+\_\+err)
 \item 
 \#define \mbox{\hyperlink{src_2stream_8c_a2b4bda2fabbfcc4d1cb92dc8f7953444}{NEXT\+\_\+\+TUPLE}}(str)
@@ -73,6 +75,9 @@ struct \mbox{\hyperlink{src_2stream_8c_structEventTuple_8id_8link}{Event\+Tuple.
 \item 
 \Hypertarget{src_2stream_8c_afc12394b75da7801a4f59d4b4f18b07c}\label{src_2stream_8c_afc12394b75da7801a4f59d4b4f18b07c} 
 char \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+to\+\_\+header} (const char \texorpdfstring{$\ast$}{*}str, const char \texorpdfstring{$\ast$}{*}header)
+\item 
+\Hypertarget{src_2stream_8c_aafbc518dd406f8b5b62a860d80a729d3}\label{src_2stream_8c_aafbc518dd406f8b5b62a860d80a729d3} 
+void {\bfseries check\+\_\+error} (bool err\+\_\+cond, const char \texorpdfstring{$\ast$}{*}err\+\_\+cond\+\_\+str, const char \texorpdfstring{$\ast$}{*}src\+\_\+code\+\_\+file\+\_\+name, int src\+\_\+code\+\_\+line\+\_\+number, const char \texorpdfstring{$\ast$}{*}error\+\_\+format,...)
 \item 
 void \mbox{\hyperlink{src_2stream_8c_a59059fdb4a044573cd2055143efbd8c8}{check\+\_\+parse\+\_\+error}} (bool err\+\_\+cond, const char \texorpdfstring{$\ast$}{*}err\+\_\+cond\+\_\+str, const char \texorpdfstring{$\ast$}{*}where\+\_\+it\+\_\+stopped, const char \texorpdfstring{$\ast$}{*}full\+\_\+str, const char \texorpdfstring{$\ast$}{*}src\+\_\+code\+\_\+file\+\_\+name, int src\+\_\+code\+\_\+line\+\_\+number, const char \texorpdfstring{$\ast$}{*}const current\+\_\+header\+\_\+hierarchy\mbox{[}3\mbox{]}, const char \texorpdfstring{$\ast$}{*}error\+\_\+format,...)
 \begin{DoxyCompactList}\small\item\em Checks if a condition is true and prints an error message if it is not, along with some context information. \end{DoxyCompactList}\item 
@@ -208,7 +213,9 @@ void {\bfseries reset\+\_\+cache} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+
 size\+\_\+t {\bfseries SGA\+\_\+\+Stream\+Graph\+\_\+time\+\_\+scale} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}sg)
 \item 
 \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{src_2stream_8c_a3da0c73409d0ecabb0743d896492310a}{SGA\+\_\+\+Stream\+Graph\+\_\+from\+\_\+string}} (const \mbox{\hyperlink{structString}{String}} \texorpdfstring{$\ast$}{*}sg\+\_\+as\+\_\+str)
-\begin{DoxyCompactList}\small\item\em Creates a Stream\+Graph from a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Creates a Stream\+Graph from a string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \mbox{\hyperlink{src_2stream_8c_a91ce7ec66436bb7a3ae6b2c8c1c26078}{SGA\+\_\+\+Stream\+Graph\+\_\+from}} (\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}} lifespan, size\+\_\+t time\+\_\+scale, \mbox{\hyperlink{nodes__set_8h_structNodesSet}{Nodes\+Set}} nodes, \mbox{\hyperlink{structLinksSet}{Links\+Set}} links, \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{Key\+Instants\+Table}} key\+\_\+instants, size\+\_\+t nb\+\_\+key\+\_\+instants)
+\begin{DoxyCompactList}\small\item\em Creates a Stream\+Graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Data Structure Documentation}
@@ -368,6 +375,17 @@ The id of the second node of the link. \\
 
 
 \doxysubsection{Macro Definition Documentation}
+\Hypertarget{src_2stream_8c_aafb70300039125e55094d8c56dcf6aa6}\index{stream.c@{stream.c}!CHECK\_ERROR@{CHECK\_ERROR}}
+\index{CHECK\_ERROR@{CHECK\_ERROR}!stream.c@{stream.c}}
+\doxysubsubsection{\texorpdfstring{CHECK\_ERROR}{CHECK\_ERROR}}
+{\footnotesize\ttfamily \label{src_2stream_8c_aafb70300039125e55094d8c56dcf6aa6} 
+\#define CHECK\+\_\+\+ERROR(\begin{DoxyParamCaption}\item[{}]{err\+\_\+cond}{, }\item[{}]{error\+\_\+format}{, }\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{check\_error(err\_cond,\ \#err\_cond,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ error\_format,\ \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
 \Hypertarget{src_2stream_8c_ac133247770bffcc477ec2a46b3e4fb6d}\index{stream.c@{stream.c}!CHECK\_PARSE\_ERROR@{CHECK\_PARSE\_ERROR}}
 \index{CHECK\_PARSE\_ERROR@{CHECK\_PARSE\_ERROR}!stream.c@{stream.c}}
 \doxysubsubsection{\texorpdfstring{CHECK\_PARSE\_ERROR}{CHECK\_PARSE\_ERROR}}
@@ -630,22 +648,28 @@ Tries to parse a number in a string and moves the pointer to the character after
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ begin\ =\ (str);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ while\ (*begin\ !=\ \textcolor{charliteral}{'\(\backslash\)n'})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ begin-\/-\/;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (*(str)\ !=\ \textcolor{charliteral}{'\(\backslash\)0'})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ begin\ =\ (str);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ while\ (*begin\ !=\ \textcolor{charliteral}{'\(\backslash\)n'})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ begin-\/-\/;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ begin++;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ end\ =\ strchr(begin,\ \textcolor{charliteral}{'\(\backslash\)n'});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ eof\ =\ strchr(begin,\ \textcolor{charliteral}{'\(\backslash\)0'});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ if\ (end\ ==\ NULL)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ end\ =\ eof;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ line\ =\ (\textcolor{keywordtype}{char}*)MALLOC(end\ -\/\ begin\ +\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ strncpy(line,\ begin,\ end\ -\/\ begin);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ line[end\ -\/\ begin]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ line);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ free(line);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Print\ some\ red\ squiggly\ lines\ under\ it\ */}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ for\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ (column\_of\_err);\ i++)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}\ "{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ TEXT\_RED\ \textcolor{stringliteral}{"{}\string^"{}}\ TEXT\_RESET\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ begin++;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ end\ \ =\ strchr(begin,\ \textcolor{charliteral}{'\(\backslash\)n'});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ line\ =\ (\textcolor{keywordtype}{char}*)MALLOC(end\ -\/\ begin\ +\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ strncpy(line,\ begin,\ end\ -\/\ begin);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ line[end\ -\/\ begin]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}},\ line);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ free(line);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Print\ some\ red\ squiggly\ lines\ under\ it\ */}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ for\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ (column\_of\_err);\ i++)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}\ "{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ fprintf(stderr,\ TEXT\_RED\ \textcolor{stringliteral}{"{}\string^"{}}\ TEXT\_RESET\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ \}}
 
 \end{DoxyCode}
@@ -716,6 +740,34 @@ Destroys a Stream\+Graph.
 \mbox{\texttt{ in}}  & {\em sg} & The Stream\+Graph to destroy. \\
 \hline
 \end{DoxyParams}
+\Hypertarget{src_2stream_8c_a91ce7ec66436bb7a3ae6b2c8c1c26078}\index{stream.c@{stream.c}!SGA\_StreamGraph\_from@{SGA\_StreamGraph\_from}}
+\index{SGA\_StreamGraph\_from@{SGA\_StreamGraph\_from}!stream.c@{stream.c}}
+\doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_from()}{SGA\_StreamGraph\_from()}}
+{\footnotesize\ttfamily \label{src_2stream_8c_a91ce7ec66436bb7a3ae6b2c8c1c26078} 
+\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} SGA\+\_\+\+Stream\+Graph\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Interval}{SGA\+\_\+\+Interval}}}]{lifespan}{, }\item[{size\+\_\+t}]{time\+\_\+scale}{, }\item[{\mbox{\hyperlink{nodes__set_8h_structNodesSet}{Nodes\+Set}}}]{nodes}{, }\item[{\mbox{\hyperlink{structLinksSet}{Links\+Set}}}]{links}{, }\item[{\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{Key\+Instants\+Table}}}]{key\+\_\+instants}{, }\item[{size\+\_\+t}]{nb\+\_\+key\+\_\+instants}{}\end{DoxyParamCaption})}
+
+
+
+Creates a Stream\+Graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lifespan} & The lifespan of the Stream\+Graph. \\
+\hline
+{\em time\+\_\+scale} & The time scale of the Stream\+Graph. \\
+\hline
+{\em nodes} & The set of nodes in the Stream\+Graph. \\
+\hline
+{\em links} & The set of links in the Stream\+Graph. \\
+\hline
+{\em key\+\_\+instants} & The key instants of the Stream\+Graph. A key instant is a instant where the Stream\+Graph changes. \\
+\hline
+{\em nb\+\_\+key\+\_\+instants} & The number of key instants in the Stream\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Stream\+Graph. 
+\end{DoxyReturn}
 \Hypertarget{src_2stream_8c_a7bd658d7b3dbf37137d1b8b186ffe7aa}\index{stream.c@{stream.c}!SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0@{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0}}
 \index{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0@{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0}!stream.c@{stream.c}}
 \doxysubsubsection{\texorpdfstring{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0()}{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0()}}

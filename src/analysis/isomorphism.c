@@ -261,6 +261,17 @@ SGA_NodeId* SGA_Stream_isomorphing_mapping(const SGA_Stream* s1, const SGA_Strea
 	}
 }
 
+bool SGA_Stream_are_isomorphic(const SGA_Stream* s1, const SGA_Stream* s2) {
+	SGA_NodeId* mapping = SGA_Stream_isomorphing_mapping(s1, s2);
+	if (mapping == NULL) {
+		return false;
+	}
+	else {
+		free(mapping);
+		return true;
+	}
+}
+
 #define COMPARE_METRIC(fn, s1, s2)                                                                                                         \
 	if (fn(s1) != fn(s2)) {                                                                                                            \
 		return false;                                                                                                              \

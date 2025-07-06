@@ -24,10 +24,10 @@ var searchData=
   ['time_5fend_21',['time_end',['../group__CLIQUES.html#a61f0b62636ad4b012b100b89e1b7444e',1,'SGA_Clique']]],
   ['time_5fscale_22',['time_scale',['../src_2stream_8c.html#ada71e11e6eb57f0612ed8252916dd5a5',1,'ParsedStreamGraph::time_scale'],['../stream_8h.html#a753a24bef68c5fb3b8309c8b643a3955',1,'SGA_StreamGraph::time_scale']]],
   ['time_5fstart_23',['time_start',['../group__CLIQUES.html#a9741fb2993e9645001c42933b0ab9151',1,'SGA_Clique']]],
-  ['timeframe_5fstream_24',['TIMEFRAME_STREAM',['../structSGA__Stream.html#a8bb509f9bb4cb83acb5dc665981b31c7a63a3d749b56ebe23e17881a3970189a3',1,'SGA_Stream']]],
+  ['timeframe_5fstream_24',['TIMEFRAME_STREAM',['../structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025a63a3d749b56ebe23e17881a3970189a3',1,'SGA_Stream']]],
   ['timeframe_5fstream_2eh_25',['timeframe_stream.h',['../timeframe__stream_8h.html',1,'']]],
   ['timeslinkpresentiteratordata_26',['TimesLinkPresentIteratorData',['../structTimesLinkPresentIteratorData.html',1,'']]],
   ['timesnodepresentiteratordata_27',['TimesNodePresentIteratorData',['../structTimesNodePresentIteratorData.html',1,'']]],
   ['to_20use_20the_20library_28',['How to use the library',['../md_README.html#autotoc_md5',1,'']]],
-  ['type_29',['type',['../structSGA__NoWalkReason.html#a16b0e780fa5d30092eef6f31f1879ea2',1,'SGA_NoWalkReason::type'],['../structSGA__OptionalWalk.html#a2a6045b5751e259b781234bd9b2d39a2',1,'SGA_OptionalWalk::type'],['../structSGA__Stream.html#a9ab32867f0838c335107d3d6fb958278',1,'SGA_Stream::type']]]
+  ['type_29',['type',['../structSGA__NoWalkReason.html#a16b0e780fa5d30092eef6f31f1879ea2',1,'SGA_NoWalkReason::type'],['../structSGA__OptionalWalk.html#a2a6045b5751e259b781234bd9b2d39a2',1,'SGA_OptionalWalk::type']]]
 ];

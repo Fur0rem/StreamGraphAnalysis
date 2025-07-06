@@ -103,7 +103,9 @@ $(function(){initNavTree('md_README.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Current state of the Project</h1>
-<p>Quite usable, but not fully fleshed out yet. If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Also it'd be appreciated if you linked to the project in your paper or project if you use it.</p>
+<p>Quite usable, but not fully fleshed out yet.</p>
+<p>If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Same for bug reports, issues, or any other kind of feedback. I'd be happy if you linked to the project in your paper or project if you use it.</p>
+<p>Also if you can send me more data to test or benchmark the library with, that would be great, so I can have a better idea of how it performs on real data and optimise it better.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Before you start</h1>
 <p>The library is based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at <a href="https://arxiv.org/abs/1710.04073">https://arxiv.org/abs/1710.04073</a>.</p>
@@ -154,19 +156,20 @@ Data format</h1>
 <p>External format :</p>
 <div class="fragment"><div class="line">SGA External Format &lt;version&gt;</div>
 <div class="line"> </div>
-<div class="line">Any text between the version and the [General] section will be ignored, and can be used for comments or metadata</div>
+<div class="line">Any text between the version and the [General] section will be ignored, and can be used <span class="keywordflow">for</span> comments or metadata</div>
 <div class="line"> </div>
 <div class="line">[General]</div>
 <div class="line">Lifespan=(&lt;start&gt;, &lt;end&gt;)</div>
 <div class="line">TimeScale=&lt;scale&gt;</div>
 <div class="line"> </div>
-<div class="line">[Events]</div>
-<div class="line">&lt;Timestamp&gt; &lt;+ (for appearance) or - (for disappearance)&gt; &lt;N (for node) or L (for link)&gt; (&lt;NodeId&gt; for a node or &lt;Node1&gt; &lt;Node2&gt; for a link)</div>
+<div class="line">[<a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a>]</div>
+<div class="line">&lt;Timestamp&gt; &lt;+ (<span class="keywordflow">for</span> appearance) or - (<span class="keywordflow">for</span> disappearance)&gt; &lt;N (<span class="keywordflow">for</span> node) or L (<span class="keywordflow">for</span> link)&gt; (&lt;NodeId&gt; <span class="keywordflow">for</span> a node or &lt;Node1&gt; &lt;Node2&gt; <span class="keywordflow">for</span> a link)</div>
 <div class="line">...</div>
 <div class="line"> </div>
 <div class="line">[EndOfStream]</div>
 <div class="line"> </div>
-<div class="line">Any text before this line will be ignored, and can be used for comments or metadata</div>
+<div class="line">Any text before <span class="keyword">this</span> line will be ignored, and can be used <span class="keywordflow">for</span> comments or metadata</div>
+<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdef"><b>Definition</b> events_table.h:22</div></div>
 </div><!-- fragment --><p>All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.5, 1.5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.</p>
 <p>There are some example data files in the data/examples/ directory, which contains examples of the external format taken from the paper.</p>
 <p>You can also find a more detailed documentation of each format in the documentation for SGA_StreamGraph_from_internal_format_v_1_0_0 and SGA_StreamGraph_from_external_format_v_1_0_0.</p>

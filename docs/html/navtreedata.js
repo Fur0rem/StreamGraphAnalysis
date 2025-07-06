@@ -47,6 +47,7 @@ var NAVTREE =
       [ "Data Fields", "functions.html", [
         [ "All", "functions.html", null ],
         [ "Variables", "functions_vars.html", null ],
+        [ "Enumerations", "functions_enum.html", null ],
         [ "Enumerator", "functions_eval.html", null ]
       ] ]
     ] ],
@@ -65,7 +66,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "StreamGraphAnalysis_8h.html",
-"stream__functions_8h.html#a824c36df39b9f04309195df3b499e0a1"
+"stream__functions_8h.html#a418d54630a00859c26409db3d5186543"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

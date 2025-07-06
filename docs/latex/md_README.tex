@@ -3,7 +3,11 @@
 \label{md_README_autotoc_md0}%
 \Hypertarget{md_README_autotoc_md0}%
 \hypertarget{md_README_autotoc_md1}{}\doxysection{\texorpdfstring{Current state of the Project}{Current state of the Project}}\label{md_README_autotoc_md1}
-Quite usable, but not fully fleshed out yet. If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Also it\textquotesingle{}d be appreciated if you linked to the project in your paper or project if you use it.\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Before you start}{Before you start}}\label{md_README_autotoc_md2}
+Quite usable, but not fully fleshed out yet.
+
+If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Same for bug reports, issues, or any other kind of feedback. I\textquotesingle{}d be happy if you linked to the project in your paper or project if you use it.
+
+Also if you can send me more data to test or benchmark the library with, that would be great, so I can have a better idea of how it performs on real data and optimise it better.\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Before you start}{Before you start}}\label{md_README_autotoc_md2}
 The library is based on a paper by Matthieu Latapy, Tiphaine Viard and Clémence Magnien, which is available at \href{https://arxiv.org/abs/1710.04073}{\texttt{ https\+://arxiv.\+org/abs/1710.\+04073}}.
 
 It is designed to process and analyse continuous undirected unweighted stream graphs for the team Complex Networks at the LIP6. It is made to be efficient in terms of memory usage and speed, and to support the computation of metrics different transformations of the stream graph without copying much data.
@@ -65,19 +69,19 @@ External format \+:
 \begin{DoxyCode}{0}
 \DoxyCodeLine{SGA\ External\ Format\ <version>}
 \DoxyCodeLine{}
-\DoxyCodeLine{Any\ text\ between\ the\ version\ and\ the\ [General]\ section\ will\ be\ ignored,\ and\ can\ be\ used\ for\ comments\ or\ metadata}
+\DoxyCodeLine{Any\ text\ between\ the\ version\ and\ the\ [General]\ section\ will\ be\ ignored,\ and\ can\ be\ used\ \textcolor{keywordflow}{for}\ comments\ or\ metadata}
 \DoxyCodeLine{}
 \DoxyCodeLine{[General]}
 \DoxyCodeLine{Lifespan=(<start>,\ <end>)}
 \DoxyCodeLine{TimeScale=<scale>}
 \DoxyCodeLine{}
-\DoxyCodeLine{[Events]}
-\DoxyCodeLine{<Timestamp>\ <+\ (for\ appearance)\ or\ -\/\ (for\ disappearance)>\ <N\ (for\ node)\ or\ L\ (for\ link)>\ (<NodeId>\ for\ a\ node\ or\ <Node1>\ <Node2>\ for\ a\ link)}
+\DoxyCodeLine{[\mbox{\hyperlink{events__table_8h_structEvents}{Events}}]}
+\DoxyCodeLine{<Timestamp>\ <+\ (\textcolor{keywordflow}{for}\ appearance)\ or\ -\/\ (\textcolor{keywordflow}{for}\ disappearance)>\ <N\ (\textcolor{keywordflow}{for}\ node)\ or\ L\ (\textcolor{keywordflow}{for}\ link)>\ (<NodeId>\ \textcolor{keywordflow}{for}\ a\ node\ or\ <Node1>\ <Node2>\ \textcolor{keywordflow}{for}\ a\ link)}
 \DoxyCodeLine{...}
 \DoxyCodeLine{}
 \DoxyCodeLine{[EndOfStream]}
 \DoxyCodeLine{}
-\DoxyCodeLine{Any\ text\ before\ this\ line\ will\ be\ ignored,\ and\ can\ be\ used\ for\ comments\ or\ metadata}
+\DoxyCodeLine{Any\ text\ before\ \textcolor{keyword}{this}\ line\ will\ be\ ignored,\ and\ can\ be\ used\ \textcolor{keywordflow}{for}\ comments\ or\ metadata}
 
 \end{DoxyCode}
 

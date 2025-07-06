@@ -157,6 +157,8 @@ Macros</h2></td></tr>
 <tr class="separator:a3756de41e80c093e1bfdee507640e220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a34953c8ff78ee4062eda330501774d" id="r_a2a34953c8ff78ee4062eda330501774d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a34953c8ff78ee4062eda330501774d">GO_TO_NEXT_LINE</a>(str)</td></tr>
 <tr class="separator:a2a34953c8ff78ee4062eda330501774d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafb70300039125e55094d8c56dcf6aa6" id="r_aafb70300039125e55094d8c56dcf6aa6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafb70300039125e55094d8c56dcf6aa6">CHECK_ERROR</a>(err_cond,  error_format, ...)</td></tr>
+<tr class="separator:aafb70300039125e55094d8c56dcf6aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64524cb51da364b2ee8d668eadff04f5" id="r_a64524cb51da364b2ee8d668eadff04f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64524cb51da364b2ee8d668eadff04f5">PRINT_LINE_ERR</a>(str,  column_of_err)</td></tr>
 <tr class="separator:a64524cb51da364b2ee8d668eadff04f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b4bda2fabbfcc4d1cb92dc8f7953444" id="r_a2b4bda2fabbfcc4d1cb92dc8f7953444"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b4bda2fabbfcc4d1cb92dc8f7953444">NEXT_TUPLE</a>(str)</td></tr>
@@ -182,6 +184,9 @@ Functions</h2></td></tr>
 <tr class="memitem:afc12394b75da7801a4f59d4b4f18b07c" id="r_afc12394b75da7801a4f59d4b4f18b07c"><td class="memItemLeft" align="right" valign="top"><a id="afc12394b75da7801a4f59d4b4f18b07c" name="afc12394b75da7801a4f59d4b4f18b07c"></a>
 char *&#160;</td><td class="memItemRight" valign="bottom"><b>get_to_header</b> (const char *str, const char *header)</td></tr>
 <tr class="separator:afc12394b75da7801a4f59d4b4f18b07c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafbc518dd406f8b5b62a860d80a729d3" id="r_aafbc518dd406f8b5b62a860d80a729d3"><td class="memItemLeft" align="right" valign="top"><a id="aafbc518dd406f8b5b62a860d80a729d3" name="aafbc518dd406f8b5b62a860d80a729d3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>check_error</b> (bool err_cond, const char *err_cond_str, const char *src_code_file_name, int src_code_line_number, const char *error_format,...)</td></tr>
+<tr class="separator:aafbc518dd406f8b5b62a860d80a729d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59059fdb4a044573cd2055143efbd8c8" id="r_a59059fdb4a044573cd2055143efbd8c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a> (bool err_cond, const char *err_cond_str, const char *where_it_stopped, const char *full_str, const char *src_code_file_name, int src_code_line_number, const char *const current_header_hierarchy[3], const char *error_format,...)</td></tr>
 <tr class="memdesc:a59059fdb4a044573cd2055143efbd8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a condition is true and prints an error message if it is not, along with some context information.  <br /></td></tr>
 <tr class="separator:a59059fdb4a044573cd2055143efbd8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -326,6 +331,9 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamGraph_tim
 <tr class="memitem:a3da0c73409d0ecabb0743d896492310a" id="r_a3da0c73409d0ecabb0743d896492310a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3da0c73409d0ecabb0743d896492310a">SGA_StreamGraph_from_string</a> (const <a class="el" href="structString.html">String</a> *sg_as_str)</td></tr>
 <tr class="memdesc:a3da0c73409d0ecabb0743d896492310a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph from a string.  <br /></td></tr>
 <tr class="separator:a3da0c73409d0ecabb0743d896492310a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91ce7ec66436bb7a3ae6b2c8c1c26078" id="r_a91ce7ec66436bb7a3ae6b2c8c1c26078"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91ce7ec66436bb7a3ae6b2c8c1c26078">SGA_StreamGraph_from</a> (<a class="el" href="structSGA__Interval.html">SGA_Interval</a> lifespan, size_t time_scale, <a class="el" href="nodes__set_8h.html#structNodesSet">NodesSet</a> nodes, <a class="el" href="structLinksSet.html">LinksSet</a> links, <a class="el" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a> key_instants, size_t nb_key_instants)</td></tr>
+<tr class="memdesc:a91ce7ec66436bb7a3ae6b2c8c1c26078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph.  <br /></td></tr>
+<tr class="separator:a91ce7ec66436bb7a3ae6b2c8c1c26078"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structEventTuple" id="structEventTuple"></a>
@@ -555,6 +563,33 @@ The id of the second node of the link. </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aafb70300039125e55094d8c56dcf6aa6" name="aafb70300039125e55094d8c56dcf6aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafb70300039125e55094d8c56dcf6aa6">&#9670;&#160;</a></span>CHECK_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CHECK_ERROR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>err_cond</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>error_format</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">check_error(err_cond, #err_cond, __FILE__, __LINE__, error_format, ##__VA_ARGS__)</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="ac133247770bffcc477ec2a46b3e4fb6d" name="ac133247770bffcc477ec2a46b3e4fb6d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac133247770bffcc477ec2a46b3e4fb6d">&#9670;&#160;</a></span>CHECK_PARSE_ERROR</h2>
 
@@ -580,7 +615,7 @@ The id of the second node of the link. </td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_function" href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a>(                                                                                                                 \</div>
 <div class="line">        err_cond, #err_cond, str, format-&gt;data, __FILE__, __LINE__, current_header_hierarchy, error_format, ##__VA_ARGS__);</div>
-<div class="ttc" id="asrc_2stream_8c_html_a59059fdb4a044573cd2055143efbd8c8"><div class="ttname"><a href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a></div><div class="ttdeci">void check_parse_error(bool err_cond, const char *err_cond_str, const char *where_it_stopped, const char *full_str, const char *src_code_file_name, int src_code_line_number, const char *const current_header_hierarchy[3], const char *error_format,...)</div><div class="ttdoc">Checks if a condition is true and prints an error message if it is not, along with some context infor...</div><div class="ttdef"><b>Definition</b> stream.c:144</div></div>
+<div class="ttc" id="asrc_2stream_8c_html_a59059fdb4a044573cd2055143efbd8c8"><div class="ttname"><a href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a></div><div class="ttdeci">void check_parse_error(bool err_cond, const char *err_cond_str, const char *where_it_stopped, const char *full_str, const char *src_code_file_name, int src_code_line_number, const char *const current_header_hierarchy[3], const char *error_format,...)</div><div class="ttdoc">Checks if a condition is true and prints an error message if it is not, along with some context infor...</div><div class="ttdef"><b>Definition</b> stream.c:172</div></div>
 </div><!-- fragment -->
 <p>A wrapper macro around check_parse_error that automatically fills some of the arguments. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -616,7 +651,7 @@ The id of the second node of the link. </td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="#ac133247770bffcc477ec2a46b3e4fb6d">CHECK_PARSE_ERROR</a>((str)[0] != (character), <span class="stringliteral">&quot;Expected &#39;%c&#39;, got &#39;%c&#39;\n&quot;</span>, character, (str)[0]);                                      \</div>
 <div class="line">    (str) += 1;</div>
-<div class="ttc" id="asrc_2stream_8c_html_ac133247770bffcc477ec2a46b3e4fb6d"><div class="ttname"><a href="#ac133247770bffcc477ec2a46b3e4fb6d">CHECK_PARSE_ERROR</a></div><div class="ttdeci">#define CHECK_PARSE_ERROR(err_cond, error_format,...)</div><div class="ttdoc">A wrapper macro around check_parse_error that automatically fills some of the arguments.</div><div class="ttdef"><b>Definition</b> stream.c:241</div></div>
+<div class="ttc" id="asrc_2stream_8c_html_ac133247770bffcc477ec2a46b3e4fb6d"><div class="ttname"><a href="#ac133247770bffcc477ec2a46b3e4fb6d">CHECK_PARSE_ERROR</a></div><div class="ttdeci">#define CHECK_PARSE_ERROR(err_cond, error_format,...)</div><div class="ttdoc">A wrapper macro around check_parse_error that automatically fills some of the arguments.</div><div class="ttdef"><b>Definition</b> stream.c:269</div></div>
 </div><!-- fragment -->
 <p>Expects a character in a string and moves the pointer to the next character. Panics if the character is not found. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -922,22 +957,28 @@ The id of the second node of the link. </td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    {                                                                                                                                  \</div>
-<div class="line">        <span class="keyword">const</span> <span class="keywordtype">char</span>* begin = (str);                                                                                                 \</div>
-<div class="line">        while (*begin != <span class="charliteral">&#39;\n&#39;</span>) {                                                                                                   \</div>
-<div class="line">            begin--;                                                                                                           \</div>
+<div class="line">        if (*(str) != <span class="charliteral">&#39;\0&#39;</span>) {                                                                                                      \</div>
+<div class="line">            <span class="keyword">const</span> <span class="keywordtype">char</span>* begin = (str);                                                                                         \</div>
+<div class="line">            while (*begin != <span class="charliteral">&#39;\n&#39;</span>) {                                                                                           \</div>
+<div class="line">                begin--;                                                                                                   \</div>
+<div class="line">            }                                                                                                                  \</div>
+<div class="line">            begin++;                                                                                                           \</div>
+<div class="line">            <span class="keywordtype">char</span>* end = strchr(begin, <span class="charliteral">&#39;\n&#39;</span>);                                                                                   \</div>
+<div class="line">            <span class="keywordtype">char</span>* eof = strchr(begin, <span class="charliteral">&#39;\0&#39;</span>);                                                                                   \</div>
+<div class="line">            if (end == NULL) {                                                                                                 \</div>
+<div class="line">                end = eof;                                                                                                 \</div>
+<div class="line">            }                                                                                                                  \</div>
+<div class="line">            <span class="keywordtype">char</span>* line = (<span class="keywordtype">char</span>*)MALLOC(end - begin + 1);                                                                       \</div>
+<div class="line">            strncpy(line, begin, end - begin);                                                                                 \</div>
+<div class="line">            line[end - begin] = <span class="charliteral">&#39;\0&#39;</span>;                                                                                          \</div>
+<div class="line">            fprintf(stderr, <span class="stringliteral">&quot;%s\n&quot;</span>, line);                                                                                     \</div>
+<div class="line">            free(line);                                                                                                        \</div>
+<div class="line">            <span class="comment">/* Print some red squiggly lines under it */</span>                                                                       \</div>
+<div class="line">            for (<span class="keywordtype">size_t</span> i = 1; i &lt; (column_of_err); i++) {                                                                     \</div>
+<div class="line">                fprintf(stderr, <span class="stringliteral">&quot; &quot;</span>);                                                                                      \</div>
+<div class="line">            }                                                                                                                  \</div>
+<div class="line">            fprintf(stderr, TEXT_RED <span class="stringliteral">&quot;^&quot;</span> TEXT_RESET <span class="stringliteral">&quot;\n&quot;</span>);                                                                     \</div>
 <div class="line">        }                                                                                                                          \</div>
-<div class="line">        begin++;                                                                                                                   \</div>
-<div class="line">        <span class="keywordtype">char</span>* end  = strchr(begin, <span class="charliteral">&#39;\n&#39;</span>);                                                                                          \</div>
-<div class="line">        <span class="keywordtype">char</span>* line = (<span class="keywordtype">char</span>*)MALLOC(end - begin + 1);                                                                               \</div>
-<div class="line">        strncpy(line, begin, end - begin);                                                                                         \</div>
-<div class="line">        line[end - begin] = <span class="charliteral">&#39;\0&#39;</span>;                                                                                                  \</div>
-<div class="line">        fprintf(stderr, <span class="stringliteral">&quot;%s\n&quot;</span>, line);                                                                                             \</div>
-<div class="line">        free(line);                                                                                                                \</div>
-<div class="line">        <span class="comment">/* Print some red squiggly lines under it */</span>                                                                               \</div>
-<div class="line">        for (<span class="keywordtype">size_t</span> i = 1; i &lt; (column_of_err); i++) {                                                                             \</div>
-<div class="line">            fprintf(stderr, <span class="stringliteral">&quot; &quot;</span>);                                                                                              \</div>
-<div class="line">        }                                                                                                                          \</div>
-<div class="line">        fprintf(stderr, TEXT_RED <span class="stringliteral">&quot;^&quot;</span> TEXT_RESET <span class="stringliteral">&quot;\n&quot;</span>);                                                                             \</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 </div>
@@ -1063,6 +1104,61 @@ The id of the second node of the link. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a91ce7ec66436bb7a3ae6b2c8c1c26078" name="a91ce7ec66436bb7a3ae6b2c8c1c26078"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91ce7ec66436bb7a3ae6b2c8c1c26078">&#9670;&#160;</a></span>SGA_StreamGraph_from()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> SGA_StreamGraph_from </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structSGA__Interval.html">SGA_Interval</a></td>          <td class="paramname"><span class="paramname"><em>lifespan</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>time_scale</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="nodes__set_8h.html#structNodesSet">NodesSet</a></td>          <td class="paramname"><span class="paramname"><em>nodes</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structLinksSet.html">LinksSet</a></td>          <td class="paramname"><span class="paramname"><em>links</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a></td>          <td class="paramname"><span class="paramname"><em>key_instants</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>nb_key_instants</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a StreamGraph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lifespan</td><td>The lifespan of the StreamGraph. </td></tr>
+    <tr><td class="paramname">time_scale</td><td>The time scale of the StreamGraph. </td></tr>
+    <tr><td class="paramname">nodes</td><td>The set of nodes in the StreamGraph. </td></tr>
+    <tr><td class="paramname">links</td><td>The set of links in the StreamGraph. </td></tr>
+    <tr><td class="paramname">key_instants</td><td>The key instants of the StreamGraph. A key instant is a instant where the StreamGraph changes. </td></tr>
+    <tr><td class="paramname">nb_key_instants</td><td>The number of key instants in the StreamGraph. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The StreamGraph. </dd></dl>
 
 </div>
 </div>

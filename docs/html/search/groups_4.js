@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['internal_20api_20documentation_0',['Internal API Documentation',['../group__INTERNAL__API.html',1,'']]],
-  ['isomorphism_1',['Isomorphism',['../group__ISOMORPHISM.html',1,'']]]
+  ['k_20cores_0',['k-cores',['../group__K__CORES.html',1,'']]]
 ];

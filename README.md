@@ -3,7 +3,11 @@
 ## Current state of the Project
 
 Quite usable, but not fully fleshed out yet.
-If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Also it'd be appreciated if you linked to the project in your paper or project if you use it.
+
+If you do end up using it, please let me know, I would be happy to hear your feedback and suggestions. Same for bug reports, issues, or any other kind of feedback.
+I'd be happy if you linked to the project in your paper or project if you use it.
+
+Also if you can send me more data to test or benchmark the library with, that would be great, so I can have a better idea of how it performs on real data and optimise it better.
 
 ## Before you start
 
@@ -77,7 +81,7 @@ You can use the utilities/bin/external_to_internal program to convert your data 
 
 External format :
 
-```md
+```txt
 SGA External Format <version>
 
 Any text between the version and the [General] section will be ignored, and can be used for comments or metadata

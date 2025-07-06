@@ -18,90 +18,91 @@
 \DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
 \DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
 \DoxyCodeLine{00039\ }
-\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}};}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00050\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \{}
-\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}\ \mbox{\hyperlink{stream_8h_a619bde6a9c32f4d8ad4bac8eeff9e8cf}{key\_instants}};\ }
-\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{nodes__set_8h_structNodesSet}{NodesSet}}\ \mbox{\hyperlink{stream_8h_a452cddb1c0e6a0c7f47b007979fe9abe}{nodes}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ \mbox{\hyperlink{stream_8h_a01c4a3b8a9aa603938f08c025a73206a}{links}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{stream_8h_aea5025df02df725f85dea7385529ef7c}{lifespan}};\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{stream_8h_a753a24bef68c5fb3b8309c8b643a3955}{time\_scale}};\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}\ \mbox{\hyperlink{stream_8h_ad269df9026ff816a66b3deb2b4e5bd21}{events}};\ }
-\DoxyCodeLine{00060\ \};}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00065\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{stream_8h_a74eac5e5eec34e0186693430be72f59a}{present}};\ }
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{stream_8h_aa760fbdbc1ca1cc28e893f5ece590fbb}{data}};\ \ }
-\DoxyCodeLine{00068\ \}\ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}};}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00077\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_a3ef19171db92fde3db5375cf72a56f94}{temporal\_cardinal\_of\_node\_set}};\ }
-\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_ae6f1a0b399763d3b9a5bc55f3d51198c}{duration}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_a1fc7502fa7d0a9c59700ff49a9720186}{temporal\_cardinal\_of\_link\_set}};\ }
-\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_af88ff6c5a24810eaa686047b409912f6}{distinct\_cardinal\_of\_node\_set}};\ }
-\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_ab62de569648c8d79a50c281718b561d9}{distinct\_cardinal\_of\_link\_set}};\ }
-\DoxyCodeLine{00083\ \}\ \mbox{\hyperlink{stream_8h_structInformationCache}{InformationCache}};}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00115\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a3faf5aebc82385c77d67ad2467cc95e3}{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ format);}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00190\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a8dea3f09eec5c37beb5b18c267701fd6}{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ format);}
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00198\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a3da0c73409d0ecabb0743d896492310a}{SGA\_StreamGraph\_from\_string}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ sg\_as\_str);}
-\DoxyCodeLine{00199\ }
-\DoxyCodeLine{00205\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
-\DoxyCodeLine{00206\ }
-\DoxyCodeLine{00212\ \mbox{\hyperlink{structString}{String}}\ \mbox{\hyperlink{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf}{SGA\_StreamGraph\_to\_string}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
-\DoxyCodeLine{00213\ }
-\DoxyCodeLine{00218\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b}{SGA\_StreamGraph\_destroy}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg);}
+\DoxyCodeLine{00043\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}\ \mbox{\hyperlink{stream_8h_a619bde6a9c32f4d8ad4bac8eeff9e8cf}{key\_instants}};\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{nodes__set_8h_structNodesSet}{NodesSet}}\ \mbox{\hyperlink{stream_8h_a452cddb1c0e6a0c7f47b007979fe9abe}{nodes}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ \mbox{\hyperlink{stream_8h_a01c4a3b8a9aa603938f08c025a73206a}{links}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{stream_8h_aea5025df02df725f85dea7385529ef7c}{lifespan}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{stream_8h_a753a24bef68c5fb3b8309c8b643a3955}{time\_scale}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}\ \mbox{\hyperlink{stream_8h_ad269df9026ff816a66b3deb2b4e5bd21}{events}};\ }
+\DoxyCodeLine{00053\ \}\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{stream_8h_a74eac5e5eec34e0186693430be72f59a}{present}};\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{stream_8h_aa760fbdbc1ca1cc28e893f5ece590fbb}{data}};\ \ }
+\DoxyCodeLine{00061\ \}\ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_a3ef19171db92fde3db5375cf72a56f94}{temporal\_cardinal\_of\_node\_set}};\ }
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_ae6f1a0b399763d3b9a5bc55f3d51198c}{duration}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_a1fc7502fa7d0a9c59700ff49a9720186}{temporal\_cardinal\_of\_link\_set}};\ }
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_af88ff6c5a24810eaa686047b409912f6}{distinct\_cardinal\_of\_node\_set}};\ }
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{stream_8h_structOptionalSizeT}{OptionalSizeT}}\ \mbox{\hyperlink{stream_8h_ab62de569648c8d79a50c281718b561d9}{distinct\_cardinal\_of\_link\_set}};\ }
+\DoxyCodeLine{00076\ \}\ \mbox{\hyperlink{stream_8h_structInformationCache}{InformationCache}};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00108\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a3faf5aebc82385c77d67ad2467cc95e3}{SGA\_StreamGraph\_from\_external\_format\_v\_1\_0\_0}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ format);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00183\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a8dea3f09eec5c37beb5b18c267701fd6}{SGA\_StreamGraph\_from\_internal\_format\_v\_1\_0\_0}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ format);}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00195\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a91ce7ec66436bb7a3ae6b2c8c1c26078}{SGA\_StreamGraph\_from}}(\mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ lifespan,\ \textcolor{keywordtype}{size\_t}\ time\_scale,\ \mbox{\hyperlink{nodes__set_8h_structNodesSet}{NodesSet}}\ nodes,\ \mbox{\hyperlink{structLinksSet}{LinksSet}}\ links,}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}\ key\_instants,\ \textcolor{keywordtype}{size\_t}\ nb\_key\_instants);}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00204\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_a3da0c73409d0ecabb0743d896492310a}{SGA\_StreamGraph\_from\_string}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ sg\_as\_str);}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00211\ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ \mbox{\hyperlink{stream_8h_aaf1651fde51147b366ef757df3ae74c7}{SGA\_StreamGraph\_from\_file}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename);}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00218\ \mbox{\hyperlink{structString}{String}}\ \mbox{\hyperlink{stream_8h_a71ed7a37932ee7abca6bfd4d353b14cf}{SGA\_StreamGraph\_to\_string}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
 \DoxyCodeLine{00219\ }
-\DoxyCodeLine{00225\ \mbox{\hyperlink{structString}{String}}\ \mbox{\hyperlink{stream_8h_a4f71af6ced2811fb72efae7a4c9deba6}{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ format);}
-\DoxyCodeLine{00226\ }
-\DoxyCodeLine{00227\ \textcolor{comment}{//\ TRICK:\ StreamData\ is\ a\ blanket\ struct\ that\ serves\ as\ a\ placeholder\ for\ the\ union\ of\ all\ stream\ types}}
-\DoxyCodeLine{00228\ \textcolor{comment}{//\ (FullStreamGraph,\ LinkStream,\ ect...).}}
-\DoxyCodeLine{00229\ \textcolor{comment}{//\ Otherwise\ a\ circular\ dependency\ would\ be\ created\ since\ these\ files\ need\ stream.h.}}
-\DoxyCodeLine{00230\ \textcolor{comment}{//\ And\ if\ we\ used\ a\ void*\ pointer,\ we\ would\ lose\ type\ safety.}}
-\DoxyCodeLine{00231\ }
-\DoxyCodeLine{00237\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}};}
-\DoxyCodeLine{00238\ }
-\DoxyCodeLine{00244\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \{}
-\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7aad4bc086a7c1f970925f3b892a6d300a}{FULL\_STREAM\_GRAPH}},\ \ }
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a6198bbb565c430c8840b4785399c43e2}{LINK\_STREAM}},\ \ \ \ \ }
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a2da18a08e5d80a2cd0c2949bfdb2c198}{CHUNK\_STREAM}},\ \ \ \ \ \ \ }
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7ab91d34b0833aa7276735e7a0a89409e4}{CHUNK\_STREAM\_SMALL}},\ }
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_a8bb509f9bb4cb83acb5dc665981b31c7a63a3d749b56ebe23e17881a3970189a3}{TIMEFRAME\_STREAM}},\ \ \ }
-\DoxyCodeLine{00254\ \ \ \ \ \}\ \mbox{\hyperlink{structSGA__Stream_a9ab32867f0838c335107d3d6fb958278}{type}};}
-\DoxyCodeLine{00255\ }
-\DoxyCodeLine{00256\ \ \ \ \ \mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*\ \mbox{\hyperlink{structSGA__Stream_a6bdffced49b473c2ebcc6b15cde87e85}{stream\_data}};\ }
-\DoxyCodeLine{00257\ \ \ \ \ \mbox{\hyperlink{stream_8h_structInformationCache}{InformationCache}}\ \mbox{\hyperlink{structSGA__Stream_ad50e9e6167fed3e723994d3909e0496f}{cache}};\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00258\ \}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}};}
-\DoxyCodeLine{00259\ }
-\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00224\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_a03e621974d5eab4d6946f3b82c9fb89b}{SGA\_StreamGraph\_destroy}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}\ sg);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00231\ \mbox{\hyperlink{structString}{String}}\ \mbox{\hyperlink{stream_8h_a4f71af6ced2811fb72efae7a4c9deba6}{SGA\_external\_v\_1\_0\_0\_to\_internal\_v\_1\_0\_0\_format}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structString}{String}}*\ format);}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \textcolor{comment}{//\ TRICK:\ StreamData\ is\ a\ blanket\ struct\ that\ serves\ as\ a\ placeholder\ for\ the\ union\ of\ all\ stream\ types}}
+\DoxyCodeLine{00234\ \textcolor{comment}{//\ (FullStreamGraph,\ LinkStream,\ ect...).}}
+\DoxyCodeLine{00235\ \textcolor{comment}{//\ Otherwise\ a\ circular\ dependency\ would\ be\ created\ since\ these\ files\ need\ stream.h.}}
+\DoxyCodeLine{00236\ \textcolor{comment}{//\ And\ if\ we\ used\ a\ void*\ pointer,\ we\ would\ lose\ type\ safety.}}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00243\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}};}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00250\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \{}
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{structSGA__Stream_aa6208239395d3ece5cad22f2632b1025}{StreamType}}\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_aa6208239395d3ece5cad22f2632b1025aad4bc086a7c1f970925f3b892a6d300a}{FULL\_STREAM\_GRAPH}},\ \ }
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_aa6208239395d3ece5cad22f2632b1025a6198bbb565c430c8840b4785399c43e2}{LINK\_STREAM}},\ \ \ \ \ }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_aa6208239395d3ece5cad22f2632b1025a2da18a08e5d80a2cd0c2949bfdb2c198}{CHUNK\_STREAM}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_aa6208239395d3ece5cad22f2632b1025ab91d34b0833aa7276735e7a0a89409e4}{CHUNK\_STREAM\_SMALL}},\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSGA__Stream_aa6208239395d3ece5cad22f2632b1025a63a3d749b56ebe23e17881a3970189a3}{TIMEFRAME\_STREAM}},\ \ \ }
+\DoxyCodeLine{00260\ \ \ \ \ \}\ type;}
 \DoxyCodeLine{00261\ }
-\DoxyCodeLine{00266\ \textcolor{keywordtype}{void}\ init\_cache(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00262\ \ \ \ \ \mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*\ \mbox{\hyperlink{structSGA__Stream_a6bdffced49b473c2ebcc6b15cde87e85}{stream\_data}};\ }
+\DoxyCodeLine{00263\ \ \ \ \ \mbox{\hyperlink{stream_8h_structInformationCache}{InformationCache}}\ \mbox{\hyperlink{structSGA__Stream_ad50e9e6167fed3e723994d3909e0496f}{cache}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00264\ \}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
 \DoxyCodeLine{00267\ }
-\DoxyCodeLine{00276\ \textcolor{preprocessor}{\#\ \ \ define\ FETCH\_CACHE(stream,\ field)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00277\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ ((stream)-\/>cache.field.present)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00278\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ return\ (stream)-\/>cache.field.data;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00279\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}}}
-\DoxyCodeLine{00280\ }
-\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#\ \ \ define\ UPDATE\_CACHE(stream,\ field,\ value)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00288\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ((SGA\_Stream*)(stream))-\/>cache.field.present\ =\ true;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00289\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ((SGA\_Stream*)(stream))-\/>cache.field.data\ \ \ \ =\ value;}}
-\DoxyCodeLine{00290\ }
-\DoxyCodeLine{00295\ \textcolor{keywordtype}{void}\ reset\_cache(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00272\ \textcolor{keywordtype}{void}\ init\_cache(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#\ \ \ define\ FETCH\_CACHE(stream,\ field)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ ((stream)-\/>cache.field.present)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ return\ (stream)-\/>cache.field.data;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#\ \ \ define\ UPDATE\_CACHE(stream,\ field,\ value)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ((SGA\_Stream*)(stream))-\/>cache.field.present\ =\ true;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ((SGA\_Stream*)(stream))-\/>cache.field.data\ \ \ \ =\ value;}}
 \DoxyCodeLine{00296\ }
-\DoxyCodeLine{00302\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ SGA\_StreamGraph\_lifespan(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
-\DoxyCodeLine{00303\ }
-\DoxyCodeLine{00309\ \textcolor{keywordtype}{size\_t}\ SGA\_StreamGraph\_time\_scale(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
-\DoxyCodeLine{00310\ }
-\DoxyCodeLine{00315\ \textcolor{keywordtype}{void}\ init\_events\_table(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00301\ \textcolor{keywordtype}{void}\ reset\_cache(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00308\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ SGA\_StreamGraph\_lifespan(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00315\ \textcolor{keywordtype}{size\_t}\ SGA\_StreamGraph\_time\_scale(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
 \DoxyCodeLine{00316\ }
-\DoxyCodeLine{00321\ \textcolor{keywordtype}{void}\ events\_destroy(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00321\ \textcolor{keywordtype}{void}\ init\_events\_table(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
 \DoxyCodeLine{00322\ }
-\DoxyCodeLine{00323\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00324\ }
-\DoxyCodeLine{00325\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_H}}
+\DoxyCodeLine{00327\ \textcolor{keywordtype}{void}\ events\_destroy(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ sg);}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_H}}
 
 \end{DoxyCode}
