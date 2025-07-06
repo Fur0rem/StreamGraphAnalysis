@@ -183,6 +183,7 @@ command.
 - Average node degree : Section 8
 - Clustering coefficient of a node : Section 9
 - Node clustering coefficient : Section 9
+- Line streams: Section 12
 - K-cores : Section 13
 - Walks and distances : Section 14 (The paper mentionned paths but for now I only implemented walks)
 - Robustness by length : Outside of the paper

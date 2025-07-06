@@ -48,6 +48,17 @@ typedef struct {
  */
 NodesSet NodesSet_alloc(size_t nb_nodes);
 
+/**
+ * @brief Create a set of nodes from an array of node presences and neighbours.
+ * @param[in] nb_nodes The number of nodes in the set.
+ * @param[in] node_presences An array of SGA_IntervalsSet representing the presence of each node.
+ * @param[in] neighbours_of_nodes An array of SGA_LinkIdArrayList representing the neighbours of each node.
+ * @return The created set of nodes.
+ * @note This function assumes that the node presences and neighbours are already allocated and filled, both with nb_nodes elements.
+ * @note node_presences and neighbours_of_nodes will be destroyed by this function, so they should not be used after this call.
+ */
+NodesSet NodesSet_from(size_t nb_nodes, SGA_IntervalArrayList* node_presences, SGA_LinkIdArrayList* neighbours_of_nodes);
+
 #endif // SGA_INTERNAL
 
 #endif // SGA_STREAM_GRAPH_NODES_SET_H

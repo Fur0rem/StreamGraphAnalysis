@@ -464,9 +464,9 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 
 	// Arrays to keep track how many tiems a node/link was pushed and removed
 	// OPTIMISATION: Both arrays are allocated in one calloc call to prevent two separate allocations and better cache locality
-	int* buffer		 = calloc(nb_nodes + nb_links, sizeof(int));
-	int* nb_pushed_for_nodes = buffer;
-	int* nb_pushed_for_links = buffer + nb_nodes;
+	size_t* buffer		    = calloc(nb_nodes + nb_links, sizeof(size_t));
+	size_t* nb_pushed_for_nodes = buffer;
+	size_t* nb_pushed_for_links = buffer + nb_nodes;
 
 	// Parse all the lists of events
 	for (size_t i = 0; i < nb_key_instants; i++) {
@@ -582,12 +582,24 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 				  "perhaps you forgot to make it disappear at the end of the stream?\n",
 				  n,
 				  nb_pushed_for_nodes[n]);
+
+		CHECK_PARSE_ERROR(sg.nodes.nodes[n].presence.nb_intervals * 2 != nb_pushed_for_nodes[n],
+				  "Node %zu has %zu intervals, but %zu appearances and disappearances were found\n",
+				  n,
+				  sg.nodes.nodes[n].presence.nb_intervals,
+				  nb_pushed_for_nodes[n]);
 	}
 	for (SGA_LinkId l = 0; l < nb_links; l++) {
 		CHECK_PARSE_ERROR(nb_pushed_for_links[l] % 2 != 0,
 				  "Link %zu doesn't have a balanced number of appearances and disappearances (%zu <- Should be even), "
 				  "perhaps you forgot to make it disappear at the end of the stream?\n",
 				  l,
+				  nb_pushed_for_links[l]);
+
+		CHECK_PARSE_ERROR(sg.links.links[l].presence.nb_intervals * 2 != nb_pushed_for_links[l],
+				  "Link %zu has %zu intervals, but %zu appearances and disappearances were found\n",
+				  l,
+				  sg.links.links[l].presence.nb_intervals,
 				  nb_pushed_for_links[l]);
 	}
 
@@ -1530,15 +1542,36 @@ SGA_StreamGraph SGA_StreamGraph_from_string(const String* sg_as_str) {
 }
 
 SGA_StreamGraph SGA_StreamGraph_from(SGA_Interval lifespan, size_t time_scale, NodesSet nodes, LinksSet links,
-				     KeyInstantsTable key_instants, size_t nb_key_instants) {
+				     SGA_TimeArrayList key_instants) {
+
+	// If the last instant isn't the end of the stream, we add it
+	SGA_Time last_key_instant = key_instants.array[key_instants.length - 1];
+	if (last_key_instant != lifespan.end) {
+		SGA_TimeArrayList_push(&key_instants, lifespan.end);
+	}
+
+	// Create the key instants table
+	KeyInstantsTable kmt = KeyInstantsTable_from_list(&key_instants);
+
+	// If the last key instant wasn't the end of the stream, we remove it from the table
+	if (last_key_instant != lifespan.end) {
+		size_t slice_idx = KeyInstantsTable_in_which_slice_is(&kmt, lifespan.end);
+		ASSERT(slice_idx != SIZE_MAX);
+		kmt.slices[slice_idx].nb_instants--;
+		// If it was the only one in the slice, we free the instants array
+		if (kmt.slices[slice_idx].nb_instants == 0) {
+			free(kmt.slices[slice_idx].instants);
+		}
+	}
+
 	SGA_StreamGraph sg = {
 	    .lifespan	  = lifespan,
 	    .time_scale	  = time_scale,
 	    .nodes	  = nodes,
 	    .links	  = links,
-	    .key_instants = key_instants,
+	    .key_instants = kmt,
 	};
-	sg.events.nb_events = nb_key_instants;
+	sg.events.nb_events = key_instants.length;
 	// Initialise the events table
 	init_events_table(&sg);
 

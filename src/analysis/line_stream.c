@@ -77,41 +77,8 @@ SGA_StreamGraph SGA_line_stream_of(const SGA_Stream* stream) {
 		SGA_TimeArrayList_push(&key_instants_array, instant.start);
 	}
 
-	// If the last instant isn't the end of the stream, we add it
-	SGA_Time last_key_instant = key_instants_array.array[key_instants_array.length - 1];
-	if (last_key_instant != lifespan.end) {
-		SGA_TimeArrayList_push(&key_instants_array, lifespan.end);
-	}
-
-	KeyInstantsTable kmt = KeyInstantsTable_from_list(&key_instants_array);
-
-	// If the last key instant wasn't the end of the stream, we remove it from the table
-	if (last_key_instant != lifespan.end) {
-		size_t slice_idx = KeyInstantsTable_in_which_slice_is(&kmt, lifespan.end);
-		ASSERT(slice_idx != SIZE_MAX);
-		kmt.slices[slice_idx].nb_instants--;
-		// If it was the only one in the slice, we free the instants array
-		if (kmt.slices[slice_idx].nb_instants == 0) {
-			free(kmt.slices[slice_idx].instants);
-		}
-	}
-
-	// Create the node set
-	NodesSet nodes_set = {
-	    .nb_nodes = line_stream_nb_nodes,
-	    .nodes    = MALLOC(sizeof(SGA_Node) * line_stream_nb_nodes),
-	};
-	for (size_t i = 0; i < line_stream_nb_nodes; i++) {
-		// Shrink the array to the actual size
-		neighbours_of_nodes[i].array = realloc(neighbours_of_nodes[i].array, neighbours_of_nodes[i].length * sizeof(SGA_LinkId));
-
-		// Create the node from the info in the arrays
-		nodes_set.nodes[i] = (SGA_Node){
-		    .presence	   = SGA_IntervalsSet_from_interval_arraylist(node_presences[i]),
-		    .neighbours	   = neighbours_of_nodes[i].array,
-		    .nb_neighbours = neighbours_of_nodes[i].length,
-		};
-	}
+	// Create the nodes set
+	NodesSet nodes_set = NodesSet_from(line_stream_nb_nodes, node_presences, neighbours_of_nodes);
 
 	// Create the links set
 	LinksSet links_set = {
@@ -120,7 +87,7 @@ SGA_StreamGraph SGA_line_stream_of(const SGA_Stream* stream) {
 	};
 
 	// Create the stream graph
-	SGA_StreamGraph line_stream = SGA_StreamGraph_from(lifespan, time_scale, nodes_set, links_set, kmt, key_instants_array.length);
+	SGA_StreamGraph line_stream = SGA_StreamGraph_from(lifespan, time_scale, nodes_set, links_set, key_instants_array);
 
 	// Free the allocated memory
 	SGA_TimeArrayList_destroy(key_instants_array);
