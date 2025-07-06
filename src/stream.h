@@ -188,12 +188,11 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
  * @param time_scale The time scale of the StreamGraph.
  * @param nodes The set of nodes in the StreamGraph.
  * @param links The set of links in the StreamGraph.
- * @param key_instants The key instants of the StreamGraph. A key instant is a instant where the StreamGraph changes.
- * @param nb_key_instants The number of key instants in the StreamGraph.
+ * @param key_instants The key instants of the StreamGraph, i.e. all the instants where the StreamGraph changes.
  * @return The StreamGraph.
  */
 SGA_StreamGraph SGA_StreamGraph_from(SGA_Interval lifespan, size_t time_scale, NodesSet nodes, LinksSet links,
-				     KeyInstantsTable key_instants, size_t nb_key_instants);
+				     SGA_TimeArrayList key_instants);
 
 /**
  * @brief Creates a StreamGraph from a string.
