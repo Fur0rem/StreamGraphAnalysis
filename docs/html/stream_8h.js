@@ -24,7 +24,7 @@ var stream_8h =
     [ "SGA_StreamData", "stream_8h.html#a3c628d0526c9c7b163801ccc0e24cb4f", null ],
     [ "SGA_external_v_1_0_0_to_internal_v_1_0_0_format", "stream_8h.html#a4f71af6ced2811fb72efae7a4c9deba6", null ],
     [ "SGA_StreamGraph_destroy", "stream_8h.html#a03e621974d5eab4d6946f3b82c9fb89b", null ],
-    [ "SGA_StreamGraph_from", "stream_8h.html#a91ce7ec66436bb7a3ae6b2c8c1c26078", null ],
+    [ "SGA_StreamGraph_from", "stream_8h.html#a618b6cda0eab84317d2a1e8829e94b72", null ],
     [ "SGA_StreamGraph_from_external_format_v_1_0_0", "stream_8h.html#a3faf5aebc82385c77d67ad2467cc95e3", null ],
     [ "SGA_StreamGraph_from_file", "stream_8h.html#aaf1651fde51147b366ef757df3ae74c7", null ],
     [ "SGA_StreamGraph_from_internal_format_v_1_0_0", "stream_8h.html#a8dea3f09eec5c37beb5b18c267701fd6", null ],

@@ -114,12 +114,18 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>capacity&#160;:&#160;<a class="el" href="structArena.html#aca584e0541032c88456c89383621586b">Arena</a>, <a class="el" href="group__INTERNAL__API.html#a1e9461f27125cdba6ba9aa0f01fced0c">InnerArena</a></li>
 <li>CHUNK_STREAM&#160;:&#160;<a class="el" href="structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025a2da18a08e5d80a2cd0c2949bfdb2c198">SGA_Stream</a></li>
 <li>CHUNK_STREAM_SMALL&#160;:&#160;<a class="el" href="structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025ab91d34b0833aa7276735e7a0a89409e4">SGA_Stream</a></li>
-<li>current_time&#160;:&#160;<a class="el" href="structTFS__TimesIDPresentAtIteratorData.html#a492c499b8f7983da487b011618bcd298">TFS_TimesIDPresentAtIteratorData</a></li>
+<li>current_bucket&#160;:&#160;<a class="el" href="structDeltaStreamIDsIteratorData.html#aa6a88fea82e295c5c02081615b7fb700">DeltaStreamIDsIteratorData</a></li>
+<li>current_event&#160;:&#160;<a class="el" href="structLinksPresentAtTIterator.html#ab01f330cf775e0728c40b670b4409376">LinksPresentAtTIterator</a>, <a class="el" href="structNodesPresentAtTIterator.html#a0efea4b72d2b2e3c765d6cc169016998">NodesPresentAtTIterator</a></li>
+<li>current_idx_in_bucket&#160;:&#160;<a class="el" href="structDeltaStreamIDsIteratorData.html#a721fd4baa701c3f870c60536851274a2">DeltaStreamIDsIteratorData</a></li>
+<li>current_link&#160;:&#160;<a class="el" href="structLinksPresentAtTIterator.html#a36c9c16c92b7e3ef707d5a4a0605836b">LinksPresentAtTIterator</a></li>
+<li>current_node&#160;:&#160;<a class="el" href="structNodesPresentAtTIterator.html#a2ddbdb6f488989a77dc420cf9886a8cc">NodesPresentAtTIterator</a></li>
+<li>current_time&#160;:&#160;<a class="el" href="structDeltaStreamTimesIdPresentAtIteratorData.html#a11dcc05ebe2ef9b408b3e1df99a07b15">DeltaStreamTimesIdPresentAtIteratorData</a>, <a class="el" href="structTFS__TimesIDPresentAtIteratorData.html#a492c499b8f7983da487b011618bcd298">TFS_TimesIDPresentAtIteratorData</a></li>
 </ul>
 
 
 <h3><a id="index_d" name="index_d"></a>- d -</h3><ul>
 <li>data&#160;:&#160;<a class="el" href="stream_8h.html#aa760fbdbc1ca1cc28e893f5ece590fbb">OptionalSizeT</a></li>
+<li>DELTA_STREAM&#160;:&#160;<a class="el" href="structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025a71e7ce7e9296b101fb46bf9460c9ac68">SGA_Stream</a></li>
 <li>destroy&#160;:&#160;<a class="el" href="iterators_8h.html#adc4944d37356b2982e5a0a2555c1a95b">SGA_LinksIterator</a>, <a class="el" href="iterators_8h.html#a793749496f55d228407832f023ea5edf">SGA_NodesIterator</a>, <a class="el" href="iterators_8h.html#adf5325ec20dd2d0356cac708a911673a">SGA_TimesIterator</a></li>
 <li>distinct_cardinal_of_link_set&#160;:&#160;<a class="el" href="stream_8h.html#ab62de569648c8d79a50c281718b561d9">InformationCache</a></li>
 <li>distinct_cardinal_of_node_set&#160;:&#160;<a class="el" href="stream_8h.html#af88ff6c5a24810eaa686047b409912f6">InformationCache</a></li>
@@ -129,7 +135,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_e" name="index_e"></a>- e -</h3><ul>
 <li>end&#160;:&#160;<a class="el" href="walks_8h.html#a34893363a103ce5b250e34ee30d9abcf">SGA_Walk</a></li>
-<li>events&#160;:&#160;<a class="el" href="src_2stream_8c.html#a5ee3d34e865184a76a83f69d87563060">ParsedStreamGraph</a>, <a class="el" href="stream_8h.html#ad269df9026ff816a66b3deb2b4e5bd21">SGA_StreamGraph</a></li>
+<li>events&#160;:&#160;<a class="el" href="events__table_8h.html#ae9ddf883a075ccba52ac94bfb0142ce2">Events</a>, <a class="el" href="src_2stream_8c.html#a5ee3d34e865184a76a83f69d87563060">ParsedStreamGraph</a>, <a class="el" href="stream_8h.html#ad269df9026ff816a66b3deb2b4e5bd21">SGA_StreamGraph</a></li>
 </ul>
 
 
@@ -141,8 +147,10 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <h3><a id="index_i" name="index_i"></a>- i -</h3><ul>
 <li>id&#160;:&#160;<a class="el" href="src_2stream_8c.html#aff386bff3ff7535ac355c44e02084a40">EventTuple</a></li>
 <li>id_of_iterated&#160;:&#160;<a class="el" href="structTFS__TimesIDPresentAtIteratorData.html#a79271ec4388b12e163e860ce3cd37246">TFS_TimesIDPresentAtIteratorData</a></li>
+<li>ids&#160;:&#160;<a class="el" href="structDeltaStreamIDsIteratorData.html#ad4aeea6500ef13ec13709bb7545f209e">DeltaStreamIDsIteratorData</a></li>
 <li>instant&#160;:&#160;<a class="el" href="src_2stream_8c.html#a036b38fd38f1dd6e6f69ba5bf316e653">EventTuple</a></li>
 <li>interval_taken&#160;:&#160;<a class="el" href="walks_8h.html#a8777f68a9e87538be1cb54e54ec0568b">SGA_WalkStep</a></li>
+<li>intervals&#160;:&#160;<a class="el" href="structDeltaStreamTimesIdPresentAtIteratorData.html#aa98af80ae2382077a49e2dc96bafe6df">DeltaStreamTimesIdPresentAtIteratorData</a></li>
 <li>iterator_data&#160;:&#160;<a class="el" href="iterators_8h.html#aaa2b330483efe7f0c42c02b2725cac50">SGA_LinksIterator</a>, <a class="el" href="iterators_8h.html#a840afa2bb7444d426d53b04d180a81c6">SGA_NodesIterator</a>, <a class="el" href="iterators_8h.html#aff888fa22a69047a18dc30e63f551ccc">SGA_TimesIterator</a></li>
 </ul>
 
@@ -156,6 +164,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>letter&#160;:&#160;<a class="el" href="src_2stream_8c.html#a76aeb565e288e419cd5dd67aa61c7fbf">EventTuple</a></li>
 <li>lifespan&#160;:&#160;<a class="el" href="src_2stream_8c.html#ae77025daa6e15b953af14b59d8867aa2">ParsedStreamGraph</a>, <a class="el" href="stream_8h.html#aea5025df02df725f85dea7385529ef7c">SGA_StreamGraph</a></li>
 <li>link&#160;:&#160;<a class="el" href="src_2stream_8c.html#a2a304a1348456ccd2234cd71a81bd338">EventTuple.id</a>, <a class="el" href="walks_8h.html#a7d1de3bb73977cfad954f292e71fa85d">SGA_WalkStep</a></li>
+<li>link_events&#160;:&#160;<a class="el" href="events__table_8h.html#a5efdaf591392bed7721cebceaaff4cc1">EventsTable</a></li>
 <li>LINK_STREAM&#160;:&#160;<a class="el" href="structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025a6198bbb565c430c8840b4785399c43e2">SGA_Stream</a></li>
 <li>links&#160;:&#160;<a class="el" href="src_2stream_8c.html#a2caaafb588ab1f896613c2b730237030">ParsedStreamGraph</a>, <a class="el" href="stream_8h.html#a01c4a3b8a9aa603938f08c025a73206a">SGA_StreamGraph</a></li>
 </ul>
@@ -170,6 +179,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>nb_allocated&#160;:&#160;<a class="el" href="structArena.html#ac14befc5bcdc832bce81fe2c9990929d">Arena</a></li>
 <li>nb_arenas&#160;:&#160;<a class="el" href="structArena.html#a4d6a802148868f8bea56e322a761ae66">Arena</a></li>
 <li>nb_bits&#160;:&#160;<a class="el" href="bit__array_8h.html#ac24ea25e981a8997edf3b8f1d422ab5d">BitArray</a></li>
+<li>nb_events&#160;:&#160;<a class="el" href="events__table_8h.html#ab9479ef60f3c347083b9d3d4ab9909b9">EventsTable</a></li>
 <li>nb_events_per_slice&#160;:&#160;<a class="el" href="src_2stream_8c.html#a2c1f03fd80ebb43ca5401c8ad6f43a62">ParsedStreamGraph</a></li>
 <li>nb_neighbours&#160;:&#160;<a class="el" href="nodes__set_8h.html#a1757eb726945b972c4580b3548e58afd">SGA_Node</a></li>
 <li>nb_nodes&#160;:&#160;<a class="el" href="nodes__set_8h.html#a91eddce3c8a85482291887fb3afdf8f5">NodesSet</a>, <a class="el" href="group__CLIQUES.html#ac49048fe91871b0723f74dc08c3f58a8">SGA_Clique</a></li>
@@ -182,6 +192,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>node2&#160;:&#160;<a class="el" href="src_2stream_8c.html#a78882aaeb08e9a4c81687b5de2add74f">EventTuple.id.link</a></li>
 <li>NODE_ABSENT&#160;:&#160;<a class="el" href="structSGA__NoWalkReason.html#a84e55bf8f4123f94d858eeed54576ceaa3eddeebd0bb052be0dfb480b65b0a3c7">SGA_NoWalkReason</a></li>
 <li>node_absent_between&#160;:&#160;<a class="el" href="walks_8h.html#a25c9ed6f420a444c0e1d0fbcea5fa5cd">SGA_NoWalkReason.reason</a></li>
+<li>node_events&#160;:&#160;<a class="el" href="events__table_8h.html#a60d59c81b2d8d0f9774f6f2c28ee07cd">EventsTable</a></li>
 <li>node_id&#160;:&#160;<a class="el" href="group__CLUSTERS.html#a10103d61d8e6699ba7046d440a366e20">SGA_ClusterNode</a></li>
 <li>node_neighbours&#160;:&#160;<a class="el" href="src_2stream_8c.html#af993fb80690ed5ec2c2da49c891263a2">ParsedStreamGraph</a></li>
 <li>nodes&#160;:&#160;<a class="el" href="nodes__set_8h.html#a84e66c4a70bdc5ee4cdf6c060a129849">NodesSet</a>, <a class="el" href="src_2stream_8c.html#aa55aa1f710a2a011e0fe138249d16b0f">ParsedStreamGraph</a>, <a class="el" href="group__CLIQUES.html#a0c3bcdece20cca08bf1b6c26a8152ef1">SGA_Clique</a>, <a class="el" href="group__CLUSTERS.html#ab00dfed722e45869e80522edecd20f1e">SGA_Cluster</a>, <a class="el" href="stream_8h.html#a452cddb1c0e6a0c7f47b007979fe9abe">SGA_StreamGraph</a></li>
@@ -195,6 +206,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_p" name="index_p"></a>- p -</h3><ul>
 <li>presence&#160;:&#160;<a class="el" href="group__CLUSTERS.html#ad2932bf347afd5c285b9d946a8e701ff">SGA_ClusterNode</a>, <a class="el" href="nodes__set_8h.html#aa3d0ed353886aae7b2d03f6ddcc0d424">SGA_Node</a></li>
+<li>presence_mask&#160;:&#160;<a class="el" href="events__table_8h.html#a6c58378ef1f00b466b013e50965ec026">Events</a></li>
 <li>present&#160;:&#160;<a class="el" href="stream_8h.html#a74eac5e5eec34e0186693430be72f59a">OptionalSizeT</a></li>
 </ul>
 

@@ -1,0 +1,33 @@
+\doxysection{delta\+\_\+stream.\+h}
+\hypertarget{delta__stream_8h_source}{}\label{delta__stream_8h_source}\index{src/streams/delta\_stream.h@{src/streams/delta\_stream.h}}
+\mbox{\hyperlink{delta__stream_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ DELTA\_STREAM\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DELTA\_STREAM\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{metrics_8h}{../analysis/metrics.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream_8h}{../stream.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stream__functions_8h}{../stream\_functions.h}}"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ underlying\_stream\_graph;\ }
+\DoxyCodeLine{00023\ \ \ \ \ SGA\_Time\ delta;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \}\ DeltaStream;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ StreamFunctions\ DeltaStream\_stream\_functions;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ MetricsFunctions\ DeltaStream\_metrics\_functions;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00046\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ \mbox{\hyperlink{delta__stream_8h_a184ea99c764cce42d64d49fa2b63b016}{SGA\_DeltaStream\_from}}(\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\_StreamGraph}}*\ stream\_graph,\ SGA\_Time\ delta);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{delta__stream_8h_aa6993feda2db0bd51e53d25744c2e392}{SGA\_DeltaStream\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FULL\_STREAM\_GRAPH\_H}}
+
+\end{DoxyCode}

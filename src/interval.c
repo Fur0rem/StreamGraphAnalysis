@@ -315,7 +315,7 @@ void SGA_IntervalsSet_add_at(SGA_IntervalsSet* intervals_set, SGA_Interval inter
 	intervals_set->intervals[index] = interval;
 }
 
-SGA_IntervalsSet SGA_IntervalsSet_from_interval_arraylist(SGA_IntervalArrayList intervals) {
+SGA_IntervalsSet SGA_IntervalsSet_from_arraylist(SGA_IntervalArrayList intervals) {
 	return (SGA_IntervalsSet){
 	    .nb_intervals = intervals.length,
 	    .intervals	  = intervals.array,

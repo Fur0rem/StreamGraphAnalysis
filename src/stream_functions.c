@@ -89,8 +89,8 @@ void SGA_Stream_destroy(SGA_Stream stream) {
 		case TIMEFRAME_STREAM:
 			SGA_TimeFrameStream_destroy(stream);
 			break;
-		default:
-			fprintf(stderr, "Unknown stream type: %d\n", stream.type);
-			exit(EXIT_FAILURE);
+		case DELTA_STREAM:
+			SGA_DeltaStream_destroy(stream);
+			break;
 	}
 }

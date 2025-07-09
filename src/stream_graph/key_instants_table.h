@@ -34,7 +34,7 @@ typedef struct {
 
 #ifdef SGA_INTERNAL
 
-SGA_Time KeyInstantsTable_nth_key_instant(KeyInstantsTable* kmt, SGA_TimeId n);
+SGA_Time KeyInstantsTable_nth_key_instant(const KeyInstantsTable* kmt, SGA_TimeId n);
 
 void KeyInstantsTable_push_in_order(KeyInstantsTable* kmt, SGA_Time key_instant);
 KeyInstantsTable KeyInstantsTable_alloc(size_t nb_slices);
@@ -50,7 +50,11 @@ void KeyInstantsTable_destroy(KeyInstantsTable kmt);
 // Assumes the times are sorted, returns the index of a certain time if it was pushed in that array, all of them were in a single array
 SGA_TimeId KeyInstantsTable_find_time_index_if_pushed(KeyInstantsTable* kmt, SGA_Time t);
 
-// Returns the index of the the instant which has equivalent events to time t
+/**
+ * @brief Find the index of a time instant which has the same induced graph as the given time.
+ * @param kmt The key instants table.
+ * @param t The time instant to find the index for.
+ */
 SGA_TimeId KeyInstantsTable_find_time_index_equivalent(KeyInstantsTable* kmt, SGA_Time t);
 
 void print_key_instants_table(KeyInstantsTable* kmt);
@@ -62,6 +66,13 @@ void print_key_instants_table(KeyInstantsTable* kmt);
  * @return The index of the slice in which the time instant is.
  */
 size_t KeyInstantsTable_in_which_slice_is(KeyInstantsTable* kmt, SGA_Time t);
+
+/**
+ * @brief Compute the total number of instants in the key instants table.
+ * @param kmt The key instants table.
+ * @return The total number of instants in the key instants table.
+ */
+size_t KeyInstantsTable_total_nb_instants(const KeyInstantsTable* kmt);
 
 #endif // SGA_INTERNAL
 

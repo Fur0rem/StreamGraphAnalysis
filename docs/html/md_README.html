@@ -169,7 +169,7 @@ Data format</h1>
 <div class="line">[EndOfStream]</div>
 <div class="line"> </div>
 <div class="line">Any text before <span class="keyword">this</span> line will be ignored, and can be used <span class="keywordflow">for</span> comments or metadata</div>
-<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdef"><b>Definition</b> events_table.h:22</div></div>
+<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdoc">A collection of events, where each event contains the information about the nodes or links present at...</div><div class="ttdef"><b>Definition</b> events_table.h:35</div></div>
 </div><!-- fragment --><p>All timestamps must be integers, which is why the scale is used to bring metrics back to the original scale. For example, if you have a stream with nodes present at 0.5, 1.5, ect... You can multiply all your timestamps by 2, and set the scale to 2, to have all your timestamps as integers, but have the metrics be correct according to the original scale.</p>
 <p>There are some example data files in the data/examples/ directory, which contains examples of the external format taken from the paper.</p>
 <p>You can also find a more detailed documentation of each format in the documentation for SGA_StreamGraph_from_internal_format_v_1_0_0 and SGA_StreamGraph_from_external_format_v_1_0_0.</p>
@@ -235,8 +235,10 @@ Supported metrics and analysis</h1>
 <li>Average node degree : Section 8</li>
 <li>Clustering coefficient of a node : Section 9</li>
 <li>Node clustering coefficient : Section 9</li>
+<li>Line streams: Section 12</li>
 <li>K-cores : Section 13</li>
 <li>Walks and distances : Section 14 (The paper mentionned paths but for now I only implemented walks)</li>
+<li>Delta-analysis : Section 19</li>
 <li>Robustness by length : Outside of the paper</li>
 <li>Isomorphism : Outside of the paper </li>
 </ul>

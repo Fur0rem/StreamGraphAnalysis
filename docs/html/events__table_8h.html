@@ -105,6 +105,7 @@ $(function(){initNavTree('events__table_8h.html',''); initResizable(true); });
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="bit__array_8h_source.html">../bit_array.h</a>&quot;</code><br />
 <code>#include &quot;../units.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="key__instants__table_8h_source.html">key_instants_table.h</a>&quot;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 </div>
@@ -113,8 +114,10 @@ $(function(){initNavTree('events__table_8h.html',''); initResizable(true); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:structEvents" id="r_structEvents"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structEvents">Events</a></td></tr>
+<tr class="memdesc:structEvents"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of events, where each event contains the information about the nodes or links present at that event. The presence mask indicates whether the event has only appearances (1) or has at least one disappearance (0). If the event has only appearances, the events array will contain the ids of the nodes or links that appeared at that event. If the event has at least one disappearance, the events array will contain all the ids of the nodes or links that are present at that event.  <a href="#structEvents">More...</a><br /></td></tr>
 <tr class="separator:structEvents"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structEventsTable" id="r_structEventsTable"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structEventsTable">EventsTable</a></td></tr>
+<tr class="memdesc:structEventsTable"><td class="mdescLeft">&#160;</td><td class="mdescRight">A table of events, containing the information about the nodes and links present at each event. It contains the number of events, and two separate collections of events for nodes and links.  <a href="#structEventsTable">More...</a><br /></td></tr>
 <tr class="separator:structEventsTable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -140,7 +143,7 @@ Collaboration diagram for Events:</div>
 <div class="dyncontent">
 <div class="center"><img src="structEvents__coll__graph.png" border="0" usemap="#aEvents_coll__map" alt="Collaboration graph"/></div>
 <map name="aEvents_coll__map" id="aEvents_coll__map">
-<area shape="rect" title=" " alt="" coords="10,98,75,126"/>
+<area shape="rect" title="A collection of events, where each event contains the information about the nodes or links present at..." alt="" coords="10,98,75,126"/>
 <area shape="rect" href="bit__array_8h.html#structBitArray" title=" " alt="" coords="5,5,80,33"/>
 <area shape="poly" title=" " alt="" coords="45,48,45,98,40,98,40,48"/>
 </map>
@@ -148,22 +151,17 @@ Collaboration diagram for Events:</div>
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="a52a594ef9f89cd8acdb2e08e19e22077" name="a52a594ef9f89cd8acdb2e08e19e22077"></a>SGA_TimeId</td>
-<td class="fieldname">
-disappearance_index</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
 <a id="ae9ddf883a075ccba52ac94bfb0142ce2" name="ae9ddf883a075ccba52ac94bfb0142ce2"></a>Event *</td>
 <td class="fieldname">
 events</td>
 <td class="fielddoc">
-</td></tr>
+Array of events, each event contains the information about the nodes or links present at that event. </td></tr>
 <tr><td class="fieldtype">
 <a id="a6c58378ef1f00b466b013e50965ec026" name="a6c58378ef1f00b466b013e50965ec026"></a><a class="el" href="bit__array_8h.html#structBitArray">BitArray</a></td>
 <td class="fieldname">
 presence_mask</td>
 <td class="fielddoc">
+<p>Presence mask, where each bit represents whether the event has only appearances (1) or has at least one </p>
 </td></tr>
 </table>
 
@@ -185,8 +183,8 @@ Collaboration diagram for EventsTable:</div>
 <div class="dyncontent">
 <div class="center"><img src="structEventsTable__coll__graph.png" border="0" usemap="#aEventsTable_coll__map" alt="Collaboration graph"/></div>
 <map name="aEventsTable_coll__map" id="aEventsTable_coll__map">
-<area shape="rect" title=" " alt="" coords="5,208,105,235"/>
-<area shape="rect" href="events__table_8h.html#structEvents" title=" " alt="" coords="22,98,88,126"/>
+<area shape="rect" title="A table of events, containing the information about the nodes and links present at each event...." alt="" coords="5,208,105,235"/>
+<area shape="rect" href="events__table_8h.html#structEvents" title="A collection of events, where each event contains the information about the nodes or links present at..." alt="" coords="22,98,88,126"/>
 <area shape="poly" title=" " alt="" coords="58,141,58,208,52,208,52,141"/>
 <area shape="rect" href="bit__array_8h.html#structBitArray" title=" " alt="" coords="18,5,92,33"/>
 <area shape="poly" title=" " alt="" coords="58,48,58,98,52,98,52,48"/>
@@ -199,19 +197,20 @@ Collaboration diagram for EventsTable:</div>
 <td class="fieldname">
 link_events</td>
 <td class="fielddoc">
-</td></tr>
+Collection of events for links. </td></tr>
 <tr><td class="fieldtype">
 <a id="ab9479ef60f3c347083b9d3d4ab9909b9" name="ab9479ef60f3c347083b9d3d4ab9909b9"></a>size_t</td>
 <td class="fieldname">
 nb_events</td>
 <td class="fielddoc">
+number of key instants in the key instants table. <p>The number of events in the table. This is the same for both node and link events. Should be equal to the </p>
 </td></tr>
 <tr><td class="fieldtype">
 <a id="a60d59c81b2d8d0f9774f6f2c28ee07cd" name="a60d59c81b2d8d0f9774f6f2c28ee07cd"></a><a class="el" href="#structEvents">Events</a></td>
 <td class="fieldname">
 node_events</td>
 <td class="fielddoc">
-</td></tr>
+Collection of events for nodes. </td></tr>
 </table>
 
 </div>
@@ -221,53 +220,59 @@ Include dependency graph for events_table.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="events__table_8h__incl.png" border="0" usemap="#asrc_2stream__graph_2events__table_8h" alt=""/></div>
 <map name="asrc_2stream__graph_2events__table_8h" id="asrc_2stream__graph_2events__table_8h">
-<area shape="rect" title=" " alt="" coords="53,5,235,50"/>
-<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="144,350,245,378"/>
-<area shape="poly" title=" " alt="" coords="141,51,135,86,135,125,145,184,159,242,187,335,182,336,154,244,140,186,129,126,129,86,136,50"/>
-<area shape="rect" title=" " alt="" coords="70,510,143,538"/>
-<area shape="poly" title=" " alt="" coords="107,53,74,76,42,107,18,144,11,165,8,186,8,365,15,405,34,441,58,473,82,498,78,502,53,477,29,444,10,407,3,366,3,186,5,163,13,142,38,104,71,72,104,48"/>
-<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="144,98,221,126"/>
-<area shape="poly" title=" " alt="" coords="157,49,172,83,168,85,152,52"/>
-<area shape="rect" title=" " alt="" coords="245,98,315,126"/>
-<area shape="poly" title=" " alt="" coords="181,48,247,87,244,92,179,53"/>
-<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="252,435,313,462"/>
-<area shape="poly" title=" " alt="" coords="211,377,260,422,256,426,207,381"/>
-<area shape="rect" title=" " alt="" coords="167,510,249,538"/>
-<area shape="poly" title=" " alt="" coords="198,378,208,494,203,495,193,379"/>
-<area shape="poly" title=" " alt="" coords="190,380,124,498,119,496,185,377"/>
-<area shape="poly" title=" " alt="" coords="314,432,331,435,338,440,340,449,337,457,330,463,327,458,333,454,335,448,333,443,329,440,313,437"/>
-<area shape="rect" title=" " alt="" coords="273,510,346,538"/>
-<area shape="poly" title=" " alt="" coords="290,462,302,495,297,497,285,464"/>
-<area shape="rect" title=" " alt="" coords="370,510,438,538"/>
-<area shape="poly" title=" " alt="" coords="306,461,371,500,368,504,303,465"/>
-<area shape="poly" title=" " alt="" coords="271,465,234,501,230,497,267,461"/>
-<area shape="rect" title=" " alt="" coords="473,510,543,538"/>
-<area shape="poly" title=" " alt="" coords="315,457,460,504,458,509,313,463"/>
-<area shape="poly" title=" " alt="" coords="253,465,153,506,151,502,251,460"/>
-<area shape="rect" title=" " alt="" coords="572,510,642,538"/>
-<area shape="poly" title=" " alt="" coords="314,454,555,508,557,508,556,513,554,513,313,459"/>
-<area shape="poly" title=" " alt="" coords="163,128,131,151,97,184,70,224,62,247,59,270,59,366,62,401,71,437,95,495,90,497,66,438,57,402,53,366,53,270,56,245,65,222,93,181,128,147,160,124"/>
-<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="285,174,371,201"/>
-<area shape="poly" title=" " alt="" coords="210,124,290,164,287,169,207,129"/>
-<area shape="rect" href="arraylist_8h_source.html" title=" " alt="" coords="430,342,607,387"/>
-<area shape="poly" title=" " alt="" coords="223,120,234,123,315,137,389,140,521,137,581,141,638,158,666,172,694,191,721,216,749,248,759,267,758,285,748,301,731,315,682,336,623,350,622,345,680,331,728,310,744,298,753,284,754,269,744,251,718,220,691,195,664,177,636,163,580,146,521,142,389,145,315,142,233,128,221,125"/>
-<area shape="poly" title=" " alt="" coords="320,203,306,225,295,250,285,296,281,342,282,419,277,419,275,342,280,295,289,249,301,222,315,200"/>
-<area shape="poly" title=" " alt="" coords="301,204,262,226,216,256,171,296,134,343,118,382,110,423,107,495,102,495,104,422,113,380,130,341,167,292,213,252,259,221,299,200"/>
-<area shape="poly" title=" " alt="" coords="372,191,403,197,436,208,468,224,495,248,507,266,515,286,522,326,517,327,510,287,503,268,491,251,465,229,434,213,402,202,371,196"/>
-<area shape="rect" href="binary__heap_8h_source.html" title=" " alt="" coords="557,249,734,294"/>
-<area shape="poly" title=" " alt="" coords="372,197,547,242,546,248,371,203"/>
-<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="303,249,481,294"/>
-<area shape="poly" title=" " alt="" coords="340,200,368,235,364,239,336,204"/>
-<area shape="poly" title=" " alt="" coords="457,390,329,434,327,429,455,385"/>
-<area shape="poly" title=" " alt="" coords="531,387,540,422,542,443,540,463,526,498,521,496,535,462,537,443,535,423,525,388"/>
-<area shape="poly" title=" " alt="" coords="533,386,560,433,594,495,590,498,555,436,528,388"/>
-<area shape="rect" title=" " alt="" coords="451,435,525,462"/>
-<area shape="poly" title=" " alt="" coords="513,388,501,421,496,419,508,386"/>
-<area shape="rect" title=" " alt="" coords="362,435,427,462"/>
-<area shape="poly" title=" " alt="" coords="488,389,428,428,426,424,485,385"/>
-<area shape="poly" title=" " alt="" coords="381,296,301,423,297,420,376,293"/>
-<area shape="poly" title=" " alt="" coords="424,292,478,331,474,335,420,297"/>
-<area shape="poly" title=" " alt="" coords="395,294,397,419,392,419,390,294"/>
+<area shape="rect" title=" " alt="" coords="693,5,875,50"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="5,426,107,454"/>
+<area shape="poly" title=" " alt="" coords="692,32,510,40,405,50,301,64,206,84,129,110,99,126,77,144,63,164,59,186,59,264,59,410,53,410,53,264,53,186,59,162,73,141,96,122,127,106,205,79,300,59,405,44,510,35,692,27"/>
+<area shape="rect" title=" " alt="" coords="703,586,777,614"/>
+<area shape="poly" title=" " alt="" coords="840,48,881,71,921,101,937,119,951,139,959,162,963,186,963,442,958,471,945,497,926,520,902,540,847,569,793,589,791,584,844,565,899,535,922,516,941,495,953,470,957,441,957,186,954,163,946,142,933,122,917,105,878,75,837,53"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="676,174,753,201"/>
+<area shape="poly" title=" " alt="" coords="743,53,717,73,697,99,693,114,693,129,702,159,697,161,688,130,688,113,692,97,713,69,739,49"/>
+<area shape="rect" href="key__instants__table_8h.html" title="Table of all key instants." alt="" coords="706,98,862,126"/>
+<area shape="poly" title=" " alt="" coords="787,50,787,82,781,82,781,50"/>
+<area shape="rect" title=" " alt="" coords="853,174,923,201"/>
+<area shape="poly" title=" " alt="" coords="826,48,853,69,876,97,887,127,891,158,886,159,882,129,871,99,849,73,822,53"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="251,510,312,538"/>
+<area shape="poly" title=" " alt="" coords="93,452,237,504,235,509,91,457"/>
+<area shape="rect" title=" " alt="" coords="93,586,174,614"/>
+<area shape="poly" title=" " alt="" coords="65,453,123,571,118,573,60,455"/>
+<area shape="poly" title=" " alt="" coords="108,447,220,470,285,487,349,508,375,522,401,536,478,558,556,574,688,592,687,597,555,579,476,563,399,540,373,527,347,513,284,492,219,475,107,452"/>
+<area shape="poly" title=" " alt="" coords="313,507,330,510,336,516,339,524,336,533,329,538,326,534,331,530,333,524,332,519,328,515,312,513"/>
+<area shape="rect" title=" " alt="" coords="229,586,302,614"/>
+<area shape="poly" title=" " alt="" coords="281,539,274,571,269,570,276,538"/>
+<area shape="rect" title=" " alt="" coords="326,586,394,614"/>
+<area shape="poly" title=" " alt="" coords="297,537,337,573,333,577,294,541"/>
+<area shape="poly" title=" " alt="" coords="256,541,174,581,172,576,254,536"/>
+<area shape="rect" title=" " alt="" coords="427,586,496,614"/>
+<area shape="poly" title=" " alt="" coords="313,536,416,577,414,582,311,541"/>
+<area shape="poly" title=" " alt="" coords="313,528,355,535,688,588,688,593,354,541,312,534"/>
+<area shape="rect" title=" " alt="" coords="521,586,591,614"/>
+<area shape="poly" title=" " alt="" coords="313,531,506,583,505,588,312,536"/>
+<area shape="poly" title=" " alt="" coords="724,201,751,262,763,303,768,346,768,441,762,512,750,571,745,570,756,511,763,441,763,346,758,304,746,264,719,203"/>
+<area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="508,249,594,277"/>
+<area shape="poly" title=" " alt="" coords="686,204,595,245,592,240,684,199"/>
+<area shape="rect" href="arraylist_8h_source.html" title=" " alt="" coords="499,418,677,462"/>
+<area shape="poly" title=" " alt="" coords="710,203,608,405,603,403,706,201"/>
+<area shape="poly" title=" " alt="" coords="508,274,447,293,416,307,388,327,353,367,325,413,305,458,292,496,287,494,300,456,320,410,349,364,385,323,413,303,445,288,506,269"/>
+<area shape="poly" title=" " alt="" coords="569,275,629,332,663,372,692,416,710,457,723,498,739,570,733,571,718,500,705,458,687,419,658,375,625,336,565,279"/>
+<area shape="poly" title=" " alt="" coords="564,276,579,297,591,324,597,364,596,402,590,402,591,365,585,326,574,300,559,279"/>
+<area shape="rect" href="binary__heap_8h_source.html" title=" " alt="" coords="145,325,322,370"/>
+<area shape="poly" title=" " alt="" coords="508,278,333,323,331,318,507,273"/>
+<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="398,325,575,370"/>
+<area shape="poly" title=" " alt="" coords="542,279,515,314,511,311,538,276"/>
+<area shape="poly" title=" " alt="" coords="507,466,328,513,326,508,506,460"/>
+<area shape="poly" title=" " alt="" coords="573,464,483,575,479,572,569,461"/>
+<area shape="poly" title=" " alt="" coords="586,463,564,571,559,570,581,462"/>
+<area shape="rect" title=" " alt="" coords="603,510,677,538"/>
+<area shape="poly" title=" " alt="" coords="604,461,626,496,621,498,599,464"/>
+<area shape="rect" title=" " alt="" coords="411,510,477,538"/>
+<area shape="poly" title=" " alt="" coords="551,465,481,505,479,500,548,461"/>
+<area shape="poly" title=" " alt="" coords="471,372,432,416,380,464,320,505,317,500,377,460,428,413,467,368"/>
+<area shape="poly" title=" " alt="" coords="512,368,554,405,551,409,509,372"/>
+<area shape="poly" title=" " alt="" coords="484,371,453,496,448,495,479,369"/>
+<area shape="poly" title=" " alt="" coords="709,129,563,159,388,203,305,230,230,260,172,293,150,309,134,326,123,350,124,375,134,399,151,423,198,466,246,500,243,504,194,470,147,426,129,401,119,376,118,349,130,324,146,305,169,288,228,255,303,225,387,198,562,154,708,124"/>
+<area shape="poly" title=" " alt="" coords="791,125,808,184,816,222,819,262,819,442,813,480,799,517,781,549,763,575,758,572,777,546,794,514,808,479,813,441,813,262,810,223,803,185,786,127"/>
+<area shape="poly" title=" " alt="" coords="774,128,739,164,736,160,770,124"/>
+<area shape="poly" title=" " alt="" coords="804,124,859,163,856,167,801,128"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -275,133 +280,138 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="events__table_8h__dep__incl.png" border="0" usemap="#asrc_2stream__graph_2events__table_8hdep" alt=""/></div>
 <map name="asrc_2stream__graph_2events__table_8hdep" id="asrc_2stream__graph_2events__table_8hdep">
-<area shape="rect" title=" " alt="" coords="1825,5,2007,50"/>
-<area shape="rect" href="src_2stream_8c.html" title="Implementation of the functions to create StreamGraph&#39;s and manipulate generic Stream&#39;s." alt="" coords="2305,350,2407,378"/>
-<area shape="poly" title=" " alt="" coords="2021,53,2101,81,2187,122,2229,147,2270,177,2306,210,2338,248,2351,274,2358,302,2360,350,2355,350,2353,303,2346,276,2334,251,2302,214,2266,181,2227,152,2185,126,2099,86,2019,58"/>
-<area shape="rect" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="1461,98,1563,126"/>
-<area shape="poly" title=" " alt="" coords="1810,53,1564,103,1563,97,1809,48"/>
-<area shape="poly" title=" " alt="" coords="1579,114,1747,126,1961,150,2068,168,2165,190,2245,216,2277,231,2302,247,2324,271,2339,300,2356,349,2351,351,2335,302,2319,274,2298,251,2274,236,2243,221,2163,195,2067,173,1961,156,1747,131,1579,119"/>
-<area shape="rect" href="StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="1924,527,2098,555"/>
-<area shape="poly" title=" " alt="" coords="1579,110,1691,112,1838,120,2001,139,2083,153,2163,171,2252,194,2290,206,2323,221,2353,240,2379,265,2401,298,2421,341,2428,366,2428,389,2422,410,2412,429,2396,446,2377,462,2330,487,2273,506,2213,520,2099,537,2098,531,2212,515,2272,501,2327,482,2374,457,2393,442,2407,426,2417,408,2423,389,2422,367,2416,343,2397,301,2375,269,2349,244,2321,225,2288,211,2251,199,2162,176,2082,158,2000,144,1837,126,1691,117,1579,115"/>
-<area shape="rect" href="src_2analysis_2cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="27,527,186,555"/>
-<area shape="poly" title=" " alt="" coords="1445,117,1155,123,756,134,382,152,246,163,166,176,107,190,56,202,36,212,21,225,11,244,8,271,8,366,11,391,18,415,41,460,69,498,95,525,91,529,65,502,36,463,13,417,5,392,3,366,3,270,6,243,17,222,34,207,55,197,106,185,165,171,245,158,381,147,756,129,1155,117,1445,112"/>
-<area shape="rect" href="cliques_8h.html" title="Find maximal cliques in a Stream." alt="" coords="144,443,304,471"/>
-<area shape="poly" title=" " alt="" coords="1445,116,1144,120,735,130,537,138,367,148,245,161,209,168,191,176,171,207,162,242,162,281,168,320,194,392,219,442,214,444,189,394,163,321,156,281,156,242,166,204,188,172,207,163,245,155,367,143,537,133,735,125,1144,115,1445,111"/>
-<area shape="rect" href="isomorphism_8h.html" title=" " alt="" coords="2414,174,2613,201"/>
-<area shape="poly" title=" " alt="" coords="1579,115,2344,171,2413,176,2413,181,2344,176,1578,121"/>
-<area shape="rect" href="kcores_8h.html" title=" " alt="" coords="1836,443,1993,471"/>
-<area shape="poly" title=" " alt="" coords="1574,128,1626,147,1684,173,1743,206,1796,247,1840,298,1874,354,1898,405,1913,442,1908,444,1893,407,1869,356,1835,301,1793,251,1740,211,1682,178,1624,152,1573,134"/>
-<area shape="rect" href="line__stream_8h.html" title="Header file for transforming a stream into its line stream." alt="" coords="2638,174,2829,201"/>
-<area shape="poly" title=" " alt="" coords="1579,113,2019,132,2319,149,2626,171,2638,172,2637,177,2625,176,2319,154,2018,137,1579,118"/>
-<area shape="rect" href="src_2analysis_2metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="743,527,905,555"/>
-<area shape="poly" title=" " alt="" coords="1445,117,1180,126,1004,139,819,159,639,188,555,206,478,227,409,251,351,279,304,309,271,344,266,354,264,364,272,385,293,410,327,437,394,477,484,506,578,524,667,534,742,538,742,543,666,539,577,529,483,511,392,482,324,442,289,414,267,388,259,364,261,353,267,340,301,305,348,274,407,246,476,222,554,201,638,182,819,154,1004,134,1180,121,1445,111"/>
-<area shape="rect" href="metrics_8h.html" title=" " alt="" coords="1208,258,1371,286"/>
-<area shape="poly" title=" " alt="" coords="1480,136,1420,176,1307,260,1304,255,1417,171,1477,132"/>
-<area shape="rect" href="chunk__stream_8h.html" title="A Stream that represents a chunk of a StreamGraph. It contains a subset of the nodes and links of the..." alt="" coords="509,350,715,378"/>
-<area shape="poly" title=" " alt="" coords="1446,119,1162,137,1013,154,953,164,908,176,863,194,820,216,739,266,672,315,628,352,625,348,669,311,736,262,817,211,861,189,906,171,952,159,1013,148,1162,132,1445,113"/>
-<area shape="rect" href="chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="985,342,1178,387"/>
-<area shape="poly" title=" " alt="" coords="1455,133,1332,180,1263,213,1198,252,1142,298,1100,344,1096,340,1138,294,1194,247,1261,208,1330,175,1453,128"/>
-<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="1202,342,1377,387"/>
-<area shape="poly" title=" " alt="" coords="1499,140,1452,213,1420,256,1385,296,1355,322,1325,344,1322,339,1352,318,1381,292,1416,252,1448,210,1495,137"/>
-<area shape="rect" href="link__stream_8h.html" title="A Stream that represents a StreamGraph as a LinkStream. A LinkStream is a Stream where all nodes are ..." alt="" coords="296,350,486,378"/>
-<area shape="poly" title=" " alt="" coords="1445,115,1329,117,1178,125,1008,144,923,158,839,176,710,217,588,267,485,316,415,352,413,348,483,311,586,262,709,212,838,171,922,153,1007,139,1177,120,1329,112,1445,110"/>
-<area shape="rect" href="timeframe__stream_8h.html" title="A Stream that represents a timeframe of a StreamGraph. A TimeFrameStream is wrapper around a StreamGr..." alt="" coords="739,342,909,387"/>
-<area shape="poly" title=" " alt="" coords="1446,120,1265,137,1156,154,1049,176,987,188,938,196,916,203,895,213,874,229,851,251,838,272,830,296,826,342,820,341,825,295,833,270,847,248,870,224,892,208,914,198,937,191,987,183,1047,171,1155,148,1264,132,1445,114"/>
-<area shape="rect" href="walks_8h.html" title="Analysis regarding walks in streams and computations related to it." alt="" coords="2853,174,3006,201"/>
-<area shape="poly" title=" " alt="" coords="1578,111,1790,115,2102,125,2468,143,2842,171,2853,172,2852,177,2841,176,2467,148,2101,131,1790,121,1578,117"/>
-<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="1507,174,1618,201"/>
-<area shape="poly" title=" " alt="" coords="1532,137,1556,172,1551,175,1528,140"/>
-<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="1909,249,2086,294"/>
-<area shape="poly" title=" " alt="" coords="1579,110,1646,114,1726,123,1810,142,1890,171,1918,188,1943,207,1982,247,1978,251,1940,211,1915,192,1888,176,1808,147,1725,128,1645,119,1578,115"/>
-<area shape="rect" href="key__instants_8h.html" title="Functions to access the key instants of a StreamGraph." alt="" coords="2110,249,2287,294"/>
-<area shape="poly" title=" " alt="" coords="1579,116,1739,135,1834,151,1929,171,2048,208,2149,246,2147,251,2046,213,1927,176,1833,156,1738,140,1578,121"/>
-<area shape="rect" href="stream__functions_8h.html" title="Functions to access the data of a StreamGraph." alt="" coords="862,258,1031,286"/>
-<area shape="poly" title=" " alt="" coords="1445,118,1375,123,1290,134,1199,151,1110,176,1067,195,1027,217,965,259,962,255,1024,213,1065,190,1108,171,1198,145,1289,128,1374,118,1445,113"/>
-<area shape="rect" href="benchmarks_2metrics_8c.html" title="Benchmarks for metrics." alt="" coords="532,612,697,639"/>
-<area shape="poly" title=" " alt="" coords="1908,548,1296,568,957,585,816,595,710,606,666,614,665,608,709,600,816,589,957,579,1295,562,1908,542"/>
-<area shape="rect" href="benchmarks_2stream_8c.html" title="Benchmarks for loading a StreamGraph." alt="" coords="722,612,884,639"/>
-<area shape="poly" title=" " alt="" coords="1908,545,1719,548,1467,556,1183,575,1038,588,896,606,854,614,853,608,896,600,1037,583,1182,569,1467,551,1719,542,1908,540"/>
-<area shape="rect" href="benchmarks_2walks_8c.html" title="Benchmarks for walks." alt="" coords="908,612,1062,639"/>
-<area shape="poly" title=" " alt="" coords="1908,546,1747,551,1539,560,1308,578,1075,606,1035,613,1034,608,1074,600,1307,573,1539,555,1747,545,1908,541"/>
-<area shape="rect" href="analysis_8c.html" title="Example program for how to compute cliques, or walks." alt="" coords="1087,612,1241,639"/>
-<area shape="poly" title=" " alt="" coords="1908,548,1613,566,1434,582,1254,606,1214,613,1213,608,1253,600,1433,577,1613,560,1908,543"/>
-<area shape="rect" href="examples_2cliques_8c.html" title="Example program for how to compute maximal cliques." alt="" coords="1266,612,1412,639"/>
-<area shape="poly" title=" " alt="" coords="1908,551,1685,571,1555,586,1424,606,1387,614,1386,608,1424,600,1554,581,1685,565,1908,546"/>
-<area shape="rect" href="examples_2kcores_8c.html" title="Example program on how to compute k&#45;cores." alt="" coords="1436,612,1580,639"/>
-<area shape="poly" title=" " alt="" coords="1908,557,1758,577,1591,606,1556,614,1555,608,1590,600,1757,572,1908,552"/>
-<area shape="rect" href="tests_2bit__array_8c.html" title="Tests regarding BitArray." alt="" coords="1603,612,1728,639"/>
-<area shape="poly" title=" " alt="" coords="1933,561,1741,606,1711,613,1710,608,1739,600,1932,556"/>
-<area shape="rect" href="tests_2chunk__stream_8c.html" title="Tests regarding ChunkStream." alt="" coords="1752,612,1912,639"/>
-<area shape="poly" title=" " alt="" coords="1969,564,1862,613,1860,609,1967,559"/>
-<area shape="rect" href="tests_2chunk__stream__small_8c.html" title="Tests regarding ChunkStreamSmall." alt="" coords="1936,603,2085,648"/>
-<area shape="poly" title=" " alt="" coords="2013,571,2013,602,2008,602,2008,571"/>
-<area shape="rect" href="tests_2full__stream__graph_8c.html" title="Tests regarding FullStreamGraph." alt="" coords="2110,612,2296,639"/>
-<area shape="poly" title=" " alt="" coords="2056,559,2173,608,2171,613,2054,564"/>
-<area shape="rect" href="tests_2isomorphism_8c.html" title="Tests regarding isomorphism." alt="" coords="2319,612,2473,639"/>
-<area shape="poly" title=" " alt="" coords="2093,556,2309,600,2343,608,2342,614,2307,606,2092,561"/>
-<area shape="rect" href="tests_2kcores_8c.html" title="Tests regarding K&#45;Cores." alt="" coords="2496,612,2608,639"/>
-<area shape="poly" title=" " alt="" coords="2113,548,2288,567,2388,582,2486,600,2515,608,2514,614,2485,606,2387,587,2288,572,2113,553"/>
-<area shape="rect" href="tests_2line__stream_8c.html" title="Tests regarding line streams." alt="" coords="2631,612,2777,639"/>
-<area shape="poly" title=" " alt="" coords="2114,545,2346,564,2484,580,2620,600,2657,608,2656,614,2620,606,2483,585,2346,570,2113,551"/>
-<area shape="rect" href="tests_2link__stream_8c.html" title="Tests regarding LinkStream." alt="" coords="2801,612,2946,639"/>
-<area shape="poly" title=" " alt="" coords="2113,542,2417,559,2604,575,2790,600,2828,608,2826,614,2789,606,2603,581,2417,564,2113,548"/>
-<area shape="rect" href="tests_2metrics_8c.html" title="Tests regarding metrics." alt="" coords="2971,612,3088,639"/>
-<area shape="poly" title=" " alt="" coords="2114,539,2277,541,2488,549,2723,568,2843,582,2959,600,2991,608,2990,613,2958,606,2842,587,2723,573,2488,555,2277,546,2114,544"/>
-<area shape="rect" href="tests_2stream_8c.html" title="Tests regarding StreamGraph." alt="" coords="3112,612,3226,639"/>
-<area shape="poly" title=" " alt="" coords="2114,542,2624,561,2900,578,3014,589,3100,600,3133,608,3131,613,3100,606,3013,594,2899,584,2624,567,2113,548"/>
-<area shape="rect" href="external__to__internal_8c.html" title="Converts an external format StreamGraph to an internal format StreamGraph." alt="" coords="3250,603,3379,648"/>
-<area shape="poly" title=" " alt="" coords="2113,542,2691,560,3008,577,3139,588,3239,600,3251,603,3250,608,3238,606,3139,593,3008,583,2691,566,2113,547"/>
-<area shape="poly" title=" " alt="" coords="320,460,1923,533,1923,538,320,465"/>
-<area shape="poly" title=" " alt="" coords="194,482,127,529,124,525,191,478"/>
-<area shape="poly" title=" " alt="" coords="2521,217,2526,272,2523,344,2517,382,2506,418,2489,452,2464,481,2438,498,2401,512,2306,530,2197,539,2098,543,2098,537,2197,534,2305,525,2400,507,2436,493,2461,477,2484,449,2501,416,2512,380,2518,343,2520,273,2515,217"/>
-<area shape="poly" title=" " alt="" coords="1943,479,1997,525,1994,529,1940,483"/>
-<area shape="poly" title=" " alt="" coords="2723,217,2692,274,2643,347,2612,385,2578,422,2540,454,2499,482,2467,495,2424,506,2319,522,2202,533,2098,539,2098,534,2202,528,2318,517,2423,500,2465,490,2496,477,2537,450,2574,418,2608,382,2638,344,2687,271,2718,214"/>
-<area shape="poly" title=" " alt="" coords="1332,290,1373,313,1414,340,1453,378,1479,414,1506,447,1524,462,1549,477,1579,488,1618,498,1717,514,1923,532,1923,538,1716,519,1617,503,1577,493,1547,482,1521,467,1502,451,1475,418,1449,382,1410,344,1370,317,1330,295"/>
-<area shape="poly" title=" " alt="" coords="1338,291,1368,312,1392,341,1400,365,1398,376,1391,388,1359,416,1310,441,1249,463,1179,482,1033,513,906,532,905,527,1032,508,1178,477,1247,458,1308,436,1356,412,1387,385,1393,375,1395,365,1387,343,1364,316,1335,295"/>
-<area shape="poly" title=" " alt="" coords="1192,286,979,310,727,345,680,353,679,347,726,339,978,305,1192,281"/>
-<area shape="poly" title=" " alt="" coords="1246,295,1132,344,1130,339,1244,290"/>
-<area shape="poly" title=" " alt="" coords="1292,301,1292,341,1287,341,1287,301"/>
-<area shape="poly" title=" " alt="" coords="1192,284,498,345,452,353,451,347,497,339,1192,279"/>
-<area shape="poly" title=" " alt="" coords="1208,292,910,349,909,344,1207,286"/>
-<area shape="rect" href="streams_8h.html" title="Utility header to include all types of streams at once." alt="" coords="769,443,879,471"/>
-<area shape="poly" title=" " alt="" coords="658,382,794,440,792,445,655,387"/>
-<area shape="poly" title=" " alt="" coords="894,471,928,477,1213,506,1494,523,1741,533,1923,537,1923,542,1741,538,1494,529,1212,511,928,482,893,476"/>
-<area shape="poly" title=" " alt="" coords="754,469,187,533,186,528,753,464"/>
-<area shape="poly" title=" " alt="" coords="827,487,827,527,821,527,821,487"/>
-<area shape="poly" title=" " alt="" coords="1006,395,863,445,861,440,1005,390"/>
-<area shape="poly" title=" " alt="" coords="1187,390,880,448,879,443,1186,385"/>
-<area shape="poly" title=" " alt="" coords="469,379,769,442,768,447,468,384"/>
-<area shape="poly" title=" " alt="" coords="827,402,827,443,821,443,821,402"/>
-<area shape="poly" title=" " alt="" coords="2909,214,2852,271,2767,346,2716,384,2662,421,2605,454,2546,482,2509,493,2461,503,2341,519,2098,538,2098,533,2341,514,2460,498,2508,488,2544,477,2603,450,2659,417,2713,380,2763,342,2848,268,2906,211"/>
-<area shape="poly" title=" " alt="" coords="1561,217,1557,272,1560,343,1567,380,1578,416,1595,449,1618,477,1638,491,1668,503,1747,520,1838,530,1923,535,1923,541,1838,535,1747,525,1667,508,1636,496,1614,481,1590,452,1573,418,1561,381,1555,344,1551,272,1556,217"/>
-<area shape="poly" title=" " alt="" coords="1491,191,1210,196,1021,203,820,215,620,235,435,261,353,278,281,298,219,320,171,344,146,363,131,382,120,405,111,435,106,460,104,485,107,527,102,527,99,485,100,459,105,434,115,403,126,379,142,359,168,340,217,315,279,293,352,273,434,256,619,229,819,210,1021,198,1210,190,1491,186"/>
-<area shape="poly" title=" " alt="" coords="1549,216,1494,297,1456,344,1414,389,1349,444,1317,463,1273,482,1177,510,1078,528,985,538,906,542,905,537,984,533,1077,523,1176,505,1271,477,1314,459,1346,440,1410,385,1452,341,1490,294,1545,213"/>
-<area shape="poly" title=" " alt="" coords="1505,209,1334,260,1332,255,1503,204"/>
-<area shape="poly" title=" " alt="" coords="1634,199,1909,251,1908,256,1633,205"/>
-<area shape="poly" title=" " alt="" coords="1634,192,1843,213,2099,247,2110,249,2109,254,2098,252,1843,218,1634,197"/>
-<area shape="rect" href="link__access_8h.html" title="Functions to access the links of a StreamGraph." alt="" coords="2018,435,2195,479"/>
-<area shape="poly" title=" " alt="" coords="1634,198,1713,218,1796,247,1882,292,1963,343,2082,432,2079,436,1960,348,1879,296,1794,252,1712,223,1633,204"/>
-<area shape="rect" href="node__access_8h.html" title="Functions to access the nodes of a StreamGraph." alt="" coords="1605,249,1782,294"/>
-<area shape="poly" title=" " alt="" coords="1598,208,1660,246,1657,251,1595,212"/>
-<area shape="poly" title=" " alt="" coords="1492,201,1032,262,1031,256,1491,196"/>
-<area shape="poly" title=" " alt="" coords="2061,299,2101,322,2143,353,2181,390,2210,433,2218,457,2217,469,2210,481,2188,504,2160,520,2130,531,2099,538,2098,533,2128,526,2158,515,2184,500,2206,478,2212,467,2213,458,2206,436,2177,393,2140,357,2099,327,2059,304"/>
-<area shape="poly" title=" " alt="" coords="2221,306,2237,345,2250,391,2251,438,2244,460,2233,481,2212,497,2179,510,2099,529,2098,524,2178,505,2209,492,2229,478,2240,458,2245,437,2244,392,2232,347,2216,308"/>
-<area shape="poly" title=" " alt="" coords="2071,492,2028,529,2024,525,2068,488"/>
-<area shape="poly" title=" " alt="" coords="1665,307,1645,343,1632,382,1623,415,1626,446,1645,478,1662,491,1689,503,1760,520,1843,530,1923,535,1923,541,1843,536,1759,525,1687,508,1659,496,1641,481,1621,447,1618,415,1627,381,1640,341,1660,305"/>
-<area shape="rect" href="cluster_8h.html" title=" " alt="" coords="1655,350,1812,378"/>
-<area shape="poly" title=" " alt="" coords="1711,307,1730,349,1725,351,1707,309"/>
-<area shape="poly" title=" " alt="" coords="1774,383,1889,440,1887,445,1772,388"/>
-<area shape="rect" href="cluster_8c.html" title="Implementation of clusters in a stream." alt="" coords="1655,443,1812,471"/>
-<area shape="poly" title=" " alt="" coords="1736,393,1736,443,1731,443,1731,393"/>
-<area shape="poly" title=" " alt="" coords="1047,279,1196,291,1851,333,2305,358,2305,363,1850,338,1196,297,1046,285"/>
-<area shape="poly" title=" " alt="" coords="947,301,952,345,960,366,974,385,1004,408,1044,428,1092,446,1147,462,1274,489,1414,508,1559,522,1699,530,1923,537,1923,542,1699,535,1559,527,1414,513,1273,494,1146,468,1090,451,1041,433,1001,412,970,389,956,369,947,346,942,301"/>
-<area shape="poly" title=" " alt="" coords="846,280,702,288,536,301,381,320,318,331,270,345,226,361,192,377,163,400,134,436,122,459,115,484,109,527,104,527,110,483,117,457,130,433,160,396,189,373,224,356,269,339,317,326,380,315,536,296,702,283,846,275"/>
-<area shape="poly" title=" " alt="" coords="847,279,690,286,513,299,363,318,312,330,286,344,279,354,277,364,280,374,286,385,309,400,353,418,484,458,635,495,763,524,762,529,634,501,483,463,351,423,306,405,282,388,275,376,272,364,274,352,282,340,311,325,362,313,513,294,689,281,846,274"/>
-<area shape="poly" title=" " alt="" coords="884,293,661,352,660,347,883,287"/>
-<area shape="poly" title=" " alt="" coords="980,292,1051,339,1048,344,977,296"/>
-<area shape="poly" title=" " alt="" coords="1012,287,1208,339,1206,344,1010,292"/>
-<area shape="poly" title=" " alt="" coords="847,290,498,345,455,353,454,347,497,339,846,284"/>
-<area shape="poly" title=" " alt="" coords="918,297,855,344,852,339,915,293"/>
+<area shape="rect" title=" " alt="" coords="2177,5,2359,50"/>
+<area shape="rect" href="src_2stream_8c.html" title="Implementation of the functions to create StreamGraph&#39;s and manipulate generic Stream&#39;s." alt="" coords="2212,350,2313,378"/>
+<area shape="poly" title=" " alt="" coords="2375,33,2531,47,2707,73,2791,91,2865,114,2924,140,2946,155,2964,172,2973,193,2968,213,2950,231,2922,247,2841,277,2736,302,2618,323,2501,340,2314,361,2313,356,2500,335,2617,318,2735,297,2839,272,2920,242,2947,226,2963,210,2967,193,2959,175,2943,160,2921,145,2863,119,2789,97,2706,78,2530,52,2374,38"/>
+<area shape="rect" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="1516,98,1618,126"/>
+<area shape="poly" title=" " alt="" coords="2162,44,1619,107,1618,102,2161,39"/>
+<area shape="poly" title=" " alt="" coords="1633,111,1757,113,1906,122,2047,140,2103,154,2144,171,2169,190,2191,212,2225,263,2248,312,2261,349,2256,351,2243,314,2220,265,2186,216,2165,194,2141,176,2101,159,2046,146,1906,127,1757,119,1633,116"/>
+<area shape="rect" href="StreamGraphAnalysis_8h.html" title="The main header file of the library." alt="" coords="2148,527,2322,555"/>
+<area shape="poly" title=" " alt="" coords="1633,113,1968,133,2148,150,2223,160,2279,171,2455,247,2501,306,2518,334,2530,363,2535,391,2533,421,2523,450,2503,481,2475,500,2430,515,2323,534,2322,529,2429,510,2472,496,2499,477,2518,448,2528,420,2530,392,2525,364,2513,337,2496,309,2452,251,2278,176,2222,165,2148,155,1967,139,1633,119"/>
+<area shape="rect" href="src_2analysis_2cliques_8c.html" title="Implementation of the algorithm to find maximal cliques in a Stream. &#160;&#160;The algorithm to find the maxi..." alt="" coords="94,527,253,555"/>
+<area shape="poly" title=" " alt="" coords="1500,115,1141,118,896,125,641,137,400,156,292,169,197,184,118,202,58,222,21,245,11,258,8,271,8,366,12,401,23,427,41,451,67,477,103,505,141,525,138,529,100,510,64,481,37,454,18,430,7,402,3,366,3,270,6,255,17,241,56,217,117,196,196,179,292,163,399,151,641,131,896,119,1141,113,1500,110"/>
+<area shape="rect" href="cliques_8h.html" title="Find maximal cliques in a Stream." alt="" coords="93,443,254,471"/>
+<area shape="poly" title=" " alt="" coords="1500,116,1361,120,1172,129,957,147,740,176,661,192,600,209,462,252,415,262,372,267,296,271,262,277,231,289,200,310,170,343,160,368,159,395,164,421,170,442,165,443,159,422,154,395,155,367,166,341,197,306,228,284,261,272,295,266,371,262,414,257,461,247,599,203,660,187,740,171,957,142,1172,124,1361,115,1500,111"/>
+<area shape="rect" href="isomorphism_8h.html" title=" " alt="" coords="2358,174,2557,201"/>
+<area shape="poly" title=" " alt="" coords="1633,115,1939,138,2339,171,2357,173,2357,178,2338,176,1938,143,1633,120"/>
+<area shape="rect" href="kcores_8h.html" title=" " alt="" coords="2060,443,2217,471"/>
+<area shape="poly" title=" " alt="" coords="1633,110,1726,117,1780,125,1838,137,1895,155,1951,179,2003,209,2050,247,2070,271,2088,297,2114,353,2130,405,2139,442,2134,443,2125,406,2109,355,2083,300,2066,274,2046,251,2000,214,1949,183,1893,160,1836,143,1780,130,1725,122,1633,115"/>
+<area shape="rect" href="line__stream_8h.html" title="Header file for transforming a stream into its line stream." alt="" coords="2582,174,2773,201"/>
+<area shape="poly" title=" " alt="" coords="1634,113,2030,133,2298,150,2570,171,2582,172,2581,177,2569,176,2297,155,2030,138,1633,119"/>
+<area shape="rect" href="src_2analysis_2metrics_8c.html" title="Functions to compute metrics on a Stream." alt="" coords="1507,527,1669,555"/>
+<area shape="poly" title=" " alt="" coords="1573,141,1613,434,1615,457,1613,480,1597,528,1592,526,1608,479,1610,457,1608,435,1568,142"/>
+<area shape="rect" href="metrics_8h.html" title=" " alt="" coords="860,258,1023,286"/>
+<area shape="poly" title=" " alt="" coords="1500,119,1335,135,1237,152,1141,176,1089,195,1040,218,964,260,961,255,1038,213,1087,190,1139,171,1236,147,1334,130,1500,114"/>
+<area shape="rect" href="chunk__stream_8h.html" title="A Stream that represents a chunk of a StreamGraph. It contains a subset of the nodes and links of the..." alt="" coords="603,350,808,378"/>
+<area shape="poly" title=" " alt="" coords="1500,115,1373,120,1293,127,1206,139,1115,157,1023,180,934,212,849,252,810,276,774,304,720,352,717,348,771,300,807,272,847,247,932,207,1022,175,1114,151,1205,134,1292,122,1372,115,1500,110"/>
+<area shape="rect" href="chunk__stream__small_8h.html" title="Like ChunkStream&#39;s, but with a memory representation more efficient for small chunks of the StreamGra..." alt="" coords="883,342,1077,387"/>
+<area shape="poly" title=" " alt="" coords="1501,133,1435,152,1365,176,1265,219,1169,265,1020,344,1017,339,1166,260,1263,214,1363,171,1433,147,1500,127"/>
+<area shape="rect" href="delta__stream_8h.html" title="A Stream to do delta&#45;analysis on a StreamGraph. &#160;&#160;A DeltaStream is a Stream where we define a span of..." alt="" coords="1100,350,1300,378"/>
+<area shape="poly" title=" " alt="" coords="1517,134,1411,181,1353,213,1298,251,1270,276,1246,304,1211,352,1206,348,1241,301,1266,273,1294,247,1350,209,1409,176,1515,129"/>
+<area shape="rect" href="full__stream__graph_8h.html" title="A wrapper around a StreamGraph to use it as a Stream. It does not do any transformation on the Stream..." alt="" coords="1324,342,1500,387"/>
+<area shape="poly" title=" " alt="" coords="1559,141,1527,225,1509,267,1493,296,1470,322,1444,343,1441,339,1466,318,1488,292,1504,264,1522,223,1554,140"/>
+<area shape="rect" href="link__stream_8h.html" title="A Stream that represents a StreamGraph as a LinkStream. A LinkStream is a Stream where all nodes are ..." alt="" coords="194,350,384,378"/>
+<area shape="poly" title=" " alt="" coords="1500,116,1379,120,1219,129,1039,147,859,176,698,217,542,267,411,316,321,352,319,347,409,311,541,262,696,212,858,171,1039,142,1219,124,1379,115,1500,111"/>
+<area shape="rect" href="timeframe__stream_8h.html" title="A Stream that represents a timeframe of a StreamGraph. A TimeFrameStream is wrapper around a StreamGr..." alt="" coords="408,342,578,387"/>
+<area shape="poly" title=" " alt="" coords="1500,116,1395,120,1259,129,1109,147,959,176,835,214,716,260,612,306,535,344,533,339,610,302,714,255,834,209,958,171,1108,142,1259,124,1395,114,1500,111"/>
+<area shape="rect" href="walks_8h.html" title="Analysis regarding walks in streams and computations related to it." alt="" coords="2797,174,2950,201"/>
+<area shape="poly" title=" " alt="" coords="1634,112,2114,127,2447,145,2786,171,2797,172,2796,177,2785,176,2446,150,2114,132,1634,117"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="1748,174,1860,201"/>
+<area shape="poly" title=" " alt="" coords="1624,128,1762,171,1761,176,1623,133"/>
+<area shape="rect" href="induced__graph_8h.html" title="Functions to get the nodes and links present at a given time in a StreamGraph." alt="" coords="1605,249,1782,294"/>
+<area shape="poly" title=" " alt="" coords="1589,136,1678,247,1674,251,1584,139"/>
+<area shape="rect" href="key__instants_8h.html" title="Functions to access the key instants of a StreamGraph." alt="" coords="2263,249,2441,294"/>
+<area shape="poly" title=" " alt="" coords="1634,111,1775,116,1950,125,2119,143,2187,156,2238,171,2268,187,2295,207,2336,247,2332,251,2291,211,2265,191,2236,176,2186,161,2118,148,1950,131,1775,121,1633,117"/>
+<area shape="rect" href="stream__functions_8h.html" title="Functions to access the data of a StreamGraph." alt="" coords="1309,258,1478,286"/>
+<area shape="poly" title=" " alt="" coords="1542,138,1499,176,1408,260,1405,256,1496,172,1538,134"/>
+<area shape="rect" href="benchmarks_2metrics_8c.html" title="Benchmarks for metrics." alt="" coords="756,612,921,639"/>
+<area shape="poly" title=" " alt="" coords="2132,548,1520,568,1181,585,1040,595,934,606,890,614,889,608,933,600,1040,589,1181,579,1519,562,2132,542"/>
+<area shape="rect" href="benchmarks_2stream_8c.html" title="Benchmarks for loading a StreamGraph." alt="" coords="946,612,1108,639"/>
+<area shape="poly" title=" " alt="" coords="2132,549,1610,570,1327,587,1120,606,1078,614,1077,608,1120,600,1326,581,1610,565,2132,543"/>
+<area shape="rect" href="benchmarks_2walks_8c.html" title="Benchmarks for walks." alt="" coords="1132,612,1286,639"/>
+<area shape="poly" title=" " alt="" coords="2132,546,1971,551,1763,560,1532,578,1299,606,1259,613,1258,608,1298,600,1531,573,1763,555,1971,545,2132,541"/>
+<area shape="rect" href="analysis_8c.html" title="Example program for how to compute cliques, or walks." alt="" coords="1311,612,1465,639"/>
+<area shape="poly" title=" " alt="" coords="2132,548,1837,566,1658,582,1478,606,1438,613,1437,608,1477,600,1657,577,1837,560,2132,543"/>
+<area shape="rect" href="examples_2cliques_8c.html" title="Example program for how to compute maximal cliques." alt="" coords="1490,612,1636,639"/>
+<area shape="poly" title=" " alt="" coords="2132,551,1909,571,1779,586,1648,606,1611,614,1610,608,1648,600,1778,581,1909,565,2132,546"/>
+<area shape="rect" href="examples_2kcores_8c.html" title="Example program on how to compute k&#45;cores." alt="" coords="1660,612,1804,639"/>
+<area shape="poly" title=" " alt="" coords="2132,557,1982,577,1815,606,1780,614,1779,608,1814,600,1981,572,2132,552"/>
+<area shape="rect" href="tests_2bit__array_8c.html" title="Tests regarding BitArray." alt="" coords="1827,612,1952,639"/>
+<area shape="poly" title=" " alt="" coords="2157,561,1965,606,1935,613,1934,608,1963,600,2156,556"/>
+<area shape="rect" href="tests_2chunk__stream_8c.html" title="Tests regarding ChunkStream." alt="" coords="1976,612,2136,639"/>
+<area shape="poly" title=" " alt="" coords="2193,564,2086,613,2084,609,2191,559"/>
+<area shape="rect" href="tests_2chunk__stream__small_8c.html" title="Tests regarding ChunkStreamSmall." alt="" coords="2160,603,2309,648"/>
+<area shape="poly" title=" " alt="" coords="2237,571,2237,602,2232,602,2232,571"/>
+<area shape="rect" href="tests_2full__stream__graph_8c.html" title="Tests regarding FullStreamGraph." alt="" coords="2334,612,2520,639"/>
+<area shape="poly" title=" " alt="" coords="2280,559,2397,608,2395,613,2278,564"/>
+<area shape="rect" href="tests_2isomorphism_8c.html" title="Tests regarding isomorphism." alt="" coords="2543,612,2697,639"/>
+<area shape="poly" title=" " alt="" coords="2317,556,2533,600,2567,608,2566,614,2531,606,2316,561"/>
+<area shape="rect" href="tests_2kcores_8c.html" title="Tests regarding K&#45;Cores." alt="" coords="2720,612,2832,639"/>
+<area shape="poly" title=" " alt="" coords="2337,548,2512,567,2612,582,2710,600,2739,608,2738,614,2709,606,2611,587,2512,572,2337,553"/>
+<area shape="rect" href="tests_2line__stream_8c.html" title="Tests regarding line streams." alt="" coords="2855,612,3001,639"/>
+<area shape="poly" title=" " alt="" coords="2338,545,2570,564,2708,580,2844,600,2881,608,2880,614,2844,606,2707,585,2570,570,2337,551"/>
+<area shape="rect" href="tests_2link__stream_8c.html" title="Tests regarding LinkStream." alt="" coords="3025,612,3170,639"/>
+<area shape="poly" title=" " alt="" coords="2337,542,2641,559,2828,575,3014,600,3052,608,3050,614,3013,606,2827,581,2641,564,2337,548"/>
+<area shape="rect" href="tests_2metrics_8c.html" title="Tests regarding metrics." alt="" coords="3195,612,3312,639"/>
+<area shape="poly" title=" " alt="" coords="2338,539,2501,541,2712,549,2947,568,3067,582,3183,600,3215,608,3214,613,3182,606,3066,587,2947,573,2712,555,2501,546,2338,544"/>
+<area shape="rect" href="tests_2stream_8c.html" title="Tests regarding StreamGraph." alt="" coords="3336,612,3450,639"/>
+<area shape="poly" title=" " alt="" coords="2338,542,2848,561,3124,578,3238,589,3324,600,3357,608,3355,613,3324,606,3237,594,3123,584,2848,567,2337,548"/>
+<area shape="rect" href="external__to__internal_8c.html" title="Converts an external format StreamGraph to an internal format StreamGraph." alt="" coords="3474,603,3603,648"/>
+<area shape="poly" title=" " alt="" coords="2337,542,2915,560,3232,577,3363,588,3463,600,3475,603,3474,608,3462,606,3363,593,3232,583,2915,566,2337,547"/>
+<area shape="poly" title=" " alt="" coords="269,459,2147,534,2147,539,269,465"/>
+<area shape="poly" title=" " alt="" coords="176,487,176,527,171,527,171,487"/>
+<area shape="poly" title=" " alt="" coords="2495,208,2518,226,2539,248,2582,307,2598,336,2609,364,2614,393,2611,422,2600,451,2579,481,2562,495,2538,506,2472,523,2396,534,2323,539,2322,534,2396,528,2471,518,2536,501,2560,490,2575,478,2595,449,2606,421,2608,393,2604,366,2593,338,2578,310,2535,251,2515,230,2492,212"/>
+<area shape="poly" title=" " alt="" coords="2167,479,2221,525,2218,529,2164,483"/>
+<area shape="poly" title=" " alt="" coords="2683,217,2684,273,2677,344,2668,382,2655,418,2636,452,2611,481,2591,495,2562,506,2488,523,2403,533,2322,539,2322,534,2402,528,2487,518,2560,501,2588,490,2608,477,2632,449,2650,416,2663,380,2672,343,2679,273,2677,217"/>
+<area shape="poly" title=" " alt="" coords="913,297,891,318,873,341,865,364,866,375,872,385,890,393,926,403,1047,424,1216,445,1415,467,1830,505,2148,531,2147,536,1829,510,1414,472,1215,451,1046,429,925,408,888,398,869,389,861,376,859,364,868,338,887,314,909,293"/>
+<area shape="poly" title=" " alt="" coords="844,277,665,283,457,295,360,303,278,315,216,328,196,336,185,344,178,354,175,364,178,374,185,385,210,402,254,419,313,434,387,448,565,473,770,493,1191,521,1506,535,1506,540,1191,526,770,498,564,478,386,454,312,439,252,424,208,407,181,389,173,377,170,364,173,352,181,340,194,331,215,323,277,309,359,298,456,289,665,278,844,272"/>
+<area shape="poly" title=" " alt="" coords="894,294,741,352,739,347,892,289"/>
+<area shape="poly" title=" " alt="" coords="955,299,973,340,968,342,950,301"/>
+<area shape="poly" title=" " alt="" coords="994,288,1163,347,1161,352,992,293"/>
+<area shape="poly" title=" " alt="" coords="1030,286,1313,339,1324,342,1323,347,1311,345,1029,291"/>
+<area shape="poly" title=" " alt="" coords="844,286,638,310,396,345,353,352,352,347,396,339,637,305,844,281"/>
+<area shape="poly" title=" " alt="" coords="859,292,591,345,579,347,578,342,590,339,858,286"/>
+<area shape="rect" href="streams_8h.html" title="Utility header to include all types of streams at once." alt="" coords="925,443,1035,471"/>
+<area shape="poly" title=" " alt="" coords="761,381,941,440,939,445,759,386"/>
+<area shape="poly" title=" " alt="" coords="1051,460,2147,531,2147,537,1050,466"/>
+<area shape="poly" title=" " alt="" coords="910,468,253,534,253,529,910,463"/>
+<area shape="poly" title=" " alt="" coords="1050,465,1507,526,1506,532,1050,470"/>
+<area shape="poly" title=" " alt="" coords="983,402,983,443,977,443,977,402"/>
+<area shape="poly" title=" " alt="" coords="1155,387,1013,445,1011,440,1153,382"/>
+<area shape="poly" title=" " alt="" coords="1310,390,1036,447,1035,442,1309,385"/>
+<area shape="poly" title=" " alt="" coords="367,379,396,384,695,424,925,448,925,453,694,429,396,389,366,384"/>
+<area shape="poly" title=" " alt="" coords="594,385,926,444,925,449,593,390"/>
+<area shape="poly" title=" " alt="" coords="2864,216,2833,273,2786,347,2756,385,2723,421,2686,454,2645,482,2620,493,2587,502,2503,518,2323,537,2322,532,2502,513,2585,497,2618,488,2643,477,2682,450,2719,417,2752,381,2781,343,2829,271,2859,214"/>
+<area shape="poly" title=" " alt="" coords="1875,188,1925,194,1980,204,2037,222,2089,247,2111,263,2127,281,2146,317,2166,352,2180,369,2201,384,2234,398,2265,403,2325,398,2353,395,2381,398,2408,409,2434,433,2444,451,2443,468,2432,483,2416,495,2369,515,2315,529,2314,524,2367,510,2413,491,2429,479,2438,466,2438,452,2430,436,2405,414,2380,403,2353,401,2325,403,2265,408,2232,404,2199,389,2177,373,2161,355,2142,319,2122,284,2108,267,2087,252,2035,227,1979,210,1924,199,1875,194"/>
+<area shape="poly" title=" " alt="" coords="1733,191,1411,195,1189,202,951,214,713,233,492,260,393,277,305,297,229,319,169,344,124,371,90,401,79,418,74,436,75,456,84,478,94,493,108,506,140,525,137,529,105,510,90,497,79,481,70,457,69,435,74,416,86,398,121,366,167,340,228,314,303,291,392,272,491,255,712,227,951,208,1189,196,1410,189,1733,186"/>
+<area shape="poly" title=" " alt="" coords="1807,217,1804,254,1797,295,1783,352,1769,396,1747,437,1710,481,1672,510,1631,529,1628,524,1669,505,1706,477,1743,434,1764,394,1777,350,1792,293,1799,254,1801,217"/>
+<area shape="poly" title=" " alt="" coords="1733,198,1024,265,1023,260,1733,193"/>
+<area shape="poly" title=" " alt="" coords="1776,213,1724,251,1721,247,1773,209"/>
+<area shape="poly" title=" " alt="" coords="1875,197,2264,254,2263,260,1874,202"/>
+<area shape="rect" href="link__access_8h.html" title="Functions to access the links of a StreamGraph." alt="" coords="2242,435,2419,479"/>
+<area shape="poly" title=" " alt="" coords="1875,191,1962,209,2007,225,2049,247,2071,263,2086,280,2105,315,2124,350,2138,367,2158,385,2203,412,2252,432,2250,437,2201,417,2154,389,2134,371,2120,353,2101,318,2081,284,2067,267,2047,252,2005,230,1960,214,1874,197"/>
+<area shape="rect" href="node__access_8h.html" title="Functions to access the nodes of a StreamGraph." alt="" coords="1858,249,2035,294"/>
+<area shape="poly" title=" " alt="" coords="1841,207,1910,246,1907,251,1839,212"/>
+<area shape="poly" title=" " alt="" coords="1734,206,1460,260,1459,255,1732,200"/>
+<area shape="poly" title=" " alt="" coords="1710,307,1730,348,1759,395,1795,440,1840,477,1863,488,1895,497,1974,513,2147,532,2147,537,1974,518,1893,503,1861,493,1837,482,1792,444,1754,398,1725,351,1705,310"/>
+<area shape="poly" title=" " alt="" coords="2396,302,2437,339,2474,384,2486,408,2492,433,2490,458,2478,481,2454,498,2416,512,2323,532,2322,527,2414,507,2451,494,2474,478,2485,456,2487,434,2481,410,2469,387,2433,343,2392,306"/>
+<area shape="poly" title=" " alt="" coords="2295,492,2252,529,2248,525,2292,488"/>
+<area shape="poly" title=" " alt="" coords="1900,306,1882,323,1869,343,1853,381,1845,414,1849,445,1869,478,1886,491,1913,503,1984,520,2067,530,2147,535,2147,541,2067,536,1983,525,1911,508,1883,496,1865,481,1844,447,1840,414,1848,379,1864,341,1878,320,1896,302"/>
+<area shape="rect" href="cluster_8h.html" title=" " alt="" coords="1879,350,2036,378"/>
+<area shape="poly" title=" " alt="" coords="1954,309,1958,350,1953,350,1948,309"/>
+<area shape="poly" title=" " alt="" coords="1998,383,2113,440,2111,445,1996,388"/>
+<area shape="rect" href="cluster_8c.html" title="Implementation of clusters in a stream." alt="" coords="1879,443,2036,471"/>
+<area shape="poly" title=" " alt="" coords="1960,393,1960,443,1955,443,1955,393"/>
+<area shape="poly" title=" " alt="" coords="1494,281,1594,291,2212,355,2211,360,1593,297,1493,286"/>
+<area shape="poly" title=" " alt="" coords="1456,288,1521,310,1588,340,1645,376,1684,412,1724,446,1750,462,1782,477,1877,506,1975,524,2068,534,2147,538,2147,543,2067,539,1974,529,1876,511,1780,482,1747,467,1721,451,1681,416,1641,381,1585,344,1519,315,1455,293"/>
+<area shape="poly" title=" " alt="" coords="1452,289,1487,310,1502,324,1514,341,1523,365,1521,377,1514,388,1489,407,1447,423,1390,439,1321,453,1152,477,956,497,556,525,253,540,253,534,555,520,956,492,1151,472,1320,447,1389,433,1445,418,1486,402,1510,385,1516,375,1518,365,1510,343,1498,328,1483,314,1449,294"/>
+<area shape="poly" title=" " alt="" coords="1478,288,1522,309,1541,323,1558,340,1573,364,1583,389,1594,443,1595,492,1592,527,1587,527,1590,492,1588,443,1578,391,1568,366,1554,344,1538,327,1519,313,1476,293"/>
+<area shape="poly" title=" " alt="" coords="1294,289,806,353,805,347,1293,283"/>
+<area shape="poly" title=" " alt="" coords="1319,292,1078,344,1076,339,1318,287"/>
+<area shape="poly" title=" " alt="" coords="1352,295,1229,352,1227,347,1350,290"/>
+<area shape="poly" title=" " alt="" coords="1402,300,1410,341,1405,342,1396,301"/>
+<area shape="poly" title=" " alt="" coords="1293,282,789,314,396,345,349,353,348,347,396,339,789,309,1293,277"/>
+<area shape="poly" title=" " alt="" coords="1294,280,979,301,785,320,591,345,579,347,578,341,590,339,785,314,979,296,1293,275"/>
 </map>
 </div>
 </div></div><!-- contents -->

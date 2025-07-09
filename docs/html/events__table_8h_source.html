@@ -107,48 +107,57 @@ $(function(){initNavTree('events__table_8h_source.html',''); initResizable(true)
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="bit__array_8h.html">../bit_array.h</a>&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;../units.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">typedef</span> <span class="keyword">struct </span>Event Event;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#ifdef SGA_INTERNAL</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">struct </span>Event {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordtype">size_t</span> nb_info;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordtype">size_t</span>* events;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>};</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>DeclareToString(Event);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="events__table_8h.html">   22</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    Event* events;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    SGA_TimeId disappearance_index;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_struct" href="bit__array_8h.html#structBitArray">BitArray</a> presence_mask; <span class="comment">// first and last events are not included because first event cannot have disappearances and last event</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                <span class="comment">// cannot have appearances</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="key__instants__table_8h.html">key_instants_table.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">typedef</span> <span class="keyword">struct </span>Event Event;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#ifdef SGA_INTERNAL</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">struct </span>Event {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">size_t</span> nb_info; </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">size_t</span>* events; </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span></div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="};">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="events__table_8h.html">   35</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="events__table_8h.html#ae9ddf883a075ccba52ac94bfb0142ce2">   36</a></span>    Event* <a class="code hl_variable" href="events__table_8h.html#ae9ddf883a075ccba52ac94bfb0142ce2">events</a>;        </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="events__table_8h.html#a6c58378ef1f00b466b013e50965ec026">   37</a></span>    <a class="code hl_struct" href="bit__array_8h.html#structBitArray">BitArray</a> <a class="code hl_variable" href="events__table_8h.html#a6c58378ef1f00b466b013e50965ec026">presence_mask</a>; </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>} <a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a>;</div>
 </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="events__table_8h.html">   29</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">size_t</span> nb_events;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a> node_events;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a> link_events;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>} <a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span></div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="};">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="events__table_8h.html">   45</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="events__table_8h.html#ab9479ef60f3c347083b9d3d4ab9909b9">   46</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="events__table_8h.html#ab9479ef60f3c347083b9d3d4ab9909b9">nb_events</a>;   </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="events__table_8h.html#a60d59c81b2d8d0f9774f6f2c28ee07cd">   48</a></span>    <a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a> <a class="code hl_variable" href="events__table_8h.html#a60d59c81b2d8d0f9774f6f2c28ee07cd">node_events</a>; </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="events__table_8h.html#a5efdaf591392bed7721cebceaaff4cc1">   49</a></span>    <a class="code hl_struct" href="events__table_8h.html#structEvents">Events</a> <a class="code hl_variable" href="events__table_8h.html#a5efdaf591392bed7721cebceaaff4cc1">link_events</a>; </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a>;</div>
 </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifdef SGA_INTERNAL</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a> EventsTable_alloc(<span class="keywordtype">size_t</span> nb_node_regular_key_instants, <span class="keywordtype">size_t</span> nb_node_removal_only_key_instants);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><a class="code hl_struct" href="structString.html">String</a> EventsTable_to_string(<a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a>* events_table);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">// TODO: no destroy ?</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#ifdef SGA_INTERNAL</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a> EventsTable_create(<span class="keyword">const</span> size_tArrayList* node_events_list, <span class="keyword">const</span> size_tArrayList* link_events_list,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                   <a class="code hl_struct" href="bit__array_8h.html#structBitArray">BitArray</a> node_presence_mask, <a class="code hl_struct" href="bit__array_8h.html#structBitArray">BitArray</a> link_presence_mask, <span class="keywordtype">size_t</span> nb_events);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">void</span> EventsTable_destroy(<a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a> events_table);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><a class="code hl_struct" href="structString.html">String</a> EventsTable_to_string(<span class="keyword">const</span> <a class="code hl_struct" href="events__table_8h.html#structEventsTable">EventsTable</a>* events_table, <span class="keyword">const</span> <a class="code hl_struct" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a>* key_instants_table);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#endif </span><span class="comment">// SGA_INTERNAL</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="abit__array_8h_html"><div class="ttname"><a href="bit__array_8h.html">bit_array.h</a></div><div class="ttdoc">A variable length array of bits and functions to manipulate it.</div></div>
 <div class="ttc" id="abit__array_8h_html_structBitArray"><div class="ttname"><a href="bit__array_8h.html#structBitArray">BitArray</a></div><div class="ttdef"><b>Definition</b> bit_array.h:21</div></div>
-<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdef"><b>Definition</b> events_table.h:22</div></div>
-<div class="ttc" id="aevents__table_8h_html_structEventsTable"><div class="ttname"><a href="events__table_8h.html#structEventsTable">EventsTable</a></div><div class="ttdef"><b>Definition</b> events_table.h:29</div></div>
+<div class="ttc" id="aevents__table_8h_html_a5efdaf591392bed7721cebceaaff4cc1"><div class="ttname"><a href="events__table_8h.html#a5efdaf591392bed7721cebceaaff4cc1">EventsTable::link_events</a></div><div class="ttdeci">Events link_events</div><div class="ttdoc">Collection of events for links.</div><div class="ttdef"><b>Definition</b> events_table.h:49</div></div>
+<div class="ttc" id="aevents__table_8h_html_a60d59c81b2d8d0f9774f6f2c28ee07cd"><div class="ttname"><a href="events__table_8h.html#a60d59c81b2d8d0f9774f6f2c28ee07cd">EventsTable::node_events</a></div><div class="ttdeci">Events node_events</div><div class="ttdoc">Collection of events for nodes.</div><div class="ttdef"><b>Definition</b> events_table.h:48</div></div>
+<div class="ttc" id="aevents__table_8h_html_a6c58378ef1f00b466b013e50965ec026"><div class="ttname"><a href="events__table_8h.html#a6c58378ef1f00b466b013e50965ec026">Events::presence_mask</a></div><div class="ttdeci">BitArray presence_mask</div><div class="ttdef"><b>Definition</b> events_table.h:37</div></div>
+<div class="ttc" id="aevents__table_8h_html_ab9479ef60f3c347083b9d3d4ab9909b9"><div class="ttname"><a href="events__table_8h.html#ab9479ef60f3c347083b9d3d4ab9909b9">EventsTable::nb_events</a></div><div class="ttdeci">size_t nb_events</div><div class="ttdoc">number of key instants in the key instants table.</div><div class="ttdef"><b>Definition</b> events_table.h:46</div></div>
+<div class="ttc" id="aevents__table_8h_html_ae9ddf883a075ccba52ac94bfb0142ce2"><div class="ttname"><a href="events__table_8h.html#ae9ddf883a075ccba52ac94bfb0142ce2">Events::events</a></div><div class="ttdeci">Event * events</div><div class="ttdoc">Array of events, each event contains the information about the nodes or links present at that event.</div><div class="ttdef"><b>Definition</b> events_table.h:36</div></div>
+<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdoc">A collection of events, where each event contains the information about the nodes or links present at...</div><div class="ttdef"><b>Definition</b> events_table.h:35</div></div>
+<div class="ttc" id="aevents__table_8h_html_structEventsTable"><div class="ttname"><a href="events__table_8h.html#structEventsTable">EventsTable</a></div><div class="ttdoc">A table of events, containing the information about the nodes and links present at each event....</div><div class="ttdef"><b>Definition</b> events_table.h:45</div></div>
+<div class="ttc" id="akey__instants__table_8h_html"><div class="ttname"><a href="key__instants__table_8h.html">key_instants_table.h</a></div><div class="ttdoc">Table of all key instants.</div></div>
+<div class="ttc" id="akey__instants__table_8h_html_structKeyInstantsTable"><div class="ttname"><a href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a></div><div class="ttdef"><b>Definition</b> key_instants_table.h:29</div></div>
 <div class="ttc" id="astructString_html"><div class="ttname"><a href="structString.html">String</a></div><div class="ttdef"><b>Definition</b> utils.h:119</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

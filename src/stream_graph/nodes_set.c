@@ -22,7 +22,7 @@ NodesSet NodesSet_from(size_t nb_nodes, SGA_IntervalArrayList* node_presences, S
 
 		// Create the node from the info in the arrays
 		nodes_set.nodes[i] = (SGA_Node){
-		    .presence	   = SGA_IntervalsSet_from_interval_arraylist(node_presences[i]),
+		    .presence	   = SGA_IntervalsSet_from_arraylist(node_presences[i]),
 		    .neighbours	   = neighbours_of_nodes[i].array,
 		    .nb_neighbours = neighbours_of_nodes[i].length,
 		};

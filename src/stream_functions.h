@@ -11,6 +11,7 @@
 #include "stream_graph/links_set.h"
 #include "stream_graph/nodes_set.h"
 #include "units.h"
+#include "utils.h"
 
 #ifdef SGA_INTERNAL
 
@@ -67,6 +68,10 @@ typedef struct {
 				}                                                                                                          \
 				case TIMEFRAME_STREAM: {                                                                                   \
 					(variable) = TimeFrameStream_stream_functions;                                                     \
+					break;                                                                                             \
+				}                                                                                                          \
+				case DELTA_STREAM: {                                                                                       \
+					(variable) = DeltaStream_stream_functions;                                                         \
 					break;                                                                                             \
 				}                                                                                                          \
 				default: {                                                                                                 \

@@ -2,15 +2,16 @@
 \hypertarget{events__table_8h}{}\label{events__table_8h}\index{src/stream\_graph/events\_table.h@{src/stream\_graph/events\_table.h}}
 {\ttfamily \#include "{}../bit\+\_\+array.\+h"{}}\newline
 {\ttfamily \#include "{}../units.\+h"{}}\newline
+{\ttfamily \#include "{}key\+\_\+instants\+\_\+table.\+h"{}}\newline
 {\ttfamily \#include $<$stddef.\+h$>$}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{events__table_8h_structEvents}{Events}}
-\item 
+\begin{DoxyCompactList}\small\item\em A collection of events, where each event contains the information about the nodes or links present at that event. The presence mask indicates whether the event has only appearances (1) or has at least one disappearance (0). If the event has only appearances, the events array will contain the ids of the nodes or links that appeared at that event. If the event has at least one disappearance, the events array will contain all the ids of the nodes or links that are present at that event.  \mbox{\hyperlink{events__table_8h_structEvents}{More...}}\end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{events__table_8h_structEventsTable}{Events\+Table}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em A table of events, containing the information about the nodes and links present at each event. It contains the number of events, and two separate collections of events for nodes and links.  \mbox{\hyperlink{events__table_8h_structEventsTable}{More...}}\end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,22 +34,16 @@ Collaboration diagram for Events\+:\nopagebreak
 \end{center}
 \end{figure}
 \begin{DoxyFields}{Data Fields}
-\mbox{\Hypertarget{events__table_8h_a52a594ef9f89cd8acdb2e08e19e22077}\label{events__table_8h_a52a594ef9f89cd8acdb2e08e19e22077}} 
-SGA\_TimeId&
-disappearance\_index&
-\\
-\hline
-
 \mbox{\Hypertarget{events__table_8h_ae9ddf883a075ccba52ac94bfb0142ce2}\label{events__table_8h_ae9ddf883a075ccba52ac94bfb0142ce2}} 
 Event \texorpdfstring{$\ast$}{*}&
 events&
-\\
+Array of events, each event contains the information about the nodes or links present at that event. \\
 \hline
 
 \mbox{\Hypertarget{events__table_8h_a6c58378ef1f00b466b013e50965ec026}\label{events__table_8h_a6c58378ef1f00b466b013e50965ec026}} 
 \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}&
 presence\_mask&
-\\
+Presence mask, where each bit represents whether the event has only appearances (1) or has at least one \\
 \hline
 
 \end{DoxyFields}
@@ -68,19 +63,20 @@ Collaboration diagram for Events\+Table\+:\nopagebreak
 \mbox{\Hypertarget{events__table_8h_a5efdaf591392bed7721cebceaaff4cc1}\label{events__table_8h_a5efdaf591392bed7721cebceaaff4cc1}} 
 \mbox{\hyperlink{events__table_8h_structEvents}{Events}}&
 link\_events&
-\\
+Collection of events for links. \\
 \hline
 
 \mbox{\Hypertarget{events__table_8h_ab9479ef60f3c347083b9d3d4ab9909b9}\label{events__table_8h_ab9479ef60f3c347083b9d3d4ab9909b9}} 
 size\_t&
 nb\_events&
-\\
+number of key instants in the key instants table. \newline
+The number of events in the table. This is the same for both node and link events. Should be equal to the \\
 \hline
 
 \mbox{\Hypertarget{events__table_8h_a60d59c81b2d8d0f9774f6f2c28ee07cd}\label{events__table_8h_a60d59c81b2d8d0f9774f6f2c28ee07cd}} 
 \mbox{\hyperlink{events__table_8h_structEvents}{Events}}&
 node\_events&
-\\
+Collection of events for nodes. \\
 \hline
 
 \end{DoxyFields}

@@ -12,91 +12,96 @@
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}stream\_graph/links\_set.h"{}}}
 \DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{nodes__set_8h}{stream\_graph/nodes\_set.h}}"{}}}
 \DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}units.h"{}}}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ (*lifespan)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
-\DoxyCodeLine{00022\ \ \ \ \ size\_t\ (*time\_scale)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ \ \ \ \ \ \ }
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{iterators_8h_a01b125040501e190816c7f29fb32fb13}{SGA\_NodesIterator}}\ (*nodes\_set)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
-\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}{SGA\_LinksIterator}}\ (*links\_set)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{iterators_8h_a01b125040501e190816c7f29fb32fb13}{SGA\_NodesIterator}}\ (*nodes\_present\_at\_t)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_Time);\ }
-\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}{SGA\_LinksIterator}}\ (*links\_present\_at\_t)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_Time);\ }
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}{SGA\_TimesIterator}}\ (*times\_node\_present)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId);\ }
-\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}{SGA\_TimesIterator}}\ (*times\_link\_present)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_LinkId);\ }
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}\ (*link\_by\_id)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_LinkId);\ }
-\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\_Node}}\ (*node\_by\_id)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId);\ }
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}{SGA\_LinksIterator}}\ (*neighbours\_of\_node)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId);\ \ \ \ \ \ \ }
-\DoxyCodeLine{00039\ \ \ \ \ SGA\_LinkId\ (*link\_between\_nodes)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId,\ SGA\_NodeId);\ }
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}{SGA\_TimesIterator}}\ (*key\_instants)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
-\DoxyCodeLine{00042\ \}\ StreamFunctions;}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#\ \ \ define\ STREAM\_FUNCS(variable,\ stream\_var)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ switch\ ((stream\_var)-\/>type)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ FULL\_STREAM\_GRAPH:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ FullStreamGraph\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ LINK\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ LinkStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ CHUNK\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ ChunkStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ CHUNK\_STREAM\_SMALL:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ ChunkStreamSmall\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ TIMEFRAME\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ TimeFrameStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ default:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UNREACHABLE\_CODE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (variable);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \})}}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00086\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{stream__functions_8h_aef2238c9e43985dc1471fbea11b77600}{SGA\_Stream\_lifespan}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00093\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{stream__functions_8h_aa706c447ff8e0dfca3b68a0c9a536062}{SGA\_Stream\_time\_scale}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00094\ }
-\DoxyCodeLine{00100\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{stream__functions_8h_a82af5bc4056cccd83a3d8433d5e3883c}{SGA\_Stream\_nodes\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00107\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{stream__functions_8h_acc84ae3fa5733a461fad5f288b4608c6}{SGA\_Stream\_links\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00108\ }
-\DoxyCodeLine{00115\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{stream__functions_8h_abb95c82a0d85a9e0b2c6715bd89d1948}{SGA\_Stream\_nodes\_present\_at\_t}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00123\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{stream__functions_8h_a5a1f772321f49674c50f13c96fec60d7}{SGA\_Stream\_links\_present\_at\_t}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
-\DoxyCodeLine{00124\ }
-\DoxyCodeLine{00131\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{stream__functions_8h_a88b43398f7fb3ef7f82bca1d9a91eb05}{SGA\_Stream\_times\_node\_present}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00132\ }
-\DoxyCodeLine{00139\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{stream__functions_8h_a418d54630a00859c26409db3d5186543}{SGA\_Stream\_times\_link\_present}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
-\DoxyCodeLine{00140\ }
-\DoxyCodeLine{00147\ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}\ \mbox{\hyperlink{stream__functions_8h_a5a9a6f6f16897f985243f33afd5806d8}{SGA\_Stream\_link\_by\_id}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
-\DoxyCodeLine{00148\ }
-\DoxyCodeLine{00155\ \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\_Node}}\ \mbox{\hyperlink{stream__functions_8h_aa3ccf2dc59d9e29135c3dab2b7442057}{SGA\_Stream\_node\_by\_id}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00156\ }
-\DoxyCodeLine{00163\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{stream__functions_8h_a6e8114686e7599bd485b3b9c9e0335e2}{SGA\_Stream\_neighbours\_of\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
-\DoxyCodeLine{00164\ }
-\DoxyCodeLine{00172\ SGA\_LinkId\ \mbox{\hyperlink{stream__functions_8h_ae329de03f4711815721e6ed8757a7999}{SGA\_Stream\_link\_between\_nodes}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id,\ SGA\_NodeId\ other\_node\_id);}
-\DoxyCodeLine{00173\ }
-\DoxyCodeLine{00180\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{stream__functions_8h_ad24078226ec9830e1a64b9157cd9914d}{SGA\_Stream\_key\_instants}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
-\DoxyCodeLine{00181\ }
-\DoxyCodeLine{00186\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream__functions_8h_ac72707a499b6b2ab5ac0ef159c4cf24f}{SGA\_Stream\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_FUNCTIONS\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}utils.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ (*lifespan)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
+\DoxyCodeLine{00023\ \ \ \ \ size\_t\ (*time\_scale)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ \ \ \ \ \ \ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{iterators_8h_a01b125040501e190816c7f29fb32fb13}{SGA\_NodesIterator}}\ (*nodes\_set)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}{SGA\_LinksIterator}}\ (*links\_set)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{iterators_8h_a01b125040501e190816c7f29fb32fb13}{SGA\_NodesIterator}}\ (*nodes\_present\_at\_t)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_Time);\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}{SGA\_LinksIterator}}\ (*links\_present\_at\_t)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_Time);\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}{SGA\_TimesIterator}}\ (*times\_node\_present)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId);\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}{SGA\_TimesIterator}}\ (*times\_link\_present)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_LinkId);\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}\ (*link\_by\_id)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_LinkId);\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\_Node}}\ (*node\_by\_id)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId);\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ada4d6e52461baf95e819e9da8f8aad9a}{SGA\_LinksIterator}}\ (*neighbours\_of\_node)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId);\ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ SGA\_LinkId\ (*link\_between\_nodes)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*,\ SGA\_NodeId,\ SGA\_NodeId);\ }
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{iterators_8h_ab9c35961b732f57c71c2d2f139b36f22}{SGA\_TimesIterator}}\ (*key\_instants)(\mbox{\hyperlink{stream_8h_a3c628d0526c9c7b163801ccc0e24cb4f}{SGA\_StreamData}}*);\ }
+\DoxyCodeLine{00043\ \}\ StreamFunctions;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#\ \ \ define\ STREAM\_FUNCS(variable,\ stream\_var)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ (\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ switch\ ((stream\_var)-\/>type)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ FULL\_STREAM\_GRAPH:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ FullStreamGraph\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ LINK\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ LinkStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ CHUNK\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ ChunkStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ CHUNK\_STREAM\_SMALL:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ ChunkStreamSmall\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ TIMEFRAME\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ TimeFrameStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ case\ DELTA\_STREAM:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (variable)\ =\ DeltaStream\_stream\_functions;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ default:\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UNREACHABLE\_CODE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (variable);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \})}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00091\ \mbox{\hyperlink{structSGA__Interval}{SGA\_Interval}}\ \mbox{\hyperlink{stream__functions_8h_aef2238c9e43985dc1471fbea11b77600}{SGA\_Stream\_lifespan}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00098\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{stream__functions_8h_aa706c447ff8e0dfca3b68a0c9a536062}{SGA\_Stream\_time\_scale}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00105\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{stream__functions_8h_a82af5bc4056cccd83a3d8433d5e3883c}{SGA\_Stream\_nodes\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00112\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{stream__functions_8h_acc84ae3fa5733a461fad5f288b4608c6}{SGA\_Stream\_links\_set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00120\ \mbox{\hyperlink{iterators_8h_structSGA__NodesIterator}{SGA\_NodesIterator}}\ \mbox{\hyperlink{stream__functions_8h_abb95c82a0d85a9e0b2c6715bd89d1948}{SGA\_Stream\_nodes\_present\_at\_t}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00128\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{stream__functions_8h_a5a1f772321f49674c50f13c96fec60d7}{SGA\_Stream\_links\_present\_at\_t}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_Time\ time);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00136\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{stream__functions_8h_a88b43398f7fb3ef7f82bca1d9a91eb05}{SGA\_Stream\_times\_node\_present}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00144\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{stream__functions_8h_a418d54630a00859c26409db3d5186543}{SGA\_Stream\_times\_link\_present}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00152\ \mbox{\hyperlink{structSGA__Link}{SGA\_Link}}\ \mbox{\hyperlink{stream__functions_8h_a5a9a6f6f16897f985243f33afd5806d8}{SGA\_Stream\_link\_by\_id}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_LinkId\ link\_id);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00160\ \mbox{\hyperlink{nodes__set_8h_structSGA__Node}{SGA\_Node}}\ \mbox{\hyperlink{stream__functions_8h_aa3ccf2dc59d9e29135c3dab2b7442057}{SGA\_Stream\_node\_by\_id}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00168\ \mbox{\hyperlink{iterators_8h_structSGA__LinksIterator}{SGA\_LinksIterator}}\ \mbox{\hyperlink{stream__functions_8h_a6e8114686e7599bd485b3b9c9e0335e2}{SGA\_Stream\_neighbours\_of\_node}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00177\ SGA\_LinkId\ \mbox{\hyperlink{stream__functions_8h_ae329de03f4711815721e6ed8757a7999}{SGA\_Stream\_link\_between\_nodes}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream,\ SGA\_NodeId\ node\_id,\ SGA\_NodeId\ other\_node\_id);}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00185\ \mbox{\hyperlink{iterators_8h_structSGA__TimesIterator}{SGA\_TimesIterator}}\ \mbox{\hyperlink{stream__functions_8h_ad24078226ec9830e1a64b9157cd9914d}{SGA\_Stream\_key\_instants}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}*\ stream);}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00191\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{stream__functions_8h_ac72707a499b6b2ab5ac0ef159c4cf24f}{SGA\_Stream\_destroy}}(\mbox{\hyperlink{structSGA__Stream}{SGA\_Stream}}\ stream);}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STREAM\_FUNCTIONS\_H}}
 
 \end{DoxyCode}

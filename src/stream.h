@@ -256,6 +256,7 @@ typedef struct SGA_Stream {
 		CHUNK_STREAM,	    ///< A ChunkStream
 		CHUNK_STREAM_SMALL, ///< A ChunkStreamSmall
 		TIMEFRAME_STREAM,   ///< A TimeFrameStream
+		DELTA_STREAM	    ///< A DeltaStream
 	} type;
 
 	SGA_StreamData* stream_data; ///< The data of the Stream. It is a union of all the different types of StreamData.
@@ -316,14 +317,9 @@ size_t SGA_StreamGraph_time_scale(SGA_StreamGraph* sg);
 /**
  * @brief Initialise the events table of a StreamGraph.
  * @param[out] sg The StreamGraph to initialise the events table of.
+ * @param[in] nb_events The number of events to allocate space for in the events table.
  */
-void init_events_table(SGA_StreamGraph* sg);
-
-/**
- * @brief Destroy the events table of a StreamGraph.
- * @param[out] sg The StreamGraph to destroy the events table of.
- */
-void events_destroy(SGA_StreamGraph* sg);
+void init_events_table(SGA_StreamGraph* sg, size_t nb_events);
 
 #endif // SGA_INTERNAL
 

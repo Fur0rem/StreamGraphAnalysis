@@ -1,0 +1,29 @@
+SGA External version 1.0.0
+
+It's the original stream graph presented in the line streams section (12) of the paper. 
+
+[General]
+Lifespan=(0 10)
+TimeScale=1
+
+[Events]
+0 + N 0
+0 + N 1
+0 + L 0 1
+1 - L 0 1
+2 + L 0 1
+3 - L 0 1
+3 - N 1
+4 - N 0
+4 + N 1
+4 + N 2
+4 + L 1 2
+6 + N 0
+6 + L 0 1
+8 - L 0 1
+8 - L 1 2
+8 - N 2
+10 - N 0
+10 - N 1
+
+[EndOfStream]

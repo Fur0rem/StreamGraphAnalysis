@@ -24,6 +24,7 @@ var src_2analysis_2metrics_8c =
     [ "SGA_Stream_number_of_nodes", "group__METRICS.html#ga979fc8fcc63a3c8f80e459dc6f579074", null ],
     [ "SGA_Stream_temporal_cardinal_of_link_set", "group__METRICS.html#ga8b6923cd17d4a2428447570215d5e34c", null ],
     [ "SGA_Stream_temporal_cardinal_of_node_set", "group__METRICS.html#ga424cbf165c58e0c8accfd10eff5d20b4", null ],
+    [ "SGA_Stream_to_string", "group__METRICS.html#ga7ad8579e8a133c11083e02758dca3a03", null ],
     [ "SGA_Stream_transitivity_ratio", "group__METRICS.html#ga1a069b597b75f5196be961fc19eef425", null ],
     [ "SGA_Stream_uniformity", "group__METRICS.html#gaa7bc31202b86d92d4606c6f51e7d215c", null ]
 ];

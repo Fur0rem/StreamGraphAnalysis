@@ -16,7 +16,7 @@
  * @brief The FullStreamGraph structure.
  */
 typedef struct {
-	SGA_StreamGraph* underlying_stream_graph; /**< A reference to the underlying StreamGraph. */
+	SGA_StreamGraph* underlying_stream_graph; ///< A reference to the underlying StreamGraph.
 } FullStreamGraph;
 
 /**
