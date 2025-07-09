@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['full_5fstream_5fgraph_0',['FULL_STREAM_GRAPH',['../structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025aad4bc086a7c1f970925f3b892a6d300a',1,'SGA_Stream']]]
+  ['delta_5fstream_0',['DELTA_STREAM',['../structSGA__Stream.html#aa6208239395d3ece5cad22f2632b1025a71e7ce7e9296b101fb46bf9460c9ac68',1,'SGA_Stream']]]
 ];

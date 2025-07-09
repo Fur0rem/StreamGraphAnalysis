@@ -22,8 +22,8 @@ DONT_OPTIMISE void load_from_internal() {
 }
 
 DONT_OPTIMISE void init_events() {
-	events_destroy(&sg);
-	init_events_table(&sg);
+	EventsTable_destroy(sg.events);
+	init_events_table(&sg, KeyInstantsTable_total_nb_instants(&sg.key_instants));
 }
 
 int main() {

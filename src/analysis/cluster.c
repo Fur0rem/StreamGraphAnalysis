@@ -101,7 +101,7 @@ bool SGA_Cluster_contains_node(const SGA_Cluster* cluster, SGA_NodeId node_id) {
 // OPTIMISE: Very naive implementation, could be improved
 void SGA_Cluster_simplify(SGA_Cluster* cluster) {
 	for (size_t i = 0; i < cluster->nodes.length; i++) {
-		SGA_IntervalsSet intervals = SGA_IntervalsSet_from_interval_arraylist(cluster->nodes.array[i].presence);
+		SGA_IntervalsSet intervals = SGA_IntervalsSet_from_arraylist(cluster->nodes.array[i].presence);
 		SGA_IntervalsSet_sort(&intervals);
 		SGA_IntervalsSet_merge(&intervals);
 		cluster->nodes.array[i].presence = SGA_IntervalArrayList_from_intervals_set(intervals);

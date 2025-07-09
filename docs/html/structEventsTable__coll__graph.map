@@ -1,6 +1,6 @@
 <map id="EventsTable" name="EventsTable">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,208,105,235"/>
-<area shape="rect" id="Node000002" href="$events__table_8h.html#structEvents" title=" " alt="" coords="22,98,88,126"/>
+<area shape="rect" id="Node000001" title="A table of events, containing the information about the nodes and links present at each event...." alt="" coords="5,208,105,235"/>
+<area shape="rect" id="Node000002" href="$events__table_8h.html#structEvents" title="A collection of events, where each event contains the information about the nodes or links present at..." alt="" coords="22,98,88,126"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="58,141,58,208,52,208,52,141"/>
 <area shape="rect" id="Node000003" href="$bit__array_8h.html#structBitArray" title=" " alt="" coords="18,5,92,33"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="58,48,58,98,52,98,52,48"/>

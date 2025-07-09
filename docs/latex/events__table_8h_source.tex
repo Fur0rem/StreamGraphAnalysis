@@ -9,39 +9,41 @@
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{bit__array_8h}{../bit\_array.h}}"{}}}
 \DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../units.h"{}}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }Event\ Event;}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
-\DoxyCodeLine{00015\ \textcolor{keyword}{struct\ }Event\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_info;}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{size\_t}*\ events;}
-\DoxyCodeLine{00018\ \};}
-\DoxyCodeLine{00019\ DeclareToString(Event);}
-\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00023\ \ \ \ \ Event*\ events;}
-\DoxyCodeLine{00024\ \ \ \ \ SGA\_TimeId\ disappearance\_index;}
-\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ presence\_mask;\ \textcolor{comment}{//\ first\ and\ last\ events\ are\ not\ included\ because\ first\ event\ cannot\ have\ disappearances\ and\ last\ event}}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cannot\ have\ appearances}}
-\DoxyCodeLine{00027\ \}\ \mbox{\hyperlink{events__table_8h_structEvents}{Events}};}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_events;}
-\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEvents}{Events}}\ node\_events;}
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEvents}{Events}}\ link\_events;}
-\DoxyCodeLine{00033\ \}\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}};}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}\ EventsTable\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_node\_regular\_key\_instants,\ \textcolor{keywordtype}{size\_t}\ nb\_node\_removal\_only\_key\_instants);}
-\DoxyCodeLine{00038\ \mbox{\hyperlink{structString}{String}}\ EventsTable\_to\_string(\mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}*\ events\_table);}
-\DoxyCodeLine{00039\ \textcolor{comment}{//\ TODO:\ no\ destroy\ ?}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{key__instants__table_8h}{key\_instants\_table.h}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }Event\ Event;}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{struct\ }Event\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ nb\_info;\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{size\_t}*\ events;\ }
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ Event*\ \mbox{\hyperlink{events__table_8h_ae9ddf883a075ccba52ac94bfb0142ce2}{events}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ \mbox{\hyperlink{events__table_8h_a6c58378ef1f00b466b013e50965ec026}{presence\_mask}};\ }
+\DoxyCodeLine{00039\ \}\ \mbox{\hyperlink{events__table_8h_structEvents}{Events}};}
 \DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{events__table_8h_ab9479ef60f3c347083b9d3d4ab9909b9}{nb\_events}};\ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEvents}{Events}}\ \mbox{\hyperlink{events__table_8h_a60d59c81b2d8d0f9774f6f2c28ee07cd}{node\_events}};\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{events__table_8h_structEvents}{Events}}\ \mbox{\hyperlink{events__table_8h_a5efdaf591392bed7721cebceaaff4cc1}{link\_events}};\ }
+\DoxyCodeLine{00050\ \}\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00063\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}\ EventsTable\_create(\textcolor{keyword}{const}\ size\_tArrayList*\ node\_events\_list,\ \textcolor{keyword}{const}\ size\_tArrayList*\ link\_events\_list,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ node\_presence\_mask,\ \mbox{\hyperlink{bit__array_8h_structBitArray}{BitArray}}\ link\_presence\_mask,\ \textcolor{keywordtype}{size\_t}\ nb\_events);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00070\ \textcolor{keywordtype}{void}\ EventsTable\_destroy(\mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}\ events\_table);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00078\ \mbox{\hyperlink{structString}{String}}\ EventsTable\_to\_string(\textcolor{keyword}{const}\ \mbox{\hyperlink{events__table_8h_structEventsTable}{EventsTable}}*\ events\_table,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ key\_instants\_table);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

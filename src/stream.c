@@ -3,6 +3,7 @@
  * @brief Implementation of the functions to create StreamGraph's and manipulate generic Stream's.
  */
 
+#include "bit_array.h"
 #define SGA_INTERNAL
 
 #include "units.h"
@@ -255,8 +256,6 @@ void check_parse_error(bool err_cond, const char* err_cond_str, const char* wher
 		CHECK_PARSE_ERROR(true, "Expected %s, got %s", sequence, trimmed);                                                         \
 	}                                                                                                                                  \
 	(str) += strlen(sequence);
-
-void init_events_table(SGA_StreamGraph* sg);
 
 /**
  * @brief A wrapper macro around check_parse_error that automatically fills some of the arguments
@@ -608,7 +607,7 @@ SGA_StreamGraph SGA_StreamGraph_from_internal_format_v_1_0_0(const String* forma
 	free(buffer);
 	free(key_instants);
 
-	init_events_table(&sg);
+	init_events_table(&sg, nb_key_instants);
 
 	return sg;
 }
@@ -1270,224 +1269,136 @@ void SGA_StreamGraph_destroy(SGA_StreamGraph sg) {
 	}
 	free(sg.links.links);
 	KeyInstantsTable_destroy(sg.key_instants);
-	events_destroy(&sg);
+	EventsTable_destroy(sg.events);
 }
 
-void events_table_write(SGA_StreamGraph* sg, size_tArrayList* node_events, size_tArrayList* link_events) {
-	// Realloc the arraylists into the events
-	sg->events.node_events.events = MALLOC(sizeof(Event) * sg->events.nb_events);
-	sg->events.link_events.events = MALLOC(sizeof(Event) * sg->events.nb_events);
-
-	// Write the events
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		Event node_event;
-		node_event.nb_info = node_events[i].length;
-		if (node_event.nb_info == 0) {
-			node_event.events = NULL;
-		}
-		else {
-			node_event.events = MALLOC(sizeof(size_t) * node_event.nb_info);
-			for (size_t j = 0; j < node_event.nb_info; j++) {
-				node_event.events[j] = node_events[i].array[j];
-			}
-		}
-		sg->events.node_events.events[i] = node_event;
-
-		Event link_event;
-		link_event.nb_info = link_events[i].length;
-		if (link_event.nb_info == 0) {
-			link_event.events = NULL;
-		}
-		else {
-			link_event.events = MALLOC(sizeof(size_t) * link_event.nb_info);
-			for (size_t j = 0; j < link_event.nb_info; j++) {
-				link_event.events[j] = link_events[i].array[j];
-			}
-		}
-		sg->events.link_events.events[i] = link_event;
-	}
-}
-
-// TODO : refactor this because the code for nodes and links is the same
-// TODO : probably not very efficient either (presence mask propagation lookup is slow)
-void init_events_table(SGA_StreamGraph* sg) {
-	// printf("initializing events table\n");
-	// only the number of events is known and node and link presence intervals are known
-
-	// Find the index of the last time a node appears
-	size_t last_node_addition = 0;
-	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
-		// Skip nodes that never appear
-		if (sg->nodes.nodes[i].presence.nb_intervals == 0) {
-			continue;
-		}
-
-		size_t last_node_time = SGA_IntervalsSet_last(&sg->nodes.nodes[i].presence).start;
-		if (last_node_time > last_node_addition) {
-			last_node_addition = last_node_time;
-		}
+void init_events_table(SGA_StreamGraph* sg, size_t nb_events) {
+	// Accumulator for the node events
+	BitArray node_presence_mask  = BitArray_n_ones(nb_events);
+	size_tArrayList* node_events = MALLOC(sizeof(size_tArrayList) * nb_events);
+	size_tHashset* node_deleted  = MALLOC(sizeof(size_tHashset) * nb_events);
+	for (size_t i = 0; i < nb_events; i++) {
+		node_events[i]	= size_tArrayList_new();
+		node_deleted[i] = size_tHashset_new();
 	}
 
-	size_t last_link_addition = 0;
-	for (size_t i = 0; i < sg->links.nb_links; i++) {
-		// Skip links that never appear
-		if (sg->links.links[i].presence.nb_intervals == 0) {
-			continue;
-		}
-		size_t last_link_time = SGA_IntervalsSet_last(&sg->links.links[i].presence).start;
-		if (last_link_time > last_link_addition) {
-			last_link_addition = last_link_time;
-		}
-	}
-
-	size_t index_of_last_node_addition = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, last_node_addition);
-	size_t index_of_last_link_addition = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, last_link_addition);
-
-	// printf("last_node_addition: %zu\n", last_node_addition);
-	// printf("last_link_addition: %zu\n", last_link_addition);
-	// printf("index_of_last_node_addition: %zu\n", index_of_last_node_addition);
-	// printf("index_of_last_link_addition: %zu\n", index_of_last_link_addition);
-
-	sg->events.node_events.disappearance_index = index_of_last_node_addition;
-	sg->events.link_events.disappearance_index = index_of_last_link_addition;
-
-	// Allocate the accumulator for the events
-	size_tArrayList* node_events = MALLOC(sizeof(size_tArrayList) * sg->events.nb_events);
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		node_events[i] = size_tArrayList_new();
-	}
-
-	// Fill the events
-	sg->events.node_events.presence_mask = BitArray_n_ones(sg->events.node_events.disappearance_index);
-
-	// For each node
+	// For each node, we add the creation and deletion times to the events table
 	for (size_t i = 0; i < sg->nodes.nb_nodes; i++) {
 		SGA_Node* node = &sg->nodes.nodes[i];
-		// For each interval
 		for (size_t j = 0; j < node->presence.nb_intervals; j++) {
 			SGA_Interval interval = node->presence.intervals[j];
-			size_t start	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
-			size_t end	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
-			// Invalidate the bit of the presence mask
-			if (end < sg->events.node_events.disappearance_index) {
-				// printf("invalidating %zu\n", end);
-				BitArray_set_zero(sg->events.node_events.presence_mask, end - 1);
-			}
-			// Push the creation
+			// Find where the start and end of the interval are in the key instants table
+			size_t start = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
+			size_t end   = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
+
+			// Invalidate the bit of the presence mask when the node disappears
+			BitArray_set_zero(node_presence_mask, end);
+
+			// Push the creation event at the start time
 			size_tArrayList_push(&node_events[start], i);
 
-			// Push the deletion if
-			if (end >= sg->events.node_events.disappearance_index) {
-				size_tArrayList_push(&node_events[end], i);
+			// Add the deleted node to the set of nodes deleted at that time
+			size_tHashset_insert(&node_deleted[end], i);
+		}
+	}
+
+	// Re-copy present nodes in disappearance events
+	for (size_t i = 0; i < nb_events; i++) {
+		bool is_disappearance = BitArray_is_zero(node_presence_mask, i);
+		// If the event is not a disappearance, we don't want to re-copy the present nodes
+		if (!is_disappearance) {
+			continue;
+		}
+
+		// Go through all the previous events to find the nodes that were present at this time
+		for (int j = i - 1; j >= 0; j--) {
+			// Recopy all the nodes that are present at this time
+			for (size_t k = 0; k < node_events[j].length; k++) {
+				size_t node_to_push = node_events[j].array[k];
+				// If the node is not deleted at this time, we can recopy it
+				if (!size_tHashset_contains(node_deleted[i], node_to_push)) {
+					size_tArrayList_push(&node_events[i], node_to_push);
+				}
+			}
+			bool is_also_disappearance = BitArray_is_zero(node_presence_mask, j);
+
+			// If the previous event is also a disappearance, we can stop here because it also recopied the present nodes
+			if (is_also_disappearance) {
+				break;
 			}
 		}
 	}
 
 	// Do the same for links
-	sg->events.link_events.presence_mask = BitArray_n_ones(sg->events.link_events.disappearance_index + 1);
-
-	size_tArrayList* link_events = MALLOC(sizeof(size_tArrayList) * sg->events.nb_events);
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		link_events[i] = size_tArrayList_new();
+	// Accumulator for the link events
+	BitArray link_presence_mask  = BitArray_n_ones(nb_events);
+	size_tArrayList* link_events = MALLOC(sizeof(size_tArrayList) * nb_events);
+	size_tHashset* link_deleted  = MALLOC(sizeof(size_tHashset) * nb_events);
+	for (size_t i = 0; i < nb_events; i++) {
+		link_events[i]	= size_tArrayList_new();
+		link_deleted[i] = size_tHashset_new();
 	}
 
+	// For each link, we add the creation and deletion times to the events table
 	for (size_t i = 0; i < sg->links.nb_links; i++) {
 		SGA_Link* link = &sg->links.links[i];
 		for (size_t j = 0; j < link->presence.nb_intervals; j++) {
 			SGA_Interval interval = link->presence.intervals[j];
-			size_t start	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
-			size_t end	      = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
-			if (end < sg->events.link_events.disappearance_index) {
-				BitArray_set_zero(sg->events.link_events.presence_mask, end - 1);
-			}
+			// Find where the start and end of the interval are in the key instants table
+			size_t start = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
+			size_t end   = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
+
+			// Invalidate the bit of the presence mask when the link disappears
+			BitArray_set_zero(link_presence_mask, end);
+
+			// Push the creation event at the start time
 			size_tArrayList_push(&link_events[start], i);
-			if (end > sg->events.link_events.disappearance_index) {
-				size_tArrayList_push(&link_events[end], i);
+
+			// Add the deleted link to the set of links deleted at that time
+			size_tHashset_insert(&link_deleted[end], i);
+		}
+	}
+
+	// Re-copy present links in disappearance events
+	for (size_t i = 0; i < nb_events; i++) {
+		bool is_disappearance = BitArray_is_zero(link_presence_mask, i);
+		// If the event is not a disappearance, we don't want to re-copy the present links
+		if (!is_disappearance) {
+			continue;
+		}
+
+		// Go through all the previous events to find the links that were present at this time
+		for (int j = i - 1; j >= 0; j--) {
+			// Recopy all the links that are present at this time
+			for (size_t k = 0; k < link_events[j].length; k++) {
+				size_t link_to_push = link_events[j].array[k];
+				// If the link is not deleted at this time, we can recopy it
+				if (!size_tHashset_contains(link_deleted[i], link_to_push)) {
+					size_tArrayList_push(&link_events[i], link_to_push);
+				}
+			}
+			bool is_also_disappearance = BitArray_is_zero(link_presence_mask, j);
+
+			// If the previous event is also a disappearance, we can stop here because it also recopied the present links
+			if (is_also_disappearance) {
+				break;
 			}
 		}
 	}
 
-	for (SGA_TimeId i = 1; i < sg->events.node_events.disappearance_index; i++) {
-		if (BitArray_is_zero(sg->events.node_events.presence_mask, i - 1)) {
-			for (int j = i - 2; j >= 0; j--) {
-				if ((j == 0) || (BitArray_is_one(sg->events.node_events.presence_mask, j - 1))) {
-					for (size_t k = 0; k < node_events[j].length; k++) {
-						if (SGA_IntervalsSet_contains_sorted(
-							sg->nodes.nodes[node_events[j].array[k]].presence,
-							KeyInstantsTable_nth_key_instant(&sg->key_instants, i))) {
-							size_tArrayList_push(&node_events[i], node_events[j].array[k]);
-						}
-					}
-				}
-				else {
-					break;
-				}
-			}
-		}
-	}
+	sg->events = EventsTable_create(node_events, link_events, node_presence_mask, link_presence_mask, nb_events);
 
-	// Do the same for links
-	for (size_t i = 1; i < sg->events.link_events.disappearance_index; i++) {
-		if (BitArray_is_zero(sg->events.link_events.presence_mask, i - 1)) {
-			for (int j = i - 2; j >= 0; j--) {
-				if ((j == 0) || (BitArray_is_one(sg->events.link_events.presence_mask, j - 1))) {
-					for (size_t k = 0; k < link_events[j].length; k++) {
-
-						// FIXME: WHY DO I HAVE TO COMPILE TWICE TO HAVE THE PERFORMANCE BOOST?
-						if (SGA_IntervalsSet_contains_sorted(
-							sg->links.links[link_events[j].array[k]].presence,
-							KeyInstantsTable_nth_key_instant(&sg->key_instants, i))) {
-							size_tArrayList_push(&link_events[i], link_events[j].array[k]);
-						}
-					}
-				}
-				else {
-					break;
-				}
-			}
-			// printf("done\n");
-		}
-	}
-
-	// Write the events
-	events_table_write(sg, node_events, link_events);
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
+	// Free the accumulators
+	for (size_t i = 0; i < nb_events; i++) {
 		size_tArrayList_destroy(node_events[i]);
+		size_tHashset_destroy(node_deleted[i]);
 		size_tArrayList_destroy(link_events[i]);
+		size_tHashset_destroy(link_deleted[i]);
 	}
 	free(node_events);
+	free(node_deleted);
 	free(link_events);
-}
-
-void print_events_table(SGA_StreamGraph* sg) {
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		printf("Event %zu\n", i);
-		printf("Node events: ");
-		for (size_t j = 0; j < sg->events.node_events.events[i].nb_info; j++) {
-			printf("%zu ", sg->events.node_events.events[i].events[j]);
-		}
-		printf("\n");
-		printf("Link events: ");
-		for (size_t j = 0; j < sg->events.link_events.events[i].nb_info; j++) {
-			printf("%zu ", sg->events.link_events.events[i].events[j]);
-		}
-		printf("\n");
-	}
-}
-
-void events_destroy(SGA_StreamGraph* sg) {
-	for (size_t i = 0; i < sg->events.nb_events; i++) {
-		if (sg->events.node_events.events[i].events != NULL) {
-			free(sg->events.node_events.events[i].events);
-		}
-		if (sg->events.link_events.events[i].events != NULL) {
-			free(sg->events.link_events.events[i].events);
-		}
-	}
-	free(sg->events.node_events.events);
-	free(sg->events.link_events.events);
-	BitArray_destroy(sg->events.node_events.presence_mask);
-	BitArray_destroy(sg->events.link_events.presence_mask);
+	free(link_deleted);
 }
 
 SGA_StreamGraph SGA_StreamGraph_from_external_format_v_1_0_0(const String* external_format) {
@@ -1571,9 +1482,8 @@ SGA_StreamGraph SGA_StreamGraph_from(SGA_Interval lifespan, size_t time_scale, N
 	    .links	  = links,
 	    .key_instants = kmt,
 	};
-	sg.events.nb_events = key_instants.length;
 	// Initialise the events table
-	init_events_table(&sg);
+	init_events_table(&sg, key_instants.length);
 
 	return sg;
 }

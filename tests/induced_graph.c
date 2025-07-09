@@ -106,7 +106,7 @@ bool test_nodes_at_time_85() {
 	return success;
 }
 
-bool test_nodes_at_90() {
+bool test_nodes_at_time_90() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
 
 	SGA_NodeIdArrayList nodes_present_at_90 = SGA_collect_node_ids(SGA_StreamGraph_nodes_present_at(&sg, 90));
@@ -123,7 +123,7 @@ bool test_nodes_at_90() {
 	return success;
 }
 
-bool test_nodes_at_100() {
+bool test_nodes_at_time_100() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S.sga");
 
 	SGA_NodeIdArrayList nodes_present_at_100 = SGA_collect_node_ids(SGA_StreamGraph_nodes_present_at(&sg, 100));
@@ -304,27 +304,58 @@ bool test_links_at_time_100() {
 	return success;
 }
 
+bool test_other_links_present_at_4() {
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/delta_stream/expected_2delta_stream.sga");
+	SGA_Stream stream  = SGA_FullStreamGraph_from(&sg);
+
+	SGA_LinksIterator _links_present_at_4  = SGA_Stream_links_present_at_t(&stream, 4);
+	SGA_LinkIdArrayList links_present_at_4 = SGA_collect_link_ids(_links_present_at_4);
+
+	SGA_LinkIdArrayList expected_links = SGA_LinkIdArrayList_new();
+	SGA_LinkIdArrayList_push(&expected_links, 1);
+
+	bool result = EXPECT(SGA_LinkIdArrayList_equals(&links_present_at_4, &expected_links));
+
+	SGA_LinkIdArrayList_destroy(links_present_at_4);
+	SGA_LinkIdArrayList_destroy(expected_links);
+	SGA_FullStreamGraph_destroy(stream);
+	SGA_StreamGraph_destroy(sg);
+
+	return result;
+}
+
+bool test_other_nodes_present_at_8() {
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/delta_stream/expected_2delta_stream.sga");
+	SGA_Stream stream  = SGA_FullStreamGraph_from(&sg);
+
+	SGA_NodesIterator _nodes_present_at_8  = SGA_Stream_nodes_present_at_t(&stream, 8);
+	SGA_NodeIdArrayList nodes_present_at_8 = SGA_collect_node_ids(_nodes_present_at_8);
+	SGA_NodeIdArrayList_sort_unstable(&nodes_present_at_8);
+
+	SGA_NodeIdArrayList expected_nodes = SGA_NodeIdArrayList_new();
+	SGA_NodeIdArrayList_push(&expected_nodes, 0);
+	SGA_NodeIdArrayList_push(&expected_nodes, 1);
+	SGA_NodeIdArrayList_push(&expected_nodes, 2);
+
+	bool result = EXPECT(SGA_NodeIdArrayList_equals(&nodes_present_at_8, &expected_nodes));
+
+	SGA_NodeIdArrayList_destroy(nodes_present_at_8);
+	SGA_NodeIdArrayList_destroy(expected_nodes);
+	SGA_FullStreamGraph_destroy(stream);
+	SGA_StreamGraph_destroy(sg);
+
+	return result;
+}
+
 int main() {
 	Test* tests[] = {
-	    &(Test){"nodes_at_time_0", test_nodes_at_time_0},
-	    &(Test){"nodes_at_time_5", test_nodes_at_time_5},
-	    &(Test){"nodes_at_time_10", test_nodes_at_time_10},
-	    &(Test){"nodes_at_time_40", test_nodes_at_time_40},
-	    &(Test){"nodes_at_time_60", test_nodes_at_time_60},
-	    &(Test){"nodes_at_time_85", test_nodes_at_time_85},
-	    &(Test){"nodes_at_time_90", test_nodes_at_90},
-	    &(Test){"nodes_at_time_100", test_nodes_at_100},
-	    &(Test){"links_at_time_25", test_links_at_time_25},
-	    &(Test){"links_at_time_30", test_links_at_time_30},
-	    &(Test){"links_at_time_40", test_links_at_time_40},
-	    &(Test){"links_at_time_60", test_links_at_time_60},
-	    &(Test){"links_at_time_74", test_links_at_time_74},
-	    &(Test){"links_at_time_75", test_links_at_time_75},
-	    &(Test){"links_at_time_76", test_links_at_time_76},
-	    &(Test){"links_at_time_80", test_links_at_time_80},
-	    &(Test){"links_at_time_90", test_links_at_time_90},
-	    &(Test){"links_at_time_100", test_links_at_time_100},
-	    NULL,
+	    TEST(test_nodes_at_time_0),		 TEST(test_nodes_at_time_5),	      TEST(test_nodes_at_time_10),
+	    TEST(test_nodes_at_time_40),	 TEST(test_nodes_at_time_60),	      TEST(test_nodes_at_time_85),
+	    TEST(test_nodes_at_time_90),	 TEST(test_nodes_at_time_100),	      TEST(test_links_at_time_25),
+	    TEST(test_links_at_time_30),	 TEST(test_links_at_time_40),	      TEST(test_links_at_time_60),
+	    TEST(test_links_at_time_74),	 TEST(test_links_at_time_75),	      TEST(test_links_at_time_76),
+	    TEST(test_links_at_time_80),	 TEST(test_links_at_time_90),	      TEST(test_links_at_time_100),
+	    TEST(test_other_links_present_at_4), TEST(test_other_nodes_present_at_8), NULL,
 	};
 
 	return test("StreamGraph", tests);

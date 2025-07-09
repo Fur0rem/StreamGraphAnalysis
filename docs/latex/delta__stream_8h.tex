@@ -1,0 +1,73 @@
+\doxysection{src/streams/delta\+\_\+stream.h File Reference}
+\hypertarget{delta__stream_8h}{}\label{delta__stream_8h}\index{src/streams/delta\_stream.h@{src/streams/delta\_stream.h}}
+
+
+\doxysubsection{Detailed Description}
+A Stream to do delta-\/analysis on a Stream\+Graph. ~\newline
+ A Delta\+Stream is a Stream where we define a span of delta units of time, and where presence is extended to half of the delta unit before and after the instant. 
+
+{\ttfamily \#include "{}../analysis/metrics.\+h"{}}\newline
+{\ttfamily \#include "{}../stream.\+h"{}}\newline
+{\ttfamily \#include "{}../stream\+\_\+functions.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} \mbox{\hyperlink{delta__stream_8h_a184ea99c764cce42d64d49fa2b63b016}{SGA\+\_\+\+Delta\+Stream\+\_\+from}} (\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}stream\+\_\+graph, SGA\+\_\+\+Time delta)
+\begin{DoxyCompactList}\small\item\em Creates the delta-\/equivalent Stream of a Stream\+Graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{delta__stream_8h_aa6993feda2db0bd51e53d25744c2e392}{SGA\+\_\+\+Delta\+Stream\+\_\+destroy}} (\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} stream)
+\begin{DoxyCompactList}\small\item\em Destroys a Stream of a Delta\+Stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{delta__stream_8h_aa6993feda2db0bd51e53d25744c2e392}\index{delta\_stream.h@{delta\_stream.h}!SGA\_DeltaStream\_destroy@{SGA\_DeltaStream\_destroy}}
+\index{SGA\_DeltaStream\_destroy@{SGA\_DeltaStream\_destroy}!delta\_stream.h@{delta\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_DeltaStream\_destroy()}{SGA\_DeltaStream\_destroy()}}
+{\footnotesize\ttfamily \label{delta__stream_8h_aa6993feda2db0bd51e53d25744c2e392} 
+void SGA\+\_\+\+Delta\+Stream\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}}}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Destroys a Stream of a Delta\+Stream. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream} & The Delta\+Stream to destroy. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{delta__stream_8h_a184ea99c764cce42d64d49fa2b63b016}\index{delta\_stream.h@{delta\_stream.h}!SGA\_DeltaStream\_from@{SGA\_DeltaStream\_from}}
+\index{SGA\_DeltaStream\_from@{SGA\_DeltaStream\_from}!delta\_stream.h@{delta\_stream.h}}
+\doxysubsubsection{\texorpdfstring{SGA\_DeltaStream\_from()}{SGA\_DeltaStream\_from()}}
+{\footnotesize\ttfamily \label{delta__stream_8h_a184ea99c764cce42d64d49fa2b63b016} 
+\mbox{\hyperlink{structSGA__Stream}{SGA\+\_\+\+Stream}} SGA\+\_\+\+Delta\+Stream\+\_\+from (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{stream_8h_structSGA__StreamGraph}{SGA\+\_\+\+Stream\+Graph}} \texorpdfstring{$\ast$}{*}}]{stream\+\_\+graph}{, }\item[{SGA\+\_\+\+Time}]{delta}{}\end{DoxyParamCaption})}
+
+
+
+Creates the delta-\/equivalent Stream of a Stream\+Graph. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stream\+\_\+graph} & The Stream\+Graph to create the Delta\+Stream from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em delta} & The delta unit of time for the Delta\+Stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The delta is will not be scaled according to the time scale of the Stream\+Graph. Meaning a delta of 2 in a Stream\+Graph with a time scale of 10 will not be turned into a delta of 20 when querying information from the Delta\+Stream. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+The Delta\+Stream. 
+\end{DoxyReturn}
+Include dependency graph for delta\+\_\+stream.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{delta__stream_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{delta__stream_8h__dep__incl}
+\end{center}
+\end{figure}

@@ -58,6 +58,12 @@
 			}                                                                                                                  \
 			break;                                                                                                             \
 		}                                                                                                                          \
+		case DELTA_STREAM: {                                                                                                       \
+			if (DeltaStream_metrics_functions.function != NULL) {                                                              \
+				return DeltaStream_metrics_functions.function(stream);                                                     \
+			}                                                                                                                  \
+			break;                                                                                                             \
+		}                                                                                                                          \
 	}
 
 // TODO : rename the functions to be more explicit
@@ -558,7 +564,7 @@ double SGA_Stream_transitivity_ratio(const SGA_Stream* stream) {
 }
 
 // TODO: move that to a more appropriate place
-String Stream_to_string(const SGA_Stream* stream) {
+String SGA_Stream_to_string(const SGA_Stream* stream) {
 	StreamFunctions fns   = STREAM_FUNCS(fns, stream);
 	String str	      = String_from_duplicate("Stream {\n\tLifespan: ");
 	SGA_Interval lifespan = fns.lifespan(stream->stream_data);

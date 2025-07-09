@@ -186,5 +186,6 @@ command.
 - Line streams: Section 12
 - K-cores : Section 13
 - Walks and distances : Section 14 (The paper mentionned paths but for now I only implemented walks)
+- Delta-analysis : Section 19
 - Robustness by length : Outside of the paper
 - Isomorphism : Outside of the paper

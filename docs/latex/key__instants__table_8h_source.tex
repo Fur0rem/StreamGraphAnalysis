@@ -35,7 +35,7 @@
 \DoxyCodeLine{00034\ }
 \DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifdef\ SGA\_INTERNAL}}
 \DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ SGA\_Time\ KeyInstantsTable\_nth\_key\_instant(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_TimeId\ n);}
+\DoxyCodeLine{00037\ SGA\_Time\ KeyInstantsTable\_nth\_key\_instant(\textcolor{keyword}{const}\ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_TimeId\ n);}
 \DoxyCodeLine{00038\ }
 \DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ KeyInstantsTable\_push\_in\_order(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_Time\ key\_instant);}
 \DoxyCodeLine{00040\ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}\ KeyInstantsTable\_alloc(\textcolor{keywordtype}{size\_t}\ nb\_slices);}
@@ -51,15 +51,16 @@
 \DoxyCodeLine{00050\ \textcolor{comment}{//\ Assumes\ the\ times\ are\ sorted,\ returns\ the\ index\ of\ a\ certain\ time\ if\ it\ was\ pushed\ in\ that\ array,\ all\ of\ them\ were\ in\ a\ single\ array}}
 \DoxyCodeLine{00051\ SGA\_TimeId\ KeyInstantsTable\_find\_time\_index\_if\_pushed(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_Time\ t);}
 \DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \textcolor{comment}{//\ Returns\ the\ index\ of\ the\ the\ instant\ which\ has\ equivalent\ events\ to\ time\ t}}
-\DoxyCodeLine{00054\ SGA\_TimeId\ KeyInstantsTable\_find\_time\_index\_equivalent(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_Time\ t);}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \textcolor{keywordtype}{void}\ print\_key\_instants\_table(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt);}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00064\ \textcolor{keywordtype}{size\_t}\ KeyInstantsTable\_in\_which\_slice\_is(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_Time\ t);}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_KEY\_INSTANTS\_TABLE\_H}}
+\DoxyCodeLine{00058\ SGA\_TimeId\ KeyInstantsTable\_find\_time\_index\_equivalent(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_Time\ t);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{void}\ print\_key\_instants\_table(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{size\_t}\ KeyInstantsTable\_in\_which\_slice\_is(\mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt,\ SGA\_Time\ t);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{size\_t}\ KeyInstantsTable\_total\_nb\_instants(\textcolor{keyword}{const}\ \mbox{\hyperlink{key__instants__table_8h_structKeyInstantsTable}{KeyInstantsTable}}*\ kmt);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_INTERNAL}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SGA\_KEY\_INSTANTS\_TABLE\_H}}
 
 \end{DoxyCode}

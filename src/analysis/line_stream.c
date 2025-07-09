@@ -59,7 +59,7 @@ SGA_StreamGraph SGA_line_stream_of(const SGA_Stream* stream) {
 				// Create the link between the two links
 				SGA_Link link = {
 				    .nodes    = {link_id_a, link_id_b},
-				    .presence = SGA_IntervalsSet_from_interval_arraylist(intersection),
+				    .presence = SGA_IntervalsSet_from_arraylist(intersection),
 				};
 				SGA_LinkArrayList_push(&links_array, link);
 

@@ -8,6 +8,7 @@
 
 #include "streams/chunk_stream.h"
 #include "streams/chunk_stream_small.h"
+#include "streams/delta_stream.h"
 #include "streams/full_stream_graph.h"
 #include "streams/link_stream.h"
 #include "streams/timeframe_stream.h"

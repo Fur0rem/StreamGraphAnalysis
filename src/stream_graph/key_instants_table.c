@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-SGA_Time KeyInstantsTable_nth_key_instant(KeyInstantsTable* kmt, SGA_TimeId n) {
+SGA_Time KeyInstantsTable_nth_key_instant(const KeyInstantsTable* kmt, SGA_TimeId n) {
 	// TODO : add debug for if use in not initliased table
 	for (size_t i = 0; i < kmt->nb_slices; i++) {
 		// printf("slice %zu, nb_instants %zu\n", i, kmt->slices[i].nb_instants);
@@ -183,7 +183,8 @@ SGA_TimeId KeyInstantsTable_find_time_index_equivalent(KeyInstantsTable* kmt, SG
 	}
 	// Then we find the index of the time in the slice
 	RelativeInstant relative_time = t % SLICE_SIZE;
-	// Recherche dichotomique
+
+	// Binary search
 	size_t left  = 0;
 	size_t right = kmt->slices[slice].nb_instants;
 	while (left < right) {
@@ -201,8 +202,7 @@ SGA_TimeId KeyInstantsTable_find_time_index_equivalent(KeyInstantsTable* kmt, SG
 		}
 	}
 
-	// return the index where the time should be equivalent
-
+	// Return the index where the time should be equivalent
 	// If later that the last instant of the slice
 	if (left >= kmt->slices[slice].nb_instants) {
 		return index + kmt->slices[slice].nb_instants - 1;
@@ -214,6 +214,16 @@ SGA_TimeId KeyInstantsTable_find_time_index_equivalent(KeyInstantsTable* kmt, SG
 	else { // (relative_time == kmt->slices[slice].instants[left])
 		return index + left;
 	}
+
+	// Linear search
+	// for (SGA_TimeId i = KeyInstantsTable_total_nb_instants(kmt); i > 0; i--) {
+	// 	SGA_Time key_instant = KeyInstantsTable_nth_key_instant(kmt, i - 1);
+	// 	if (key_instant <= t) {
+	// 		return i - 1;
+	// 	}
+	// }
+	// // If no key instant is found, return SIZE_MAX
+	// return SIZE_MAX; // No equivalent instant found
 }
 
 void print_key_instants_table(KeyInstantsTable* kmt) {
@@ -233,4 +243,12 @@ size_t KeyInstantsTable_in_which_slice_is(KeyInstantsTable* kmt, SGA_Time t) {
 		return SIZE_MAX; // Out of bounds
 	}
 	return slice;
+}
+
+size_t KeyInstantsTable_total_nb_instants(const KeyInstantsTable* kmt) {
+	size_t total = 0;
+	for (size_t i = 0; i < kmt->nb_slices; i++) {
+		total += kmt->slices[i].nb_instants;
+	}
+	return total;
 }

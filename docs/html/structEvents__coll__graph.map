@@ -1,5 +1,5 @@
 <map id="Events" name="Events">
-<area shape="rect" id="Node000001" title=" " alt="" coords="10,98,75,126"/>
+<area shape="rect" id="Node000001" title="A collection of events, where each event contains the information about the nodes or links present at..." alt="" coords="10,98,75,126"/>
 <area shape="rect" id="Node000002" href="$bit__array_8h.html#structBitArray" title=" " alt="" coords="5,5,80,33"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="45,48,45,98,40,98,40,48"/>
 </map>

@@ -20,9 +20,9 @@
 <area shape="rect" id="Node000009" href="$structLinksSet.html" title=" " alt="" coords="546,300,622,328"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="563,341,530,371,500,395,497,390,526,367,559,337"/>
 <area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="595,234,588,301,583,300,589,233"/>
-<area shape="rect" id="Node000011" href="$events__table_8h.html#structEventsTable" title=" " alt="" coords="646,300,746,328"/>
+<area shape="rect" id="Node000011" href="$events__table_8h.html#structEventsTable" title="A table of events, containing the information about the nodes and links present at each event...." alt="" coords="646,300,746,328"/>
 <area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="659,338,587,371,523,395,521,390,584,367,657,333"/>
-<area shape="rect" id="Node000012" href="$events__table_8h.html#structEvents" title=" " alt="" coords="664,191,729,218"/>
+<area shape="rect" id="Node000012" href="$events__table_8h.html#structEvents" title="A collection of events, where each event contains the information about the nodes or links present at..." alt="" coords="664,191,729,218"/>
 <area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="699,234,699,300,694,300,694,234"/>
 <area shape="rect" id="Node000013" href="$bit__array_8h.html#structBitArray" title=" " alt="" coords="659,98,733,126"/>
 <area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="699,141,699,190,694,190,694,141"/>

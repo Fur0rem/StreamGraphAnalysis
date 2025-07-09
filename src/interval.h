@@ -55,7 +55,7 @@ bool SGA_IntervalsSet_contains_sorted(SGA_IntervalsSet intervals_set, SGA_Time t
 
 void SGA_IntervalsSet_add_at(SGA_IntervalsSet* intervals_set, SGA_Interval interval, size_t index);
 
-SGA_IntervalsSet SGA_IntervalsSet_from_interval_arraylist(SGA_IntervalArrayList intervals);
+SGA_IntervalsSet SGA_IntervalsSet_from_arraylist(SGA_IntervalArrayList intervals);
 SGA_IntervalArrayList SGA_IntervalArrayList_from_intervals_set(SGA_IntervalsSet intervals_set);
 
 void SGA_IntervalsSet_sort(SGA_IntervalsSet* intervals_set);

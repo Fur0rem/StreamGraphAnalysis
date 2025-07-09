@@ -106,7 +106,8 @@ $(function(){initNavTree('src_2stream_8c.html',''); initResizable(true); });
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of the functions to create StreamGraph's and manipulate generic Stream's. </p>
-</div><div class="textblock"><code>#include &quot;units.h&quot;</code><br />
+</div><div class="textblock"><code>#include &quot;<a class="el" href="bit__array_8h_source.html">bit_array.h</a>&quot;</code><br />
+<code>#include &quot;units.h&quot;</code><br />
 <code>#include &lt;stdarg.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="stream_8h_source.html">stream.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="key__instants__table_8h_source.html">stream_graph/key_instants_table.h</a>&quot;</code><br />
@@ -190,9 +191,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>check_error</b> (bool
 <tr class="memitem:a59059fdb4a044573cd2055143efbd8c8" id="r_a59059fdb4a044573cd2055143efbd8c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a> (bool err_cond, const char *err_cond_str, const char *where_it_stopped, const char *full_str, const char *src_code_file_name, int src_code_line_number, const char *const current_header_hierarchy[3], const char *error_format,...)</td></tr>
 <tr class="memdesc:a59059fdb4a044573cd2055143efbd8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a condition is true and prints an error message if it is not, along with some context information.  <br /></td></tr>
 <tr class="separator:a59059fdb4a044573cd2055143efbd8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf759b718d8f8e57d1a3d7b5fd4fbc38" id="r_aaf759b718d8f8e57d1a3d7b5fd4fbc38"><td class="memItemLeft" align="right" valign="top"><a id="aaf759b718d8f8e57d1a3d7b5fd4fbc38" name="aaf759b718d8f8e57d1a3d7b5fd4fbc38"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init_events_table</b> (<a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> *sg)</td></tr>
-<tr class="separator:aaf759b718d8f8e57d1a3d7b5fd4fbc38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dea3f09eec5c37beb5b18c267701fd6" id="r_a8dea3f09eec5c37beb5b18c267701fd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dea3f09eec5c37beb5b18c267701fd6">SGA_StreamGraph_from_internal_format_v_1_0_0</a> (const <a class="el" href="structString.html">String</a> *format)</td></tr>
 <tr class="memdesc:a8dea3f09eec5c37beb5b18c267701fd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph the internal format of the version 1.0.0 of the library.  <br /></td></tr>
 <tr class="separator:a8dea3f09eec5c37beb5b18c267701fd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -304,15 +302,9 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>estimate_internal_f
 <tr class="memitem:a03e621974d5eab4d6946f3b82c9fb89b" id="r_a03e621974d5eab4d6946f3b82c9fb89b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03e621974d5eab4d6946f3b82c9fb89b">SGA_StreamGraph_destroy</a> (<a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> sg)</td></tr>
 <tr class="memdesc:a03e621974d5eab4d6946f3b82c9fb89b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a StreamGraph.  <br /></td></tr>
 <tr class="separator:a03e621974d5eab4d6946f3b82c9fb89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad258f7fcbfb9646fa4ecf50079089254" id="r_ad258f7fcbfb9646fa4ecf50079089254"><td class="memItemLeft" align="right" valign="top"><a id="ad258f7fcbfb9646fa4ecf50079089254" name="ad258f7fcbfb9646fa4ecf50079089254"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>events_table_write</b> (<a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> *sg, size_tArrayList *node_events, size_tArrayList *link_events)</td></tr>
-<tr class="separator:ad258f7fcbfb9646fa4ecf50079089254"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeda7927d445ff5c66ac18a3746c5ed5" id="r_abeda7927d445ff5c66ac18a3746c5ed5"><td class="memItemLeft" align="right" valign="top"><a id="abeda7927d445ff5c66ac18a3746c5ed5" name="abeda7927d445ff5c66ac18a3746c5ed5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>print_events_table</b> (<a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> *sg)</td></tr>
-<tr class="separator:abeda7927d445ff5c66ac18a3746c5ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af72bc912e3b50f6c91a4c05e6da98f41" id="r_af72bc912e3b50f6c91a4c05e6da98f41"><td class="memItemLeft" align="right" valign="top"><a id="af72bc912e3b50f6c91a4c05e6da98f41" name="af72bc912e3b50f6c91a4c05e6da98f41"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>events_destroy</b> (<a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> *sg)</td></tr>
-<tr class="separator:af72bc912e3b50f6c91a4c05e6da98f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44873e1b9c1b6b0b613be71669632873" id="r_a44873e1b9c1b6b0b613be71669632873"><td class="memItemLeft" align="right" valign="top"><a id="a44873e1b9c1b6b0b613be71669632873" name="a44873e1b9c1b6b0b613be71669632873"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init_events_table</b> (<a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a> *sg, size_t nb_events)</td></tr>
+<tr class="separator:a44873e1b9c1b6b0b613be71669632873"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bd658d7b3dbf37137d1b8b186ffe7aa" id="r_a7bd658d7b3dbf37137d1b8b186ffe7aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bd658d7b3dbf37137d1b8b186ffe7aa">SGA_StreamGraph_from_external_format_v_1_0_0</a> (const <a class="el" href="structString.html">String</a> *external_format)</td></tr>
 <tr class="memdesc:a7bd658d7b3dbf37137d1b8b186ffe7aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph from an external format of the version 1.0.0 of the library.  <br /></td></tr>
 <tr class="separator:a7bd658d7b3dbf37137d1b8b186ffe7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -331,9 +323,9 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>SGA_StreamGraph_tim
 <tr class="memitem:a3da0c73409d0ecabb0743d896492310a" id="r_a3da0c73409d0ecabb0743d896492310a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3da0c73409d0ecabb0743d896492310a">SGA_StreamGraph_from_string</a> (const <a class="el" href="structString.html">String</a> *sg_as_str)</td></tr>
 <tr class="memdesc:a3da0c73409d0ecabb0743d896492310a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph from a string.  <br /></td></tr>
 <tr class="separator:a3da0c73409d0ecabb0743d896492310a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91ce7ec66436bb7a3ae6b2c8c1c26078" id="r_a91ce7ec66436bb7a3ae6b2c8c1c26078"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91ce7ec66436bb7a3ae6b2c8c1c26078">SGA_StreamGraph_from</a> (<a class="el" href="structSGA__Interval.html">SGA_Interval</a> lifespan, size_t time_scale, <a class="el" href="nodes__set_8h.html#structNodesSet">NodesSet</a> nodes, <a class="el" href="structLinksSet.html">LinksSet</a> links, <a class="el" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a> key_instants, size_t nb_key_instants)</td></tr>
-<tr class="memdesc:a91ce7ec66436bb7a3ae6b2c8c1c26078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph.  <br /></td></tr>
-<tr class="separator:a91ce7ec66436bb7a3ae6b2c8c1c26078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a618b6cda0eab84317d2a1e8829e94b72" id="r_a618b6cda0eab84317d2a1e8829e94b72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="stream_8h.html#structSGA__StreamGraph">SGA_StreamGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a618b6cda0eab84317d2a1e8829e94b72">SGA_StreamGraph_from</a> (<a class="el" href="structSGA__Interval.html">SGA_Interval</a> lifespan, size_t time_scale, <a class="el" href="nodes__set_8h.html#structNodesSet">NodesSet</a> nodes, <a class="el" href="structLinksSet.html">LinksSet</a> links, SGA_TimeArrayList key_instants)</td></tr>
+<tr class="memdesc:a618b6cda0eab84317d2a1e8829e94b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a StreamGraph.  <br /></td></tr>
+<tr class="separator:a618b6cda0eab84317d2a1e8829e94b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structEventTuple" id="structEventTuple"></a>
@@ -615,7 +607,7 @@ The id of the second node of the link. </td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_function" href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a>(                                                                                                                 \</div>
 <div class="line">        err_cond, #err_cond, str, format-&gt;data, __FILE__, __LINE__, current_header_hierarchy, error_format, ##__VA_ARGS__);</div>
-<div class="ttc" id="asrc_2stream_8c_html_a59059fdb4a044573cd2055143efbd8c8"><div class="ttname"><a href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a></div><div class="ttdeci">void check_parse_error(bool err_cond, const char *err_cond_str, const char *where_it_stopped, const char *full_str, const char *src_code_file_name, int src_code_line_number, const char *const current_header_hierarchy[3], const char *error_format,...)</div><div class="ttdoc">Checks if a condition is true and prints an error message if it is not, along with some context infor...</div><div class="ttdef"><b>Definition</b> stream.c:172</div></div>
+<div class="ttc" id="asrc_2stream_8c_html_a59059fdb4a044573cd2055143efbd8c8"><div class="ttname"><a href="#a59059fdb4a044573cd2055143efbd8c8">check_parse_error</a></div><div class="ttdeci">void check_parse_error(bool err_cond, const char *err_cond_str, const char *where_it_stopped, const char *full_str, const char *src_code_file_name, int src_code_line_number, const char *const current_header_hierarchy[3], const char *error_format,...)</div><div class="ttdoc">Checks if a condition is true and prints an error message if it is not, along with some context infor...</div><div class="ttdef"><b>Definition</b> stream.c:173</div></div>
 </div><!-- fragment -->
 <p>A wrapper macro around check_parse_error that automatically fills some of the arguments. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -651,7 +643,7 @@ The id of the second node of the link. </td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="#ac133247770bffcc477ec2a46b3e4fb6d">CHECK_PARSE_ERROR</a>((str)[0] != (character), <span class="stringliteral">&quot;Expected &#39;%c&#39;, got &#39;%c&#39;\n&quot;</span>, character, (str)[0]);                                      \</div>
 <div class="line">    (str) += 1;</div>
-<div class="ttc" id="asrc_2stream_8c_html_ac133247770bffcc477ec2a46b3e4fb6d"><div class="ttname"><a href="#ac133247770bffcc477ec2a46b3e4fb6d">CHECK_PARSE_ERROR</a></div><div class="ttdeci">#define CHECK_PARSE_ERROR(err_cond, error_format,...)</div><div class="ttdoc">A wrapper macro around check_parse_error that automatically fills some of the arguments.</div><div class="ttdef"><b>Definition</b> stream.c:269</div></div>
+<div class="ttc" id="asrc_2stream_8c_html_ac133247770bffcc477ec2a46b3e4fb6d"><div class="ttname"><a href="#ac133247770bffcc477ec2a46b3e4fb6d">CHECK_PARSE_ERROR</a></div><div class="ttdeci">#define CHECK_PARSE_ERROR(err_cond, error_format,...)</div><div class="ttdoc">A wrapper macro around check_parse_error that automatically fills some of the arguments.</div><div class="ttdef"><b>Definition</b> stream.c:268</div></div>
 </div><!-- fragment -->
 <p>Expects a character in a string and moves the pointer to the next character. Panics if the character is not found. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1107,8 +1099,8 @@ The id of the second node of the link. </td></tr>
 
 </div>
 </div>
-<a id="a91ce7ec66436bb7a3ae6b2c8c1c26078" name="a91ce7ec66436bb7a3ae6b2c8c1c26078"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91ce7ec66436bb7a3ae6b2c8c1c26078">&#9670;&#160;</a></span>SGA_StreamGraph_from()</h2>
+<a id="a618b6cda0eab84317d2a1e8829e94b72" name="a618b6cda0eab84317d2a1e8829e94b72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a618b6cda0eab84317d2a1e8829e94b72">&#9670;&#160;</a></span>SGA_StreamGraph_from()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1136,12 +1128,7 @@ The id of the second node of the link. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="key__instants__table_8h.html#structKeyInstantsTable">KeyInstantsTable</a></td>          <td class="paramname"><span class="paramname"><em>key_instants</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>nb_key_instants</em></span>&#160;)</td>
+          <td class="paramtype">SGA_TimeArrayList</td>          <td class="paramname"><span class="paramname"><em>key_instants</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1153,8 +1140,7 @@ The id of the second node of the link. </td></tr>
     <tr><td class="paramname">time_scale</td><td>The time scale of the StreamGraph. </td></tr>
     <tr><td class="paramname">nodes</td><td>The set of nodes in the StreamGraph. </td></tr>
     <tr><td class="paramname">links</td><td>The set of links in the StreamGraph. </td></tr>
-    <tr><td class="paramname">key_instants</td><td>The key instants of the StreamGraph. A key instant is a instant where the StreamGraph changes. </td></tr>
-    <tr><td class="paramname">nb_key_instants</td><td>The number of key instants in the StreamGraph. </td></tr>
+    <tr><td class="paramname">key_instants</td><td>The key instants of the StreamGraph, i.e. all the instants where the StreamGraph changes. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1196,7 +1182,7 @@ The id of the second node of the link. </td></tr>
 <div class="line"> </div>
 <div class="line">[EndOfStream] <span class="comment">// Signals the end of the stream</span></div>
 <div class="line">Any text after <span class="keyword">this</span> is ignored, and can be used <span class="keywordflow">for</span> comments</div>
-<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdef"><b>Definition</b> events_table.h:22</div></div>
+<div class="ttc" id="aevents__table_8h_html_structEvents"><div class="ttname"><a href="events__table_8h.html#structEvents">Events</a></div><div class="ttdoc">A collection of events, where each event contains the information about the nodes or links present at...</div><div class="ttdef"><b>Definition</b> events_table.h:35</div></div>
 </div><!-- fragment --> You can check the <code>data/</code> folder which contains some examples of external formats. </td></tr>
   </table>
   </dd>
@@ -1398,115 +1384,118 @@ Include dependency graph for stream.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="src_2stream_8c__incl.png" border="0" usemap="#asrc_2stream_8c" alt=""/></div>
 <map name="asrc_2stream_8c" id="asrc_2stream_8c">
-<area shape="rect" title="Implementation of the functions to create StreamGraph&#39;s and manipulate generic Stream&#39;s." alt="" coords="427,5,528,33"/>
-<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="834,476,899,504"/>
-<area shape="poly" title=" " alt="" coords="476,34,463,92,455,169,455,247,455,304,462,327,479,351,516,385,559,412,604,435,652,452,744,474,819,484,818,489,743,479,650,457,602,440,556,417,513,389,475,354,457,329,450,305,449,248,449,169,458,91,471,33"/>
+<area shape="rect" title="Implementation of the functions to create StreamGraph&#39;s and manipulate generic Stream&#39;s." alt="" coords="664,5,765,33"/>
+<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="1770,552,1859,580"/>
+<area shape="poly" title=" " alt="" coords="766,18,989,21,1307,29,1629,47,1763,61,1863,78,1933,88,1996,95,2022,103,2043,116,2057,138,2061,169,2061,248,2055,298,2038,346,2012,390,1980,431,1946,468,1911,499,1850,545,1847,541,1908,495,1942,464,1976,428,2007,388,2033,344,2050,297,2056,247,2056,169,2052,140,2039,120,2020,108,1995,100,1932,93,1862,84,1762,66,1629,53,1307,35,989,26,766,23"/>
+<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="864,813,925,841"/>
+<area shape="poly" title=" " alt="" coords="699,36,674,58,647,90,625,127,618,148,616,169,616,332,623,399,642,451,670,494,705,532,785,609,825,658,861,719,890,797,885,799,856,721,821,661,781,612,701,535,666,497,637,454,618,400,611,332,611,169,613,147,620,125,642,87,670,55,696,32"/>
+<area shape="rect" title=" " alt="" coords="1967,889,2049,916"/>
+<area shape="poly" title=" " alt="" coords="766,18,1043,23,1441,34,1819,52,1956,64,2037,78,2083,92,2123,106,2139,115,2152,128,2160,146,2163,169,2163,744,2160,768,2151,790,2123,829,2087,860,2051,883,2048,879,2084,856,2119,825,2147,788,2154,767,2157,744,2157,169,2155,148,2147,131,2136,119,2121,110,2082,97,2035,84,1956,69,1818,57,1441,39,1043,29,766,24"/>
+<area shape="rect" title=" " alt="" coords="477,889,547,916"/>
+<area shape="poly" title=" " alt="" coords="665,36,616,55,567,82,546,100,530,120,519,143,515,169,515,744,515,873,509,873,509,744,509,169,514,142,525,117,542,96,564,78,614,50,663,31"/>
+<area shape="rect" title=" " alt="" coords="1337,889,1410,916"/>
+<area shape="poly" title=" " alt="" coords="766,19,1404,37,1759,55,1889,66,1965,78,2018,91,2065,103,2084,112,2099,125,2109,144,2112,169,2112,248,2110,285,2104,317,2087,369,2069,421,2063,452,2061,489,2061,567,2057,622,2046,669,2027,709,2000,742,1967,771,1927,797,1829,843,1795,854,1750,864,1639,880,1426,900,1425,895,1638,875,1749,859,1794,849,1827,838,1925,792,1964,767,1996,739,2022,706,2041,667,2052,622,2056,567,2056,489,2058,451,2064,420,2081,367,2099,315,2105,285,2107,247,2107,169,2104,145,2095,128,2081,116,2063,108,2017,96,1963,84,1888,71,1759,60,1404,42,766,24"/>
+<area shape="rect" title=" " alt="" coords="357,889,427,916"/>
+<area shape="poly" title=" " alt="" coords="664,23,531,26,361,34,197,52,131,66,82,83,51,100,28,116,13,138,8,169,8,744,10,756,18,768,45,792,85,814,135,834,246,867,342,889,341,894,244,872,133,839,83,819,42,797,13,772,5,758,3,744,3,169,8,136,24,113,49,95,80,79,129,61,196,47,361,29,531,20,664,18"/>
+<area shape="rect" href="units_8h_source.html" title=" " alt="" coords="803,476,869,504"/>
+<area shape="poly" title=" " alt="" coords="709,35,683,92,671,130,667,169,667,331,670,355,679,377,692,397,709,415,750,446,790,468,788,472,747,450,706,419,688,401,674,380,665,357,661,332,661,169,666,129,678,90,705,32"/>
 <area shape="rect" href="defaults_8h_source.html" title=" " alt="" coords="596,552,682,580"/>
-<area shape="poly" title=" " alt="" coords="468,35,449,59,428,91,411,129,404,169,404,416,409,444,422,469,441,490,466,508,524,535,581,552,580,557,522,540,463,513,438,494,417,472,404,446,399,416,399,169,406,127,423,88,444,55,463,32"/>
-<area shape="rect" href="arraylist_8h_source.html" title=" " alt="" coords="246,720,423,765"/>
-<area shape="poly" title=" " alt="" coords="427,28,360,42,324,53,289,67,258,86,233,108,217,136,211,169,211,567,214,622,221,645,237,671,256,692,279,710,275,714,252,696,233,674,216,647,208,623,205,567,205,169,212,134,229,105,255,81,287,62,322,48,358,36,426,23"/>
-<area shape="rect" href="utils_8h_source.html" title=" " alt="" coords="729,813,802,841"/>
-<area shape="poly" title=" " alt="" coords="456,36,424,58,391,88,364,126,356,147,353,169,353,416,356,453,365,489,378,523,395,555,441,615,496,668,557,714,617,752,720,804,718,809,615,756,554,718,493,672,437,619,391,558,373,525,360,490,351,454,348,416,348,169,351,146,359,123,387,84,421,53,453,31"/>
-<area shape="rect" title=" " alt="" coords="1571,889,1653,916"/>
-<area shape="poly" title=" " alt="" coords="529,17,782,17,1150,22,1343,30,1524,41,1680,57,1796,78,1858,89,1913,99,1936,107,1954,121,1965,141,1969,169,1969,744,1966,776,1957,801,1940,822,1915,843,1870,862,1805,878,1668,898,1668,893,1804,873,1869,857,1912,838,1936,818,1953,799,1961,775,1964,744,1964,169,1960,143,1950,124,1933,112,1912,104,1857,95,1796,84,1679,62,1524,46,1343,35,1150,28,782,22,529,23"/>
-<area shape="rect" title=" " alt="" coords="275,889,344,916"/>
-<area shape="poly" title=" " alt="" coords="426,26,239,45,145,62,107,72,80,83,50,100,27,117,13,138,8,169,8,744,15,782,35,813,64,838,101,857,142,872,184,883,260,895,259,900,183,888,140,878,99,862,61,842,31,816,10,784,3,744,3,169,8,136,23,114,47,96,77,79,106,67,144,56,239,40,426,21"/>
-<area shape="rect" title=" " alt="" coords="1210,889,1283,916"/>
-<area shape="poly" title=" " alt="" coords="529,18,853,21,1080,27,1319,39,1545,57,1646,69,1736,83,1811,100,1868,119,1905,142,1915,155,1919,169,1919,416,1916,452,1911,483,1893,533,1876,583,1870,613,1868,649,1868,744,1863,766,1849,786,1827,803,1799,819,1726,845,1639,865,1544,880,1451,891,1299,902,1299,896,1450,885,1544,875,1638,860,1725,840,1797,814,1824,799,1845,782,1858,764,1863,744,1863,649,1865,612,1871,582,1888,531,1906,481,1911,452,1913,416,1913,169,1910,157,1901,146,1866,124,1809,105,1735,88,1645,74,1544,62,1318,44,1080,32,853,26,529,23"/>
-<area shape="rect" title=" " alt="" coords="368,889,438,916"/>
-<area shape="poly" title=" " alt="" coords="426,28,264,48,184,64,129,83,100,101,78,118,64,139,59,169,59,744,62,775,72,799,89,818,115,838,145,857,173,868,199,874,225,877,282,878,353,886,352,891,282,883,225,882,198,879,171,873,143,862,112,843,85,822,67,802,57,777,53,744,53,169,59,137,74,114,97,96,127,79,183,59,264,42,426,22"/>
-<area shape="rect" title=" " alt="" coords="216,813,290,841"/>
-<area shape="poly" title=" " alt="" coords="427,24,347,33,302,42,259,56,220,75,189,99,168,131,162,149,160,169,160,567,162,601,168,635,189,700,215,756,239,799,235,801,210,758,184,701,163,636,157,602,155,567,155,169,157,148,163,128,185,96,217,70,257,51,301,37,346,28,426,19"/>
-<area shape="rect" title=" " alt="" coords="125,813,190,841"/>
-<area shape="poly" title=" " alt="" coords="427,23,371,26,306,35,238,53,205,67,175,83,147,101,126,118,114,139,109,169,109,651,113,692,123,732,147,798,142,800,117,734,108,693,104,651,104,169,109,137,122,115,144,97,172,79,203,62,236,48,305,30,371,20,426,17"/>
-<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="246,628,423,672"/>
-<area shape="poly" title=" " alt="" coords="427,33,378,52,355,65,334,83,317,103,308,122,304,142,303,169,303,491,310,556,325,612,319,613,305,557,297,492,297,169,298,142,303,120,313,100,330,79,351,61,376,47,425,28"/>
-<area shape="rect" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="1350,232,1429,260"/>
-<area shape="poly" title=" " alt="" coords="529,18,626,20,755,29,900,47,973,61,1045,78,1136,110,1224,149,1357,222,1354,226,1221,154,1134,115,1043,84,972,66,899,52,754,34,625,25,528,23"/>
-<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="1025,401,1108,428"/>
-<area shape="poly" title=" " alt="" coords="529,21,603,32,644,42,685,56,721,75,750,100,770,131,777,169,777,247,784,284,802,314,828,339,862,360,899,376,938,389,1010,404,1009,409,937,394,897,381,859,365,825,343,797,317,779,285,772,248,772,169,765,133,746,103,718,80,682,61,643,47,602,37,528,26"/>
-<area shape="rect" href="events__table_8h.html" title=" " alt="" coords="1618,308,1777,353"/>
-<area shape="poly" title=" " alt="" coords="528,18,750,23,1053,33,1337,51,1439,63,1498,79,1532,99,1562,124,1615,182,1656,242,1683,293,1679,295,1651,245,1611,186,1559,128,1529,104,1496,83,1438,68,1337,56,1053,38,750,28,528,24"/>
-<area shape="rect" title=" " alt="" coords="1342,401,1412,428"/>
-<area shape="poly" title=" " alt="" coords="529,20,763,33,1080,60,1232,80,1359,104,1409,118,1447,133,1472,150,1481,169,1481,248,1474,291,1455,330,1430,365,1405,392,1401,388,1426,361,1450,328,1469,289,1476,247,1476,170,1468,153,1445,138,1408,123,1358,109,1231,85,1080,66,763,38,528,25"/>
-<area shape="rect" href="key__instants__table_8h.html" title="Table of all key instants." alt="" coords="489,308,687,353"/>
-<area shape="poly" title=" " alt="" coords="484,32,578,293,573,294,479,34"/>
-<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="863,308,1009,353"/>
-<area shape="poly" title=" " alt="" coords="529,22,675,42,746,58,774,68,795,79,821,101,845,127,883,185,911,243,928,292,923,294,906,245,879,188,841,130,818,105,792,83,772,73,745,63,674,47,528,28"/>
-<area shape="rect" href="stream__functions_8h.html" title="Functions to access the data of a StreamGraph." alt="" coords="886,81,1032,109"/>
-<area shape="poly" title=" " alt="" coords="529,26,871,77,870,83,528,31"/>
-<area shape="poly" title=" " alt="" coords="834,505,695,549,693,544,833,500"/>
-<area shape="poly" title=" " alt="" coords="864,505,849,540,823,586,787,635,766,656,741,675,718,686,687,696,610,713,439,735,438,730,609,708,686,691,716,681,739,670,762,652,783,631,819,584,844,538,859,503"/>
-<area shape="poly" title=" " alt="" coords="900,494,1005,516,1056,531,1090,550,1109,572,1119,594,1122,619,1123,649,1123,744,1124,773,1128,795,1138,816,1154,839,1177,862,1204,879,1201,884,1174,866,1150,842,1133,818,1123,797,1118,773,1117,744,1117,649,1117,619,1114,596,1105,575,1086,554,1054,536,1004,521,899,499"/>
-<area shape="poly" title=" " alt="" coords="617,583,387,715,384,710,614,578"/>
-<area shape="poly" title=" " alt="" coords="678,578,713,597,729,610,742,626,762,670,771,717,774,761,772,798,766,797,768,761,766,717,757,671,738,629,725,614,710,601,676,583"/>
-<area shape="poly" title=" " alt="" coords="673,578,719,599,769,625,815,655,851,683,909,736,968,786,1005,812,1052,838,1126,868,1195,888,1194,893,1124,873,1050,843,1002,817,965,791,906,740,848,687,812,659,767,630,717,603,670,583"/>
+<area shape="poly" title=" " alt="" coords="672,36,632,55,597,83,580,104,571,122,566,143,565,169,565,416,571,451,584,484,601,514,619,538,615,542,597,517,579,487,565,452,560,416,560,169,561,142,566,120,576,101,593,79,629,50,670,31"/>
+<area shape="rect" href="arraylist_8h_source.html" title=" " alt="" coords="297,720,474,765"/>
+<area shape="poly" title=" " alt="" coords="664,26,527,38,443,48,359,63,282,82,218,106,194,120,175,135,164,152,160,169,160,567,160,624,167,646,185,671,206,689,230,704,283,724,281,729,227,709,202,693,181,674,163,649,155,625,155,567,155,169,159,149,171,132,191,116,216,101,280,77,358,58,443,43,526,32,664,21"/>
+<area shape="rect" title=" " alt="" coords="280,813,354,841"/>
+<area shape="poly" title=" " alt="" coords="664,26,425,43,299,60,248,71,210,84,171,99,139,114,126,123,117,135,111,150,109,169,109,651,113,680,125,706,142,729,164,749,216,783,266,806,264,811,213,788,161,754,138,733,120,708,108,681,104,652,104,169,106,148,113,132,123,119,136,109,169,94,208,78,247,66,298,55,425,38,663,20"/>
+<area shape="rect" title=" " alt="" coords="191,813,257,841"/>
+<area shape="poly" title=" " alt="" coords="664,24,542,28,389,38,242,55,183,68,140,83,107,100,81,116,65,137,59,169,59,651,62,677,71,701,85,723,103,744,143,778,184,803,181,808,140,782,99,747,81,726,66,703,57,678,53,652,53,169,60,135,77,112,104,95,138,79,182,63,242,50,389,32,542,23,663,19"/>
+<area shape="rect" href="hashset_8h_source.html" title=" " alt="" coords="195,628,373,672"/>
+<area shape="poly" title=" " alt="" coords="664,31,566,51,454,82,404,100,362,122,335,145,328,157,325,169,325,492,323,524,317,557,300,614,295,612,312,556,318,524,320,491,320,169,323,155,331,141,359,117,401,96,452,76,565,46,663,26"/>
+<area shape="rect" href="stream_8h.html" title="Create StreamGraph&#39;s and manipulate generic Stream&#39;s. A StreamGraph is the main data structure to rep..." alt="" coords="1366,232,1445,260"/>
+<area shape="poly" title=" " alt="" coords="766,20,880,26,1024,37,1161,54,1218,65,1260,79,1305,107,1343,144,1373,183,1394,218,1390,220,1369,186,1339,147,1302,111,1258,83,1216,70,1161,59,1023,42,880,31,766,25"/>
+<area shape="rect" href="interval_8h_source.html" title=" " alt="" coords="1000,401,1083,428"/>
+<area shape="poly" title=" " alt="" coords="726,32,785,107,882,231,985,351,1019,387,1015,391,981,354,878,234,781,110,722,35"/>
+<area shape="rect" href="events__table_8h.html" title=" " alt="" coords="1608,308,1768,353"/>
+<area shape="poly" title=" " alt="" coords="766,20,1042,39,1192,56,1253,66,1300,78,1353,100,1407,126,1506,185,1591,246,1654,296,1650,300,1588,250,1503,190,1404,131,1351,105,1298,84,1252,72,1191,61,1042,44,766,25"/>
+<area shape="rect" href="key__instants__table_8h.html" title="Table of all key instants." alt="" coords="1309,401,1464,428"/>
+<area shape="poly" title=" " alt="" coords="766,21,896,35,975,46,1053,61,1126,80,1186,104,1209,118,1227,133,1239,150,1243,169,1243,247,1246,271,1253,293,1281,333,1316,366,1351,391,1348,395,1313,370,1277,337,1249,296,1240,272,1237,248,1237,169,1234,153,1223,137,1206,123,1183,109,1124,86,1052,66,974,51,895,40,766,27"/>
+<area shape="rect" title=" " alt="" coords="1568,476,1638,504"/>
+<area shape="poly" title=" " alt="" coords="766,18,1061,25,1264,33,1477,46,1679,64,1848,90,1915,106,1966,124,1998,145,2008,156,2011,169,2011,248,2008,277,2000,305,1987,330,1970,353,1926,391,1873,423,1814,447,1755,464,1654,485,1653,480,1754,459,1812,442,1870,418,1923,387,1966,349,1982,327,1995,303,2003,276,2005,247,2005,169,2003,159,1995,149,1963,129,1913,111,1847,95,1678,70,1477,51,1264,38,1061,30,766,24"/>
+<area shape="rect" href="links__set_8h_source.html" title=" " alt="" coords="1006,308,1152,353"/>
+<area shape="poly" title=" " alt="" coords="732,31,1043,296,1040,300,728,35"/>
+<area shape="rect" href="stream__functions_8h.html" title="Functions to access the data of a StreamGraph." alt="" coords="904,81,1050,109"/>
+<area shape="poly" title=" " alt="" coords="762,31,916,74,915,79,761,36"/>
+<area shape="poly" title=" " alt="" coords="1770,583,1113,768,941,815,940,810,1111,762,1769,577"/>
+<area shape="poly" title=" " alt="" coords="1825,579,1995,874,1991,877,1820,582"/>
+<area shape="poly" title=" " alt="" coords="1809,582,1777,631,1724,701,1654,777,1614,812,1572,843,1536,862,1498,877,1426,896,1424,891,1496,872,1534,857,1569,838,1611,808,1650,773,1720,698,1772,628,1805,579"/>
+<area shape="poly" title=" " alt="" coords="926,810,943,813,950,819,952,827,949,836,942,841,939,837,945,833,947,827,945,822,941,818,925,815"/>
+<area shape="rect" title=" " alt="" coords="810,889,883,916"/>
+<area shape="poly" title=" " alt="" coords="888,843,866,877,861,874,884,840"/>
+<area shape="rect" title=" " alt="" coords="908,889,975,916"/>
+<area shape="poly" title=" " alt="" coords="905,840,927,874,923,877,901,843"/>
+<area shape="poly" title=" " alt="" coords="926,828,1952,895,1952,900,925,833"/>
+<area shape="poly" title=" " alt="" coords="864,837,563,894,562,889,863,832"/>
+<area shape="poly" title=" " alt="" coords="926,831,974,838,1322,891,1321,896,973,843,925,836"/>
+<area shape="poly" title=" " alt="" coords="864,835,466,891,443,895,442,890,465,886,863,830"/>
+<area shape="poly" title=" " alt="" coords="868,502,909,523,952,550,999,589,1035,626,1089,697,1144,767,1180,802,1228,838,1275,865,1323,883,1321,888,1273,869,1225,843,1177,806,1140,770,1085,701,1031,630,995,593,949,554,907,527,866,507"/>
+<area shape="poly" title=" " alt="" coords="804,506,689,549,687,544,802,501"/>
+<area shape="poly" title=" " alt="" coords="803,498,703,517,643,533,585,554,526,586,475,630,439,669,410,709,405,706,435,666,471,626,523,581,583,550,642,528,702,511,802,493"/>
+<area shape="poly" title=" " alt="" coords="668,578,704,598,742,626,785,669,825,717,881,798,877,801,820,720,781,673,738,630,701,603,665,582"/>
+<area shape="poly" title=" " alt="" coords="673,578,781,625,893,684,978,736,1063,785,1177,838,1253,865,1322,886,1321,891,1251,871,1175,843,1060,789,975,740,891,689,779,630,671,583"/>
+<area shape="poly" title=" " alt="" coords="617,583,540,630,426,713,423,709,537,625,614,578"/>
 <area shape="rect" href="binary__heap_8h_source.html" title=" " alt="" coords="550,628,727,672"/>
 <area shape="poly" title=" " alt="" coords="641,580,641,612,636,612,636,580"/>
-<area shape="poly" title=" " alt="" coords="596,581,430,626,429,621,594,576"/>
-<area shape="poly" title=" " alt="" coords="424,759,443,762,714,813,713,818,442,768,423,764"/>
-<area shape="poly" title=" " alt="" coords="334,766,317,873,311,873,329,765"/>
-<area shape="poly" title=" " alt="" coords="346,764,393,873,389,875,341,766"/>
-<area shape="poly" title=" " alt="" coords="315,767,279,804,275,800,311,764"/>
-<area shape="poly" title=" " alt="" coords="289,768,201,809,198,804,286,763"/>
-<area shape="poly" title=" " alt="" coords="803,810,821,814,829,827,826,835,819,841,816,836,822,832,823,827,818,818,802,815"/>
-<area shape="rect" title=" " alt="" coords="681,889,754,916"/>
-<area shape="poly" title=" " alt="" coords="759,843,736,877,732,874,755,840"/>
-<area shape="rect" title=" " alt="" coords="778,889,846,916"/>
-<area shape="poly" title=" " alt="" coords="776,840,798,874,793,877,771,843"/>
-<area shape="poly" title=" " alt="" coords="802,829,1556,894,1556,899,802,834"/>
-<area shape="poly" title=" " alt="" coords="729,835,572,855,360,891,359,886,571,850,728,830"/>
-<area shape="poly" title=" " alt="" coords="803,831,1195,891,1194,896,802,836"/>
-<area shape="poly" title=" " alt="" coords="729,838,454,894,453,888,728,833"/>
-<area shape="poly" title=" " alt="" coords="337,673,337,705,332,705,332,673"/>
-<area shape="poly" title=" " alt="" coords="369,671,438,718,465,743,495,763,551,785,610,800,714,818,713,823,608,806,549,790,492,767,462,747,434,722,366,675"/>
-<area shape="poly" title=" " alt="" coords="299,675,267,697,237,722,202,763,175,802,170,799,197,759,233,718,264,692,296,671"/>
-<area shape="poly" title=" " alt="" coords="1350,254,1242,271,1179,288,1117,310,1050,347,987,390,893,468,889,464,983,386,1047,342,1115,306,1177,283,1241,266,1349,249"/>
-<area shape="poly" title=" " alt="" coords="1430,246,1516,250,1623,260,1723,278,1763,290,1791,306,1833,343,1864,380,1887,417,1902,455,1912,496,1916,541,1919,649,1919,744,1918,774,1915,799,1905,821,1886,843,1848,862,1791,878,1669,898,1668,893,1790,873,1846,857,1882,839,1901,818,1910,797,1913,774,1913,744,1913,649,1911,542,1906,497,1897,457,1882,419,1860,383,1829,347,1788,310,1761,295,1722,283,1622,265,1516,256,1429,251"/>
-<area shape="poly" title=" " alt="" coords="1399,259,1419,307,1431,368,1427,429,1403,549,1374,641,1337,730,1285,842,1266,877,1261,874,1280,839,1332,728,1369,639,1397,548,1421,428,1426,368,1413,309,1394,262"/>
-<area shape="rect" href="bit__array_8h.html" title="A variable length array of bits and functions to manipulate it." alt="" coords="1567,729,1657,756"/>
-<area shape="poly" title=" " alt="" coords="1430,250,1491,268,1523,284,1550,306,1569,331,1579,355,1582,381,1583,413,1583,567,1585,607,1591,647,1606,713,1601,714,1586,648,1580,608,1577,567,1577,413,1577,381,1574,356,1565,334,1546,310,1520,288,1489,273,1429,255"/>
-<area shape="poly" title=" " alt="" coords="1350,255,1266,273,1219,289,1175,310,1149,328,1125,349,1088,390,1084,386,1122,345,1146,324,1172,306,1217,284,1265,268,1349,250"/>
-<area shape="poly" title=" " alt="" coords="1430,256,1603,301,1602,306,1429,261"/>
-<area shape="poly" title=" " alt="" coords="1395,260,1400,302,1399,353,1390,387,1385,386,1393,352,1395,302,1389,261"/>
-<area shape="poly" title=" " alt="" coords="1349,254,702,320,702,315,1349,249"/>
-<area shape="poly" title=" " alt="" coords="1350,257,1025,316,1024,311,1349,252"/>
-<area shape="rect" href="nodes__set_8h.html" title="A node and a set of nodes of a StreamGraph." alt="" coords="1186,308,1340,353"/>
-<area shape="poly" title=" " alt="" coords="1370,263,1310,302,1307,297,1368,258"/>
-<area shape="poly" title=" " alt="" coords="1567,751,818,823,817,818,1567,746"/>
-<area shape="poly" title=" " alt="" coords="1615,757,1615,873,1609,873,1609,757"/>
-<area shape="poly" title=" " alt="" coords="1597,759,1540,800,1464,843,1378,874,1299,894,1298,889,1377,869,1462,838,1537,796,1594,755"/>
-<area shape="poly" title=" " alt="" coords="1032,431,914,474,913,469,1030,426"/>
-<area shape="poly" title=" " alt="" coords="1059,430,1021,478,958,546,877,617,832,648,784,675,720,695,631,711,439,735,438,730,630,706,719,689,782,670,829,644,874,612,954,542,1017,475,1055,427"/>
-<area shape="poly" title=" " alt="" coords="1068,429,1061,472,1046,535,1023,606,989,674,951,720,905,757,857,787,814,809,811,804,854,782,902,753,947,716,984,671,1018,604,1041,533,1055,471,1062,428"/>
-<area shape="poly" title=" " alt="" coords="1109,418,1223,433,1363,462,1427,481,1481,504,1518,532,1528,548,1532,564,1532,651,1539,716,1557,778,1579,832,1600,874,1595,876,1574,834,1552,779,1534,717,1527,651,1527,565,1523,550,1514,535,1478,509,1426,486,1361,467,1222,439,1109,423"/>
-<area shape="poly" title=" " alt="" coords="1099,427,1138,447,1178,477,1196,496,1211,516,1220,539,1224,564,1224,744,1230,814,1242,873,1237,874,1225,815,1219,744,1219,565,1215,541,1206,519,1192,499,1175,481,1135,452,1097,431"/>
-<area shape="poly" title=" " alt="" coords="1648,356,1546,395,1425,431,1280,457,1137,475,1010,485,915,490,915,485,1009,480,1136,470,1280,452,1423,426,1545,390,1647,351"/>
-<area shape="poly" title=" " alt="" coords="1700,353,1699,489,1699,744,1695,760,1686,775,1652,802,1603,826,1542,846,1411,878,1299,897,1298,892,1410,873,1541,841,1601,821,1649,798,1682,772,1690,758,1693,744,1693,489,1694,353"/>
-<area shape="poly" title=" " alt="" coords="1686,354,1657,414,1646,451,1641,489,1641,567,1634,648,1621,714,1616,713,1629,647,1636,567,1636,489,1641,450,1652,412,1681,352"/>
-<area shape="poly" title=" " alt="" coords="1618,355,1429,403,1427,398,1617,349"/>
-<area shape="poly" title=" " alt="" coords="626,351,757,426,831,466,828,471,755,431,623,355"/>
-<area shape="poly" title=" " alt="" coords="605,352,693,489,740,567,770,627,785,664,794,695,797,726,792,766,781,799,776,798,787,764,791,726,789,696,780,666,766,629,735,570,689,492,600,355"/>
-<area shape="poly" title=" " alt="" coords="613,351,706,426,764,466,824,502,865,522,908,534,987,551,1021,562,1048,580,1066,608,1072,648,1072,744,1075,768,1084,790,1098,810,1115,828,1156,858,1198,880,1196,885,1154,863,1112,832,1094,813,1080,792,1070,769,1067,744,1067,649,1061,610,1044,584,1019,567,986,556,906,539,863,527,821,506,761,470,702,430,610,355"/>
-<area shape="poly" title=" " alt="" coords="687,339,1327,405,1326,411,687,345"/>
-<area shape="poly" title=" " alt="" coords="929,354,881,463,876,461,924,352"/>
-<area shape="poly" title=" " alt="" coords="955,352,1015,427,1044,458,1072,483,1122,526,1143,549,1159,575,1170,608,1173,649,1173,744,1179,781,1192,817,1210,849,1228,875,1224,878,1206,852,1187,819,1174,783,1168,744,1168,649,1164,609,1154,578,1139,552,1119,530,1068,487,1040,461,1011,430,951,355"/>
-<area shape="poly" title=" " alt="" coords="972,351,1034,390,1031,394,969,356"/>
-<area shape="poly" title=" " alt="" coords="1010,343,1327,401,1327,406,1009,348"/>
-<area shape="poly" title=" " alt="" coords="1267,353,1275,489,1275,744,1268,815,1256,874,1251,873,1263,814,1269,744,1269,489,1262,353"/>
-<area shape="poly" title=" " alt="" coords="1212,356,1113,397,1111,392,1210,351"/>
-<area shape="poly" title=" " alt="" coords="1294,351,1348,389,1345,393,1291,355"/>
-<area shape="poly" title=" " alt="" coords="949,111,923,144,891,191,858,247,835,309,832,367,836,428,851,462,846,464,831,429,827,367,829,307,854,245,886,188,919,140,945,108"/>
-<area shape="poly" title=" " alt="" coords="1001,107,1146,154,1341,224,1339,229,1144,159,999,112"/>
-<area shape="poly" title=" " alt="" coords="960,109,942,293,937,292,955,109"/>
-<area shape="poly" title=" " alt="" coords="970,108,997,143,1035,182,1078,216,1124,248,1209,298,1206,303,1121,252,1075,221,1032,186,993,147,966,111"/>
-<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="1045,157,1134,184"/>
-<area shape="poly" title=" " alt="" coords="983,107,1054,147,1052,151,981,112"/>
-<area shape="poly" title=" " alt="" coords="1046,185,997,201,944,227,892,262,871,284,853,309,845,328,840,348,840,389,847,428,858,461,853,463,842,430,834,389,835,347,840,326,848,307,867,281,889,258,941,222,995,196,1044,180"/>
-<area shape="poly" title=" " alt="" coords="1134,169,1307,175,1419,183,1534,196,1642,216,1732,243,1767,260,1794,280,1811,303,1817,329,1817,744,1813,764,1800,783,1781,799,1755,814,1689,839,1610,860,1524,875,1439,887,1299,901,1299,895,1439,882,1524,870,1609,854,1688,834,1753,809,1778,795,1796,779,1808,762,1812,744,1812,329,1806,305,1790,284,1764,265,1730,248,1640,221,1533,201,1419,188,1307,180,1134,175"/>
-<area shape="poly" title=" " alt="" coords="1134,180,1335,229,1334,234,1133,185"/>
-<area shape="poly" title=" " alt="" coords="1091,185,1072,385,1067,385,1085,185"/>
-<area shape="poly" title=" " alt="" coords="1123,182,1250,239,1313,274,1338,290,1354,306,1365,325,1373,345,1379,384,1374,385,1368,347,1360,327,1350,310,1334,295,1311,278,1248,244,1121,187"/>
+<area shape="poly" title=" " alt="" coords="596,580,389,627,387,622,595,575"/>
+<area shape="poly" title=" " alt="" coords="475,756,849,815,848,821,474,761"/>
+<area shape="poly" title=" " alt="" coords="404,764,494,875,490,878,400,767"/>
+<area shape="poly" title=" " alt="" coords="389,765,393,873,388,873,384,765"/>
+<area shape="poly" title=" " alt="" coords="370,767,340,802,336,799,365,764"/>
+<area shape="poly" title=" " alt="" coords="344,768,265,808,262,803,341,763"/>
+<area shape="poly" title=" " alt="" coords="360,670,850,810,848,815,359,675"/>
+<area shape="poly" title=" " alt="" coords="310,671,352,708,348,712,306,675"/>
+<area shape="poly" title=" " alt="" coords="279,674,236,799,231,797,274,672"/>
+<area shape="poly" title=" " alt="" coords="1445,245,1528,249,1628,259,1721,277,1757,290,1782,306,1802,332,1816,362,1824,393,1829,426,1829,488,1823,537,1818,536,1824,487,1824,426,1819,394,1811,363,1797,335,1778,310,1755,294,1720,282,1628,264,1528,255,1445,251"/>
+<area shape="poly" title=" " alt="" coords="1446,247,1665,267,1784,284,1833,294,1869,305,1959,336,2036,365,2067,384,2091,410,2107,444,2112,489,2112,744,2104,785,2086,823,2061,855,2037,880,2033,876,2057,851,2081,820,2099,783,2107,744,2107,489,2101,445,2087,413,2064,388,2034,369,1957,341,1867,311,1831,299,1783,289,1664,273,1445,253"/>
+<area shape="poly" title=" " alt="" coords="1446,247,1640,266,1742,283,1784,293,1814,306,1852,326,1882,346,1902,373,1908,391,1909,413,1909,744,1905,763,1893,780,1875,796,1852,811,1791,836,1717,856,1637,872,1557,885,1426,900,1425,894,1557,879,1636,867,1716,851,1789,830,1849,806,1872,792,1889,777,1900,761,1904,744,1904,413,1902,392,1897,376,1879,350,1850,330,1812,310,1782,298,1741,288,1639,271,1445,253"/>
+<area shape="poly" title=" " alt="" coords="1366,253,1170,271,1066,288,1025,298,995,310,963,336,925,378,856,466,852,463,921,375,960,332,992,306,1023,293,1065,282,1169,265,1365,247"/>
+<area shape="poly" title=" " alt="" coords="1378,263,1085,396,1083,391,1376,258"/>
+<area shape="poly" title=" " alt="" coords="1446,256,1600,301,1598,306,1444,262"/>
+<area shape="poly" title=" " alt="" coords="1440,258,1472,277,1486,291,1497,307,1505,330,1497,354,1475,379,1447,396,1444,392,1471,375,1492,351,1499,330,1492,309,1482,294,1468,282,1437,263"/>
+<area shape="poly" title=" " alt="" coords="1444,258,1483,278,1519,306,1548,344,1571,386,1598,461,1593,462,1566,388,1544,347,1515,310,1480,282,1441,263"/>
+<area shape="poly" title=" " alt="" coords="1366,260,1167,310,1166,304,1365,255"/>
+<area shape="rect" href="nodes__set_8h.html" title="A node and a set of nodes of a StreamGraph." alt="" coords="1328,308,1482,353"/>
+<area shape="poly" title=" " alt="" coords="1408,261,1408,292,1403,292,1403,261"/>
+<area shape="poly" title=" " alt="" coords="1044,429,1045,564,1045,651,1042,677,1034,702,1005,745,968,780,932,807,929,802,965,776,1001,741,1029,699,1037,676,1040,651,1040,565,1039,429"/>
+<area shape="poly" title=" " alt="" coords="1068,426,1970,879,1968,884,1066,431"/>
+<area shape="poly" title=" " alt="" coords="1048,428,1075,496,1123,603,1155,664,1192,725,1233,784,1279,839,1305,861,1333,879,1330,883,1302,865,1275,843,1229,788,1187,728,1150,666,1118,605,1070,498,1043,430"/>
+<area shape="poly" title=" " alt="" coords="1006,431,884,474,883,469,1004,426"/>
+<area shape="poly" title=" " alt="" coords="1033,430,991,477,924,544,838,615,791,647,741,675,679,700,613,718,549,730,490,738,489,732,548,725,612,712,677,695,739,670,788,643,835,611,920,540,987,474,1029,427"/>
+<area shape="poly" title=" " alt="" coords="1702,352,1803,537,1798,540,1697,354"/>
+<area shape="poly" title=" " alt="" coords="1688,354,1672,441,1658,502,1637,571,1611,642,1578,714,1537,782,1487,843,1458,866,1426,884,1423,879,1455,862,1483,839,1532,779,1573,711,1606,640,1632,569,1652,501,1667,440,1683,353"/>
+<area shape="poly" title=" " alt="" coords="1608,348,1298,403,884,482,883,477,1297,398,1607,343"/>
+<area shape="poly" title=" " alt="" coords="1609,356,1450,399,1449,394,1607,351"/>
+<area shape="poly" title=" " alt="" coords="1679,354,1619,464,1615,461,1674,352"/>
+<area shape="poly" title=" " alt="" coords="1378,430,1327,488,1243,576,1137,675,1079,723,1020,767,980,791,941,810,938,805,978,786,1017,763,1076,719,1134,671,1239,572,1323,485,1374,427"/>
+<area shape="poly" title=" " alt="" coords="1391,429,1398,487,1403,564,1403,744,1396,815,1383,874,1378,873,1391,814,1397,744,1397,565,1393,488,1386,429"/>
+<area shape="poly" title=" " alt="" coords="1309,429,884,485,883,480,1308,424"/>
+<area shape="poly" title=" " alt="" coords="1426,426,1554,469,1552,475,1424,431"/>
+<area shape="poly" title=" " alt="" coords="1090,352,1180,555,1250,697,1330,839,1355,875,1351,878,1326,842,1246,700,1175,557,1085,354"/>
+<area shape="poly" title=" " alt="" coords="1047,355,932,431,871,470,868,465,929,426,1044,351"/>
+<area shape="poly" title=" " alt="" coords="1071,354,1056,387,1051,385,1066,352"/>
+<area shape="poly" title=" " alt="" coords="1121,351,1202,389,1298,426,1366,445,1435,460,1553,480,1552,485,1434,465,1365,450,1296,431,1200,394,1119,356"/>
+<area shape="poly" title=" " alt="" coords="1435,351,1458,373,1478,399,1499,442,1504,489,1504,744,1501,766,1494,788,1471,826,1440,858,1409,882,1406,878,1436,854,1467,822,1490,785,1496,765,1499,744,1499,489,1494,443,1474,402,1454,377,1432,355"/>
+<area shape="poly" title=" " alt="" coords="1328,352,1099,403,1097,398,1327,346"/>
+<area shape="poly" title=" " alt="" coords="1448,351,1485,372,1522,399,1556,431,1585,462,1581,466,1552,434,1518,403,1482,377,1446,355"/>
+<area shape="poly" title=" " alt="" coords="969,111,937,158,887,244,849,311,820,382,795,477,791,491,794,503,812,521,833,529,857,535,883,550,918,584,929,602,939,627,944,650,945,675,939,722,926,766,911,801,906,798,921,764,934,721,940,674,939,651,933,628,924,604,914,587,880,554,855,540,832,534,810,526,790,505,786,491,789,476,815,380,844,309,882,241,932,155,965,108"/>
+<area shape="poly" title=" " alt="" coords="974,110,925,229,861,401,845,462,840,461,856,400,920,227,969,108"/>
+<area shape="poly" title=" " alt="" coords="1051,95,1110,100,1177,110,1247,128,1313,154,1356,185,1389,219,1385,223,1353,189,1311,159,1245,133,1176,115,1110,105,1051,100"/>
+<area shape="poly" title=" " alt="" coords="985,108,1066,292,1061,295,980,110"/>
+<area shape="poly" title=" " alt="" coords="1031,107,1094,126,1161,154,1221,188,1278,226,1370,296,1367,300,1275,230,1218,193,1159,159,1093,131,1029,112"/>
+<area shape="rect" href="iterators_8h.html" title="Iterators over nodes, links and time intervals." alt="" coords="1060,157,1148,184"/>
+<area shape="poly" title=" " alt="" coords="1001,107,1070,147,1067,151,999,112"/>
+<area shape="poly" title=" " alt="" coords="1113,184,1166,307,1230,474,1288,639,1367,873,1362,874,1283,640,1225,476,1162,309,1108,186"/>
+<area shape="poly" title=" " alt="" coords="1082,187,1049,208,1015,234,972,276,942,312,882,402,850,463,845,461,878,399,937,309,968,273,1012,230,1046,204,1079,183"/>
+<area shape="poly" title=" " alt="" coords="1149,180,1351,229,1350,234,1148,185"/>
+<area shape="poly" title=" " alt="" coords="1090,187,1040,236,1015,271,996,309,991,330,996,352,1006,371,1019,388,1014,391,1001,374,991,354,986,330,991,307,1010,268,1036,233,1086,183"/>
+<area shape="poly" title=" " alt="" coords="1149,171,1295,181,1487,203,1582,221,1668,243,1737,271,1763,288,1782,306,1794,331,1793,356,1780,380,1760,403,1706,442,1649,472,1647,467,1703,438,1756,399,1776,377,1788,355,1789,332,1778,310,1760,292,1735,276,1667,248,1581,226,1486,209,1294,186,1148,176"/>
 </map>
 </div>
 </div></div><!-- contents -->

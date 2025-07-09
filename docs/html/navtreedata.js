@@ -66,7 +66,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "StreamGraphAnalysis_8h.html",
-"stream__functions_8h.html#a418d54630a00859c26409db3d5186543"
+"stream_8h.html#ad269df9026ff816a66b3deb2b4e5bd21"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
