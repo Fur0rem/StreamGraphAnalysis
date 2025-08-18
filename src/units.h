@@ -33,4 +33,11 @@ DeclareArrayListDeriveRemove(SGA_Time);
 DeclareArrayListDeriveToString(SGA_Time);
 DeclareArrayListDeriveOrdered(SGA_Time);
 
+typedef double SGA_Weight; ///< Used to represent a weight in a weighted stream graph.
+DeclareArrayList(SGA_Weight);
+DeclareArrayListDeriveEquals(SGA_Weight);
+DeclareArrayListDeriveRemove(SGA_Weight);
+DeclareArrayListDeriveToString(SGA_Weight);
+DeclareArrayListDeriveOrdered(SGA_Weight);
+
 #endif // UNITS_H

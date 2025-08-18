@@ -154,8 +154,130 @@ size_t FullStreamGraph_distinct_cardinal_of_link_set(SGA_Stream* stream) {
 const MetricsFunctions FullStreamGraph_metrics_functions = {
     .temporal_cardinal_of_node_set = NULL,
     .duration			   = NULL,
-    .distinct_cardinal_of_node_set = (size_t (*)(const SGA_Stream *))FullStreamGraph_distinct_cardinal_of_node_set,
-    .distinct_cardinal_of_link_set = (size_t (*)(const SGA_Stream *))FullStreamGraph_distinct_cardinal_of_link_set,
+    .distinct_cardinal_of_node_set = (size_t (*)(const SGA_Stream*))FullStreamGraph_distinct_cardinal_of_node_set,
+    .distinct_cardinal_of_link_set = (size_t (*)(const SGA_Stream*))FullStreamGraph_distinct_cardinal_of_link_set,
     .coverage			   = NULL,
     .node_duration		   = NULL,
+};
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+SGA_W_Stream SGA_W_FullStreamGraph_from(SGA_W_StreamGraph* stream_graph) {
+	SGA_Stream base = {
+	    .type	 = FULL_STREAM_GRAPH,
+	    .stream_data = &stream_graph->base,
+	};
+	init_cache(&base);
+
+	W_FullStreamGraph* full_stream_graph	   = MALLOC(sizeof(W_FullStreamGraph));
+	full_stream_graph->underlying_stream_graph = stream_graph;
+
+	SGA_W_Stream stream = {
+	    .base	 = base,
+	    .stream_data = full_stream_graph,
+	};
+
+	return stream;
+}
+
+void SGA_W_FullStreamGraph_destroy(SGA_W_Stream self) {
+	free(self.stream_data);
+}
+
+#include "../weighted_stream_functions.h"
+
+SGA_Weight SGA_W_FullStreamGraph_node_weight_at_t(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Time time) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+	ASSERT(node < stream_graph->base.nodes.nb_nodes);
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, time));
+
+	return SGA_W_StreamGraph_node_weight_at_t(stream_graph, node, time);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_link_weight_at_t(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Time time) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+	ASSERT(link < stream_graph->base.links.nb_links);
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, time));
+
+	return SGA_W_StreamGraph_link_weight_at_t(stream_graph, link, time);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_weight_integral_of_node_between(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Interval interval) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+	ASSERT(node < stream_graph->base.nodes.nb_nodes);
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, interval.start));
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, interval.end));
+
+	return SGA_W_StreamGraph_weight_integral_of_node_between(stream_graph, node, interval);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_weight_integral_of_link_between(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Interval interval) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+	ASSERT(link < stream_graph->base.links.nb_links);
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, interval.start));
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, interval.end));
+
+	return SGA_W_StreamGraph_weight_integral_of_link_between(stream_graph, link, interval);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_max_node_weight(const SGA_W_Stream* stream) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+
+	return SGA_WeightFunc_max(&stream_graph->node_weights);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_min_node_weight(const SGA_W_Stream* stream) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+
+	return SGA_WeightFunc_min(&stream_graph->node_weights);
+}
+
+void SGA_W_FullStreamGraph_normalise_node_weights(SGA_W_Stream* stream) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+
+	SGA_WeightFunc_normalise(&stream_graph->node_weights);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_max_link_weight(const SGA_W_Stream* stream) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+
+	return SGA_WeightFunc_max(&stream_graph->link_weights);
+}
+
+SGA_Weight SGA_W_FullStreamGraph_min_link_weight(const SGA_W_Stream* stream) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+
+	return SGA_WeightFunc_min(&stream_graph->link_weights);
+}
+
+void SGA_W_FullStreamGraph_normalise_link_weights(SGA_W_Stream* stream) {
+	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
+
+	SGA_WeightFunc_normalise(&stream_graph->link_weights);
+}
+
+const WeightedStreamFunctions FullStreamGraph_weighted_stream_functions = {
+    .base			     = FullStreamGraph_stream_functions,
+    .node_weight_at_t		     = SGA_W_FullStreamGraph_node_weight_at_t,
+    .weight_integral_of_node_between = SGA_W_FullStreamGraph_weight_integral_of_node_between,
+    .link_weight_at_t		     = SGA_W_FullStreamGraph_link_weight_at_t,
+    .weight_integral_of_link_between = SGA_W_FullStreamGraph_weight_integral_of_link_between,
+    .max_node_weight		     = SGA_W_FullStreamGraph_max_node_weight,
+    .min_node_weight		     = SGA_W_FullStreamGraph_min_node_weight,
+    .normalise_node_weights	     = SGA_W_FullStreamGraph_normalise_node_weights,
+    .max_link_weight		     = SGA_W_FullStreamGraph_max_link_weight,
+    .min_link_weight		     = SGA_W_FullStreamGraph_min_link_weight,
+    .normalise_link_weights	     = SGA_W_FullStreamGraph_normalise_link_weights,
 };

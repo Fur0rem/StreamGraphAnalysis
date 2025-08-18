@@ -77,6 +77,22 @@ links_set.o: src/stream_graph/links_set.c | bin
 nodes_set.o: src/stream_graph/nodes_set.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
+# Weights
+constant_universally.o: src/weighted/weight_types/constant_universally.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
+
+lerp.o: src/weighted/weight_types/lerp.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
+
+weight_function.o: src/weighted/weight_function.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
+
+weighted_stream.o: src/weighted_stream.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
+
+weighted_stream_functions.o: src/weighted_stream_functions.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
+
 
 full_stream_graph.o: src/streams/full_stream_graph.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
@@ -128,7 +144,9 @@ walks.o: src/analysis/walks.c | bin
 	$(CC) $(CFLAGS) $(FLAGS) -c $< -o $(BIN_DIR)/$@
 
 
-libSGA: utils.o defaults.o units.o bit_array.o interval.o events_table.o key_instants_table.o links_set.o nodes_set.o stream.o node_access.o link_access.o induced_graph.o full_stream_graph.o link_stream.o chunk_stream.o chunk_stream_small.o timeframe_stream.o iterators.o metrics.o cluster.o arena.o walks.o cliques.o kcores.o isomorphism.o stream_functions.o key_instants_access.o line_stream.o delta_stream.o | bin
+
+
+libSGA: utils.o defaults.o units.o bit_array.o interval.o events_table.o key_instants_table.o links_set.o nodes_set.o stream.o node_access.o link_access.o induced_graph.o full_stream_graph.o link_stream.o chunk_stream.o chunk_stream_small.o timeframe_stream.o iterators.o metrics.o cluster.o arena.o walks.o cliques.o kcores.o isomorphism.o stream_functions.o key_instants_access.o line_stream.o delta_stream.o weight_function.o constant_universally.o lerp.o weighted_stream.o weighted_stream_functions.o | bin
 	gcc-ar rcs $(BIN_DIR)/libSGA.a $(foreach obj,$^,$(BIN_DIR)/$(obj))
 
 docs:

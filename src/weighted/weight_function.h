@@ -1,0 +1,59 @@
+#ifndef SGA_WEIGHTED_WEIGHT_FUNCTION_H
+#define SGA_WEIGHTED_WEIGHT_FUNCTION_H
+
+#include "weight_types/constant_universally.h"
+#include "weight_types/lerp.h"
+
+typedef struct SGA_WeightFunc {
+	enum WeightFuncTag {
+		LERP,		   ///< A linearly interpolated weight function.
+		CONST_UNIVERSALLY, ///< A constant weight function that applies universally to all elements at all times.
+	} tag;			   ///< The tag indicating which type of weight function this is.
+	union {
+		LerpWeightFunc lerped;		    ///< The linearly interpolated weight function.
+		ConstUniversally const_universally; ///< The universally constant weight function.
+	} func;					    ///< The actual weight function data, depending on the tag.
+} SGA_WeightFunc;
+
+/**
+ * @brief Creates a universally constant weight function
+ * @param weight The universal weight to apply
+ * @return A weight func of kind ConstUniversally
+ */
+SGA_WeightFunc SGA_WeightFunc_const_universally(SGA_Weight weight);
+
+/**
+ * @brief Gets the weight for a specific element at a specific time.
+ * @param weight_func The weight function to get the weight from.
+ * @param element_id The id of the element to get the weight for.
+ * @param time The time instant to get the weight at.
+ * @return The weight for the element at the given time.
+ */
+SGA_Weight SGA_WeightFunc_weight_at_t(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Time time);
+
+/**
+ * @brief Gets the weight integral for a specific element over a range of time.
+ * @param weight_func The weight function to get the weight integral from.
+ * @param element_id The id of the element to get the weight integral for.
+ * @param interval The time interval over which to compute the weight integral.
+ * @return The weight integral for the element over the given time interval.
+ */
+SGA_Weight SGA_WeightFunc_weight_integral_between(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
+
+/**
+ * @brief Gets the maximum weight of the function.
+ */
+SGA_Weight SGA_WeightFunc_max(const SGA_WeightFunc* weight_func);
+
+/**
+ * @brief Gets the minimum weight of the function.
+ */
+SGA_Weight SGA_WeightFunc_min(const SGA_WeightFunc* weight_func);
+
+/**
+ * @brief Normalises the weights of the function to the range [0, 1].
+ * @param weight_func The weight function to normalise.
+ */
+void SGA_WeightFunc_normalise(SGA_WeightFunc* weight_func);
+
+#endif // SGA_WEIGHTED_WEIGHT_FUNCTION_H

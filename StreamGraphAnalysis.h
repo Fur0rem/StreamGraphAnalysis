@@ -42,3 +42,7 @@
 #include "src/stream_functions.h"
 #include "src/streams.h"
 #include "src/utils.h"
+
+#include "src/weighted/weight_function.h"
+#include "src/weighted_stream.h"
+#include "src/weighted_stream_functions.h"

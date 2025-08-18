@@ -70,3 +70,6 @@ bool EXPECT_EQ_String(char* a, char* b) {
 	}
 	return result;
 }
+
+EXPECT_EQ_DEFAULT(double, "%f");
+EXPECT_EQ_DEFAULT(float, "%f");

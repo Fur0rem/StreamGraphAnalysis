@@ -7,6 +7,7 @@
 #define TEST_H
 
 #include "../src/utils.h"
+#include "../src/weighted/weight_function.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -52,8 +53,17 @@ bool EXPECT_EQ_int(int got, int expected);
 bool EXPECT_EQ_String(char* got, char* expected);
 bool EXPECT_EQ_size_t(size_t got, size_t expected);
 bool EXPECT_EQ_ptr(void* got, void* expected);
+bool EXPECT_EQ_float(float got, float expected);
+bool EXPECT_EQ_double(double got, double expected);
 
-#define EXPECT_EQ(a, b) _Generic((a), int: EXPECT_EQ_int, char*: EXPECT_EQ_String, size_t: EXPECT_EQ_size_t, void*: EXPECT_EQ_ptr)(a, b)
+#define EXPECT_EQ(a, b)                                                                                                                    \
+	_Generic((a),                                                                                                                      \
+	    int: EXPECT_EQ_int,                                                                                                            \
+	    char*: EXPECT_EQ_String,                                                                                                       \
+	    size_t: EXPECT_EQ_size_t,                                                                                                      \
+	    void*: EXPECT_EQ_ptr,                                                                                                          \
+	    float: EXPECT_EQ_float,                                                                                                        \
+	    double: EXPECT_EQ_double)(a, b)
 
 bool EXPECT_ALL(int expr, ...);
 

@@ -7,8 +7,8 @@
 #define FULL_STREAM_GRAPH_H
 
 #include "../analysis/metrics.h"
-#include "../stream.h"
-#include "../stream_functions.h"
+#include "../weighted_stream.h"
+#include "../weighted_stream_functions.h"
 
 #ifdef SGA_INTERNAL
 
@@ -43,5 +43,36 @@ SGA_Stream SGA_FullStreamGraph_from(SGA_StreamGraph* stream_graph);
  * @param[in] stream The FullStreamGraph to destroy.
  */
 void SGA_FullStreamGraph_destroy(SGA_Stream stream);
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+/**
+ * @brief The weighted version of the FullStreamGraph structure.
+ */
+typedef struct W_FullStreamGraph {
+	SGA_W_StreamGraph* underlying_stream_graph; ///< A reference to the underlying weighted StreamGraph.
+} W_FullStreamGraph;
+
+/**
+ * @brief Creates a weighted Stream of a FullStreamGraph from a weighted StreamGraph.
+ * @param[in] stream_graph The StreamGraph.
+ * @return The FullStreamGraph as a weighted Stream.
+ */
+SGA_W_Stream SGA_W_FullStreamGraph_from(SGA_W_StreamGraph* stream_graph);
+
+/**
+ * @brief Destroys a weighted Stream of a FullStreamGraph.
+ * @param[in] self The FullStreamGraph to destroy.
+ */
+void SGA_W_FullStreamGraph_destroy(SGA_W_Stream self);
+
+#ifdef SGA_INTERNAL
+/**
+ * @brief The necessary functions to use a W_FullStreamGraph as a weighted Stream.
+ */
+extern const WeightedStreamFunctions FullStreamGraph_weighted_stream_functions;
+#endif // SGA_INTERNAL
 
 #endif // FULL_STREAM_GRAPH_H

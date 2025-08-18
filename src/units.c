@@ -41,3 +41,13 @@ DefineArrayListDeriveEquals(SGA_Time);
 DefineArrayListDeriveRemove(SGA_Time);
 DefineArrayListDeriveOrdered(SGA_Time);
 DefineArrayListDeriveToString(SGA_Time);
+
+NO_FREE(SGA_Weight);
+DEFAULT_EQUALS(SGA_Weight);
+DEFAULT_COMPARE(SGA_Weight);
+DEFAULT_TO_STRING(SGA_Weight, "%f");
+DefineArrayList(SGA_Weight);
+DefineArrayListDeriveEquals(SGA_Weight);
+DefineArrayListDeriveRemove(SGA_Weight);
+DefineArrayListDeriveOrdered(SGA_Weight);
+DefineArrayListDeriveToString(SGA_Weight);
