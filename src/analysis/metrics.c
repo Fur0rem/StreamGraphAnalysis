@@ -609,3 +609,98 @@ String SGA_Stream_to_string(const SGA_Stream* stream) {
 	String_push_str(&str, "}\n");
 	return str;
 }
+
+//////////////////////////
+//// Weighted Metrics ////
+//////////////////////////
+
+SGA_Weight SGA_W_Stream_strength_of_node(const SGA_W_Stream* stream, SGA_NodeId node_id) {
+	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
+	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
+
+	SGA_LinksIterator neighbours = fns.neighbours_of_node(stream->base.stream_data, node_id);
+	double sum_links_weight	     = 0.0;
+	SGA_FOR_EACH_LINK(link_id, neighbours) {
+		SGA_TimesIterator link_presence = fns.times_link_present(stream->base.stream_data, link_id);
+		SGA_FOR_EACH_TIME(interval, link_presence) {
+			sum_links_weight += w_fns.weight_integral_of_link_between(stream, link_id, interval);
+		}
+	}
+	return sum_links_weight / (SGA_Weight)SGA_Stream_duration(&stream->base);
+}
+
+SGA_Weight SGA_sum_of_all_node_weights(const SGA_W_Stream* stream) {
+	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
+	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
+
+	SGA_NodesIterator nodes = fns.nodes_set(stream->base.stream_data);
+	SGA_Weight sum		= 0.0;
+	SGA_FOR_EACH_NODE(node_id, nodes) {
+		SGA_TimesIterator times = fns.times_node_present(stream->base.stream_data, node_id);
+		SGA_FOR_EACH_TIME(interval, times) {
+			sum += w_fns.weight_integral_of_node_between(stream, node_id, interval);
+		}
+	}
+	return sum;
+}
+
+SGA_Weight SGA_sum_of_all_link_weights(const SGA_W_Stream* stream) {
+	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
+	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
+
+	SGA_LinksIterator links = fns.links_set(stream->base.stream_data);
+	SGA_Weight sum		= 0.0;
+	SGA_FOR_EACH_LINK(link_id, links) {
+		SGA_TimesIterator times = fns.times_link_present(stream->base.stream_data, link_id);
+		SGA_FOR_EACH_TIME(interval, times) {
+			sum += w_fns.weight_integral_of_link_between(stream, link_id, interval);
+		}
+	}
+	return sum;
+}
+
+SGA_Weight SGA_maximal_weight_of_possible_nodes(const SGA_W_Stream* stream) {
+	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
+	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
+
+	return w_fns.max_node_weight(stream) * (SGA_Weight)SGA_Stream_temporal_cardinal_of_node_set(stream->stream_data);
+}
+
+SGA_Weight SGA_maximal_weight_of_possible_links(const SGA_W_Stream* stream) {
+	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
+	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
+
+	return w_fns.max_link_weight(stream) * (SGA_Weight)SGA_Stream_temporal_cardinal_of_link_set(stream->stream_data);
+}
+
+SGA_Weight SGA_weighted_normalised_density(const SGA_W_Stream* stream) {
+	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
+	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
+
+	// The formula for the weighted density assumes that the weights of the links are in [0, 1].
+	// However, we don't have to normalise the stream itself as Integral(n * f(x)) = n * Integral(f(x)) if n is a constant.
+
+	// Compute the sum of the weights of all links
+	SGA_Weight sum_num	= 0.0;
+	SGA_LinksIterator links = fns.links_set(stream->base.stream_data);
+	SGA_FOR_EACH_LINK(link_id, links) {
+		SGA_TimesIterator times_link = fns.times_link_present(stream->base.stream_data, link_id);
+		SGA_FOR_EACH_TIME(interval, times_link) {
+			sum_num += w_fns.weight_integral_of_link_between(stream, link_id, interval);
+		}
+	}
+
+	// Normalise the result as the formula only works if all weights are in [0, 1]
+	SGA_Weight max_weight = w_fns.max_link_weight(stream);
+	SGA_Weight min_weight = w_fns.min_link_weight(stream);
+	sum_num		      = (sum_num - min_weight) / (max_weight - min_weight);
+
+	size_t den =
+	    SGA_Stream_duration(&stream->base) * size_set_unordered_pairs_itself(SGA_Stream_distinct_cardinal_of_node_set(&stream->base));
+
+	// If the denominator is 0, then the stream is empty.
+	if (den == 0) {
+		return 0.0;
+	}
+	return sum_num / (SGA_Weight)den;
+}

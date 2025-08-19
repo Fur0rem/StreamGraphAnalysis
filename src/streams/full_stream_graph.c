@@ -269,7 +269,6 @@ void SGA_W_FullStreamGraph_normalise_link_weights(SGA_W_Stream* stream) {
 }
 
 const WeightedStreamFunctions FullStreamGraph_weighted_stream_functions = {
-    .base			     = FullStreamGraph_stream_functions,
     .node_weight_at_t		     = SGA_W_FullStreamGraph_node_weight_at_t,
     .weight_integral_of_node_between = SGA_W_FullStreamGraph_weight_integral_of_node_between,
     .link_weight_at_t		     = SGA_W_FullStreamGraph_link_weight_at_t,

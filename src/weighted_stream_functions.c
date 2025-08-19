@@ -1,10 +1,11 @@
+#define SGA_INTERNAL
+
 #include "weighted_stream_functions.h"
 
 #include "stream.h"
 #include "streams/full_stream_graph.h"
 #include "weighted_stream.h"
 
-#ifdef SGA_INTERNAL
 /**
  * @brief Get the table of functions to access the data of a weighted StreamGraph.
  * @param stream The Stream to get the functions from.
@@ -36,7 +37,6 @@ WeightedStreamFunctions SGA_Weighted_StreamFunctions(const SGA_W_Stream* stream)
 	// }
 	return FullStreamGraph_weighted_stream_functions;
 }
-#endif // SGA_INTERNAL
 
 /**
  * @brief Casts a weighted stream into a regular Stream to use the regular Stream functions.

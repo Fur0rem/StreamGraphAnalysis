@@ -21,8 +21,6 @@
  * @brief Table of functions to access the data of a weighted StreamGraph.
  */
 typedef struct WeightedStreamFunctions {
-	StreamFunctions base; ///< The base StreamFunctions, which contains the common functions for all Stream types.
-
 	////////////////////////
 	//// Node functions ////
 	////////////////////////

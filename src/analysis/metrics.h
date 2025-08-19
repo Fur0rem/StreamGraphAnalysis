@@ -38,7 +38,7 @@ typedef struct {
 	size_t (*temporal_cardinal_of_link_set)(const SGA_Stream*); // |E|
 	size_t (*distinct_cardinal_of_node_set)(const SGA_Stream*); // |V|
 	size_t (*distinct_cardinal_of_link_set)(const SGA_Stream*); // Not defined in the paper
-	size_t (*duration)(const SGA_Stream*);		      // |T|
+	size_t (*duration)(const SGA_Stream*);			    // |T|
 	double (*coverage)(const SGA_Stream*);
 	double (*node_duration)(const SGA_Stream*);
 	double (*density)(const SGA_Stream*);
@@ -262,5 +262,54 @@ double SGA_Stream_transitivity_ratio(const SGA_Stream* stream);
  * @param[in] stream The Stream.
  */
 String SGA_Stream_to_string(const SGA_Stream* stream);
+
+//////////////////////////
+//// Weighted Metrics ////
+//////////////////////////
+
+#include "../weighted_stream.h"
+
+/**
+ * @brief Get the strength of a node in a weighted stream.
+ * @param[in] stream The weighted stream.
+ * @param[in] node_id The id of the node to get the strength of.
+ * @return The strength of the node.
+ */
+SGA_Weight SGA_W_Stream_strength_of_node(const SGA_W_Stream* stream, SGA_NodeId node_id);
+
+/**
+ * @brief Get the sum of all node weights in a weighted stream.
+ * @param[in] stream The weighted stream.
+ * @return The sum of all node weights in the stream.
+ */
+SGA_Weight SGA_sum_of_all_node_weights(const SGA_W_Stream* stream);
+
+/**
+ * @brief Get the sum of all link weights in a weighted stream.
+ * @param[in] stream The weighted stream.
+ * @return The sum of all link weights in the stream.
+ */
+SGA_Weight SGA_sum_of_all_link_weights(const SGA_W_Stream* stream);
+
+/**
+ * @brief Get the maximal weight of all possible nodes in a weighted stream.
+ * @param[in] stream The weighted stream.
+ * @return The maximal weight of all possible nodes in the stream.
+ */
+SGA_Weight SGA_maximal_weight_of_possible_nodes(const SGA_W_Stream* stream);
+
+/**
+ * @brief Get the maximal weight of all possible links in a weighted stream.
+ * @param[in] stream The weighted stream.
+ * @return The maximal weight of all possible links in the stream.
+ */
+SGA_Weight SGA_maximal_weight_of_possible_links(const SGA_W_Stream* stream);
+
+/**
+ * @brief Get the weighted normalised density of a weighted stream, which is the weighted density if the stream was normalised.
+ * @param[in] stream The weighted stream.
+ * @return The weighted normalised density of the stream.
+ */
+SGA_Weight SGA_weighted_normalised_density(const SGA_W_Stream* stream);
 
 #endif // METRICS_H
