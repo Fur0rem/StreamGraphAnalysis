@@ -112,7 +112,7 @@ void SGA_WeightFunc_destroy(SGA_WeightFunc weight_func) {
 	}
 }
 
-SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
+SGA_Weight SGA_WeightFunc_max_of_elem_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
 	switch (weight_func->tag) {
 		case LERP: {
 			SGA_Weight max = -INFINITY;
@@ -131,7 +131,7 @@ SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, siz
 	UNREACHABLE_CODE;
 }
 
-SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
+SGA_Weight SGA_WeightFunc_min_of_elem_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
 	switch (weight_func->tag) {
 		case LERP: {
 			SGA_Weight min = INFINITY;
@@ -139,6 +139,46 @@ SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, siz
 				SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
 				if (w < min) {
 					min = w;
+				}
+			}
+			return min;
+		}
+		case CONST_UNIVERSALLY: {
+			return weight_func->func.const_universally.weight;
+		}
+	}
+	UNREACHABLE_CODE;
+}
+
+SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval) {
+	switch (weight_func->tag) {
+		case LERP: {
+			SGA_Weight max = -INFINITY;
+			// Loop over all elements and find the maximum weight in the interval
+			for (size_t element_id = 0; element_id < weight_func->func.lerped.nb_elements; element_id++) {
+				SGA_Weight elem_max = SGA_WeightFunc_max_of_elem_in_interval(weight_func, element_id, interval);
+				if (elem_max > max) {
+					max = elem_max;
+				}
+			}
+			return max;
+		}
+		case CONST_UNIVERSALLY: {
+			return weight_func->func.const_universally.weight;
+		}
+	}
+	UNREACHABLE_CODE;
+}
+
+SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval) {
+	switch (weight_func->tag) {
+		case LERP: {
+			SGA_Weight min = INFINITY;
+			// Loop over all elements and find the minimum weight in the interval
+			for (size_t element_id = 0; element_id < weight_func->func.lerped.nb_elements; element_id++) {
+				SGA_Weight elem_min = SGA_WeightFunc_min_of_elem_in_interval(weight_func, element_id, interval);
+				if (elem_min < min) {
+					min = elem_min;
 				}
 			}
 			return min;

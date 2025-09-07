@@ -280,14 +280,14 @@ SGA_Weight SGA_W_TimeFrameStream_max_node_weight(const SGA_W_Stream* stream) {
 	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
 	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
 
-	return SGA_W_StreamGraph_max_node_weight(stream_graph);
+	return SGA_WeightFunc_max_in_interval(&stream_graph->node_weights, timeframe_stream->timeframe);
 }
 
 SGA_Weight SGA_W_TimeFrameStream_min_node_weight(const SGA_W_Stream* stream) {
 	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
 	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
 
-	return SGA_W_StreamGraph_min_node_weight(stream_graph);
+	return SGA_WeightFunc_min_in_interval(&stream_graph->node_weights, timeframe_stream->timeframe);
 }
 
 void SGA_W_TimeFrameStream_normalise_node_weights(SGA_W_Stream* stream) {
@@ -303,14 +303,14 @@ SGA_Weight SGA_W_TimeFrameStream_max_link_weight(const SGA_W_Stream* stream) {
 	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
 	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
 
-	return SGA_W_StreamGraph_max_link_weight(stream_graph);
+	return SGA_WeightFunc_max_in_interval(&stream_graph->link_weights, timeframe_stream->timeframe);
 }
 
 SGA_Weight SGA_W_TimeFrameStream_min_link_weight(const SGA_W_Stream* stream) {
 	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
 	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
 
-	return SGA_W_StreamGraph_min_link_weight(stream_graph);
+	return SGA_WeightFunc_min_in_interval(&stream_graph->link_weights, timeframe_stream->timeframe);
 }
 
 void SGA_W_TimeFrameStream_normalise_link_weights(SGA_W_Stream* stream) {

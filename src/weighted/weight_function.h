@@ -71,7 +71,7 @@ void SGA_WeightFunc_destroy(SGA_WeightFunc weight_func);
  * @param interval The time interval to query.
  * @return The maximum weight for the element in the given time interval.
  */
-SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
+SGA_Weight SGA_WeightFunc_max_of_elem_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
 
 /**
  * @brief Gets the minimum weight in a given interval for a specific element.
@@ -80,6 +80,22 @@ SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, siz
  * @param interval The time interval to query.
  * @return The minimum weight for the element in the given time interval.
  */
-SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
+SGA_Weight SGA_WeightFunc_min_of_elem_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
+
+/**
+ * @brief Gets the maximum weight in a given interval for all elements.
+ * @param weight_func The weight function to query.
+ * @param interval The time interval to consider.
+ * @return The maximum weight for all elements in the given time interval.
+ */
+SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval);
+
+/**
+ * @brief Gets the minimum weight in a given interval for all elements.
+ * @param weight_func The weight function to query.
+ * @param interval The time interval to consider.
+ * @return The minimum weight for all elements in the given time interval.
+ */
+SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval);
 
 #endif // SGA_WEIGHTED_WEIGHT_FUNCTION_H

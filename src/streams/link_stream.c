@@ -397,7 +397,7 @@ SGA_Weight SGA_W_LinkStream_extremum_node_weight(const SGA_W_Stream* stream, SGA
 					// Check if there is a gap, and therefore that the extended weight function applies
 					if (current_time < next_time) {
 						SGA_Weight max_in_gap =
-						    SGA_WeightFunc_max_in_interval(
+						    SGA_WeightFunc_max_of_elem_in_interval(
 							&stream_graph->node_weights, node, SGA_Interval_from(current_time, next_time)) *
 						    sign;
 						if (max_in_gap > max_extended) {
