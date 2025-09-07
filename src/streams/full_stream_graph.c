@@ -244,7 +244,9 @@ void SGA_W_FullStreamGraph_normalise_node_weights(SGA_W_Stream* stream) {
 	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
 	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
 
-	SGA_WeightFunc_normalise(&stream_graph->node_weights);
+	SGA_Weight min = SGA_W_FullStreamGraph_min_node_weight(stream);
+	SGA_Weight max = SGA_W_FullStreamGraph_max_node_weight(stream);
+	SGA_WeightFunc_normalise(&stream_graph->node_weights, min, max);
 }
 
 SGA_Weight SGA_W_FullStreamGraph_max_link_weight(const SGA_W_Stream* stream) {
@@ -265,7 +267,9 @@ void SGA_W_FullStreamGraph_normalise_link_weights(SGA_W_Stream* stream) {
 	W_FullStreamGraph* full_stream_graph = (W_FullStreamGraph*)stream->stream_data;
 	SGA_W_StreamGraph* stream_graph	     = full_stream_graph->underlying_stream_graph;
 
-	SGA_WeightFunc_normalise(&stream_graph->link_weights);
+	SGA_Weight min = SGA_W_FullStreamGraph_min_link_weight(stream);
+	SGA_Weight max = SGA_W_FullStreamGraph_max_link_weight(stream);
+	SGA_WeightFunc_normalise(&stream_graph->link_weights, min, max);
 }
 
 const WeightedStreamFunctions FullStreamGraph_weighted_stream_functions = {

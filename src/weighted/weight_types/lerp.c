@@ -80,9 +80,7 @@ SGA_Weight LerpWeightFunc_min(const LerpWeightFunc* self) {
 	return min_weight;
 }
 
-void LerpWeightFunc_normalise(LerpWeightFunc* self) {
-	SGA_Weight min = LerpWeightFunc_min(self);
-	SGA_Weight max = LerpWeightFunc_max(self);
+void LerpWeightFunc_normalise(LerpWeightFunc* self, SGA_Weight min, SGA_Weight max) {
 	for (size_t i = 0; i < self->nb_elements; i++) {
 		for (size_t j = 0; j < self->nb_times; j++) {
 			self->weights[i][j] = (self->weights[i][j] - min) / (max - min);

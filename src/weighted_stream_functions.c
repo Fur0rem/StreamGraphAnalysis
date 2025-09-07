@@ -4,6 +4,7 @@
 
 #include "stream.h"
 #include "streams/full_stream_graph.h"
+#include "streams/link_stream.h"
 #include "weighted_stream.h"
 
 /**
@@ -12,13 +13,14 @@
  * @return The table of functions to access the data of a weighted StreamGraph.
  */
 WeightedStreamFunctions SGA_Weighted_StreamFunctions(const SGA_W_Stream* stream) {
-	// switch (stream->base.type) {
-	// case FULL_STREAM_GRAPH: {
-	// 	return FullStreamGraph_weighted_stream_functions;
-	// }
-	// case LINK_STREAM: {
-	// 	return LinkStream_weighted_stream_functions;
-	// }
+	switch (stream->base.type) {
+		case FULL_STREAM_GRAPH: {
+			return FullStreamGraph_weighted_stream_functions;
+		}
+		case LINK_STREAM: {
+			return LinkStream_weighted_stream_functions;
+		}
+	}
 	// case CHUNK_STREAM: {
 	// 	return ChunkStream_weighted_stream_functions;
 	// }
@@ -47,4 +49,34 @@ SGA_Stream* SGA_W_Stream_as_regular_stream(SGA_W_Stream* self) {
 	return &self->base;
 }
 
-void SGA_W_Stream_destroy(SGA_Stream stream) {}
+void SGA_W_Stream_destroy(SGA_W_Stream stream) {
+	switch (stream.base.type) {
+		case FULL_STREAM_GRAPH: {
+			SGA_W_FullStreamGraph_destroy(stream);
+			break;
+		}
+		case LINK_STREAM: {
+			SGA_W_LinkStream_destroy(stream);
+			break;
+		}
+		// case CHUNK_STREAM: {
+		// 	SGA_W_ChunkStream_destroy(stream);
+		// 	break;
+		// }
+		// case CHUNK_STREAM_SMALL: {
+		// 	SGA_W_ChunkStreamSmall_destroy(stream);
+		// 	break;
+		// }
+		// case TIMEFRAME_STREAM: {
+		// 	SGA_W_TimeFrameStream_destroy(stream);
+		// 	break;
+		// }
+		// case DELTA_STREAM: {
+		// 	SGA_W_DeltaStream_destroy(stream);
+		// 	break;
+		// }
+		default: {
+			UNREACHABLE_CODE;
+		}
+	}
+}

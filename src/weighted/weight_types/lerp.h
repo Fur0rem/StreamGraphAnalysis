@@ -72,7 +72,9 @@ SGA_Weight LerpWeightFunc_min(const LerpWeightFunc* self);
 /**
  * @brief Normalises the weights of the function to the range [0, 1].
  * @param self The LerpWeightFunc structure to normalise.
+ * @param min The minimum weight to map to 0.
+ * @param max The maximum weight to map to 1.
  */
-void LerpWeightFunc_normalise(LerpWeightFunc* self);
+void LerpWeightFunc_normalise(LerpWeightFunc* self, SGA_Weight min, SGA_Weight max);
 
 #endif // WEIGHTED_WEIGHT_TYPES_LERP_H

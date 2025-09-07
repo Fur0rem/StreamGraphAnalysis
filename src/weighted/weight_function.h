@@ -53,7 +53,33 @@ SGA_Weight SGA_WeightFunc_min(const SGA_WeightFunc* weight_func);
 /**
  * @brief Normalises the weights of the function to the range [0, 1].
  * @param weight_func The weight function to normalise.
+ * @param min The minimum weight to map to 0.
+ * @param max The maximum weight to map to 1.
  */
-void SGA_WeightFunc_normalise(SGA_WeightFunc* weight_func);
+void SGA_WeightFunc_normalise(SGA_WeightFunc* weight_func, SGA_Weight min, SGA_Weight max);
+
+/**
+ * @brief Destroys a weight function, freeing any allocated memory.
+ * @param[in] weight_func The weight function to destroy. Not usable after this call.
+ */
+void SGA_WeightFunc_destroy(SGA_WeightFunc weight_func);
+
+/**
+ * @brief Gets the maximum weight in a given interval for a specific element.
+ * @param weight_func The weight function to query.
+ * @param element_id The id of the element to query.
+ * @param interval The time interval to query.
+ * @return The maximum weight for the element in the given time interval.
+ */
+SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
+
+/**
+ * @brief Gets the minimum weight in a given interval for a specific element.
+ * @param weight_func The weight function to query.
+ * @param element_id The id of the element to query.
+ * @param interval The time interval to query.
+ * @return The minimum weight for the element in the given time interval.
+ */
+SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval);
 
 #endif // SGA_WEIGHTED_WEIGHT_FUNCTION_H

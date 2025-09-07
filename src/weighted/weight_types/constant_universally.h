@@ -47,9 +47,13 @@ SGA_Weight ConstUniversally_max(const ConstUniversally* self);
 SGA_Weight ConstUniversally_min(const ConstUniversally* self);
 
 /**
- * @brief Normalises the weight of the function to 1.0.
+ * @brief Normalises the weight of the function to the range [0, 1].
  * @param self The ConstUniversally structure to normalise.
+ * @param min The minimum weight to map to 0.
+ * @param max The maximum weight to map to 1.
+ * @note While it does not make much sense to normalise a constant weight function on itself, it is useful when combined with other weight
+ * functions when extending a stream graph, for example extending the nodes of a link stream.
  */
-void ConstUniversally_normalise(ConstUniversally* self);
+void ConstUniversally_normalise(ConstUniversally* self, SGA_Weight min, SGA_Weight max);
 
 #endif // WEIGHTED_WEIGHT_TYPES_CONSTANT_UNIVERSALLY_H

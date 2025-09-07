@@ -9,8 +9,8 @@
 #define LINK_STREAM_H
 
 #include "../analysis/metrics.h"
-#include "../stream.h"
-#include "../stream_functions.h"
+#include "../weighted_stream.h"
+#include "../weighted_stream_functions.h"
 
 #ifdef SGA_INTERNAL
 
@@ -38,5 +38,41 @@ SGA_Stream SGA_LinkStream_from(SGA_StreamGraph* stream_graph);
  * @param[in] stream The LinkStream to destroy.
  */
 void SGA_LinkStream_destroy(SGA_Stream stream);
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+#ifdef SGA_INTERNAL
+
+/**
+ * @brief The weighted version of the LinkStream
+ */
+typedef struct W_LinkStream {
+	SGA_W_StreamGraph* underlying_stream_graph; ///< The weighted StreamGraph from which the LinkStream was extracted.
+	SGA_WeightFunc extended_nodes_weights;	    ///< The weight function used for the new node presences,
+						    ///< created by turning the stream graph into a link stream.
+} W_LinkStream;
+
+/**
+ * @brief The necessary functions to use a W_LinkStream as a weighted Stream.
+ */
+extern const WeightedStreamFunctions LinkStream_weighted_stream_functions;
+
+#endif // SGA_INTERNAL
+/**
+ * @brief Creates a weighted Stream of a LinkStream from a weighted StreamGraph (i.e. all nodes are present at all times)
+ * @param[in] stream_graph The weighted StreamGraph
+ * @param[in] extended_nodes_weights The weights used for the extensions of nodes. Since turning a stream graph into a link stream creates
+ * node presences, it is the weight function used for what got created, used only when the nodes were not already present there.
+ * @return The link stream as a weighted stream
+ */
+SGA_W_Stream SGA_W_LinkStream_from(SGA_W_StreamGraph* stream_graph, SGA_WeightFunc extended_nodes_weights);
+
+/**
+ * @brief Destroys a weighted Stream of a LinkStream.
+ * @param[in] self The LinkStream to destroy.
+ */
+void SGA_W_LinkStream_destroy(SGA_W_Stream self);
 
 #endif // LINK_STREAM_H

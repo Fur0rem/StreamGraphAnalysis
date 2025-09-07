@@ -78,19 +78,73 @@ SGA_Weight SGA_WeightFunc_min(const SGA_WeightFunc* weight_func) {
 	UNREACHABLE_CODE;
 }
 
-/**
- * @brief Normalises the weights of the function to the range [0, 1].
- * @param weight_func The weight function to normalise.
- */
-void SGA_WeightFunc_normalise(SGA_WeightFunc* weight_func) {
+void SGA_WeightFunc_normalise(SGA_WeightFunc* weight_func, SGA_Weight min, SGA_Weight max) {
+	// If all weights are the same, turn into a constant function of weight 1
+	if (min == max) {
+		SGA_WeightFunc_destroy(*weight_func);
+		*weight_func = SGA_WeightFunc_const_universally(1.0);
+	}
+
+	// Otherwise, normalise according to the type of weight function
 	switch (weight_func->tag) {
 		case LERP: {
-			LerpWeightFunc_normalise(&weight_func->func.lerped);
+			LerpWeightFunc_normalise(&weight_func->func.lerped, min, max);
 			break;
 		}
 		case CONST_UNIVERSALLY: {
-			ConstUniversally_normalise(&weight_func->func.const_universally);
+			ConstUniversally_normalise(&weight_func->func.const_universally, min, max);
 			break;
+		}
+	}
+	UNREACHABLE_CODE;
+}
+
+void SGA_WeightFunc_destroy(SGA_WeightFunc weight_func) {
+	switch (weight_func.tag) {
+		case LERP: {
+			LerpWeightFunc_destroy(weight_func.func.lerped);
+			break;
+		}
+		case CONST_UNIVERSALLY: {
+			// No dynamic memory to free for ConstUniversally
+			break;
+		}
+	}
+}
+
+SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
+	switch (weight_func->tag) {
+		case LERP: {
+			SGA_Weight max = -INFINITY;
+			for (SGA_Time t = interval.start; t < interval.end; t++) {
+				SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
+				if (w > max) {
+					max = w;
+				}
+			}
+			return max;
+		}
+		case CONST_UNIVERSALLY: {
+			return weight_func->func.const_universally.weight;
+		}
+	}
+	UNREACHABLE_CODE;
+}
+
+SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
+	switch (weight_func->tag) {
+		case LERP: {
+			SGA_Weight min = INFINITY;
+			for (SGA_Time t = interval.start; t < interval.end; t++) {
+				SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
+				if (w < min) {
+					min = w;
+				}
+			}
+			return min;
+		}
+		case CONST_UNIVERSALLY: {
+			return weight_func->func.const_universally.weight;
 		}
 	}
 	UNREACHABLE_CODE;

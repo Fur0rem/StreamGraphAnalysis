@@ -122,6 +122,6 @@ WeightedStreamFunctions SGA_Weighted_StreamFunctions(const SGA_W_Stream* stream)
  */
 SGA_Stream* SGA_W_Stream_as_regular_stream(SGA_W_Stream* self);
 
-void SGA_W_Stream_destroy(SGA_Stream stream);
+void SGA_W_Stream_destroy(SGA_W_Stream stream);
 
 #endif // STREAM_FUNCTIONS_H

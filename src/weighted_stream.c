@@ -47,14 +47,26 @@ SGA_Weight SGA_W_StreamGraph_max_node_weight(const SGA_W_StreamGraph* stream_gra
 	return SGA_WeightFunc_max(&stream_graph->node_weights);
 }
 
+SGA_Weight SGA_W_StreamGraph_min_node_weight(const SGA_W_StreamGraph* stream_graph) {
+	return SGA_WeightFunc_min(&stream_graph->node_weights);
+}
+
 SGA_Weight SGA_W_StreamGraph_min_link_weight(const SGA_W_StreamGraph* stream_graph) {
 	return SGA_WeightFunc_min(&stream_graph->link_weights);
 }
 
+SGA_Weight SGA_W_StreamGraph_max_link_weight(const SGA_W_StreamGraph* stream_graph) {
+	return SGA_WeightFunc_max(&stream_graph->link_weights);
+}
+
 void SGA_W_StreamGraph_normalise_node_weights(SGA_W_StreamGraph* stream_graph) {
-	SGA_WeightFunc_normalise(&stream_graph->node_weights);
+	SGA_Weight min = SGA_W_StreamGraph_min_node_weight(stream_graph);
+	SGA_Weight max = SGA_W_StreamGraph_max_node_weight(stream_graph);
+	SGA_WeightFunc_normalise(&stream_graph->node_weights, min, max);
 }
 
 void SGA_W_StreamGraph_normalise_link_weights(SGA_W_StreamGraph* stream_graph) {
-	SGA_WeightFunc_normalise(&stream_graph->link_weights);
+	SGA_Weight min = SGA_W_StreamGraph_min_link_weight(stream_graph);
+	SGA_Weight max = SGA_W_StreamGraph_max_link_weight(stream_graph);
+	SGA_WeightFunc_normalise(&stream_graph->link_weights, min, max);
 }

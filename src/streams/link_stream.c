@@ -1,6 +1,6 @@
+#include <stdint.h>
 #define SGA_INTERNAL
 
-#include "link_stream.h"
 #include "../analysis/metrics.h"
 #include "../interval.h"
 #include "../stream_data_access/induced_graph.h"
@@ -8,6 +8,8 @@
 #include "../stream_data_access/link_access.h"
 #include "../stream_data_access/node_access.h"
 #include "../utils.h"
+#include "link_stream.h"
+#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -209,4 +211,265 @@ const MetricsFunctions LinkStream_metrics_functions = {
     .temporal_cardinal_of_node_set = (size_t (*)(const SGA_Stream*))LS_cardinal_of_W,
     .node_duration		   = NULL,
     .density			   = (double (*)(const SGA_Stream*))LinkStream_density,
+};
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+/**
+ * @brief Creates a weighted Stream of a LinkStream from a weighted StreamGraph (i.e. all nodes are present at all times)
+ * @param[in] stream_graph The weighted StreamGraph
+ * @param[in] node_weights_fill The weights used for the extensions of nodes. Since turning a stream graph into a link stream creates node
+ * presences, it is the weight function used for what got created, used only when the nodes were not already present there.
+ * @return The link stream as a weighted stream
+ */
+SGA_W_Stream SGA_W_LinkStream_from(SGA_W_StreamGraph* stream_graph, SGA_WeightFunc node_weights_fill) {
+	W_LinkStream* link_stream	     = MALLOC(sizeof(W_LinkStream));
+	link_stream->underlying_stream_graph = stream_graph;
+	link_stream->extended_nodes_weights  = node_weights_fill;
+
+	SGA_W_Stream stream = {
+	    .base =
+		{
+		    .type	 = LINK_STREAM,
+		    .stream_data = &stream_graph->base,
+		},
+	    .stream_data = link_stream,
+	};
+
+	init_cache(&stream.base);
+
+	return stream;
+}
+
+void SGA_W_LinkStream_destroy(SGA_W_Stream self) {
+	W_LinkStream* link_stream = (W_LinkStream*)self.stream_data;
+	SGA_WeightFunc_destroy(link_stream->extended_nodes_weights);
+}
+
+bool is_node_present_at(SGA_NodeId node_id, SGA_Time time, SGA_W_StreamGraph* stream_graph) {
+	SGA_Node* node = &stream_graph->base.nodes.nodes[node_id];
+	// FIXME: Do binary search instead for better performance
+	for (size_t i = 0; i < node->presence.nb_intervals; i++) {
+		if (SGA_Interval_contains(node->presence.intervals[i], time)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+SGA_Weight SGA_W_LinkStream_node_weight_at_t(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Time time) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+	ASSERT(node < stream_graph->base.nodes.nb_nodes);
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, time));
+
+	// If the node was already present originally, query the base weight function
+	if (is_node_present_at(node, time, stream_graph)) {
+		return SGA_W_StreamGraph_node_weight_at_t(stream_graph, node, time);
+	}
+	// Otherwise, query the extended weight function
+	else {
+		return SGA_WeightFunc_weight_at_t(&stream_graph->node_weights, node, time);
+	}
+}
+
+SGA_Weight SGA_W_LinkStream_weight_integral_of_node_between(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Interval interval) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	ASSERT(node < stream_graph->base.nodes.nb_nodes);
+	ASSERT(SGA_Interval_contains_interval(stream_graph->base.lifespan, interval));
+
+	// Compute the integral by splitting the interval into sub-integrals where the weight function doesn't switch between base/extended
+	// TODO: optimize by not looping over all intervals every time
+	SGA_Weight total_weight = 0;
+	SGA_Time current_time	= interval.start;
+	while (current_time < interval.end) {
+		// Find the next time where the node presence changes
+		SGA_Time next_switch_time = interval.end;
+		SGA_Node* n		  = &stream_graph->base.nodes.nodes[node];
+		for (size_t i = 0; i < n->presence.nb_intervals; i++) {
+			SGA_Interval pres = n->presence.intervals[i];
+			if (pres.start > current_time && pres.start < next_switch_time) {
+				next_switch_time = pres.start;
+			}
+			if (pres.end > current_time && pres.end < next_switch_time) {
+				next_switch_time = pres.end;
+			}
+		}
+
+		// Compute the integral on the sub-interval
+		SGA_Interval sub_interval = {
+		    .start = current_time,
+		    .end   = next_switch_time,
+		};
+		if (is_node_present_at(node, current_time, stream_graph)) {
+			total_weight += SGA_W_StreamGraph_weight_integral_of_node_between(stream_graph, node, sub_interval);
+		}
+		else {
+			total_weight += SGA_WeightFunc_weight_integral_between(&stream_graph->node_weights, node, sub_interval);
+		}
+
+		// Go to the next sub-interval
+		current_time = next_switch_time;
+	}
+
+	return total_weight;
+}
+
+SGA_Weight SGA_W_LinkStream_link_weight_at_t(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Time time) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	ASSERT(link < stream_graph->base.links.nb_links);
+	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, time));
+
+	return SGA_W_StreamGraph_link_weight_at_t(stream_graph, link, time);
+}
+
+SGA_Weight SGA_W_LinkStream_weight_integral_of_link_between(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Interval interval) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	ASSERT(link < stream_graph->base.links.nb_links);
+	ASSERT(SGA_Interval_contains_interval(stream_graph->base.lifespan, interval));
+
+	return SGA_W_StreamGraph_weight_integral_of_link_between(stream_graph, link, interval);
+}
+
+/**
+ * @brief Finds the extremum (maximum or minimum) node weight in the LinkStream, considering both the base weights and the extended weights.
+ * @param stream The weighted LinkStream to analyze.
+ * @param sign +1 to find the maximum weight, -1 to find the minimum weight. (because min(f(x)) = -max(-f(x)))
+ */
+SGA_Weight SGA_W_LinkStream_extremum_node_weight(const SGA_W_Stream* stream, SGA_Weight sign) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	SGA_Weight max_base = SGA_W_StreamGraph_max_node_weight(stream_graph) * sign;
+
+	// Look for the max in the extended weights, where the nodes were not originally present
+	switch (stream_graph->node_weights.tag) {
+		// For an universally constant function, this is just the constant value
+		// We just have to check that it is actually applied at some point
+		case CONST_UNIVERSALLY: {
+			ConstUniversally* const_func = &stream_graph->node_weights.func.const_universally;
+
+			// OPTIMISATION: if the base weight is greater than the constant, we can return it directly
+			// Since we can assume that the base stream graph is not empty
+			if (const_func->weight * sign <= max_base) {
+				return max_base * sign;
+			}
+
+			// Check if there is at least one node that is not always present
+			for (SGA_NodeId node = 0; node < stream_graph->base.nodes.nb_nodes; node++) {
+				SGA_Node* n = &stream_graph->base.nodes.nodes[node];
+				if (n->presence.nb_intervals == 1 &&
+				    SGA_Interval_equals(&n->presence.intervals[0], &stream_graph->base.lifespan)) {
+					return const_func->weight * sign;
+				}
+			}
+
+			// All nodes are always present, so the extended weight function is never used
+			return max_base * sign;
+		}
+		// For a lerp function, we can't just query the max of the extended weight function, because it might at a time where the
+		// base weight function should be used.
+		case LERP: {
+			SGA_Weight max_extended = -INFINITY * sign;
+			for (SGA_NodeId node = 0; node < stream_graph->base.nodes.nb_nodes; node++) {
+				SGA_Node* n = &stream_graph->base.nodes.nodes[node];
+
+				// Look for gaps in the presence of the node
+				SGA_Time current_time = stream_graph->base.lifespan.start;
+				for (size_t i = 0; i <= n->presence.nb_intervals; i++) {
+					SGA_Time next_time;
+					if (i == n->presence.nb_intervals) {
+						next_time = stream_graph->base.lifespan.end;
+					}
+					else {
+						next_time = n->presence.intervals[i].start;
+					}
+
+					// Check if there is a gap, and therefore that the extended weight function applies
+					if (current_time < next_time) {
+						SGA_Weight max_in_gap =
+						    SGA_WeightFunc_max_in_interval(
+							&stream_graph->node_weights, node, SGA_Interval_from(current_time, next_time)) *
+						    sign;
+						if (max_in_gap > max_extended) {
+							max_extended = max_in_gap;
+						}
+					}
+
+					// Move to the end of the current presence interval
+					if (i < n->presence.nb_intervals) {
+						current_time = n->presence.intervals[i].end;
+					}
+				}
+			}
+
+			// Return the maximum between the base and extended weights
+			return fmax(max_base, max_extended) * sign;
+		}
+
+		default: {
+			UNREACHABLE_CODE;
+		}
+	}
+}
+
+SGA_Weight SGA_W_LinkStream_max_node_weight(const SGA_W_Stream* stream) {
+	return SGA_W_LinkStream_extremum_node_weight(stream, +1);
+}
+
+SGA_Weight SGA_W_LinkStream_min_node_weight(const SGA_W_Stream* stream) {
+	return SGA_W_LinkStream_extremum_node_weight(stream, -1);
+}
+
+void SGA_W_LinkStream_normalise_node_weights(SGA_W_Stream* stream) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	SGA_Weight min = SGA_W_LinkStream_min_node_weight(stream);
+	SGA_Weight max = SGA_W_LinkStream_max_node_weight(stream);
+	SGA_WeightFunc_normalise(&stream_graph->node_weights, min, max);
+}
+
+SGA_Weight SGA_W_LinkStream_max_link_weight(const SGA_W_Stream* stream) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	return SGA_W_StreamGraph_max_link_weight(stream_graph);
+}
+
+SGA_Weight SGA_W_LinkStream_min_link_weight(const SGA_W_Stream* stream) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	return SGA_W_StreamGraph_min_link_weight(stream_graph);
+}
+
+void SGA_W_LinkStream_normalise_link_weights(SGA_W_Stream* stream) {
+	W_LinkStream* link_stream	= (W_LinkStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph = link_stream->underlying_stream_graph;
+
+	SGA_Weight min = SGA_W_LinkStream_min_link_weight(stream);
+	SGA_Weight max = SGA_W_LinkStream_max_link_weight(stream);
+	SGA_WeightFunc_normalise(&stream_graph->link_weights, min, max);
+}
+
+const WeightedStreamFunctions LinkStream_weighted_stream_functions = {
+    .node_weight_at_t		     = SGA_W_LinkStream_node_weight_at_t,
+    .weight_integral_of_node_between = SGA_W_LinkStream_weight_integral_of_node_between,
+    .link_weight_at_t		     = SGA_W_LinkStream_link_weight_at_t,
+    .weight_integral_of_link_between = SGA_W_LinkStream_weight_integral_of_link_between,
+    .max_node_weight		     = SGA_W_LinkStream_max_node_weight,
+    .min_node_weight		     = SGA_W_LinkStream_min_node_weight,
+    .normalise_node_weights	     = SGA_W_LinkStream_normalise_node_weights,
+    .max_link_weight		     = SGA_W_LinkStream_max_link_weight,
+    .min_link_weight		     = SGA_W_LinkStream_min_link_weight,
+    .normalise_link_weights	     = SGA_W_LinkStream_normalise_link_weights,
 };

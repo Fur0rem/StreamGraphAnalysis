@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CC=gcc
-CFLAGS="-Wall -Wextra -g -Wno-unused-function -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined -fsanitize=bounds -fno-sanitize-recover=all -Iinclude -Itests -IlibSGA/include"
+CFLAGS="-Wall -Wextra -g -Wno-unused-function -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined -fsanitize=bounds -fno-sanitize-recover=all -Iinclude -Itests -IlibSGA/include -lm"
 
 SRC_DIR=src
 TEST_DIR=tests

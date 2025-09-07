@@ -42,7 +42,9 @@ SGA_Weight SGA_W_StreamGraph_link_weight_at_t(const SGA_W_StreamGraph* stream_gr
 SGA_Weight SGA_W_StreamGraph_weight_integral_of_node_between(const SGA_W_StreamGraph* stream_graph, SGA_NodeId node, SGA_Interval interval);
 SGA_Weight SGA_W_StreamGraph_weight_integral_of_link_between(const SGA_W_StreamGraph* stream_graph, SGA_LinkId link, SGA_Interval interval);
 SGA_Weight SGA_W_StreamGraph_max_node_weight(const SGA_W_StreamGraph* stream_graph);
+SGA_Weight SGA_W_StreamGraph_min_node_weight(const SGA_W_StreamGraph* stream_graph);
 SGA_Weight SGA_W_StreamGraph_min_link_weight(const SGA_W_StreamGraph* stream_graph);
+SGA_Weight SGA_W_StreamGraph_max_link_weight(const SGA_W_StreamGraph* stream_graph);
 void SGA_W_StreamGraph_normalise_node_weights(SGA_W_StreamGraph* stream_graph);
 void SGA_W_StreamGraph_normalise_link_weights(SGA_W_StreamGraph* stream_graph);
 
