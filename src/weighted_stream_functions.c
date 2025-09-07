@@ -3,8 +3,7 @@
 #include "weighted_stream_functions.h"
 
 #include "stream.h"
-#include "streams/full_stream_graph.h"
-#include "streams/link_stream.h"
+#include "streams.h"
 #include "weighted_stream.h"
 
 /**
@@ -20,6 +19,9 @@ WeightedStreamFunctions SGA_Weighted_StreamFunctions(const SGA_W_Stream* stream)
 		case LINK_STREAM: {
 			return LinkStream_weighted_stream_functions;
 		}
+		case TIMEFRAME_STREAM: {
+			return TimeFrameStream_weighted_stream_functions;
+		}
 	}
 	// case CHUNK_STREAM: {
 	// 	return ChunkStream_weighted_stream_functions;
@@ -27,9 +29,7 @@ WeightedStreamFunctions SGA_Weighted_StreamFunctions(const SGA_W_Stream* stream)
 	// case CHUNK_STREAM_SMALL: {
 	// 	return ChunkStreamSmall_weighted_stream_functions;
 	// }
-	// case TIMEFRAME_STREAM: {
-	// 	return TimeFrameStream_weighted_stream_functions;
-	// }
+
 	// case DELTA_STREAM: {
 	// 	return DeltaStream_weighted_stream_functions;
 	// }
@@ -67,10 +67,10 @@ void SGA_W_Stream_destroy(SGA_W_Stream stream) {
 		// 	SGA_W_ChunkStreamSmall_destroy(stream);
 		// 	break;
 		// }
-		// case TIMEFRAME_STREAM: {
-		// 	SGA_W_TimeFrameStream_destroy(stream);
-		// 	break;
-		// }
+		case TIMEFRAME_STREAM: {
+			SGA_W_TimeFrameStream_destroy(stream);
+			break;
+		}
 		// case DELTA_STREAM: {
 		// 	SGA_W_DeltaStream_destroy(stream);
 		// 	break;

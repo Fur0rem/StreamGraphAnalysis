@@ -246,6 +246,7 @@ SGA_W_Stream SGA_W_LinkStream_from(SGA_W_StreamGraph* stream_graph, SGA_WeightFu
 void SGA_W_LinkStream_destroy(SGA_W_Stream self) {
 	W_LinkStream* link_stream = (W_LinkStream*)self.stream_data;
 	SGA_WeightFunc_destroy(link_stream->extended_nodes_weights);
+	free(link_stream);
 }
 
 bool is_node_present_at(SGA_NodeId node_id, SGA_Time time, SGA_W_StreamGraph* stream_graph) {

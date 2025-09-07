@@ -209,3 +209,128 @@ const MetricsFunctions TimeFrameStream_metrics_functions = {
     .coverage			   = NULL,
     .node_duration		   = NULL,
 };
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+SGA_W_Stream SGA_W_TimeFrameStream_from(SGA_W_StreamGraph* stream_graph, SGA_Interval timeframe) {
+	W_TimeFrameStream* timeframe_stream = MALLOC(sizeof(W_TimeFrameStream));
+	*timeframe_stream		    = (W_TimeFrameStream){
+			      .underlying_stream_graph = stream_graph,
+			      .timeframe	       = timeframe,
+	  };
+
+	SGA_W_Stream stream = {
+	    .base	 = {.type = TIMEFRAME_STREAM, .stream_data = &stream_graph->base},
+	    .stream_data = timeframe_stream,
+	};
+
+	init_cache(&stream.base);
+
+	return stream;
+}
+
+void SGA_W_TimeFrameStream_destroy(SGA_W_Stream self) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)self.stream_data;
+	free(timeframe_stream);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_node_weight_at_t(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Time time) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	ASSERT(node < stream_graph->base.nodes.nb_nodes);
+	ASSERT(SGA_Interval_contains(timeframe_stream->timeframe, time));
+
+	return SGA_W_StreamGraph_node_weight_at_t(stream_graph, node, time);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_link_weight_at_t(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Time time) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	ASSERT(link < stream_graph->base.links.nb_links);
+	ASSERT(SGA_Interval_contains(timeframe_stream->timeframe, time));
+
+	return SGA_W_StreamGraph_link_weight_at_t(stream_graph, link, time);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_weight_integral_of_node_between(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Interval interval) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	ASSERT(node < stream_graph->base.nodes.nb_nodes);
+	ASSERT(SGA_Interval_contains_interval(timeframe_stream->timeframe, interval));
+
+	return SGA_W_StreamGraph_weight_integral_of_node_between(stream_graph, node, interval);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_weight_integral_of_link_between(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Interval interval) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	ASSERT(link < stream_graph->base.links.nb_links);
+	ASSERT(SGA_Interval_contains_interval(timeframe_stream->timeframe, interval));
+
+	return SGA_W_StreamGraph_weight_integral_of_link_between(stream_graph, link, interval);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_max_node_weight(const SGA_W_Stream* stream) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	return SGA_W_StreamGraph_max_node_weight(stream_graph);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_min_node_weight(const SGA_W_Stream* stream) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	return SGA_W_StreamGraph_min_node_weight(stream_graph);
+}
+
+void SGA_W_TimeFrameStream_normalise_node_weights(SGA_W_Stream* stream) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	SGA_Weight min = SGA_W_TimeFrameStream_min_node_weight(stream);
+	SGA_Weight max = SGA_W_TimeFrameStream_max_node_weight(stream);
+	SGA_WeightFunc_normalise(&stream_graph->node_weights, min, max);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_max_link_weight(const SGA_W_Stream* stream) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	return SGA_W_StreamGraph_max_link_weight(stream_graph);
+}
+
+SGA_Weight SGA_W_TimeFrameStream_min_link_weight(const SGA_W_Stream* stream) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	return SGA_W_StreamGraph_min_link_weight(stream_graph);
+}
+
+void SGA_W_TimeFrameStream_normalise_link_weights(SGA_W_Stream* stream) {
+	W_TimeFrameStream* timeframe_stream = (W_TimeFrameStream*)stream->stream_data;
+	SGA_W_StreamGraph* stream_graph	    = timeframe_stream->underlying_stream_graph;
+
+	SGA_Weight min = SGA_W_TimeFrameStream_min_link_weight(stream);
+	SGA_Weight max = SGA_W_TimeFrameStream_max_link_weight(stream);
+	SGA_WeightFunc_normalise(&stream_graph->link_weights, min, max);
+}
+
+const WeightedStreamFunctions TimeFrameStream_weighted_stream_functions = {
+    .node_weight_at_t		     = SGA_W_TimeFrameStream_node_weight_at_t,
+    .weight_integral_of_node_between = SGA_W_TimeFrameStream_weight_integral_of_node_between,
+    .link_weight_at_t		     = SGA_W_TimeFrameStream_link_weight_at_t,
+    .weight_integral_of_link_between = SGA_W_TimeFrameStream_weight_integral_of_link_between,
+    .max_node_weight		     = SGA_W_TimeFrameStream_max_node_weight,
+    .min_node_weight		     = SGA_W_TimeFrameStream_min_node_weight,
+    .normalise_node_weights	     = SGA_W_TimeFrameStream_normalise_node_weights,
+    .max_link_weight		     = SGA_W_TimeFrameStream_max_link_weight,
+    .min_link_weight		     = SGA_W_TimeFrameStream_min_link_weight,
+    .normalise_link_weights	     = SGA_W_TimeFrameStream_normalise_link_weights,
+};
