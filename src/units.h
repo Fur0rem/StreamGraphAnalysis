@@ -19,6 +19,11 @@ DeclareArrayListDeriveRemove(SGA_LinkId);
 DeclareArrayListDeriveToString(SGA_LinkId);
 DeclareArrayListDeriveOrdered(SGA_LinkId);
 
+DeclareArrayList(SGA_LinkIdArrayList);
+DeclareArrayListDeriveEquals(SGA_LinkIdArrayList);
+DeclareArrayListDeriveRemove(SGA_LinkIdArrayList);
+DeclareArrayListDeriveToString(SGA_LinkIdArrayList);
+
 typedef size_t SGA_TimeId; ///< Used to index times in a StreamGraph.
 DeclareArrayList(SGA_TimeId);
 DeclareArrayListDeriveEquals(SGA_TimeId);
@@ -39,5 +44,8 @@ DeclareArrayListDeriveEquals(SGA_Weight);
 DeclareArrayListDeriveRemove(SGA_Weight);
 DeclareArrayListDeriveToString(SGA_Weight);
 DeclareArrayListDeriveOrdered(SGA_Weight);
+
+#include "generic_data_structures/arraylist.h"
+#include "generic_data_structures/hashset.h"
 
 #endif // UNITS_H

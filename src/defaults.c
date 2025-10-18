@@ -28,3 +28,5 @@ size_t int_hash(int* value) {
 
 DefineFullDerivedHashset(int);
 DefineBinaryHeap(int);
+
+DefineArrayList(size_tHashset);

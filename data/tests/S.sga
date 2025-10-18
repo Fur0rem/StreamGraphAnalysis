@@ -1,12 +1,12 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 It's the stream graph S from Figure 1 of the paper.
 
-[General]
-Lifespan=(0 100)
-TimeScale=10
+[general]
+lifespan=(0 100)
+time_scale=10
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 10 + N 3
@@ -28,4 +28,4 @@ TimeScale=10
 100 - N 0
 100 - N 1
 
-[EndOfStream]
+[end]

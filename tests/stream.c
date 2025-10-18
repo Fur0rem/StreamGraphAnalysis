@@ -3,6 +3,7 @@
  * @brief Tests regarding StreamGraph
  */
 
+#include <stdio.h>
 #define SGA_INTERNAL
 
 #include "../StreamGraphAnalysis.h"
@@ -51,26 +52,36 @@ bool test_find_index_of_time_not_found() {
 
 bool test_missing_nodes() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/missing_nodes.sga");
-	String str	   = SGA_StreamGraph_to_string(&sg);
-	String_push(&str, '\0');
-	printf("%s\n", str.data);
-	String_destroy(str);
+
+	bool success = EXPECT_EQ(sg.nodes.nodes[0].presence.nb_intervals, 0);
+	success &= EXPECT_EQ(sg.nodes.nodes[0].nb_neighbours, 0);
+	success &= EXPECT_EQ(sg.nodes.nodes[1].presence.nb_intervals, 0);
+	success &= EXPECT_EQ(sg.nodes.nodes[1].nb_neighbours, 0);
+	for (size_t i = 4; i <= 19; i++) {
+		success &= EXPECT_EQ(sg.nodes.nodes[i].presence.nb_intervals, 0);
+		success &= EXPECT_EQ(sg.nodes.nodes[i].nb_neighbours, 0);
+	}
+	for (size_t i = 21; i <= 29; i++) {
+		success &= EXPECT_EQ(sg.nodes.nodes[i].presence.nb_intervals, 0);
+		success &= EXPECT_EQ(sg.nodes.nodes[i].nb_neighbours, 0);
+	}
+
 	SGA_StreamGraph_destroy(sg);
-	return true;
+	return success;
 }
 
 bool test_no_links() {
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/no_links.sga");
-	String str	   = SGA_StreamGraph_to_string(&sg);
-	String_push(&str, '\0');
-	printf("%s\n", str.data);
-	String_destroy(str);
+	bool success	   = EXPECT_EQ(sg.links.nb_links, 0);
+	for (size_t i = 0; i < sg.nodes.nb_nodes; i++) {
+		success &= EXPECT_EQ(sg.nodes.nodes->nb_neighbours, 0);
+	}
 	SGA_StreamGraph_destroy(sg);
-	return true;
+	return success;
 }
 
 bool test_wrong_order_internal() {
-	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S_internal_unordered.sga");
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/S_unordered.sga");
 	String str	   = SGA_StreamGraph_to_string(&sg);
 	String_push(&str, '\0');
 	printf("%s\n", str.data);

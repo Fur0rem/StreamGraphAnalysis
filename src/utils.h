@@ -51,7 +51,7 @@
 #define DeclareEquals(type)  bool type##_equals(const type* left, const type* right);
 #define DeclareCompare(type) int type##_compare(const type* left, const type* right);
 #define DeclareDestroy(type) void type##_destroy(type self);
-#define DeclareHash(type)    int type##_hash(const type* self);
+#define DeclareHash(type)    size_t type##_hash(const type* self);
 
 #define DEFAULT_MIN_MAX(type)                                                                                                              \
 	type type##_min(type left, type right) {                                                                                           \
@@ -167,5 +167,37 @@ String String_with_capacity(size_t capacity);
  * @param[in] filename The name of the file
  */
 void String_write_to_file(const String* self, const char* filename);
+
+/**
+ * @brief Create a new string
+ * @return An empty string
+ */
+String String_new();
+
+/**
+ * @brief Create a string from a formatted input
+ * @param format The format of the string
+ * @return The created string
+ */
+String String_from_format(const char* format, ...);
+
+/**
+ * @brief Replace all occurrences C substring in a string with another C substring
+ * @param[in,out] self The string to modify
+ * @param[in] to_replace The substring to replace
+ * @param[in] replace_with The substring to replace with
+ */
+void String_replace_all(String* self, const char* to_replace, const char* replace_with);
+
+/**
+ * @brief Replace the first occurrence C substring in a string with another C substring
+ * @param[in,out] self The string to modify
+ * @param[in] to_replace The substring to replace
+ * @param[in] replace_with The substring to replace with
+ * @return true if a replacement was made, false otherwise
+ */
+bool String_replace_once(String* self, const char* to_replace, const char* replace_with);
+
+void String_null_terminate(String* self);
 
 #endif

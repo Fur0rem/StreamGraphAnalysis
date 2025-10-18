@@ -1,12 +1,12 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 It's the stream graph S from Figure 8 of the paper. It's used to illustrate the clustering coefficient.
 
-[General]
-Lifespan=(0 10)
-TimeScale=1
+[general]
+lifespan=(0 10)
+time_scale=1
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 0 + N 2
@@ -28,4 +28,4 @@ TimeScale=1
 10 - N 2
 10 - N 3
 
-[EndOfStream]
+[end]

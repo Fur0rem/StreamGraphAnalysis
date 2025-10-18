@@ -119,9 +119,9 @@ int String_compare(const String* left, const String* right) {
 }
 
 // FIXME: slow hash function
-int String_hash(const String* self) {
-	int hash  = 0;
-	char* str = self->data;
+size_t String_hash(const String* self) {
+	size_t hash = 0;
+	char* str   = self->data;
 	for (size_t i = 0; i < self->size; i++) {
 		hash = ((hash * 32) + str[i]) ^ (str[i / 2] | str[i / 4]);
 	}
@@ -200,4 +200,71 @@ void String_write_to_file(const String* self, const char* filename) {
 	}
 	fwrite(self->data, 1, self->size, file);
 	fclose(file);
+}
+
+String String_new() {
+	return String_from_duplicate("");
+}
+
+bool String_replace_once_with_len(String* self, const char* to_replace, const char* replace_with, size_t to_replace_len,
+				  size_t replace_with_len) {
+
+	if (to_replace_len == 0) {
+		return false;
+	}
+
+	char* pos = strstr(self->data, to_replace);
+	if (pos != NULL) {
+		size_t index = pos - self->data;
+		// Resize if needed
+		if (replace_with_len > to_replace_len) {
+			String_reserve_extra(self, replace_with_len - to_replace_len);
+		}
+		// Move the rest of the string
+		memmove(
+		    self->data + index + replace_with_len, self->data + index + to_replace_len, self->size - index - to_replace_len + 1);
+		// Copy the new substring
+		memcpy(self->data + index, replace_with, replace_with_len);
+		self->size = self->size - to_replace_len + replace_with_len;
+		// Null-terminate the string
+		self->data[self->size] = '\0';
+		return true;
+	}
+	return false;
+}
+
+bool String_replace_once(String* self, const char* to_replace, const char* replace_with) {
+	return String_replace_once_with_len(self, to_replace, replace_with, strlen(to_replace), strlen(replace_with));
+}
+
+void String_replace_all(String* self, const char* to_replace, const char* replace_with) {
+	size_t replace_with_len = strlen(replace_with);
+	size_t to_replace_len	= strlen(to_replace);
+	bool replaced;
+	do {
+		replaced = String_replace_once_with_len(self, to_replace, replace_with, to_replace_len, replace_with_len);
+	} while (replaced);
+}
+
+String String_from_format(const char* format, ...) {
+	va_list args;
+	va_start(args, format);
+	size_t len = vsnprintf(NULL, 0, format, args);
+	va_end(args);
+	char* buffer = MALLOC(len + 1);
+	va_start(args, format);
+	vsnprintf(buffer, len + 1, format, args);
+	va_end(args);
+	String string = (String){
+	    .size     = len,
+	    .capacity = len + 1,
+	    .data     = buffer,
+	};
+	return string;
+}
+
+void String_null_terminate(String* self) {
+	if (self->data[self->size - 1] != '\0') {
+		String_push(self, '\0');
+	}
 }

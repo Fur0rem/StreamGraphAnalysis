@@ -5,6 +5,15 @@
 #include "../utils.h"
 #include <stddef.h>
 
+DefineArrayList(EventBuilder);
+
+EventBuilder EventBuilder_empty() {
+	return (EventBuilder){
+	    .info	       = size_tArrayList_new(),
+	    .has_disappearance = false,
+	};
+}
+
 EventsTable EventsTable_create(const size_tArrayList* node_events_list, const size_tArrayList* link_events_list,
 			       BitArray node_presence_mask, BitArray link_presence_mask, size_t nb_events) {
 

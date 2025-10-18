@@ -8,29 +8,29 @@
 #include <stddef.h>
 
 #define DeclareFullDerivedArrayList(T)                                                                                                     \
-	DeclareArrayList(T);                                                                                                                   \
-	DeclareArrayListDeriveRemove(T);                                                                                                       \
-	DeclareArrayListDeriveEquals(T);                                                                                                       \
-	DeclareArrayListDeriveOrdered(T);                                                                                                      \
+	DeclareArrayList(T);                                                                                                               \
+	DeclareArrayListDeriveRemove(T);                                                                                                   \
+	DeclareArrayListDeriveEquals(T);                                                                                                   \
+	DeclareArrayListDeriveOrdered(T);                                                                                                  \
 	DeclareArrayListDeriveToString(T);
 
 #define DefineFullDerivedArrayList(T)                                                                                                      \
-	DefineArrayList(T);                                                                                                                    \
-	DefineArrayListDeriveRemove(T);                                                                                                        \
-	DefineArrayListDeriveEquals(T);                                                                                                        \
-	DefineArrayListDeriveOrdered(T);                                                                                                       \
+	DefineArrayList(T);                                                                                                                \
+	DefineArrayListDeriveRemove(T);                                                                                                    \
+	DefineArrayListDeriveEquals(T);                                                                                                    \
+	DefineArrayListDeriveOrdered(T);                                                                                                   \
 	DefineArrayListDeriveToString(T);
 
 #define DeclareFullDerivedHashset(T)                                                                                                       \
-	DeclareHashset(T);                                                                                                                     \
-	DeclareHashsetDeriveRemove(T);                                                                                                         \
-	DeclareHashsetDeriveToString(T);                                                                                                       \
+	DeclareHashset(T);                                                                                                                 \
+	DeclareHashsetDeriveRemove(T);                                                                                                     \
+	DeclareHashsetDeriveToString(T);                                                                                                   \
 	DeclareHashsetDeriveEquals(T);
 
 #define DefineFullDerivedHashset(T)                                                                                                        \
-	DefineHashset(T);                                                                                                                      \
-	DefineHashsetDeriveRemove(T);                                                                                                          \
-	DefineHashsetDeriveToString(T);                                                                                                        \
+	DefineHashset(T);                                                                                                                  \
+	DefineHashsetDeriveRemove(T);                                                                                                      \
+	DefineHashsetDeriveToString(T);                                                                                                    \
 	DefineHashsetDeriveEquals(T);
 
 DeclareCompare(size_t);
@@ -38,6 +38,8 @@ DeclareToString(size_t);
 DeclareFullDerivedArrayList(size_t);
 DeclareFullDerivedHashset(size_t);
 DeclareBinaryHeap(size_t);
+
+DeclareArrayList(size_tHashset);
 
 DeclareCompare(int);
 DeclareToString(int);

@@ -22,6 +22,11 @@ DefineArrayListDeriveRemove(SGA_LinkId);
 DefineArrayListDeriveToString(SGA_LinkId);
 DefineArrayListDeriveOrdered(SGA_LinkId);
 
+DefineArrayList(SGA_LinkIdArrayList);
+DefineArrayListDeriveEquals(SGA_LinkIdArrayList);
+DefineArrayListDeriveRemove(SGA_LinkIdArrayList);
+DefineArrayListDeriveToString(SGA_LinkIdArrayList);
+
 NO_FREE(SGA_TimeId);
 DEFAULT_EQUALS(SGA_TimeId);
 DEFAULT_COMPARE(SGA_TimeId);

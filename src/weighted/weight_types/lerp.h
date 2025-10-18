@@ -22,6 +22,14 @@ typedef struct LerpWeightFunc {
 } LerpWeightFunc;
 
 /**
+ * @brief Parse a lerp weight function, represented in internal format
+ *
+ * @param str The string representing the lerp function
+ * @return The lerp function
+ */
+LerpWeightFunc LerpWeightFunc_parse_internal(const String* str, size_t nb_elems, SGA_Interval lifespan);
+
+/**
  * @brief Allocates a new LerpWeightFunc structure. Doesn't initialise the weights.
  *
  * @param nb_elements The number of elements in the weight function.

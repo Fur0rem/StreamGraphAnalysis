@@ -60,8 +60,10 @@ void KeyInstantsTable_alloc_slice(KeyInstantsTable* kmt, SGA_TimeId slice, Relat
 
 KeyInstantsTable KeyInstantsTable_from_list(SGA_TimeArrayList* key_instants) {
 	// Allocate the table
-	KeyInstantsTable kmt = KeyInstantsTable_alloc((key_instants->length / SLICE_SIZE) + 1);
+	// KeyInstantsTable kmt = KeyInstantsTable_alloc((key_instants->length / SLICE_SIZE) + 1);
 	// Fill the table
+	KeyInstantsTable kmt = KeyInstantsTable_alloc((key_instants->array[key_instants->length - 1] / SLICE_SIZE) + 1);
+	// printf("nb_slices: %zu\n", kmt.nb_slices);
 
 	// For each window of instants whose timestamps are separated by SLICE_SIZE, count how many instants there are to allocate the
 	// slices
@@ -80,12 +82,18 @@ KeyInstantsTable KeyInstantsTable_from_list(SGA_TimeArrayList* key_instants) {
 		nb_instants_per_slice.array[slice]++;
 	}
 
+	for (size_t i = 0; i < kmt.nb_slices; i++) {
+		// printf("slice %zu: %zu events\n", i, nb_instants_per_slice.array[i]);
+	}
+
+	/* Ensure filling starts from the first slice/instant */
+	kmt.fill_info.current_slice   = 0;
+	kmt.fill_info.current_instant = 0;
+
 	// Allocate the slices
 	for (size_t i = 0; i < kmt.nb_slices; i++) {
 		KeyInstantsTable_alloc_slice(&kmt, i, nb_instants_per_slice.array[i]);
 	}
-
-	// Not needed anymore
 	size_tArrayList_destroy(nb_instants_per_slice);
 
 	// Fill the slices with the instants
@@ -97,8 +105,12 @@ KeyInstantsTable KeyInstantsTable_from_list(SGA_TimeArrayList* key_instants) {
 		ASSERT(slice < kmt.nb_slices);
 		ASSERT(kmt.slices[slice].nb_instants > 0);
 
+		// Move on to next instance, and next slice if needed
 		kmt.slices[slice].instants[kmt.fill_info.current_instant] = relative_instant;
 		kmt.fill_info.current_instant++;
+		if (kmt.fill_info.current_instant == kmt.slices[slice].nb_instants) {
+			kmt.fill_info.current_instant = 0;
+		}
 	}
 
 	return kmt;

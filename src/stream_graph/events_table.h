@@ -6,6 +6,7 @@
 #define EVENTS_TABLE_H
 
 #include "../bit_array.h"
+#include "../parsing/events.h"
 #include "../units.h"
 #include "key_instants_table.h"
 #include <stddef.h>
@@ -13,6 +14,18 @@
 
 typedef struct Event Event;
 #ifdef SGA_INTERNAL
+
+/**
+ * @brief A builder for an event in the events table. Used during the construction of the events table.
+ */
+typedef struct EventBuilder {
+	size_tArrayList info;	///< The list of informations (node or link ids) present at this event.
+	bool has_disappearance; ///< Whether the event has at least one disappearance.
+} EventBuilder;
+
+EventBuilder EventBuilder_empty();
+
+DeclareArrayList(EventBuilder);
 
 /**
  * @brief An event in the events table. Contains the information about the nodes or links present at that event.

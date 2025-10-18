@@ -1,12 +1,12 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 It's the stream graph S from Figure 1, with the link stream L from Figure 1 concatenated to it.
 
-[General]
-Lifespan=(0 200)
-TimeScale=10
+[general]
+lifespan=(0 200)
+time_scale=10
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 10 + N 3
@@ -44,4 +44,4 @@ TimeScale=10
 200 - N 2
 200 - N 3
 
-[EndOfStream]
+[end]

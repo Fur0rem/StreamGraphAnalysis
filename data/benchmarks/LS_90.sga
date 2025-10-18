@@ -1,13 +1,13 @@
-SGA External Format 1.0.0
+SGA version 1.0.0
 
 TODO: find the source I used
 Each link appearance lasts 90 units.
 
-[General]
-Lifespan=(2 21245)
-TimeScale=1
+[general]
+lifespan=(2 21245)
+time_scale=1
 
-[Events]
+[events]
 2 + N 1
 2 + N 58
 2 + N 41
@@ -14091,4 +14091,4 @@ TimeScale=1
 21245 - N 81
 21245 - N 84
 
-[EndOfStream]
+[end]

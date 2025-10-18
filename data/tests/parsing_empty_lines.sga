@@ -1,12 +1,12 @@
-SGA External Format 1.0.0
+SGA version 1.0.0
 
-Each link appearance lasts 90 units.
+Has empty lines in the middle.
 
-[General]
-Lifespan=(0 4)
-TimeScale=1
+[general]
+lifespan=(0 4)
+time_scale=1
 
-[Events]
+[events]
 
 0 + N 0
 1 + N 1
@@ -15,4 +15,4 @@ TimeScale=1
 2 - N 1
 3 - N 0
 
-[EndOfStream]
+[end]

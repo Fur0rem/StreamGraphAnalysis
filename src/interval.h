@@ -6,6 +6,7 @@
 #include "utils.h"
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 typedef struct {
 	SGA_Time start;
@@ -82,5 +83,72 @@ bool SGA_Offset_is_empty(SGA_Offset offset);
 bool SGA_Offset_is_not_matching(SGA_Offset offset);
 
 size_t SGA_Offset_unwrap(SGA_Offset offset);
+
+/**
+ * @brief Builder for SGA_IntervalsSet from appearance and disappearance events.
+ */
+typedef struct SGA_IntervalsSetBuilder {
+	SGA_Time last_time;		      ///< The last time added.
+	size_t nb_pushed;		      ///< The number of events pushed.
+	SGA_IntervalArrayList intervals_list; ///< The intervals being built.
+} SGA_IntervalsSetBuilder;
+
+DeclareDestroy(SGA_IntervalsSetBuilder);
+
+/**
+ * @brief All the possible errors when building an intervals set.
+ */
+typedef struct SGA_IntervalsSetBuilderError {
+	enum : uint8_t {
+		None,			 ///< No error.
+		TwoAppearancesInARow,	 ///< Two appearances in a row without a disappearance.
+		TwoDisappearancesInARow, ///< Two disappearances in a row without an appearance.
+		NotSortedTimes,		 ///< The times are not sorted.
+		UnevenNumberOfEvents,	 ///< There is an uneven number of events (presence not closed).
+	} type;				 ///< The type of error.
+	union {
+		struct {
+			SGA_Time appearance;	  ///< The time of the appearance event.
+			SGA_Time last_appearance; ///< The time of the last appearance event.
+		} two_appearances_in_a_row;	  ///< Data for two appearances in a row error.
+		struct {
+			SGA_Time last_disappearance; ///< The time of the last disappearance event.
+			SGA_Time disappearance;	     ///< The time of the disappearance event.
+		} two_disappearances_in_a_row;	     ///< Data for two disappearances in a row error.
+		struct {
+			SGA_Time previous_time; ///< The previous time.
+			SGA_Time current_time;	///< The current time.
+		} not_sorted_times;		///< Data for not sorted times error.
+		struct {
+			SGA_Time last_appearance; ///< The time of the last appearance event.
+			size_t nb_events;	  ///< The number of events.
+		} uneven_number_of_events;	  ///< Data for uneven number of events error.
+	} details;				  ///< Additional details about the error.
+} SGA_IntervalsSetBuilderError;
+
+SGA_IntervalsSetBuilder SGA_IntervalsSetBuilder_new();
+
+String SGA_IntervalsSetBuilderError_to_string(SGA_IntervalsSetBuilderError* error);
+
+DeclareArrayList(SGA_IntervalsSetBuilder);
+DeclareArrayListDeriveRemove(SGA_IntervalsSetBuilder);
+
+/**
+ * @brief Add an appearance event to the builder.
+ * @param[in,out] builder The builder.
+ * @param[in] time The time of the appearance event.
+ * @return An error if any occurred.
+ */
+SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_add_appearance(SGA_IntervalsSetBuilder* builder, SGA_Time time);
+
+/**
+ * @brief Add a disappearance event to the builder.
+ * @param[in,out] builder The builder.
+ * @param[in] time The time of the disappearance event.
+ * @return An error if any occurred.
+ */
+SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_add_disappearance(SGA_IntervalsSetBuilder* builder, SGA_Time time);
+
+SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_build(SGA_IntervalsSetBuilder* builder, SGA_IntervalsSet* out_intervals_set);
 
 #endif // INTERVAL_H

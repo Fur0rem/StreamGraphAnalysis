@@ -427,3 +427,133 @@ String SGA_IntervalsSet_to_string(const SGA_IntervalsSet* self) {
 	String_push_str(&str, "}");
 	return str;
 }
+
+DefineArrayList(SGA_IntervalsSetBuilder);
+
+void SGA_IntervalsSetBuilder_destroy(SGA_IntervalsSetBuilder self) {
+	SGA_IntervalArrayList_destroy(self.intervals_list);
+}
+
+DefineArrayListDeriveRemove(SGA_IntervalsSetBuilder);
+
+String SGA_IntervalsSetBuilderError_to_string(SGA_IntervalsSetBuilderError* error) {
+	switch (error->type) {
+		case None: {
+			return String_from_duplicate("No error.");
+		}
+		case TwoAppearancesInARow: {
+			return String_from_format("Error: Two appearances in a row at times %lu and %lu.",
+						  error->details.two_appearances_in_a_row.appearance,
+						  error->details.two_appearances_in_a_row.last_appearance);
+		}
+		case TwoDisappearancesInARow: {
+			return String_from_format("Error: Two disappearances in a row at times %lu and %lu.",
+						  error->details.two_disappearances_in_a_row.last_disappearance,
+						  error->details.two_disappearances_in_a_row.disappearance);
+		}
+		case NotSortedTimes: {
+			return String_from_format("Error: Times not sorted: previous time %lu, current time %lu.",
+						  error->details.not_sorted_times.previous_time,
+						  error->details.not_sorted_times.current_time);
+		}
+		case UnevenNumberOfEvents: {
+			return String_from_format(
+			    "Error: Uneven number of events (%zu). There is an unclosed presence interval (last appearance at time %lu).",
+			    error->details.uneven_number_of_events.nb_events,
+			    error->details.uneven_number_of_events.last_appearance);
+		}
+		default: {
+			UNREACHABLE_CODE;
+		}
+	}
+}
+
+SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_add_appearance(SGA_IntervalsSetBuilder* builder, SGA_Time time) {
+	SGA_IntervalsSetBuilderError error;
+	error.type = None;
+
+	// Check for sorted times
+	if (builder->nb_pushed > 0 && time < builder->last_time) {
+		error.type				     = NotSortedTimes;
+		error.details.not_sorted_times.previous_time = builder->last_time;
+		error.details.not_sorted_times.current_time  = time;
+		return error;
+	}
+
+	// Check for two appearances in a row
+	if (builder->nb_pushed % 2 == 1) {
+		error.type					       = TwoAppearancesInARow;
+		error.details.two_appearances_in_a_row.appearance      = time;
+		error.details.two_appearances_in_a_row.last_appearance = builder->last_time;
+		return error;
+	}
+
+	// Add the appearance
+	SGA_Interval interval = {
+	    .start = time,
+	    .end   = SIZE_MAX, // to be filled later when disappearance is added
+	};
+	SGA_IntervalArrayList_push(&builder->intervals_list, interval);
+	builder->last_time = time;
+	builder->nb_pushed += 1;
+
+	return error;
+}
+
+SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_add_disappearance(SGA_IntervalsSetBuilder* builder, SGA_Time time) {
+	SGA_IntervalsSetBuilderError error;
+	error.type = None;
+
+	// Check for sorted times
+	if (builder->nb_pushed > 0 && time < builder->last_time) {
+		error.type				     = NotSortedTimes;
+		error.details.not_sorted_times.previous_time = builder->last_time;
+		error.details.not_sorted_times.current_time  = time;
+		return error;
+	}
+
+	// Check for two disappearances in a row
+	if (builder->nb_pushed % 2 == 0) {
+		error.type						     = TwoDisappearancesInARow;
+		error.details.two_disappearances_in_a_row.last_disappearance = builder->last_time;
+		error.details.two_disappearances_in_a_row.disappearance	     = time;
+		return error;
+	}
+
+	// Add the disappearance
+	size_t last_index			      = builder->intervals_list.length - 1;
+	builder->intervals_list.array[last_index].end = time;
+	builder->last_time			      = time;
+	builder->nb_pushed += 1;
+
+	return error;
+}
+
+SGA_IntervalsSetBuilder SGA_IntervalsSetBuilder_new() {
+	SGA_IntervalsSetBuilder builder = {
+	    .intervals_list = SGA_IntervalArrayList_new(),
+	    .last_time	    = 0,
+	    .nb_pushed	    = 0,
+	};
+	return builder;
+}
+
+SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_build(SGA_IntervalsSetBuilder* builder, SGA_IntervalsSet* out_intervals_set) {
+	SGA_IntervalsSetBuilderError error = {
+	    .type = None,
+	};
+	if (builder->nb_pushed % 2 == 1) {
+		error.type					      = UnevenNumberOfEvents;
+		error.details.uneven_number_of_events.nb_events	      = builder->nb_pushed;
+		error.details.uneven_number_of_events.last_appearance = builder->last_time;
+		return error;
+	}
+
+	*out_intervals_set = SGA_IntervalsSet_alloc(builder->intervals_list.length);
+	for (size_t i = 0; i < builder->intervals_list.length; i++) {
+		SGA_Interval interval		= builder->intervals_list.array[i];
+		out_intervals_set->intervals[i] = interval;
+	}
+
+	return error;
+}

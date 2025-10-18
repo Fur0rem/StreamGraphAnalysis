@@ -1,12 +1,12 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 A stream graph but with some missing nodes (0, 1, 4 to 19, 21 to 29).
 
-[General]
-Lifespan=(5 15)
-TimeScale=1
+[general]
+lifespan=(5 15)
+time_scale=1
 
-[Events]
+[events]
 5 + N 3
 5 + N 2
 5 + N 20
@@ -28,4 +28,4 @@ TimeScale=1
 15 - N 20
 15 - N 30
 
-[EndOfStream]
+[end]

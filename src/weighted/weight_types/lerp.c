@@ -18,6 +18,29 @@ LerpWeightFunc LerpWeightFunc_new(size_t nb_elements, size_t nb_times) {
 }
 
 /**
+ * @brief Parse a lerp weight function, represented in external format
+ *
+ * @param str The string representing the lerp function
+ * @return The lerp function
+ */
+// LerpWeightFunc LerpWeightFunc_parse_external(const String* str) {}
+
+/**
+ * @brief Parse a lerp weight function, represented in internal format
+ *
+ * @param str The string representing the lerp function
+ * @return The lerp function
+ */
+LerpWeightFunc LerpWeightFunc_parse_internal(const String* str, size_t nb_elems, SGA_Interval lifespan) {
+	LerpWeightFunc fn = LerpWeightFunc_new(nb_elems, lifespan.end);
+	for (size_t i = 0; i < nb_elems; i++) {
+		size_t id;
+		sscanf(str->data, "%zu=", &id);
+		printf("parsed elem: %zu\n", id);
+	}
+}
+
+/**
  * @brief Deallocates a LerpWeightFunc structure.
  *
  * @param self The LerpWeightFunc structure to deallocate.

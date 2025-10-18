@@ -3,9 +3,9 @@ SGA Internal version 1.0.0
 It's the stream graph S from Figure 1 of the paper. But in internal format.
 Some of the IDs in the events are unordered.
 
-[General]
-Lifespan=(0 100)
-TimeScale=10
+[general]
+lifespan=(0 100)
+time_scale=10
 
 
 [Memory]
@@ -49,7 +49,7 @@ NumberOfKeyInstants=13
 (0 2)
 (1 2)
 
-[[Events]]
+[[events]]
 0=((+ N 1) (+ N 0))
 10=((+ N 3) (+ L 0))
 20=((+ L 1))
@@ -65,4 +65,4 @@ NumberOfKeyInstants=13
 100=((- N 0) (- N 1))
 
 
-[EndOfStream]
+[end]

@@ -29,6 +29,14 @@ typedef struct {
 				     ///< weight functions.
 } SGA_W_StreamGraph;
 
+#include "weighted_stream.h"
+
+#ifdef SGA_INTERNAL
+SGA_W_StreamGraph SGA_W_StreamGraph_from_internal_format_v_1_0_0(const String* format);
+#endif // SGA_INTERNAL
+
+SGA_W_StreamGraph SGA_W_StreamGraph_from_file(const String* format);
+
 /**
  * @brief Equips weights to a stream graph.
  * @param stream_graph The stream graph to equip the weights with. Not useable after the function call.

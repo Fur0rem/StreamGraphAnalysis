@@ -1,14 +1,14 @@
-SGA External Format 1.0.0
+SGA version 1.0.0
 
 It's the stream graph K from the kcores example fused with the link stream L.
 K got all it's labels applied to x -> 2x, and gets each even label.
 L got all it's labels applied to x -> 2x + 1, and gets each odd label.
 
-[General]
-Lifespan=(0 10)
-TimeScale=1
+[general]
+lifespan=(0 10)
+time_scale=1
 
-[Events]
+[events]
 0 + N 0
 0 + N 2
 0 + N 4
@@ -48,4 +48,4 @@ TimeScale=1
 10 - N 5
 10 - N 7
 
-[EndOfStream]
+[end]

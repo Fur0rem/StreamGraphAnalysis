@@ -1,13 +1,13 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 It's the link stream taken from Theorem 5.7 Figure (a) of Alexis Baudin's paper on cliques.
 https://theses.hal.science/tel-04511282v1/document
 
-[General]
-Lifespan=(0 8)
-TimeScale=1
+[general]
+lifespan=(0 8)
+time_scale=1
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 0 + N 2
@@ -29,4 +29,4 @@ TimeScale=1
 8 - N 2
 8 - N 3
 
-[EndOfStream]
+[end]

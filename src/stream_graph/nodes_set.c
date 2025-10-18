@@ -4,6 +4,15 @@
 #include "../utils.h"
 #include <stddef.h>
 
+DefineArrayList(SGA_Node);
+
+void SGA_Node_destroy(SGA_Node node) {
+	SGA_IntervalsSet_destroy(node.presence);
+	free(node.neighbours);
+}
+
+DefineArrayListDeriveRemove(SGA_Node);
+
 NodesSet NodesSet_alloc(size_t nb_nodes) {
 	NodesSet set = {
 	    .nb_nodes = nb_nodes,

@@ -105,6 +105,9 @@ bool test_neighbours_of_node() {
 			SGA_NodeId other_node	= SGA_Link_get_other_node(&link, node_id);
 			neighbours_ids.array[i] = other_node;
 		}
+		// Sort to avoid mismatch when we got the same list of neighbours
+		SGA_LinkIdArrayList_sort_unstable(&neighbours_ids);
+		SGA_LinkIdArrayList_sort_unstable(&neighbours[node_id]);
 
 		has_right_neighbours &= EXPECT(SGA_LinkIdArrayList_equals(&neighbours_ids, &neighbours[node_id]));
 		SGA_LinkIdArrayList_destroy(neighbours_ids);

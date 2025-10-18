@@ -1,15 +1,15 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 A stream graph with no links.
 
-[General]
-Lifespan=(0 1000)
-TimeScale=1
+[general]
+lifespan=(0 1000)
+time_scale=1
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 1000 - N 0
 1000 - N 1
 
-[EndOfStream]
+[end]

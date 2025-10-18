@@ -84,17 +84,17 @@ External format :
 ```txt
 SGA External Format <version>
 
-Any text between the version and the [General] section will be ignored, and can be used for comments or metadata
+Any text between the version and the [general] section will be ignored, and can be used for comments or metadata
 
-[General]
-Lifespan=(<start>, <end>)
-TimeScale=<scale>
+[general]
+lifespan=(<start>, <end>)
+time_scale=<scale>
 
-[Events]
+[events]
 <Timestamp> <+ (for appearance) or - (for disappearance)> <N (for node) or L (for link)> (<NodeId> for a node or <Node1> <Node2> for a link)
 ...
 
-[EndOfStream]
+[end]
 
 Any text before this line will be ignored, and can be used for comments or metadata
 ```

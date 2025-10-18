@@ -70,7 +70,7 @@ SGA_TimesIterator SGA_StreamGraph_key_instants(SGA_StreamGraph* stream_graph) {
 	*key_instants_iter_data				 = (KeyInstantsTableIterator){
 				     .last_event      = stream_graph->lifespan.start,
 				     .current_slice   = 0,
-				     .current_instant = 0,
+				     .current_instant = 1,
 	 };
 
 	SGA_TimesIterator key_instants_iter = {

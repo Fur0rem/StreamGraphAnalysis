@@ -3,7 +3,7 @@ let
 	# pkgs = import (fetchTarball("https://github.com/NixOS/nixpkgs/archive/a58a0b5098f0c2a389ee70eb69422a052982d990.tar.gz")) {};
 
 	# Rolling updates, not deterministic.
-	pkgs = import (fetchTarball("channel:nixpkgs-unstable")) {};	
+	pkgs = import (fetchTarball("channel:nixpkgs-25.05-darwin")) {};	
 
 in pkgs.mkShell {
 	buildInputs = with pkgs; [ 
@@ -14,5 +14,5 @@ in pkgs.mkShell {
 		doxygen
 		graphviz
 	];
-	NIX_ENFORCE_NO_NATIVE=1; # -march=native flag
+	NIX_ENFORCE_NO_NATIVE=0; # -march=native flag
 }

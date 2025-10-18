@@ -1,13 +1,13 @@
-SGA External Format 1.0.0
+SGA version 1.0.0
 
 TODO: find the source I used
 Modelisation of a fake facebook where each interaction is modelised as a link whose appearances last for 1 unit.
 
-[General]
-Lifespan=(0 25923143)
-TimeScale=1
+[general]
+lifespan=(0 25923143)
+time_scale=1
 
-[Events]
+[events]
 0 + N 639
 0 + N 1614
 0 + N 87
@@ -123305,4 +123305,4 @@ TimeScale=1
 16736182 - N 602
 16736182 - N 328
 
-[EndOfStream]
+[end]

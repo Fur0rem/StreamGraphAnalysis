@@ -1,8 +1,8 @@
-SGA External version 1.0.0
+SGA version 1.0.0
 
 Any text between the first line and the general section header is ignored by the parser. So you can add comments or other information here.
 
-This is an example of a SGA file in external format from version 1.0.0.
+This is an example of a SGA file in version 1.0.0.
 For now, no changes were made to the format from the beginning of the project.
 
 It's the stream graph S from Figure 1 of the paper.
@@ -12,11 +12,11 @@ Here, we need to set the time scale to 10, as some events accured at half time s
 For example, node b appeared at time 4.5, and the link between a and c disappeared at time 7.5.
 I used a time scale of 10 because it's easier for me to multiply by 10, but a time scale of 2 would have worked as well.
 
-[General]
-Lifespan=(0 100)
-TimeScale=10
+[general]
+lifespan=(0 100)
+time_scale=10
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 10 + N 3
@@ -38,4 +38,4 @@ TimeScale=10
 100 - N 0
 100 - N 1
 
-[EndOfStream]
+[end]

@@ -1,12 +1,12 @@
-SGA External Format 1.0.0
+SGA version 1.0.0
 
 It's the link stream L from Figure 12 of the paper. It's the example used to illustrate what a k-core is.
 
-[General]
-Lifespan=(0 10)
-TimeScale=1
+[general]
+lifespan=(0 10)
+time_scale=1
 
-[Events]
+[events]
 0 + N 0
 0 + N 1
 0 + N 2
@@ -26,4 +26,4 @@ TimeScale=1
 10 - N 2
 10 - N 3
 
-[EndOfStream]
+[end]

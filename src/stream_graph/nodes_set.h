@@ -20,6 +20,15 @@ typedef struct {
 } SGA_Node;
 
 /**
+ * @brief Destroy a node, freeing its memory.
+ * @param[in] node The node to destroy.
+ */
+void SGA_Node_destroy(SGA_Node node);
+
+DeclareArrayList(SGA_Node);
+DeclareArrayListDeriveRemove(SGA_Node);
+
+/**
  * @brief Get the first time the node appears in the StreamGraph.
  * @param[in] node The node.
  */
