@@ -110,7 +110,9 @@ bool SGA_ParsingCursor_line_is_empty(const SGA_ParsingCursor* cursor);
 SGA_ParsingResult SGA_ParsingCursor_expect_sequence_and_move(SGA_ParsingCursor* cursor, const char* sequence,
 							     SGA_SourceCodeReference src_ref);
 
-SGA_ParsingResult SGA_ParsingCursor_scan(SGA_ParsingCursor* cursor, SGA_SourceCodeReference src_ref, const char* format, ...);
+SGA_ParsingResult SGA_ParsingCursor_expect_and_move(SGA_ParsingCursor* cursor, char expected, SGA_SourceCodeReference src_ref);
+
+SGA_ParsingResult SGA_ParsingCursor_get_number_and_move(SGA_ParsingCursor* cursor, size_t* out_number, SGA_SourceCodeReference src_ref);
 
 #define SGA_ParsingCursor_scan_and_move(cursor, src_ref, format, ...)                                                                      \
 	({                                                                                                                                 \

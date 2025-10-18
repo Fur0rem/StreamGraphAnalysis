@@ -28,6 +28,13 @@ void init_events_table(SGA_StreamGraph* sg, size_t nb_events) {
 			size_t start = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
 			size_t end   = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
 
+			// printf("Node %zu interval %zu: start %zu end %zu mapped to events %zu - %zu\n",
+			//        i,
+			//        j,
+			//        interval.start,
+			//        interval.end,
+			//        start,
+			//        end);
 			// Invalidate the bit of the presence mask when the node disappears
 			BitArray_set_zero(node_presence_mask, end);
 

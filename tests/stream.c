@@ -130,6 +130,12 @@ bool test_parse_empty_lines() {
 	return true;
 }
 
+bool test_event_dense() {
+	SGA_StreamGraph sg = SGA_StreamGraph_from_file("data/tests/event_dense_small.sga");
+	SGA_StreamGraph_destroy(sg);
+	return true;
+}
+
 int main() {
 	Test* tests[] = {
 	    TEST(load),
@@ -142,6 +148,7 @@ int main() {
 	    TEST(test_wrong_order_internal),
 	    TEST(test_parse_empty_lines),
 	    TEST(test_access_key_instants),
+	    TEST(test_event_dense),
 	    NULL,
 	};
 

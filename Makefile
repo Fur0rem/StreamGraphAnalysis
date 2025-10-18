@@ -1,7 +1,8 @@
 CC ?= gcc
 DEBUG_FLAGS = -g -O0 -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize=undefined
 RELEASE_FLAGS = -O4 -march=native -flto -DNDEBUG
-BENCHMARK_FLAGS = -O3 -g
+BENCHMARK_FLAGS = -O4 -march=native -flto -DNDEBUG
+PROFILING_FLAGS = -O3 -g3 -fno-omit-frame-pointer
 CFLAGS = -Wall -Wextra -std=c2x -Wno-cpp
 LDFLAGS = -lm
 
@@ -21,6 +22,9 @@ else ifeq ($(compile_mode), release)
 else ifeq ($(compile_mode), benchmark)
 	FLAGS = $(BENCHMARK_FLAGS)
 	BIN_DIR = bin/benchmark
+else ifeq ($(compile_mode), profiling)
+	FLAGS = $(PROFILING_FLAGS)
+	BIN_DIR = bin/profiling
 endif
 
 
@@ -30,6 +34,7 @@ bin:
 	mkdir -p bin/
 	mkdir -p bin/debug
 	mkdir -p bin/release
+	mkdir -p bin/profiling
 	mkdir -p bin/benchmark
 	mkdir -p $(UTILITIES_BIN_DIR)
 	mkdir -p $(EXAMPLES_BIN_DIR)
@@ -194,3 +199,6 @@ benchmarks: benchmarks/benchmark.c benchmarks/bit_array.c benchmarks/cliques.c b
 	$(CC) $(CFLAGS) $(FLAGS) benchmarks/metrics.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/metrics -L$(BIN_DIR) -lSGA -lm
 	$(CC) $(CFLAGS) $(FLAGS) benchmarks/stream.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/stream -L$(BIN_DIR) -lSGA -lm
 	$(CC) $(CFLAGS) $(FLAGS) benchmarks/walks.c $(EXAMPLES_BIN_DIR)/benchmark.o -o $(EXAMPLES_BIN_DIR)/walks -L$(BIN_DIR) -lSGA -lm
+
+profiling: profiling/load.c | bin
+	$(CC) $(CFLAGS) $(FLAGS) profiling/load.c -o $(BIN_DIR)/profiling_load -L$(BIN_DIR) -lSGA -lm

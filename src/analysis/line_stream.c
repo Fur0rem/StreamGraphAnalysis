@@ -3,7 +3,6 @@
 #include "line_stream.h"
 #include "../stream.h"
 #include "../stream_functions.h"
-#include "../stream_graph/key_instants_table.h"
 #include "../streams.h"
 
 SGA_StreamGraph SGA_line_stream_of(const SGA_Stream* stream) {
@@ -76,6 +75,7 @@ SGA_StreamGraph SGA_line_stream_of(const SGA_Stream* stream) {
 	SGA_FOR_EACH_TIME(instant, key_instants) {
 		SGA_TimeArrayList_push(&key_instants_array, instant.start);
 	}
+	SGA_TimeArrayList_push(&key_instants_array, lifespan.end);
 
 	// Create the nodes set
 	NodesSet nodes_set = NodesSet_from(line_stream_nb_nodes, node_presences, neighbours_of_nodes);
@@ -85,6 +85,10 @@ SGA_StreamGraph SGA_line_stream_of(const SGA_Stream* stream) {
 	    .nb_links = links_array.length,
 	    .links    = links_array.array,
 	};
+
+	// for (size_t i = 0; i < key_instants_array.length - 1; i++) {
+	// printf("Key instant %zu: %zu\n", i, key_instants_array.array[i]);
+	// }
 
 	// Create the stream graph
 	SGA_StreamGraph line_stream = SGA_StreamGraph_from(lifespan, time_scale, nodes_set, links_set, key_instants_array);

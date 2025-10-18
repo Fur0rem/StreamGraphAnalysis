@@ -13,11 +13,12 @@
 
 typedef uint8_t RelativeInstant;
 #define RELATIVE_INSTANT_MAX ((RelativeInstant)~0)
-#define SLICE_SIZE	     (((size_t)RELATIVE_INSTANT_MAX) + 1)
+#define SLICE_SIZE	     ((size_t)RELATIVE_INSTANT_MAX)
 
 typedef struct {
 	size_t nb_instants;
 	RelativeInstant* instants;
+	size_t nb_instants_previous;
 } InstantsSlice;
 
 typedef struct {

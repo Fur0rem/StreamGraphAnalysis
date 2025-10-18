@@ -176,6 +176,19 @@ bool SGA_ParsingCursor_line_is_empty(const SGA_ParsingCursor* cursor) {
 	return cursor->str[cursor->cursor] == '\n';
 }
 
+SGA_ParsingResult SGA_ParsingCursor_expect_and_move(SGA_ParsingCursor* cursor, char expected, SGA_SourceCodeReference src_ref) {
+	if (*(cursor->str + cursor->cursor) != expected) {
+		return (SGA_ParsingResult){
+		    .success	    = false,
+		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
+		    .message	    = String_from_format("Expected '%c'", expected),
+		    .src_ref	    = src_ref,
+		};
+	}
+	cursor->cursor++;
+	return SGA_Parsing_success();
+}
+
 SGA_ParsingResult SGA_ParsingCursor_expect_sequence_and_move(SGA_ParsingCursor* cursor, const char* sequence,
 							     SGA_SourceCodeReference src_ref) {
 	size_t len = strlen(sequence);
@@ -191,21 +204,21 @@ SGA_ParsingResult SGA_ParsingCursor_expect_sequence_and_move(SGA_ParsingCursor* 
 	return SGA_Parsing_success();
 }
 
-SGA_ParsingResult SGA_ParsingCursor_scan(SGA_ParsingCursor* cursor, SGA_SourceCodeReference src_ref, const char* format, ...) {
-	va_list args;
-	va_start(args, format);
-	size_t initial_cursor = cursor->cursor;
-	int scanned	      = vsscanf(cursor->str + cursor->cursor, format, args);
-	va_end(args);
-	if (scanned <= 0) {
+SGA_ParsingResult SGA_ParsingCursor_get_number_and_move(SGA_ParsingCursor* cursor, size_t* out_number, SGA_SourceCodeReference src_ref) {
+	char* new_ptr;
+	const char* str = cursor->str + cursor->cursor;
+	long number	= strtol(str, &new_ptr, 10);
+	if (str == new_ptr) {
 		return (SGA_ParsingResult){
 		    .success	    = false,
 		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-		    .message	    = String_from_format("Expected a %s here.\n", get_type_string_from_format(format)),
+		    .message	    = String_from_format("Expected a number here."),
 		    .src_ref	    = src_ref,
 		};
 	}
-	cursor->cursor += initial_cursor - cursor->cursor;
+	str	       = new_ptr;
+	*out_number    = (size_t)number;
+	cursor->cursor = (size_t)(str - cursor->str);
 	return SGA_Parsing_success();
 }
 

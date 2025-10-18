@@ -11,13 +11,13 @@ DefineArrayListDeriveRemove(SGA_ParsedEvent);
 void print_event_format() {
 	fprintf(stderr, "Hint - Expected event format: \"time_instant sign letter id(s)\"\n");
 	fprintf(stderr, "Where time_instant is an unsigned integer representing the time instant at which the event occurs,\n");
-	fprintf(stderr, "sign is either '+' (appearance of a node/link) or '-' (disappearance of a node/link),\n");
+	fprintf(stderr, "sign is either '+' (appearance of a node/link) or '-' (disappearance of a node/link)");
 	fprintf(stderr, "letter is either 'N' (node) or 'L' (link),\n");
 	fprintf(stderr,
 		"and id(s) is either one unsigned integer (for nodes) or two unsigned integers (for links), representing the id(s) "
 		"of the "
 		"element(s) involved in the event.\n");
-	fprintf(stderr, "Check provided examples in data/examples to see correct formatting.\n");
+	fprintf(stderr, "\nCheck provided examples in data/examples to see correct formatting.\n");
 }
 
 size_t LinkIdMap_hash(const LinkIdMap* key) {
@@ -25,11 +25,11 @@ size_t LinkIdMap_hash(const LinkIdMap* key) {
 }
 
 bool LinkIdMap_equals(const LinkIdMap* map1, const LinkIdMap* map2) {
-	return map1->nodes[0] == map2->nodes[0] && map1->nodes[1] == map2->nodes[1];
+	return (map1->nodes[0] == map2->nodes[0] && map1->nodes[1] == map2->nodes[1]) ||
+	       (map1->nodes[1] == map2->nodes[0] && map1->nodes[0] == map2->nodes[1]);
 }
 
-NO_FREE(LinkIdMap)
-DefineArrayList(LinkIdMap);
+NO_FREE(LinkIdMap) DefineArrayList(LinkIdMap);
 DefineArrayListDeriveRemove(LinkIdMap);
 DefineHashset(LinkIdMap);
 DefineHashsetDeriveRemove(LinkIdMap);
@@ -40,7 +40,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 	SGA_ParsedEvent event;
 
 	// Parse instant
-	SGA_ParsingResult result = SGA_ParsingCursor_scan_and_move(cursor, SGA_CODE_HERE, "%zu", &event.instant);
+	SGA_ParsingResult result = SGA_ParsingCursor_get_number_and_move(cursor, &event.instant, SGA_CODE_HERE);
 	if (!result.success) {
 		fprintf(stderr, "Failed to parse event instant!\n");
 		SGA_ParsingResult_print_error(&result, cursor);
@@ -48,17 +48,10 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		exit(1);
 	}
 
-	SGA_ParsingCursor_skip_whitespace(cursor);
+	SGA_ParsingCursor_expect_and_move(cursor, ' ', SGA_CODE_HERE);
 
 	// Parse sign
-	char sign;
-	result = SGA_ParsingCursor_scan_and_move(cursor, SGA_CODE_HERE, "%c", &sign);
-	if (!result.success) {
-		fprintf(stderr, "Failed to parse event sign!\n");
-		SGA_ParsingResult_print_error(&result, cursor);
-		print_event_format();
-		exit(1);
-	}
+	char sign = cursor->str[cursor->cursor];
 	if (sign == '+') {
 		event.event_kind = Appearance;
 	}
@@ -72,18 +65,11 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		print_event_format();
 		exit(1);
 	}
-
-	SGA_ParsingCursor_skip_whitespace(cursor);
+	cursor->cursor++;
+	SGA_ParsingCursor_expect_and_move(cursor, ' ', SGA_CODE_HERE);
 
 	// Parse letter
-	char letter;
-	result = SGA_ParsingCursor_scan_and_move(cursor, SGA_CODE_HERE, "%c", &letter);
-	if (!result.success) {
-		fprintf(stderr, "Failed to parse event letter!\n");
-		SGA_ParsingResult_print_error(&result, cursor);
-		print_event_format();
-		exit(1);
-	}
+	char letter = cursor->str[cursor->cursor];
 	if (letter == 'N') {
 		event.elem_kind = Node;
 	}
@@ -97,32 +83,42 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		print_event_format();
 		exit(1);
 	}
-
-	SGA_ParsingCursor_skip_whitespace(cursor);
+	cursor->cursor++;
 
 	// Parse id(s)
 	if (event.elem_kind == Node) {
-		size_t node_id;
-		result = SGA_ParsingCursor_scan_and_move(cursor, SGA_CODE_HERE, "%zu", &node_id);
+		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.id.node, SGA_CODE_HERE);
 		if (!result.success) {
-			fprintf(stderr, "Failed to parse node id!\n");
+			result.message = String_from_duplicate("Failed to parse node id!\n");
 			SGA_ParsingResult_print_error(&result, cursor);
 			print_event_format();
 			exit(1);
 		}
-		event.id.node = node_id;
 	}
 	else {
-		size_t node1_id, node2_id;
-		result = SGA_ParsingCursor_scan_and_move(cursor, SGA_CODE_HERE, "%zu %zu", &node1_id, &node2_id);
+		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.id.link.node1, SGA_CODE_HERE);
 		if (!result.success) {
-			fprintf(stderr, "Failed to parse link node ids!\n");
+			result.message = String_from_duplicate("Failed to parse link first node id!\n");
 			SGA_ParsingResult_print_error(&result, cursor);
 			print_event_format();
 			exit(1);
 		}
-		event.id.link.node1 = node1_id;
-		event.id.link.node2 = node2_id;
+
+		result = SGA_ParsingCursor_expect_and_move(cursor, ' ', SGA_CODE_HERE);
+		if (!result.success) {
+			result.message = String_from_duplicate("Expected a space between the two nodes!\n");
+			SGA_ParsingResult_print_error(&result, cursor);
+			print_event_format();
+			exit(1);
+		}
+
+		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.id.link.node2, SGA_CODE_HERE);
+		if (!result.success) {
+			fprintf(stderr, "Failed to parse link second node id!\n");
+			SGA_ParsingResult_print_error(&result, cursor);
+			print_event_format();
+			exit(1);
+		}
 	}
 
 	// Update presence intervals
@@ -244,8 +240,13 @@ SGA_ParsedEventArrayList SGA_parse_events(SGA_ParsingCursor* cursor, SGA_Interva
 		// Parse the event and add it to the list
 		SGA_ParsedEvent event = SGA_parse_single_event(cursor, node_presences, link_presences, link_id_map, neighbours_of_nodes);
 		SGA_ParsedEventArrayList_push(&events, event);
-		SGA_ParsingCursor_move_to_next_line(cursor, SGA_CODE_HERE);
-		SGA_ParsingCursor_skip_whitespace(cursor);
+		SGA_ParsingResult result = SGA_ParsingCursor_expect_and_move(cursor, '\n', SGA_CODE_HERE);
+		if (!result.success) {
+			result.message = String_from_duplicate("Ill-formatted line, it should've been the end here!\n");
+			SGA_ParsingResult_print_error(&result, cursor);
+			print_event_format();
+			exit(1);
+		}
 	}
 
 	SGA_ParsedEventArrayList_sort_unstable(&events);

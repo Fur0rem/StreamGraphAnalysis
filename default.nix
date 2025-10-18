@@ -13,6 +13,8 @@ in pkgs.mkShell {
 		clang-tools
 		doxygen
 		graphviz
+		linuxPackages.perf
+		flamegraph
 	];
 	NIX_ENFORCE_NO_NATIVE=0; # -march=native flag
 }

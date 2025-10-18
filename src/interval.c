@@ -443,8 +443,8 @@ String SGA_IntervalsSetBuilderError_to_string(SGA_IntervalsSetBuilderError* erro
 		}
 		case TwoAppearancesInARow: {
 			return String_from_format("Error: Two appearances in a row at times %lu and %lu.",
-						  error->details.two_appearances_in_a_row.appearance,
-						  error->details.two_appearances_in_a_row.last_appearance);
+						  error->details.two_appearances_in_a_row.last_appearance,
+						  error->details.two_appearances_in_a_row.appearance);
 		}
 		case TwoDisappearancesInARow: {
 			return String_from_format("Error: Two disappearances in a row at times %lu and %lu.",
