@@ -15,7 +15,7 @@ global_success=0
 
 make clean
 make libSGA compile_mode=profiling
-make profiling compile_mode=profiling
+make profiling compile_mode=profiling -B
 
 # Check if the compilation was successful
 if [ $? -ne 0 ]; then

@@ -3,7 +3,7 @@
 #include "../StreamGraphAnalysis.h"
 
 int main() {
-	char* filename	   = "data/benchmarks/facebooklike_1_transformed.sga";
+	char* filename	   = "data/benchmarks/event_dense.sga";
 	SGA_StreamGraph sg = SGA_StreamGraph_from_file(filename);
 	SGA_StreamGraph_destroy(sg);
 }

@@ -289,9 +289,5 @@ size_t KeyInstantsTable_in_which_slice_is(KeyInstantsTable* kmt, SGA_Time t) {
 }
 
 size_t KeyInstantsTable_total_nb_instants(const KeyInstantsTable* kmt) {
-	size_t total = 0;
-	for (size_t i = 0; i < kmt->nb_slices; i++) {
-		total += kmt->slices[i].nb_instants;
-	}
-	return total;
+	return (kmt->slices[kmt->nb_slices - 1].nb_instants_previous);
 }

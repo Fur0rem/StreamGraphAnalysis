@@ -1,3 +1,4 @@
+#include "interval.h"
 #define SGA_INTERNAL
 #include "units.h"
 
@@ -28,13 +29,6 @@ void init_events_table(SGA_StreamGraph* sg, size_t nb_events) {
 			size_t start = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.start);
 			size_t end   = KeyInstantsTable_find_time_index_if_pushed(&sg->key_instants, interval.end);
 
-			// printf("Node %zu interval %zu: start %zu end %zu mapped to events %zu - %zu\n",
-			//        i,
-			//        j,
-			//        interval.start,
-			//        interval.end,
-			//        start,
-			//        end);
 			// Invalidate the bit of the presence mask when the node disappears
 			BitArray_set_zero(node_presence_mask, end);
 
@@ -145,16 +139,11 @@ void init_events_table(SGA_StreamGraph* sg, size_t nb_events) {
 	free(link_deleted);
 }
 
-SGA_StreamGraph SGA_stream_graph_from_parsed(const SGA_ParsedStreamGraph* parsed) {
-	SGA_StreamGraph sg;
-
-	sg.lifespan   = parsed->general_header.lifespan;
-	sg.time_scale = parsed->general_header.time_scale;
-
-	sg.nodes = NodesSet_alloc(parsed->node_presences.length);
+NodesSet build_nodes_set(const SGA_ParsedStreamGraph* parsed) {
+	NodesSet nodes = NodesSet_alloc(parsed->node_presences.length);
 	for (size_t i = 0; i < parsed->node_presences.length; i++) {
 		SGA_IntervalsSetBuilderError err =
-		    SGA_IntervalsSetBuilder_build(&parsed->node_presences.array[i], &sg.nodes.nodes[i].presence);
+		    SGA_IntervalsSetBuilder_build(&parsed->node_presences.array[i], &nodes.nodes[i].presence);
 		if (err.type != None) {
 			fprintf(stderr,
 				"Error while building presence intervals for node %zu: %s\n",
@@ -163,18 +152,21 @@ SGA_StreamGraph SGA_stream_graph_from_parsed(const SGA_ParsedStreamGraph* parsed
 			exit(1);
 		}
 
-		SGA_Node* node	    = &sg.nodes.nodes[i];
+		SGA_Node* node	    = &nodes.nodes[i];
 		node->nb_neighbours = parsed->neighbours_of_nodes.array[i].length;
 		node->neighbours    = MALLOC(node->nb_neighbours * sizeof(SGA_LinkId));
 		for (size_t j = 0; j < node->nb_neighbours; j++) {
 			node->neighbours[j] = parsed->neighbours_of_nodes.array[i].array[j];
 		}
 	}
+	return nodes;
+}
 
-	sg.links = LinksSet_alloc(parsed->link_presences.length);
+LinksSet build_links_set(const SGA_ParsedStreamGraph* parsed) {
+	LinksSet links = LinksSet_alloc(parsed->link_presences.length);
 	for (size_t i = 0; i < parsed->link_presences.length; i++) {
 		SGA_IntervalsSetBuilderError err =
-		    SGA_IntervalsSetBuilder_build(&parsed->link_presences.array[i], &sg.links.links[i].presence);
+		    SGA_IntervalsSetBuilder_build(&parsed->link_presences.array[i], &links.links[i].presence);
 		if (err.type != None) {
 			fprintf(stderr,
 				"Error while building presence intervals for link %zu: %s\n",
@@ -182,21 +174,24 @@ SGA_StreamGraph SGA_stream_graph_from_parsed(const SGA_ParsedStreamGraph* parsed
 				SGA_IntervalsSetBuilderError_to_string(&err).data);
 			exit(1);
 		}
-
-		// Find the nodes linked by this link
-		SGA_Link* link = &sg.links.links[i];
-		FOR_EACH_ELEM(LinkIdMap, entry, parsed->link_id_map, {
-			if (entry.id == i) {
-				link->nodes[0] = entry.nodes[0];
-				link->nodes[1] = entry.nodes[1];
-				break;
-			}
-		})
 	}
 
+	// Map each link to its corresponding id
+	FOR_EACH_ELEM(LinkIdMap, entry, parsed->link_id_map, {
+		links.links[entry.id].nodes[0] = entry.nodes[0];
+		links.links[entry.id].nodes[1] = entry.nodes[1];
+	})
+
+	return links;
+}
+
+KeyInstantsTable build_key_instants(const SGA_ParsedStreamGraph* parsed) {
+	KeyInstantsTable key;
 	SGA_TimeArrayList key_instants = SGA_TimeArrayList_new();
-	SGA_TimeArrayList_push(&key_instants, sg.lifespan.start);
-	SGA_Time last_instant = sg.lifespan.start;
+	SGA_Interval lifespan	       = parsed->general_header.lifespan;
+
+	SGA_TimeArrayList_push(&key_instants, lifespan.start);
+	SGA_Time last_instant = lifespan.start;
 	for (size_t i = 0; i < parsed->events.length; i++) {
 		SGA_ParsedEvent event = parsed->events.array[i];
 		if (event.instant != last_instant) {
@@ -204,10 +199,23 @@ SGA_StreamGraph SGA_stream_graph_from_parsed(const SGA_ParsedStreamGraph* parsed
 			last_instant = event.instant;
 		}
 	}
-	sg.key_instants = KeyInstantsTable_from_list(&key_instants);
+
+	key = KeyInstantsTable_from_list(&key_instants);
 	SGA_TimeArrayList_destroy(key_instants);
 
-	init_events_table(&sg, key_instants.length);
+	return key;
+}
+
+SGA_StreamGraph SGA_stream_graph_from_parsed(const SGA_ParsedStreamGraph* parsed) {
+	SGA_StreamGraph sg;
+
+	sg.lifespan   = parsed->general_header.lifespan;
+	sg.time_scale = parsed->general_header.time_scale;
+
+	sg.nodes	= build_nodes_set(parsed);
+	sg.links	= build_links_set(parsed);
+	sg.key_instants = build_key_instants(parsed);
+	init_events_table(&sg, KeyInstantsTable_total_nb_instants(&sg.key_instants));
 
 	return sg;
 }

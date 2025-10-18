@@ -235,7 +235,7 @@ SGA_ParsingResult SGA_ParsingResult_error(SGA_ParsingCursor* cursor, String mess
 void SGA_ParsingCursor_skip_whitespace(SGA_ParsingCursor* cursor) {
 	while (true) {
 		char current_char = cursor->str[cursor->cursor];
-		if (current_char == ' ' || current_char == '\t' || current_char == '\n' || current_char == '\r' || current_char == '\0') {
+		if (current_char == ' ' || current_char == '\t' || current_char == '\r') {
 			cursor->cursor++;
 		}
 		else {

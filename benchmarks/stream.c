@@ -46,8 +46,8 @@ int main() {
 	SGA_StreamGraph_destroy(sg);
 
 	filename = "data/benchmarks/event_dense.sga";
-	benchmark(load, "event_dense load", 5);
+	benchmark(load, "event_dense load", 1);
 	sg = SGA_StreamGraph_from_file(filename);
-	benchmark(init_events, "event_dense init_events", 5);
+	benchmark(init_events, "event_dense init_events", 1);
 	SGA_StreamGraph_destroy(sg);
 }

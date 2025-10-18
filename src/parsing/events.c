@@ -240,6 +240,7 @@ SGA_ParsedEventArrayList SGA_parse_events(SGA_ParsingCursor* cursor, SGA_Interva
 		// Parse the event and add it to the list
 		SGA_ParsedEvent event = SGA_parse_single_event(cursor, node_presences, link_presences, link_id_map, neighbours_of_nodes);
 		SGA_ParsedEventArrayList_push(&events, event);
+		SGA_ParsingCursor_skip_whitespace(cursor);
 		SGA_ParsingResult result = SGA_ParsingCursor_expect_and_move(cursor, '\n', SGA_CODE_HERE);
 		if (!result.success) {
 			result.message = String_from_duplicate("Ill-formatted line, it should've been the end here!\n");
