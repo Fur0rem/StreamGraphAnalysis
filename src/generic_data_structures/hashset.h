@@ -69,6 +69,19 @@
 			}                                                                                                                  \
 		}                                                                                                                          \
 		return NULL;                                                                                                               \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	bool type##Hashset_find_or_insert(type##Hashset* s, type value, type** entry) {                                                    \
+		size_t index = type##_hash(&value) % s->capacity;                                                                          \
+		for (size_t i = 0; i < s->buckets[index].length; i++) {                                                                    \
+			if (type##_equals(&s->buckets[index].array[i], &value)) {                                                          \
+				*entry = &s->buckets[index].array[i];                                                                      \
+				return false;                                                                                              \
+			}                                                                                                                  \
+		}                                                                                                                          \
+		type##ArrayList_push(&s->buckets[index], value);                                                                           \
+		*entry = &s->buckets[index].array[s->buckets[index].length - 1];                                                           \
+		return true;                                                                                                               \
 	}
 
 #define DeclareHashsetDeriveRemove(type)                                                                                                   \

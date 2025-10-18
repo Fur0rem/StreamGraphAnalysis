@@ -20,13 +20,33 @@ void print_event_format() {
 	fprintf(stderr, "\nCheck provided examples in data/examples to see correct formatting.\n");
 }
 
+// Sorted : nodes[0] < nodes[1]
+LinkIdMap LinkIdMap_key_only(SGA_NodeId node1, SGA_NodeId node2) {
+	LinkIdMap map;
+	if (node1 > node2) {
+		map.nodes[0] = node2;
+		map.nodes[1] = node1;
+	}
+	else {
+		map.nodes[0] = node1;
+		map.nodes[1] = node2;
+	}
+	return map;
+}
+
+// Sorted : nodes[0] < nodes[1]
+LinkIdMap LinkIdMap_key_value(SGA_NodeId node1, SGA_NodeId node2, SGA_LinkId link) {
+	LinkIdMap map = LinkIdMap_key_only(node1, node2);
+	map.id	      = link;
+	return map;
+}
+
 size_t LinkIdMap_hash(const LinkIdMap* key) {
-	return key->nodes[0] + key->nodes[1];
+	return key->nodes[0] ^ key->nodes[1];
 }
 
 bool LinkIdMap_equals(const LinkIdMap* map1, const LinkIdMap* map2) {
-	return (map1->nodes[0] == map2->nodes[0] && map1->nodes[1] == map2->nodes[1]) ||
-	       (map1->nodes[1] == map2->nodes[0] && map1->nodes[0] == map2->nodes[1]);
+	return (map1->nodes[0] == map2->nodes[0] && map1->nodes[1] == map2->nodes[1]);
 }
 
 NO_FREE(LinkIdMap) DefineArrayList(LinkIdMap);
@@ -152,20 +172,18 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 	}
 	else {
 		// Add the link to the link id map if it doesn't exist yet
-		LinkIdMap link_key		= {.nodes = {event.id.link.node1, event.id.link.node2}};
-		const LinkIdMap* existing_entry = LinkIdMapHashset_find(*link_id_map, link_key);
 		SGA_LinkId link_id;
-		if (existing_entry == NULL) {
-			LinkIdMap link_map_entry = {.nodes = {event.id.link.node1, event.id.link.node2},
-						    .id	   = LinkIdMapHashset_nb_elems(link_id_map)};
-			LinkIdMapHashset_insert(link_id_map, link_map_entry);
-			link_id = link_map_entry.id;
+		LinkIdMap link_key = LinkIdMap_key_only(event.id.link.node1, event.id.link.node2);
+		LinkIdMap* entry;
+		bool is_newly_inserted = LinkIdMapHashset_find_or_insert(link_id_map, link_key, &entry);
 
-			// Extend the neighbours_of_nodes structure
-			while (event.id.link.node1 >= neighbours_of_nodes->length) {
-				SGA_LinkIdArrayListArrayList_push(neighbours_of_nodes, SGA_LinkIdArrayList_new());
-			}
-			while (event.id.link.node2 >= neighbours_of_nodes->length) {
+		if (is_newly_inserted) {
+			// Compute id for the new link and update the map
+			entry->id = LinkIdMapHashset_nb_elems(link_id_map) - 1; // - 1 because we just inserted one
+			link_id	  = entry->id;
+
+			// Extend the neighbours_of_nodes structure (Done once since LinkIdMap is sorted, nodes[1] > nodes[0])
+			while (link_key.nodes[1] >= neighbours_of_nodes->length) {
 				SGA_LinkIdArrayListArrayList_push(neighbours_of_nodes, SGA_LinkIdArrayList_new());
 			}
 
@@ -174,7 +192,8 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 			SGA_LinkIdArrayList_push(&neighbours_of_nodes->array[event.id.link.node2], link_id);
 		}
 		else {
-			link_id = existing_entry->id;
+			// Just fetch it
+			link_id = entry->id;
 		}
 
 		// Extend the link presences array if needed
