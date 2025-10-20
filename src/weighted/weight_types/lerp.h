@@ -8,6 +8,7 @@
 
 #include "../../interval.h"
 #include "../../parsing/parse_weights.h"
+#include "../../stream.h"
 #include "../../units.h"
 
 /**
@@ -15,8 +16,9 @@
  * It is a linearized list of lists, where each list contains the weights for each time instant in an interval.
  */
 typedef struct LerpWeightedElement {
-	SGA_Weight* weights;		    ///< An array of weights for each time instant for this element.
-	SGA_IntervalsSet covered_intervals; ///< The set of intervals covered by this element's weights.
+	SGA_Weight* weights;		     ///< An array of weights for each time instant for this element.
+	SGA_IntervalsSet* covered_intervals; ///< The set of intervals covered by this element's weights.
+					     ///< It's a reference to the main stream graph's data to avoid duplicating it.
 } LerpWeightedElement;
 
 /**
@@ -80,11 +82,13 @@ void LerpWeightFunc_normalise(LerpWeightFunc* self, SGA_Weight min, SGA_Weight m
 /**
  * @brief Creates a LerpWeightedElement from a list of lists of LerpWeightPoints for each interval.
  * @param weighted_intervals The list of lists of LerpWeightPoints for each interval.
+ * @param intervals_set The set of intervals covered by this element, as a reference to the main stream graph's data.
  * @return A LerpWeightedElement containing the weights and covered intervals, linearized and ready to use.
  */
-LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* weighted_intervals);
+LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* weighted_intervals, SGA_IntervalsSet* intervals_set);
 
-LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, bool is_node, LinkIdMapHashset* link_id_map);
+LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, SGA_StreamGraph* base, bool is_node,
+					  LinkIdMapHashset* link_id_map);
 #endif // SGA_INTERNAL
 
 #endif // WEIGHTED_WEIGHT_TYPES_LERP_H

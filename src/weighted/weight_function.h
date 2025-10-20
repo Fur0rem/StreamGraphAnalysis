@@ -1,6 +1,7 @@
 #ifndef SGA_WEIGHTED_WEIGHT_FUNCTION_H
 #define SGA_WEIGHTED_WEIGHT_FUNCTION_H
 
+#include "../stream.h"
 #include "weight_types/constant_universally.h"
 #include "weight_types/lerp.h"
 #include <stdint.h>
@@ -98,8 +99,14 @@ SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA
 
 #ifdef SGA_INTERNAL
 
-SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, size_t nb_elements, SGA_Interval lifespan, bool is_node,
-					  LinkIdMapHashset* link_id_map);
+/**
+ * @brief Creates a weight function from a parsed weight function.
+ * @param parsed The parsed weight function.
+ * @param base The base StreamGraph to which the weight function will be applied.
+ * @param link_id_map NULL to signify the function is for nodes. For links, it's the mapping from pairs of node IDs to link IDs.
+ * @return The created weight function.
+ */
+SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, SGA_StreamGraph* base, LinkIdMapHashset* link_id_map);
 
 #endif // SGA_INTERNAL
 

@@ -12,14 +12,10 @@
 
 SGA_W_StreamGraph SGA_W_StreamGraph_from_parsed(SGA_ParsedStreamGraph parsed) {
 	ASSERT(parsed.general_header.is_weighted);
-	SGA_W_StreamGraph wsg = {
-	    .base = SGA_StreamGraph_from_parsed(&parsed),
-	    .node_weights =
-		SGA_WeightFunc_from_parsed(parsed.node_weights, parsed.node_presences.length, parsed.general_header.lifespan, true, NULL),
-	    .link_weights = SGA_WeightFunc_from_parsed(
-		parsed.link_weights, parsed.link_presences.length, parsed.general_header.lifespan, false, &parsed.link_id_map),
-	};
-
+	SGA_W_StreamGraph wsg;
+	wsg.base	 = SGA_StreamGraph_from_parsed(&parsed);
+	wsg.node_weights = SGA_WeightFunc_from_parsed(parsed.node_weights, &wsg.base, NULL);
+	wsg.link_weights = SGA_WeightFunc_from_parsed(parsed.link_weights, &wsg.base, &parsed.link_id_map);
 	return wsg;
 }
 

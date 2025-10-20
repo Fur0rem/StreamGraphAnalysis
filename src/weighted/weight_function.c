@@ -1,6 +1,7 @@
 #define SGA_INTERNAL
 
 #include "weight_function.h"
+#include "../stream.h"
 #include "weight_types/constant_universally.h"
 #include "weight_types/lerp.h"
 
@@ -193,11 +194,11 @@ SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA
 	UNREACHABLE_CODE;
 }
 
-SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, size_t nb_elements, SGA_Interval lifespan, bool is_node,
-					  LinkIdMapHashset* link_id_map) {
+SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, SGA_StreamGraph* base, LinkIdMapHashset* link_id_map) {
+	bool is_node = (link_id_map == NULL);
 	switch (parsed.tag) {
 		case LERP: {
-			LerpWeightFunc lerp_func   = LerpWeightFunc_from_parsed(parsed.data.lerp, is_node, link_id_map);
+			LerpWeightFunc lerp_func   = LerpWeightFunc_from_parsed(parsed.data.lerp, base, is_node, link_id_map);
 			SGA_WeightFunc weight_func = {
 			    .tag	 = LERP,
 			    .func.lerped = lerp_func,

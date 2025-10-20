@@ -6,6 +6,7 @@
 #define SGA_INTERNAL
 
 #include "lerp.h"
+#include "../../stream.h"
 #include <stddef.h>
 
 SGA_Weight lerp(SGA_Time t1, SGA_Weight w1, SGA_Time t2, SGA_Weight w2, SGA_Time t) {
@@ -20,7 +21,7 @@ SGA_Weight lerp(SGA_Time t1, SGA_Weight w1, SGA_Time t2, SGA_Weight w2, SGA_Time
 	return w1 + (ratio * (w2 - w1));
 }
 
-LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* weighted_intervals) {
+LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* weighted_intervals, SGA_IntervalsSet* intervals_set) {
 	size_t nb_intervals = weighted_intervals->length;
 
 	// First, count total number of weight points
@@ -33,7 +34,7 @@ LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* 
 
 	LerpWeightedElement element = {
 	    .weights	       = MALLOC(total_weight_points * sizeof(SGA_Weight)),
-	    .covered_intervals = SGA_IntervalsSet_alloc(nb_intervals),
+	    .covered_intervals = intervals_set,
 	};
 	size_t weight_idx	  = 0;
 	SGA_Time last_time_filled = SGA_Time_max();
@@ -66,7 +67,7 @@ LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* 
 		    .start = LerpWeightPointArrayList_first(&interval_points)->time_instant,
 		    .end   = LerpWeightPointArrayList_last(&interval_points)->time_instant,
 		};
-		element.covered_intervals.intervals[interval_idx] = covered_interval;
+		element.covered_intervals->intervals[interval_idx] = covered_interval;
 	}
 
 	return element;
@@ -74,8 +75,8 @@ LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* 
 
 size_t nb_weights_in_lerp_element(const LerpWeightedElement* element) {
 	size_t nb_weights = 0;
-	for (size_t i = 0; i < element->covered_intervals.nb_intervals; i++) {
-		SGA_Interval interval = element->covered_intervals.intervals[i];
+	for (size_t i = 0; i < element->covered_intervals->nb_intervals; i++) {
+		SGA_Interval interval = element->covered_intervals->intervals[i];
 		nb_weights += SGA_Interval_duration(interval) + 1; // +1 because end inclusive
 	}
 	return nb_weights;
@@ -84,7 +85,6 @@ size_t nb_weights_in_lerp_element(const LerpWeightedElement* element) {
 void LerpWeightFunc_destroy(LerpWeightFunc self) {
 	for (size_t i = 0; i < self.nb_elements; i++) {
 		free(self.elements[i].weights);
-		SGA_IntervalsSet_destroy(self.elements[i].covered_intervals);
 	}
 	free(self.elements);
 }
@@ -98,13 +98,13 @@ void LerpWeightFunc_destroy(LerpWeightFunc self) {
  */
 SGA_Weight LerpWeightFunc_weight_at_t(const LerpWeightFunc* self, size_t element_id, SGA_Time time) {
 	ASSERT(element_id < self->nb_elements);
-	SGA_IntervalsSet element_intervals = self->elements[element_id].covered_intervals;
-	ASSERT(SGA_IntervalsSet_contains_sorted(element_intervals, time));
+	SGA_IntervalsSet* element_intervals = self->elements[element_id].covered_intervals;
+	ASSERT(SGA_IntervalsSet_contains_sorted(*element_intervals, time));
 
 	// Find the correct time index
 	size_t time_index = 0;
-	for (size_t i = 0; i < element_intervals.nb_intervals; i++) {
-		SGA_Interval interval = element_intervals.intervals[i];
+	for (size_t i = 0; i < element_intervals->nb_intervals; i++) {
+		SGA_Interval interval = element_intervals->intervals[i];
 
 		// If contains time, compute offset and break
 		if (time >= interval.start && time <= interval.end) {
@@ -122,8 +122,8 @@ SGA_Weight LerpWeightFunc_weight_at_t(const LerpWeightFunc* self, size_t element
 
 SGA_Weight LerpWeightFunc_weight_integral_between(const LerpWeightFunc* self, size_t element_id, SGA_Interval interval) {
 	ASSERT(element_id < self->nb_elements);
-	ASSERT(SGA_IntervalsSet_contains_sorted(self->elements[element_id].covered_intervals, interval.start));
-	ASSERT(SGA_IntervalsSet_contains_sorted(self->elements[element_id].covered_intervals, interval.end - 1));
+	ASSERT(SGA_IntervalsSet_contains_sorted(*self->elements[element_id].covered_intervals, interval.start));
+	ASSERT(SGA_IntervalsSet_contains_sorted(*self->elements[element_id].covered_intervals, interval.end - 1));
 
 	SGA_Weight integral = 0.0;
 	for (size_t t = interval.start; t < interval.end; t++) {
@@ -167,7 +167,8 @@ void LerpWeightFunc_normalise(LerpWeightFunc* self, SGA_Weight min, SGA_Weight m
 	}
 }
 
-LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, bool is_node, LinkIdMapHashset* link_id_map) {
+LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, SGA_StreamGraph* base, bool is_node,
+					  LinkIdMapHashset* link_id_map) {
 	size_t nb_elements = parsed.weights_per_elem.length;
 	LerpWeightFunc fn  = {
 	     .nb_elements = nb_elements,
@@ -176,17 +177,19 @@ LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, bool 
 
 	for (size_t elem_idx = 0; elem_idx < parsed.weights_per_elem.length; elem_idx++) {
 		size_t elem_id;
-		ParsedLerpWeight elem_intervals = parsed.weights_per_elem.array[elem_idx];
-		SGA_NodeOrLink elem		= elem_intervals.elem;
+		SGA_IntervalsSet* elem_intervals;
+		ParsedLerpWeight elem_intervals_weights = parsed.weights_per_elem.array[elem_idx];
+		SGA_NodeOrLink elem			= elem_intervals_weights.elem;
 		if (is_node) {
-			elem_id = elem.node;
+			elem_id	       = elem.node;
+			elem_intervals = &base->nodes.nodes[elem_id].presence;
 		}
 		else {
-			LinkIdMap key = LinkIdMap_key_only(elem.link.nodes[0], elem.link.nodes[1]);
-			elem_id	      = LinkIdMapHashset_find(*link_id_map, key)->id;
+			LinkIdMap key  = LinkIdMap_key_only(elem.link.nodes[0], elem.link.nodes[1]);
+			elem_id	       = LinkIdMapHashset_find(*link_id_map, key)->id;
+			elem_intervals = &base->links.links[elem_id].presence;
 		}
-
-		fn.elements[elem_id] = LerpWeightedElement_from(&elem_intervals.associated_weights);
+		fn.elements[elem_idx] = LerpWeightedElement_from(&elem_intervals_weights.associated_weights, elem_intervals);
 	}
 	return fn;
 }
