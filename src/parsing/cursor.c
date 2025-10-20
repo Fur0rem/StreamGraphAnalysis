@@ -1,4 +1,5 @@
 #include "cursor.h"
+#include <stdlib.h>
 
 SGA_ParsingCursor SGA_ParsingCursor_begin(const char* str, const char* filename) {
 	SGA_ParsingCursor cursor;
@@ -222,6 +223,24 @@ SGA_ParsingResult SGA_ParsingCursor_get_number_and_move(SGA_ParsingCursor* curso
 	return SGA_Parsing_success();
 }
 
+SGA_ParsingResult SGA_ParsingCursor_get_real_and_move(SGA_ParsingCursor* cursor, double* out_real, SGA_SourceCodeReference src_ref) {
+	char* new_ptr;
+	const char* str = cursor->str + cursor->cursor;
+	double number	= strtod(str, &new_ptr);
+	if (str == new_ptr) {
+		return (SGA_ParsingResult){
+		    .success	    = false,
+		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
+		    .message	    = String_from_format("Expected a real number here."),
+		    .src_ref	    = src_ref,
+		};
+	}
+	str	       = new_ptr;
+	*out_real      = number;
+	cursor->cursor = (size_t)(str - cursor->str);
+	return SGA_Parsing_success();
+}
+
 SGA_ParsingResult SGA_ParsingResult_error(SGA_ParsingCursor* cursor, String message, SGA_SourceCodeReference src_ref) {
 	SGA_ParsingResult result = {
 	    .success	    = false,
@@ -264,4 +283,17 @@ void SGA_ParsingCursor_print_current_line(const SGA_ParsingCursor* cursor) {
 	line[line_length] = '\0';
 	fprintf(stderr, "Current line: %s\n", line);
 	free(line);
+}
+
+void SGA_ParsingResult_crash_if_fail(SGA_ParsingCursor* cursor, SGA_ParsingResult* result, const char* err_msg, void (*hint_print_fn)()) {
+	if (!result->success) {
+		fprintf(stderr, "%s\n", err_msg);
+		SGA_ParsingResult_print_error(result, cursor);
+		hint_print_fn();
+		exit(1);
+	}
+}
+
+char SGA_ParsingCursor_current_char(SGA_ParsingCursor* cursor) {
+	return *(cursor->str + cursor->cursor);
 }

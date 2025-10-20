@@ -107,7 +107,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 
 	// Parse id(s)
 	if (event.elem_kind == Node) {
-		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.id.node, SGA_CODE_HERE);
+		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.elem.node, SGA_CODE_HERE);
 		if (!result.success) {
 			result.message = String_from_duplicate("Failed to parse node id!\n");
 			SGA_ParsingResult_print_error(&result, cursor);
@@ -116,7 +116,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		}
 	}
 	else {
-		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.id.link.node1, SGA_CODE_HERE);
+		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.elem.link.nodes[0], SGA_CODE_HERE);
 		if (!result.success) {
 			result.message = String_from_duplicate("Failed to parse link first node id!\n");
 			SGA_ParsingResult_print_error(&result, cursor);
@@ -132,7 +132,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 			exit(1);
 		}
 
-		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.id.link.node2, SGA_CODE_HERE);
+		result = SGA_ParsingCursor_get_number_and_move(cursor, &event.elem.link.nodes[1], SGA_CODE_HERE);
 		if (!result.success) {
 			fprintf(stderr, "Failed to parse link second node id!\n");
 			SGA_ParsingResult_print_error(&result, cursor);
@@ -144,7 +144,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 	// Update presence intervals
 	if (event.elem_kind == Node) {
 		// Extend the node presences and neighbours array if needed
-		while (event.id.node >= node_presences->length) {
+		while (event.elem.node >= node_presences->length) {
 			SGA_IntervalsSetBuilder builder = SGA_IntervalsSetBuilder_new();
 			SGA_IntervalsSetBuilderArrayList_push(node_presences, builder);
 			SGA_LinkIdArrayListArrayList_push(neighbours_of_nodes, SGA_LinkIdArrayList_new());
@@ -152,17 +152,17 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 
 		SGA_IntervalsSetBuilderError err;
 		if (event.event_kind == Appearance) {
-			err = SGA_IntervalsSetBuilder_add_appearance(&node_presences->array[event.id.node], event.instant);
+			err = SGA_IntervalsSetBuilder_add_appearance(&node_presences->array[event.elem.node], event.instant);
 		}
 		else {
-			err = SGA_IntervalsSetBuilder_add_disappearance(&node_presences->array[event.id.node], event.instant);
+			err = SGA_IntervalsSetBuilder_add_disappearance(&node_presences->array[event.elem.node], event.instant);
 		}
 		if (err.type != None) {
 			String err_msg = SGA_IntervalsSetBuilderError_to_string(&err);
 
 			result = SGA_ParsingResult_error(
 			    cursor,
-			    String_from_format("Error while updating presence intervals for node %zu : %s", event.id.node, err_msg.data),
+			    String_from_format("Error while updating presence intervals for node %zu : %s", event.elem.node, err_msg.data),
 			    SGA_CODE_HERE);
 
 			SGA_ParsingResult_print_error(&result, cursor);
@@ -173,7 +173,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 	else {
 		// Add the link to the link id map if it doesn't exist yet
 		SGA_LinkId link_id;
-		LinkIdMap link_key = LinkIdMap_key_only(event.id.link.node1, event.id.link.node2);
+		LinkIdMap link_key = LinkIdMap_key_only(event.elem.link.nodes[0], event.elem.link.nodes[1]);
 		LinkIdMap* entry;
 		bool is_newly_inserted = LinkIdMapHashset_find_or_insert(link_id_map, link_key, &entry);
 
@@ -188,8 +188,8 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 			}
 
 			// Add the link id to the neighbours of both nodes
-			SGA_LinkIdArrayList_push(&neighbours_of_nodes->array[event.id.link.node1], link_id);
-			SGA_LinkIdArrayList_push(&neighbours_of_nodes->array[event.id.link.node2], link_id);
+			SGA_LinkIdArrayList_push(&neighbours_of_nodes->array[event.elem.link.nodes[0]], link_id);
+			SGA_LinkIdArrayList_push(&neighbours_of_nodes->array[event.elem.link.nodes[1]], link_id);
 		}
 		else {
 			// Just fetch it
@@ -211,8 +211,9 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		}
 		if (err.type != None) {
 			String builder_err_msg = SGA_IntervalsSetBuilderError_to_string(&err);
-			String err_msg	       = String_from_format(
-			    "Error while updating presence intervals for link (%zu, %zu) : ", event.id.link.node1, event.id.link.node2);
+			String err_msg	       = String_from_format("Error while updating presence intervals for link (%zu, %zu) : ",
+							    event.elem.link.nodes[0],
+							    event.elem.link.nodes[1]);
 			String_concat_consume(&err_msg, builder_err_msg);
 			result = SGA_ParsingResult_error(cursor, err_msg, SGA_CODE_HERE);
 			SGA_ParsingResult_print_error(&result, cursor);

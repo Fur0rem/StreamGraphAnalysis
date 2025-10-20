@@ -68,6 +68,8 @@ SGA_ParsingResult SGA_Parsing_success();
  */
 void SGA_ParsingResult_print_error(SGA_ParsingResult* result, const SGA_ParsingCursor* cursor);
 
+void SGA_ParsingResult_crash_if_fail(SGA_ParsingCursor* cursor, SGA_ParsingResult* result, const char* err_msg, void (*hint_print_fn)());
+
 /**
  * @brief Finds the line and column of a cursor position in a string.
  * @param full_str The full string being parsed.
@@ -87,6 +89,8 @@ SGA_ParsingResult SGA_ParsingCursor_move_to_next_instance_of(SGA_ParsingCursor* 
 							     SGA_SourceCodeReference src_ref);
 
 SGA_ParsingResult SGA_ParsingResult_error(SGA_ParsingCursor* cursor, String message, SGA_SourceCodeReference src_ref);
+
+char SGA_ParsingCursor_current_char(SGA_ParsingCursor* cursor);
 
 /**
  * @brief Sets the current header at the given level in the parsing cursor, useful for giving error context.
@@ -114,13 +118,7 @@ SGA_ParsingResult SGA_ParsingCursor_expect_and_move(SGA_ParsingCursor* cursor, c
 
 SGA_ParsingResult SGA_ParsingCursor_get_number_and_move(SGA_ParsingCursor* cursor, size_t* out_number, SGA_SourceCodeReference src_ref);
 
-#define SGA_ParsingCursor_scan_and_move(cursor, src_ref, format, ...)                                                                      \
-	({                                                                                                                                 \
-		int __nb_chars_read;                                                                                                       \
-		SGA_ParsingResult __result = SGA_ParsingCursor_scan(cursor, src_ref, format "%n", __VA_ARGS__, &__nb_chars_read);          \
-		cursor->cursor += __nb_chars_read;                                                                                         \
-		__result;                                                                                                                  \
-	})
+SGA_ParsingResult SGA_ParsingCursor_get_real_and_move(SGA_ParsingCursor* cursor, double* out_real, SGA_SourceCodeReference src_ref);
 
 void SGA_ParsingCursor_skip_whitespace(SGA_ParsingCursor* cursor);
 

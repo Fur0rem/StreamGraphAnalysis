@@ -101,6 +101,4 @@ SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, SGA
  */
 SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval);
 
-SGA_WeightFunc SGA_WeightFunc_parse_internal_format(const char* str);
-
 #endif // SGA_WEIGHTED_WEIGHT_FUNCTION_H

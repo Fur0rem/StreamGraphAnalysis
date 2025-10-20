@@ -6,6 +6,7 @@
 #define SGA_INTERNAL
 
 #include "../StreamGraphAnalysis.h"
+#include "../src/parsing/parse_weights.h"
 #include "test.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -38,9 +39,78 @@ bool test_constant_universally() {
 	return okay;
 }
 
+bool test_parse_lerp_nodes() {
+	const char* str			= "5 ([9: -17.5, 41: 1e9, 89: 0] [100: -1])\n"
+					  "[end]\n";
+	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp()");
+	ParsedLerpWeightFunction parsed = SGA_parse_lerp_weight_function(&cursor, true);
+	ParsedLerpWeight* weights	= parsed.weights_per_elem.array;
+	bool result			= true;
+
+	result &= EXPECT(parsed.weights_per_elem.length == 1);
+	result &= EXPECT(weights->elem.node == 5);
+	result &= EXPECT(weights->associated_weights.length == 2);
+
+	__auto_type first_interval = weights->associated_weights.array[0];
+	result &= EXPECT(first_interval.length == 3);
+
+	result &= EXPECT_EQ(first_interval.array[0].time_instant, 9);
+	result &= EXPECT_F_APPROX_EQ(first_interval.array[0].associated_weight, -17.5, 1e-6);
+
+	result &= EXPECT_EQ(first_interval.array[1].time_instant, 41);
+	result &= EXPECT_F_APPROX_EQ(first_interval.array[1].associated_weight, 1e9, 1e-6);
+
+	result &= EXPECT_EQ(first_interval.array[2].time_instant, 89);
+	result &= EXPECT_F_APPROX_EQ(first_interval.array[2].associated_weight, 0.0, 1e-6);
+
+	__auto_type second_interval = weights->associated_weights.array[1];
+	result &= EXPECT_EQ(second_interval.length, 1);
+
+	result &= EXPECT_EQ(second_interval.array[0].time_instant, 100);
+	result &= EXPECT_F_APPROX_EQ(second_interval.array[0].associated_weight, -1.0, 1e-6);
+
+	return result;
+}
+
+bool test_parse_lerp_links() {
+	const char* str			= "10 200 ([9: -17.5, 41: 1e9, 89: 0] [100: -1])\n"
+					  "[end]\n";
+	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp()");
+	ParsedLerpWeightFunction parsed = SGA_parse_lerp_weight_function(&cursor, false);
+	ParsedLerpWeight* weights	= parsed.weights_per_elem.array;
+	bool result			= true;
+
+	result &= EXPECT(parsed.weights_per_elem.length == 1);
+	result &= EXPECT(weights->elem.link.nodes[0] == 10);
+	result &= EXPECT(weights->elem.link.nodes[1] == 200);
+	result &= EXPECT(weights->associated_weights.length == 2);
+
+	__auto_type first_interval = weights->associated_weights.array[0];
+	result &= EXPECT(first_interval.length == 3);
+
+	result &= EXPECT_EQ(first_interval.array[0].time_instant, 9);
+	result &= EXPECT_F_APPROX_EQ(first_interval.array[0].associated_weight, -17.5, 1e-6);
+
+	result &= EXPECT_EQ(first_interval.array[1].time_instant, 41);
+	result &= EXPECT_F_APPROX_EQ(first_interval.array[1].associated_weight, 1e9, 1e-6);
+
+	result &= EXPECT_EQ(first_interval.array[2].time_instant, 89);
+	result &= EXPECT_F_APPROX_EQ(first_interval.array[2].associated_weight, 0.0, 1e-6);
+
+	__auto_type second_interval = weights->associated_weights.array[1];
+	result &= EXPECT_EQ(second_interval.length, 1);
+
+	result &= EXPECT_EQ(second_interval.array[0].time_instant, 100);
+	result &= EXPECT_F_APPROX_EQ(second_interval.array[0].associated_weight, -1.0, 1e-6);
+
+	return result;
+}
+
 int main() {
 	Test* tests[] = {
 	    TEST(test_constant_universally),
+	    TEST(test_parse_lerp_nodes),
+	    TEST(test_parse_lerp_links),
 	    NULL,
 	};
 

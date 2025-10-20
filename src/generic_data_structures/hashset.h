@@ -13,10 +13,12 @@
 	} type##Hashset;                                                                                                                   \
                                                                                                                                            \
 	type##Hashset type##Hashset_with_capacity(size_t capacity);                                                                        \
+	const type* type##Hashset_find(type##Hashset s, type value);                                                                       \
 	type##Hashset type##Hashset_new();                                                                                                 \
 	bool type##Hashset_insert(type##Hashset* s, type value);                                                                           \
 	bool type##Hashset_contains(type##Hashset s, type value);                                                                          \
-	size_t type##Hashset_nb_elems(type##Hashset* s);
+	size_t type##Hashset_nb_elems(type##Hashset* s);                                                                                   \
+	bool type##Hashset_find_or_insert(type##Hashset* s, type value, type** entry);
 
 #define DefineHashset(type)                                                                                                                \
                                                                                                                                            \

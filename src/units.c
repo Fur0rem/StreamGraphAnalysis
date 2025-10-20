@@ -2,6 +2,10 @@
 #include "generic_data_structures/arraylist.h"
 #include "utils.h"
 
+size_t SGA_NodeId_max() {
+	return (size_t)(~((SGA_NodeId)0));
+}
+
 DEFAULT_EQUALS(SGA_NodeId);
 NO_FREE(SGA_NodeId);
 DEFAULT_COMPARE(SGA_NodeId);
@@ -21,6 +25,10 @@ DefineArrayListDeriveEquals(SGA_LinkId);
 DefineArrayListDeriveRemove(SGA_LinkId);
 DefineArrayListDeriveToString(SGA_LinkId);
 DefineArrayListDeriveOrdered(SGA_LinkId);
+
+size_t SGA_LinkId_max() {
+	return (size_t)(~((SGA_LinkId)0));
+}
 
 DefineArrayList(SGA_LinkIdArrayList);
 DefineArrayListDeriveEquals(SGA_LinkIdArrayList);
@@ -46,6 +54,10 @@ DefineArrayListDeriveEquals(SGA_Time);
 DefineArrayListDeriveRemove(SGA_Time);
 DefineArrayListDeriveOrdered(SGA_Time);
 DefineArrayListDeriveToString(SGA_Time);
+
+size_t SGA_Time_max() {
+	return (size_t)(~((SGA_Time)0));
+}
 
 NO_FREE(SGA_Weight);
 DEFAULT_EQUALS(SGA_Weight);

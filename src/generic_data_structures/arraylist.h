@@ -35,7 +35,10 @@
 	type type##ArrayList_pop_last(type##ArrayList* list);                                                                              \
 	type type##ArrayList_pop_nth(type##ArrayList* list, size_t idx);                                                                   \
 	type type##ArrayList_pop_nth_swap(type##ArrayList* list, size_t idx);                                                              \
-	void type##ArrayList_swap(type##ArrayList* list, size_t idx1, size_t idx2);
+	void type##ArrayList_swap(type##ArrayList* list, size_t idx1, size_t idx2);                                                        \
+	void type##ArrayList_reserve(type##ArrayList* list, size_t new_capacity);                                                          \
+	type* type##ArrayList_last(type##ArrayList* list);                                                                                 \
+	type* type##ArrayList_first(type##ArrayList* list)
 
 #define DefineArrayList(type)                                                                                                              \
                                                                                                                                            \
@@ -171,6 +174,27 @@
 		type##ArrayList list = type##ArrayList_with_capacity(nb_elems);                                                            \
 		type##ArrayList_append(&list, array, nb_elems);                                                                            \
 		return list;                                                                                                               \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	void type##ArrayList_reserve(type##ArrayList* list, size_t new_capacity) {                                                         \
+		if (list->capacity >= new_capacity) {                                                                                      \
+			return;                                                                                                            \
+		}                                                                                                                          \
+                                                                                                                                           \
+		type* new_list = (type*)MALLOC(sizeof(type) * list->capacity);                                                             \
+		memcpy(new_list, list->array, sizeof(type) * list->length);                                                                \
+		free(list->array);                                                                                                         \
+		list->array = new_list;                                                                                                    \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type* type##ArrayList_last(type##ArrayList* list) {                                                                                \
+		ASSERT(list->length > 0);                                                                                                  \
+		return &list->array[list->length - 1];                                                                                     \
+	}                                                                                                                                  \
+                                                                                                                                           \
+	type* type##ArrayList_first(type##ArrayList* list) {                                                                               \
+		ASSERT(list->length > 0);                                                                                                  \
+		return &list->array[0];                                                                                                    \
 	}
 
 /// Derives functions to the ArrayList to remove elements, given a way to free the elements

@@ -189,8 +189,3 @@ SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA
 	}
 	UNREACHABLE_CODE;
 }
-
-SGA_WeightFunc SGA_WeightFunc_parse_internal_format(const char* str) {
-	char type_str[20];
-	// sscanf("Type=%s\n");
-}
