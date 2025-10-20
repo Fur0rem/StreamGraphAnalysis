@@ -13,6 +13,7 @@ typedef struct SGA_ParsedStreamGraph {
 	SGA_IntervalsSetBuilderArrayList link_presences;
 	LinkIdMapHashset link_id_map;
 	SGA_LinkIdArrayListArrayList neighbours_of_nodes;
+	bool is_weighted;
 } SGA_ParsedStreamGraph;
 
 SGA_ParsedStreamGraph SGA_parse_stream_graph(const char* filename);

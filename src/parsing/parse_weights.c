@@ -1,8 +1,9 @@
+#include <stdio.h>
 #define SGA_INTERNAL
 
-#include "parse_weights.h"
 #include "../generic_data_structures/arraylist.h"
 #include "cursor.h"
+#include "parse_weights.h"
 
 DefineArrayList(LerpWeightPoint);
 DefineArrayList(LerpWeightPointArrayList);
@@ -173,4 +174,55 @@ ParsedLerpWeightFunction SGA_parse_lerp_weight_function(SGA_ParsingCursor* curso
 		CHECK_FAIL("Reached end of file prematurely!");
 	}
 	return weight_fn;
+}
+
+#undef CHECK_FAIL
+#define CHECK_FAIL(err_msg) SGA_ParsingResult_crash_if_fail(cursor, &result, (err_msg), print_universal_format)
+
+void print_universal_format() {
+	fprintf(stderr, "Expected: \"weight=x\", with x a real number\n");
+}
+
+ParsedUniversalWeightFunction SGA_parse_universal_weight_function(SGA_ParsingCursor* cursor) {
+	SGA_ParsingResult result = SGA_ParsingCursor_expect_sequence_and_move(cursor, "weight=", SGA_CODE_HERE);
+	CHECK_FAIL("Failed to parse universal weight!");
+
+	double parsed_weight;
+	result = SGA_ParsingCursor_get_real_and_move(cursor, &parsed_weight, SGA_CODE_HERE);
+	CHECK_FAIL("Failed to parse the weight!");
+
+	return (ParsedUniversalWeightFunction){
+	    .weight = (SGA_Weight)parsed_weight,
+	};
+}
+
+void print_weight_type() {
+	fprintf(stderr, "Expected \"type=T\"\n");
+	fprintf(stderr, "Available types:\n");
+	fprintf(stderr, "\t - universal\n");
+	fprintf(stderr, "\t - lerp\n");
+}
+
+#undef CHECK_FAIL
+#define CHECK_FAIL(err_msg) SGA_ParsingResult_crash_if_fail(cursor, &result, (err_msg), print_weight_type)
+
+ParsedWeightFunction SGA_parse_weight_function(SGA_ParsingCursor* cursor, bool is_node) {
+	ParsedWeightFunction parsed_fn;
+	SGA_ParsingResult result = SGA_ParsingCursor_expect_sequence_and_move(cursor, "type=", SGA_CODE_HERE);
+	CHECK_FAIL("Failed to parse weight function type");
+
+	if (SGA_ParsingCursor_line_starts_with(cursor, "universal")) {
+		parsed_fn.tag = CONST_UNIVERSALLY;
+		result	      = SGA_ParsingCursor_move_to_next_line(cursor, SGA_CODE_HERE);
+		CHECK_FAIL("Reached end of file prematurely!");
+		parsed_fn.data.universal = SGA_parse_universal_weight_function(cursor);
+	}
+	else if (SGA_ParsingCursor_line_starts_with(cursor, "lerp")) {
+		parsed_fn.tag = LERP;
+		result	      = SGA_ParsingCursor_move_to_next_line(cursor, SGA_CODE_HERE);
+		CHECK_FAIL("Reached end of file prematurely!");
+		parsed_fn.data.lerp = SGA_parse_lerp_weight_function(cursor, is_node);
+	}
+
+	return parsed_fn;
 }

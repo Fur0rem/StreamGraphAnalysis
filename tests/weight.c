@@ -42,7 +42,7 @@ bool test_constant_universally() {
 bool test_parse_lerp_nodes() {
 	const char* str			= "5 ([9: -17.5, 41: 1e9, 89: 0] [100: -1])\n"
 					  "[end]\n";
-	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp()");
+	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp_nodes()");
 	ParsedLerpWeightFunction parsed = SGA_parse_lerp_weight_function(&cursor, true);
 	ParsedLerpWeight* weights	= parsed.weights_per_elem.array;
 	bool result			= true;
@@ -75,7 +75,7 @@ bool test_parse_lerp_nodes() {
 bool test_parse_lerp_links() {
 	const char* str			= "10 200 ([9: -17.5, 41: 1e9, 89: 0] [100: -1])\n"
 					  "[end]\n";
-	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp()");
+	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp_links()");
 	ParsedLerpWeightFunction parsed = SGA_parse_lerp_weight_function(&cursor, false);
 	ParsedLerpWeight* weights	= parsed.weights_per_elem.array;
 	bool result			= true;
@@ -106,11 +106,33 @@ bool test_parse_lerp_links() {
 	return result;
 }
 
+bool test_parse_type() {
+	bool result = true;
+	{
+		const char* str		    = "type=universal\n"
+					      "weight=35\n"
+					      "[end]\n";
+		SGA_ParsingCursor cursor    = SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_type()");
+		ParsedWeightFunction parsed = SGA_parse_weight_function(&cursor, false);
+		result &= EXPECT(parsed.tag == CONST_UNIVERSALLY);
+		result &= EXPECT_F_APPROX_EQ(parsed.data.universal.weight, 35.0, 1e-6);
+	}
+	{
+		const char* str		    = "type=lerp\n"
+					      "[end]\n";
+		SGA_ParsingCursor cursor    = SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_type()");
+		ParsedWeightFunction parsed = SGA_parse_weight_function(&cursor, false);
+		result &= EXPECT(parsed.tag == LERP);
+	}
+	return result;
+}
+
 int main() {
 	Test* tests[] = {
 	    TEST(test_constant_universally),
 	    TEST(test_parse_lerp_nodes),
 	    TEST(test_parse_lerp_links),
+	    TEST(test_parse_type),
 	    NULL,
 	};
 

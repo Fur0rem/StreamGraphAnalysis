@@ -35,6 +35,7 @@ weighted=true
 
 [[nodes]]
 type=universal
+weight=0
 
 [[links]]
 type=lerp
