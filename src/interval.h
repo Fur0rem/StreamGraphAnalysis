@@ -103,6 +103,7 @@ typedef struct SGA_IntervalsSetBuilderError {
 		None,			 ///< No error.
 		TwoAppearancesInARow,	 ///< Two appearances in a row without a disappearance.
 		TwoDisappearancesInARow, ///< Two disappearances in a row without an appearance.
+		ContiguousIntervals,	 ///< Two intervals are contiguous.
 		NotSortedTimes,		 ///< The times are not sorted.
 		UnevenNumberOfEvents,	 ///< There is an uneven number of events (presence not closed).
 	} type;				 ///< The type of error.
@@ -115,6 +116,11 @@ typedef struct SGA_IntervalsSetBuilderError {
 			SGA_Time last_disappearance; ///< The time of the last disappearance event.
 			SGA_Time disappearance;	     ///< The time of the disappearance event.
 		} two_disappearances_in_a_row;	     ///< Data for two disappearances in a row error.
+		struct {
+			SGA_Time interval1_start; ///< The start of the first interval.
+			SGA_Time time_in_common;  ///< The time instant common to both intervals. (end of first, start of second)
+			SGA_Time interval2_end;	  ///< The end of the second interval.
+		} contiguous_intervals;		  ///< Data for contiguous intervals error.
 		struct {
 			SGA_Time previous_time; ///< The previous time.
 			SGA_Time current_time;	///< The current time.

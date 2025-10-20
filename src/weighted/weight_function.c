@@ -197,8 +197,7 @@ SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, size_t nb
 					  LinkIdMapHashset* link_id_map) {
 	switch (parsed.tag) {
 		case LERP: {
-			LerpWeightFunc lerp_func =
-			    LerpWeightFunc_from_parsed(parsed.data.lerp, nb_elements, lifespan.end - lifespan.start, is_node, link_id_map);
+			LerpWeightFunc lerp_func   = LerpWeightFunc_from_parsed(parsed.data.lerp, is_node, link_id_map);
 			SGA_WeightFunc weight_func = {
 			    .tag	 = LERP,
 			    .func.lerped = lerp_func,

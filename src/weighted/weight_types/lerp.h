@@ -11,38 +11,26 @@
 #include "../../units.h"
 
 /**
+ * @brief A structure representing the weights for a single element in a lerp weight function.
+ * It is a linearized list of lists, where each list contains the weights for each time instant in an interval.
+ */
+typedef struct LerpWeightedElement {
+	SGA_Weight* weights;		    ///< An array of weights for each time instant for this element.
+	SGA_IntervalsSet covered_intervals; ///< The set of intervals covered by this element's weights.
+} LerpWeightedElement;
+
+/**
  * @brief A structure representing a linearly interpolated weight function.
  * This structure is used to define a weight function that for each element, has a weight associated with each time instant,
  * and does linear interpolation between these weights.
  */
-
 typedef struct LerpWeightFunc {
-	SGA_Weight**
-	    weights; ///< A 2D array of weights, where each row corresponds to an element and each column corresponds to a time instant.
-	size_t nb_elements; ///< The number of elements in the weight function.
-	size_t nb_times;    ///< The number of time instants in the weight function.
+	LerpWeightedElement* elements; ///< An array of elements, each containing weights and covered intervals.
+	size_t nb_elements;	       ///< The number of elements in the weight function.
 } LerpWeightFunc;
 
 /**
- * @brief Parse a lerp weight function, represented in internal format
- *
- * @param str The string representing the lerp function
- * @return The lerp function
- */
-LerpWeightFunc LerpWeightFunc_parse_internal(const String* str, size_t nb_elems, SGA_Interval lifespan);
-
-/**
- * @brief Allocates a new LerpWeightFunc structure. Doesn't initialise the weights.
- *
- * @param nb_elements The number of elements in the weight function.
- * @param nb_times The number of time instants in the weight function.
- * @return A newly allocated LerpWeightFunc structure, with uninitialised weights.
- */
-LerpWeightFunc LerpWeightFunc_new(size_t nb_elements, size_t nb_times);
-
-/**
  * @brief Deallocates a LerpWeightFunc structure.
- *
  * @param self The LerpWeightFunc structure to deallocate.
  */
 void LerpWeightFunc_destroy(LerpWeightFunc self);
@@ -88,8 +76,15 @@ SGA_Weight LerpWeightFunc_min(const LerpWeightFunc* self);
 void LerpWeightFunc_normalise(LerpWeightFunc* self, SGA_Weight min, SGA_Weight max);
 
 #ifdef SGA_INTERNAL
-LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, size_t nb_elements, size_t nb_times, bool is_node,
-					  LinkIdMapHashset* link_id_map);
+
+/**
+ * @brief Creates a LerpWeightedElement from a list of lists of LerpWeightPoints for each interval.
+ * @param weighted_intervals The list of lists of LerpWeightPoints for each interval.
+ * @return A LerpWeightedElement containing the weights and covered intervals, linearized and ready to use.
+ */
+LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* weighted_intervals);
+
+LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, bool is_node, LinkIdMapHashset* link_id_map);
 #endif // SGA_INTERNAL
 
 #endif // WEIGHTED_WEIGHT_TYPES_LERP_H

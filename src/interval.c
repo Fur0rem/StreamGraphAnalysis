@@ -456,6 +456,13 @@ String SGA_IntervalsSetBuilderError_to_string(SGA_IntervalsSetBuilderError* erro
 						  error->details.not_sorted_times.previous_time,
 						  error->details.not_sorted_times.current_time);
 		}
+		case ContiguousIntervals: {
+			return String_from_format("Error: Contiguous presence intervals [%lu, %lu[ and [%lu, %lu[.",
+						  error->details.contiguous_intervals.interval1_start,
+						  error->details.contiguous_intervals.time_in_common,
+						  error->details.contiguous_intervals.time_in_common,
+						  error->details.contiguous_intervals.interval2_end);
+		}
 		case UnevenNumberOfEvents: {
 			return String_from_format(
 			    "Error: Uneven number of events (%zu). There is an unclosed presence interval (last appearance at time %lu).",
@@ -475,6 +482,14 @@ SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_add_appearance(SGA_Interval
 	// Check for sorted times
 	if (builder->nb_pushed > 0 && time < builder->last_time) {
 		error.type				     = NotSortedTimes;
+		error.details.not_sorted_times.previous_time = builder->last_time;
+		error.details.not_sorted_times.current_time  = time;
+		return error;
+	}
+
+	// Check for contiguous intervals
+	if (builder->nb_pushed > 0 && time == builder->last_time) {
+		error.type				     = ContiguousIntervals;
 		error.details.not_sorted_times.previous_time = builder->last_time;
 		error.details.not_sorted_times.current_time  = time;
 		return error;
@@ -507,6 +522,14 @@ SGA_IntervalsSetBuilderError SGA_IntervalsSetBuilder_add_disappearance(SGA_Inter
 	// Check for sorted times
 	if (builder->nb_pushed > 0 && time < builder->last_time) {
 		error.type				     = NotSortedTimes;
+		error.details.not_sorted_times.previous_time = builder->last_time;
+		error.details.not_sorted_times.current_time  = time;
+		return error;
+	}
+
+	// Check for contiguous intervals
+	if (builder->nb_pushed > 0 && time == builder->last_time) {
+		error.type				     = ContiguousIntervals;
 		error.details.not_sorted_times.previous_time = builder->last_time;
 		error.details.not_sorted_times.current_time  = time;
 		return error;
