@@ -67,4 +67,8 @@ void SGA_ParsedStreamGraph_destroy(SGA_ParsedStreamGraph psg) {
 	SGA_IntervalsSetBuilderArrayList_destroy(psg.link_presences);
 	LinkIdMapHashset_destroy(psg.link_id_map);
 	SGA_LinkIdArrayListArrayList_destroy(psg.neighbours_of_nodes);
+	if (psg.general_header.is_weighted) {
+		ParsedWeightFunction_destroy(psg.node_weights);
+		ParsedWeightFunction_destroy(psg.link_weights);
+	}
 }

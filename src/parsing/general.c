@@ -2,6 +2,7 @@
 #include "../interval.h"
 #include "cursor.h"
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -55,6 +56,12 @@ SGA_GeneralHeader SGA_parse_general_header(SGA_ParsingCursor* cursor) {
 		fprintf(stderr, "Failed to parse time_scale!\n");
 		SGA_ParsingResult_print_error(&result, cursor);
 		fprintf(stderr, BOLD_BLUE "Hint" RESET " - Expected: an unsigned integer for time_scale\n");
+		exit(1);
+	}
+	result = SGA_ParsingCursor_move_to_next_line(cursor, SGA_CODE_HERE);
+	if (!result.success) {
+		fprintf(stderr, "Reached end of file prematurely when parsing time_scale!\n");
+		SGA_ParsingResult_print_error(&result, cursor);
 		exit(1);
 	}
 

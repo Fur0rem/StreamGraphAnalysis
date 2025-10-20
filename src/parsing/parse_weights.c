@@ -6,9 +6,18 @@
 #include "cursor.h"
 #include "parse_weights.h"
 
+NO_FREE(LerpWeightPoint);
 DefineArrayList(LerpWeightPoint);
+DefineArrayListDeriveRemove(LerpWeightPoint);
 DefineArrayList(LerpWeightPointArrayList);
+DefineArrayListDeriveRemove(LerpWeightPointArrayList);
+
+void ParsedLerpWeight_destroy(ParsedLerpWeight self) {
+	LerpWeightPointArrayListArrayList_destroy(self.associated_weights);
+}
+
 DefineArrayList(ParsedLerpWeight);
+DefineArrayListDeriveRemove(ParsedLerpWeight);
 
 #define CHECK_FAIL(err_msg) SGA_ParsingResult_crash_if_fail(cursor, &result, (err_msg), print_lerp_format)
 
@@ -138,8 +147,6 @@ ParsedLerpWeightFunction SGA_parse_lerp_weight_function(SGA_ParsingCursor* curso
 			continue;
 		}
 
-		ParsedLerpWeightArrayList elem_weight = ParsedLerpWeightArrayList_new();
-
 		SGA_NodeOrLink elem = get_elem(cursor, is_node);
 
 		SGA_ParsingCursor_skip_whitespace(cursor);
@@ -238,4 +245,10 @@ ParsedWeightFunction SGA_parse_weight_function(SGA_ParsingCursor* cursor, bool i
 	}
 
 	return parsed_fn;
+}
+
+void ParsedWeightFunction_destroy(ParsedWeightFunction self) {
+	if (self.tag == LERP) {
+		ParsedLerpWeightArrayList_destroy(self.data.lerp.weights_per_elem);
+	}
 }

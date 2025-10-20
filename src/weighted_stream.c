@@ -11,7 +11,7 @@
 #include "weighted/weight_function.h"
 
 SGA_W_StreamGraph SGA_W_StreamGraph_from_parsed(SGA_ParsedStreamGraph parsed) {
-	ASSERT(parsed.is_weighted);
+	ASSERT(parsed.general_header.is_weighted);
 	SGA_W_StreamGraph wsg = {
 	    .base = SGA_StreamGraph_from_parsed(&parsed),
 	    .node_weights =

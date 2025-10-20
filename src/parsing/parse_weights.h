@@ -17,15 +17,20 @@ typedef struct LerpWeightPoint {
 	SGA_Weight associated_weight;
 } LerpWeightPoint;
 
+DeclareDestroy(LerpWeightPoint);
 DeclareArrayList(LerpWeightPoint);
+DeclareArrayListDeriveRemove(LerpWeightPoint);
 DeclareArrayList(LerpWeightPointArrayList);
+DeclareArrayListDeriveRemove(LerpWeightPointArrayList);
 
 typedef struct ParsedLerpWeight {
 	SGA_NodeOrLink elem;
 	LerpWeightPointArrayListArrayList associated_weights;
 } ParsedLerpWeight;
 
+DeclareDestroy(ParsedLerpWeight);
 DeclareArrayList(ParsedLerpWeight);
+DeclareArrayListDeriveRemove(ParsedLerpWeight);
 
 typedef struct ParsedLerpWeightFunction {
 	ParsedLerpWeightArrayList weights_per_elem;
@@ -46,6 +51,8 @@ typedef struct {
 } ParsedWeightFunction;
 
 ParsedWeightFunction SGA_parse_weight_function(SGA_ParsingCursor* cursor, bool is_node);
+
+void ParsedWeightFunction_destroy(ParsedWeightFunction self);
 
 #endif // SGA_INTERNAL
 

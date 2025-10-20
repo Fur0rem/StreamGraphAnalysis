@@ -16,7 +16,6 @@ typedef struct SGA_ParsedStreamGraph {
 	SGA_IntervalsSetBuilderArrayList link_presences;
 	LinkIdMapHashset link_id_map;
 	SGA_LinkIdArrayListArrayList neighbours_of_nodes;
-	bool is_weighted;
 	ParsedWeightFunction node_weights;
 	ParsedWeightFunction link_weights;
 } SGA_ParsedStreamGraph;

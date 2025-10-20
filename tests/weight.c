@@ -34,7 +34,7 @@ bool test_constant_universally() {
 		}
 	}
 
-	SGA_StreamGraph_destroy(sg);
+	SGA_W_StreamGraph_destroy(wsg);
 
 	return okay;
 }
@@ -64,7 +64,7 @@ bool test_parse_lerp_nodes() {
 	result &= EXPECT_F_APPROX_EQ(first_interval.array[2].associated_weight, 0.0, 1e-6);
 
 	__auto_type second_interval = weights->associated_weights.array[1];
-	result &= EXPECT_EQ(second_interval.length, 1);
+	result &= EXPECT_EQ(second_interval.length, 2);
 
 	result &= EXPECT_EQ(second_interval.array[0].time_instant, 100);
 	result &= EXPECT_F_APPROX_EQ(second_interval.array[0].associated_weight, -1.0, 1e-6);
@@ -72,6 +72,7 @@ bool test_parse_lerp_nodes() {
 	result &= EXPECT_EQ(second_interval.array[1].time_instant, 102);
 	result &= EXPECT_F_APPROX_EQ(second_interval.array[1].associated_weight, 1.0, 1e-6);
 
+	ParsedLerpWeightArrayList_destroy(parsed.weights_per_elem);
 	return result;
 }
 
@@ -109,6 +110,7 @@ bool test_parse_lerp_links() {
 	result &= EXPECT_EQ(second_interval.array[1].time_instant, 102);
 	result &= EXPECT_F_APPROX_EQ(second_interval.array[1].associated_weight, 1.0, 1e-6);
 
+	ParsedLerpWeightArrayList_destroy(parsed.weights_per_elem);
 	return result;
 }
 
@@ -122,6 +124,7 @@ bool test_parse_type() {
 		ParsedWeightFunction parsed = SGA_parse_weight_function(&cursor, false);
 		result &= EXPECT(parsed.tag == CONST_UNIVERSALLY);
 		result &= EXPECT_F_APPROX_EQ(parsed.data.universal.weight, 35.0, 1e-6);
+		ParsedWeightFunction_destroy(parsed);
 	}
 	{
 		const char* str		    = "type=lerp\n"
@@ -129,6 +132,7 @@ bool test_parse_type() {
 		SGA_ParsingCursor cursor    = SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_type()");
 		ParsedWeightFunction parsed = SGA_parse_weight_function(&cursor, false);
 		result &= EXPECT(parsed.tag == LERP);
+		ParsedWeightFunction_destroy(parsed);
 	}
 	return result;
 }
@@ -138,7 +142,6 @@ bool test_load_weighted() {
 	bool result	      = true;
 
 	// Check all nodes have weight 9 at all time
-	SGA_Interval lifespan	= wsg.base.lifespan;
 	SGA_NodesIterator nodes = SGA_StreamGraph_nodes_set(&wsg.base);
 	SGA_FOR_EACH_NODE(node, nodes) {
 		SGA_TimesIterator presence = SGA_StreamGraph_times_node_present(&wsg.base, node);

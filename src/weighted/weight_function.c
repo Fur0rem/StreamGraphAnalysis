@@ -210,6 +210,5 @@ SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, size_t nb
 			return weight_func;
 		}
 	}
-	printf("%hhu\n", parsed.tag);
 	UNREACHABLE_CODE;
 }
