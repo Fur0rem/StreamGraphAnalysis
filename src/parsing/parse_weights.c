@@ -1,5 +1,6 @@
-#include <stdio.h>
 #define SGA_INTERNAL
+
+#include <stdio.h>
 
 #include "../generic_data_structures/arraylist.h"
 #include "cursor.h"
@@ -43,6 +44,8 @@ LerpWeightPointArrayList lerp_parse_interval(SGA_ParsingCursor* cursor) {
 			    String_from_format("Time instants %zu and %zu are in the wrong order!", instant_parsed, last_instant_parsed);
 		}
 
+		last_instant_parsed = instant_parsed;
+
 		SGA_ParsingCursor_skip_whitespace(cursor);
 
 		result = SGA_ParsingCursor_expect_and_move(cursor, ':', SGA_CODE_HERE);
@@ -65,6 +68,16 @@ LerpWeightPointArrayList lerp_parse_interval(SGA_ParsingCursor* cursor) {
 		};
 		LerpWeightPointArrayList_push(&weights, new_point);
 	}
+
+	if (last_instant_parsed == SGA_Time_max()) {
+		UPDATE_AS_FAIL("Expected at least one weight point in interval!");
+	}
+	CHECK_FAIL("Failed to parse weight interval!");
+
+	if (last_instant_parsed == weights.array[0].time_instant) {
+		UPDATE_AS_FAIL("Expected at least two different time instants in interval!");
+	}
+	CHECK_FAIL("Failed to parse weight interval!");
 
 	return weights;
 }

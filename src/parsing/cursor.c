@@ -1,5 +1,6 @@
 #include "cursor.h"
 #include <stdlib.h>
+#include <string.h>
 
 SGA_ParsingCursor SGA_ParsingCursor_begin(const char* str, const char* filename) {
 	SGA_ParsingCursor cursor;
@@ -105,11 +106,11 @@ const char* get_type_string_from_format(const char* format) {
 	return "unknown type (Shouldn't happen - Please report a bug)";
 }
 
-SGA_CursorPosition SGA_find_line_and_column(const char* full_str, size_t cursor_position) {
+SGA_CursorPosition SGA_find_line_and_column(SGA_ParsingCursor* cursor) {
 	size_t line	= 1;
 	size_t column	= 1;
-	const char* ptr = full_str;
-	while ((size_t)(ptr - full_str) < cursor_position) {
+	const char* ptr = cursor->str;
+	while ((size_t)(ptr - cursor->str) < cursor->cursor) {
 		if (*ptr == '\n') {
 			line++;
 			column = 1;
@@ -129,12 +130,7 @@ SGA_ParsingResult SGA_ParsingCursor_move_to_next_instance_of(SGA_ParsingCursor* 
 							     SGA_SourceCodeReference src_ref) {
 	const char* found = strstr(cursor->str + cursor->cursor, str_to_move);
 	if (found == NULL) {
-		return (SGA_ParsingResult){
-		    .success	    = false,
-		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-		    .message	    = String_from_format("Expected \"%s\", couldn't find it", str_to_move),
-		    .src_ref	    = src_ref,
-		};
+		return FAIL("Expected \"%s\", couldn't find it", str_to_move);
 	}
 	cursor->cursor = (size_t)(found - cursor->str);
 	return SGA_Parsing_success();
@@ -179,12 +175,7 @@ bool SGA_ParsingCursor_line_is_empty(const SGA_ParsingCursor* cursor) {
 
 SGA_ParsingResult SGA_ParsingCursor_expect_and_move(SGA_ParsingCursor* cursor, char expected, SGA_SourceCodeReference src_ref) {
 	if (*(cursor->str + cursor->cursor) != expected) {
-		return (SGA_ParsingResult){
-		    .success	    = false,
-		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-		    .message	    = String_from_format("Expected '%c'", expected),
-		    .src_ref	    = src_ref,
-		};
+		return FAIL("Expected '%c'", expected);
 	}
 	cursor->cursor++;
 	return SGA_Parsing_success();
@@ -194,12 +185,7 @@ SGA_ParsingResult SGA_ParsingCursor_expect_sequence_and_move(SGA_ParsingCursor* 
 							     SGA_SourceCodeReference src_ref) {
 	size_t len = strlen(sequence);
 	if (strncmp(cursor->str + cursor->cursor, sequence, len) != 0) {
-		return (SGA_ParsingResult){
-		    .success	    = false,
-		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-		    .message	    = String_from_format("Expected \"%s\"", sequence),
-		    .src_ref	    = src_ref,
-		};
+		return FAIL("Expected \"%s\"", sequence);
 	}
 	cursor->cursor += len;
 	return SGA_Parsing_success();
@@ -210,12 +196,7 @@ SGA_ParsingResult SGA_ParsingCursor_get_number_and_move(SGA_ParsingCursor* curso
 	const char* str = cursor->str + cursor->cursor;
 	long number	= strtol(str, &new_ptr, 10);
 	if (str == new_ptr) {
-		return (SGA_ParsingResult){
-		    .success	    = false,
-		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-		    .message	    = String_from_format("Expected a number here."),
-		    .src_ref	    = src_ref,
-		};
+		return FAIL("Expected a number here.");
 	}
 	str	       = new_ptr;
 	*out_number    = (size_t)number;
@@ -228,27 +209,12 @@ SGA_ParsingResult SGA_ParsingCursor_get_real_and_move(SGA_ParsingCursor* cursor,
 	const char* str = cursor->str + cursor->cursor;
 	double number	= strtod(str, &new_ptr);
 	if (str == new_ptr) {
-		return (SGA_ParsingResult){
-		    .success	    = false,
-		    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-		    .message	    = String_from_format("Expected a real number here."),
-		    .src_ref	    = src_ref,
-		};
+		return FAIL("Expected a real number here.");
 	}
 	str	       = new_ptr;
 	*out_real      = number;
 	cursor->cursor = (size_t)(str - cursor->str);
 	return SGA_Parsing_success();
-}
-
-SGA_ParsingResult SGA_ParsingResult_error(SGA_ParsingCursor* cursor, String message, SGA_SourceCodeReference src_ref) {
-	SGA_ParsingResult result = {
-	    .success	    = false,
-	    .error_position = SGA_find_line_and_column(cursor->str, cursor->cursor),
-	    .message	    = message,
-	    .src_ref	    = src_ref,
-	};
-	return result;
 }
 
 void SGA_ParsingCursor_skip_whitespace(SGA_ParsingCursor* cursor) {
@@ -289,11 +255,17 @@ void SGA_ParsingResult_crash_if_fail(SGA_ParsingCursor* cursor, SGA_ParsingResul
 	if (!result->success) {
 		fprintf(stderr, "%s\n", err_msg);
 		SGA_ParsingResult_print_error(result, cursor);
-		hint_print_fn();
+		if (hint_print_fn != NULL) {
+			hint_print_fn();
+		}
 		exit(1);
 	}
 }
 
 char SGA_ParsingCursor_current_char(SGA_ParsingCursor* cursor) {
 	return *(cursor->str + cursor->cursor);
+}
+
+bool SGA_ParsingCursor_contains(SGA_ParsingCursor* cursor, const char* str_to_find) {
+	return strstr(cursor->str + cursor->cursor, str_to_find) != NULL;
 }

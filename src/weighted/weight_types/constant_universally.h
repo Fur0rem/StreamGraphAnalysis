@@ -7,6 +7,7 @@
 #define WEIGHTED_WEIGHT_TYPES_CONSTANT_UNIVERSALLY_H
 
 #include "../../interval.h"
+#include "../../parsing/parse_weights.h"
 #include "../../units.h"
 
 /**

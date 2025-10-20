@@ -40,7 +40,7 @@ bool test_constant_universally() {
 }
 
 bool test_parse_lerp_nodes() {
-	const char* str			= "5 ([9: -17.5, 41: 1e9, 89: 0] [100: -1])\n"
+	const char* str			= "5 ([9: -17.5, 41: 1e9, 89: 0] [100: -1, 102: 1])\n"
 					  "[end]\n";
 	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp_nodes()");
 	ParsedLerpWeightFunction parsed = SGA_parse_lerp_weight_function(&cursor, true);
@@ -69,11 +69,14 @@ bool test_parse_lerp_nodes() {
 	result &= EXPECT_EQ(second_interval.array[0].time_instant, 100);
 	result &= EXPECT_F_APPROX_EQ(second_interval.array[0].associated_weight, -1.0, 1e-6);
 
+	result &= EXPECT_EQ(second_interval.array[1].time_instant, 102);
+	result &= EXPECT_F_APPROX_EQ(second_interval.array[1].associated_weight, 1.0, 1e-6);
+
 	return result;
 }
 
 bool test_parse_lerp_links() {
-	const char* str			= "10 200 ([9: -17.5, 41: 1e9, 89: 0] [100: -1])\n"
+	const char* str			= "10 200 ([9: -17.5, 41: 1e9, 89: 0] [100: -1, 102: 1])\n"
 					  "[end]\n";
 	SGA_ParsingCursor cursor	= SGA_ParsingCursor_begin(str, "test/weight.c:test_parse_lerp_links()");
 	ParsedLerpWeightFunction parsed = SGA_parse_lerp_weight_function(&cursor, false);
@@ -98,10 +101,13 @@ bool test_parse_lerp_links() {
 	result &= EXPECT_F_APPROX_EQ(first_interval.array[2].associated_weight, 0.0, 1e-6);
 
 	__auto_type second_interval = weights->associated_weights.array[1];
-	result &= EXPECT_EQ(second_interval.length, 1);
+	result &= EXPECT_EQ(second_interval.length, 2);
 
 	result &= EXPECT_EQ(second_interval.array[0].time_instant, 100);
 	result &= EXPECT_F_APPROX_EQ(second_interval.array[0].associated_weight, -1.0, 1e-6);
+
+	result &= EXPECT_EQ(second_interval.array[1].time_instant, 102);
+	result &= EXPECT_F_APPROX_EQ(second_interval.array[1].associated_weight, 1.0, 1e-6);
 
 	return result;
 }
@@ -127,12 +133,51 @@ bool test_parse_type() {
 	return result;
 }
 
+bool test_load_weighted() {
+	SGA_W_StreamGraph wsg = SGA_W_StreamGraph_from_file("data/tests/weighted.sga");
+	bool result	      = true;
+
+	// Check all nodes have weight 9 at all time
+	SGA_Interval lifespan	= wsg.base.lifespan;
+	SGA_NodesIterator nodes = SGA_StreamGraph_nodes_set(&wsg.base);
+	SGA_FOR_EACH_NODE(node, nodes) {
+		SGA_TimesIterator presence = SGA_StreamGraph_times_node_present(&wsg.base, node);
+		SGA_FOR_EACH_TIME(interval, presence) {
+			for (SGA_Time t = interval.start; t <= interval.end; t++) {
+				SGA_Weight w = SGA_W_StreamGraph_node_weight_at_t(&wsg, node, t);
+				result &= EXPECT_F_APPROX_EQ(w, 9.0, 1e-6);
+			}
+		}
+	}
+
+	// Check some link weights
+	SGA_LinkId link_0_1 = SGA_StreamGraph_link_between_nodes(&wsg.base, 0, 1);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 1), -1.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 2), 0.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 3), 1.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 4), -1.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 5), 0.5, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 6), 1.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 9), 0.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_0_1, 10), 0.0, 1e-6);
+
+	SGA_LinkId link_1_2 = SGA_StreamGraph_link_between_nodes(&wsg.base, 1, 2);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_1_2, 1), 17.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_1_2, 2), 16.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_1_2, 4), 14.0, 1e-6);
+	result &= EXPECT_F_APPROX_EQ(SGA_W_StreamGraph_link_weight_at_t(&wsg, link_1_2, 7), 11.0, 1e-6);
+
+	SGA_W_StreamGraph_destroy(wsg);
+	return result;
+}
+
 int main() {
 	Test* tests[] = {
 	    TEST(test_constant_universally),
 	    TEST(test_parse_lerp_nodes),
 	    TEST(test_parse_lerp_links),
 	    TEST(test_parse_type),
+	    TEST(test_load_weighted),
 	    NULL,
 	};
 

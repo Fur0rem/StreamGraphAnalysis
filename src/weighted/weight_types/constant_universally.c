@@ -3,6 +3,8 @@
  * @brief A constant weight function that is universally applied to all elements at all times in a weighted stream.
  */
 
+#define SGA_INTERNAL
+
 #include "constant_universally.h"
 
 /**

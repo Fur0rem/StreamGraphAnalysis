@@ -7,6 +7,7 @@
 #define WEIGHTED_WEIGHT_TYPES_LERP_H
 
 #include "../../interval.h"
+#include "../../parsing/parse_weights.h"
 #include "../../units.h"
 
 /**
@@ -14,6 +15,7 @@
  * This structure is used to define a weight function that for each element, has a weight associated with each time instant,
  * and does linear interpolation between these weights.
  */
+
 typedef struct LerpWeightFunc {
 	SGA_Weight**
 	    weights; ///< A 2D array of weights, where each row corresponds to an element and each column corresponds to a time instant.
@@ -84,5 +86,10 @@ SGA_Weight LerpWeightFunc_min(const LerpWeightFunc* self);
  * @param max The maximum weight to map to 1.
  */
 void LerpWeightFunc_normalise(LerpWeightFunc* self, SGA_Weight min, SGA_Weight max);
+
+#ifdef SGA_INTERNAL
+LerpWeightFunc LerpWeightFunc_from_parsed(ParsedLerpWeightFunction parsed, size_t nb_elements, size_t nb_times, bool is_node,
+					  LinkIdMapHashset* link_id_map);
+#endif // SGA_INTERNAL
 
 #endif // WEIGHTED_WEIGHT_TYPES_LERP_H

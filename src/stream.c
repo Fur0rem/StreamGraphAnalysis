@@ -1,5 +1,7 @@
-#include "interval.h"
+
 #define SGA_INTERNAL
+
+#include "interval.h"
 #include "units.h"
 
 #include "parsing/parse_stream_graph.h"
@@ -206,7 +208,7 @@ KeyInstantsTable build_key_instants(const SGA_ParsedStreamGraph* parsed) {
 	return key;
 }
 
-SGA_StreamGraph SGA_stream_graph_from_parsed(const SGA_ParsedStreamGraph* parsed) {
+SGA_StreamGraph SGA_StreamGraph_from_parsed(const SGA_ParsedStreamGraph* parsed) {
 	SGA_StreamGraph sg;
 
 	sg.lifespan   = parsed->general_header.lifespan;
@@ -298,7 +300,7 @@ String SGA_StreamGraph_to_string(SGA_StreamGraph* sg) {
 
 SGA_StreamGraph SGA_StreamGraph_from_file(const char* filename) {
 	SGA_ParsedStreamGraph parsed = SGA_parse_stream_graph(filename);
-	SGA_StreamGraph sg	     = SGA_stream_graph_from_parsed(&parsed);
+	SGA_StreamGraph sg	     = SGA_StreamGraph_from_parsed(&parsed);
 	SGA_ParsedStreamGraph_destroy(parsed);
 	return sg;
 }

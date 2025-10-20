@@ -1,5 +1,8 @@
+#define SGA_INTERNAL
+
 #include "weight_function.h"
 #include "weight_types/constant_universally.h"
+#include "weight_types/lerp.h"
 
 SGA_WeightFunc SGA_WeightFunc_const_universally(SGA_Weight weight) {
 	SGA_WeightFunc self = {
@@ -187,5 +190,26 @@ SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA
 			return weight_func->func.const_universally.weight;
 		}
 	}
+	UNREACHABLE_CODE;
+}
+
+SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, size_t nb_elements, SGA_Interval lifespan, bool is_node,
+					  LinkIdMapHashset* link_id_map) {
+	switch (parsed.tag) {
+		case LERP: {
+			LerpWeightFunc lerp_func =
+			    LerpWeightFunc_from_parsed(parsed.data.lerp, nb_elements, lifespan.end - lifespan.start, is_node, link_id_map);
+			SGA_WeightFunc weight_func = {
+			    .tag	 = LERP,
+			    .func.lerped = lerp_func,
+			};
+			return weight_func;
+		}
+		case CONST_UNIVERSALLY: {
+			SGA_WeightFunc weight_func = SGA_WeightFunc_const_universally(parsed.data.universal.weight);
+			return weight_func;
+		}
+	}
+	printf("%hhu\n", parsed.tag);
 	UNREACHABLE_CODE;
 }

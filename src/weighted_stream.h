@@ -31,11 +31,7 @@ typedef struct {
 
 #include "weighted_stream.h"
 
-#ifdef SGA_INTERNAL
-SGA_W_StreamGraph SGA_W_StreamGraph_from_internal_format_v_1_0_0(const String* format);
-#endif // SGA_INTERNAL
-
-SGA_W_StreamGraph SGA_W_StreamGraph_from_file(const String* format);
+SGA_W_StreamGraph SGA_W_StreamGraph_from_file(const char* filename);
 
 /**
  * @brief Equips weights to a stream graph.
@@ -72,5 +68,7 @@ typedef struct SGA_W_Stream {
 	SGA_Stream base;	     ///< The base Stream, which contains the StreamGraph, type, and cache.
 	SGA_StreamData* stream_data; ///< The data of the Stream. It is a union of all the different types of StreamData.
 } SGA_W_Stream;
+
+void SGA_W_StreamGraph_destroy(SGA_W_StreamGraph self);
 
 #endif // WEIGHTED_STREAM_H

@@ -2,9 +2,13 @@
 #define PARSING_WEIGHTS_H
 
 #include "../units.h"
-#include "../weighted/weight_function.h"
 #include "cursor.h"
 #include "events.h"
+
+typedef enum WeightFuncTag : uint8_t {
+	LERP,		   ///< A linearly interpolated weight function.
+	CONST_UNIVERSALLY, ///< A constant weight function that applies universally to all elements at all times.
+} WeightFuncTag;
 
 #ifdef SGA_INTERNAL
 

@@ -28,6 +28,7 @@
 
 #include "bit_array.h"
 #include "interval.h"
+#include "parsing/parse_stream_graph.h"
 #include "stream_graph/events_table.h"
 #include "stream_graph/key_instants_table.h"
 #include "stream_graph/links_set.h"
@@ -222,6 +223,14 @@ size_t SGA_StreamGraph_time_scale(SGA_StreamGraph* sg);
  * @param[in] nb_events The number of events to allocate space for in the events table.
  */
 void init_events_table(SGA_StreamGraph* sg, size_t nb_events);
+
+KeyInstantsTable build_key_instants(const SGA_ParsedStreamGraph* parsed);
+
+LinksSet build_links_set(const SGA_ParsedStreamGraph* parsed);
+
+NodesSet build_nodes_set(const SGA_ParsedStreamGraph* parsed);
+
+SGA_StreamGraph SGA_StreamGraph_from_parsed(const SGA_ParsedStreamGraph* parsed);
 
 #endif // SGA_INTERNAL
 

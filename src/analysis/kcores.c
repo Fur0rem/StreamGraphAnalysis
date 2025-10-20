@@ -1,5 +1,6 @@
-#include "cluster.h"
 #define SGA_INTERNAL
+
+#include "cluster.h"
 
 #include "../stream_functions.h"
 #include "../streams.h"

@@ -1,6 +1,7 @@
+#define SGA_INTERNAL
+
 #include "iterators.h"
 #include "stream.h"
-#define SGA_INTERNAL
 
 // TODO: rename to stream_access maybe?
 

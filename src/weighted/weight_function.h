@@ -5,11 +5,6 @@
 #include "weight_types/lerp.h"
 #include <stdint.h>
 
-typedef enum WeightFuncTag : uint8_t {
-	LERP,		   ///< A linearly interpolated weight function.
-	CONST_UNIVERSALLY, ///< A constant weight function that applies universally to all elements at all times.
-} WeightFuncTag;
-
 typedef struct SGA_WeightFunc {
 	WeightFuncTag tag; ///< The tag indicating which type of weight function this is.
 	union {
@@ -100,5 +95,12 @@ SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, SGA
  * @return The minimum weight for all elements in the given time interval.
  */
 SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval);
+
+#ifdef SGA_INTERNAL
+
+SGA_WeightFunc SGA_WeightFunc_from_parsed(ParsedWeightFunction parsed, size_t nb_elements, SGA_Interval lifespan, bool is_node,
+					  LinkIdMapHashset* link_id_map);
+
+#endif // SGA_INTERNAL
 
 #endif // SGA_WEIGHTED_WEIGHT_FUNCTION_H

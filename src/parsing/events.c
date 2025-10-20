@@ -79,8 +79,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		event.event_kind = Disappearance;
 	}
 	else {
-		result = SGA_ParsingResult_error(
-		    cursor, String_from_format("Event sign was neither '+' nor '-', got '%c'", sign), SGA_CODE_HERE);
+		UPDATE_AS_FAIL("Event sign was neither '+' nor '-', got '%c'", sign);
 		SGA_ParsingResult_print_error(&result, cursor);
 		print_event_format();
 		exit(1);
@@ -97,8 +96,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		event.elem_kind = Link;
 	}
 	else {
-		result = SGA_ParsingResult_error(
-		    cursor, String_from_format("Event letter was neither 'N' nor 'L', got '%c'", letter), SGA_CODE_HERE);
+		UPDATE_AS_FAIL("Event letter was neither 'N' nor 'L', got '%c'", letter);
 		SGA_ParsingResult_print_error(&result, cursor);
 		print_event_format();
 		exit(1);
@@ -159,12 +157,7 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		}
 		if (err.type != None) {
 			String err_msg = SGA_IntervalsSetBuilderError_to_string(&err);
-
-			result = SGA_ParsingResult_error(
-			    cursor,
-			    String_from_format("Error while updating presence intervals for node %zu : %s", event.elem.node, err_msg.data),
-			    SGA_CODE_HERE);
-
+			UPDATE_AS_FAIL("Error while updating presence intervals for node %zu : %s", event.elem.node, err_msg.data);
 			SGA_ParsingResult_print_error(&result, cursor);
 			String_destroy(err_msg);
 			exit(1);
@@ -211,11 +204,10 @@ SGA_ParsedEvent SGA_parse_single_event(SGA_ParsingCursor* cursor, SGA_IntervalsS
 		}
 		if (err.type != None) {
 			String builder_err_msg = SGA_IntervalsSetBuilderError_to_string(&err);
-			String err_msg	       = String_from_format("Error while updating presence intervals for link (%zu, %zu) : ",
-							    event.elem.link.nodes[0],
-							    event.elem.link.nodes[1]);
-			String_concat_consume(&err_msg, builder_err_msg);
-			result = SGA_ParsingResult_error(cursor, err_msg, SGA_CODE_HERE);
+			UPDATE_AS_FAIL("Error while updating presence intervals for link (%zu, %zu) : %s",
+				       event.elem.link.nodes[0],
+				       event.elem.link.nodes[1],
+				       builder_err_msg);
 			SGA_ParsingResult_print_error(&result, cursor);
 			exit(1);
 		}

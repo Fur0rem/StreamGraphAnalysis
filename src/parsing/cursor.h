@@ -71,12 +71,11 @@ void SGA_ParsingResult_print_error(SGA_ParsingResult* result, const SGA_ParsingC
 void SGA_ParsingResult_crash_if_fail(SGA_ParsingCursor* cursor, SGA_ParsingResult* result, const char* err_msg, void (*hint_print_fn)());
 
 /**
- * @brief Finds the line and column of a cursor position in a string.
- * @param full_str The full string being parsed.
- * @param cursor_position The cursor position to find.
+ * @brief Finds the line and column of a cursor in a string.
+ * @param cursor The cursor to find the line and column of.
  * @return A SGA_CursorPosition indicating the line and column of the cursor position.
  */
-SGA_CursorPosition SGA_find_line_and_column(const char* full_str, size_t cursor_position);
+SGA_CursorPosition SGA_find_line_and_column(SGA_ParsingCursor* cursor);
 
 /**
  * @brief Moves the parsing cursor to the next occurrence of the given string.
@@ -87,8 +86,6 @@ SGA_CursorPosition SGA_find_line_and_column(const char* full_str, size_t cursor_
  */
 SGA_ParsingResult SGA_ParsingCursor_move_to_next_instance_of(SGA_ParsingCursor* cursor, const char* str_to_move,
 							     SGA_SourceCodeReference src_ref);
-
-SGA_ParsingResult SGA_ParsingResult_error(SGA_ParsingCursor* cursor, String message, SGA_SourceCodeReference src_ref);
 
 char SGA_ParsingCursor_current_char(SGA_ParsingCursor* cursor);
 
@@ -104,6 +101,8 @@ SGA_ParsingResult SGA_ParsingCursor_set_current_header(SGA_ParsingCursor* cursor
 						       SGA_SourceCodeReference src_ref);
 
 void SGA_ParsingCursor_print_current_line(const SGA_ParsingCursor* cursor);
+
+bool SGA_ParsingCursor_contains(SGA_ParsingCursor* cursor, const char* str_to_find);
 
 SGA_ParsingResult SGA_ParsingCursor_move_to_next_line(SGA_ParsingCursor* cursor, SGA_SourceCodeReference src_ref);
 
@@ -121,5 +120,21 @@ SGA_ParsingResult SGA_ParsingCursor_get_number_and_move(SGA_ParsingCursor* curso
 SGA_ParsingResult SGA_ParsingCursor_get_real_and_move(SGA_ParsingCursor* cursor, double* out_real, SGA_SourceCodeReference src_ref);
 
 void SGA_ParsingCursor_skip_whitespace(SGA_ParsingCursor* cursor);
+
+#define UPDATE_AS_FAIL(err_msg, ...)                                                                                                       \
+	do {                                                                                                                               \
+		result.success	      = false;                                                                                             \
+		result.error_position = SGA_find_line_and_column(cursor);                                                                  \
+		result.src_ref	      = SGA_CODE_HERE;                                                                                     \
+		result.message	      = String_from_format(err_msg, ##__VA_ARGS__);                                                        \
+	} while (0)
+
+#define FAIL(err_msg, ...)                                                                                                                 \
+	(SGA_ParsingResult){                                                                                                               \
+	    .success	    = false,                                                                                                       \
+	    .error_position = SGA_find_line_and_column(cursor),                                                                            \
+	    .message	    = String_from_format(err_msg, ##__VA_ARGS__),                                                                  \
+	    .src_ref	    = src_ref,                                                                                                     \
+	};
 
 #endif // SGA_PARSING_CURSOR_H
