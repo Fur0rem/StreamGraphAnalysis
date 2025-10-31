@@ -439,9 +439,110 @@ size_t ChunkStreamSmall_cardinal_distinct_links(SGA_Stream* stream) {
 
 const MetricsFunctions ChunkStreamSmall_metrics_functions = {
     .temporal_cardinal_of_node_set = NULL,
-    .duration			   =  (size_t (*)(const SGA_Stream *))ChunkStreamSmall_cardinal_of_t,
-    .distinct_cardinal_of_node_set =  (size_t (*)(const SGA_Stream *))ChunkStreamSmall_cardinal_of_v,
-    .distinct_cardinal_of_link_set =  (size_t (*)(const SGA_Stream *))ChunkStreamSmall_cardinal_distinct_links,
+    .duration			   = (size_t (*)(const SGA_Stream*))ChunkStreamSmall_cardinal_of_t,
+    .distinct_cardinal_of_node_set = (size_t (*)(const SGA_Stream*))ChunkStreamSmall_cardinal_of_v,
+    .distinct_cardinal_of_link_set = (size_t (*)(const SGA_Stream*))ChunkStreamSmall_cardinal_distinct_links,
     .coverage			   = NULL,
     .node_duration		   = NULL,
 };
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+SGA_W_Stream W_ChunkStreamSmall_from(SGA_W_StreamGraph* stream_graph, SGA_NodeIdArrayList nodes, SGA_LinkIdArrayList links,
+				     SGA_Interval timeframe) {
+	SGA_Stream base = SGA_ChunkStreamSmall_from(&stream_graph->base, nodes, links, timeframe);
+	init_cache(&base);
+
+	W_ChunkStreamSmall* chunk_stream_small	    = MALLOC(sizeof(W_ChunkStreamSmall));
+	chunk_stream_small->underlying_stream_graph = stream_graph;
+
+	SGA_W_Stream stream = {
+	    .base	 = base,
+	    .stream_data = (SGA_W_StreamData*)chunk_stream_small,
+	};
+
+	return stream;
+}
+
+SGA_Weight ChunkStreamSmall_node_weight_at_t(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Time time) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	return SGA_WeightFunc_weight_at_t(&w_chunk_stream->underlying_stream_graph->node_weights, node, time);
+}
+
+SGA_Weight ChunkStreamSmall_link_weight_at_t(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Time time) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	return SGA_WeightFunc_weight_at_t(&w_chunk_stream->underlying_stream_graph->link_weights, link, time);
+}
+
+SGA_Weight ChunkStreamSmall_max_node_weight(const SGA_W_Stream* stream) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	ChunkStreamSmall* chunk_stream	   = (ChunkStreamSmall*)stream->base.stream_data;
+	return SGA_WeightFunc_max_in_interval(&w_chunk_stream->underlying_stream_graph->node_weights, chunk_stream->timeframe);
+}
+
+SGA_Weight ChunkStreamSmall_max_link_weight(const SGA_W_Stream* stream) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	ChunkStreamSmall* chunk_stream	   = (ChunkStreamSmall*)stream->base.stream_data;
+	return SGA_WeightFunc_max_in_interval(&w_chunk_stream->underlying_stream_graph->link_weights, chunk_stream->timeframe);
+}
+
+SGA_Weight ChunkStreamSmall_min_node_weight(const SGA_W_Stream* stream) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	ChunkStreamSmall* chunk_stream	   = (ChunkStreamSmall*)stream->base.stream_data;
+	return SGA_WeightFunc_min_in_interval(&w_chunk_stream->underlying_stream_graph->node_weights, chunk_stream->timeframe);
+}
+
+SGA_Weight ChunkStreamSmall_min_link_weight(const SGA_W_Stream* stream) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	ChunkStreamSmall* chunk_stream	   = (ChunkStreamSmall*)stream->base.stream_data;
+	return SGA_WeightFunc_min_in_interval(&w_chunk_stream->underlying_stream_graph->link_weights, chunk_stream->timeframe);
+}
+
+void ChunkStreamSmall_normalise_node_weights(SGA_W_Stream* stream) {
+	SGA_Weight max			   = ChunkStreamSmall_max_node_weight(stream);
+	SGA_Weight min			   = ChunkStreamSmall_min_node_weight(stream);
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	SGA_WeightFunc_normalise(&w_chunk_stream->underlying_stream_graph->node_weights, min, max);
+}
+
+void ChunkStreamSmall_normalise_link_weights(SGA_W_Stream* stream) {
+	SGA_Weight max			   = ChunkStreamSmall_max_link_weight(stream);
+	SGA_Weight min			   = ChunkStreamSmall_min_link_weight(stream);
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	SGA_WeightFunc_normalise(&w_chunk_stream->underlying_stream_graph->link_weights, min, max);
+}
+
+SGA_Weight ChunkStreamSmall_weight_integral_of_node_between(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Interval interval) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	ChunkStreamSmall* chunk_stream	   = (ChunkStreamSmall*)stream->base.stream_data;
+	SGA_Interval effective_interval	   = SGA_Interval_intersection(interval, chunk_stream->timeframe);
+	return SGA_WeightFunc_weight_integral_between(&w_chunk_stream->underlying_stream_graph->node_weights, node, effective_interval);
+}
+
+SGA_Weight ChunkStreamSmall_weight_integral_of_link_between(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Interval interval) {
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream->stream_data;
+	ChunkStreamSmall* chunk_stream	   = (ChunkStreamSmall*)stream->base.stream_data;
+	SGA_Interval effective_interval	   = SGA_Interval_intersection(interval, chunk_stream->timeframe);
+	return SGA_WeightFunc_weight_integral_between(&w_chunk_stream->underlying_stream_graph->link_weights, link, effective_interval);
+}
+
+const WeightedStreamFunctions ChunkStreamSmall_weighted_stream_functions = {
+    .node_weight_at_t		     = ChunkStreamSmall_node_weight_at_t,
+    .link_weight_at_t		     = ChunkStreamSmall_link_weight_at_t,
+    .max_node_weight		     = ChunkStreamSmall_max_link_weight,
+    .max_link_weight		     = ChunkStreamSmall_max_link_weight,
+    .min_node_weight		     = ChunkStreamSmall_min_node_weight,
+    .min_link_weight		     = ChunkStreamSmall_min_link_weight,
+    .normalise_node_weights	     = ChunkStreamSmall_normalise_node_weights,
+    .normalise_link_weights	     = ChunkStreamSmall_normalise_link_weights,
+    .weight_integral_of_node_between = ChunkStreamSmall_weight_integral_of_node_between,
+    .weight_integral_of_link_between = ChunkStreamSmall_weight_integral_of_link_between,
+};
+
+void W_ChunkStreamSmall_destroy(SGA_W_Stream stream) {
+	SGA_ChunkStreamSmall_destroy(stream.base);
+	W_ChunkStreamSmall* w_chunk_stream = (W_ChunkStreamSmall*)stream.stream_data;
+	free(w_chunk_stream);
+}

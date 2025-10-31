@@ -100,6 +100,12 @@
 #	define UNLIKELY(cond) (cond)
 #endif
 
+#if defined(__clang__) || defined(__GNUC__)
+#	define UNUSED __attribute__((unused))
+#else
+#	define UNUSED
+#endif
+
 #ifdef __clang__
 #	define DONT_OPTIMISE __attribute__((optnone))
 #elif defined(__GNUC__)
@@ -123,7 +129,6 @@ typedef struct {
 	char* data;
 } String;
 
-#include "utils.h"
 #include <stddef.h>
 #include <string.h>
 

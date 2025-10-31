@@ -62,13 +62,13 @@ typedef struct W_FullStreamGraph {
  */
 SGA_W_Stream SGA_W_FullStreamGraph_from(SGA_W_StreamGraph* stream_graph);
 
+#ifdef SGA_INTERNAL
 /**
  * @brief Destroys a weighted Stream of a FullStreamGraph.
  * @param[in] self The FullStreamGraph to destroy.
  */
-void SGA_W_FullStreamGraph_destroy(SGA_W_Stream self);
+void W_FullStreamGraph_destroy(SGA_W_Stream self);
 
-#ifdef SGA_INTERNAL
 /**
  * @brief The necessary functions to use a W_FullStreamGraph as a weighted Stream.
  */

@@ -119,11 +119,18 @@ void SGA_WeightFunc_destroy(SGA_WeightFunc weight_func) {
 SGA_Weight SGA_WeightFunc_max_of_elem_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
 	switch (weight_func->tag) {
 		case LERP: {
-			SGA_Weight max = -INFINITY;
-			for (SGA_Time t = interval.start; t < interval.end; t++) {
-				SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
-				if (w > max) {
-					max = w;
+			SGA_Weight max			   = -INFINITY;
+			SGA_IntervalsSet* element_presence = weight_func->func.lerped.elements[element_id].covered_intervals;
+			for (size_t interval_idx = 0; interval_idx < element_presence->nb_intervals; interval_idx++) {
+				SGA_Interval covered_interval	= element_presence->intervals[interval_idx];
+				SGA_Interval effective_interval = SGA_Interval_intersection(interval, covered_interval);
+				if (!SGA_Interval_is_empty(effective_interval)) {
+					for (SGA_Time t = effective_interval.start; t <= effective_interval.end; t++) {
+						SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
+						if (w > max) {
+							max = w;
+						}
+					}
 				}
 			}
 			return max;
@@ -138,11 +145,18 @@ SGA_Weight SGA_WeightFunc_max_of_elem_in_interval(const SGA_WeightFunc* weight_f
 SGA_Weight SGA_WeightFunc_min_of_elem_in_interval(const SGA_WeightFunc* weight_func, size_t element_id, SGA_Interval interval) {
 	switch (weight_func->tag) {
 		case LERP: {
-			SGA_Weight min = INFINITY;
-			for (SGA_Time t = interval.start; t < interval.end; t++) {
-				SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
-				if (w < min) {
-					min = w;
+			SGA_Weight min			   = INFINITY;
+			SGA_IntervalsSet* element_presence = weight_func->func.lerped.elements[element_id].covered_intervals;
+			for (size_t interval_idx = 0; interval_idx < element_presence->nb_intervals; interval_idx++) {
+				SGA_Interval covered_interval	= element_presence->intervals[interval_idx];
+				SGA_Interval effective_interval = SGA_Interval_intersection(interval, covered_interval);
+				if (!SGA_Interval_is_empty(effective_interval)) {
+					for (SGA_Time t = effective_interval.start; t <= effective_interval.end; t++) {
+						SGA_Weight w = LerpWeightFunc_weight_at_t(&weight_func->func.lerped, element_id, t);
+						if (w < min) {
+							min = w;
+						}
+					}
 				}
 			}
 			return min;

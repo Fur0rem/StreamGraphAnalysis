@@ -165,24 +165,19 @@ const MetricsFunctions FullStreamGraph_metrics_functions = {
 //////////////////////////
 
 SGA_W_Stream SGA_W_FullStreamGraph_from(SGA_W_StreamGraph* stream_graph) {
-	SGA_Stream base = {
-	    .type	 = FULL_STREAM_GRAPH,
-	    .stream_data = &stream_graph->base,
-	};
-	init_cache(&base);
-
-	W_FullStreamGraph* full_stream_graph	   = MALLOC(sizeof(W_FullStreamGraph));
-	full_stream_graph->underlying_stream_graph = stream_graph;
+	SGA_Stream full_stream_graph		     = SGA_FullStreamGraph_from(&stream_graph->base);
+	W_FullStreamGraph* w_full_stream_graph	     = MALLOC(sizeof(W_FullStreamGraph));
+	w_full_stream_graph->underlying_stream_graph = stream_graph;
 
 	SGA_W_Stream stream = {
-	    .base	 = base,
-	    .stream_data = full_stream_graph,
+	    .base	 = full_stream_graph,
+	    .stream_data = (SGA_W_StreamData*)w_full_stream_graph,
 	};
-
 	return stream;
 }
 
-void SGA_W_FullStreamGraph_destroy(SGA_W_Stream self) {
+void W_FullStreamGraph_destroy(SGA_W_Stream self) {
+	free(self.base.stream_data);
 	free(self.stream_data);
 }
 

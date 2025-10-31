@@ -185,6 +185,24 @@ SGA_LinkId SGA_Stream_link_between_nodes(const SGA_Stream* stream, SGA_NodeId no
 SGA_TimesIterator SGA_Stream_key_instants(const SGA_Stream* stream);
 
 /**
+ * @brief Check if a node is present at a given instant in a Stream.
+ * @param[in] stream The Stream to check the node in.
+ * @param[in] node_id The id of the node to check.
+ * @param[in] time The instant to check the node at.
+ * @return true if the node is present at the given instant, false otherwise.
+ */
+bool SGA_Stream_is_node_present_at(const SGA_Stream* stream, SGA_NodeId node_id, SGA_Time time);
+
+/**
+ * @brief Check if a link is present at a given instant in a Stream.
+ * @param[in] stream The Stream to check the link in.
+ * @param[in] link_id The id of the link to check.
+ * @param[in] time The instant to check the link at.
+ * @return true if the link is present at the given instant, false otherwise.
+ */
+bool SGA_Stream_is_link_present_at(const SGA_Stream* stream, SGA_LinkId link_id, SGA_Time time);
+
+/**
  * @brief Destroy a Stream and free its resources. Doesn't destroy the underlying StreamGraph, just the Stream structure.
  * @param stream The Stream to destroy.
  */

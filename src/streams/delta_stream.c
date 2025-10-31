@@ -14,10 +14,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-SGA_Stream SGA_DeltaStream_from(SGA_StreamGraph* stream_graph, SGA_Time delta) {
+SGA_Stream SGA_DeltaStream_from(SGA_StreamGraph* stream_graph, SGA_Time half_delta) {
 	DeltaStream* delta_stream	      = MALLOC(sizeof(DeltaStream));
 	delta_stream->underlying_stream_graph = stream_graph;
-	delta_stream->delta		      = delta;
+	delta_stream->half_delta	      = half_delta;
 	SGA_Stream stream		      = {.type = DELTA_STREAM, .stream_data = delta_stream};
 	init_cache(&stream);
 	return stream;
@@ -138,7 +138,6 @@ SGA_Time saturate_add(SGA_Time added, SGA_Time to_add, SGA_Time max_value) {
 SGA_NodesIterator DeltaStream_nodes_present_at_t(SGA_StreamData* stream_data, SGA_Time instant) {
 	DeltaStream* delta_stream = (DeltaStream*)stream_data;
 	// Delta time frame, use +1 to round up in case of odd delta, because stream at x+0.5 is the same as stream at x
-	SGA_Time half_delta   = (delta_stream->delta + 1) / 2;
 	SGA_Interval lifespan = delta_stream->underlying_stream_graph->lifespan;
 
 	// If the instant is not in the lifespan, return an empty iterator
@@ -150,8 +149,8 @@ SGA_NodesIterator DeltaStream_nodes_present_at_t(SGA_StreamData* stream_data, SG
 	size_tHashset ids = size_tHashset_new();
 
 	// Calculate the frame of the delta time (and saturate it to the lifespan)
-	SGA_Time start_time = saturate_sub(instant, half_delta, lifespan.start);
-	SGA_Time end_time   = saturate_add(instant, half_delta, lifespan.end);
+	SGA_Time start_time = saturate_sub(instant, delta_stream->half_delta, lifespan.start);
+	SGA_Time end_time   = saturate_add(instant, delta_stream->half_delta, lifespan.end);
 
 	// Find the beginning of the delta time frame in the key instants table
 	size_t current_key_instant_idx =
@@ -201,7 +200,6 @@ SGA_NodesIterator DeltaStream_nodes_present_at_t(SGA_StreamData* stream_data, SG
 SGA_LinksIterator DeltaStream_links_present_at_t(SGA_StreamData* stream_data, SGA_Time instant) {
 	DeltaStream* delta_stream = (DeltaStream*)stream_data;
 	// Delta time frame, use +1 to round up in case of odd delta, because stream at x+0.5 is the same as stream at x
-	SGA_Time half_delta   = (delta_stream->delta + 1) / 2;
 	SGA_Interval lifespan = delta_stream->underlying_stream_graph->lifespan;
 
 	// If the instant is not in the lifespan, return an empty iterator
@@ -213,14 +211,14 @@ SGA_LinksIterator DeltaStream_links_present_at_t(SGA_StreamData* stream_data, SG
 	size_tHashset ids = size_tHashset_new();
 
 	// Calculate the start time of the delta time frame (0 if half_delta is before the start of the lifespan)
-	bool will_underflow	    = instant < half_delta;
-	SGA_Time start_time	    = will_underflow ? 0 : instant - half_delta;
+	bool will_underflow	    = instant < delta_stream->half_delta;
+	SGA_Time start_time	    = will_underflow ? 0 : instant - delta_stream->half_delta;
 	bool starts_before_lifespan = SGA_Interval_contains(lifespan, start_time);
 	start_time		    = starts_before_lifespan ? start_time : lifespan.start;
 
-	// Calculate the end time of the delta time frame (end of lifespan if half_delta is after the end of the lifespan)
-	bool will_overflow = instant + half_delta > lifespan.end;
-	SGA_Time end_time  = will_overflow ? lifespan.end : instant + half_delta;
+	// Calculate the end time of the delta time frame (end of lifespan if delta_stream->half_delta is after the end of the lifespan)
+	bool will_overflow = instant + delta_stream->half_delta > lifespan.end;
+	SGA_Time end_time  = will_overflow ? lifespan.end : instant + delta_stream->half_delta;
 
 	// Iterate over all links and check if they are present in the delta time frame
 	size_t current_key_instant_idx =
@@ -289,7 +287,6 @@ SGA_TimesIterator DeltaStream_times_node_present(SGA_StreamData* stream_data, SG
 	// printf("Entering DeltaStream_times_node_present\n");
 	DeltaStream* delta_stream     = (DeltaStream*)stream_data;
 	SGA_StreamGraph* stream_graph = delta_stream->underlying_stream_graph;
-	SGA_Time half_delta	      = (delta_stream->delta + 1) / 2;
 
 	ASSERT(node_id < stream_graph->nodes.nb_nodes);
 
@@ -300,8 +297,8 @@ SGA_TimesIterator DeltaStream_times_node_present(SGA_StreamData* stream_data, SG
 		SGA_Interval interval = node.presence.intervals[i];
 
 		// Add the delta time frame to the interval
-		interval.start = saturate_sub(interval.start, half_delta, stream_graph->lifespan.start);
-		interval.end   = saturate_add(interval.end, half_delta, stream_graph->lifespan.end);
+		interval.start = saturate_sub(interval.start, delta_stream->half_delta, stream_graph->lifespan.start);
+		interval.end   = saturate_add(interval.end, delta_stream->half_delta, stream_graph->lifespan.end);
 
 		// Add the interval to the list
 		SGA_IntervalArrayList_push(&intervals, interval);
@@ -330,7 +327,6 @@ SGA_TimesIterator DeltaStream_times_node_present(SGA_StreamData* stream_data, SG
 SGA_TimesIterator DeltaStream_times_link_present(SGA_StreamData* stream_data, SGA_LinkId link_id) {
 	DeltaStream* delta_stream     = (DeltaStream*)stream_data;
 	SGA_StreamGraph* stream_graph = delta_stream->underlying_stream_graph;
-	SGA_Time half_delta	      = (delta_stream->delta + 1) / 2;
 
 	ASSERT(link_id < stream_graph->links.nb_links);
 
@@ -341,8 +337,8 @@ SGA_TimesIterator DeltaStream_times_link_present(SGA_StreamData* stream_data, SG
 		SGA_Interval interval = link.presence.intervals[i];
 
 		// Add the delta time frame to the interval
-		interval.start = saturate_sub(interval.start, half_delta, stream_graph->lifespan.start);
-		interval.end   = saturate_add(interval.end, half_delta, stream_graph->lifespan.end);
+		interval.start = saturate_sub(interval.start, delta_stream->half_delta, stream_graph->lifespan.start);
+		interval.end   = saturate_add(interval.end, delta_stream->half_delta, stream_graph->lifespan.end);
 
 		// Add the interval to the list
 		SGA_IntervalArrayList_push(&intervals, interval);
@@ -451,4 +447,195 @@ const MetricsFunctions DeltaStream_metrics_functions = {
     .distinct_cardinal_of_link_set = (size_t (*)(const SGA_Stream*))DeltaStream_distinct_cardinal_of_link_set,
     .coverage			   = NULL,
     .node_duration		   = NULL,
+};
+
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+SGA_W_Stream SGA_W_DeltaStream_from(SGA_W_StreamGraph* stream_graph, SGA_Time half_delta) {
+	SGA_Stream base = SGA_DeltaStream_from(&stream_graph->base, half_delta);
+	init_cache(&base);
+
+	W_DeltaStream* w_delta_stream		= MALLOC(sizeof(W_DeltaStream));
+	w_delta_stream->underlying_stream_graph = stream_graph;
+
+	SGA_W_Stream stream = {
+	    .base	 = base,
+	    .stream_data = (SGA_W_StreamData*)w_delta_stream,
+	};
+
+	return stream;
+}
+
+void W_DeltaStream_destroy(SGA_W_Stream stream) {
+	SGA_DeltaStream_destroy(stream.base);
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream.stream_data;
+	free(w_delta_stream);
+}
+
+SGA_Weight DeltaStream_elem_weight_at_t(const SGA_WeightFunc* func, size_t elem_id, SGA_Time time, SGA_Time half_delta) {
+	switch (func->tag) {
+		case CONST_UNIVERSALLY: {
+			return func->func.const_universally.weight;
+		}
+		case LERP: {
+			ASSERT(elem_id < func->func.lerped.nb_elements);
+			SGA_IntervalsSet* element_intervals = func->func.lerped.elements[elem_id].covered_intervals;
+			ASSERT(SGA_IntervalsSet_contains_sorted(*element_intervals, time));
+
+			// Find the correct time index
+			size_t time_index = 0;
+			for (size_t i = 0; i < element_intervals->nb_intervals; i++) {
+				SGA_Interval interval = element_intervals->intervals[i];
+				// If contains time, compute offset and break
+				if (time >= interval.start && time <= interval.end) {
+					time_index += (time - interval.start);
+					break;
+				}
+				// Check if it would've contained time with half_delta (by start)
+				else if (time < interval.start && time + half_delta >= interval.start) {
+					if (i == 0) {
+						time_index = 0;
+					}
+					else {
+						SGA_Interval prev_interval  = element_intervals->intervals[i - 1];
+						SGA_Time dist_to_prev_end   = time - prev_interval.end;
+						SGA_Time dist_to_curr_start = interval.start - time;
+						if (dist_to_prev_end <= dist_to_curr_start) {
+							time_index += 0; // Closer to end of previous interval
+						}
+						else {
+							time_index += 1; // Closer to start of current interval
+						}
+					}
+					break;
+				}
+				// Check if it would've contained time with half_delta (by end)
+				else if (time > interval.end && time - half_delta <= interval.end) {
+					if (i == element_intervals->nb_intervals - 1) {
+						time_index += SGA_Interval_duration(interval); // Last interval, go to end
+					}
+					else {
+						SGA_Interval next_interval  = element_intervals->intervals[i + 1];
+						SGA_Time dist_to_next_start = next_interval.start - time;
+						SGA_Time dist_to_curr_end   = time - interval.end;
+						if (dist_to_next_start < dist_to_curr_end) {
+							time_index +=
+							    SGA_Interval_duration(interval) + 1; // Closer to start of next interval
+						}
+						else {
+							time_index += SGA_Interval_duration(interval); // Closer to end of current interval
+						}
+					}
+					break;
+				}
+				// Else, skip this interval
+				else {
+					time_index += SGA_Interval_duration(interval) + 1; // +1 because end inclusive
+				}
+			}
+
+			return func->func.lerped.elements[elem_id].weights[time_index];
+		}
+	}
+
+	UNREACHABLE_CODE;
+}
+
+SGA_Weight DeltaStream_weight_of_node_at_t(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Time time) {
+	DeltaStream* delta_stream     = (DeltaStream*)stream->base.stream_data;
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+
+	SGA_WeightFunc* node_weights = &w_delta_stream->underlying_stream_graph->node_weights;
+	return DeltaStream_elem_weight_at_t(node_weights, node, time, delta_stream->half_delta);
+}
+
+SGA_Weight DeltaStream_weight_of_link_at_t(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Time time) {
+	DeltaStream* delta_stream     = (DeltaStream*)stream->base.stream_data;
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+
+	SGA_WeightFunc* link_weights = &w_delta_stream->underlying_stream_graph->link_weights;
+	return DeltaStream_elem_weight_at_t(link_weights, link, time, delta_stream->half_delta);
+}
+
+SGA_Weight DeltaStream_max_node_weight(const SGA_W_Stream* stream) {
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+	return SGA_WeightFunc_max(&w_delta_stream->underlying_stream_graph->node_weights);
+}
+
+SGA_Weight DeltaStream_max_link_weight(const SGA_W_Stream* stream) {
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+	return SGA_WeightFunc_max(&w_delta_stream->underlying_stream_graph->link_weights);
+}
+
+SGA_Weight DeltaStream_min_node_weight(const SGA_W_Stream* stream) {
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+	return SGA_WeightFunc_min(&w_delta_stream->underlying_stream_graph->node_weights);
+}
+
+SGA_Weight DeltaStream_min_link_weight(const SGA_W_Stream* stream) {
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+	return SGA_WeightFunc_min(&w_delta_stream->underlying_stream_graph->link_weights);
+}
+
+void DeltaStream_normalise_node_weights(SGA_W_Stream* stream) {
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+	SGA_Weight max		      = DeltaStream_max_node_weight(stream);
+	SGA_Weight min		      = DeltaStream_min_node_weight(stream);
+	SGA_WeightFunc_normalise(&w_delta_stream->underlying_stream_graph->node_weights, min, max);
+}
+
+void DeltaStream_normalise_link_weights(SGA_W_Stream* stream) {
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+	SGA_Weight max		      = DeltaStream_max_link_weight(stream);
+	SGA_Weight min		      = DeltaStream_min_link_weight(stream);
+	SGA_WeightFunc_normalise(&w_delta_stream->underlying_stream_graph->link_weights, min, max);
+}
+
+SGA_Weight DeltaStream_weight_integral_of_node_between(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Interval interval) {
+	DeltaStream* delta_stream     = (DeltaStream*)stream->base.stream_data;
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+
+	SGA_WeightFunc* node_weights = &w_delta_stream->underlying_stream_graph->node_weights;
+
+	SGA_Weight total_weight = 0;
+
+	// Iterate over the time interval in the delta stream
+	for (SGA_Time t = interval.start; t <= interval.end; t++) {
+		SGA_Weight weight_at_t = DeltaStream_elem_weight_at_t(node_weights, node, t, delta_stream->half_delta);
+		total_weight += weight_at_t;
+	}
+
+	return total_weight;
+}
+
+SGA_Weight DeltaStream_weight_integral_of_link_between(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Interval interval) {
+	DeltaStream* delta_stream     = (DeltaStream*)stream->base.stream_data;
+	W_DeltaStream* w_delta_stream = (W_DeltaStream*)stream->stream_data;
+
+	SGA_WeightFunc* link_weights = &w_delta_stream->underlying_stream_graph->link_weights;
+
+	SGA_Weight total_weight = 0;
+
+	// Iterate over the time interval in the delta stream
+	for (SGA_Time t = interval.start; t <= interval.end; t++) {
+		SGA_Weight weight_at_t = DeltaStream_elem_weight_at_t(link_weights, link, t, delta_stream->half_delta);
+		total_weight += weight_at_t;
+	}
+
+	return total_weight;
+}
+
+const WeightedStreamFunctions DeltaStream_weighted_stream_functions = {
+    .max_node_weight		     = DeltaStream_max_node_weight,
+    .max_link_weight		     = DeltaStream_max_link_weight,
+    .min_node_weight		     = DeltaStream_min_node_weight,
+    .min_link_weight		     = DeltaStream_min_link_weight,
+    .node_weight_at_t		     = DeltaStream_weight_of_node_at_t,
+    .link_weight_at_t		     = DeltaStream_weight_of_link_at_t,
+    .normalise_node_weights	     = DeltaStream_normalise_node_weights,
+    .normalise_link_weights	     = DeltaStream_normalise_link_weights,
+    .weight_integral_of_node_between = DeltaStream_weight_integral_of_node_between,
+    .weight_integral_of_link_between = DeltaStream_weight_integral_of_link_between,
 };

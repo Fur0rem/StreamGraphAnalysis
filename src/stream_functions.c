@@ -5,8 +5,10 @@
 
 // TODO: rename to stream_access maybe?
 
+#include "interval.h"
 #include "stream_functions.h"
 #include "streams.h"
+#include <stdbool.h>
 
 SGA_Interval SGA_Stream_lifespan(const SGA_Stream* stream) {
 	StreamFunctions fns = STREAM_FUNCS(fns, stream);
@@ -94,4 +96,28 @@ void SGA_Stream_destroy(SGA_Stream stream) {
 			SGA_DeltaStream_destroy(stream);
 			break;
 	}
+}
+
+bool SGA_Stream_is_node_present_at(const SGA_Stream* stream, SGA_NodeId node_id, SGA_Time time) {
+	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
+	SGA_TimesIterator times_iterator = fns.times_node_present(stream->stream_data, node_id);
+	SGA_FOR_EACH_TIME(interval, times_iterator) {
+		if (SGA_Interval_contains(interval, time)) {
+			times_iterator.destroy(&times_iterator);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool SGA_Stream_is_link_present_at(const SGA_Stream* stream, SGA_LinkId link_id, SGA_Time time) {
+	StreamFunctions fns		 = STREAM_FUNCS(fns, stream);
+	SGA_TimesIterator times_iterator = fns.times_link_present(stream->stream_data, link_id);
+	SGA_FOR_EACH_TIME(interval, times_iterator) {
+		if (SGA_Interval_contains(interval, time)) {
+			times_iterator.destroy(&times_iterator);
+			return true;
+		}
+	}
+	return false;
 }

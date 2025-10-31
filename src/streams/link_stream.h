@@ -69,10 +69,12 @@ extern const WeightedStreamFunctions LinkStream_weighted_stream_functions;
  */
 SGA_W_Stream SGA_W_LinkStream_from(SGA_W_StreamGraph* stream_graph, SGA_WeightFunc extended_nodes_weights);
 
+#ifdef SGA_INTERNAL
 /**
  * @brief Destroys a weighted Stream of a LinkStream.
  * @param[in] self The LinkStream to destroy.
  */
-void SGA_W_LinkStream_destroy(SGA_W_Stream self);
+void W_LinkStream_destroy(SGA_W_Stream self);
+#endif // SGA_INTERNAL
 
 #endif // LINK_STREAM_H

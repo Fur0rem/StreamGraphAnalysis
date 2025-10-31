@@ -70,6 +70,8 @@ LerpWeightedElement LerpWeightedElement_from(LerpWeightPointArrayListArrayList* 
 		element.covered_intervals->intervals[interval_idx] = covered_interval;
 	}
 
+	DEV_ASSERT(weight_idx == total_weight_points);
+
 	return element;
 }
 

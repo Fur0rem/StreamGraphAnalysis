@@ -55,7 +55,6 @@ void SGA_TimeFrameStream_destroy(SGA_Stream stream);
  */
 typedef struct W_TimeFrameStream {
 	SGA_W_StreamGraph* underlying_stream_graph; ///< The weighted StreamGraph from which the TimeFrameStream was extracted.
-	SGA_Interval timeframe;			    ///< The time interval of the timeframe.
 } W_TimeFrameStream;
 
 /**
@@ -73,10 +72,12 @@ extern const WeightedStreamFunctions TimeFrameStream_weighted_stream_functions;
  */
 SGA_W_Stream SGA_W_TimeFrameStream_from(SGA_W_StreamGraph* stream_graph, SGA_Interval timeframe);
 
+#ifdef SGA_INTERNAL
 /**
  * @brief Destroys a weighted Stream of a TimeFrameStream.
  * @param[in] self The TimeFrameStream to destroy.
  */
-void SGA_W_TimeFrameStream_destroy(SGA_W_Stream self);
+void W_TimeFrameStream_destroy(SGA_W_Stream self);
+#endif // SGA_INTERNAL
 
 #endif // SGA_TIMEFRAME_STREAM_H

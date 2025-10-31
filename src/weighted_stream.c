@@ -1,14 +1,17 @@
 /**
  * @file src/weighted_stream.c
  */
-
 #define SGA_INTERNAL
+#include "stream_functions.h"
 
-#include "weighted_stream.h"
+#include "streams.h"
+#include "weighted_stream_functions.h"
+
 #include "interval.h"
 #include "parsing/parse_stream_graph.h"
 #include "stream.h"
 #include "weighted/weight_function.h"
+#include "weighted_stream.h"
 
 SGA_W_StreamGraph SGA_W_StreamGraph_from_parsed(SGA_ParsedStreamGraph parsed) {
 	ASSERT(parsed.general_header.is_weighted);
@@ -34,6 +37,7 @@ SGA_Weight SGA_W_StreamGraph_node_weight_at_t(const SGA_W_StreamGraph* stream_gr
 	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, time));
 	return SGA_WeightFunc_weight_at_t(&stream_graph->node_weights, node, time);
 }
+
 SGA_Weight SGA_W_StreamGraph_link_weight_at_t(const SGA_W_StreamGraph* stream_graph, SGA_LinkId link, SGA_Time time) {
 	ASSERT(link < stream_graph->base.links.nb_links);
 	ASSERT(SGA_Interval_contains(stream_graph->base.lifespan, time));
@@ -48,6 +52,7 @@ SGA_Weight SGA_W_StreamGraph_weight_integral_of_node_between(const SGA_W_StreamG
 
 	return SGA_WeightFunc_weight_integral_between(&stream_graph->node_weights, node, interval);
 }
+
 SGA_Weight SGA_W_StreamGraph_weight_integral_of_link_between(const SGA_W_StreamGraph* stream_graph, SGA_LinkId link,
 							     SGA_Interval interval) {
 	ASSERT(link < stream_graph->base.links.nb_links);
@@ -95,4 +100,62 @@ void SGA_W_StreamGraph_destroy(SGA_W_StreamGraph self) {
 	SGA_StreamGraph_destroy(self.base);
 	SGA_WeightFunc_destroy(self.node_weights);
 	SGA_WeightFunc_destroy(self.link_weights);
+}
+
+const SGA_Stream* SGA_as_unweighted(const SGA_W_Stream* stream) {
+	return &(stream->base);
+}
+
+SGA_Weight SGA_W_Stream_node_weight_at_t(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Time time) {
+	ASSERT(SGA_Interval_contains(SGA_Stream_lifespan(SGA_as_unweighted(stream)), time));
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.node_weight_at_t(stream, node, time);
+}
+
+SGA_Weight SGA_W_Stream_link_weight_at_t(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Time time) {
+	ASSERT(SGA_Interval_contains(SGA_Stream_lifespan(SGA_as_unweighted(stream)), time));
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.link_weight_at_t(stream, link, time);
+}
+
+SGA_Weight SGA_W_Stream_weight_integral_of_node_between(const SGA_W_Stream* stream, SGA_NodeId node, SGA_Interval interval) {
+	ASSERT(SGA_Interval_contains_interval(SGA_Stream_lifespan(SGA_as_unweighted(stream)), interval));
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.weight_integral_of_node_between(stream, node, interval);
+}
+
+SGA_Weight SGA_W_Stream_weight_integral_of_link_between(const SGA_W_Stream* stream, SGA_LinkId link, SGA_Interval interval) {
+	ASSERT(SGA_Interval_contains_interval(SGA_Stream_lifespan(SGA_as_unweighted(stream)), interval));
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.weight_integral_of_link_between(stream, link, interval);
+}
+
+SGA_Weight SGA_W_Stream_max_node_weight(const SGA_W_Stream* stream) {
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.max_node_weight(stream);
+}
+
+SGA_Weight SGA_W_Stream_min_node_weight(const SGA_W_Stream* stream) {
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.min_node_weight(stream);
+}
+
+SGA_Weight SGA_W_Stream_min_link_weight(const SGA_W_Stream* stream) {
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.min_link_weight(stream);
+}
+
+SGA_Weight SGA_W_Stream_max_link_weight(const SGA_W_Stream* stream) {
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	return fns.max_link_weight(stream);
+}
+
+void SGA_W_Stream_normalise_node_weights(SGA_W_Stream* stream) {
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	fns.normalise_node_weights(stream);
+}
+
+void SGA_W_Stream_normalise_link_weights(SGA_W_Stream* stream) {
+	WeightedStreamFunctions fns = WEIGHTED_STREAM_FUNCS(fns, stream);
+	fns.normalise_link_weights(stream);
 }

@@ -1,11 +1,14 @@
 #define SGA_INTERNAL
 
 #include "parse_stream_graph.h"
+#include "../utils.h"
 #include "cursor.h"
 #include "events.h"
 #include "general.h"
 #include "parse_weights.h"
 #include "version.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
 #define CHECK_FAIL(err_msg) SGA_ParsingResult_crash_if_fail(&cursor, &result, (err_msg), NULL)
 
@@ -13,7 +16,7 @@ SGA_ParsedStreamGraph SGA_parse_stream_graph(const char* filename) {
 	String str		 = String_from_file(filename);
 	SGA_ParsingCursor cursor = SGA_ParsingCursor_begin(str.data, filename);
 
-	SGA_Version version = SGA_parse_version(&cursor);
+	UNUSED SGA_Version version = SGA_parse_version(&cursor);
 	// No difference in parsing for different versions yet so we don't use it
 
 	SGA_ParsingResult result = SGA_ParsingCursor_move_to_next_line(&cursor, SGA_CODE_HERE);

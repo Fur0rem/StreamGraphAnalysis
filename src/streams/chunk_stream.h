@@ -68,4 +68,56 @@ SGA_Stream SGA_ChunkStream_without(SGA_StreamGraph* stream_graph, SGA_NodeIdArra
  */
 void SGA_ChunkStream_destroy(SGA_Stream stream);
 
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+#include "../weighted_stream_functions.h"
+
+#ifdef SGA_INTERNAL
+
+/**
+ * @brief The weighted version of the ChunkStream
+ */
+typedef struct W_ChunkStream {
+	SGA_W_StreamGraph* underlying_stream_graph; ///< The weighted StreamGraph from which the ChunkStream was extracted.
+} W_ChunkStream;
+
+/**
+ * @brief The necessary functions to use a W_ChunkStream as a weighted Stream.
+ */
+extern const WeightedStreamFunctions ChunkStream_weighted_stream_functions;
+
+#endif // SGA_INTERNAL
+
+/**
+ * @brief Create a weighted ChunkStream from a StreamGraph, with a subset of nodes and links.
+ * @param[in] stream_graph The weighted StreamGraph to create the ChunkStream from.
+ * @param[in] nodes The nodes present in the chunk.
+ * @param[in] links The links present in the chunk.
+ * @param[in] timeframe The time interval at which the chunk exists.
+ * @return The created ChunkStream.
+ */
+SGA_W_Stream SGA_W_ChunkStream_with(SGA_W_StreamGraph* stream_graph, SGA_NodeIdArrayList* nodes_present, SGA_LinkIdArrayList* links_present,
+				    SGA_Interval timeframe);
+
+/**
+ * @brief Create a weighted ChunkStream from a StreamGraph, without a subset of nodes and links.
+ * @param[in] stream_graph The weighted StreamGraph to create the ChunkStream from.
+ * @param[in] nodes The nodes to remove from the chunk.
+ * @param[in] links The links to remove from the chunk.
+ * @param[in] timeframe The time interval at which the chunk exists.
+ * @return The created ChunkStream.
+ */
+SGA_W_Stream SGA_W_ChunkStream_without(SGA_W_StreamGraph* stream_graph, SGA_NodeIdArrayList* nodes_absent,
+				       SGA_LinkIdArrayList* links_absent, SGA_Interval timeframe);
+
+#ifdef SGA_INTERNAL
+/**
+ * @brief Destroys a weighted Stream of a ChunkStream.
+ * @param[in] self The ChunkStream to destroy.
+ */
+void W_ChunkStream_destroy(SGA_W_Stream self);
+#endif // SGA_INTERNAL
+
 #endif // CHUNK_STREAM_H

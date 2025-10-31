@@ -17,7 +17,10 @@
 SGA_Stream SGA_LinkStream_from(SGA_StreamGraph* stream_graph) {
 	LinkStream* link_stream		     = MALLOC(sizeof(LinkStream));
 	link_stream->underlying_stream_graph = stream_graph;
-	SGA_Stream stream		     = {.type = LINK_STREAM, .stream_data = link_stream};
+	SGA_Stream stream		     = {
+			       .type	    = LINK_STREAM,
+			       .stream_data = (SGA_W_StreamData*)link_stream,
+	   };
 	init_cache(&stream);
 	return stream;
 }
@@ -225,27 +228,22 @@ const MetricsFunctions LinkStream_metrics_functions = {
  * @return The link stream as a weighted stream
  */
 SGA_W_Stream SGA_W_LinkStream_from(SGA_W_StreamGraph* stream_graph, SGA_WeightFunc node_weights_fill) {
-	W_LinkStream* link_stream	     = MALLOC(sizeof(W_LinkStream));
-	link_stream->underlying_stream_graph = stream_graph;
-	link_stream->extended_nodes_weights  = node_weights_fill;
+	SGA_Stream link_stream		       = SGA_LinkStream_from(&stream_graph->base);
+	W_LinkStream* w_link_stream	       = MALLOC(sizeof(W_LinkStream));
+	w_link_stream->underlying_stream_graph = stream_graph;
+	w_link_stream->extended_nodes_weights  = node_weights_fill;
 
 	SGA_W_Stream stream = {
-	    .base =
-		{
-		    .type	 = LINK_STREAM,
-		    .stream_data = &stream_graph->base,
-		},
-	    .stream_data = link_stream,
+	    .base	 = link_stream,
+	    .stream_data = (SGA_W_StreamData*)w_link_stream,
 	};
-
-	init_cache(&stream.base);
-
 	return stream;
 }
 
-void SGA_W_LinkStream_destroy(SGA_W_Stream self) {
+void W_LinkStream_destroy(SGA_W_Stream self) {
 	W_LinkStream* link_stream = (W_LinkStream*)self.stream_data;
 	SGA_WeightFunc_destroy(link_stream->extended_nodes_weights);
+	SGA_LinkStream_destroy(self.base);
 	free(link_stream);
 }
 

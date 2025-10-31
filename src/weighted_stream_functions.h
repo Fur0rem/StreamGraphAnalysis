@@ -124,4 +124,47 @@ SGA_Stream* SGA_W_Stream_as_regular_stream(SGA_W_Stream* self);
 
 void SGA_W_Stream_destroy(SGA_W_Stream stream);
 
+#ifdef SGA_INTERNAL
+
+/**
+ * @brief Get the functions to access the data of a weighted StreamGraph.
+ * @param[out] variable The variable to store the functions in.
+ * @param[in] stream_var The Stream to get the functions for.
+ */
+#	define WEIGHTED_STREAM_FUNCS(variable, stream_var)                                                                                \
+		({                                                                                                                         \
+			switch ((stream_var)->base.type) {                                                                                 \
+				case FULL_STREAM_GRAPH: {                                                                                  \
+					(variable) = FullStreamGraph_weighted_stream_functions;                                            \
+					break;                                                                                             \
+				}                                                                                                          \
+				case LINK_STREAM: {                                                                                        \
+					(variable) = LinkStream_weighted_stream_functions;                                                 \
+					break;                                                                                             \
+				}                                                                                                          \
+				case CHUNK_STREAM: {                                                                                       \
+					(variable) = ChunkStream_weighted_stream_functions;                                                \
+					break;                                                                                             \
+				}                                                                                                          \
+				case CHUNK_STREAM_SMALL: {                                                                                 \
+					(variable) = ChunkStreamSmall_weighted_stream_functions;                                           \
+					break;                                                                                             \
+				}                                                                                                          \
+				case TIMEFRAME_STREAM: {                                                                                   \
+					(variable) = TimeFrameStream_weighted_stream_functions;                                            \
+					break;                                                                                             \
+				}                                                                                                          \
+				case DELTA_STREAM: {                                                                                       \
+					(variable) = DeltaStream_weighted_stream_functions;                                                \
+					break;                                                                                             \
+				}                                                                                                          \
+				default: {                                                                                                 \
+					UNREACHABLE_CODE;                                                                                  \
+				}                                                                                                          \
+			}                                                                                                                  \
+			(variable);                                                                                                        \
+		})
+
+#endif // SGA_INTERNAL
+
 #endif // STREAM_FUNCTIONS_H

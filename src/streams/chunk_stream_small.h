@@ -43,4 +43,45 @@ SGA_Stream SGA_ChunkStreamSmall_from(SGA_StreamGraph* stream_graph, SGA_NodeIdAr
 				     SGA_Interval timeframe);
 void SGA_ChunkStreamSmall_destroy(SGA_Stream stream);
 
+//////////////////////////
+//// Weighted version ////
+//////////////////////////
+
+#include "../weighted_stream_functions.h"
+
+#ifdef SGA_INTERNAL
+
+/**
+ * @brief The weighted version of the ChunkStreamSmall
+ */
+typedef struct W_ChunkStreamSmall {
+	SGA_W_StreamGraph* underlying_stream_graph; ///< The weighted StreamGraph from which the ChunkStreamSmall was extracted.
+} W_ChunkStreamSmall;
+
+/**
+ * @brief The necessary functions to use a W_ChunkStreamSmall as a weighted Stream.
+ */
+extern const WeightedStreamFunctions ChunkStreamSmall_weighted_stream_functions;
+
+#endif // SGA_INTERNAL
+
+/**
+ * @brief Create a weighted ChunkStreamSmall from a StreamGraph, with a subset of nodes and links.
+ * @param[in] stream_graph The weighted StreamGraph to create the ChunkStreamSmall from.
+ * @param[in] nodes The nodes present in the chunk.
+ * @param[in] links The links present in the chunk.
+ * @param[in] timeframe The time interval at which the chunk exists.
+ * @return The created ChunkStreamSmall.
+ */
+SGA_Stream SGA_ChunkStreamSmall_from(SGA_StreamGraph* stream_graph, SGA_NodeIdArrayList nodes, SGA_LinkIdArrayList links,
+				     SGA_Interval timeframe);
+
+#ifdef SGA_INTERNAL
+/**
+ * @brief Destroys a weighted Stream of a ChunkStreamSmall.
+ * @param[in] self The ChunkStreamSmall to destroy.
+ */
+void W_ChunkStreamSmall_destroy(SGA_W_Stream self);
+#endif // SGA_INTERNAL
+
 #endif // CHUNK_STREAM_SMALL_H

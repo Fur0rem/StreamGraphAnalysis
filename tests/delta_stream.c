@@ -14,7 +14,7 @@
 
 bool test_same_distinct_nodes() {
 	SGA_StreamGraph original = SGA_StreamGraph_from_file("data/tests/delta_stream/original.sga");
-	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 2);
+	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 1); // half_delta = 1 to get a delta of 2
 
 	SGA_StreamGraph _expected = SGA_StreamGraph_from_file("data/tests/delta_stream/expected_2delta_stream.sga");
 	SGA_Stream expected	  = SGA_FullStreamGraph_from(&_expected);
@@ -37,7 +37,7 @@ bool test_same_distinct_nodes() {
 
 bool test_same_temporal_nodes() {
 	SGA_StreamGraph original = SGA_StreamGraph_from_file("data/tests/delta_stream/original.sga");
-	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 2);
+	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 1); // half_delta = 1 to get a delta of 2
 
 	SGA_StreamGraph _expected = SGA_StreamGraph_from_file("data/tests/delta_stream/expected_2delta_stream.sga");
 	SGA_Stream expected	  = SGA_FullStreamGraph_from(&_expected);
@@ -66,7 +66,7 @@ bool test_same_temporal_nodes() {
 
 bool test_isomorphism() {
 	SGA_StreamGraph original = SGA_StreamGraph_from_file("data/tests/delta_stream/original.sga");
-	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 2);
+	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 1); // half_delta = 1 to get a delta of 2
 
 	SGA_StreamGraph _expected = SGA_StreamGraph_from_file("data/tests/delta_stream/expected_2delta_stream.sga");
 	SGA_Stream expected	  = SGA_FullStreamGraph_from(&_expected);
@@ -82,7 +82,7 @@ bool test_isomorphism() {
 
 bool test_present_at_t() {
 	SGA_StreamGraph original = SGA_StreamGraph_from_file("data/tests/delta_stream/original.sga");
-	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 2);
+	SGA_Stream delta_stream	 = SGA_DeltaStream_from(&original, 1); // half_delta = 1 to get a delta of 2
 
 	SGA_StreamGraph _expected = SGA_StreamGraph_from_file("data/tests/delta_stream/expected_2delta_stream.sga");
 	SGA_Stream expected	  = SGA_FullStreamGraph_from(&_expected);

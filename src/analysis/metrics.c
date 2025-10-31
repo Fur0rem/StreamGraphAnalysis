@@ -663,14 +663,14 @@ SGA_Weight SGA_maximal_weight_of_possible_nodes(const SGA_W_Stream* stream) {
 	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
 	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
 
-	return w_fns.max_node_weight(stream) * (SGA_Weight)SGA_Stream_temporal_cardinal_of_node_set(stream->stream_data);
+	return w_fns.max_node_weight(stream) * (SGA_Weight)SGA_Stream_temporal_cardinal_of_node_set(SGA_as_unweighted(stream));
 }
 
 SGA_Weight SGA_maximal_weight_of_possible_links(const SGA_W_Stream* stream) {
 	StreamFunctions fns	      = STREAM_FUNCS(fns, &stream->base);
 	WeightedStreamFunctions w_fns = SGA_Weighted_StreamFunctions(stream);
 
-	return w_fns.max_link_weight(stream) * (SGA_Weight)SGA_Stream_temporal_cardinal_of_link_set(stream->stream_data);
+	return w_fns.max_link_weight(stream) * (SGA_Weight)SGA_Stream_temporal_cardinal_of_link_set(SGA_as_unweighted(stream));
 }
 
 SGA_Weight SGA_weighted_normalised_density(const SGA_W_Stream* stream) {

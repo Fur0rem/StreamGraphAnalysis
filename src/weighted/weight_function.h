@@ -63,6 +63,7 @@ void SGA_WeightFunc_normalise(SGA_WeightFunc* weight_func, SGA_Weight min, SGA_W
  */
 void SGA_WeightFunc_destroy(SGA_WeightFunc weight_func);
 
+#ifdef SGA_INTERNAL
 /**
  * @brief Gets the maximum weight in a given interval for a specific element.
  * @param weight_func The weight function to query.
@@ -96,8 +97,6 @@ SGA_Weight SGA_WeightFunc_max_in_interval(const SGA_WeightFunc* weight_func, SGA
  * @return The minimum weight for all elements in the given time interval.
  */
 SGA_Weight SGA_WeightFunc_min_in_interval(const SGA_WeightFunc* weight_func, SGA_Interval interval);
-
-#ifdef SGA_INTERNAL
 
 /**
  * @brief Creates a weight function from a parsed weight function.
